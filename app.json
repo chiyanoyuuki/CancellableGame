@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "Soirée",
+    "slug": "soiree-party",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "soiree",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "assetBundlePatterns": ["**/*"],
+    "android": {
+      "package": "com.soireegames.party",
+      "versionCode": 1,
+      "edgeToEdgeEnabled": true
+    },
+    "ios": {
+      "bundleIdentifier": "com.soireegames.party",
+      "supportsTablet": true
+    },
+    "plugins": ["expo-sqlite"],
+    "extra": {
+      "comment": "IMPORTANT: ne changez JAMAIS android.package une fois publié, sinon une mise à jour APK est traitée comme une app différente et les stats locales sont perdues."
+    }
+  }
+}
