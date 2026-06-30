@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const onepiece = universe("manga", "One Piece", [
+  // --- Faciles (5) ---
+  { id: "op-f1", d: 1, t: "Comment s'appelle le héros au chapeau de paille ?", a: "Monkey D. Luffy", acc: ["luffy", "luffu"], x: ["Zoro", "Sanji", "Ace"] },
+  { id: "op-f2", d: 1, t: "Quel est le rêve de Luffy ?", a: "Devenir le Roi des Pirates", acc: ["roi des pirates"], x: ["Trouver l'All Blue", "Devenir le meilleur sabreur", "Cartographier le monde"] },
+  { id: "op-f3", d: 1, t: "Quel fruit du démon a mangé Luffy ?", a: "Le Gomu Gomu no Mi (caoutchouc)", acc: ["gomu gomu", "caoutchouc"], x: ["Le Mera Mera no Mi", "Le Hie Hie no Mi", "Le Yami Yami no Mi"] },
+  { id: "op-f4", d: 1, t: "Comment s'appelle l'équipage de Luffy ?", a: "L'équipage du Chapeau de paille", acc: ["chapeau de paille"], x: ["Les Pirates du Roux", "L'équipage de Barbe Blanche", "Big Mom Pirates"] },
+  { id: "op-f5", d: 1, t: "Quel est le trésor ultime recherché par tous les pirates ?", a: "Le One Piece", x: ["Le Pluton", "L'Eternal Pose", "Le Rio Poneglyph"] },
+
+  // --- Moyennes (10) ---
+  { id: "op-m1", d: 2, t: "Quel membre de l'équipage manie trois sabres ?", a: "Roronoa Zoro", acc: ["zoro", "zorro"], x: ["Sanji", "Brook", "Mihawk"] },
+  { id: "op-m2", d: 2, t: "Quel cuisinier de l'équipage combat avec ses jambes ?", a: "Sanji", x: ["Zoro", "Franky", "Usopp"] },
+  { id: "op-m3", d: 2, t: "Qui est la navigatrice de l'équipage ?", a: "Nami", x: ["Robin", "Vivi", "Hancock"] },
+  { id: "op-m4", d: 2, t: "Quel tireur d'élite au long nez fait partie de l'équipage ?", a: "Usopp", x: ["Franky", "Brook", "Yasopp"] },
+  { id: "op-m5", d: 2, t: "Quel renne est le médecin de l'équipage ?", a: "Tony Tony Chopper", acc: ["chopper"], x: ["Brook", "Franky", "Jinbe"] },
+  { id: "op-m6", d: 2, t: "Quelle archéologue rejoint l'équipage à Alabasta ?", a: "Nico Robin", acc: ["robin"], x: ["Nami", "Vivi", "Boa Hancock"] },
+  { id: "op-m7", d: 2, t: "Quel charpentier cyborg construit le Thousand Sunny ?", a: "Franky", x: ["Usopp", "Brook", "Jinbe"] },
+  { id: "op-m8", d: 2, t: "Quel musicien squelette rejoint l'équipage ?", a: "Brook", x: ["Chopper", "Franky", "Hannyabal"] },
+  { id: "op-m9", d: 2, t: "Quel capitaine roux a confié son chapeau à Luffy ?", a: "Shanks", x: ["Barbe Blanche", "Rayleigh", "Mihawk"] },
+  { id: "op-m10", d: 2, t: "Quel frère juré de Luffy meurt à Marineford ?", a: "Portgas D. Ace", acc: ["ace", "portgas d ace"], x: ["Sabo", "Law", "Marco"] },
+
+  // --- Dures (15) ---
+  { id: "op-d1", d: 3, t: "Quel Empereur surnommé « l'homme le plus fort » meurt à Marineford ?", a: "Barbe Blanche (Edward Newgate)", acc: ["barbe blanche", "edward newgate"], x: ["Kaido", "Shanks", "Gol D. Roger"] },
+  { id: "op-d2", d: 3, t: "Quel est le nom du Roi des Pirates dont l'exécution lance la grande ère ?", a: "Gol D. Roger", acc: ["roger", "gold roger"], x: ["Barbe Blanche", "Rayleigh", "Garp"] },
+  { id: "op-d3", d: 3, t: "Quel héros de la Marine est le grand-père de Luffy ?", a: "Monkey D. Garp", acc: ["garp"], x: ["Sengoku", "Akainu", "Kong"] },
+  { id: "op-d4", d: 3, t: "Quel troisième frère juré devient un chef révolutionnaire ?", a: "Sabo", x: ["Koala", "Ivankov", "Kuma"] },
+  { id: "op-d5", d: 3, t: "Qui est le père de Luffy, chef de l'Armée Révolutionnaire ?", a: "Monkey D. Dragon", acc: ["dragon"], x: ["Garp", "Roger", "Kuma"] },
+  { id: "op-d6", d: 3, t: "Quel fruit logia de feu Ace a-t-il mangé ?", a: "Le Mera Mera no Mi", acc: ["mera mera"], x: ["Le Magu Magu no Mi", "Le Hie Hie no Mi", "Le Goro Goro no Mi"] },
+  { id: "op-d7", d: 3, t: "Quel amiral à la magma tue Ace ?", a: "Akainu (Sakazuki)", acc: ["akainu", "sakazuki"], x: ["Aokiji", "Kizaru", "Fujitora"] },
+  { id: "op-d8", d: 3, t: "Quel capitaine surnommé le « Chirurgien de la Mort » possède le fruit Ope Ope ?", a: "Trafalgar Law", acc: ["law", "trafalgar law"], x: ["Eustass Kid", "Basil Hawkins", "X Drake"] },
+  { id: "op-d9", d: 3, t: "Quelle impératrice pirate est amoureuse de Luffy ?", a: "Boa Hancock", acc: ["hancock", "boa"], x: ["Nico Robin", "Nami", "Vivi"] },
+  { id: "op-d10", d: 3, t: "Quel sabreur au sabre noir est considéré comme le meilleur du monde ?", a: "Dracule Mihawk", acc: ["mihawk"], x: ["Crocodile", "Doflamingo", "Kuma"] },
+  { id: "op-d11", d: 3, t: "Quel ancien Shichibukai du désert affronte Luffy à Alabasta ?", a: "Crocodile", x: ["Doflamingo", "Gecko Moria", "Kuma"] },
+  { id: "op-d12", d: 3, t: "Quel roi de Dressrosa manipule les autres comme des marionnettes ?", a: "Donquixote Doflamingo", acc: ["doflamingo"], x: ["Crocodile", "Trafalgar Law", "Kaido"] },
+  { id: "op-d13", d: 3, t: "Quel Empereur peut se transformer en immense dragon (Wano) ?", a: "Kaido", x: ["Big Mom", "Shanks", "Barbe Noire"] },
+  { id: "op-d14", d: 3, t: "Quelle Impératrice gourmande règne sur Whole Cake Island ?", a: "Big Mom (Charlotte Linlin)", acc: ["big mom", "charlotte linlin"], x: ["Boa Hancock", "Nico Robin", "Jewelry Bonney"] },
+  { id: "op-d15", d: 3, t: "Quel ancien bras droit de Roger est surnommé le « Roi des Ténèbres » ?", a: "Silvers Rayleigh", acc: ["rayleigh"], x: ["Shanks", "Buggy", "Crocus"] },
+
+  // --- Pro (20) ---
+  { id: "op-p1", d: 4, t: "Quel fruit des ténèbres Barbe Noire a-t-il mangé ?", a: "Le Yami Yami no Mi", acc: ["yami yami"], x: ["Le Gura Gura no Mi", "Le Mera Mera no Mi", "Le Ope Ope no Mi"] },
+  { id: "op-p2", d: 4, t: "Quel second fruit Barbe Noire vole-t-il à Barbe Blanche ?", a: "Le Gura Gura no Mi (tremblements)", acc: ["gura gura"], x: ["Le Yami Yami no Mi", "Le Goro Goro no Mi", "Le Magu Magu no Mi"] },
+  { id: "op-p3", d: 4, t: "Quel est le vrai nom de Barbe Noire ?", a: "Marshall D. Teach", acc: ["teach", "marshall d teach"], x: ["Edward Newgate", "Charlotte Linlin", "Kaido"] },
+  { id: "op-p4", d: 4, t: "Quel Haki permet de pressentir les mouvements et intentions ?", a: "Le Haki de l'observation (Kenbunshoku)", acc: ["observation", "kenbunshoku"], x: ["Le Haki de l'armement", "Le Haki des Rois", "Le Geppo"] },
+  { id: "op-p5", d: 4, t: "Quel Haki, réservé aux futurs rois, peut faire perdre connaissance ?", a: "Le Haki des Rois (Haoshoku)", acc: ["haki des rois", "haoshoku"], x: ["Le Kenbunshoku", "Le Busoshoku", "Le Rokushiki"] },
+  { id: "op-p6", d: 4, t: "À quelle espèce appartient Jinbe ?", a: "Homme-poisson", acc: ["homme poisson", "homme-poisson"], x: ["Sirène", "Géant", "Vison"] },
+  { id: "op-p7", d: 4, t: "Comment appelle-t-on le peuple animal (mink) de Zou ?", a: "Les Visons", acc: ["visons", "mink"], x: ["Les Hommes-poissons", "Les Géants", "Les Tontatta"] },
+  { id: "op-p8", d: 4, t: "Comment se nomme le navire actuel de l'équipage ?", a: "Le Thousand Sunny", acc: ["thousand sunny", "sunny"], x: ["Le Going Merry", "Le Moby Dick", "L'Oro Jackson"] },
+  { id: "op-p9", d: 4, t: "Quel était le tout premier navire de l'équipage ?", a: "Le Going Merry", acc: ["going merry", "merry"], x: ["Le Thousand Sunny", "L'Oro Jackson", "Le Red Force"] },
+  { id: "op-p10", d: 4, t: "Comment s'appelait le navire de Gol D. Roger ?", a: "L'Oro Jackson", acc: ["oro jackson"], x: ["Le Red Force", "Le Moby Dick", "Le Thousand Sunny"] },
+  { id: "op-p11", d: 4, t: "Combien de Poneglyphs « Road » faut-il réunir pour atteindre l'île finale ?", a: "4", acc: ["quatre"], x: ["3", "5", "7"] },
+  { id: "op-p12", d: 4, t: "Comment se nomme la dernière île où repose le One Piece ?", a: "Laugh Tale", acc: ["laugh tale", "raftel"], x: ["Zou", "Skypiea", "Water Seven"] },
+  { id: "op-p13", d: 4, t: "Comment s'appelle la cité sainte où vivent les Dragons Célestes ?", a: "Mariejois", acc: ["mariejois", "mary geoise"], x: ["Marineford", "Enies Lobby", "Impel Down"] },
+  { id: "op-p14", d: 4, t: "Quelle est la grande prison sous-marine de la Marine ?", a: "Impel Down", x: ["Enies Lobby", "Marineford", "Mariejois"] },
+  { id: "op-p15", d: 4, t: "Comment s'appelle l'ancien QG de la Marine, théâtre de la grande guerre ?", a: "Marineford", x: ["Enies Lobby", "Mariejois", "Water Seven"] },
+  { id: "op-p16", d: 4, t: "Parmi les armes antiques, laquelle est un cuirassé légendaire ?", a: "Pluton", x: ["Poséidon", "Uranus", "Arès"] },
+  { id: "op-p17", d: 4, t: "Quelle sirène est l'arme antique « Poséidon » ?", a: "Shirahoshi", x: ["Boa Hancock", "Nico Robin", "Vivi"] },
+  { id: "op-p18", d: 4, t: "Quel fruit du démon permet à Nico Robin de faire pousser ses membres ?", a: "Le Hana Hana no Mi", acc: ["hana hana"], x: ["Le Yomi Yomi no Mi", "Le Hito Hito no Mi", "Le Suke Suke no Mi"] },
+  { id: "op-p19", d: 4, t: "Quel fruit du démon a ramené Brook à la vie ?", a: "Le Yomi Yomi no Mi", acc: ["yomi yomi"], x: ["Le Hana Hana no Mi", "Le Horo Horo no Mi", "Le Kage Kage no Mi"] },
+  { id: "op-p20", d: 4, t: "Quel fruit du démon donne à Chopper une forme humaine ?", a: "Le Hito Hito no Mi", acc: ["hito hito"], x: ["Le Hana Hana no Mi", "Le Tori Tori no Mi", "Le Inu Inu no Mi"] },
+]);

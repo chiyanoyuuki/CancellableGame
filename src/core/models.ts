@@ -27,7 +27,7 @@ export const DIFFICULTY_LABELS: Record<Difficulty, string> = {
   1: 'Facile',
   2: 'Moyen',
   3: 'Difficile',
-  4: 'Hardcore',
+  4: 'Pro',
 };
 
 /** All quiz themes. Add new themes here and tag questions with them. */
@@ -75,6 +75,8 @@ export interface QuestionMedia {
 export interface Question {
   id: string;
   theme: Theme;
+  /** Sous-catégorie : l'univers (ex. "Naruto", "Breaking Bad"). Facultatif. */
+  universe?: string;
   difficulty: Difficulty;
   text: string;
   /** Canonical correct answer. */

@@ -5,7 +5,7 @@ const themeSet = new Set<string>(THEMES);
 
 describe('banque de questions', () => {
   test('contient un bon volume de questions', () => {
-    expect(QUESTIONS.length).toBeGreaterThanOrEqual(200);
+    expect(QUESTIONS.length).toBeGreaterThanOrEqual(300);
   });
 
   test('tous les identifiants sont uniques', () => {
@@ -40,10 +40,27 @@ describe('banque de questions', () => {
     expect(problems).toEqual([]);
   });
 
-  test('couvre les niveaux moyen, difficile et hardcore', () => {
+  test('couvre les niveaux moyen, difficile et pro', () => {
     const levels = new Set(QUESTIONS.map((q) => q.difficulty));
     expect(levels.has(2)).toBe(true);
     expect(levels.has(3)).toBe(true);
     expect(levels.has(4)).toBe(true);
+  });
+
+  test('chaque univers respecte la répartition 5 / 10 / 15 / 20', () => {
+    const byUniverse = new Map<string, Record<number, number>>();
+    for (const q of QUESTIONS) {
+      if (!q.universe) continue;
+      const counts = byUniverse.get(q.universe) ?? { 1: 0, 2: 0, 3: 0, 4: 0 };
+      counts[q.difficulty] = (counts[q.difficulty] ?? 0) + 1;
+      byUniverse.set(q.universe, counts);
+    }
+    const problems: string[] = [];
+    for (const [u, c] of byUniverse) {
+      if (c[1] !== 5 || c[2] !== 10 || c[3] !== 15 || c[4] !== 20) {
+        problems.push(`${u}: ${c[1]}/${c[2]}/${c[3]}/${c[4]} (attendu 5/10/15/20)`);
+      }
+    }
+    expect(problems).toEqual([]);
   });
 });
