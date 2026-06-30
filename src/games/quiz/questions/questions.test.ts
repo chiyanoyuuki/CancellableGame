@@ -5,7 +5,7 @@ const themeSet = new Set<string>(THEMES);
 
 describe('banque de questions', () => {
   test('contient un bon volume de questions', () => {
-    expect(QUESTIONS.length).toBeGreaterThanOrEqual(120);
+    expect(QUESTIONS.length).toBeGreaterThanOrEqual(200);
   });
 
   test('tous les identifiants sont uniques', () => {
@@ -34,6 +34,8 @@ describe('banque de questions', () => {
       if (!q.media) continue;
       if (q.media.type === 'image' && typeof q.media.uri !== 'string') problems.push(`${q.id}: uri image manquante`);
       if (q.media.type === 'emoji' && typeof q.media.emoji !== 'string') problems.push(`${q.id}: emoji manquant`);
+      if (q.media.type === 'audio' && typeof q.media.uri !== 'string' && typeof q.media.module !== 'number')
+        problems.push(`${q.id}: source audio manquante`);
     }
     expect(problems).toEqual([]);
   });

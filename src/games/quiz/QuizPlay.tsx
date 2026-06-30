@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, Image, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import * as Haptics from 'expo-haptics';
+import { setAudioModeAsync, useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button, Card, PlayerAvatar, ProgressBar, Txt } from '../../components/ui';
@@ -49,6 +50,46 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
     return m;
   }, [players]);
 
+  // --- Audio (blind test) -------------------------------------------------
+  const player = useAudioPlayer(null);
+  const audioStatus = useAudioPlayerStatus(player);
+  const audioPlaying = audioStatus?.playing ?? false;
+
+  const loadAudio = useCallback(
+    (media?: { uri?: string; module?: number }) => {
+      const src: number | { uri: string } | null = media?.module ?? (media?.uri ? { uri: media.uri } : null);
+      try {
+        if (src != null) player.replace(src);
+        player.pause();
+      } catch {
+        // best-effort
+      }
+    },
+    [player],
+  );
+
+  const toggleAudio = () => {
+    try {
+      if (audioPlaying) player.pause();
+      else player.play();
+    } catch {
+      // best-effort
+    }
+  };
+
+  const replayAudio = () => {
+    try {
+      player.seekTo(0);
+      player.play();
+    } catch {
+      // best-effort
+    }
+  };
+
+  useEffect(() => {
+    setAudioModeAsync({ playsInSilentMode: true }).catch(() => undefined);
+  }, []);
+
   // Build the round: pick anti-repeat questions, then create the engine state.
   useEffect(() => {
     let alive = true;
@@ -81,8 +122,24 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
       setBuzzed(null);
       setImgError(false);
       questionStartRef.current = Date.now();
+      const cq = game.questions[game.index];
+      if (cq?.media?.type === 'audio') loadAudio(cq.media);
+      else loadAudio(undefined);
     }
+    // Only re-run when we actually move to a new question/phase.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [game?.index, game?.phase]);
+
+  // Stop the audio whenever we leave the question phase (reveal, challenge…).
+  useEffect(() => {
+    if (game && game.phase !== 'question') {
+      try {
+        player.pause();
+      } catch {
+        // best-effort
+      }
+    }
+  }, [game, player]);
 
   // Fire onFinish exactly once.
   useEffect(() => {
@@ -181,6 +238,17 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
                 (image indisponible — connexion requise)
               </Txt>
             )}
+          </View>
+        )}
+        {q.media?.type === 'audio' && (
+          <View style={styles.audioBox}>
+            <Txt center style={{ fontSize: 44 }}>
+              🎧
+            </Txt>
+            <View style={{ flexDirection: 'row', gap: spacing(1), justifyContent: 'center' }}>
+              <Button title={audioPlaying ? '⏸  Pause' : '▶️  Écouter'} onPress={toggleAudio} />
+              <Button title="⟲  Rejouer" variant="secondary" onPress={replayAudio} />
+            </View>
           </View>
         )}
 
@@ -407,6 +475,7 @@ const styles = StyleSheet.create({
   metaRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   rebus: { fontSize: 60, lineHeight: 72 },
   media: { width: '100%', height: 200, borderRadius: radius.md, backgroundColor: colors.card },
+  audioBox: { gap: spacing(1.5), backgroundColor: colors.card, borderRadius: radius.md, padding: spacing(2) },
   activeBanner: {
     flexDirection: 'row',
     alignItems: 'center',

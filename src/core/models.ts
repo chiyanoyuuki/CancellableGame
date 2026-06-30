@@ -40,6 +40,7 @@ export const THEMES = [
   'culture',
   'enigmes',
   'rebus',
+  'blindtest',
 ] as const;
 export type Theme = (typeof THEMES)[number];
 
@@ -52,18 +53,23 @@ export const THEME_META: Record<Theme, { label: string; emoji: string }> = {
   culture: { label: 'Culture générale', emoji: '🧠' },
   enigmes: { label: 'Énigmes', emoji: '🧩' },
   rebus: { label: 'Rébus emoji', emoji: '🤔' },
+  blindtest: { label: 'Blind test', emoji: '🎧' },
 };
 
 /**
  * Optional media shown with a question.
  * - 'emoji' : un rébus affiché en grand (ex. "🦁👑").
- * - 'image' : une image distante (PNG/JPG via `uri`) — nécessite une connexion.
- * ('audio' est réservé pour une évolution future.)
+ * - 'image' : une image (PNG/JPG) via `uri` (distante) ou `module` (embarquée).
+ * - 'audio' : un extrait à écouter via `uri` (distant) ou `module` (embarqué).
+ *
+ * `module` est le résultat d'un require('...') d'un fichier du projet : à
+ * privilégier pour un usage hors-ligne et fiable (cf. assets/audio/).
  */
 export interface QuestionMedia {
-  type: 'emoji' | 'image';
+  type: 'emoji' | 'image' | 'audio';
   uri?: string;
   emoji?: string;
+  module?: number;
 }
 
 export interface Question {
@@ -113,7 +119,8 @@ export interface QuizConfig {
 }
 
 export const DEFAULT_QUIZ_CONFIG: QuizConfig = {
-  themes: [...THEMES],
+  // Blind test exclu par défaut : il faut y ajouter ses propres extraits audio.
+  themes: ['manga', 'jeuxvideo', 'series', 'films', 'musique', 'culture', 'enigmes', 'rebus'],
   difficulties: [1, 2, 3],
   questionCount: 15,
   turnMode: 'turn',
