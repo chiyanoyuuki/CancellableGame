@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Alert, Image, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -37,6 +37,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
   const [game, setGame] = useState<QuizState | null>(null);
   const [revealedAnswer, setRevealedAnswer] = useState(false);
   const [buzzed, setBuzzed] = useState<{ playerId: string; timeMs: number } | null>(null);
+  const [imgError, setImgError] = useState(false);
 
   const startedAtRef = useRef<number>(Date.now());
   const questionStartRef = useRef<number>(Date.now());
@@ -78,6 +79,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
     if (game?.phase === 'question') {
       setRevealedAnswer(false);
       setBuzzed(null);
+      setImgError(false);
       questionStartRef.current = Date.now();
     }
   }, [game?.index, game?.phase]);
@@ -165,6 +167,22 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
             {DIFFICULTY_LABELS[q.difficulty].toUpperCase()}
           </Txt>
         </View>
+
+        {q.media?.type === 'emoji' && !!q.media.emoji && (
+          <Txt center style={styles.rebus}>
+            {q.media.emoji}
+          </Txt>
+        )}
+        {q.media?.type === 'image' && !!q.media.uri && (
+          <View>
+            <Image source={{ uri: q.media.uri }} style={styles.media} resizeMode="contain" onError={() => setImgError(true)} />
+            {imgError && (
+              <Txt faint size={fontSize.xs} center>
+                (image indisponible — connexion requise)
+              </Txt>
+            )}
+          </View>
+        )}
 
         <Txt size={fontSize.xl} weight="800">
           {q.text}
@@ -387,6 +405,8 @@ const styles = StyleSheet.create({
   },
   body: { padding: spacing(2), paddingBottom: spacing(4) },
   metaRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  rebus: { fontSize: 60, lineHeight: 72 },
+  media: { width: '100%', height: 200, borderRadius: radius.md, backgroundColor: colors.card },
   activeBanner: {
     flexDirection: 'row',
     alignItems: 'center',

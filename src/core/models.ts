@@ -20,17 +20,27 @@ export interface Player {
 // Quiz domain
 // ---------------------------------------------------------------------------
 
-/** 1 = facile, 2 = moyen, 3 = difficile */
-export type Difficulty = 1 | 2 | 3;
+/** 1 = facile, 2 = moyen, 3 = difficile, 4 = hardcore */
+export type Difficulty = 1 | 2 | 3 | 4;
 
 export const DIFFICULTY_LABELS: Record<Difficulty, string> = {
   1: 'Facile',
   2: 'Moyen',
   3: 'Difficile',
+  4: 'Hardcore',
 };
 
 /** All quiz themes. Add new themes here and tag questions with them. */
-export const THEMES = ['manga', 'jeuxvideo', 'series', 'films', 'musique', 'culture'] as const;
+export const THEMES = [
+  'manga',
+  'jeuxvideo',
+  'series',
+  'films',
+  'musique',
+  'culture',
+  'enigmes',
+  'rebus',
+] as const;
 export type Theme = (typeof THEMES)[number];
 
 export const THEME_META: Record<Theme, { label: string; emoji: string }> = {
@@ -40,7 +50,21 @@ export const THEME_META: Record<Theme, { label: string; emoji: string }> = {
   films: { label: 'Films', emoji: '🎬' },
   musique: { label: 'Musique', emoji: '🎵' },
   culture: { label: 'Culture générale', emoji: '🧠' },
+  enigmes: { label: 'Énigmes', emoji: '🧩' },
+  rebus: { label: 'Rébus emoji', emoji: '🤔' },
 };
+
+/**
+ * Optional media shown with a question.
+ * - 'emoji' : un rébus affiché en grand (ex. "🦁👑").
+ * - 'image' : une image distante (PNG/JPG via `uri`) — nécessite une connexion.
+ * ('audio' est réservé pour une évolution future.)
+ */
+export interface QuestionMedia {
+  type: 'emoji' | 'image';
+  uri?: string;
+  emoji?: string;
+}
 
 export interface Question {
   id: string;
@@ -55,6 +79,8 @@ export interface Question {
   distractors: string[];
   /** Progressive hints; revealing one costs points. */
   hints?: string[];
+  /** Optional image / emoji rebus shown above the question. */
+  media?: QuestionMedia;
 }
 
 // ---------------------------------------------------------------------------

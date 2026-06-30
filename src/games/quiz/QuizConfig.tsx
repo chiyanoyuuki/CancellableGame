@@ -85,7 +85,7 @@ export function QuizConfigComponent({ onStart }: MiniGameConfigProps) {
 
       <SectionHeader title="Difficulté" />
       <View style={styles.wrap}>
-        {([1, 2, 3] as Difficulty[]).map((d) => (
+        {([1, 2, 3, 4] as Difficulty[]).map((d) => (
           <Chip
             key={d}
             label={DIFFICULTY_LABELS[d]}

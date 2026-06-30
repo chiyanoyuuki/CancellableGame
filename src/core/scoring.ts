@@ -9,7 +9,7 @@ import type { AnswerFormat, Difficulty, TurnMode } from './models';
  * drinks.ts).
  */
 
-export const BASE_POINTS: Record<Difficulty, number> = { 1: 100, 2: 200, 3: 300 };
+export const BASE_POINTS: Record<Difficulty, number> = { 1: 100, 2: 200, 3: 300, 4: 500 };
 
 /** Open answer is harder than a QCM, so it is rewarded more. */
 export const OPEN_ANSWER_MULTIPLIER = 1.5;

@@ -54,8 +54,8 @@ export function rollAnswerDrink(params: {
     };
   }
 
-  // Clutch: a hard question nailed without any hint lets you hand out gorgées.
-  if (difficulty === 3 && hintsUsed === 0 && chance(rng, 0.6)) {
+  // Clutch: a hard/hardcore question nailed without any hint lets you hand out gorgées.
+  if (difficulty >= 3 && hintsUsed === 0 && chance(rng, 0.6)) {
     return {
       sipsDrunk: 0,
       sipsGiven: scale(rngInt(rng, 1, 2), intensity),
