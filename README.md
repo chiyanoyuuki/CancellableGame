@@ -36,7 +36,43 @@ eas login
 eas build -p android --profile preview   # produit un .apk téléchargeable
 ```
 
-En **local** (nécessite Android Studio / le SDK Android) :
+### 🤖 Build automatique à chaque push (GitHub Actions)
+
+Un workflow (`.github/workflows/android.yml`) compile l'APK **à chaque push**,
+**sans rien installer sur votre PC ni aucun serveur**. Récupération de l'APK :
+
+- **Onglet Actions** de GitHub → ouvrez le dernier run → section *Artifacts* →
+  téléchargez `soiree-apk-xxx` (un zip contenant `soiree.apk`).
+- **Ou** poussez un tag `v*` (`git tag v1.0.0 && git push origin v1.0.0`) : une
+  **Release** est créée avec l'APK en pièce jointe (lien stable, plus simple à
+  ouvrir depuis le téléphone).
+
+Ça marche immédiatement (APK signé avec la clé de debug standard). Pour des
+mises à jour 100 % garanties et plus sûres, configurez **une seule fois** un
+keystore et ajoutez-le en *secrets* GitHub :
+
+```bash
+# 1) créer le keystore (gardez bien le fichier et les mots de passe !)
+keytool -genkeypair -v -keystore soiree.keystore -alias soiree \
+  -keyalg RSA -keysize 2048 -validity 10000 \
+  -storepass MOT_DE_PASSE -keypass MOT_DE_PASSE -dname "CN=Soiree"
+
+# 2) l'encoder pour le coller en secret
+base64 -w0 soiree.keystore   # (macOS : base64 -i soiree.keystore)
+```
+
+Puis dans GitHub → *Settings → Secrets and variables → Actions → New secret* :
+
+| Secret | Valeur |
+|---|---|
+| `SIGNING_KEYSTORE_BASE64` | la sortie de `base64` ci-dessus |
+| `SIGNING_KEYSTORE_PASSWORD` | votre mot de passe |
+| `SIGNING_KEY_ALIAS` | `soiree` |
+| `SIGNING_KEY_PASSWORD` | votre mot de passe |
+
+> Ne committez **jamais** le fichier `.keystore` ni les mots de passe dans le dépôt.
+
+### En local (nécessite Android Studio / le SDK Android)
 
 ```bash
 npx expo prebuild --platform android      # génère le dossier android/
