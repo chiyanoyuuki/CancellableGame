@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const aot = universe("manga", "L'Attaque des Titans", [
+  // --- Faciles (5) ---
+  { id: "aot-f1", d: 1, t: "Qui est le héros principal de L'Attaque des Titans ?", a: "Eren Jäger", acc: ["eren", "eren jaeger", "eren yeager"], x: ["Levi", "Armin", "Reiner"] },
+  { id: "aot-f2", d: 1, t: "De quoi se nourrissent les Titans ?", a: "Des humains", acc: ["humains", "des humains"], x: ["D'autres titans", "De rien", "Des animaux"] },
+  { id: "aot-f3", d: 1, t: "Quelle amie d'enfance d'Eren, redoutable au combat, porte une écharpe rouge ?", a: "Mikasa Ackerman", acc: ["mikasa"], x: ["Sasha", "Historia", "Annie"] },
+  { id: "aot-f4", d: 1, t: "Quel ami d'enfance blond et stratège accompagne Eren ?", a: "Armin Arlert", acc: ["armin"], x: ["Jean", "Connie", "Reiner"] },
+  { id: "aot-f5", d: 1, t: "Que construisent les humains pour se protéger des Titans ?", a: "Des murs", acc: ["murs", "des murs"], x: ["Des bateaux", "Des tours", "Des fossés"] },
+
+  // --- Moyennes (10) ---
+  { id: "aot-m1", d: 2, t: "Qui est considéré comme le soldat le plus fort de l'humanité ?", a: "Livaï (Levi) Ackerman", acc: ["levi", "livai", "livai ackerman"], x: ["Erwin", "Mike", "Eren"] },
+  { id: "aot-m2", d: 2, t: "Quel commandant aux gros sourcils dirige le Bataillon d'exploration ?", a: "Erwin Smith", acc: ["erwin"], x: ["Levi", "Hansi", "Pixis"] },
+  { id: "aot-m3", d: 2, t: "Les murs s'appellent Maria, Rose et… ?", a: "Sina", x: ["Shiganshina", "Trost", "Paradis"] },
+  { id: "aot-m4", d: 2, t: "Quel corps d'armée explore le territoire hors des murs ?", a: "Le Bataillon d'exploration", acc: ["bataillon d'exploration", "bataillon"], x: ["La Garnison", "La Police Militaire", "Les Brigades"] },
+  { id: "aot-m5", d: 2, t: "Quel Titan géant et écorché ouvre une brèche dans le mur au début ?", a: "Le Titan Colossal", acc: ["colossal"], x: ["Le Titan Cuirassé", "Le Titan Bestial", "Le Titan Assaillant"] },
+  { id: "aot-m6", d: 2, t: "Quel Titan blindé enfonce la porte avec le Colossal ?", a: "Le Titan Cuirassé", acc: ["cuirasse"], x: ["Le Titan Colossal", "Le Titan Féminin", "Le Titan Charrette"] },
+  { id: "aot-m7", d: 2, t: "En quoi Eren découvre-t-il qu'il peut se transformer ?", a: "En Titan", acc: ["titan", "en titan"], x: ["En loup", "En géant de pierre", "En dragon"] },
+  { id: "aot-m8", d: 2, t: "Quelle scientifique est obsédée par l'étude des Titans ?", a: "Hansi Zoe", acc: ["hansi", "hange", "hanji"], x: ["Petra", "Rico", "Ymir"] },
+  { id: "aot-m9", d: 2, t: "Quelle soldate gloutonne adore manger des pommes de terre ?", a: "Sasha", x: ["Mikasa", "Historia", "Annie"] },
+  { id: "aot-m10", d: 2, t: "Sur quelle île vivent les héros, derrière les murs ?", a: "L'île de Paradis", acc: ["paradis", "ile de paradis"], x: ["Marley", "Sina", "Shiganshina"] },
+
+  // --- Dures (15) ---
+  { id: "aot-d1", d: 3, t: "Qui se cache derrière le Titan Féminin ?", a: "Annie Leonhart", acc: ["annie"], x: ["Mikasa", "Historia", "Ymir"] },
+  { id: "aot-d2", d: 3, t: "Quel soldat costaud est en réalité le Titan Cuirassé ?", a: "Reiner Braun", acc: ["reiner"], x: ["Bertholdt", "Jean", "Connie"] },
+  { id: "aot-d3", d: 3, t: "Quel soldat grand et anxieux est le Titan Colossal ?", a: "Bertholdt Hoover", acc: ["bertholdt", "bertolt"], x: ["Reiner", "Marco", "Jean"] },
+  { id: "aot-d4", d: 3, t: "Quelle servante se révèle être la véritable héritière royale et devient reine ?", a: "Historia Reiss", acc: ["historia", "christa"], x: ["Ymir", "Mikasa", "Sasha"] },
+  { id: "aot-d5", d: 3, t: "Quel équipement permet aux soldats de se déplacer dans les airs ?", a: "L'équipement de manœuvre tridimensionnelle", acc: ["equipement tridimensionnel", "manoeuvre tridimensionnelle", "3d"], x: ["Le jetpack", "Les ailes", "Les ressorts"] },
+  { id: "aot-d6", d: 3, t: "Où faut-il frapper un Titan pour le tuer ?", a: "La nuque", acc: ["nuque"], x: ["Le cœur", "Les yeux", "Les chevilles"] },
+  { id: "aot-d7", d: 3, t: "Comment s'appelle le père d'Eren, médecin détenteur de lourds secrets ?", a: "Grisha Jäger", acc: ["grisha"], x: ["Keith", "Hannes", "Pixis"] },
+  { id: "aot-d8", d: 3, t: "Quel soldat blond, d'abord égoïste, devient un bon meneur ?", a: "Jean Kirstein", acc: ["jean"], x: ["Connie", "Marco", "Reiner"] },
+  { id: "aot-d9", d: 3, t: "De quelle nation viennent les Titans Guerriers qui attaquent Paradis ?", a: "Marley", x: ["Paradis", "Trost", "Sina"] },
+  { id: "aot-d10", d: 3, t: "Comment s'appelle le peuple capable de se transformer en Titan ?", a: "Les Eldiens", acc: ["eldiens", "eldia"], x: ["Les Marleyens", "Les Mahrs", "Les Ackerman"] },
+  { id: "aot-d11", d: 3, t: "Quel Titan ressemble à un grand singe parlant et dirige l'ennemi ?", a: "Le Titan Bestial", acc: ["bestial"], x: ["Le Colossal", "Le Cuirassé", "Le Mâchoire"] },
+  { id: "aot-d12", d: 3, t: "Qui est le détenteur du Titan Bestial, demi-frère d'Eren ?", a: "Zeke Jäger", acc: ["zeke"], x: ["Reiner", "Grisha", "Falco"] },
+  { id: "aot-d13", d: 3, t: "Combien de Titans « Primordiaux » (les Neuf) existe-t-il ?", a: "9", acc: ["neuf"], x: ["7", "13", "5"] },
+  { id: "aot-d14", d: 3, t: "Quel Titan « roi » Eren obtient-il en plus du Titan Assaillant ?", a: "Le Titan Originel (Fondateur)", acc: ["titan originel", "fondateur", "originel"], x: ["Le Colossal", "Le Bestial", "Le Marteau"] },
+  { id: "aot-d15", d: 3, t: "Quelle jeune femme proche d'Historia se transforme en petit Titan ?", a: "Ymir", x: ["Annie", "Sasha", "Mikasa"] },
+
+  // --- Pro (20) ---
+  { id: "aot-p1", d: 4, t: "Comment s'appelle le Titan principal d'Eren (celui du titre) ?", a: "Le Titan Assaillant (Attaquant)", acc: ["titan assaillant", "attaquant", "attack titan"], x: ["Le Titan Originel", "Le Colossal", "Le Mâchoire"] },
+  { id: "aot-p2", d: 4, t: "De quel clan, immunisé contre le pouvoir du Fondateur, sont issus Levi et Mikasa ?", a: "Le clan Ackerman", acc: ["ackerman"], x: ["Les Reiss", "Les Jäger", "Les Tybur"] },
+  { id: "aot-p3", d: 4, t: "Quel espion eldien surnommé « le Hibou » transmet le Titan Assaillant à Grisha ?", a: "Eren Kruger", acc: ["eren kruger", "kruger", "le hibou"], x: ["Grisha", "Zeke", "Kenny"] },
+  { id: "aot-p4", d: 4, t: "Quel oncle de Levi est un tueur surnommé « l'Éventreur » ?", a: "Kenny Ackerman", acc: ["kenny"], x: ["Erwin", "Pixis", "Nile"] },
+  { id: "aot-p5", d: 4, t: "Combien d'années vit un détenteur des Titans des Neuf (Malédiction d'Ymir) ?", a: "13 ans", acc: ["13", "13 ans", "treize"], x: ["7 ans", "20 ans", "50 ans"] },
+  { id: "aot-p6", d: 4, t: "Comment s'appelle la toute première détentrice du pouvoir des Titans ?", a: "Ymir Fritz", acc: ["ymir fritz"], x: ["Frieda Reiss", "Historia", "Dina"] },
+  { id: "aot-p7", d: 4, t: "Quelle famille influente de Marley détient le Titan Marteau d'Acier ?", a: "La famille Tybur", acc: ["tybur"], x: ["Les Reiss", "Les Ackerman", "Les Fritz"] },
+  { id: "aot-p8", d: 4, t: "Quel jeune Marleyen courageux finit par hériter du Titan Mâchoire ?", a: "Falco Grice", acc: ["falco"], x: ["Gabi", "Colt", "Zeke"] },
+  { id: "aot-p9", d: 4, t: "Quelle cousine de Reiner, jeune et impétueuse, tue Sasha ?", a: "Gabi Braun", acc: ["gabi"], x: ["Annie", "Pieck", "Historia"] },
+  { id: "aot-p10", d: 4, t: "Quelle guerrière de Marley contrôle le Titan Charrette à quatre pattes ?", a: "Pieck", x: ["Annie", "Gabi", "Ymir"] },
+  { id: "aot-p11", d: 4, t: "Quels sont les deux grands pouvoirs du Titan Originel ?", a: "Contrôler les Titans et altérer la mémoire des Eldiens", acc: ["controler les titans", "memoire", "controle des titans"], x: ["Voler et cracher du feu", "Le durcissement", "L'invisibilité"] },
+  { id: "aot-p12", d: 4, t: "Comment appelle-t-on la dimension reliant tous les Eldiens, où réside Ymir ?", a: "Le Chemin (les Coordonnées)", acc: ["le chemin", "coordonnees", "paths"], x: ["Le Mur", "Le Sous-sol", "Marley"] },
+  { id: "aot-p13", d: 4, t: "Que trouve finalement Eren dans le sous-sol de la maison de son père ?", a: "Des carnets révélant le monde extérieur", acc: ["des carnets", "carnets", "le monde exterieur"], x: ["Une arme secrète", "Le Titan Originel", "Un trésor"] },
+  { id: "aot-p14", d: 4, t: "Comment se nomme le plan apocalyptique d'Eren pour piétiner le monde ?", a: "Le Grand Terrassement (Rumbling)", acc: ["grand terrassement", "rumbling"], x: ["L'Assaut Final", "La Purge", "Le Déluge"] },
+  { id: "aot-p15", d: 4, t: "Combien de murs concentriques protègent l'île de Paradis ?", a: "3", acc: ["trois"], x: ["2", "4", "5"] },
+  { id: "aot-p16", d: 4, t: "Que cachent réellement les murs de Paradis ?", a: "Des millions de Titans Colossaux", acc: ["titans colossaux", "des titans"], x: ["Des canons", "Des soldats", "Rien"] },
+  { id: "aot-p17", d: 4, t: "Quel commandant lance une charge suicidaire pour permettre à Levi de tuer le Titan Bestial ?", a: "Erwin Smith", acc: ["erwin"], x: ["Pixis", "Mike", "Nile"] },
+  { id: "aot-p18", d: 4, t: "Quel est le salut militaire emblématique du Bataillon (poing sur le cœur) ?", a: "« Dévouez vos cœurs ! »", acc: ["devouez vos coeurs", "sasageyo"], x: ["« Pour le roi ! »", "« Liberté ! »", "« Pour Sina ! »"] },
+  { id: "aot-p19", d: 4, t: "Quel personnage hérite du Titan Colossal après la chute de Bertholdt ?", a: "Armin", x: ["Eren", "Mikasa", "Jean"] },
+  { id: "aot-p20", d: 4, t: "Qui porte le coup fatal à Eren à la toute fin ?", a: "Mikasa", x: ["Armin", "Levi", "Reiner"] },
+]);

@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const deathnote = universe("manga", "Death Note", [
+  // --- Faciles (5) ---
+  { id: "dn-f1", d: 1, t: "Quel objet tue toute personne dont on y écrit le nom ?", a: "Le Death Note (le cahier)", acc: ["death note", "cahier"], x: ["Le Sharingan", "Le grimoire", "La faux"] },
+  { id: "dn-f2", d: 1, t: "Quel lycéen surdoué trouve le Death Note ?", a: "Light Yagami", acc: ["light", "light yagami", "kira"], x: ["L", "Near", "Mello"] },
+  { id: "dn-f3", d: 1, t: "Quel détective n'est connu que par une seule lettre ?", a: "L", x: ["Near", "Mello", "Watari"] },
+  { id: "dn-f4", d: 1, t: "Quelle créature laisse tomber le cahier dans le monde humain ?", a: "Un Shinigami (dieu de la mort)", acc: ["shinigami", "dieu de la mort"], x: ["Un démon", "Un ange", "Un fantôme"] },
+  { id: "dn-f5", d: 1, t: "Quel fruit le Shinigami Ryuk adore-t-il ?", a: "Les pommes", acc: ["pomme", "pommes"], x: ["Les fraises", "Le chocolat", "Les cerises"] },
+
+  // --- Moyennes (10) ---
+  { id: "dn-m1", d: 2, t: "Comment s'appelle le Shinigami attaché à Light ?", a: "Ryuk", x: ["Rem", "Sidoh", "Gelus"] },
+  { id: "dn-m2", d: 2, t: "Quel surnom le public donne-t-il au justicier qui tue les criminels ?", a: "Kira", x: ["L", "Le Juge", "Le Faucheur"] },
+  { id: "dn-m3", d: 2, t: "Pour tuer avec le cahier, à quoi faut-il penser en écrivant le nom ?", a: "Au visage de la personne", acc: ["visage", "au visage"], x: ["À sa voix", "À son adresse", "À sa date de naissance"] },
+  { id: "dn-m4", d: 2, t: "Sans précision, de quoi meurt par défaut la victime ?", a: "D'une crise cardiaque", acc: ["crise cardiaque"], x: ["D'un accident", "D'un suicide", "D'une overdose"] },
+  { id: "dn-m5", d: 2, t: "Quel est le vrai nom de L ?", a: "L Lawliet", acc: ["lawliet"], x: ["Light Yagami", "Near", "Watari"] },
+  { id: "dn-m6", d: 2, t: "Quel policier, père de Light, dirige l'enquête ?", a: "Soichiro Yagami", acc: ["soichiro"], x: ["Watari", "Aizawa", "Matsuda"] },
+  { id: "dn-m7", d: 2, t: "Quelle mannequin devient le « deuxième Kira » et tombe amoureuse de Light ?", a: "Misa Amane", acc: ["misa", "misa amane"], x: ["Naomi", "Kiyomi", "Sayu"] },
+  { id: "dn-m8", d: 2, t: "Comment s'appelle le vieil assistant dévoué de L ?", a: "Watari", x: ["Matsuda", "Aizawa", "Mogi"] },
+  { id: "dn-m9", d: 2, t: "Combien de secondes a-t-on pour préciser la cause après avoir écrit un nom ?", a: "40 secondes", acc: ["40", "40 secondes"], x: ["10 secondes", "1 minute", "2 minutes"] },
+  { id: "dn-m10", d: 2, t: "Que voient les Shinigami au-dessus de la tête des humains ?", a: "Leur nom et leur espérance de vie", acc: ["nom et esperance de vie", "duree de vie"], x: ["Leurs péchés", "Leur avenir", "Leurs pensées"] },
+
+  // --- Dures (15) ---
+  { id: "dn-d1", d: 3, t: "Quel jeune successeur de L, calme et joueur, dirige l'enquête finale ?", a: "Near", x: ["Mello", "Matt", "Light"] },
+  { id: "dn-d2", d: 3, t: "Quel successeur de L, impulsif et amateur de chocolat, agit seul ?", a: "Mello", x: ["Near", "Matt", "L"] },
+  { id: "dn-d3", d: 3, t: "Comment s'appelle l'orphelinat anglais qui forme les successeurs de L ?", a: "La Wammy's House", acc: ["wammy", "wammys house"], x: ["La SPK", "Le groupe Yotsuba", "L'Interpol"] },
+  { id: "dn-d4", d: 3, t: "Comment s'appelle le Shinigami lié à Misa ?", a: "Rem", x: ["Ryuk", "Gelus", "Sidoh"] },
+  { id: "dn-d5", d: 3, t: "Quel Shinigami est mort pour avoir prolongé la vie de Misa ?", a: "Gelus", x: ["Rem", "Ryuk", "Sidoh"] },
+  { id: "dn-d6", d: 3, t: "Quelle ancienne agente du FBI Light manipule-t-il puis tue-t-il ?", a: "Naomi Misora", acc: ["naomi", "naomi misora"], x: ["Misa", "Kiyomi", "Sayu"] },
+  { id: "dn-d7", d: 3, t: "Quelle présentatrice TV devient la porte-parole de Kira ?", a: "Kiyomi Takada", acc: ["takada", "kiyomi"], x: ["Misa Amane", "Naomi", "Sayu"] },
+  { id: "dn-d8", d: 3, t: "Quel groupe de huit hommes d'affaires se sert d'un Death Note pour s'enrichir ?", a: "Le groupe Yotsuba", acc: ["yotsuba"], x: ["La SPK", "Le clan Yagami", "L'équipe de L"] },
+  { id: "dn-d9", d: 3, t: "Quel policier maladroit et émotif idolâtre L et Kira ?", a: "Matsuda", x: ["Aizawa", "Mogi", "Ide"] },
+  { id: "dn-d10", d: 3, t: "Comment L se tient-il presque toujours assis ?", a: "Accroupi (recroquevillé)", acc: ["accroupi", "recroqueville"], x: ["Les jambes croisées", "Debout", "Allongé"] },
+  { id: "dn-d11", d: 3, t: "Comment nomme-t-on le pouvoir permettant de voir le nom et la durée de vie des gens ?", a: "Les yeux du Shinigami", acc: ["yeux du shinigami", "shinigami eyes"], x: ["Le cahier", "La pomme", "Le miroir"] },
+  { id: "dn-d12", d: 3, t: "Que doit sacrifier un humain pour obtenir les yeux du Shinigami ?", a: "La moitié de son espérance de vie", acc: ["moitie de sa vie", "moitie esperance de vie"], x: ["Un quart de sa vie", "Toute sa mémoire", "Rien"] },
+  { id: "dn-d13", d: 3, t: "Comment retrouve-t-on ses souvenirs liés au cahier après y avoir renoncé ?", a: "En retouchant le Death Note", acc: ["en touchant le cahier", "retoucher le cahier"], x: ["En dormant", "En mourant", "C'est impossible"] },
+  { id: "dn-d14", d: 3, t: "Qui a écrit le scénario du manga Death Note ?", a: "Tsugumi Ohba", acc: ["ohba", "tsugumi ohba"], x: ["Takeshi Obata", "Eiichirō Oda", "Hajime Isayama"] },
+  { id: "dn-d15", d: 3, t: "Quelle est la sœur cadette de Light ?", a: "Sayu Yagami", acc: ["sayu"], x: ["Misa", "Kiyomi", "Naomi"] },
+
+  // --- Pro (20) ---
+  { id: "dn-p1", d: 4, t: "Qui a dessiné (illustré) le manga Death Note ?", a: "Takeshi Obata", acc: ["obata", "takeshi obata"], x: ["Tsugumi Ohba", "Eiichirō Oda", "Yusuke Murata"] },
+  { id: "dn-p2", d: 4, t: "Quel agent du FBI, fiancé de Naomi, est tué par Light dans un métro ?", a: "Raye Penber", acc: ["raye penber", "penber"], x: ["Aizawa", "Mogi", "Matsuda"] },
+  { id: "dn-p3", d: 4, t: "Qui se fait passer pour L à la télévision et meurt en direct pour piéger Kira ?", a: "Lind L. Taylor", acc: ["lind l taylor", "lind taylor"], x: ["Watari", "Near", "Matsuda"] },
+  { id: "dn-p4", d: 4, t: "Selon les règles, où va l'âme d'un utilisateur du Death Note après sa mort ?", a: "Nulle part (ni Paradis ni Enfer)", acc: ["nulle part", "ni paradis ni enfer", "neant"], x: ["Au Paradis", "En Enfer", "Elle devient Shinigami"] },
+  { id: "dn-p5", d: 4, t: "Après le nom, combien de temps a-t-on pour détailler les circonstances de la mort ?", a: "6 minutes 40", acc: ["6 minutes 40", "6m40", "400 secondes"], x: ["5 minutes", "10 minutes", "3 minutes 20"] },
+  { id: "dn-p6", d: 4, t: "Que cache Light dans sa montre pour tuer en secret ?", a: "Un fragment de Death Note", acc: ["fragment de death note", "morceau de cahier", "bout de cahier"], x: ["Une photo", "Une lame", "Un émetteur"] },
+  { id: "dn-p7", d: 4, t: "Comment Light meurt-il à la toute fin de l'histoire ?", a: "Ryuk écrit son nom dans le cahier", acc: ["ryuk ecrit son nom", "ryuk le tue"], x: ["L le tue", "Near le tue", "Une vraie crise cardiaque"] },
+  { id: "dn-p8", d: 4, t: "Quel est le véritable nom de Near ?", a: "Nate River", acc: ["nate river"], x: ["Mihael Keehl", "Mail Jeevas", "Quillsh Wammy"] },
+  { id: "dn-p9", d: 4, t: "Quel est le véritable nom de Mello ?", a: "Mihael Keehl", acc: ["mihael keehl"], x: ["Nate River", "Mail Jeevas", "L Lawliet"] },
+  { id: "dn-p10", d: 4, t: "Quel est le véritable nom de Watari ?", a: "Quillsh Wammy", acc: ["quillsh wammy", "wammy"], x: ["Nate River", "Roger Ruvie", "Soichiro Yagami"] },
+  { id: "dn-p11", d: 4, t: "Quel hacker, ami de Mello, est aussi un orphelin de la Wammy's House ?", a: "Matt", x: ["Aizawa", "Ide", "Mogi"] },
+  { id: "dn-p12", d: 4, t: "Quel est le véritable nom de Matt ?", a: "Mail Jeevas", acc: ["mail jeevas"], x: ["Nate River", "Mihael Keehl", "Teru Mikami"] },
+  { id: "dn-p13", d: 4, t: "Quel procureur fanatique devient le bras armé de Kira (« le justicier X ») ?", a: "Teru Mikami", acc: ["mikami", "teru mikami"], x: ["Matsuda", "Aizawa", "Higuchi"] },
+  { id: "dn-p14", d: 4, t: "Quel membre du groupe Yotsuba possède le cahier et commet les meurtres ?", a: "Kyosuke Higuchi", acc: ["higuchi"], x: ["Mikami", "Takada", "Aiber"] },
+  { id: "dn-p15", d: 4, t: "Quel mot Mikami prononce-t-il en « jugeant » ses victimes ?", a: "Sakujo (Supprimé)", acc: ["sakujo", "supprime", "delete"], x: ["Kira", "Justice", "Mort"] },
+  { id: "dn-p16", d: 4, t: "Qu'arrive-t-il à un Shinigami qui tue pour prolonger la vie d'un humain ?", a: "Il meurt (réduit en poussière)", acc: ["il meurt", "il meurt en poussiere"], x: ["Il perd ses pouvoirs", "Il devient humain", "Rien"] },
+  { id: "dn-p17", d: 4, t: "Quelle agence dirigée par Near traque Kira aux États-Unis ?", a: "La SPK", acc: ["spk"], x: ["La Wammy's House", "Le groupe Yotsuba", "Le FBI"] },
+  { id: "dn-p18", d: 4, t: "Quel Shinigami paresseux récupère son cahier volé par le groupe Yotsuba ?", a: "Sidoh", x: ["Ryuk", "Rem", "Gelus"] },
+  { id: "dn-p19", d: 4, t: "Quel escroc, allié de L, se fait passer pour un membre de Yotsuba ?", a: "Aiber", x: ["Wedy", "Mogi", "Ide"] },
+  { id: "dn-p20", d: 4, t: "Quelle voleuse spécialiste des alarmes travaille avec L aux côtés d'Aiber ?", a: "Wedy", x: ["Naomi", "Misa", "Takada"] },
+]);

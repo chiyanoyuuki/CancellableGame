@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const dragonball = universe("manga", "Dragon Ball", [
+  // --- Faciles (5) ---
+  { id: "db-f1", d: 1, t: "Qui est le héros principal de Dragon Ball ?", a: "Son Goku", acc: ["goku", "son goku"], x: ["Vegeta", "Krillin", "Piccolo"] },
+  { id: "db-f2", d: 1, t: "Combien de Dragon Balls faut-il réunir pour invoquer le dragon ?", a: "7", acc: ["sept"], x: ["5", "3", "9"] },
+  { id: "db-f3", d: 1, t: "Comment s'appelle le dragon invoqué sur Terre ?", a: "Shenron", x: ["Porunga", "Beerus", "Mr Popo"] },
+  { id: "db-f4", d: 1, t: "Comment s'appelle la transformation aux cheveux dorés ?", a: "Super Saiyan", acc: ["super saiyen"], x: ["Ultra Instinct", "Kaioken", "Super Namek"] },
+  { id: "db-f5", d: 1, t: "À quelle race appartient Goku ?", a: "Saiyan", acc: ["saiyen"], x: ["Namek", "Terrien", "Majin"] },
+
+  // --- Moyennes (10) ---
+  { id: "db-m1", d: 2, t: "Quel prince des Saiyans est le grand rival de Goku ?", a: "Vegeta", x: ["Piccolo", "Krillin", "Yamcha"] },
+  { id: "db-m2", d: 2, t: "Comment s'appelle le fils aîné de Goku ?", a: "Gohan", x: ["Goten", "Trunks", "Vegeta"] },
+  { id: "db-m3", d: 2, t: "Quel vieux maître arts martiaux entraîne Goku au début ?", a: "Tortue Géniale (Muten Roshi)", acc: ["tortue geniale", "muten roshi", "roshi"], x: ["Kaio", "Korin", "Piccolo"] },
+  { id: "db-m4", d: 2, t: "Quel tyran de l'espace détruit la planète Namek ?", a: "Freezer", x: ["Cell", "Boo", "Vegeta"] },
+  { id: "db-m5", d: 2, t: "Quelle est l'attaque emblématique de Goku ?", a: "Kamehameha", x: ["Galick Gun", "Final Flash", "Makankosappo"] },
+  { id: "db-m6", d: 2, t: "Quel Namek devient le professeur de Gohan ?", a: "Piccolo", x: ["Cell", "Dende", "Boo"] },
+  { id: "db-m7", d: 2, t: "Quel petit moine chauve est le meilleur ami de Goku ?", a: "Krillin", x: ["Yamcha", "Tenshinhan", "Chiaotzu"] },
+  { id: "db-m8", d: 2, t: "Quel bio-androïde absorbe les autres pour atteindre sa forme parfaite ?", a: "Cell", x: ["Freezer", "Boo", "C-18"] },
+  { id: "db-m9", d: 2, t: "Quelle créature rose démoniaque apparaît en fin de Dragon Ball Z ?", a: "Majin Boo", acc: ["boo", "buu"], x: ["Cell", "Freezer", "Babidi"] },
+  { id: "db-m10", d: 2, t: "Comment s'appelle l'épouse de Goku ?", a: "Chichi", x: ["Bulma", "C-18", "Videl"] },
+
+  // --- Dures (15) ---
+  { id: "db-d1", d: 3, t: "Quelle inventrice de génie est le premier personnage rencontré par Goku ?", a: "Bulma", x: ["Chichi", "Videl", "Lunch"] },
+  { id: "db-d2", d: 3, t: "Comment s'appelle le fils de Vegeta ?", a: "Trunks", x: ["Goten", "Gohan", "Tarble"] },
+  { id: "db-d3", d: 3, t: "Quelle est l'attaque signature de Vegeta au début de Z ?", a: "Galick Gun (Canon Galaxik)", acc: ["galick gun", "canon galaxik"], x: ["Kamehameha", "Final Flash", "Big Bang Attack"] },
+  { id: "db-d4", d: 3, t: "Quel sorcier maléfique cherche à réveiller Majin Boo ?", a: "Babidi", x: ["Bibidi", "Dabra", "Pui Pui"] },
+  { id: "db-d5", d: 3, t: "Quel Dieu de la Destruction ressemble à un chat violet ?", a: "Beerus", x: ["Whis", "Champa", "Vados"] },
+  { id: "db-d6", d: 3, t: "Comment s'appelle l'ange qui assiste Beerus ?", a: "Whis", x: ["Vados", "Kaioshin", "Zen-Oh"] },
+  { id: "db-d7", d: 3, t: "Comment nomme-t-on la transformation bleue (dieu + Super Saiyan) ?", a: "Super Saiyan Blue", acc: ["super saiyan blue", "ssgss", "blue"], x: ["Super Saiyan 4", "Ultra Instinct", "Golden Freezer"] },
+  { id: "db-d8", d: 3, t: "Quel minuscule personnage est le Roi de Tout, le plus puissant ?", a: "Zen-Oh", acc: ["zeno", "zen oh", "roi de tout"], x: ["Beerus", "Whis", "Grand Prêtre"] },
+  { id: "db-d9", d: 3, t: "Quelle androïde épouse Krillin ?", a: "C-18", acc: ["c18", "n18", "android 18"], x: ["C-17", "C-16", "C-21"] },
+  { id: "db-d10", d: 3, t: "Quelle transformation Gohan enfant atteint-il face à Cell ?", a: "Super Saiyan 2", acc: ["ssj2", "super saiyan 2"], x: ["Super Saiyan 3", "Super Saiyan 4", "Super Saiyan God"] },
+  { id: "db-d11", d: 3, t: "Quelle transformation à très longs cheveux Goku utilise-t-il contre Boo ?", a: "Super Saiyan 3", acc: ["ssj3"], x: ["Super Saiyan 2", "Super Saiyan 4", "Blue"] },
+  { id: "db-d12", d: 3, t: "Quelle est la fusion de Goku et Vegeta via les boucles Potara ?", a: "Vegito", acc: ["vegito", "vegerot"], x: ["Gogeta", "Gotenks", "Gohan"] },
+  { id: "db-d13", d: 3, t: "Quelle est la fusion de Goku et Vegeta via la danse de la fusion ?", a: "Gogeta", x: ["Vegito", "Gotenks", "Gomas"] },
+  { id: "db-d14", d: 3, t: "Quelle est la fusion de Goten et Trunks ?", a: "Gotenks", x: ["Gogeta", "Vegito", "Trunkten"] },
+  { id: "db-d15", d: 3, t: "Quel Saiyan légendaire vert de rage apparaît dans les films ?", a: "Broly", x: ["Bardock", "Turles", "Paragus"] },
+
+  // --- Pro (20) ---
+  { id: "db-p1", d: 4, t: "Comment s'appelle le père biologique de Goku ?", a: "Bardock", x: ["Nappa", "Raditz", "King Vegeta"] },
+  { id: "db-p2", d: 4, t: "Quel frère de Goku l'enlève au tout début de Dragon Ball Z ?", a: "Raditz", x: ["Nappa", "Turles", "Tarble"] },
+  { id: "db-p3", d: 4, t: "Sur quelle planète les Saiyans vivaient-ils avant sa destruction ?", a: "La planète Vegeta", acc: ["vegeta", "planete vegeta"], x: ["Namek", "Sadala", "Kanassa"] },
+  { id: "db-p4", d: 4, t: "Quel Kaio entraîne Goku dans l'au-delà ?", a: "Le Kaio du Nord (King Kai)", acc: ["kaio du nord", "king kai", "kaio"], x: ["Tortue Géniale", "Korin", "Grand Kaio"] },
+  { id: "db-p5", d: 4, t: "Quelle technique de téléportation Goku apprend-il sur la planète Yardrat ?", a: "Le Déplacement instantané (Shunkan Idou)", acc: ["deplacement instantane", "shunkan ido", "shunkan idou"], x: ["Kaioken", "Hiraishin", "Instant Flash"] },
+  { id: "db-p6", d: 4, t: "Quelle technique multiplie temporairement la puissance avec une aura rouge ?", a: "Le Kaioken", acc: ["kaioken"], x: ["Super Saiyan", "Genkidama", "Taiyoken"] },
+  { id: "db-p7", d: 4, t: "Quelle attaque de Goku rassemble l'énergie de tous les êtres vivants ?", a: "Le Genkidama (Sphère de force)", acc: ["genkidama", "sphere de force", "spirit bomb"], x: ["Kamehameha", "Galick Gun", "Final Flash"] },
+  { id: "db-p8", d: 4, t: "Quelle est l'attaque la plus puissante de Vegeta, à deux mains ?", a: "Le Final Flash", acc: ["final flash"], x: ["Galick Gun", "Big Bang Attack", "Kamehameha"] },
+  { id: "db-p9", d: 4, t: "Quel démon roi sert Babidi et défie les héros ?", a: "Dabra", x: ["Pui Pui", "Yakon", "Bibidi"] },
+  { id: "db-p10", d: 4, t: "Comment appelle-t-on la forme la plus pure et enfantine de Boo ?", a: "Kid Boo (Boo originel)", acc: ["kid boo", "boo originel", "boo pur"], x: ["Super Boo", "Fat Boo", "Evil Boo"] },
+  { id: "db-p11", d: 4, t: "Dans quel univers vivent Goku et Vegeta lors du Tournoi du Pouvoir ?", a: "L'Univers 7", acc: ["univers 7", "7"], x: ["L'Univers 6", "L'Univers 11", "L'Univers 9"] },
+  { id: "db-p12", d: 4, t: "Quel guerrier surpuissant de l'Univers 11 affronte Goku au Tournoi du Pouvoir ?", a: "Jiren", x: ["Toppo", "Dyspo", "Hit"] },
+  { id: "db-p13", d: 4, t: "Quel assassin de l'Univers 6 utilise un saut dans le temps (Time-Skip) ?", a: "Hit", x: ["Cabba", "Frost", "Magetta"] },
+  { id: "db-p14", d: 4, t: "Quel jeune Saiyan de l'Univers 6 Vegeta prend-il comme élève ?", a: "Cabba", x: ["Kale", "Caulifla", "Frost"] },
+  { id: "db-p15", d: 4, t: "Quelle forme à l'aura argentée Goku atteint-il contre Jiren ?", a: "L'Ultra Instinct", acc: ["ultra instinct", "migatte no gokui"], x: ["Super Saiyan Blue", "Super Saiyan 4", "Super Saiyan God"] },
+  { id: "db-p16", d: 4, t: "Quel Dieu de la Destruction de l'Univers 6 est le frère de Beerus ?", a: "Champa", x: ["Whis", "Vados", "Quitela"] },
+  { id: "db-p17", d: 4, t: "Quel est le premier grand ennemi démoniaque de la série Dragon Ball originale ?", a: "Piccolo Daimao (le Grand Démon Piccolo)", acc: ["piccolo daimao", "grand demon piccolo"], x: ["Cell", "Freezer", "Boo"] },
+  { id: "db-p18", d: 4, t: "À quelle armée appartenait le Commandant Red, ennemi du jeune Goku ?", a: "L'Armée du Ruban Rouge", acc: ["ruban rouge", "red ribbon"], x: ["La Patrouille Galactique", "L'armée de Freezer", "La Team Ginyu"] },
+  { id: "db-p19", d: 4, t: "Qui dirige le commando d'élite de Freezer, connu pour ses poses ?", a: "Le Capitaine Ginyu", acc: ["ginyu", "capitaine ginyu"], x: ["Zarbon", "Dodoria", "Jeece"] },
+  { id: "db-p20", d: 4, t: "Quel appareil inventé par Bulma sert à localiser les Dragon Balls ?", a: "Le Radar (Dragon Radar)", acc: ["radar", "dragon radar"], x: ["Le Scouter", "La Capsule", "Le Radar Namek"] },
+]);
