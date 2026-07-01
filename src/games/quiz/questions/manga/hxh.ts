@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const hxh = universe("manga", "Hunter x Hunter", [
+  // --- Faciles (5) ---
+  { id: "hxh-f1", d: 1, t: "Qui est le héros de Hunter x Hunter ?", a: "Gon Freecss", acc: ["gon", "gon freecss"], x: ["Killua", "Kurapika", "Leorio"] },
+  { id: "hxh-f2", d: 1, t: "Pourquoi Gon veut-il devenir Hunter ?", a: "Pour retrouver son père", acc: ["retrouver son pere", "son pere"], x: ["Devenir Hokage", "Trouver un trésor", "Venger son clan"] },
+  { id: "hxh-f3", d: 1, t: "Qui est le meilleur ami de Gon, issu d'une famille d'assassins ?", a: "Killua Zoldyck", acc: ["killua", "kirua"], x: ["Kurapika", "Leorio", "Hisoka"] },
+  { id: "hxh-f4", d: 1, t: "Quelle licence prestigieuse les personnages cherchent-ils à obtenir ?", a: "Hunter (chasseur)", acc: ["hunter", "chasseur"], x: ["Ninja", "Pirate", "Alchimiste"] },
+  { id: "hxh-f5", d: 1, t: "Comment s'appelle l'énergie que maîtrisent les combattants ?", a: "Le Nen", acc: ["nen"], x: ["Le chakra", "Le Haki", "Le Reiatsu"] },
+
+  // --- Moyennes (10) ---
+  { id: "hxh-m1", d: 2, t: "Quel ami blond veut venger son clan et a les yeux écarlates ?", a: "Kurapika", x: ["Leorio", "Killua", "Gon"] },
+  { id: "hxh-m2", d: 2, t: "Quel grand ami veut devenir médecin ?", a: "Leorio", x: ["Kurapika", "Gon", "Killua"] },
+  { id: "hxh-m3", d: 2, t: "Quel clown magicien dangereux est obsédé par Gon ?", a: "Hisoka", x: ["Illumi", "Chrollo", "Feitan"] },
+  { id: "hxh-m4", d: 2, t: "Quelle famille d'assassins est celle de Killua ?", a: "Les Zoldyck", acc: ["zoldyck"], x: ["Les Kurta", "La Brigade", "Les Nostrade"] },
+  { id: "hxh-m5", d: 2, t: "Quel clan de Kurapika a été massacré pour ses yeux ?", a: "Le clan Kurta", acc: ["kurta"], x: ["Les Zoldyck", "La Brigade", "Les Nostrade"] },
+  { id: "hxh-m6", d: 2, t: "Comment s'appelle la célèbre organisation de voleurs à l'araignée ?", a: "La Brigade Fantôme (Genei Ryodan)", acc: ["brigade fantome", "genei ryodan", "araignee"], x: ["Les Zoldyck", "Le clan Kurta", "La Mafia"] },
+  { id: "hxh-m7", d: 2, t: "Qui est le chef de la Brigade Fantôme ?", a: "Chrollo Lucilfer", acc: ["chrollo"], x: ["Hisoka", "Feitan", "Phinks"] },
+  { id: "hxh-m8", d: 2, t: "À quelle catégorie de Nen appartient Gon ?", a: "Renforcement", acc: ["renforcement", "enhancer"], x: ["Manipulation", "Spécialiste", "Transformation"] },
+  { id: "hxh-m9", d: 2, t: "Quelles créatures surpuissantes menacent l'humanité dans le grand arc final ?", a: "Les Fourmis-Chimères", acc: ["fourmis chimeres", "chimeres", "fourmis"], x: ["Les Hollows", "Les Titans", "Les Démons"] },
+  { id: "hxh-m10", d: 2, t: "Comment s'appelle le Roi des Fourmis-Chimères ?", a: "Meruem", x: ["Neferpitou", "Youpi", "Pouf"] },
+
+  // --- Dures (15) ---
+  { id: "hxh-d1", d: 3, t: "Quelle attaque de Gon repose sur « pierre-feuille-ciseaux » ?", a: "Le Jajanken", acc: ["jajanken", "janken"], x: ["Rasengan", "Kamehameha", "Godspeed"] },
+  { id: "hxh-d2", d: 3, t: "À quelle catégorie de Nen appartient Killua (aura électrique) ?", a: "Transformation (Transmuteur)", acc: ["transformation", "transmuteur", "transmutation"], x: ["Renforcement", "Émission", "Manipulation"] },
+  { id: "hxh-d3", d: 3, t: "Comment s'appelle la technique électrique ultime de Killua (vitesse divine) ?", a: "Godspeed (Kanmuru)", acc: ["godspeed", "kanmuru"], x: ["Jajanken", "Chain Jail", "Bungee Gum"] },
+  { id: "hxh-d4", d: 3, t: "Comment s'appelle le Nen collant et élastique d'Hisoka ?", a: "Bungee Gum", acc: ["bungee gum"], x: ["Bloodhound", "Chain Jail", "Godspeed"] },
+  { id: "hxh-d5", d: 3, t: "Comment s'appelle le père de Gon, un Hunter légendaire ?", a: "Ging Freecss", acc: ["ging"], x: ["Isaac Netero", "Kite", "Leorio"] },
+  { id: "hxh-d6", d: 3, t: "Qui est le président de l'Association des Hunters, maître d'arts martiaux ?", a: "Isaac Netero", acc: ["netero", "isaac netero"], x: ["Ging", "Pariston", "Chrollo"] },
+  { id: "hxh-d7", d: 3, t: "Nommez l'un des trois gardes royaux de Meruem.", a: "Neferpitou", acc: ["neferpitou", "pitou", "youpi", "pouf", "shaiapouf", "menthuthuyoupi"], x: ["Meruem", "Kite", "Komugi"] },
+  { id: "hxh-d8", d: 3, t: "Quelle jeune fille aveugle, championne de Gungi, touche le cœur de Meruem ?", a: "Komugi", x: ["Palm", "Bisky", "Neferpitou"] },
+  { id: "hxh-d9", d: 3, t: "Quelle maîtresse d'apparence juvénile entraîne Gon et Killua ?", a: "Biscuit « Bisky » Krueger", acc: ["bisky", "biscuit", "biscuit krueger"], x: ["Palm", "Melody", "Komugi"] },
+  { id: "hxh-d10", d: 3, t: "Sur quelles armes repose le Nen de vengeance de Kurapika contre la Brigade ?", a: "Ses chaînes", acc: ["chaines", "chain jail", "les chaines"], x: ["Bungee Gum", "Jajanken", "Godspeed"] },
+  { id: "hxh-d11", d: 3, t: "Combien de catégories principales le Nen compte-t-il ?", a: "6", acc: ["six"], x: ["4", "5", "8"] },
+  { id: "hxh-d12", d: 3, t: "Quel examen occupe le tout début de la série ?", a: "L'Examen Hunter", acc: ["examen hunter"], x: ["Le Tournoi céleste", "La chasse à l'araignée", "L'épreuve du Nen"] },
+  { id: "hxh-d13", d: 3, t: "Comment s'appelle la tour où l'on combat pour gravir les étages et gagner de l'argent ?", a: "La Tour Céleste (Heavens Arena)", acc: ["tour celeste", "heavens arena"], x: ["Las Noches", "Le Colisée", "La Tour de Babel"] },
+  { id: "hxh-d14", d: 3, t: "Quel frère aîné manipulateur de Killua se bat avec des aiguilles ?", a: "Illumi Zoldyck", acc: ["illumi"], x: ["Milluki", "Kalluto", "Alluka"] },
+  { id: "hxh-d15", d: 3, t: "Quel(le) cadet(te) de Killua a des pouvoirs de vœux extrêmement dangereux ?", a: "Alluka", x: ["Kalluto", "Milluki", "Illumi"] },
+
+  // --- Pro (20) ---
+  { id: "hxh-p1", d: 4, t: "À quelle catégorie de Nen appartient Kurapika (en temps normal) ?", a: "Matérialisation (Conjuration)", acc: ["materialisation", "conjuration", "conjurer"], x: ["Renforcement", "Émission", "Manipulation"] },
+  { id: "hxh-p2", d: 4, t: "Quel principe du Nen consiste à envelopper son corps de son aura pour se protéger ?", a: "Le Ten", acc: ["ten"], x: ["Le Zetsu", "Le Ren", "Le Hatsu"] },
+  { id: "hxh-p3", d: 4, t: "Quel principe consiste à stopper totalement son flux d'aura pour se dissimuler ?", a: "Le Zetsu", acc: ["zetsu"], x: ["Le Ten", "Le Ren", "Le Hatsu"] },
+  { id: "hxh-p4", d: 4, t: "Quel principe consiste à émettre une grande quantité d'aura pour renforcer sa puissance ?", a: "Le Ren", acc: ["ren"], x: ["Le Ten", "Le Zetsu", "Le In"] },
+  { id: "hxh-p5", d: 4, t: "Comment appelle-t-on la capacité personnelle et unique de chaque utilisateur de Nen ?", a: "Le Hatsu", acc: ["hatsu"], x: ["Le Ten", "Le Ren", "Le Gyo"] },
+  { id: "hxh-p6", d: 4, t: "Combien de membres compte à l'origine la Brigade Fantôme ?", a: "13", acc: ["treize"], x: ["10", "7", "9"] },
+  { id: "hxh-p7", d: 4, t: "Quel garde royal de Meruem ressemble à un chat et détecte l'aura ?", a: "Neferpitou", acc: ["neferpitou", "pitou"], x: ["Youpi", "Pouf", "Meruem"] },
+  { id: "hxh-p8", d: 4, t: "Comment Meruem meurt-il finalement ?", a: "Empoisonné (par la bombe de Netero)", acc: ["empoisonne", "poison", "empoisonnement"], x: ["Tué par Gon", "Tué par Killua", "De vieillesse"] },
+  { id: "hxh-p9", d: 4, t: "Quel sacrifice ultime Netero utilise-t-il contre Meruem ?", a: "La Rose Miniature (bombe)", acc: ["rose miniature", "la rose", "poor man's rose", "bombe"], x: ["Le Zero Hand seul", "Un Kamehameha", "Le Bungee Gum"] },
+  { id: "hxh-p10", d: 4, t: "Comment s'appelle l'attaque de Netero aux cent types de mains ?", a: "Le Hyakushiki Kannon (Cent-Types Guanyin)", acc: ["hyakushiki kannon", "cent types", "kannon"], x: ["Jajanken", "Godspeed", "Bungee Gum"] },
+  { id: "hxh-p11", d: 4, t: "Que sacrifie Gon pour obtenir une puissance monstrueuse contre Neferpitou ?", a: "Tout son potentiel de Nen (son avenir)", acc: ["son avenir", "son potentiel", "son nen"], x: ["Un bras", "Ses souvenirs", "La vie de Killua"] },
+  { id: "hxh-p12", d: 4, t: "Comment s'appelle l'entité qui exauce les vœux via la sœur de Killua ?", a: "Nanika", acc: ["nanika", "alluka"], x: ["Kalluto", "Milluki", "Bisky"] },
+  { id: "hxh-p13", d: 4, t: "Quel autre frère de Killua rejoint la Brigade Fantôme ?", a: "Kalluto Zoldyck", acc: ["kalluto"], x: ["Illumi", "Milluki", "Alluka"] },
+  { id: "hxh-p14", d: 4, t: "Quelle majordome accueille Gon à l'entrée du domaine Zoldyck ?", a: "Canary", x: ["Gotoh", "Amane", "Tsubone"] },
+  { id: "hxh-p15", d: 4, t: "Quel Hunter, ami de Ging, protège Gon durant l'arc des Fourmis-Chimères ?", a: "Kite", x: ["Knuckle", "Morel", "Knov"] },
+  { id: "hxh-p16", d: 4, t: "Comment s'appelle le pouvoir de Chrollo qui vole les Nen des autres dans un livre ?", a: "Skill Hunter (le Bandit's Secret)", acc: ["skill hunter", "bandit's secret", "bandits secret"], x: ["Bungee Gum", "Chain Jail", "Jajanken"] },
+  { id: "hxh-p17", d: 4, t: "Dans quelle ville se déroule la grande vente aux enchères convoitée par la Brigade ?", a: "Yorknew City", acc: ["yorknew", "yorknew city"], x: ["Padokea", "Republic of East Gorteau", "Swardani"] },
+  { id: "hxh-p18", d: 4, t: "Sur quelle île Gon a-t-il grandi ?", a: "Whale Island (l'île de la Baleine)", acc: ["whale island", "ile de la baleine", "baleine"], x: ["Yorknew", "Padokea", "Kukuroo"] },
+  { id: "hxh-p19", d: 4, t: "Sur quelle montagne vit la famille Zoldyck ?", a: "Le mont Kukuroo", acc: ["kukuroo", "mont kukuroo"], x: ["Whale Island", "Yorknew", "Padokea"] },
+  { id: "hxh-p20", d: 4, t: "Quel jeu de plateau, où excelle Komugi, Meruem apprend-il à maîtriser ?", a: "Le Gungi", acc: ["gungi"], x: ["Le Go", "Les échecs", "Le Shogi"] },
+]);

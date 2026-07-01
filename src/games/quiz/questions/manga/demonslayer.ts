@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const demonslayer = universe("manga", "Demon Slayer", [
+  // --- Faciles (5) ---
+  { id: "ds-f1", d: 1, t: "Qui est le héros de Demon Slayer ?", a: "Tanjiro Kamado", acc: ["tanjiro", "tanjiro kamado"], x: ["Zenitsu", "Inosuke", "Giyu"] },
+  { id: "ds-f2", d: 1, t: "Comment s'appelle la sœur de Tanjiro, transformée en démon ?", a: "Nezuko", x: ["Kanao", "Shinobu", "Mitsuri"] },
+  { id: "ds-f3", d: 1, t: "Qui les pourfendeurs chassent-ils ?", a: "Les démons", acc: ["demons"], x: ["Les titans", "Les esprits", "Les pirates"] },
+  { id: "ds-f4", d: 1, t: "Quel souffle Tanjiro maîtrise-t-il au début ?", a: "Le souffle de l'eau", acc: ["eau", "souffle de l'eau"], x: ["Le souffle du feu", "Le souffle de la foudre", "Le souffle du vent"] },
+  { id: "ds-f5", d: 1, t: "Quelle arme utilisent les pourfendeurs ?", a: "Le sabre (katana)", acc: ["sabre", "katana", "nichirin"], x: ["L'arc", "La lance", "Le fouet"] },
+
+  // --- Moyennes (10) ---
+  { id: "ds-m1", d: 2, t: "Quel pourfendeur blond et froussard manie le souffle de la foudre ?", a: "Zenitsu", acc: ["zenitsu", "zenitsu agatsuma"], x: ["Inosuke", "Giyu", "Tanjiro"] },
+  { id: "ds-m2", d: 2, t: "Quel garçon sauvage porte une tête de sanglier ?", a: "Inosuke Hashibira", acc: ["inosuke"], x: ["Zenitsu", "Genya", "Tanjiro"] },
+  { id: "ds-m3", d: 2, t: "Qui est le chef suprême de tous les démons ?", a: "Muzan Kibutsuji", acc: ["muzan"], x: ["Kokushibo", "Akaza", "Douma"] },
+  { id: "ds-m4", d: 2, t: "Comment appelle-t-on les pourfendeurs d'élite ?", a: "Les Piliers (Hashira)", acc: ["piliers", "hashira"], x: ["Les Lunes", "Les Rois", "Les Sabreurs"] },
+  { id: "ds-m5", d: 2, t: "Quel Pilier de l'eau épargne Tanjiro et Nezuko au début ?", a: "Giyu Tomioka", acc: ["giyu", "tomioka"], x: ["Rengoku", "Shinobu", "Tengen"] },
+  { id: "ds-m6", d: 2, t: "Quel Pilier de la flamme combat dans le train de l'Infini ?", a: "Kyojuro Rengoku", acc: ["rengoku", "kyojuro"], x: ["Giyu", "Tengen", "Sanemi"] },
+  { id: "ds-m7", d: 2, t: "Quelle lumière est mortelle pour la plupart des démons ?", a: "La lumière du soleil", acc: ["soleil", "lumiere du soleil"], x: ["La lumière du feu", "La lune", "Les néons"] },
+  { id: "ds-m8", d: 2, t: "Quelle fleur repousse et affaiblit les démons ?", a: "La glycine", acc: ["glycine", "wisteria"], x: ["La lavande", "Le lotus", "Le lys"] },
+  { id: "ds-m9", d: 2, t: "Comment s'appelle l'organisation qui combat les démons ?", a: "Le Corps des pourfendeurs de démons", acc: ["corps des pourfendeurs", "pourfendeurs"], x: ["L'Akatsuki", "La Garnison", "Les Piliers"] },
+  { id: "ds-m10", d: 2, t: "Quelle Pilière au thème papillon est experte en poisons ?", a: "Shinobu Kocho", acc: ["shinobu", "kocho"], x: ["Mitsuri", "Kanao", "Nezuko"] },
+
+  // --- Dures (15) ---
+  { id: "ds-d1", d: 3, t: "Combien de Piliers (Hashira) compte le Corps des pourfendeurs ?", a: "9", acc: ["neuf"], x: ["7", "12", "5"] },
+  { id: "ds-d2", d: 3, t: "Quel Pilier du son, ancien ninja, est très extravagant ?", a: "Tengen Uzui", acc: ["tengen", "uzui"], x: ["Rengoku", "Giyu", "Gyomei"] },
+  { id: "ds-d3", d: 3, t: "Quelle Pilière de l'amour a les cheveux rose et vert ?", a: "Mitsuri Kanroji", acc: ["mitsuri", "kanroji"], x: ["Shinobu", "Kanao", "Nezuko"] },
+  { id: "ds-d4", d: 3, t: "Quel Pilier du vent, couvert de cicatrices, est très agressif ?", a: "Sanemi Shinazugawa", acc: ["sanemi", "shinazugawa"], x: ["Giyu", "Tengen", "Muichiro"] },
+  { id: "ds-d5", d: 3, t: "Quel jeune Pilier de la brume est un génie un peu amnésique ?", a: "Muichiro Tokito", acc: ["muichiro", "tokito"], x: ["Sanemi", "Genya", "Tanjiro"] },
+  { id: "ds-d6", d: 3, t: "Quel Pilier aveugle et immense est réputé le plus fort ?", a: "Gyomei Himejima", acc: ["gyomei", "himejima"], x: ["Sanemi", "Tengen", "Giyu"] },
+  { id: "ds-d7", d: 3, t: "Quel Pilier du serpent combat avec un serpent enroulé ?", a: "Obanai Iguro", acc: ["obanai", "iguro"], x: ["Sanemi", "Giyu", "Tengen"] },
+  { id: "ds-d8", d: 3, t: "Comment appelle-t-on les démons les plus puissants au service de Muzan ?", a: "Les Lunes Supérieures (Kizuki)", acc: ["lunes superieures", "kizuki"], x: ["Les Piliers", "Les Rois", "Les Espada"] },
+  { id: "ds-d9", d: 3, t: "Quel démon est la Lune Supérieure Un, le plus fort ?", a: "Kokushibo", x: ["Akaza", "Douma", "Gyutaro"] },
+  { id: "ds-d10", d: 3, t: "Quelle Lune Supérieure Trois tue le Pilier Rengoku ?", a: "Akaza", x: ["Douma", "Gyutaro", "Kokushibo"] },
+  { id: "ds-d11", d: 3, t: "De quel souffle originel dérivent tous les autres souffles ?", a: "Le souffle du Soleil (Hinokami)", acc: ["souffle du soleil", "hinokami"], x: ["Le souffle de la Lune", "Le souffle de l'eau", "Le souffle du feu"] },
+  { id: "ds-d12", d: 3, t: "Quelle danse rituelle le père de Tanjiro exécutait-il ?", a: "La danse du dieu du feu (Hinokami Kagura)", acc: ["hinokami kagura", "danse du dieu du feu"], x: ["La danse de l'eau", "Le kata de la foudre", "La danse des démons"] },
+  { id: "ds-d13", d: 3, t: "Quel oiseau transmet les ordres aux pourfendeurs ?", a: "Le corbeau (Kasugai)", acc: ["corbeau", "kasugai"], x: ["Le faucon", "Le hibou", "Le pigeon"] },
+  { id: "ds-d14", d: 3, t: "Quelle marque apparaît sur les pourfendeurs devenus surpuissants ?", a: "La Marque des pourfendeurs", acc: ["marque des pourfendeurs", "marque"], x: ["Le Sceau", "Le Sharingan", "La Malédiction"] },
+  { id: "ds-d15", d: 3, t: "De quelle couleur inhabituelle est le sabre de Tanjiro ?", a: "Noir", x: ["Rouge", "Bleu", "Blanc"] },
+
+  // --- Pro (20) ---
+  { id: "ds-p1", d: 4, t: "Quel est le nom de famille de Tanjiro et Nezuko ?", a: "Kamado", x: ["Hashibira", "Agatsuma", "Tomioka"] },
+  { id: "ds-p2", d: 4, t: "Qui dirige le Corps des pourfendeurs, cloué dans un fauteuil ?", a: "Kagaya Ubuyashiki", acc: ["ubuyashiki", "kagaya"], x: ["Gyomei", "Muzan", "Sakonji"] },
+  { id: "ds-p3", d: 4, t: "Quel maître au masque de tengu forme Tanjiro au souffle de l'eau ?", a: "Sakonji Urokodaki", acc: ["urokodaki", "sakonji"], x: ["Jigoro", "Kuwajima", "Gyomei"] },
+  { id: "ds-p4", d: 4, t: "Qui est le tout premier pourfendeur, inventeur du souffle du Soleil ?", a: "Yoriichi Tsugikuni", acc: ["yoriichi"], x: ["Kokushibo", "Muzan", "Gyomei"] },
+  { id: "ds-p5", d: 4, t: "Quel démon est la Lune Supérieure Deux, manipulateur et glacial ?", a: "Douma", x: ["Akaza", "Gyutaro", "Kokushibo"] },
+  { id: "ds-p6", d: 4, t: "Quel démon (avec sa sœur Daki) est la Lune Supérieure Six du quartier des plaisirs ?", a: "Gyutaro", x: ["Akaza", "Douma", "Kokushibo"] },
+  { id: "ds-p7", d: 4, t: "Quel était le nom humain d'Akaza avant de devenir un démon ?", a: "Hakuji", x: ["Michikatsu", "Kaigaku", "Douma"] },
+  { id: "ds-p8", d: 4, t: "Quel forgeron irascible répare le sabre de Tanjiro ?", a: "Hotaru Haganezuka", acc: ["haganezuka"], x: ["Tecchin", "Kozo", "Kanamori"] },
+  { id: "ds-p9", d: 4, t: "Quel frère de Sanemi devient pourfendeur et peut manger des démons ?", a: "Genya Shinazugawa", acc: ["genya"], x: ["Muichiro", "Zenitsu", "Inosuke"] },
+  { id: "ds-p10", d: 4, t: "Quel ancien camarade de Zenitsu finit par devenir un démon ?", a: "Kaigaku", x: ["Genya", "Inosuke", "Giyu"] },
+  { id: "ds-p11", d: 4, t: "À quel souffle est associé le rare sabre noir comme celui de Tanjiro ?", a: "Le souffle du Soleil", acc: ["soleil", "souffle du soleil"], x: ["La Lune", "L'eau", "Le feu"] },
+  { id: "ds-p12", d: 4, t: "Quel petit oiseau accompagne Zenitsu ?", a: "Un moineau (Chuntaro)", acc: ["moineau", "chuntaro"], x: ["Un corbeau", "Un faucon", "Un hibou"] },
+  { id: "ds-p13", d: 4, t: "Quelle capacité rare Nezuko développe-t-elle face au jour ?", a: "L'immunité au soleil", acc: ["immunite au soleil", "resister au soleil"], x: ["Voler", "Lire les pensées", "Se dédoubler"] },
+  { id: "ds-p14", d: 4, t: "Quelle fleur légendaire Muzan recherche-t-il désespérément ?", a: "La fleur d'Araignée bleue", acc: ["araignee bleue", "blue spider lily", "lys araignee bleu"], x: ["La glycine", "Le lotus bleu", "L'edelweiss"] },
+  { id: "ds-p15", d: 4, t: "Qui est l'ancien Pilier de la flamme, père de Kyojuro ?", a: "Shinjuro Rengoku", acc: ["shinjuro"], x: ["Sanemi", "Gyomei", "Giyu"] },
+  { id: "ds-p16", d: 4, t: "Quelle pourfendeuse muette, fille adoptive de Shinobu, utilise le souffle de la fleur ?", a: "Kanao Tsuyuri", acc: ["kanao", "tsuyuri"], x: ["Mitsuri", "Nezuko", "Aoi"] },
+  { id: "ds-p17", d: 4, t: "Quelle démone alliée, médecin, aide à créer un remède contre Muzan ?", a: "Tamayo", x: ["Shinobu", "Kanao", "Nezuko"] },
+  { id: "ds-p18", d: 4, t: "Quel jeune démon accompagne et protège Tamayo ?", a: "Yushiro", x: ["Genya", "Kaigaku", "Susamaru"] },
+  { id: "ds-p19", d: 4, t: "Depuis combien de temps Muzan existe-t-il, approximativement ?", a: "Plus de 1000 ans", acc: ["1000 ans", "plus de 1000 ans", "mille ans"], x: ["100 ans", "500 ans", "300 ans"] },
+  { id: "ds-p20", d: 4, t: "Qu'est-ce qui finit par tuer Muzan à la toute fin ?", a: "La lumière du soleil", acc: ["soleil", "lumiere du soleil", "le jour"], x: ["Un sabre spécial", "Le poison de Shinobu seul", "La glycine"] },
+]);
