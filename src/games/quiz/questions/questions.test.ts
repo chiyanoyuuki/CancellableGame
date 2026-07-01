@@ -5,7 +5,7 @@ const themeSet = new Set<string>(THEMES);
 
 describe('banque de questions', () => {
   test('contient un bon volume de questions', () => {
-    expect(QUESTIONS.length).toBeGreaterThanOrEqual(500);
+    expect(QUESTIONS.length).toBeGreaterThanOrEqual(800);
   });
 
   test('tous les identifiants sont uniques', () => {

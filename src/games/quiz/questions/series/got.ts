@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const got = universe("series", "Game of Thrones", [
+  // --- Faciles (5) ---
+  { id: "got-f1", d: 1, t: "Quelle maison a pour devise « Winter is coming » ?", a: "Stark", x: ["Lannister", "Targaryen", "Baratheon"] },
+  { id: "got-f2", d: 1, t: "Quel personnage possède trois dragons ?", a: "Daenerys Targaryen", acc: ["daenerys", "khaleesi"], x: ["Cersei", "Sansa", "Arya"] },
+  { id: "got-f3", d: 1, t: "Comment s'appelle le trône convoité, fait d'épées ?", a: "Le Trône de Fer", acc: ["trone de fer"], x: ["Le Trône de Pierre", "Le Grand Trône", "Le Siège d'Or"] },
+  { id: "got-f4", d: 1, t: "Comment appelle-t-on les créatures glacées mortes-vivantes du Nord ?", a: "Les Marcheurs Blancs", acc: ["marcheurs blancs", "white walkers"], x: ["Les Trolls", "Les Géants", "Les Loups"] },
+  { id: "got-f5", d: 1, t: "Quel nain intelligent de la maison Lannister aime le vin et les livres ?", a: "Tyrion Lannister", acc: ["tyrion"], x: ["Jaime", "Tywin", "Joffrey"] },
+
+  // --- Moyennes (10) ---
+  { id: "got-m1", d: 2, t: "Quel bâtard de Ned Stark rejoint la Garde de Nuit ?", a: "Jon Snow", acc: ["jon snow", "jon"], x: ["Robb", "Bran", "Theon"] },
+  { id: "got-m2", d: 2, t: "Quelle phrase est associée à la maison Lannister au sujet des dettes ?", a: "« Un Lannister paie toujours ses dettes »", acc: ["un lannister paie toujours ses dettes", "paie ses dettes"], x: ["« Winter is coming »", "« We do not sow »", "« Fire and blood »"] },
+  { id: "got-m3", d: 2, t: "Quel jeune roi cruel et blond est le fils de Cersei ?", a: "Joffrey", x: ["Tommen", "Robb", "Stannis"] },
+  { id: "got-m4", d: 2, t: "Quel ordre garde le Mur de glace au Nord ?", a: "La Garde de Nuit", acc: ["garde de nuit"], x: ["Les Immaculés", "La Garde Royale", "Les Fils de la Harpie"] },
+  { id: "got-m5", d: 2, t: "Quelle sœur cadette de Sansa rêve de devenir combattante ?", a: "Arya Stark", acc: ["arya"], x: ["Bran", "Rickon", "Cersei"] },
+  { id: "got-m6", d: 2, t: "Quel colossal chevalier est surnommé « La Montagne » ?", a: "Gregor Clegane", acc: ["gregor", "la montagne", "clegane"], x: ["Sandor", "Bronn", "Jaime"] },
+  { id: "got-m7", d: 2, t: "Quelle reine blonde a une relation incestueuse avec son frère ?", a: "Cersei Lannister", acc: ["cersei"], x: ["Margaery", "Sansa", "Melisandre"] },
+  { id: "got-m8", d: 2, t: "Quel frère jumeau et amant de Cersei est surnommé le « Régicide » ?", a: "Jaime Lannister", acc: ["jaime"], x: ["Tyrion", "Tywin", "Euron"] },
+  { id: "got-m9", d: 2, t: "Sur quel continent Daenerys évolue-t-elle au début ?", a: "Essos", x: ["Westeros", "Dorne", "Braavos"] },
+  { id: "got-m10", d: 2, t: "Quel animal est l'emblème de la maison Stark ?", a: "Le loup géant (direwolf)", acc: ["loup geant", "direwolf", "loup"], x: ["Le lion", "Le dragon", "Le cerf"] },
+
+  // --- Dures (15) ---
+  { id: "got-d1", d: 3, t: "Quel patriarche impitoyable dirige la maison Lannister ?", a: "Tywin Lannister", acc: ["tywin"], x: ["Kevan", "Tytos", "Jaime"] },
+  { id: "got-d2", d: 3, t: "Nommez l'un des trois dragons de Daenerys.", a: "Drogon", acc: ["drogon", "rhaegal", "viserion"], x: ["Balerion", "Vhagar", "Meraxes"] },
+  { id: "got-d3", d: 3, t: "Quel peuple guerrier nomade à cheval Daenerys rejoint-elle par mariage ?", a: "Les Dothraki", acc: ["dothraki"], x: ["Les Immaculés", "Les Sauvageons", "Les Fer-nés"] },
+  { id: "got-d4", d: 3, t: "Quel Khal Daenerys épouse-t-elle ?", a: "Khal Drogo", acc: ["drogo", "khal drogo"], x: ["Khal Moro", "Jorah", "Daario"] },
+  { id: "got-d5", d: 3, t: "Quel chevalier exilé et fidèle est secrètement amoureux de Daenerys ?", a: "Jorah Mormont", acc: ["jorah", "mormont"], x: ["Daario", "Barristan", "Ver Gris"] },
+  { id: "got-d6", d: 3, t: "Comment appelle-t-on le massacre du mariage où périt Robb Stark ?", a: "Les Noces Pourpres (Red Wedding)", acc: ["noces pourpres", "red wedding"], x: ["Les Noces Noires", "La Bataille de la Néra", "Les Noces de Sang"] },
+  { id: "got-d7", d: 3, t: "Comment meurt le roi Joffrey ?", a: "Empoisonné lors de son mariage", acc: ["empoisonne", "poison"], x: ["Poignardé", "Décapité", "Brûlé"] },
+  { id: "got-d8", d: 3, t: "De quelle maison Daenerys est-elle issue ?", a: "Targaryen", x: ["Stark", "Baratheon", "Tully"] },
+  { id: "got-d9", d: 3, t: "Quel frère cupide de Daenerys meurt sous une couronne d'or fondu ?", a: "Viserys", x: ["Rhaegar", "Aerys", "Aegon"] },
+  { id: "got-d10", d: 3, t: "Quel conseiller manipulateur est surnommé « Littlefinger » ?", a: "Petyr Baelish", acc: ["petyr baelish", "baelish", "littlefinger"], x: ["Varys", "Pycelle", "Qyburn"] },
+  { id: "got-d11", d: 3, t: "Quel eunuque maître des espions est surnommé « l'Araignée » ?", a: "Varys", x: ["Baelish", "Pycelle", "Qyburn"] },
+  { id: "got-d12", d: 3, t: "Comment appelle-t-on les soldats esclaves d'élite libérés par Daenerys ?", a: "Les Immaculés", acc: ["immacules"], x: ["Les Dothraki", "La Garde de Nuit", "Les Fils de la Harpie"] },
+  { id: "got-d13", d: 3, t: "Qui commande les Immaculés ?", a: "Ver Gris (Grey Worm)", acc: ["ver gris", "grey worm"], x: ["Daario", "Missandei", "Jorah"] },
+  { id: "got-d14", d: 3, t: "Qui pousse Bran du haut d'une tour au début de la série ?", a: "Jaime Lannister", acc: ["jaime"], x: ["Cersei", "Tyrion", "Joffrey"] },
+  { id: "got-d15", d: 3, t: "Quelle sauvageonne rousse Jon Snow aime-t-il au-delà du Mur ?", a: "Ygritte", x: ["Gilly", "Val", "Meera"] },
+
+  // --- Pro (20) ---
+  { id: "got-p1", d: 4, t: "Comment s'appelle la capitale, siège du Trône de Fer ?", a: "Port-Réal (King's Landing)", acc: ["port-real", "port real", "king's landing"], x: ["Winterfell", "Peyredragon", "Villevieille"] },
+  { id: "got-p2", d: 4, t: "Comment s'appelle le château des Stark ?", a: "Winterfell", x: ["Port-Réal", "Peyredragon", "Vivesaigues"] },
+  { id: "got-p3", d: 4, t: "En combien de royaumes Westeros est-il divisé (« les Sept Couronnes ») ?", a: "7", acc: ["sept"], x: ["5", "9", "12"] },
+  { id: "got-p4", d: 4, t: "Comment se nomme le « Roi Fou », dernier Targaryen à régner ?", a: "Aerys II", acc: ["aerys", "aerys ii", "roi fou"], x: ["Rhaegar", "Viserys", "Aegon"] },
+  { id: "got-p5", d: 4, t: "Qui est le véritable père de Jon Snow ?", a: "Rhaegar Targaryen", acc: ["rhaegar"], x: ["Ned Stark", "Aerys", "Robert"] },
+  { id: "got-p6", d: 4, t: "Quel est le vrai nom Targaryen de Jon Snow ?", a: "Aegon Targaryen", acc: ["aegon", "aegon targaryen"], x: ["Jaehaerys", "Viserys", "Rhaegar"] },
+  { id: "got-p7", d: 4, t: "Pourquoi Jaime est-il surnommé le « Régicide » ?", a: "Il a tué le Roi Fou Aerys", acc: ["il a tue le roi fou", "il a tue aerys", "tue le roi"], x: ["Il a tué Robert", "Il a tué Ned", "Il a tué Tywin"] },
+  { id: "got-p8", d: 4, t: "Qui est le chef des Marcheurs Blancs ?", a: "Le Roi de la Nuit (Night King)", acc: ["roi de la nuit", "night king"], x: ["Craster", "Mance Rayder", "Le Grand Autre"] },
+  { id: "got-p9", d: 4, t: "Qui tue le Roi de la Nuit ?", a: "Arya Stark", acc: ["arya"], x: ["Jon Snow", "Bran", "Brienne"] },
+  { id: "got-p10", d: 4, t: "Quel ordre d'assassins « sans visage » Arya rejoint-elle à Braavos ?", a: "Les Sans-Visage (Faceless Men)", acc: ["sans-visage", "sans visage", "faceless men"], x: ["Les Immaculés", "La Garde de Nuit", "Les Fils de la Harpie"] },
+  { id: "got-p11", d: 4, t: "Quelle formule signifie « tous les hommes doivent mourir » ?", a: "Valar Morghulis", acc: ["valar morghulis"], x: ["Valar Dohaeris", "Dracarys", "Winter is coming"] },
+  { id: "got-p12", d: 4, t: "Quel mot Daenerys emploie-t-elle pour ordonner à ses dragons de cracher le feu ?", a: "Dracarys", x: ["Valar Morghulis", "Dohaeris", "Zaldrizes"] },
+  { id: "got-p13", d: 4, t: "Quelle prêtresse rouge, servante de R'hllor, ressuscite Jon Snow ?", a: "Mélisandre", acc: ["melisandre"], x: ["Kinvara", "Talisa", "Selyse"] },
+  { id: "got-p14", d: 4, t: "Quel frère de Robert Baratheon se proclame roi et suit le dieu R'hllor ?", a: "Stannis Baratheon", acc: ["stannis"], x: ["Renly", "Joffrey", "Tommen"] },
+  { id: "got-p15", d: 4, t: "Quelle maison des Îles de Fer a pour emblème un kraken ?", a: "Greyjoy", x: ["Tully", "Tyrell", "Martell"] },
+  { id: "got-p16", d: 4, t: "Quel fils Greyjoy est torturé par Ramsay et renommé « Reek » (Schlingue) ?", a: "Theon Greyjoy", acc: ["theon", "reek", "schlingue"], x: ["Balon", "Euron", "Yara"] },
+  { id: "got-p17", d: 4, t: "Quel bâtard sadique de la maison Bolton torture Theon ?", a: "Ramsay Bolton", acc: ["ramsay"], x: ["Roose", "Walder", "Joffrey"] },
+  { id: "got-p18", d: 4, t: "Quelle maison règne sur Dorne (emblème : un soleil transpercé d'une lance) ?", a: "Martell", x: ["Tyrell", "Tully", "Arryn"] },
+  { id: "got-p19", d: 4, t: "Qui devient roi des Six Couronnes à la toute fin de la série ?", a: "Bran Stark", acc: ["bran", "bran stark"], x: ["Jon", "Sansa", "Tyrion"] },
+  { id: "got-p20", d: 4, t: "Que devient Sansa Stark à la fin ?", a: "Reine du Nord indépendant", acc: ["reine du nord", "reine dans le nord"], x: ["Reine des Sept Couronnes", "Main du Roi", "Elle meurt"] },
+]);

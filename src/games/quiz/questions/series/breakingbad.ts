@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const breakingbad = universe("series", "Breaking Bad", [
+  // --- Faciles (5) ---
+  { id: "bb-f1", d: 1, t: "Quel est le métier initial de Walter White ?", a: "Professeur de chimie", acc: ["prof de chimie", "chimie"], x: ["Médecin", "Avocat", "Policier"] },
+  { id: "bb-f2", d: 1, t: "Quelle drogue Walter White fabrique-t-il ?", a: "La méthamphétamine", acc: ["meth", "methamphetamine"], x: ["La cocaïne", "L'héroïne", "Le LSD"] },
+  { id: "bb-f3", d: 1, t: "Quel pseudonyme Walter White se donne-t-il ?", a: "Heisenberg", x: ["Scarface", "Capone", "Maverick"] },
+  { id: "bb-f4", d: 1, t: "Quel ancien élève devient l'associé de Walt ?", a: "Jesse Pinkman", acc: ["jesse", "pinkman"], x: ["Hank", "Saul", "Gus"] },
+  { id: "bb-f5", d: 1, t: "Pourquoi Walt se lance-t-il dans la drogue au départ ?", a: "Il a un cancer et veut assurer l'avenir de sa famille", acc: ["cancer", "il a un cancer"], x: ["Par vengeance", "Pour le plaisir", "Il est ruiné au jeu"] },
+
+  // --- Moyennes (10) ---
+  { id: "bb-m1", d: 2, t: "Dans quelle ville se déroule Breaking Bad ?", a: "Albuquerque", x: ["Los Angeles", "Phoenix", "Denver"] },
+  { id: "bb-m2", d: 2, t: "Quel beau-frère de Walt est agent de la DEA ?", a: "Hank Schrader", acc: ["hank"], x: ["Gus", "Mike", "Saul"] },
+  { id: "bb-m3", d: 2, t: "Comment s'appelle la femme de Walt ?", a: "Skyler", x: ["Marie", "Lydia", "Jane"] },
+  { id: "bb-m4", d: 2, t: "Quel avocat véreux conseille Walt et Jesse ?", a: "Saul Goodman", acc: ["saul", "goodman"], x: ["Mike", "Gus", "Ted"] },
+  { id: "bb-m5", d: 2, t: "De quelle couleur est la fameuse meth de Walt ?", a: "Bleue", x: ["Rouge", "Verte", "Jaune"] },
+  { id: "bb-m6", d: 2, t: "Quel ex-policier devient l'homme de main et fixeur ?", a: "Mike Ehrmantraut", acc: ["mike", "ehrmantraut"], x: ["Victor", "Tyrus", "Gus"] },
+  { id: "bb-m7", d: 2, t: "Quel baron de la drogue dirige son trafic derrière une chaîne de fast-food ?", a: "Gus Fring", acc: ["gus", "fring"], x: ["Tuco", "Hector", "Lalo"] },
+  { id: "bb-m8", d: 2, t: "Comment s'appelle le fast-food qui sert de couverture à Gus ?", a: "Los Pollos Hermanos", acc: ["los pollos", "pollos hermanos"], x: ["Pollos Locos", "El Pollo", "Taco Cabana"] },
+  { id: "bb-m9", d: 2, t: "Comment s'appelle le fils de Walt ?", a: "Walter Jr. (Flynn)", acc: ["walter jr", "flynn", "walt junior"], x: ["Brock", "Drew", "Tomás"] },
+  { id: "bb-m10", d: 2, t: "Quelle raison Walt invoque-t-il constamment pour justifier ses actes ?", a: "« Pour ma famille »", acc: ["pour ma famille", "sa famille", "famille"], x: ["Pour la gloire", "Pour la science", "Pour l'argent facile"] },
+
+  // --- Dures (15) ---
+  { id: "bb-d1", d: 3, t: "Où le superlaboratoire de Gus est-il caché ?", a: "Sous une blanchisserie industrielle", acc: ["blanchisserie", "laverie", "sous une blanchisserie"], x: ["Dans un entrepôt", "Dans une usine chimique", "Dans un bunker"] },
+  { id: "bb-d2", d: 3, t: "Comment s'appelle la petite amie de Jesse qui meurt d'une overdose ?", a: "Jane", x: ["Andrea", "Skyler", "Lydia"] },
+  { id: "bb-d3", d: 3, t: "Quel métier exerce le père de Jane, dévasté par sa mort ?", a: "Contrôleur aérien", acc: ["controleur aerien"], x: ["Médecin", "Pilote", "Policier"] },
+  { id: "bb-d4", d: 3, t: "Quels tueurs silencieux à la hache traquent Walt (saison 3) ?", a: "Les Cousins Salamanca", acc: ["cousins salamanca", "salamanca", "les cousins"], x: ["Les frères Vargas", "Les jumeaux Fring", "Les Zetas"] },
+  { id: "bb-d5", d: 3, t: "Quel vieil homme en fauteuil roulant communique en agitant une clochette ?", a: "Hector Salamanca (Tio)", acc: ["hector", "hector salamanca", "tio"], x: ["Don Eladio", "Tuco", "Lalo"] },
+  { id: "bb-d6", d: 3, t: "Quel chimiste discret assiste Gus avant Walt ?", a: "Gale Boetticher", acc: ["gale", "boetticher"], x: ["Todd", "Victor", "Gomez"] },
+  { id: "bb-d7", d: 3, t: "Qui dirige le gang néonazi de la fin de la série ?", a: "Jack Welker", acc: ["jack", "jack welker"], x: ["Tuco", "Lalo", "Gus"] },
+  { id: "bb-d8", d: 3, t: "Quel produit chimique Walt et ses complices volent-ils dans un train ?", a: "De la méthylamine", acc: ["methylamine"], x: ["De la cocaïne", "De l'ammoniac", "De l'argent"] },
+  { id: "bb-d9", d: 3, t: "Quelle dirigeante nerveuse de Madrigal approvisionne Walt en produits ?", a: "Lydia Rodarte-Quayle", acc: ["lydia"], x: ["Skyler", "Marie", "Andrea"] },
+  { id: "bb-d10", d: 3, t: "Avec quelle plante Walt empoisonne-t-il l'enfant Brock ?", a: "Du muguet (lily of the valley)", acc: ["muguet", "lily of the valley"], x: ["Du ricin", "De l'arsenic", "De la meth"] },
+  { id: "bb-d11", d: 3, t: "Quel poison Walt fabrique-t-il pour tuer discrètement ?", a: "La ricine", acc: ["ricine", "ricin"], x: ["Le cyanure", "Le muguet", "L'arsenic"] },
+  { id: "bb-d12", d: 3, t: "Comment Walt tue-t-il Gus Fring ?", a: "Avec une bombe fixée au fauteuil d'Hector", acc: ["une bombe", "bombe", "explosion"], x: ["Un pistolet", "Du poison", "Un couteau"] },
+  { id: "bb-d13", d: 3, t: "Comment Hank meurt-il ?", a: "Abattu par Jack et les néonazis dans le désert", acc: ["tue par jack", "les neonazis", "abattu"], x: ["Tué par Walt", "Tué par Gus", "D'une overdose"] },
+  { id: "bb-d14", d: 3, t: "Comment s'appelle la sœur de Skyler ?", a: "Marie Schrader", acc: ["marie"], x: ["Lydia", "Jane", "Andrea"] },
+  { id: "bb-d15", d: 3, t: "Sur quel commerce Walt investit-il pour blanchir l'argent ?", a: "Une station de lavage auto", acc: ["station de lavage", "car wash", "lavage auto"], x: ["Un fast-food", "Un garage", "Un supermarché"] },
+
+  // --- Pro (20) ---
+  { id: "bb-p1", d: 4, t: "Comment s'appelle la série préquelle centrée sur l'avocat ?", a: "Better Call Saul", acc: ["better call saul"], x: ["El Camino", "Breaking Good", "Los Pollos"] },
+  { id: "bb-p2", d: 4, t: "Quel est le vrai nom de Saul Goodman ?", a: "Jimmy McGill", acc: ["jimmy mcgill", "mcgill", "jimmy"], x: ["Gene Takavic", "Chuck", "Howard"] },
+  { id: "bb-p3", d: 4, t: "Sous quelle nouvelle identité Saul se cache-t-il après la série (Cinnabon) ?", a: "Gene Takavic", acc: ["gene takavic", "gene"], x: ["Jimmy McGill", "Viktor", "Heisenberg"] },
+  { id: "bb-p4", d: 4, t: "Quel film conclut l'histoire de Jesse Pinkman ?", a: "El Camino", x: ["Better Call Saul", "No Country", "The Road"] },
+  { id: "bb-p5", d: 4, t: "Quels éléments chimiques apparaissent dans le titre stylisé (Br, Ba) ?", a: "Le brome et le baryum", acc: ["brome et baryum", "brome", "baryum"], x: ["Le bore et le béryllium", "Le brome et le bore", "Le baryum et le bismuth"] },
+  { id: "bb-p6", d: 4, t: "Comment Walter White meurt-il à la toute fin ?", a: "D'une balle de sa propre mitrailleuse télécommandée", acc: ["une balle", "sa mitrailleuse", "blesse par sa mitrailleuse"], x: ["Du cancer", "Empoisonné", "Tué par Jesse"] },
+  { id: "bb-p7", d: 4, t: "Quelle arme Walt cache-t-il dans le coffre pour massacrer les néonazis ?", a: "Une mitrailleuse M60", acc: ["m60", "mitrailleuse m60", "mitrailleuse"], x: ["Un lance-roquettes", "Des grenades", "Un fusil de précision"] },
+  { id: "bb-p8", d: 4, t: "Comment s'appelle l'enfant que Todd abat après le braquage du train ?", a: "Drew Sharp", acc: ["drew", "drew sharp"], x: ["Brock", "Tomás", "Walter Jr."] },
+  { id: "bb-p9", d: 4, t: "Où Walt cache-t-il finalement sa fiole de ricine ?", a: "Derrière une prise électrique", acc: ["prise electrique", "derriere une prise"], x: ["Dans un livre", "Sous le lit", "Dans sa voiture"] },
+  { id: "bb-p10", d: 4, t: "Comment Gus exécute-t-il Victor pour donner une leçon ?", a: "En lui tranchant la gorge avec un cutter", acc: ["cutter", "gorge tranchee", "box cutter"], x: ["Une balle", "Du poison", "Une bombe"] },
+  { id: "bb-p11", d: 4, t: "Quel chef du cartel Gus empoisonne-t-il avec de la tequila ?", a: "Don Eladio", acc: ["don eladio", "eladio"], x: ["Hector", "Tuco", "Lalo"] },
+  { id: "bb-p12", d: 4, t: "Pourquoi Gus voue-t-il une haine tenace au cartel mexicain ?", a: "Ils ont tué son partenaire Max", acc: ["ils ont tue max", "son partenaire max", "max"], x: ["Ils l'ont ruiné", "Ils ont tué sa famille", "Une querelle de territoire"] },
+  { id: "bb-p13", d: 4, t: "Quel personnage lance la réplique culte « I am the one who knocks » ?", a: "Walter White", acc: ["walter white", "walt", "heisenberg"], x: ["Jesse", "Hank", "Gus"] },
+  { id: "bb-p14", d: 4, t: "Combien de saisons compte Breaking Bad ?", a: "5", acc: ["cinq"], x: ["4", "6", "7"] },
+  { id: "bb-p15", d: 4, t: "Quelle est la jeune mère, ancienne toxicomane, dont Jesse tombe amoureux ?", a: "Andrea", x: ["Jane", "Lydia", "Wendy"] },
+  { id: "bb-p16", d: 4, t: "Quel indice révèle à Hank que Walt est Heisenberg ?", a: "Un livre dédicacé de Walt Whitman (« W.W. »)", acc: ["walt whitman", "leaves of grass", "w.w."], x: ["Une empreinte", "Un aveu", "Une photo"] },
+  { id: "bb-p17", d: 4, t: "Quel juron Jesse répète-t-il sans cesse ?", a: "« Bitch »", acc: ["bitch"], x: ["Yo", "Damn", "Man"] },
+  { id: "bb-p18", d: 4, t: "Comment surnomme-t-on le « nettoyeur » qui fournit de nouvelles identités ?", a: "The Disappearer (Ed, le réparateur d'aspirateurs)", acc: ["disappearer", "ed", "aspirateur"], x: ["Mike", "Saul", "Gus"] },
+  { id: "bb-p19", d: 4, t: "Comment Walt élimine-t-il Lydia à la fin ?", a: "En empoisonnant sa stévia à la ricine", acc: ["ricine", "stevia", "poison"], x: ["Une balle", "Une bombe", "Un cutter"] },
+  { id: "bb-p20", d: 4, t: "Quel est le prénom du bébé de Walt et Skyler ?", a: "Holly", x: ["Grace", "Sarah", "Marie"] },
+]);

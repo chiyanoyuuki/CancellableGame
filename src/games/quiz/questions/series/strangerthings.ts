@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const strangerthings = universe("series", "Stranger Things", [
+  // --- Faciles (5) ---
+  { id: "st-f1", d: 1, t: "Comment surnomme-t-on la jeune fille aux pouvoirs psychiques et au crâne rasé ?", a: "Eleven (Onze)", acc: ["eleven", "onze", "el"], x: ["Max", "Nancy", "Robin"] },
+  { id: "st-f2", d: 1, t: "Comment appelle-t-on la dimension parallèle et sombre ?", a: "Le Monde à l'Envers (Upside Down)", acc: ["monde a l'envers", "upside down"], x: ["Le Void", "La Zone", "L'Autre Côté"] },
+  { id: "st-f3", d: 1, t: "Dans quelle ville se déroule Stranger Things ?", a: "Hawkins", x: ["Derry", "Beacon Hills", "Riverdale"] },
+  { id: "st-f4", d: 1, t: "À quel jeu de rôle jouent les garçons ?", a: "Donjons & Dragons", acc: ["donjons et dragons", "d&d", "dnd"], x: ["Magic", "Warhammer", "Risk"] },
+  { id: "st-f5", d: 1, t: "Quel garçon disparaît au début de la saison 1 ?", a: "Will Byers", acc: ["will", "will byers"], x: ["Mike", "Dustin", "Lucas"] },
+
+  // --- Moyennes (10) ---
+  { id: "st-m1", d: 2, t: "Quel shérif bourru finit par protéger Eleven ?", a: "Jim Hopper", acc: ["hopper", "jim hopper"], x: ["Steve", "Murray", "Clarke"] },
+  { id: "st-m2", d: 2, t: "Quel meilleur ami de Will tombe amoureux d'Eleven ?", a: "Mike Wheeler", acc: ["mike", "wheeler"], x: ["Dustin", "Lucas", "Will"] },
+  { id: "st-m3", d: 2, t: "Quel garçon à casquette, drôle et édenté, adore la science ?", a: "Dustin Henderson", acc: ["dustin"], x: ["Lucas", "Mike", "Will"] },
+  { id: "st-m4", d: 2, t: "Quelle grande sœur de Mike enquête sur la disparition de son amie Barb ?", a: "Nancy Wheeler", acc: ["nancy"], x: ["Robin", "Max", "Joyce"] },
+  { id: "st-m5", d: 2, t: "Quelle mère de famille communique avec des guirlandes lumineuses ?", a: "Joyce Byers", acc: ["joyce"], x: ["Karen", "Claudia", "Susan"] },
+  { id: "st-m6", d: 2, t: "Quel ex-populaire du lycée devient un « grand frère » attachant ?", a: "Steve Harrington", acc: ["steve", "harrington"], x: ["Jonathan", "Billy", "Eddie"] },
+  { id: "st-m7", d: 2, t: "Quel monstre sans visage terrorise Hawkins en saison 1 ?", a: "Le Démogorgon", acc: ["demogorgon"], x: ["Le Mind Flayer", "Vecna", "Le Démochien"] },
+  { id: "st-m8", d: 2, t: "D'où vient le nom « Eleven » ?", a: "Du numéro 011 tatoué sur son bras", acc: ["011", "tatouage", "numero tatoue"], x: ["Son âge", "Sa chambre", "Un surnom d'amie"] },
+  { id: "st-m9", d: 2, t: "Quel laboratoire secret est à l'origine des expériences ?", a: "Le laboratoire de Hawkins", acc: ["laboratoire de hawkins", "hawkins lab", "labo"], x: ["La NASA", "Le FBI", "Aperture"] },
+  { id: "st-m10", d: 2, t: "Quelle est la friandise préférée d'Eleven ?", a: "Les gaufres Eggo", acc: ["gaufres", "eggo", "eggos"], x: ["Les cookies", "Les frites", "La glace"] },
+
+  // --- Dures (15) ---
+  { id: "st-d1", d: 3, t: "Quelle amie de Nancy disparaît près d'une piscine en saison 1 ?", a: "Barb", acc: ["barb", "barbara"], x: ["Robin", "Heather", "Chrissy"] },
+  { id: "st-d2", d: 3, t: "Quel grand frère de Will est passionné de photographie ?", a: "Jonathan Byers", acc: ["jonathan"], x: ["Steve", "Billy", "Eddie"] },
+  { id: "st-d3", d: 3, t: "Quelle nouvelle venue rousse et skateuse arrive en saison 2 ?", a: "Max Mayfield", acc: ["max", "mayfield"], x: ["Robin", "Nancy", "Erica"] },
+  { id: "st-d4", d: 3, t: "Quel demi-frère violent de Max sème la terreur ?", a: "Billy Hargrove", acc: ["billy"], x: ["Steve", "Jonathan", "Eddie"] },
+  { id: "st-d5", d: 3, t: "Quelle immense créature d'ombre domine la saison 2 ?", a: "Le Flagelleur Mental (Mind Flayer)", acc: ["mind flayer", "flagelleur mental"], x: ["Le Démogorgon", "Vecna", "Le Démochien"] },
+  { id: "st-d6", d: 3, t: "Quelle collègue de Steve au glacier devient son amie en saison 3 ?", a: "Robin Buckley", acc: ["robin", "buckley"], x: ["Nancy", "Max", "Erica"] },
+  { id: "st-d7", d: 3, t: "Quel professeur de sciences aide les enfants ?", a: "M. Clarke", acc: ["clarke", "monsieur clarke"], x: ["Owens", "Brenner", "Murray"] },
+  { id: "st-d8", d: 3, t: "Quel directeur du laboratoire Eleven appelle-t-elle « Papa » ?", a: "Dr. Martin Brenner", acc: ["brenner", "martin brenner"], x: ["Owens", "Hopper", "Clarke"] },
+  { id: "st-d9", d: 3, t: "Autour de quel centre commercial gravite la saison 3 ?", a: "Le Starcourt Mall", acc: ["starcourt", "starcourt mall"], x: ["Hawkins Mall", "Galleria", "Palace"] },
+  { id: "st-d10", d: 3, t: "Quel sorcier des morts est la grande menace de la saison 4 ?", a: "Vecna", x: ["Le Mind Flayer", "Le Démogorgon", "Le Roi de la Nuit"] },
+  { id: "st-d11", d: 3, t: "Quel meneur du club Hellfire (D&D), guitariste, apparaît en saison 4 ?", a: "Eddie Munson", acc: ["eddie", "munson"], x: ["Steve", "Billy", "Argyle"] },
+  { id: "st-d12", d: 3, t: "Quelle chanson sauve Max de l'emprise de Vecna ?", a: "« Running Up That Hill » (Kate Bush)", acc: ["running up that hill", "kate bush"], x: ["Master of Puppets", "Africa", "Thriller"] },
+  { id: "st-d13", d: 3, t: "Quel journaliste complotiste devient un allié du groupe ?", a: "Murray Bauman", acc: ["murray", "bauman"], x: ["Owens", "Clarke", "Hopper"] },
+  { id: "st-d14", d: 3, t: "Quelle petite sœur de Lucas, maligne et effrontée, aide le groupe ?", a: "Erica Sinclair", acc: ["erica"], x: ["Max", "Suzie", "Holly"] },
+  { id: "st-d15", d: 3, t: "Où Hopper est-il retenu prisonnier en saison 4 ?", a: "Dans une prison en Russie", acc: ["russie", "prison russe"], x: ["À Hawkins", "Au laboratoire", "Dans le Monde à l'Envers"] },
+
+  // --- Pro (20) ---
+  { id: "st-p1", d: 4, t: "Quel autre sujet du laboratoire, rencontré à Chicago, se fait appeler Kali ?", a: "Huit (008)", acc: ["huit", "008", "kali"], x: ["Neuf", "Deux", "Sept"] },
+  { id: "st-p2", d: 4, t: "Quel est le vrai prénom d'Eleven, donné par sa mère ?", a: "Jane", x: ["Terry", "Kali", "Sarah"] },
+  { id: "st-p3", d: 4, t: "Comment s'appelle la mère biologique d'Eleven ?", a: "Terry Ives", acc: ["terry", "terry ives"], x: ["Joyce", "Karen", "Becky"] },
+  { id: "st-p4", d: 4, t: "Comment s'appelait la fille de Hopper, morte d'un cancer ?", a: "Sarah", x: ["Jane", "El", "Heather"] },
+  { id: "st-p5", d: 4, t: "Quelle est l'identité humaine de Vecna ?", a: "Henry Creel (le sujet Un / 001)", acc: ["henry creel", "un", "001", "henry"], x: ["Brenner", "Billy", "Peter"] },
+  { id: "st-p6", d: 4, t: "Quel numéro portait Vecna au laboratoire ?", a: "Un (001)", acc: ["un", "001"], x: ["Onze", "Huit", "Deux"] },
+  { id: "st-p7", d: 4, t: "Quel bébé-monstre Dustin adopte-t-il avant qu'il ne grandisse ?", a: "Dart (D'Artagnan)", acc: ["dart", "d'artagnan", "dartagnan"], x: ["Démogorgon", "Mews", "Yertle"] },
+  { id: "st-p8", d: 4, t: "Comment s'appelle la petite amie geek de Dustin (saison 3) ?", a: "Suzie", x: ["Erica", "Robin", "Max"] },
+  { id: "st-p9", d: 4, t: "Dans quelle pizzeria travaille Argyle en saison 4 ?", a: "Surfer Boy Pizza", acc: ["surfer boy", "surfer boy pizza"], x: ["Domino's", "Scoops Ahoy", "Melvald's"] },
+  { id: "st-p10", d: 4, t: "Dans quel magasin travaille Joyce Byers ?", a: "Melvald's General Store", acc: ["melvald's", "melvald"], x: ["Scoops Ahoy", "Starcourt", "Family Video"] },
+  { id: "st-p11", d: 4, t: "Dans quel vidéoclub Steve et Robin travaillent-ils en saison 4 ?", a: "Family Video", x: ["Scoops Ahoy", "Blockbuster", "Melvald's"] },
+  { id: "st-p12", d: 4, t: "Que cachent les Russes sous le centre commercial Starcourt ?", a: "Une machine pour rouvrir le portail", acc: ["une machine", "portail", "machine portail"], x: ["Un sous-marin", "Une bombe", "Un labo de drogue"] },
+  { id: "st-p13", d: 4, t: "Quel morceau de Metallica Eddie joue-t-il pour attirer les monstres ?", a: "« Master of Puppets »", acc: ["master of puppets"], x: ["Running Up That Hill", "Enter Sandman", "One"] },
+  { id: "st-p14", d: 4, t: "Comment appelle-t-on les créatures quadrupèdes en meute issues du Démogorgon ?", a: "Les Démochiens (Demodogs)", acc: ["demochiens", "demodogs"], x: ["Les Démogorgons", "Les chauves-souris", "Vecna"] },
+  { id: "st-p15", d: 4, t: "Comment Billy meurt-il en saison 3 ?", a: "En se sacrifiant contre le Mind Flayer pour protéger Eleven", acc: ["contre le mind flayer", "en protegeant eleven", "sacrifie"], x: ["Tué par Vecna", "Tué par le Démogorgon", "Tué par Hopper"] },
+  { id: "st-p16", d: 4, t: "Dans quel État américain se trouve Hawkins ?", a: "L'Indiana", acc: ["indiana"], x: ["L'Ohio", "Le Maine", "Le Nevada"] },
+  { id: "st-p17", d: 4, t: "À quelle décennie se déroule la série ?", a: "Les années 1980", acc: ["annees 80", "1980", "80s"], x: ["Les années 70", "Les années 90", "Les années 2000"] },
+  { id: "st-p18", d: 4, t: "Quelle actrice incarne Eleven ?", a: "Millie Bobby Brown", acc: ["millie bobby brown"], x: ["Sadie Sink", "Natalia Dyer", "Winona Ryder"] },
+  { id: "st-p19", d: 4, t: "Quel jeune allié amateur de surf et de weed conduit la van en saison 4 ?", a: "Argyle", x: ["Eddie", "Jonathan", "Murray"] },
+  { id: "st-p20", d: 4, t: "Comment s'appelait le glacier où travaillaient Steve et Robin en saison 3 ?", a: "Scoops Ahoy", x: ["Family Video", "Surfer Boy", "Melvald's"] },
+]);
