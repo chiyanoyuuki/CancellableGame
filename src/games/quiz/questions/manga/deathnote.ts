@@ -2,10 +2,10 @@ import { universe } from "../_build";
 
 export const deathnote = universe("manga", "Death Note", [
   // --- Faciles (5) ---
-  { id: "dn-f1", d: 1, t: "Quel objet tue toute personne dont on y écrit le nom ?", a: "Le Death Note (le cahier)", acc: ["death note", "cahier"], x: ["Le Sharingan", "Le grimoire", "La faux"] },
+  { id: "dn-f1", d: 1, t: "Quel objet tue toute personne dont on y écrit le nom ?", a: "Le Death Note", acc: ["death note", "cahier"], x: ["Le Sharingan", "Le grimoire", "La faux"] },
   { id: "dn-f2", d: 1, t: "Quel lycéen surdoué trouve le Death Note ?", a: "Light Yagami", acc: ["light", "light yagami", "kira"], x: ["L", "Near", "Mello"] },
   { id: "dn-f3", d: 1, t: "Quel détective n'est connu que par une seule lettre ?", a: "L", x: ["Near", "Mello", "Watari"] },
-  { id: "dn-f4", d: 1, t: "Quelle créature laisse tomber le cahier dans le monde humain ?", a: "Un Shinigami (dieu de la mort)", acc: ["shinigami", "dieu de la mort"], x: ["Un démon", "Un ange", "Un fantôme"] },
+  { id: "dn-f4", d: 1, t: "Quelle créature laisse tomber le cahier dans le monde humain ?", a: "Un Shinigami", acc: ["shinigami", "dieu de la mort"], x: ["Un démon", "Un ange", "Un fantôme"] },
   { id: "dn-f5", d: 1, t: "Quel fruit le Shinigami Ryuk adore-t-il ?", a: "Les pommes", acc: ["pomme", "pommes"], x: ["Les fraises", "Le chocolat", "Les cerises"] },
 
   // --- Moyennes (10) ---
@@ -30,7 +30,7 @@ export const deathnote = universe("manga", "Death Note", [
   { id: "dn-d7", d: 3, t: "Quelle présentatrice TV devient la porte-parole de Kira ?", a: "Kiyomi Takada", acc: ["takada", "kiyomi"], x: ["Misa Amane", "Naomi", "Sayu"] },
   { id: "dn-d8", d: 3, t: "Quel groupe de huit hommes d'affaires se sert d'un Death Note pour s'enrichir ?", a: "Le groupe Yotsuba", acc: ["yotsuba"], x: ["La SPK", "Le clan Yagami", "L'équipe de L"] },
   { id: "dn-d9", d: 3, t: "Quel policier maladroit et émotif idolâtre L et Kira ?", a: "Matsuda", x: ["Aizawa", "Mogi", "Ide"] },
-  { id: "dn-d10", d: 3, t: "Comment L se tient-il presque toujours assis ?", a: "Accroupi (recroquevillé)", acc: ["accroupi", "recroqueville"], x: ["Les jambes croisées", "Debout", "Allongé"] },
+  { id: "dn-d10", d: 3, t: "Comment L se tient-il presque toujours assis ?", a: "Accroupi", acc: ["accroupi", "recroqueville"], x: ["Les jambes croisées", "Debout", "Allongé"] },
   { id: "dn-d11", d: 3, t: "Comment nomme-t-on le pouvoir permettant de voir le nom et la durée de vie des gens ?", a: "Les yeux du Shinigami", acc: ["yeux du shinigami", "shinigami eyes"], x: ["Le cahier", "La pomme", "Le miroir"] },
   { id: "dn-d12", d: 3, t: "Que doit sacrifier un humain pour obtenir les yeux du Shinigami ?", a: "La moitié de son espérance de vie", acc: ["moitie de sa vie", "moitie esperance de vie"], x: ["Un quart de sa vie", "Toute sa mémoire", "Rien"] },
   { id: "dn-d13", d: 3, t: "Comment retrouve-t-on ses souvenirs liés au cahier après y avoir renoncé ?", a: "En retouchant le Death Note", acc: ["en touchant le cahier", "retoucher le cahier"], x: ["En dormant", "En mourant", "C'est impossible"] },
@@ -38,10 +38,10 @@ export const deathnote = universe("manga", "Death Note", [
   { id: "dn-d15", d: 3, t: "Quelle est la sœur cadette de Light ?", a: "Sayu Yagami", acc: ["sayu"], x: ["Misa", "Kiyomi", "Naomi"] },
 
   // --- Pro (20) ---
-  { id: "dn-p1", d: 4, t: "Qui a dessiné (illustré) le manga Death Note ?", a: "Takeshi Obata", acc: ["obata", "takeshi obata"], x: ["Tsugumi Ohba", "Eiichirō Oda", "Yusuke Murata"] },
+  { id: "dn-p1", d: 4, t: "Qui a dessiné le manga Death Note ?", a: "Takeshi Obata", acc: ["obata", "takeshi obata"], x: ["Tsugumi Ohba", "Eiichirō Oda", "Yusuke Murata"] },
   { id: "dn-p2", d: 4, t: "Quel agent du FBI, fiancé de Naomi, est tué par Light dans un métro ?", a: "Raye Penber", acc: ["raye penber", "penber"], x: ["Aizawa", "Mogi", "Matsuda"] },
   { id: "dn-p3", d: 4, t: "Qui se fait passer pour L à la télévision et meurt en direct pour piéger Kira ?", a: "Lind L. Taylor", acc: ["lind l taylor", "lind taylor"], x: ["Watari", "Near", "Matsuda"] },
-  { id: "dn-p4", d: 4, t: "Selon les règles, où va l'âme d'un utilisateur du Death Note après sa mort ?", a: "Nulle part (ni Paradis ni Enfer)", acc: ["nulle part", "ni paradis ni enfer", "neant"], x: ["Au Paradis", "En Enfer", "Elle devient Shinigami"] },
+  { id: "dn-p4", d: 4, t: "Selon les règles, où va l'âme d'un utilisateur du Death Note après sa mort ?", a: "Nulle part", acc: ["nulle part", "ni paradis ni enfer", "neant"], x: ["Au Paradis", "En Enfer", "Elle devient Shinigami"] },
   { id: "dn-p5", d: 4, t: "Après le nom, combien de temps a-t-on pour détailler les circonstances de la mort ?", a: "6 minutes 40", acc: ["6 minutes 40", "6m40", "400 secondes"], x: ["5 minutes", "10 minutes", "3 minutes 20"] },
   { id: "dn-p6", d: 4, t: "Que cache Light dans sa montre pour tuer en secret ?", a: "Un fragment de Death Note", acc: ["fragment de death note", "morceau de cahier", "bout de cahier"], x: ["Une photo", "Une lame", "Un émetteur"] },
   { id: "dn-p7", d: 4, t: "Comment Light meurt-il à la toute fin de l'histoire ?", a: "Ryuk écrit son nom dans le cahier", acc: ["ryuk ecrit son nom", "ryuk le tue"], x: ["L le tue", "Near le tue", "Une vraie crise cardiaque"] },
@@ -50,10 +50,10 @@ export const deathnote = universe("manga", "Death Note", [
   { id: "dn-p10", d: 4, t: "Quel est le véritable nom de Watari ?", a: "Quillsh Wammy", acc: ["quillsh wammy", "wammy"], x: ["Nate River", "Roger Ruvie", "Soichiro Yagami"] },
   { id: "dn-p11", d: 4, t: "Quel hacker, ami de Mello, est aussi un orphelin de la Wammy's House ?", a: "Matt", x: ["Aizawa", "Ide", "Mogi"] },
   { id: "dn-p12", d: 4, t: "Quel est le véritable nom de Matt ?", a: "Mail Jeevas", acc: ["mail jeevas"], x: ["Nate River", "Mihael Keehl", "Teru Mikami"] },
-  { id: "dn-p13", d: 4, t: "Quel procureur fanatique devient le bras armé de Kira (« le justicier X ») ?", a: "Teru Mikami", acc: ["mikami", "teru mikami"], x: ["Matsuda", "Aizawa", "Higuchi"] },
+  { id: "dn-p13", d: 4, t: "Quel procureur fanatique devient le bras armé de Kira ?", a: "Teru Mikami", acc: ["mikami", "teru mikami"], x: ["Matsuda", "Aizawa", "Higuchi"] },
   { id: "dn-p14", d: 4, t: "Quel membre du groupe Yotsuba possède le cahier et commet les meurtres ?", a: "Kyosuke Higuchi", acc: ["higuchi"], x: ["Mikami", "Takada", "Aiber"] },
-  { id: "dn-p15", d: 4, t: "Quel mot Mikami prononce-t-il en « jugeant » ses victimes ?", a: "Sakujo (Supprimé)", acc: ["sakujo", "supprime", "delete"], x: ["Kira", "Justice", "Mort"] },
-  { id: "dn-p16", d: 4, t: "Qu'arrive-t-il à un Shinigami qui tue pour prolonger la vie d'un humain ?", a: "Il meurt (réduit en poussière)", acc: ["il meurt", "il meurt en poussiere"], x: ["Il perd ses pouvoirs", "Il devient humain", "Rien"] },
+  { id: "dn-p15", d: 4, t: "Quel mot Mikami prononce-t-il en « jugeant » ses victimes ?", a: "Sakujo", acc: ["sakujo", "supprime", "delete"], x: ["Kira", "Justice", "Mort"] },
+  { id: "dn-p16", d: 4, t: "Qu'arrive-t-il à un Shinigami qui tue pour prolonger la vie d'un humain ?", a: "Il meurt", acc: ["il meurt", "il meurt en poussiere"], x: ["Il perd ses pouvoirs", "Il devient humain", "Rien"] },
   { id: "dn-p17", d: 4, t: "Quelle agence dirigée par Near traque Kira aux États-Unis ?", a: "La SPK", acc: ["spk"], x: ["La Wammy's House", "Le groupe Yotsuba", "Le FBI"] },
   { id: "dn-p18", d: 4, t: "Quel Shinigami paresseux récupère son cahier volé par le groupe Yotsuba ?", a: "Sidoh", x: ["Ryuk", "Rem", "Gelus"] },
   { id: "dn-p19", d: 4, t: "Quel escroc, allié de L, se fait passer pour un membre de Yotsuba ?", a: "Aiber", x: ["Wedy", "Mogi", "Ide"] },

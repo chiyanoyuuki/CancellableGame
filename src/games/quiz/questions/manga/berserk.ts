@@ -5,7 +5,7 @@ export const berserk = universe("manga", "Berserk", [
   { id: "berserk-f1", d: 1, t: "Qui est le héros de Berserk, un épéiste solitaire au lourd passé ?", a: "Guts", acc: ["guts", "gatsu"], x: ["Griffith", "Zodd", "Puck"] },
   { id: "berserk-f2", d: 1, t: "Comment appelle-t-on l'immense épée que manie Guts ?", a: "Le Dragon Slayer", acc: ["dragon slayer", "dragonslayer", "tueur de dragons"], x: ["Excalibur", "Masamune", "Muramasa"] },
   { id: "berserk-f3", d: 1, t: "Quel genre décrit le mieux Berserk ?", a: "La dark fantasy médiévale", acc: ["dark fantasy", "fantasy sombre", "heroic fantasy sombre"], x: ["La comédie romantique", "La science-fiction spatiale", "Le sport"] },
-  { id: "berserk-f4", d: 1, t: "Qui est l'auteur (dessinateur) du manga Berserk ?", a: "Kentaro Miura", acc: ["miura", "kentaro miura"], x: ["Eiichiro Oda", "Akira Toriyama", "Masashi Kishimoto"] },
+  { id: "berserk-f4", d: 1, t: "Qui est l'auteur du manga Berserk ?", a: "Kentaro Miura", acc: ["miura", "kentaro miura"], x: ["Eiichiro Oda", "Akira Toriyama", "Masashi Kishimoto"] },
   { id: "berserk-f5", d: 1, t: "De quelle couleur est l'armure emblématique associée à Guts ?", a: "Noire", acc: ["noir", "noire"], x: ["Blanche", "Rouge", "Dorée"] },
 
   // --- Moyennes (10) ---
@@ -18,7 +18,7 @@ export const berserk = universe("manga", "Berserk", [
   { id: "berserk-m7", d: 2, t: "Que perd aussi Guts durant l'Éclipse, au niveau du visage ?", a: "Son œil droit", acc: ["oeil droit", "œil droit", "oeil", "un oeil"], x: ["Son oreille", "Son nez", "Ses dents"] },
   { id: "berserk-m8", d: 2, t: "Quel surnom donne-t-on à Guts en raison de son allure et de sa réputation ?", a: "Le Guerrier Noir", acc: ["guerrier noir", "epeiste noir", "épéiste noir", "black swordsman"], x: ["Le Chevalier Blanc", "Le Faucon", "Le Boucher"] },
   { id: "berserk-m9", d: 2, t: "Quelle marque, apparue sur Guts, attire sans cesse les esprits maléfiques ?", a: "La Marque du Sacrifice", acc: ["marque du sacrifice", "brand of sacrifice", "marque"], x: ["Le Sceau du Dragon", "La Croix de Sang", "Le Signe"] },
-  { id: "berserk-m10", d: 2, t: "Quel puissant guerrier-démon immortel (Nosferatu) reconnaît la valeur de Guts au combat ?", a: "Zodd", acc: ["zodd", "nosferatu zodd"], x: ["Wyald", "Ganishka", "Void"] },
+  { id: "berserk-m10", d: 2, t: "Quel puissant guerrier-démon immortel reconnaît la valeur de Guts au combat ?", a: "Zodd", acc: ["zodd", "nosferatu zodd"], x: ["Wyald", "Ganishka", "Void"] },
 
   // --- Dures (15) ---
   { id: "berserk-d1", d: 3, t: "Comment appelle-t-on le groupe des cinq entités démoniaques quasi divines ?", a: "La Main de Dieu", acc: ["main de dieu", "god hand"], x: ["Les Apôtres", "Le Conseil", "La Sainte Chaîne"] },
@@ -40,7 +40,7 @@ export const berserk = universe("manga", "Berserk", [
   // --- Pro (20) ---
   { id: "berserk-p1", d: 4, t: "En quelle année a débuté la publication du manga Berserk ?", a: "1989", x: ["1985", "1992", "1997"] },
   { id: "berserk-p2", d: 4, t: "Comment se nomme le chef de la Main de Dieu, au cerveau apparent ?", a: "Void", x: ["Femto", "Ubik", "Conrad"] },
-  { id: "berserk-p3", d: 4, t: "Citez l'un des deux membres masculins de la Main de Dieu autres que Void et Femto.", a: "Ubik (ou Conrad)", acc: ["ubik", "conrad"], x: ["Zodd", "Wyald", "Ganishka"] },
+  { id: "berserk-p3", d: 4, t: "Citez l'un des deux membres masculins de la Main de Dieu autres que Void et Femto.", a: "Ubik", acc: ["ubik", "conrad"], x: ["Zodd", "Wyald", "Ganishka"] },
   { id: "berserk-p4", d: 4, t: "Quel forgeron a fabriqué le Dragon Slayer et le canon du bras de Guts ?", a: "Godo", x: ["Rickert", "Gambino", "Serpico"] },
   { id: "berserk-p5", d: 4, t: "Comment s'appelle la fille adoptive du forgeron Godo, proche de Rickert ?", a: "Erica", x: ["Casca", "Charlotte", "Sonia"] },
   { id: "berserk-p6", d: 4, t: "Comment s'appelle la princesse de Midland aimée de Griffith ?", a: "Charlotte", x: ["Casca", "Farnese", "Sonia"] },
@@ -48,10 +48,10 @@ export const berserk = universe("manga", "Berserk", [
   { id: "berserk-p8", d: 4, t: "Quel inquisiteur fanatique tourmente les hérétiques dans l'arc de la Conviction ?", a: "Mozgus", x: ["Farnese", "Wyald", "Void"] },
   { id: "berserk-p9", d: 4, t: "Comment s'appelle la ville-refuge que Griffith fait ériger après son retour ?", a: "Falconia", x: ["Midland", "Vritannis", "Wyndham"] },
   { id: "berserk-p10", d: 4, t: "Comment nomme-t-on l'entité présentée comme la source du destin et du mal dans Berserk ?", a: "L'Idée du Mal", acc: ["idee du mal", "idée du mal", "idea of evil"], x: ["Le Roi Noir", "La Main de Dieu", "Le Béhélit"] },
-  { id: "berserk-p11", d: 4, t: "Comment s'appelle la capitale (château royal) de Midland ?", a: "Wyndham", x: ["Falconia", "Vritannis", "Skellig"] },
-  { id: "berserk-p12", d: 4, t: "Sur quelle île mystique des elfes Guts emmène-t-il Casca pour la soigner ?", a: "Skellig (Elfhelm)", acc: ["skellig", "elfhelm"], x: ["Falconia", "Midland", "Vritannis"] },
+  { id: "berserk-p11", d: 4, t: "Comment s'appelle la capitale de Midland ?", a: "Wyndham", x: ["Falconia", "Vritannis", "Skellig"] },
+  { id: "berserk-p12", d: 4, t: "Sur quelle île mystique des elfes Guts emmène-t-il Casca pour la soigner ?", a: "Skellig", acc: ["skellig", "elfhelm"], x: ["Falconia", "Midland", "Vritannis"] },
   { id: "berserk-p13", d: 4, t: "Comment nomme-t-on l'événement qui offre à Griffith un corps de chair dans le monde réel ?", a: "L'Incarnation", acc: ["incarnation", "l'incarnation", "ceremonie de l'incarnation"], x: ["L'Éclipse", "Le Sacre", "La Résurrection"] },
-  { id: "berserk-p14", d: 4, t: "De quoi Guts est-il né, avant d'être recueilli bébé par des mercenaires ?", a: "D'une pendue (un cadavre pendu)", acc: ["cadavre pendu", "pendue", "corps pendu"], x: ["D'un œuf", "D'une louve", "D'un naufrage"] },
+  { id: "berserk-p14", d: 4, t: "De quoi Guts est-il né, avant d'être recueilli bébé par des mercenaires ?", a: "D'une pendue", acc: ["cadavre pendu", "pendue", "corps pendu"], x: ["D'un œuf", "D'une louve", "D'un naufrage"] },
   { id: "berserk-p15", d: 4, t: "Quel mercenaire a recueilli puis maltraité Guts durant son enfance ?", a: "Gambino", x: ["Godo", "Zodd", "Griffith"] },
   { id: "berserk-p16", d: 4, t: "Comment surnomme-t-on l'enfant lumineux qui apparaît à Guts les nuits de nouvelle lune ?", a: "L'enfant de la lune", acc: ["enfant de la lune", "moonlight boy"], x: ["L'esprit", "Le farfadet", "L'ange"] },
   { id: "berserk-p17", d: 4, t: "Après la mort de Miura, quel ami mangaka supervise la suite de Berserk ?", a: "Kouji Mori", acc: ["kouji mori", "mori"], x: ["Eiichiro Oda", "Yasuhiro Nightow", "Yoshihiro Togashi"] },

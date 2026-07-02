@@ -3,21 +3,21 @@ import { universe } from "../_build";
 export const skyrim = universe("jeuxvideo", "Skyrim", [
   // --- Faciles (5) ---
   { id: "sky-f1", d: 1, t: "Quel studio a développé The Elder Scrolls V: Skyrim ?", a: "Bethesda", acc: ["bethesda", "bethesda game studios"], x: ["BioWare", "CD Projekt Red", "Obsidian"] },
-  { id: "sky-f2", d: 1, t: "Comment appelle-t-on le héros de Skyrim, capable d'absorber l'âme des dragons ?", a: "L'Enfant de dragon (Dovahkiin)", acc: ["enfant de dragon", "dovahkiin", "sang-de-dragon", "dragonborn"], x: ["Le Nerevarine", "Le Héraut", "Le Grand-Roi"] },
+  { id: "sky-f2", d: 1, t: "Comment appelle-t-on le héros de Skyrim, capable d'absorber l'âme des dragons ?", a: "L'Enfant de dragon", acc: ["enfant de dragon", "dovahkiin", "sang-de-dragon", "dragonborn"], x: ["Le Nerevarine", "Le Héraut", "Le Grand-Roi"] },
   { id: "sky-f3", d: 1, t: "Quelles créatures ailées et cracheuses de feu réapparaissent dans Skyrim ?", a: "Les dragons", acc: ["dragons", "dragon"], x: ["Les trolls", "Les géants", "Les vampires"] },
   { id: "sky-f4", d: 1, t: "Quel est le cri le plus célèbre du jeu, qui repousse violemment les ennemis ?", a: "Fus Ro Dah", acc: ["fus ro dah", "fus roh dah", "force implacable"], x: ["Yol Toor Shul", "Wuld Nah Kest", "Zun Haal Viik"] },
-  { id: "sky-f5", d: 1, t: "En quelle année Skyrim est-il sorti (la fameuse date 11/11/11) ?", a: "2011", x: ["2009", "2013", "2015"] },
+  { id: "sky-f5", d: 1, t: "En quelle année Skyrim est-il sorti ?", a: "2011", x: ["2009", "2013", "2015"] },
 
   // --- Moyennes (10) ---
   { id: "sky-m1", d: 2, t: "Comment s'appelle le grand dragon noir, dévoreur de mondes, antagoniste principal ?", a: "Alduin", x: ["Paarthurnax", "Odahviing", "Miraak"] },
   { id: "sky-m2", d: 2, t: "Comment appelle-t-on la province de Tamriel où se déroule le jeu ?", a: "Bordeciel", acc: ["bordeciel", "skyrim"], x: ["Cyrodiil", "Morrowind", "Hauteroche"] },
-  { id: "sky-m3", d: 2, t: "Quel peuple, guerriers du Nord, habite majoritairement Bordeciel ?", a: "Les Nordiques (Nords)", acc: ["nordiques", "nords", "nord"], x: ["Les Bretons", "Les Rougegardes", "Les Elfes noirs"] },
-  { id: "sky-m4", d: 2, t: "Comment appelle-t-on le langage magique des dragons, utilisé pour crier ?", a: "Le Thu'um (la Voix)", acc: ["thu'um", "thuum", "la voix", "voix"], x: ["Le Daedrique", "Le Dovah", "L'Aedra"] },
+  { id: "sky-m3", d: 2, t: "Quel peuple, guerriers du Nord, habite majoritairement Bordeciel ?", a: "Les Nordiques", acc: ["nordiques", "nords", "nord"], x: ["Les Bretons", "Les Rougegardes", "Les Elfes noirs"] },
+  { id: "sky-m4", d: 2, t: "Comment appelle-t-on le langage magique des dragons, utilisé pour crier ?", a: "Le Thu'um", acc: ["thu'um", "thuum", "la voix", "voix"], x: ["Le Daedrique", "Le Dovah", "L'Aedra"] },
   { id: "sky-m5", d: 2, t: "Comment appelle-t-on les moines maîtres de la Voix qui forment l'Enfant de dragon ?", a: "Les Grises-Barbes", acc: ["grises-barbes", "grises barbes", "greybeards"], x: ["Les Lames", "Les Compagnons", "Les Sombrages"] },
-  { id: "sky-m6", d: 2, t: "Dans quelle grande ville centrale siège le Jarl Balgruuf ?", a: "Fort-Blanc (Whiterun)", acc: ["fort-blanc", "fort blanc", "whiterun"], x: ["Solitude", "Faillaise", "Markarth"] },
+  { id: "sky-m6", d: 2, t: "Dans quelle grande ville centrale siège le Jarl Balgruuf ?", a: "Fort-Blanc", acc: ["fort-blanc", "fort blanc", "whiterun"], x: ["Solitude", "Faillaise", "Markarth"] },
   { id: "sky-m7", d: 2, t: "Quelle guilde de guerriers de Fort-Blanc cache un secret de loups-garous ?", a: "Les Compagnons", acc: ["compagnons", "companions"], x: ["Les Lames", "Les Sombrages", "La Confrérie Noire"] },
-  { id: "sky-m8", d: 2, t: "Quelle guilde de mages étudie au Collège d'une ville enneigée du nord ?", a: "Le Collège de Winterhold (Hivrebord)", acc: ["college de winterhold", "winterhold", "hivrebord", "college d'hivrebord"], x: ["La Guilde des Voleurs", "Les Lames", "Les Grises-Barbes"] },
-  { id: "sky-m9", d: 2, t: "Dans quelle ville se cache la Guilde des Voleurs ?", a: "Faillaise (Riften)", acc: ["faillaise", "riften"], x: ["Solitude", "Markarth", "Fort-Blanc"] },
+  { id: "sky-m8", d: 2, t: "Quelle guilde de mages étudie au Collège d'une ville enneigée du nord ?", a: "Le Collège de Winterhold", acc: ["college de winterhold", "winterhold", "hivrebord", "college d'hivrebord"], x: ["La Guilde des Voleurs", "Les Lames", "Les Grises-Barbes"] },
+  { id: "sky-m9", d: 2, t: "Dans quelle ville se cache la Guilde des Voleurs ?", a: "Faillaise", acc: ["faillaise", "riften"], x: ["Solitude", "Markarth", "Fort-Blanc"] },
   { id: "sky-m10", d: 2, t: "Comment appelle-t-on la guerre qui déchire Bordeciel entre indépendantistes et Empire ?", a: "La guerre civile", acc: ["guerre civile"], x: ["La Grande Guerre", "La Guerre des Cinq Rois", "La Crise d'Oblivion"] },
 
   // --- Dures (15) ---
@@ -27,7 +27,7 @@ export const skyrim = universe("jeuxvideo", "Skyrim", [
   { id: "sky-d4", d: 3, t: "Quel village, détruit par Alduin, marque le vrai début de l'aventure ?", a: "Helgen", x: ["Rivebois", "Blancherive", "Épervine"] },
   { id: "sky-d5", d: 3, t: "Comment appelle-t-on les morts-vivants nordiques qui gardent les vieux tombeaux ?", a: "Les draugr", acc: ["draugr", "draugrs"], x: ["Les falmers", "Les squelettes", "Les spectres"] },
   { id: "sky-d6", d: 3, t: "Comment s'appelle la guilde d'assassins vouée à Sithis que l'on peut rejoindre ?", a: "La Confrérie Noire", acc: ["confrerie noire", "confrérie noire", "dark brotherhood"], x: ["La Guilde des Voleurs", "Les Lames", "La Morag Tong"] },
-  { id: "sky-d7", d: 3, t: "Comment appelle-t-on l'ordre de chasseurs de dragons (Delphine, Esbern) qui aide le héros ?", a: "Les Lames", acc: ["lames", "blades", "les lames"], x: ["Les Grises-Barbes", "Les Compagnons", "Les Vigiles"] },
+  { id: "sky-d7", d: 3, t: "Comment appelle-t-on l'ordre de chasseurs de dragons qui aide le héros ?", a: "Les Lames", acc: ["lames", "blades", "les lames"], x: ["Les Grises-Barbes", "Les Compagnons", "Les Vigiles"] },
   { id: "sky-d8", d: 3, t: "Comment appelle-t-on le paradis nordique des guerriers, théâtre du combat final ?", a: "Sovngarde", acc: ["sovngarde"], x: ["Oblivion", "Aetherius", "Le Havre-du-Néant"] },
   { id: "sky-d9", d: 3, t: "Où faut-il apprendre les mots de pouvoir gravés dans la pierre ?", a: "Sur les murs des mots", acc: ["murs des mots", "mur des mots", "word wall", "murs de parole"], x: ["Dans les livres", "Auprès des marchands", "Dans les rêves"] },
   { id: "sky-d10", d: 3, t: "Que faut-il dépenser pour débloquer un mot de cri déjà découvert ?", a: "Une âme de dragon", acc: ["ame de dragon", "âme de dragon", "dragon soul"], x: ["De l'or", "Un point d'aptitude", "Un parchemin"] },
@@ -51,7 +51,7 @@ export const skyrim = universe("jeuxvideo", "Skyrim", [
   { id: "sky-p11", d: 4, t: "Quel dragon rouge le joueur peut-il appeler par un cri pour en faire une monture ?", a: "Odahviing", acc: ["odahviing"], x: ["Paarthurnax", "Alduin", "Durnehviir"] },
   { id: "sky-p12", d: 4, t: "Comment s'appelle le Jarl de Fort-Blanc au début du jeu ?", a: "Balgruuf le Grand", acc: ["balgruuf", "balgruuf le grand"], x: ["Ulfric", "Torygg", "Igmund"] },
   { id: "sky-p13", d: 4, t: "Comment s'appelle le PNJ khajiit récurrent de la série, réputé « menteur » ?", a: "M'aiq le Menteur", acc: ["m'aiq", "maiq", "m'aiq le menteur"], x: ["Ri'saad", "J'zargo", "Kharjo"] },
-  { id: "sky-p14", d: 4, t: "Quel artefact ancien le héros utilise-t-il pour renvoyer Alduin dans le temps ?", a: "Un Parchemin des Anciens (Elder Scroll)", acc: ["parchemin des anciens", "elder scroll", "parchemin"], x: ["Une amulette", "Le Sang de dragon", "Le Cœur de Lorkhan"] },
+  { id: "sky-p14", d: 4, t: "Quel artefact ancien le héros utilise-t-il pour renvoyer Alduin dans le temps ?", a: "Un Parchemin des Anciens", acc: ["parchemin des anciens", "elder scroll", "parchemin"], x: ["Une amulette", "Le Sang de dragon", "Le Cœur de Lorkhan"] },
   { id: "sky-p15", d: 4, t: "Comment s'appelle le maître de la Guilde des Voleurs qui finit par la trahir ?", a: "Mercer Frey", acc: ["mercer frey", "mercer"], x: ["Brynjolf", "Karliah", "Delvin"] },
   { id: "sky-p16", d: 4, t: "Quel voleur roux recrute le joueur à Faillaise pour la Guilde des Voleurs ?", a: "Brynjolf", acc: ["brynjolf"], x: ["Mercer", "Delvin", "Vex"] },
   { id: "sky-p17", d: 4, t: "Quel vieux chef des Compagnons souhaite guérir de la lycanthropie ?", a: "Kodlak Whitemane", acc: ["kodlak", "kodlak whitemane"], x: ["Vilkas", "Aela", "Skjor"] },

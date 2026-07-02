@@ -27,7 +27,7 @@ export const blindtestQuestions: Question[] = [
     id: 'blind-demo-1',
     theme: 'blindtest',
     difficulty: 2,
-    text: '🎧 DÉMO — écoute l\'extrait (remplace-le par tes vraies musiques). De quel extrait s\'agit-il ?',
+    text: '🎧 DÉMO — écoute l\'extrait. De quel extrait s\'agit-il ?',
     answer: 'Extrait 1',
     distractors: ['Extrait 2', 'Extrait 3', 'Extrait 4'],
     media: demo(1),

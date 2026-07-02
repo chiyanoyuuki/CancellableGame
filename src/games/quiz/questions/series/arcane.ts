@@ -10,14 +10,14 @@ export const arcane = universe("series", "Arcane", [
 
   // --- Moyennes (10) ---
   { id: "arcane-m1", d: 2, t: "Comment s'appelle la cité du progrès et de la haute technologie où vivent les nantis ?", a: "Piltover", x: ["Zaun", "Noxus", "Demacia"] },
-  { id: "arcane-m2", d: 2, t: "Comment appelle-t-on la ville basse, pauvre et polluée, sous Piltover ?", a: "Zaun (les bas-fonds)", acc: ["zaun", "bas-fonds", "undercity"], x: ["Ionia", "Bilgewater", "Freljord"] },
+  { id: "arcane-m2", d: 2, t: "Comment appelle-t-on la ville basse, pauvre et polluée, sous Piltover ?", a: "Zaun", acc: ["zaun", "bas-fonds", "undercity"], x: ["Ionia", "Bilgewater", "Freljord"] },
   { id: "arcane-m3", d: 2, t: "Comment s'appelait Jinx lorsqu'elle était petite fille ?", a: "Powder", x: ["Isha", "Sevika", "Mylo"] },
   { id: "arcane-m4", d: 2, t: "Quel homme au grand cœur élève Vi et Powder comme ses filles ?", a: "Vander", x: ["Silco", "Jayce", "Viktor"] },
   { id: "arcane-m5", d: 2, t: "Qui est le principal antagoniste de la saison 1, maître des bas-fonds ?", a: "Silco", x: ["Vander", "Jayce", "Marcus"] },
   { id: "arcane-m6", d: 2, t: "Comment appelle-t-on la fusion de magie et de technologie inventée à Piltover ?", a: "L'Hextech", acc: ["hextech", "hextec"], x: ["Le Shimmer", "La Runeterra", "Le Chemtech"] },
   { id: "arcane-m7", d: 2, t: "Comment appelle-t-on la drogue violette qui décuple la force de ses consommateurs ?", a: "Le Shimmer", acc: ["shimmer", "scintillement"], x: ["L'Hextech", "La poudre", "Le Chemtech"] },
   { id: "arcane-m8", d: 2, t: "Quel jeune inventeur de Piltover crée l'Hextech et entre au Conseil ?", a: "Jayce", x: ["Viktor", "Ekko", "Silco"] },
-  { id: "arcane-m9", d: 2, t: "Comment s'appelle le générique culte de la saison 1 (par Imagine Dragons) ?", a: "Enemy", acc: ["enemy"], x: ["Believer", "Radioactive", "Warriors"] },
+  { id: "arcane-m9", d: 2, t: "Comment s'appelle le générique culte de la saison 1 ?", a: "Enemy", acc: ["enemy"], x: ["Believer", "Radioactive", "Warriors"] },
   { id: "arcane-m10", d: 2, t: "Quelle jeune enforcer de Piltover, aux cheveux bleus, se rapproche de Vi ?", a: "Caitlyn", x: ["Mel", "Sevika", "Isha"] },
 
   // --- Dures (15) ---
@@ -31,7 +31,7 @@ export const arcane = universe("series", "Arcane", [
   { id: "arcane-d8", d: 3, t: "Comment s'appelle la conseillère influente, originaire de Noxus, proche de Jayce ?", a: "Mel Medarda", acc: ["mel", "mel medarda", "medarda"], x: ["Caitlyn", "Sevika", "Ambessa"] },
   { id: "arcane-d9", d: 3, t: "Quel shérif corrompu de Piltover travaille en secret pour Silco ?", a: "Marcus", x: ["Jayce", "Vander", "Viktor"] },
   { id: "arcane-d10", d: 3, t: "En quelle année la saison 1 d'Arcane est-elle sortie ?", a: "2021", x: ["2019", "2023", "2024"] },
-  { id: "arcane-d11", d: 3, t: "Quel drame, causé par une bombe de Powder, hantera Jinx (mort de Mylo et Claggor) ?", a: "L'explosion (le raté de sa bombe)", acc: ["explosion", "bombe", "la bombe"], x: ["Un incendie", "Une noyade", "Une chute"] },
+  { id: "arcane-d11", d: 3, t: "Quel drame, causé par une bombe de Powder, hantera Jinx ?", a: "L'explosion", acc: ["explosion", "bombe", "la bombe"], x: ["Un incendie", "Une noyade", "Une chute"] },
   { id: "arcane-d12", d: 3, t: "Comment appelle-t-on les forces de police de Piltover ?", a: "Les enforcers", acc: ["enforcers", "enforcer", "argus", "agents"], x: ["Les Sombrages", "Les Firelights", "Les Vigiles"] },
   { id: "arcane-d13", d: 3, t: "Comment appelle-t-on le groupe de rebelles masqués fondé par Ekko ?", a: "Les Firelights", acc: ["firelights", "firelight"], x: ["Les Chem-Barons", "Les enforcers", "Les Fissures"] },
   { id: "arcane-d14", d: 3, t: "Quelle grande récompense télé Arcane a-t-elle remportée, une première pour une série en streaming ?", a: "Un Emmy Award", acc: ["emmy", "emmy award", "emmys"], x: ["Un Oscar", "Un Golden Globe", "Une Palme d'Or"] },
@@ -51,8 +51,8 @@ export const arcane = universe("series", "Arcane", [
   { id: "arcane-p11", d: 4, t: "De quelle région de Runeterra, patrie d'Ambessa, vient la menace de la saison 2 ?", a: "Noxus", x: ["Ionia", "Demacia", "Freljord"] },
   { id: "arcane-p12", d: 4, t: "Combien d'épisodes compte la première saison d'Arcane ?", a: "9", acc: ["9", "neuf"], x: ["6", "12", "8"] },
   { id: "arcane-p13", d: 4, t: "Comment s'appelle le vieil ami commerçant de Vander, qui aide les enfants ?", a: "Benzo", x: ["Marcus", "Singed", "Deckard"] },
-  { id: "arcane-p14", d: 4, t: "Quelle arme hextech Vi porte-t-elle aux poings ?", a: "Des gantelets (Atlas)", acc: ["gantelets", "gauntlets", "atlas", "gants"], x: ["Un fusil", "Un fouet", "Une épée"] },
-  { id: "arcane-p15", d: 4, t: "Comment appelle-t-on les portails hextech qui font la fortune commerciale de Piltover ?", a: "Les Hexgates (Portes hextech)", acc: ["hexgates", "hexgate", "portes hextech", "portails hextech"], x: ["Les Hexcores", "Les Nexus", "Les Runes"] },
+  { id: "arcane-p14", d: 4, t: "Quelle arme hextech Vi porte-t-elle aux poings ?", a: "Des gantelets", acc: ["gantelets", "gauntlets", "atlas", "gants"], x: ["Un fusil", "Un fouet", "Une épée"] },
+  { id: "arcane-p15", d: 4, t: "Comment appelle-t-on les portails hextech qui font la fortune commerciale de Piltover ?", a: "Les Hexgates", acc: ["hexgates", "hexgate", "portes hextech", "portails hextech"], x: ["Les Hexcores", "Les Nexus", "Les Runes"] },
   { id: "arcane-p16", d: 4, t: "Sur quel groupe Jinx tire-t-elle une roquette à la toute fin de la saison 1 ?", a: "Le Conseil de Piltover", acc: ["conseil", "le conseil", "conseil de piltover"], x: ["Silco", "Vi", "Les Firelights"] },
   { id: "arcane-p17", d: 4, t: "Comment s'appelle la mère de Caitlyn, conseillère tuée dans l'attaque de Jinx ?", a: "Cassandra Kiramman", acc: ["cassandra", "cassandra kiramman"], x: ["Mel", "Ambessa", "Sevika"] },
   { id: "arcane-p18", d: 4, t: "Comment s'appelle la grande fête de Piltover célébrant ses avancées, prise pour cible ?", a: "Le Jour du Progrès", acc: ["jour du progres", "jour du progrès", "fete du progres", "progress day"], x: ["Le Festival hextech", "La Nuit des Lanternes", "Le Jubilé"] },
