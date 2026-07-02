@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { type ReactNode, useEffect, useRef } from 'react';
 import {
   ActivityIndicator,
   Pressable,
@@ -254,13 +254,37 @@ export function Stepper(props: {
   const min = props.min ?? 0;
   const max = props.max ?? 999;
   const clamp = (v: number) => Math.max(min, Math.min(max, v));
+
+  // Keep the latest value in a ref so the hold-repeat timer isn't stale.
+  const valueRef = useRef(props.value);
+  valueRef.current = props.value;
+  const holdTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const holdInterval = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const bump = (dir: number) => props.onChange(clamp(valueRef.current + dir * step));
+  const stop = () => {
+    if (holdTimeout.current) clearTimeout(holdTimeout.current);
+    if (holdInterval.current) clearInterval(holdInterval.current);
+    holdTimeout.current = null;
+    holdInterval.current = null;
+  };
+  const start = (dir: number) => {
+    bump(dir); // immediate step on tap
+    holdTimeout.current = setTimeout(() => {
+      holdInterval.current = setInterval(() => bump(dir), 70); // then auto-repeat while held
+    }, 350);
+  };
+
+  // Clean up any running timer if the component unmounts mid-hold.
+  useEffect(() => stop, []);
+
   return (
     <View style={styles.stepper}>
-      <Pressable onPress={() => props.onChange(clamp(props.value - step))} style={styles.stepBtn}>
+      <Pressable onPressIn={() => start(-1)} onPressOut={stop} style={styles.stepBtn}>
         <Text style={styles.stepSign}>−</Text>
       </Pressable>
       <Text style={styles.stepValue}>{props.value}</Text>
-      <Pressable onPress={() => props.onChange(clamp(props.value + step))} style={styles.stepBtn}>
+      <Pressable onPressIn={() => start(1)} onPressOut={stop} style={styles.stepBtn}>
         <Text style={styles.stepSign}>+</Text>
       </Pressable>
     </View>

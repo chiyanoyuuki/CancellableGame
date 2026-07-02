@@ -16,19 +16,35 @@ export interface BackupData {
   events: Record<string, unknown>[];
   question_history: Record<string, unknown>[];
   kv: Record<string, unknown>[];
+  custom_questions?: Record<string, unknown>[];
+  custom_challenges?: Record<string, unknown>[];
 }
 
 export async function exportAll(): Promise<BackupData> {
   const db = await getDb();
-  const [players, sessions, results, events, question_history, kv] = await Promise.all([
-    db.getAllAsync<Record<string, unknown>>('SELECT * FROM players'),
-    db.getAllAsync<Record<string, unknown>>('SELECT * FROM sessions'),
-    db.getAllAsync<Record<string, unknown>>('SELECT * FROM results'),
-    db.getAllAsync<Record<string, unknown>>('SELECT * FROM events'),
-    db.getAllAsync<Record<string, unknown>>('SELECT * FROM question_history'),
-    db.getAllAsync<Record<string, unknown>>('SELECT * FROM kv'),
-  ]);
-  return { schemaVersion: SCHEMA_VERSION, exportedAt: Date.now(), players, sessions, results, events, question_history, kv };
+  const [players, sessions, results, events, question_history, kv, custom_questions, custom_challenges] =
+    await Promise.all([
+      db.getAllAsync<Record<string, unknown>>('SELECT * FROM players'),
+      db.getAllAsync<Record<string, unknown>>('SELECT * FROM sessions'),
+      db.getAllAsync<Record<string, unknown>>('SELECT * FROM results'),
+      db.getAllAsync<Record<string, unknown>>('SELECT * FROM events'),
+      db.getAllAsync<Record<string, unknown>>('SELECT * FROM question_history'),
+      db.getAllAsync<Record<string, unknown>>('SELECT * FROM kv'),
+      db.getAllAsync<Record<string, unknown>>('SELECT * FROM custom_questions'),
+      db.getAllAsync<Record<string, unknown>>('SELECT * FROM custom_challenges'),
+    ]);
+  return {
+    schemaVersion: SCHEMA_VERSION,
+    exportedAt: Date.now(),
+    players,
+    sessions,
+    results,
+    events,
+    question_history,
+    kv,
+    custom_questions,
+    custom_challenges,
+  };
 }
 
 function val(row: Record<string, unknown>, key: string): string | number | null {
@@ -80,6 +96,20 @@ export async function importAll(data: BackupData): Promise<void> {
     }
     for (const k of data.kv ?? []) {
       await db.runAsync('INSERT INTO kv (key, value) VALUES (?, ?)', [val(k, 'key'), val(k, 'value')]);
+    }
+    for (const q of data.custom_questions ?? []) {
+      await db.runAsync(
+        'INSERT INTO custom_questions (id, theme, universe, difficulty, text, answer, acceptable, distractors, hints, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [
+          val(q, 'id'), val(q, 'theme'), val(q, 'universe'), val(q, 'difficulty'), val(q, 'text'),
+          val(q, 'answer'), val(q, 'acceptable'), val(q, 'distractors'), val(q, 'hints'), val(q, 'created_at'),
+        ],
+      );
+    }
+    for (const c of data.custom_challenges ?? []) {
+      await db.runAsync('INSERT INTO custom_challenges (id, text, created_at) VALUES (?, ?, ?)', [
+        val(c, 'id'), val(c, 'text'), val(c, 'created_at'),
+      ]);
     }
   });
 }

@@ -91,7 +91,12 @@ export const DRINK_CHALLENGES: DrinkChallenge[] = [
 ];
 
 /** Maybe return a random challenge to play before the next question. */
-export function maybeChallenge(rng: Rng, intensity: DrinkIntensity): DrinkChallenge | null {
+export function maybeChallenge(
+  rng: Rng,
+  intensity: DrinkIntensity,
+  challenges: DrinkChallenge[] = DRINK_CHALLENGES,
+): DrinkChallenge | null {
+  if (challenges.length === 0) return null;
   if (!chance(rng, CHALLENGE_PROBABILITY[intensity])) return null;
-  return pick(DRINK_CHALLENGES, rng);
+  return pick(challenges, rng);
 }

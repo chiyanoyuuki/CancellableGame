@@ -5,6 +5,7 @@ import { setAudioModeAsync, useAudioPlayer, useAudioPlayerStatus } from 'expo-au
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button, Card, PlayerAvatar, ProgressBar, Txt } from '../../components/ui';
+import { DRINK_CHALLENGES } from '../../core/drinks';
 import { DIFFICULTY_LABELS, type Player, type QuizConfig, THEME_META } from '../../core/models';
 import {
   createQuizState,
@@ -18,10 +19,10 @@ import {
 } from '../../core/quizEngine';
 import { mulberry32, randomSeed } from '../../core/rng';
 import { selectQuestions } from '../../core/questionSelection';
-import { getQuestionHistory } from '../../db';
+import { getQuestionHistory, listCustomChallenges } from '../../db';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import type { MiniGamePlayProps } from '../types';
-import { QUESTIONS } from './questions';
+import { getQuizPool } from './pool';
 
 function haptic(success: boolean) {
   try {
@@ -94,10 +95,14 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const history = await getQuestionHistory();
+      const [history, pool, customChallenges] = await Promise.all([
+        getQuestionHistory(),
+        getQuizPool(),
+        listCustomChallenges(),
+      ]);
       const seed = randomSeed();
       const selected = selectQuestions(
-        QUESTIONS,
+        pool,
         { themes: cfg.themes, difficulties: cfg.difficulties, count: cfg.questionCount },
         history,
         mulberry32(seed),
@@ -105,7 +110,15 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
       if (!alive) return;
       startedAtRef.current = Date.now();
       questionStartRef.current = Date.now();
-      setGame(createQuizState({ config: cfg, players, questions: selected, seed }));
+      setGame(
+        createQuizState({
+          config: cfg,
+          players,
+          questions: selected,
+          seed,
+          challenges: [...DRINK_CHALLENGES, ...customChallenges],
+        }),
+      );
     })();
     return () => {
       alive = false;
@@ -218,7 +231,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
       <View style={{ gap: spacing(2) }}>
         <View style={styles.metaRow}>
           <Txt weight="800" color={colors.accent}>
-            {theme.emoji} {theme.label}
+            {theme.emoji} {cfg.showUniverse && q.universe ? q.universe : theme.label}
           </Txt>
           <Txt faint weight="700" size={fontSize.xs}>
             {DIFFICULTY_LABELS[q.difficulty].toUpperCase()}

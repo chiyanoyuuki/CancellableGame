@@ -10,6 +10,7 @@ import type { RootStackParamList } from './src/navigation';
 import { GameConfigScreen } from './src/screens/GameConfigScreen';
 import { GamePlayScreen } from './src/screens/GamePlayScreen';
 import { GameSelectScreen } from './src/screens/GameSelectScreen';
+import { CustomContentScreen } from './src/screens/CustomContentScreen';
 import { HomeScreen } from './src/screens/HomeScreen';
 import { LobbyScreen } from './src/screens/LobbyScreen';
 import { PlayersScreen } from './src/screens/PlayersScreen';
@@ -63,6 +64,7 @@ export default function App() {
           <Stack.Screen name="Results" component={ResultsScreen} options={{ gestureEnabled: false }} />
           <Stack.Screen name="Stats" component={StatsScreen} />
           <Stack.Screen name="Settings" component={SettingsScreen} />
+          <Stack.Screen name="CustomContent" component={CustomContentScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

@@ -36,6 +36,7 @@ function config(overrides: Partial<QuizConfig> = {}): QuizConfig {
     drinksEnabled: false, // keep CONTINUE deterministic (no random challenge)
     drinkIntensity: 'normal',
     fastestTimeLimitMs: 20000,
+    showUniverse: true,
     ...overrides,
   };
 }

@@ -1,4 +1,4 @@
-import { type DrinkChallenge, type DrinkOutcome, maybeChallenge, rollAnswerDrink } from './drinks';
+import { type DrinkChallenge, type DrinkOutcome, DRINK_CHALLENGES, maybeChallenge, rollAnswerDrink } from './drinks';
 import type {
   GameEvent,
   Player,
@@ -71,6 +71,8 @@ export interface QuizState {
   pendingChallenge: DrinkChallenge | null;
   scores: Record<string, QuizPlayerScore>;
   answers: QuizAnswerPayload[];
+  /** Pool of drink challenges (built-in + custom). */
+  challenges: DrinkChallenge[];
 }
 
 export type QuizAction =
@@ -125,6 +127,7 @@ export function createQuizState(args: {
   players: Player[];
   questions: Question[];
   seed: number;
+  challenges?: DrinkChallenge[];
 }): QuizState {
   const order = shuffle(args.players, mulberry32(args.seed >>> 0)).map((p) => p.id);
   const scores: Record<string, QuizPlayerScore> = {};
@@ -146,6 +149,7 @@ export function createQuizState(args: {
     pendingChallenge: null,
     scores,
     answers: [],
+    challenges: args.challenges && args.challenges.length > 0 ? args.challenges : DRINK_CHALLENGES,
   };
 
   if (args.questions.length === 0) return { ...base, phase: 'finished' };
@@ -251,7 +255,7 @@ export function quizReducer(state: QuizState, action: QuizAction): QuizState {
       if (state.phase === 'reveal') {
         const { rng, step } = stepRng(state);
         const challenge = state.config.drinksEnabled
-          ? maybeChallenge(rng, state.config.drinkIntensity)
+          ? maybeChallenge(rng, state.config.drinkIntensity, state.challenges)
           : null;
         if (challenge) return { ...state, step, phase: 'challenge', pendingChallenge: challenge };
         return advance({ ...state, step });

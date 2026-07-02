@@ -61,4 +61,13 @@ describe('maybeChallenge', () => {
   test('returns null when the roll fails', () => {
     expect(maybeChallenge(always(0.99), 'normal')).toBeNull();
   });
+
+  test('picks from a provided custom list when given one', () => {
+    const custom = [{ id: 'custom-1', text: 'Défi perso' }];
+    expect(maybeChallenge(always(0), 'normal', custom)?.id).toBe('custom-1');
+  });
+
+  test('returns null when the challenge list is empty', () => {
+    expect(maybeChallenge(always(0), 'normal', [])).toBeNull();
+  });
 });

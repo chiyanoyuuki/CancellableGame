@@ -8,36 +8,51 @@ import {
   type Difficulty,
   DIFFICULTY_LABELS,
   type DrinkIntensity,
+  type Question,
   type QuizConfig,
   THEME_META,
   THEMES,
   type Theme,
   type TurnMode,
 } from '../../core/models';
-import { kvGetJSON, kvSetJSON } from '../../db';
+import type { QuestionHistory } from '../../core/questionSelection';
+import { getQuestionHistory, kvGetJSON, kvSetJSON } from '../../db';
 import { colors, fontSize, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
-import { QUESTIONS } from './questions';
+import { getQuizPool } from './pool';
 
 const LAST_CONFIG_KEY = 'quiz:lastConfig';
 
 export function QuizConfigComponent({ onStart }: MiniGameConfigProps) {
   const [cfg, setCfg] = useState<QuizConfig>(DEFAULT_QUIZ_CONFIG);
+  const [pool, setPool] = useState<Question[]>([]);
+  const [history, setHistory] = useState<QuestionHistory>({});
 
   useEffect(() => {
     let alive = true;
     void kvGetJSON<Partial<QuizConfig>>(LAST_CONFIG_KEY, {}).then((saved) => {
       if (alive) setCfg((c) => ({ ...c, ...saved }));
     });
+    void (async () => {
+      const [p, h] = await Promise.all([getQuizPool(), getQuestionHistory()]);
+      if (alive) {
+        setPool(p);
+        setHistory(h);
+      }
+    })();
     return () => {
       alive = false;
     };
   }, []);
 
-  const available = useMemo(
-    () =>
-      QUESTIONS.filter((q) => cfg.themes.includes(q.theme) && cfg.difficulties.includes(q.difficulty)).length,
-    [cfg.themes, cfg.difficulties],
+  const eligible = useMemo(
+    () => pool.filter((q) => cfg.themes.includes(q.theme) && cfg.difficulties.includes(q.difficulty)),
+    [pool, cfg.themes, cfg.difficulties],
+  );
+  const available = eligible.length;
+  const unseen = useMemo(
+    () => eligible.filter((q) => !history[q.id]?.timesUsed).length,
+    [eligible, history],
   );
 
   // Keep the requested count within what the current filters can provide.
@@ -107,7 +122,7 @@ export function QuizConfigComponent({ onStart }: MiniGameConfigProps) {
           />
         </View>
         <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-          {available} question{available > 1 ? 's' : ''} disponible{available > 1 ? 's' : ''} avec ces filtres
+          {available} dispo · {unseen} jamais vue{unseen > 1 ? 's' : ''} avec ces filtres
         </Txt>
       </Card>
 
@@ -182,6 +197,18 @@ export function QuizConfigComponent({ onStart }: MiniGameConfigProps) {
             value={cfg.drinksEnabled}
             onValueChange={(v) => setCfg((c) => ({ ...c, drinksEnabled: v }))}
             trackColor={{ true: colors.sip, false: colors.border }}
+            thumbColor={colors.white}
+          />
+        </View>
+        <View style={[styles.row, { marginTop: spacing(1.5) }]}>
+          <View style={{ flex: 1 }}>
+            <Txt weight="700">Afficher l'univers</Txt>
+            <Txt faint size={fontSize.xs}>Montrer l'univers pendant la partie (ex. « Naruto »)</Txt>
+          </View>
+          <Switch
+            value={cfg.showUniverse}
+            onValueChange={(v) => setCfg((c) => ({ ...c, showUniverse: v }))}
+            trackColor={{ true: colors.primary, false: colors.border }}
             thumbColor={colors.white}
           />
         </View>

@@ -10,7 +10,7 @@ import * as SQLite from 'expo-sqlite';
  */
 
 const DB_NAME = 'soiree.db';
-export const SCHEMA_VERSION = 1;
+export const SCHEMA_VERSION = 2;
 
 let dbPromise: Promise<SQLite.SQLiteDatabase> | null = null;
 
@@ -75,6 +75,28 @@ CREATE INDEX IF NOT EXISTS idx_events_session ON events(session_id);
 CREATE INDEX IF NOT EXISTS idx_events_type ON events(type);
 `;
 
+// v2: contenu ajouté par l'utilisateur (questions et défis personnalisés).
+const SCHEMA_V2 = `
+CREATE TABLE IF NOT EXISTS custom_questions (
+  id TEXT PRIMARY KEY NOT NULL,
+  theme TEXT NOT NULL,
+  universe TEXT,
+  difficulty INTEGER NOT NULL,
+  text TEXT NOT NULL,
+  answer TEXT NOT NULL,
+  acceptable TEXT,
+  distractors TEXT NOT NULL,
+  hints TEXT,
+  created_at INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS custom_challenges (
+  id TEXT PRIMARY KEY NOT NULL,
+  text TEXT NOT NULL,
+  created_at INTEGER NOT NULL
+);
+`;
+
 async function migrate(db: SQLite.SQLiteDatabase): Promise<void> {
   const row = await db.getFirstAsync<{ user_version: number }>('PRAGMA user_version');
   let version = row?.user_version ?? 0;
@@ -83,8 +105,10 @@ async function migrate(db: SQLite.SQLiteDatabase): Promise<void> {
     await db.execAsync(SCHEMA_V1);
     version = 1;
   }
-  // Future migrations:
-  // if (version < 2) { await db.execAsync(SCHEMA_V2); version = 2; }
+  if (version < 2) {
+    await db.execAsync(SCHEMA_V2);
+    version = 2;
+  }
 
   await db.execAsync(`PRAGMA user_version = ${version}`);
 }
@@ -116,5 +140,7 @@ export async function resetDb(): Promise<void> {
     DELETE FROM question_history;
     DELETE FROM players;
     DELETE FROM kv;
+    DELETE FROM custom_questions;
+    DELETE FROM custom_challenges;
   `);
 }

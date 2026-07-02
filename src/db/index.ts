@@ -5,3 +5,5 @@ export * from './history';
 export * from './statsLoader';
 export * from './kv';
 export * from './backup';
+export * from './customQuestions';
+export * from './customChallenges';

@@ -11,4 +11,5 @@ export type RootStackParamList = {
   Results: { result: SessionResult; players: Player[] };
   Stats: undefined;
   Settings: undefined;
+  CustomContent: undefined;
 };

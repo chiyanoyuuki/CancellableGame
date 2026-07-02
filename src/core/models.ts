@@ -118,6 +118,8 @@ export interface QuizConfig {
   drinkIntensity: DrinkIntensity;
   /** Time limit per question for the "fastest" mode (ms). */
   fastestTimeLimitMs: number;
+  /** Show the current universe during the game (e.g. "Naruto"). */
+  showUniverse: boolean;
 }
 
 export const DEFAULT_QUIZ_CONFIG: QuizConfig = {
@@ -131,6 +133,7 @@ export const DEFAULT_QUIZ_CONFIG: QuizConfig = {
   drinksEnabled: true,
   drinkIntensity: 'normal',
   fastestTimeLimitMs: 20000,
+  showUniverse: true,
 };
 
 // ---------------------------------------------------------------------------
