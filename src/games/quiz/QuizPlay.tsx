@@ -40,6 +40,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
   const [revealedAnswer, setRevealedAnswer] = useState(false);
   const [buzzed, setBuzzed] = useState<{ playerId: string; timeMs: number } | null>(null);
   const [imgError, setImgError] = useState(false);
+  const [remaining, setRemaining] = useState<number | null>(null);
 
   const startedAtRef = useRef<number>(Date.now());
   const questionStartRef = useRef<number>(Date.now());
@@ -103,7 +104,12 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
       const seed = randomSeed();
       const selected = selectQuestions(
         pool,
-        { themes: cfg.themes, difficulties: cfg.difficulties, count: cfg.questionCount },
+        {
+          themes: cfg.themes,
+          difficulties: cfg.difficulties,
+          count: cfg.questionCount,
+          excludedUniverses: cfg.excludedUniverses,
+        },
         history,
         mulberry32(seed),
       );
@@ -142,6 +148,19 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
     // Only re-run when we actually move to a new question/phase.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [game?.index, game?.phase]);
+
+  // Informative per-question countdown (no penalty; host decides).
+  useEffect(() => {
+    if (game?.phase !== 'question' || cfg.questionTimerSec <= 0) {
+      setRemaining(null);
+      return;
+    }
+    setRemaining(cfg.questionTimerSec);
+    const iv = setInterval(() => {
+      setRemaining((r) => (r != null && r > 0 ? r - 1 : 0));
+    }, 1000);
+    return () => clearInterval(iv);
+  }, [game?.index, game?.phase, cfg.questionTimerSec]);
 
   // Stop the audio whenever we leave the question phase (reveal, challenge…).
   useEffect(() => {
@@ -204,6 +223,13 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
       <View style={{ paddingHorizontal: spacing(2) }}>
         <ProgressBar value={prog.current} total={prog.total} />
       </View>
+      {remaining != null && (
+        <View style={{ alignItems: 'center', paddingTop: spacing(1) }}>
+          <Txt weight="800" color={remaining === 0 ? colors.danger : colors.textDim}>
+            ⏱ {remaining === 0 ? 'Temps écoulé !' : `${remaining} s`}
+          </Txt>
+        </View>
+      )}
 
       <ScrollView contentContainerStyle={styles.body} showsVerticalScrollIndicator={false}>
         {game.phase === 'challenge'

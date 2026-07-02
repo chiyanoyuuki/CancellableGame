@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { StyleSheet, Switch, View } from 'react-native';
+import { Pressable, StyleSheet, Switch, View } from 'react-native';
 
 import { Button, Card, Chip, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
 import {
@@ -27,6 +27,7 @@ export function QuizConfigComponent({ onStart }: MiniGameConfigProps) {
   const [cfg, setCfg] = useState<QuizConfig>(DEFAULT_QUIZ_CONFIG);
   const [pool, setPool] = useState<Question[]>([]);
   const [history, setHistory] = useState<QuestionHistory>({});
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   useEffect(() => {
     let alive = true;
@@ -46,9 +47,32 @@ export function QuizConfigComponent({ onStart }: MiniGameConfigProps) {
   }, []);
 
   const eligible = useMemo(
-    () => pool.filter((q) => cfg.themes.includes(q.theme) && cfg.difficulties.includes(q.difficulty)),
-    [pool, cfg.themes, cfg.difficulties],
+    () =>
+      pool.filter(
+        (q) =>
+          cfg.themes.includes(q.theme) &&
+          cfg.difficulties.includes(q.difficulty) &&
+          !(q.universe !== undefined && cfg.excludedUniverses.includes(q.universe)),
+      ),
+    [pool, cfg.themes, cfg.difficulties, cfg.excludedUniverses],
   );
+
+  // Universes available per selected theme (for the advanced options).
+  const universesByTheme = useMemo(() => {
+    const map = new Map<Theme, string[]>();
+    for (const q of pool) {
+      if (!q.universe || !cfg.themes.includes(q.theme)) continue;
+      const arr = map.get(q.theme) ?? [];
+      if (!arr.includes(q.universe)) arr.push(q.universe);
+      map.set(q.theme, arr);
+    }
+    const out: { theme: Theme; universes: string[] }[] = [];
+    for (const t of THEMES) {
+      const u = map.get(t);
+      if (u && u.length > 0) out.push({ theme: t, universes: [...u].sort() });
+    }
+    return out;
+  }, [pool, cfg.themes]);
   const available = eligible.length;
   const unseen = useMemo(
     () => eligible.filter((q) => !history[q.id]?.timesUsed).length,
@@ -73,6 +97,14 @@ export function QuizConfigComponent({ onStart }: MiniGameConfigProps) {
     setCfg((c) => ({
       ...c,
       difficulties: c.difficulties.includes(d) ? c.difficulties.filter((x) => x !== d) : [...c.difficulties, d],
+    }));
+
+  const toggleUniverse = (u: string) =>
+    setCfg((c) => ({
+      ...c,
+      excludedUniverses: c.excludedUniverses.includes(u)
+        ? c.excludedUniverses.filter((x) => x !== u)
+        : [...c.excludedUniverses, u],
     }));
 
   const valid = cfg.themes.length > 0 && cfg.difficulties.length > 0 && available > 0;
@@ -109,6 +141,27 @@ export function QuizConfigComponent({ onStart }: MiniGameConfigProps) {
           />
         ))}
       </View>
+
+      {universesByTheme.length > 0 && (
+        <>
+          <Pressable onPress={() => setShowAdvanced((v) => !v)}>
+            <SectionHeader title={`Options avancées — univers ${showAdvanced ? '▾' : '▸'}`} />
+          </Pressable>
+          {showAdvanced &&
+            universesByTheme.map(({ theme, universes }) => (
+              <View key={theme} style={{ marginBottom: spacing(1.5) }}>
+                <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.5) }}>
+                  {THEME_META[theme].emoji} {THEME_META[theme].label.toUpperCase()}
+                </Txt>
+                <View style={styles.wrap}>
+                  {universes.map((u) => (
+                    <Chip key={u} label={u} selected={!cfg.excludedUniverses.includes(u)} onPress={() => toggleUniverse(u)} />
+                  ))}
+                </View>
+              </View>
+            ))}
+        </>
+      )}
 
       <SectionHeader title="Nombre de questions" />
       <Card>
@@ -173,6 +226,26 @@ export function QuizConfigComponent({ onStart }: MiniGameConfigProps) {
           ? 'QCM : 4 propositions, on tape la bonne.'
           : 'Réponse libre : on dit la réponse à voix haute, l\'animateur valide. Ça vaut plus de points !'}
       </Txt>
+
+      <SectionHeader title="Chrono par question" />
+      <Card>
+        <View style={styles.row}>
+          <View style={{ flex: 1 }}>
+            <Txt weight="700">Chrono informatif ⏱</Txt>
+            <Txt faint size={fontSize.xs}>Compte à rebours affiché, sans pénalité (0 = désactivé)</Txt>
+          </View>
+          <Stepper
+            value={cfg.questionTimerSec}
+            min={0}
+            max={120}
+            step={5}
+            onChange={(v) => setCfg((c) => ({ ...c, questionTimerSec: v }))}
+          />
+        </View>
+        <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
+          {cfg.questionTimerSec > 0 ? `${cfg.questionTimerSec} s par question` : 'Désactivé'}
+        </Txt>
+      </Card>
 
       <SectionHeader title="Options" />
       <Card>

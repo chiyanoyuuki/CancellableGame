@@ -120,6 +120,10 @@ export interface QuizConfig {
   fastestTimeLimitMs: number;
   /** Show the current universe during the game (e.g. "Naruto"). */
   showUniverse: boolean;
+  /** Universes (sub-categories) explicitly turned off for this game. */
+  excludedUniverses: string[];
+  /** Informative per-question countdown in seconds (0 = disabled). */
+  questionTimerSec: number;
 }
 
 export const DEFAULT_QUIZ_CONFIG: QuizConfig = {
@@ -134,6 +138,8 @@ export const DEFAULT_QUIZ_CONFIG: QuizConfig = {
   drinkIntensity: 'normal',
   fastestTimeLimitMs: 20000,
   showUniverse: true,
+  excludedUniverses: [],
+  questionTimerSec: 0,
 };
 
 // ---------------------------------------------------------------------------

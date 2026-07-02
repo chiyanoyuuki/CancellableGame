@@ -37,6 +37,8 @@ function config(overrides: Partial<QuizConfig> = {}): QuizConfig {
     drinkIntensity: 'normal',
     fastestTimeLimitMs: 20000,
     showUniverse: true,
+    excludedUniverses: [],
+    questionTimerSec: 0,
     ...overrides,
   };
 }

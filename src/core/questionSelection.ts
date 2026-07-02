@@ -19,6 +19,8 @@ export interface SelectionFilter {
   themes: Theme[];
   difficulties: Difficulty[];
   count: number;
+  /** Universes (sub-categories) to exclude; questions without a universe are unaffected. */
+  excludedUniverses?: string[];
 }
 
 export function selectQuestions(
@@ -29,8 +31,14 @@ export function selectQuestions(
 ): Question[] {
   const themeSet = new Set(filter.themes);
   const diffSet = new Set<Difficulty>(filter.difficulties);
+  const excluded = new Set(filter.excludedUniverses ?? []);
 
-  const eligible = pool.filter((q) => themeSet.has(q.theme) && diffSet.has(q.difficulty));
+  const eligible = pool.filter(
+    (q) =>
+      themeSet.has(q.theme) &&
+      diffSet.has(q.difficulty) &&
+      !(q.universe !== undefined && excluded.has(q.universe)),
+  );
 
   // Shuffle first so questions with equal usage come out in random order,
   // then bring the least-used (and least-recently-used) to the front.

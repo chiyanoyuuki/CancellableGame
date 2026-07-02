@@ -48,6 +48,24 @@ describe('selectQuestions', () => {
     expect(new Set(out.map((x) => x.id)).size).toBe(out.length);
   });
 
+  test('excludes disabled universes but keeps questions without a universe', () => {
+    const withUni: Question[] = [
+      { id: 'n1', theme: 'manga', difficulty: 1, universe: 'Naruto', text: 'x', answer: 'a', distractors: ['b', 'c', 'd'] },
+      { id: 'o1', theme: 'manga', difficulty: 1, universe: 'One Piece', text: 'x', answer: 'a', distractors: ['b', 'c', 'd'] },
+      { id: 'noUni', theme: 'manga', difficulty: 1, text: 'x', answer: 'a', distractors: ['b', 'c', 'd'] },
+    ];
+    const out = selectQuestions(
+      withUni,
+      { themes: ['manga'], difficulties: [1], count: 10, excludedUniverses: ['One Piece'] },
+      {},
+      mulberry32(1),
+    );
+    const ids = out.map((x) => x.id);
+    expect(ids).toContain('n1');
+    expect(ids).toContain('noUni');
+    expect(ids).not.toContain('o1');
+  });
+
   test('prefers the least-used questions (anti-repeat)', () => {
     // Mark every manga question used except m3; m3 must be picked first.
     const history = {
