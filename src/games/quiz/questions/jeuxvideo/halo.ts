@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const halo = universe("jeuxvideo", "Halo", [
+  // --- Faciles (5) ---
+  { id: "halo-f1", d: 1, t: "Quel super-soldat en armure verte est le héros de Halo ?", a: "Master Chief", acc: ["master chief", "chief"], x: ["Cortana", "Arbiter", "Noble Six"] },
+  { id: "halo-f2", d: 1, t: "Quelle IA féminine accompagne Master Chief ?", a: "Cortana", x: ["Halsey", "Serina", "Palmer"] },
+  { id: "halo-f3", d: 1, t: "Quel studio a créé le premier Halo ?", a: "Bungie", x: ["343 Industries", "id Software", "Epic Games"] },
+  { id: "halo-f4", d: 1, t: "Sur quelle console est sorti Halo: Combat Evolved en 2001 ?", a: "La Xbox", acc: ["xbox"], x: ["La PlayStation 2", "La GameCube", "PC uniquement"] },
+  { id: "halo-f5", d: 1, t: "Que sont les « Halo » qui donnent son nom au jeu ?", a: "D'immenses anneaux", acc: ["anneaux", "des anneaux"], x: ["Des planètes", "Des stations minières", "Des vaisseaux"] },
+
+  // --- Moyennes (10) ---
+  { id: "halo-m1", d: 2, t: "Comment s'appelle l'alliance d'aliens religieux ennemie de l'humanité ?", a: "Le Covenant", acc: ["covenant", "covenants"], x: ["Le Parasite", "Les Prométhéens", "Les Insurgés"] },
+  { id: "halo-m2", d: 2, t: "Quelle espèce parasite infeste les organismes vivants ?", a: "Le Parasite (Flood)", acc: ["parasite", "flood"], x: ["Le Covenant", "Les Sentinelles", "Les Brutes"] },
+  { id: "halo-m3", d: 2, t: "À quelle espèce appartient l'Arbiter (Thel 'Vadam) ?", a: "Les Élites (Sangheili)", acc: ["elites", "sangheili"], x: ["Les Grunts", "Les Brutes", "Les Prophètes"] },
+  { id: "halo-m4", d: 2, t: "Comment appelle-t-on les petits aliens couards et comiques du Covenant ?", a: "Les Grunts", acc: ["grunts", "unggoy"], x: ["Les Élites", "Les Hunters", "Les Jackals"] },
+  { id: "halo-m5", d: 2, t: "Quelle arme covenante tire des cristaux roses à tête chercheuse ?", a: "Le Needler", acc: ["needler"], x: ["Le Plasma Rifle", "Le Fuel Rod", "Le Battle Rifle"] },
+  { id: "halo-m6", d: 2, t: "Quel véhicule tout-terrain à quatre roues est emblématique de la série ?", a: "Le Warthog", acc: ["warthog"], x: ["Le Ghost", "Le Scorpion", "Le Banshee"] },
+  { id: "halo-m7", d: 2, t: "Quelle arme de corps à corps les Élites manient-ils ?", a: "L'épée à énergie (Energy Sword)", acc: ["epee a energie", "energy sword", "epee d'energie"], x: ["Le Gravity Hammer", "Le Needler", "Le Spartan Laser"] },
+  { id: "halo-m8", d: 2, t: "Quel studio a repris la série après Bungie (à partir de Halo 4) ?", a: "343 Industries", acc: ["343", "343 industries"], x: ["Bungie", "Certain Affinity", "Naughty Dog"] },
+  { id: "halo-m9", d: 2, t: "Comment appelle-t-on les guerriers d'élite humains génétiquement améliorés ?", a: "Les Spartans", acc: ["spartans", "spartan"], x: ["Les ODST", "Les Marines", "Les Prométhéens"] },
+  { id: "halo-m10", d: 2, t: "Quelle IA robotique gère l'Installation 04 (premier Halo) ?", a: "343 Guilty Spark", acc: ["guilty spark", "343 guilty spark"], x: ["Cortana", "Serina", "Mendicant Bias"] },
+
+  // --- Dures (15) ---
+  { id: "halo-d1", d: 3, t: "Comment s'appelle l'escouade de Spartans de Halo: Reach ?", a: "Noble Team", x: ["Blue Team", "Fireteam Osiris", "Red Team"] },
+  { id: "halo-d2", d: 3, t: "Quel Spartan incarne-t-on dans Halo: Reach ?", a: "Noble Six", acc: ["noble six", "six"], x: ["Master Chief", "Arbiter", "Emile"] },
+  { id: "halo-d3", d: 3, t: "Quelle race disparue a construit les anneaux Halo ?", a: "Les Forerunners (Précurseurs)", acc: ["forerunners", "precurseurs"], x: ["Le Covenant", "Le Flood", "Les Prophètes"] },
+  { id: "halo-d4", d: 3, t: "Quel capitaine humain commande le Pillar of Autumn ?", a: "Le capitaine Keyes", acc: ["keyes"], x: ["Lord Hood", "Johnson", "Del Rio"] },
+  { id: "halo-d5", d: 3, t: "Quel sergent charismatique au cigare accompagne le Chief ?", a: "Le sergent Johnson", acc: ["johnson", "sergent johnson"], x: ["Keyes", "Buck", "Lasky"] },
+  { id: "halo-d6", d: 3, t: "Sur quelle planète-forteresse humaine se déroule Halo: Reach ?", a: "Reach", x: ["Harvest", "La Terre", "Requiem"] },
+  { id: "halo-d7", d: 3, t: "Comment appelle-t-on les énormes créatures à bouclier et bras-canon ?", a: "Les Hunters", acc: ["hunters", "mgalekgolo"], x: ["Les Brutes", "Les Grunts", "Les Jackals"] },
+  { id: "halo-d8", d: 3, t: "Comment appelle-t-on les dirigeants religieux du Covenant (ex. Vérité) ?", a: "Les Prophètes (San'Shyuum)", acc: ["prophetes", "san'shyuum", "san shyuum"], x: ["Les Élites", "Les Brutes", "Les Prométhéens"] },
+  { id: "halo-d9", d: 3, t: "Quel antagoniste Forerunner affronte-t-on dans Halo 4 ?", a: "Le Didacte", acc: ["didacte", "didact"], x: ["Guilty Spark", "Mendicant Bias", "Cortana"] },
+  { id: "halo-d10", d: 3, t: "Quelles machines robotiques ennemies apparaissent dans Halo 4 ?", a: "Les Prométhéens", acc: ["prometheens", "prometheans"], x: ["Le Flood", "Les Sentinelles", "Les Brutes"] },
+  { id: "halo-d11", d: 3, t: "Quelle scientifique a créé le programme Spartan-II ?", a: "Le Dr Catherine Halsey", acc: ["halsey", "catherine halsey"], x: ["Serina", "Palmer", "Cortana"] },
+  { id: "halo-d12", d: 3, t: "Comment s'appelle le vaisseau du début de Halo: Combat Evolved ?", a: "Le Pillar of Autumn", acc: ["pillar of autumn"], x: ["Forward Unto Dawn", "In Amber Clad", "Infinity"] },
+  { id: "halo-d13", d: 3, t: "Quelle arme spartan à charge tire un puissant rayon rouge ?", a: "Le Spartan Laser", acc: ["spartan laser"], x: ["Le Sniper", "Le Railgun", "Le Battle Rifle"] },
+  { id: "halo-d14", d: 3, t: "Dans Halo 2, quel personnage alien joue-t-on en plus du Chief ?", a: "L'Arbiter", acc: ["arbiter", "l'arbiter"], x: ["Rtas", "Tartarus", "Regret"] },
+  { id: "halo-d15", d: 3, t: "Comment appelle-t-on les soldats d'infanterie largués en capsules orbitales ?", a: "Les ODST", acc: ["odst"], x: ["Les Spartans", "Les Marines", "Les Rangers"] },
+
+  // --- Pro (20) ---
+  { id: "halo-p1", d: 4, t: "Quel est le matricule complet de Master Chief ?", a: "John-117", acc: ["john-117", "john 117", "117"], x: ["Kurt-051", "Fred-104", "Samuel-034"] },
+  { id: "halo-p2", d: 4, t: "Comment s'appelle l'immense vaisseau de guerre humain de Halo 4 et 5 ?", a: "L'UNSC Infinity", acc: ["infinity", "unsc infinity"], x: ["Pillar of Autumn", "Forward Unto Dawn", "In Amber Clad"] },
+  { id: "halo-p3", d: 4, t: "Que signifie l'acronyme UNSC ?", a: "United Nations Space Command", acc: ["united nations space command"], x: ["United Nations Security Council", "Universal Navy Space Corps", "United Nature Space Command"] },
+  { id: "halo-p4", d: 4, t: "À quelle escouade de Spartans appartient Master Chief ?", a: "Blue Team", x: ["Noble Team", "Fireteam Osiris", "Red Team"] },
+  { id: "halo-p5", d: 4, t: "Quelle escouade menée par Locke traque le Chief dans Halo 5 ?", a: "Fireteam Osiris", acc: ["fireteam osiris", "osiris"], x: ["Noble Team", "Blue Team", "Red Team"] },
+  { id: "halo-p6", d: 4, t: "Quel Spartan est chargé de traquer Master Chief dans Halo 5 ?", a: "Spartan Locke", acc: ["locke", "spartan locke", "jameson locke"], x: ["Buck", "Palmer", "Lasky"] },
+  { id: "halo-p7", d: 4, t: "Quel mal frappe Cortana à la fin de Halo 4 ?", a: "La rampancy (folie des IA)", acc: ["rampancy", "rampance", "folie"], x: ["Un virus covenant", "La trahison", "Rien"] },
+  { id: "halo-p8", d: 4, t: "Quel acteur (Nathan Fillion) prête ses traits au chef ODST de Halo 3: ODST ?", a: "Buck", x: ["Dutch", "Mickey", "Romeo"] },
+  { id: "halo-p9", d: 4, t: "Quelle colonie humaine, première attaquée, marque le début de la guerre contre le Covenant ?", a: "Harvest", x: ["Reach", "La Terre", "Arcadia"] },
+  { id: "halo-p10", d: 4, t: "À quelle espèce appartiennent les Brutes ?", a: "Les Jiralhanae", acc: ["jiralhanae", "brutes"], x: ["Les Sangheili", "Les Kig-Yar", "Les San'Shyuum"] },
+  { id: "halo-p11", d: 4, t: "Quel chef Brute au marteau gravitationnel affronte-t-on dans Halo 2 ?", a: "Tartarus", x: ["Truth", "Regret", "Mercy"] },
+  { id: "halo-p12", d: 4, t: "Comment s'appellent les trois Hiérarques (Prophètes) du Covenant ?", a: "Vérité, Miséricorde et Regret", acc: ["verite misericorde regret", "truth mercy regret"], x: ["Vadam, Rtas, Tartarus", "Didacte, Bibliothécaire, Guilty Spark", "Keyes, Hood, Johnson"] },
+  { id: "halo-p13", d: 4, t: "Quel est le véritable but des anneaux Halo ?", a: "Éradiquer toute vie sentiente pour affamer le Flood", acc: ["eradiquer toute vie", "tuer toute vie", "affamer le flood"], x: ["Détruire le Covenant", "Détruire la Terre", "Créer des Spartans"] },
+  { id: "halo-p14", d: 4, t: "Quelle IA Forerunner devenue folle est un ennemi historique ?", a: "Mendicant Bias", acc: ["mendicant bias"], x: ["Offensive Bias", "Guilty Spark", "Cortana"] },
+  { id: "halo-p15", d: 4, t: "Comment se nomme le monde-bouclier Forerunner de Halo 4 ?", a: "Requiem", x: ["Reach", "Installation 04", "Sanghelios"] },
+  { id: "halo-p16", d: 4, t: "Quelle est la planète natale des Élites (Sangheili) ?", a: "Sanghelios", x: ["Reach", "Requiem", "Harvest"] },
+  { id: "halo-p17", d: 4, t: "À quelle espèce appartiennent les Jackals ?", a: "Les Kig-Yar", acc: ["kig-yar", "kig yar", "jackals"], x: ["Les Unggoy", "Les Sangheili", "Les Mgalekgolo"] },
+  { id: "halo-p18", d: 4, t: "Qui a composé la musique emblématique (chœurs grégoriens) de Halo ?", a: "Martin O'Donnell", acc: ["martin o'donnell", "o'donnell", "odonnell"], x: ["Hans Zimmer", "Koji Kondo", "Jeremy Soule"] },
+  { id: "halo-p19", d: 4, t: "Comment appelle-t-on précisément le programme de super-soldats de Halsey ?", a: "Le programme SPARTAN-II", acc: ["spartan-ii", "spartan 2", "spartan ii"], x: ["ORION", "SPARTAN-IV", "NOBLE"] },
+  { id: "halo-p20", d: 4, t: "Comment s'appelle le vaisseau (dérive) où le Chief attend les secours à la fin de Halo 3 ?", a: "Le Forward Unto Dawn", acc: ["forward unto dawn"], x: ["Pillar of Autumn", "UNSC Infinity", "In Amber Clad"] },
+]);

@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const pokemon = universe("jeuxvideo", "Pokémon", [
+  // --- Faciles (5) ---
+  { id: "pkm-f1", d: 1, t: "Quel Pokémon jaune électrique est la mascotte de la franchise ?", a: "Pikachu", x: ["Évoli", "Salamèche", "Miaouss"] },
+  { id: "pkm-f2", d: 1, t: "De quel type est Pikachu ?", a: "Électrik", acc: ["electrik", "electrique", "électrique"], x: ["Feu", "Eau", "Plante"] },
+  { id: "pkm-f3", d: 1, t: "Avec quel objet capture-t-on les Pokémon ?", a: "Une Poké Ball", acc: ["poke ball", "pokeball", "pokéball", "poké ball"], x: ["Un filet", "Une cage", "Un lasso"] },
+  { id: "pkm-f4", d: 1, t: "Lequel de ces starters est de type Feu (1re génération) ?", a: "Salamèche", acc: ["salameche"], x: ["Bulbizarre", "Carapuce", "Pikachu"] },
+  { id: "pkm-f5", d: 1, t: "Comment s'appelle le héros de l'anime Pokémon (version française) ?", a: "Sacha", x: ["Régis", "Pierre", "Ondine"] },
+
+  // --- Moyennes (10) ---
+  { id: "pkm-m1", d: 2, t: "En quel Pokémon évolue Salamèche à son dernier stade ?", a: "Dracaufeu", x: ["Reptincel", "Tortank", "Florizarre"] },
+  { id: "pkm-m2", d: 2, t: "Comment s'appelle l'organisation criminelle de la 1re génération ?", a: "La Team Rocket", acc: ["team rocket", "rocket"], x: ["La Team Aqua", "La Team Galaxie", "La Team Flare"] },
+  { id: "pkm-m3", d: 2, t: "Quel Pokémon accompagne Jessie et James de la Team Rocket et parle ?", a: "Miaouss", x: ["Pikachu", "Ronflex", "Évoli"] },
+  { id: "pkm-m4", d: 2, t: "Comment s'appelle la toute première région des jeux Pokémon ?", a: "Kanto", x: ["Johto", "Hoenn", "Sinnoh"] },
+  { id: "pkm-m5", d: 2, t: "En quel Pokémon évolue le faible Magicarpe ?", a: "Léviator", acc: ["leviator"], x: ["Ectoplasma", "Ronflex", "Dardargnan"] },
+  { id: "pkm-m6", d: 2, t: "Quel appareil sert d'encyclopédie recensant les Pokémon ?", a: "Le Pokédex", acc: ["pokedex", "pokédex"], x: ["Le Pokématos", "La Poké Ball", "Le Pokénav"] },
+  { id: "pkm-m7", d: 2, t: "Quel Pokémon rose légendaire a fourni l'ADN ayant servi à créer Mewtwo ?", a: "Mew", x: ["Mewtwo", "Rondoudou", "Métamorph"] },
+  { id: "pkm-m8", d: 2, t: "Combien de badges d'arène faut-il en général pour défier la Ligue Pokémon ?", a: "8", acc: ["huit"], x: ["4", "6", "10"] },
+  { id: "pkm-m9", d: 2, t: "Où soigne-t-on gratuitement ses Pokémon ?", a: "Au Centre Pokémon", acc: ["centre pokemon", "centre pokémon", "centre"], x: ["À la Boutique", "À l'Arène", "Au Pokémart"] },
+  { id: "pkm-m10", d: 2, t: "Quel gros Pokémon bleu bloque souvent la route en dormant ?", a: "Ronflex", x: ["Léviator", "Dracaufeu", "Ectoplasma"] },
+
+  // --- Dures (15) ---
+  { id: "pkm-d1", d: 3, t: "Quel professeur vous confie votre premier Pokémon à Kanto ?", a: "Le professeur Chen", acc: ["chen", "professeur chen", "oak"], x: ["Le professeur Orme", "Le professeur Seko", "Le professeur Sorbier"] },
+  { id: "pkm-d2", d: 3, t: "En combien de types différents les Pokémon sont-ils classés aujourd'hui ?", a: "18", acc: ["dix-huit", "dix huit"], x: ["15", "17", "20"] },
+  { id: "pkm-d3", d: 3, t: "Quel type a été ajouté à la 6e génération, notamment pour contrer les Dragons ?", a: "Le type Fée", acc: ["fee", "fée", "type fee"], x: ["Le type Ténèbres", "Le type Acier", "Le type Psy"] },
+  { id: "pkm-d4", d: 3, t: "Combien d'évolutions différentes Évoli possède-t-il au total ?", a: "8", acc: ["huit"], x: ["3", "5", "6"] },
+  { id: "pkm-d5", d: 3, t: "Quel Pokémon violet créé en laboratoire (n°150) est réputé parmi les plus puissants ?", a: "Mewtwo", x: ["Mew", "Ectoplasma", "Giratina"] },
+  { id: "pkm-d6", d: 3, t: "Comment s'appelle la région de la 2e génération (Or/Argent) ?", a: "Johto", x: ["Hoenn", "Sinnoh", "Unys"] },
+  { id: "pkm-d7", d: 3, t: "Quel Pokémon violet peut se transformer en copie de n'importe quel adversaire ?", a: "Métamorph", acc: ["metamorph", "ditto"], x: ["Zorua", "Kecleon", "Ptéra"] },
+  { id: "pkm-d8", d: 3, t: "Quel est le tout premier Pokémon du Pokédex national (n°001) ?", a: "Bulbizarre", x: ["Pikachu", "Salamèche", "Mew"] },
+  { id: "pkm-d9", d: 3, t: "De quels types est Dracaufeu (souvent pris à tort pour un Dragon) ?", a: "Feu et Vol", acc: ["feu/vol", "feu et vol", "feu vol"], x: ["Feu et Dragon", "Feu uniquement", "Feu et Sol"] },
+  { id: "pkm-d10", d: 3, t: "Comment s'appelle le chef de la Team Rocket, aussi champion d'arène ?", a: "Giovanni", x: ["Cyrus", "Lysandre", "Ghetis"] },
+  { id: "pkm-d11", d: 3, t: "Quel objet fait évoluer Pikachu en Raichu ?", a: "La Pierre Foudre", acc: ["pierre foudre", "pierre tonnerre"], x: ["La Pierre Feu", "La Pierre Eau", "La Pierre Lune"] },
+  { id: "pkm-d12", d: 3, t: "Comment appelle-t-on les quatre dresseurs d'élite à battre avant le Maître ?", a: "Le Conseil 4", acc: ["conseil 4", "conseil des 4", "elite four"], x: ["Le Top 4", "La Garde royale", "Les Quatre Sages"] },
+  { id: "pkm-d13", d: 3, t: "Quelle société a développé le jeu mobile Pokémon GO ?", a: "Niantic", x: ["Game Freak", "Nintendo", "The Pokémon Company"] },
+  { id: "pkm-d14", d: 3, t: "Quel champion d'Argenta, spécialiste des Pokémon Roche, accompagne Sacha ?", a: "Pierre", acc: ["pierre", "brock"], x: ["Ondine", "Major Bob", "Koga"] },
+  { id: "pkm-d15", d: 3, t: "Quel Pokémon Spectre/Poison ricaneur (n°094) est la forme finale de Fantominus ?", a: "Ectoplasma", acc: ["ectoplasma", "gengar"], x: ["Spectrum", "Feuforêve", "Osselait"] },
+
+  // --- Pro (20) ---
+  { id: "pkm-p1", d: 4, t: "En quelle année le tout premier jeu Pokémon est-il sorti au Japon ?", a: "1996", x: ["1994", "1998", "1999"] },
+  { id: "pkm-p2", d: 4, t: "Quels étaient les noms des deux tout premiers jeux sortis au Japon ?", a: "Rouge et Vert", acc: ["rouge et vert"], x: ["Rouge et Bleu", "Or et Argent", "Rouge et Jaune"] },
+  { id: "pkm-p3", d: 4, t: "Comment s'appelle la région de la 4e génération (Diamant/Perle) ?", a: "Sinnoh", x: ["Hoenn", "Unys", "Kalos"] },
+  { id: "pkm-p4", d: 4, t: "Quel Pokémon légendaire est la mascotte de Pokémon Or ?", a: "Ho-Oh", acc: ["ho-oh", "ho oh"], x: ["Lugia", "Rayquaza", "Zekrom"] },
+  { id: "pkm-p5", d: 4, t: "Quel dragon légendaire est la mascotte de Pokémon Émeraude ?", a: "Rayquaza", x: ["Groudon", "Kyogre", "Dialga"] },
+  { id: "pkm-p6", d: 4, t: "Comment s'appelle le mécanisme d'évolution temporaire introduit en 6e génération ?", a: "La Méga-Évolution", acc: ["mega-evolution", "méga-évolution", "mega evolution", "megaevolution"], x: ["Le Dynamax", "Le Téracristal", "Le phénomène Z"] },
+  { id: "pkm-p7", d: 4, t: "Quel phénomène géant, faisant grandir les Pokémon, apparaît dans Épée et Bouclier ?", a: "Le Dynamax", acc: ["dynamax", "gigamax"], x: ["La Méga-Évolution", "Le Téracristal", "Les Capacités Z"] },
+  { id: "pkm-p8", d: 4, t: "Quel Pokémon est présenté comme le créateur de l'univers dans le mythe de Sinnoh ?", a: "Arceus", x: ["Dialga", "Giratina", "Mewtwo"] },
+  { id: "pkm-p9", d: 4, t: "Lequel de ces Pokémon fait partie du trio légendaire de Johto avec Entei et Raikou ?", a: "Suicune", x: ["Artikodin", "Regice", "Latios"] },
+  { id: "pkm-p10", d: 4, t: "Quels sont les noms des trois oiseaux légendaires de Kanto ?", a: "Artikodin, Électhor, Sulfura", acc: ["artikodin electhor sulfura", "artikodin, electhor, sulfura"], x: ["Entei, Raikou, Suicune", "Regice, Regirock, Registeel", "Latios, Latias, Rayquaza"] },
+  { id: "pkm-p11", d: 4, t: "Comment s'appelle le chef de la Team Galaxie qui veut recréer l'univers ?", a: "Cyrus", x: ["Giovanni", "Lysandre", "Guzma"] },
+  { id: "pkm-p12", d: 4, t: "De quelle génération vient la région de Kalos, inspirée de la France ?", a: "La 6e", acc: ["6", "sixieme", "sixième", "6e"], x: ["La 5e", "La 7e", "La 4e"] },
+  { id: "pkm-p13", d: 4, t: "Quel Pokémon légendaire est la mascotte de Pokémon Écarlate ?", a: "Koraidon", x: ["Miraidon", "Zacian", "Solgaleo"] },
+  { id: "pkm-p14", d: 4, t: "Comment s'appelle la pré-évolution de Pikachu, apparue en 2e génération ?", a: "Pichu", x: ["Raichu", "Posipi", "Négapi"] },
+  { id: "pkm-p15", d: 4, t: "Combien de Pokémon comptait le Pokédex de la toute première génération ?", a: "151", x: ["150", "100", "251"] },
+  { id: "pkm-p16", d: 4, t: "Quel Pokémon canard jaune (Psyduck) déclenche ses pouvoirs psy quand il a mal à la tête ?", a: "Psykokwak", acc: ["psykokwak", "psyduck"], x: ["Canarticho", "Coudlangue", "Ramoloss"] },
+  { id: "pkm-p17", d: 4, t: "Quel jeune homme mystérieux, roi de la Team Plasma, veut « libérer » les Pokémon (5e gen) ?", a: "N", x: ["Ghetis", "Cyrus", "Guzma"] },
+  { id: "pkm-p18", d: 4, t: "Quelle région de 7e génération, inspirée d'Hawaï, remplace les arènes par des épreuves ?", a: "Alola", x: ["Kalos", "Galar", "Paldea"] },
+  { id: "pkm-p19", d: 4, t: "Comment s'appelle le mécanisme de cristallisation des types dans Écarlate et Violet ?", a: "Le Téracristal", acc: ["teracristal", "téracristal", "terastal"], x: ["Le Dynamax", "La Méga-Évolution", "Les Capacités Z"] },
+  { id: "pkm-p20", d: 4, t: "Quel dragon légendaire est la mascotte de Pokémon Diamant ?", a: "Dialga", x: ["Palkia", "Giratina", "Arceus"] },
+]);

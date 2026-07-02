@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const lol = universe("jeuxvideo", "League of Legends", [
+  // --- Faciles (5) ---
+  { id: "lol-f1", d: 1, t: "Quel studio développe League of Legends ?", a: "Riot Games", acc: ["riot", "riot games"], x: ["Blizzard", "Valve", "Epic Games"] },
+  { id: "lol-f2", d: 1, t: "À quel genre de jeu appartient League of Legends ?", a: "Un MOBA", acc: ["moba"], x: ["Un FPS", "Un MMORPG", "Un Battle Royale"] },
+  { id: "lol-f3", d: 1, t: "Combien de joueurs compte une équipe en partie classique ?", a: "5", acc: ["cinq"], x: ["3", "4", "6"] },
+  { id: "lol-f4", d: 1, t: "Quelle structure faut-il détruire pour gagner la partie ?", a: "Le Nexus", x: ["La base", "Le donjon", "Le drapeau"] },
+  { id: "lol-f5", d: 1, t: "Comment appelle-t-on les personnages jouables ?", a: "Des champions", acc: ["champions", "champion"], x: ["Des héros", "Des agents", "Des servants"] },
+
+  // --- Moyennes (10) ---
+  { id: "lol-m1", d: 2, t: "Comment s'appelle la carte principale en 5 contre 5 ?", a: "La Faille de l'invocateur", acc: ["faille de l'invocateur", "summoner's rift", "faille"], x: ["L'Abîme hurlant", "Le Gouffre", "La Forêt torturée"] },
+  { id: "lol-m2", d: 2, t: "Comment appelle-t-on les petites créatures qui poussent sur les lignes ?", a: "Les sbires (minions)", acc: ["sbires", "minions"], x: ["Les golems", "Les larbins", "Les mobs"] },
+  { id: "lol-m3", d: 2, t: "Comment appelle-t-on la zone boisée entre les lignes, avec des monstres neutres ?", a: "La jungle", x: ["La rivière", "La base", "Le Nexus"] },
+  { id: "lol-m4", d: 2, t: "Quel gros monstre violet donne un puissant buff d'équipe quand on le tue ?", a: "Le Baron Nashor", acc: ["baron", "baron nashor", "nashor"], x: ["Le Dragon", "Le Héraut", "Le crabe"] },
+  { id: "lol-m5", d: 2, t: "Quelle créature draconique donne des bonus permanents à l'équipe qui la tue ?", a: "Le Dragon (Drake)", acc: ["dragon", "drake"], x: ["Le Baron", "Le Héraut", "Le crabe"] },
+  { id: "lol-m6", d: 2, t: "Sur quelle carte se joue le mode ARAM ?", a: "L'Abîme hurlant", acc: ["abime hurlant", "howling abyss"], x: ["La Faille de l'invocateur", "La Forêt torturée", "L'Arène"] },
+  { id: "lol-m7", d: 2, t: "Quel rôle a pour mission de protéger le tireur (ADC) sur la voie du bas ?", a: "Le support", x: ["Le jungler", "Le milieu", "Le top"] },
+  { id: "lol-m8", d: 2, t: "Quelle ressource permet d'acheter des objets pendant la partie ?", a: "L'or (gold)", acc: ["or", "gold"], x: ["Les gemmes", "L'essence bleue", "Les RP"] },
+  { id: "lol-m9", d: 2, t: "Sur quelle touche lance-t-on le sort ultime par défaut ?", a: "R", x: ["Q", "F", "D"] },
+  { id: "lol-m10", d: 2, t: "Comment appelle-t-on la compétition mondiale annuelle de LoL ?", a: "Les Worlds", acc: ["worlds", "world championship", "championnat du monde"], x: ["Le MSI", "La LCS", "Le Rift Rivals"] },
+
+  // --- Dures (15) ---
+  { id: "lol-d1", d: 3, t: "Dans quel monde se déroule l'univers (le lore) de League of Legends ?", a: "Runeterra", x: ["Valoran", "Azeroth", "Teyvat"] },
+  { id: "lol-d2", d: 3, t: "Quelle région désertique (Azir, Nasus) s'inspire de l'Égypte antique ?", a: "Shurima", x: ["Ionia", "Noxus", "Demacia"] },
+  { id: "lol-d3", d: 3, t: "Quelle cité-état guerrière et expansionniste compte Darius et Katarina ?", a: "Noxus", x: ["Demacia", "Ionia", "Piltover"] },
+  { id: "lol-d4", d: 3, t: "Quelle cité-état de justice et de lumière abrite Garen et Lux ?", a: "Demacia", x: ["Noxus", "Ionia", "Zaun"] },
+  { id: "lol-d5", d: 3, t: "Quelle région d'inspiration asiatique et spirituelle abrite Yasuo et Ahri ?", a: "Ionia", x: ["Noxus", "Demacia", "Freljord"] },
+  { id: "lol-d6", d: 3, t: "Quelle cité du progrès hextech surplombe Zaun (Jinx, Vi, Caitlyn) ?", a: "Piltover", x: ["Zaun", "Bandle", "Bilgewater"] },
+  { id: "lol-d7", d: 3, t: "Comment s'appelle la série animée Netflix tirée de League of Legends ?", a: "Arcane", x: ["Legends", "Runeterra", "Ruined King"] },
+  { id: "lol-d8", d: 3, t: "Quelles deux sœurs sont au cœur de la série Arcane ?", a: "Vi et Jinx", acc: ["vi et jinx", "jinx et vi"], x: ["Ahri et Sona", "Lux et Katarina", "Caitlyn et Vi"] },
+  { id: "lol-d9", d: 3, t: "Quel type de dégâts l'armure réduit-elle ?", a: "Les dégâts physiques (AD)", acc: ["physiques", "ad"], x: ["Les dégâts magiques", "Les dégâts bruts", "Les vrais dégâts"] },
+  { id: "lol-d10", d: 3, t: "Quel type de dégâts la résistance magique réduit-elle ?", a: "Les dégâts magiques (AP)", acc: ["magiques", "ap"], x: ["Les dégâts physiques", "Les dégâts bruts", "Les vrais dégâts"] },
+  { id: "lol-d11", d: 3, t: "Que signifie le rôle « ADC » ?", a: "Attack Damage Carry (le tireur)", acc: ["attack damage carry", "tireur"], x: ["Area Damage Control", "Auto Defense Champion", "All Damage Caster"] },
+  { id: "lol-d12", d: 3, t: "Comment appelle-t-on la voie où le combattant solo évolue en haut de la carte ?", a: "La top lane", acc: ["top", "top lane"], x: ["Le mid", "Le bot", "La jungle"] },
+  { id: "lol-d13", d: 3, t: "Quel petit crabe neutre de la rivière donne de la vision quand on le tue ?", a: "Le crabe (Scuttle Crab)", acc: ["crabe", "scuttle crab", "scuttler"], x: ["Le golem", "Le loup", "Le krug"] },
+  { id: "lol-d14", d: 3, t: "Quel objet pose-t-on sur la carte pour obtenir de la vision ?", a: "La balise (ward)", acc: ["ward", "balise"], x: ["La tour", "La rune", "La potion"] },
+  { id: "lol-d15", d: 3, t: "Quelle région glaciaire abrite Ashe et Sejuani ?", a: "Le Freljord", acc: ["freljord"], x: ["Shurima", "Ionia", "Bilgewater"] },
+
+  // --- Pro (20) ---
+  { id: "lol-p1", d: 4, t: "En quelle année League of Legends est-il sorti ?", a: "2009", x: ["2011", "2007", "2013"] },
+  { id: "lol-p2", d: 4, t: "Quelle renarde à neuf queues séductrice vient d'Ionia ?", a: "Ahri", x: ["Evelynn", "Sona", "Neeko"] },
+  { id: "lol-p3", d: 4, t: "Quel épéiste au vent, célèbre pour son « Hasagi », vient d'Ionia ?", a: "Yasuo", x: ["Yone", "Zed", "Riven"] },
+  { id: "lol-p4", d: 4, t: "Qui est le frère de Yasuo, revenu du royaume des morts ?", a: "Yone", x: ["Zed", "Aatrox", "Sett"] },
+  { id: "lol-p5", d: 4, t: "Quel maître de l'ombre est le grand rival de Yasuo ?", a: "Zed", x: ["Shen", "Kennen", "Akali"] },
+  { id: "lol-p6", d: 4, t: "Quel empereur ascendant règne sur Shurima en commandant le sable ?", a: "Azir", x: ["Nasus", "Renekton", "Xerath"] },
+  { id: "lol-p7", d: 4, t: "Quel est le vrai prénom de Jinx (révélé dans Arcane) ?", a: "Powder", x: ["Violet", "Caitlyn", "Mylo"] },
+  { id: "lol-p8", d: 4, t: "Quel est le vrai prénom de Vi dans Arcane ?", a: "Violet", x: ["Powder", "Caitlyn", "Jayce"] },
+  { id: "lol-p9", d: 4, t: "Quel inventeur hextech de Piltover est un personnage central d'Arcane ?", a: "Jayce", x: ["Viktor", "Silco", "Heimerdinger"] },
+  { id: "lol-p10", d: 4, t: "Quel trafiquant dirige la pègre de Zaun dans Arcane ?", a: "Silco", x: ["Jayce", "Viktor", "Singed"] },
+  { id: "lol-p11", d: 4, t: "Quel vieux yordle scientifique est un ancien recteur (inventeur de tourelles) ?", a: "Heimerdinger", x: ["Ziggs", "Corki", "Teemo"] },
+  { id: "lol-p12", d: 4, t: "Quel yordle éclaireur furtif sème des champignons toxiques ?", a: "Teemo", x: ["Tristana", "Lulu", "Veigar"] },
+  { id: "lol-p13", d: 4, t: "Combien de champions compte environ le jeu (en 2024) ?", a: "Plus de 160", acc: ["160", "plus de 160", "165"], x: ["Environ 50", "Environ 100", "Environ 300"] },
+  { id: "lol-p14", d: 4, t: "Quelle est la monnaie premium (achetée avec de l'argent réel) ?", a: "Les RP (Riot Points)", acc: ["rp", "riot points"], x: ["L'essence bleue", "L'or", "Les gemmes"] },
+  { id: "lol-p15", d: 4, t: "Comment s'appelle l'auto-battler dérivé de LoL ?", a: "Teamfight Tactics (TFT)", acc: ["tft", "teamfight tactics"], x: ["Wild Rift", "Legends of Runeterra", "Arena"] },
+  { id: "lol-p16", d: 4, t: "Comment s'appelle la version mobile de League of Legends ?", a: "Wild Rift", acc: ["wild rift"], x: ["TFT", "Legends of Runeterra", "Arena"] },
+  { id: "lol-p17", d: 4, t: "Comment s'appelle le jeu de cartes basé sur l'univers de LoL ?", a: "Legends of Runeterra", acc: ["legends of runeterra", "lor"], x: ["Hearthstone", "TFT", "Gwent"] },
+  { id: "lol-p18", d: 4, t: "Comment s'appelle l'ultime de Jinx, un énorme missile ?", a: "Super Méga Mort Roquette", acc: ["super mega mort roquette", "super mega death rocket", "fishbones"], x: ["Un laser", "Une bombe nucléaire", "Un rayon"] },
+  { id: "lol-p19", d: 4, t: "Quels deux frères animaux (chacal et crocodile) s'opposent à Shurima ?", a: "Nasus et Renekton", acc: ["nasus et renekton"], x: ["Azir et Xerath", "Rengar et Kha'Zix", "Garen et Darius"] },
+  { id: "lol-p20", d: 4, t: "Quel scientifique fou de Zaun fabrique le Shimmer et aide Silco ?", a: "Singed", x: ["Viktor", "Jayce", "Heimerdinger"] },
+]);
