@@ -4,9 +4,11 @@ import {
   createQuizState,
   currentQuestion,
   getRanking,
+  potentialPoints,
   quizReducer,
   type QuizState,
   toSessionResult,
+  visibleOptions,
 } from './quizEngine';
 
 const players: Player[] = [
@@ -31,8 +33,6 @@ function config(overrides: Partial<QuizConfig> = {}): QuizConfig {
     difficulties: [1, 2, 3],
     questionCount: 3,
     turnMode: 'turn',
-    answerFormat: 'choices',
-    hintsEnabled: true,
     drinksEnabled: false, // keep CONTINUE deterministic (no random challenge)
     drinkIntensity: 'normal',
     fastestTimeLimitMs: 20000,
@@ -48,12 +48,14 @@ function start(overrides: Partial<QuizConfig> = {}): QuizState {
 }
 
 describe('createQuizState', () => {
-  test('starts on the first question with QCM options', () => {
+  test('prepares the four options but reveals none (free answer by default)', () => {
     const s = start();
     expect(s.phase).toBe('question');
     expect(s.index).toBe(0);
     expect(s.currentOptions).toHaveLength(4);
     expect(s.currentOptions).toContain('bonne');
+    expect(s.propsShown).toBe(0);
+    expect(visibleOptions(s)).toHaveLength(0);
     expect(currentQuestion(s)?.id).toBe('q1');
   });
 
@@ -66,17 +68,46 @@ describe('createQuizState', () => {
   test('fastest mode has no active player until someone buzzes', () => {
     const s = start({ turnMode: 'fastest' });
     expect(s.activePlayerId).toBeNull();
-    expect(s.currentOptions).toHaveLength(4);
-  });
-
-  test('open answer format has no options', () => {
-    const s = start({ answerFormat: 'open' });
-    expect(s.currentOptions).toHaveLength(0);
   });
 
   test('empty question list ends immediately', () => {
     const s = createQuizState({ config: config(), players, questions: [], seed: 1 });
     expect(s.phase).toBe('finished');
+  });
+});
+
+describe('propositions (help on demand)', () => {
+  test('revealing 4 propositions shows the full QCM', () => {
+    let s = start();
+    s = quizReducer(s, { type: 'REVEAL_PROPS', count: 4 });
+    expect(s.propsShown).toBe(4);
+    expect(visibleOptions(s)).toHaveLength(4);
+    expect(visibleOptions(s)).toContain('bonne');
+  });
+
+  test('revealing 2 propositions shows a pair including the answer', () => {
+    let s = start();
+    s = quizReducer(s, { type: 'REVEAL_PROPS', count: 2 });
+    expect(s.propsShown).toBe(2);
+    expect(visibleOptions(s)).toHaveLength(2);
+    expect(visibleOptions(s)).toContain('bonne');
+  });
+
+  test('2 propositions supersedes 4, and 4 cannot downgrade from 2', () => {
+    let s = start();
+    s = quizReducer(s, { type: 'REVEAL_PROPS', count: 4 });
+    s = quizReducer(s, { type: 'REVEAL_PROPS', count: 2 });
+    expect(s.propsShown).toBe(2);
+    s = quizReducer(s, { type: 'REVEAL_PROPS', count: 4 });
+    expect(s.propsShown).toBe(2);
+  });
+
+  test('each help level lowers the potential points', () => {
+    const free = potentialPoints(start());
+    const four = potentialPoints(quizReducer(start(), { type: 'REVEAL_PROPS', count: 4 }));
+    const two = potentialPoints(quizReducer(start(), { type: 'REVEAL_PROPS', count: 2 }));
+    expect(four).toBeLessThan(free);
+    expect(two).toBeLessThan(four);
   });
 });
 
@@ -91,11 +122,20 @@ describe('hints', () => {
     expect(s.hintsRevealed).toBe(2);
   });
 
-  test('disabling hints exposes none', () => {
-    const s = start({ hintsEnabled: false });
+  test('a question without hints exposes none', () => {
+    let s = start();
+    // advance to q2 (no hints)
+    s = quizReducer(s, { type: 'SUBMIT', playerId: 'p1', correct: true });
+    s = quizReducer(s, { type: 'CONTINUE' });
     expect(availableHints(s)).toBe(0);
     const after = quizReducer(s, { type: 'REVEAL_HINT' });
     expect(after.hintsRevealed).toBe(0);
+  });
+
+  test('revealing a hint lowers the potential points', () => {
+    const before = potentialPoints(start());
+    const after = potentialPoints(quizReducer(start(), { type: 'REVEAL_HINT' }));
+    expect(after).toBeLessThan(before);
   });
 });
 
@@ -110,6 +150,18 @@ describe('answering', () => {
     expect(s.lastOutcome?.correct).toBe(true);
   });
 
+  test('taking propositions reduces the points earned', () => {
+    let free = start();
+    free = quizReducer(free, { type: 'SUBMIT', playerId: 'p1', correct: true });
+
+    let helped = start();
+    helped = quizReducer(helped, { type: 'REVEAL_PROPS', count: 2 });
+    helped = quizReducer(helped, { type: 'SUBMIT', playerId: 'p1', correct: true });
+
+    expect(helped.scores.p1!.points).toBeLessThan(free.scores.p1!.points);
+    expect(helped.answers[0]?.propsShown).toBe(2);
+  });
+
   test('a wrong answer scores nothing and counts as wrong', () => {
     let s = start();
     s = quizReducer(s, { type: 'SUBMIT', playerId: 'p1', correct: false });
@@ -117,13 +169,15 @@ describe('answering', () => {
     expect(s.scores.p1?.wrong).toBe(1);
   });
 
-  test('CONTINUE from reveal advances to the next question', () => {
+  test('CONTINUE from reveal advances to the next question and resets help', () => {
     let s = start();
+    s = quizReducer(s, { type: 'REVEAL_PROPS', count: 4 });
     s = quizReducer(s, { type: 'SUBMIT', playerId: 'p1', correct: true });
     s = quizReducer(s, { type: 'CONTINUE' });
     expect(s.phase).toBe('question');
     expect(s.index).toBe(1);
     expect(currentQuestion(s)?.id).toBe('q2');
+    expect(s.propsShown).toBe(0);
   });
 
   test('SKIP reveals the answer without scoring anyone', () => {
@@ -161,6 +215,7 @@ describe('full playthrough', () => {
 
     const result = toSessionResult(s, 1000, 2000);
     expect(result.gameId).toBe('quiz');
+    expect(result.mode).toBe('turn');
     expect(result.players).toHaveLength(3);
     expect(result.players[0]?.rank).toBe(1);
     expect(result.players[0]?.playerId).toBe('p1');

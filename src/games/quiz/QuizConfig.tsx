@@ -3,7 +3,6 @@ import { Pressable, StyleSheet, Switch, View } from 'react-native';
 
 import { Button, Card, Chip, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
 import {
-  type AnswerFormat,
   DEFAULT_QUIZ_CONFIG,
   type Difficulty,
   DIFFICULTY_LABELS,
@@ -212,20 +211,17 @@ export function QuizConfigComponent({ onStart }: MiniGameConfigProps) {
         </Card>
       )}
 
-      <SectionHeader title="Réponses" />
-      <Segmented<AnswerFormat>
-        value={cfg.answerFormat}
-        onChange={(v) => setCfg((c) => ({ ...c, answerFormat: v }))}
-        options={[
-          { label: 'Avec propositions', value: 'choices' },
-          { label: 'Réponse libre', value: 'open' },
-        ]}
-      />
-      <Txt faint size={fontSize.xs}>
-        {cfg.answerFormat === 'choices'
-          ? 'QCM : 4 propositions, on tape la bonne.'
-          : 'Réponse libre : on dit la réponse à voix haute, l\'animateur valide. Ça vaut plus de points !'}
-      </Txt>
+      <SectionHeader title="Réponses & aide" />
+      <Card>
+        <Txt weight="700">Réponse libre par défaut</Txt>
+        <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
+          Chaque question démarre sans proposition (points pleins). Pendant la question, des
+          boutons permettent de demander de l'aide — au prix de points :
+        </Txt>
+        <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
+          • 4 propositions → points ÷ 2{'\n'}• 2 propositions → points ÷ 4{'\n'}• un indice → points ÷ 1,5 (cumulable)
+        </Txt>
+      </Card>
 
       <SectionHeader title="Chrono par question" />
       <Card>
@@ -250,18 +246,6 @@ export function QuizConfigComponent({ onStart }: MiniGameConfigProps) {
       <SectionHeader title="Options" />
       <Card>
         <View style={styles.row}>
-          <View style={{ flex: 1 }}>
-            <Txt weight="700">Indices</Txt>
-            <Txt faint size={fontSize.xs}>Autoriser les indices (réduisent les points)</Txt>
-          </View>
-          <Switch
-            value={cfg.hintsEnabled}
-            onValueChange={(v) => setCfg((c) => ({ ...c, hintsEnabled: v }))}
-            trackColor={{ true: colors.primary, false: colors.border }}
-            thumbColor={colors.white}
-          />
-        </View>
-        <View style={[styles.row, { marginTop: spacing(1.5) }]}>
           <View style={{ flex: 1 }}>
             <Txt weight="700">Gorgées 🍻</Txt>
             <Txt faint size={fontSize.xs}>Défis et gorgées à boire / distribuer</Txt>

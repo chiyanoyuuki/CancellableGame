@@ -99,11 +99,10 @@ export interface Question {
 export type TurnMode = 'turn' | 'fastest';
 // 'turn'    = chacun son tour : chaque joueur a sa propre question.
 // 'fastest' = au plus rapide   : tout le monde court sur la même question.
-
-/** Answer format. */
-export type AnswerFormat = 'choices' | 'open';
-// 'choices' = avec propositions (QCM).
-// 'open'    = sans propositions (réponse libre, validée par l'hôte).
+//
+// Le format de réponse n'est plus un réglage : chaque question démarre en
+// « réponse libre » (points pleins) et le joueur peut demander de l'aide en
+// cours de question (2 ou 4 propositions, un indice), ce qui réduit les points.
 
 export type DrinkIntensity = 'soft' | 'normal' | 'hardcore';
 
@@ -112,8 +111,6 @@ export interface QuizConfig {
   difficulties: Difficulty[];
   questionCount: number;
   turnMode: TurnMode;
-  answerFormat: AnswerFormat;
-  hintsEnabled: boolean;
   drinksEnabled: boolean;
   drinkIntensity: DrinkIntensity;
   /** Time limit per question for the "fastest" mode (ms). */
@@ -132,8 +129,6 @@ export const DEFAULT_QUIZ_CONFIG: QuizConfig = {
   difficulties: [1, 2, 3],
   questionCount: 15,
   turnMode: 'turn',
-  answerFormat: 'choices',
-  hintsEnabled: true,
   drinksEnabled: true,
   drinkIntensity: 'normal',
   fastestTimeLimitMs: 20000,
@@ -171,7 +166,7 @@ export interface GameEvent {
 
 export interface SessionResult {
   gameId: string;
-  /** Free-form mode label/code, e.g. "turn/choices". */
+  /** Free-form mode label/code, e.g. "turn" or "fastest". */
   mode: string;
   config: Record<string, unknown>;
   startedAt: number;

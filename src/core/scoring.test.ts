@@ -1,46 +1,59 @@
-import { BASE_POINTS, scoreAnswer } from './scoring';
+import { BASE_POINTS, HINT_DIVISOR, helpDivisor, scoreAnswer } from './scoring';
 
 describe('scoreAnswer', () => {
   test('wrong answers are always worth 0', () => {
     const s = scoreAnswer({
       difficulty: 3,
       correct: false,
-      answerFormat: 'choices',
       turnMode: 'turn',
+      propsShown: 0,
       hintsUsed: 0,
     });
     expect(s.total).toBe(0);
   });
 
-  test('base points scale with difficulty', () => {
-    const easy = scoreAnswer({ difficulty: 1, correct: true, answerFormat: 'choices', turnMode: 'turn', hintsUsed: 0 });
-    const hard = scoreAnswer({ difficulty: 3, correct: true, answerFormat: 'choices', turnMode: 'turn', hintsUsed: 0 });
+  test('a free answer (no help) is worth the full base points', () => {
+    const easy = scoreAnswer({ difficulty: 1, correct: true, turnMode: 'turn', propsShown: 0, hintsUsed: 0 });
+    const hard = scoreAnswer({ difficulty: 3, correct: true, turnMode: 'turn', propsShown: 0, hintsUsed: 0 });
     expect(easy.total).toBe(BASE_POINTS[1]);
     expect(hard.total).toBe(BASE_POINTS[3]);
     expect(hard.total).toBeGreaterThan(easy.total);
   });
 
-  test('open answer is worth more than a QCM', () => {
-    const qcm = scoreAnswer({ difficulty: 2, correct: true, answerFormat: 'choices', turnMode: 'turn', hintsUsed: 0 });
-    const open = scoreAnswer({ difficulty: 2, correct: true, answerFormat: 'open', turnMode: 'turn', hintsUsed: 0 });
-    expect(open.total).toBeGreaterThan(qcm.total);
+  test('revealing 4 propositions halves the value', () => {
+    const s = scoreAnswer({ difficulty: 2, correct: true, turnMode: 'turn', propsShown: 4, hintsUsed: 0 });
+    expect(s.total).toBe(Math.round(BASE_POINTS[2] / 2));
   });
 
-  test('hints reduce the score but never below the floor', () => {
-    const none = scoreAnswer({ difficulty: 2, correct: true, answerFormat: 'choices', turnMode: 'turn', hintsUsed: 0 });
-    const one = scoreAnswer({ difficulty: 2, correct: true, answerFormat: 'choices', turnMode: 'turn', hintsUsed: 1 });
-    const many = scoreAnswer({ difficulty: 2, correct: true, answerFormat: 'choices', turnMode: 'turn', hintsUsed: 10 });
-    expect(one.total).toBeLessThan(none.total);
-    expect(many.total).toBeGreaterThan(0);
-    expect(many.total).toBe(Math.round(BASE_POINTS[2] * 0.25));
+  test('revealing 2 propositions divides the value by 4', () => {
+    const s = scoreAnswer({ difficulty: 2, correct: true, turnMode: 'turn', propsShown: 2, hintsUsed: 0 });
+    expect(s.total).toBe(Math.round(BASE_POINTS[2] / 4));
+  });
+
+  test('an indice divides the value by 1.5', () => {
+    const s = scoreAnswer({ difficulty: 2, correct: true, turnMode: 'turn', propsShown: 0, hintsUsed: 1 });
+    expect(s.total).toBe(Math.round(BASE_POINTS[2] / HINT_DIVISOR));
+  });
+
+  test('penalties stack multiplicatively (4 props + 1 indice = ÷3)', () => {
+    const s = scoreAnswer({ difficulty: 4, correct: true, turnMode: 'turn', propsShown: 4, hintsUsed: 1 });
+    expect(s.total).toBe(Math.round(BASE_POINTS[4] / (2 * HINT_DIVISOR)));
+  });
+
+  test('helpDivisor reflects the combined penalty', () => {
+    expect(helpDivisor(0, 0)).toBe(1);
+    expect(helpDivisor(4, 0)).toBe(2);
+    expect(helpDivisor(2, 0)).toBe(4);
+    expect(helpDivisor(0, 1)).toBeCloseTo(1.5);
+    expect(helpDivisor(2, 1)).toBeCloseTo(6);
   });
 
   test('speed bonus only applies in fastest mode and rewards quick answers', () => {
     const slow = scoreAnswer({
       difficulty: 2,
       correct: true,
-      answerFormat: 'choices',
       turnMode: 'fastest',
+      propsShown: 0,
       hintsUsed: 0,
       timeMs: 20000,
       timeLimitMs: 20000,
@@ -48,8 +61,8 @@ describe('scoreAnswer', () => {
     const fast = scoreAnswer({
       difficulty: 2,
       correct: true,
-      answerFormat: 'choices',
       turnMode: 'fastest',
+      propsShown: 0,
       hintsUsed: 0,
       timeMs: 0,
       timeLimitMs: 20000,
@@ -63,8 +76,8 @@ describe('scoreAnswer', () => {
     const s = scoreAnswer({
       difficulty: 2,
       correct: true,
-      answerFormat: 'choices',
       turnMode: 'turn',
+      propsShown: 0,
       hintsUsed: 0,
       timeMs: 0,
       timeLimitMs: 20000,

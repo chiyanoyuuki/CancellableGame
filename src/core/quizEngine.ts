@@ -9,7 +9,7 @@ import type {
   Theme,
 } from './models';
 import { mulberry32, type Rng, shuffle } from './rng';
-import { scoreAnswer, type ScoreBreakdown } from './scoring';
+import { type PropsShown, scoreAnswer, type ScoreBreakdown } from './scoring';
 
 /**
  * The quiz as a pure state machine.
@@ -38,6 +38,7 @@ export interface QuizAnswerPayload {
   theme: Theme;
   difficulty: number;
   correct: boolean;
+  propsShown: PropsShown;
   hintsUsed: number;
   timeMs: number | null;
   points: number;
@@ -62,8 +63,12 @@ export interface QuizState {
   phase: QuizPhase;
   seed: number;
   step: number;
-  /** Shuffled options for the current question (QCM); empty in open mode. */
+  /** The four shuffled options for the current question (answer + 3 distractors). */
   currentOptions: string[];
+  /** A two-option subset (answer + one distractor) shown for the "2 propositions" help. */
+  pairOptions: string[];
+  /** Propositions currently revealed for this question: 0 (libre), 2 or 4. */
+  propsShown: PropsShown;
   hintsRevealed: number;
   /** Whose turn (turn mode) or who buzzed (fastest); null until resolved. */
   activePlayerId: string | null;
@@ -77,6 +82,7 @@ export interface QuizState {
 
 export type QuizAction =
   | { type: 'REVEAL_HINT' }
+  | { type: 'REVEAL_PROPS'; count: 2 | 4 }
   | { type: 'SUBMIT'; playerId: string; correct: boolean; timeMs?: number | null }
   | { type: 'SKIP' } // nobody found the answer (fastest mode)
   | { type: 'CONTINUE' };
@@ -91,9 +97,8 @@ function stepRng(state: QuizState): { rng: Rng; step: number } {
   return { rng, step: state.step + 1 };
 }
 
-/** Number of hints available for the current question, honouring the config. */
+/** Number of hints available for the current question. */
 export function availableHints(state: QuizState): number {
-  if (!state.config.hintsEnabled) return 0;
   return state.questions[state.index]?.hints?.length ?? 0;
 }
 
@@ -102,8 +107,10 @@ function setupQuestion(state: QuizState): QuizState {
   if (!q) return { ...state, phase: 'finished' };
 
   const { rng, step } = stepRng(state);
-  const currentOptions =
-    state.config.answerFormat === 'choices' ? shuffle([q.answer, ...q.distractors.slice(0, 3)], rng) : [];
+  // The full QCM (4 options) and a 2-option subset (answer + one distractor)
+  // are always prepared; they are only *revealed* on demand during the round.
+  const currentOptions = shuffle([q.answer, ...q.distractors.slice(0, 3)], rng);
+  const pairOptions = shuffle([q.answer, q.distractors[0] ?? '???'], rng);
 
   const activePlayerId =
     state.config.turnMode === 'turn' && state.order.length > 0
@@ -115,6 +122,8 @@ function setupQuestion(state: QuizState): QuizState {
     step,
     phase: 'question',
     currentOptions,
+    pairOptions,
+    propsShown: 0,
     hintsRevealed: 0,
     activePlayerId,
     lastOutcome: null,
@@ -143,6 +152,8 @@ export function createQuizState(args: {
     seed: args.seed >>> 0,
     step: 0,
     currentOptions: [],
+    pairOptions: [],
+    propsShown: 0,
     hintsRevealed: 0,
     activePlayerId: null,
     lastOutcome: null,
@@ -172,6 +183,15 @@ export function quizReducer(state: QuizState, action: QuizAction): QuizState {
       return { ...state, hintsRevealed: state.hintsRevealed + 1 };
     }
 
+    case 'REVEAL_PROPS': {
+      if (state.phase !== 'question') return state;
+      // 2 propositions is the bigger help (÷4) and supersedes 4 (÷2); once at 2
+      // there is nothing more to reveal, and 4 only applies from "libre" (0).
+      if (state.propsShown === 2) return state;
+      if (action.count === 4 && state.propsShown !== 0) return state;
+      return { ...state, propsShown: action.count };
+    }
+
     case 'SUBMIT': {
       if (state.phase !== 'question') return state;
       const q = state.questions[state.index];
@@ -182,8 +202,8 @@ export function quizReducer(state: QuizState, action: QuizAction): QuizState {
       const score = scoreAnswer({
         difficulty: q.difficulty,
         correct: action.correct,
-        answerFormat: state.config.answerFormat,
         turnMode: state.config.turnMode,
+        propsShown: state.propsShown,
         hintsUsed: state.hintsRevealed,
         timeMs: action.timeMs ?? null,
         timeLimitMs: state.config.fastestTimeLimitMs,
@@ -216,6 +236,7 @@ export function quizReducer(state: QuizState, action: QuizAction): QuizState {
         theme: q.theme,
         difficulty: q.difficulty,
         correct: action.correct,
+        propsShown: state.propsShown,
         hintsUsed: state.hintsRevealed,
         timeMs: action.timeMs ?? null,
         points: score.total,
@@ -245,7 +266,7 @@ export function quizReducer(state: QuizState, action: QuizAction): QuizState {
         lastOutcome: {
           correct: false,
           correctAnswer: q.answer,
-          score: { base: 0, afterFormat: 0, afterHints: 0, speedBonus: 0, total: 0 },
+          score: { base: 0, afterProps: 0, afterHints: 0, speedBonus: 0, total: 0 },
           drink: { sipsDrunk: 0, sipsGiven: 0, reason: 'Personne n\'a trouvé 🤷' },
         },
       };
@@ -281,6 +302,30 @@ export function currentQuestion(state: QuizState): Question | null {
   return state.questions[state.index] ?? null;
 }
 
+/**
+ * Points the current question is worth right now, given the help already
+ * revealed (propositions + indices), excluding the fastest-mode speed bonus.
+ * Used to show the live "cost" of asking for help.
+ */
+export function potentialPoints(state: QuizState): number {
+  const q = state.questions[state.index];
+  if (!q) return 0;
+  return scoreAnswer({
+    difficulty: q.difficulty,
+    correct: true,
+    turnMode: state.config.turnMode,
+    propsShown: state.propsShown,
+    hintsUsed: state.hintsRevealed,
+  }).total;
+}
+
+/** Options to display for the current help level (empty when in free-answer mode). */
+export function visibleOptions(state: QuizState): string[] {
+  if (state.propsShown === 4) return state.currentOptions;
+  if (state.propsShown === 2) return state.pairOptions;
+  return [];
+}
+
 export function progress(state: QuizState): { current: number; total: number } {
   return { current: Math.min(state.index + 1, state.questions.length), total: state.questions.length };
 }
@@ -306,7 +351,7 @@ export function toSessionResult(state: QuizState, startedAt: number, endedAt: nu
 
   return {
     gameId: 'quiz',
-    mode: `${state.config.turnMode}/${state.config.answerFormat}`,
+    mode: state.config.turnMode,
     config: { ...state.config },
     startedAt,
     endedAt,

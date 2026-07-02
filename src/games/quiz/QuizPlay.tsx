@@ -11,11 +11,13 @@ import {
   createQuizState,
   currentQuestion,
   getRanking,
+  potentialPoints,
   progress,
   type QuizAction,
   type QuizState,
   quizReducer,
   toSessionResult,
+  visibleOptions,
 } from '../../core/quizEngine';
 import { mulberry32, randomSeed } from '../../core/rng';
 import { selectQuestions } from '../../core/questionSelection';
@@ -250,7 +252,6 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
   function renderQuestion() {
     if (!q) return null;
     const theme = THEME_META[q.theme];
-    const canHint = cfg.hintsEnabled && (q.hints?.length ?? 0) > game!.hintsRevealed;
     const revealedHints = (q.hints ?? []).slice(0, game!.hintsRevealed);
 
     return (
@@ -300,16 +301,57 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
             💡 {h}
           </Txt>
         ))}
-        {canHint && (
+
+        {renderHelpBar()}
+
+        {cfg.turnMode === 'turn' ? renderTurn() : renderFastest()}
+      </View>
+    );
+  }
+
+  // Buttons to reveal help on demand; each reduces the points at stake.
+  function renderHelpBar() {
+    if (!q) return null;
+    const hintsLeft = (q.hints?.length ?? 0) - game!.hintsRevealed;
+    return (
+      <View style={styles.helpBox}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Txt faint size={fontSize.xs} weight="800">
+            BESOIN D'UN COUP DE POUCE ?
+          </Txt>
+          <Txt weight="800" color={colors.primary}>
+            {potentialPoints(game!)} pts
+          </Txt>
+        </View>
+        <View style={styles.helpRow}>
           <Button
-            title="Demander un indice (−25 %)"
+            title="4 propositions"
             variant="secondary"
+            size="sm"
+            style={{ flex: 1 }}
+            disabled={game!.propsShown !== 0}
+            onPress={() => dispatch({ type: 'REVEAL_PROPS', count: 4 })}
+          />
+          <Button
+            title="2 propositions"
+            variant="secondary"
+            size="sm"
+            style={{ flex: 1 }}
+            disabled={game!.propsShown === 2}
+            onPress={() => dispatch({ type: 'REVEAL_PROPS', count: 2 })}
+          />
+        </View>
+        {hintsLeft > 0 && (
+          <Button
+            title={`💡 Indice ÷1,5${(q.hints?.length ?? 0) > 1 ? ` (${hintsLeft} restant${hintsLeft > 1 ? 's' : ''})` : ''}`}
+            variant="ghost"
             size="sm"
             onPress={() => dispatch({ type: 'REVEAL_HINT' })}
           />
         )}
-
-        {cfg.turnMode === 'turn' ? renderTurn() : renderFastest()}
+        <Txt faint size={fontSize.xs}>
+          Réponse libre = points pleins · 4 props = ½ · 2 props = ¼ · indice = ÷1,5 (cumulables)
+        </Txt>
       </View>
     );
   }
@@ -336,6 +378,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
           <Txt dim weight="700" center>
             Le plus rapide ! Qui a trouvé ?
           </Txt>
+          {renderOptions(null, null, false)}
           <View style={styles.playerGrid}>
             {players.map((p) => (
               <Pressable
@@ -367,22 +410,35 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
     );
   }
 
+  // The revealed propositions, tappable (interactive) or as a read-only preview.
+  function renderOptions(playerId: string | null, timeMs: number | null, interactive: boolean) {
+    const opts = visibleOptions(game!);
+    if (opts.length === 0) return null;
+    return (
+      <View style={{ gap: spacing(1) }}>
+        {opts.map((opt) => (
+          <Pressable
+            key={opt}
+            style={[styles.option, !interactive && styles.optionPreview]}
+            disabled={!interactive || !playerId}
+            onPress={() => playerId && answer(playerId, opt === q!.answer, timeMs)}
+          >
+            <Txt weight="700">{opt}</Txt>
+          </Pressable>
+        ))}
+      </View>
+    );
+  }
+
   function renderAnswerControls(playerId: string | null, timeMs: number | null) {
     if (!q || !playerId) return null;
 
-    if (cfg.answerFormat === 'choices') {
-      return (
-        <View style={{ gap: spacing(1) }}>
-          {game!.currentOptions.map((opt) => (
-            <Pressable key={opt} style={styles.option} onPress={() => answer(playerId, opt === q.answer, timeMs)}>
-              <Txt weight="700">{opt}</Txt>
-            </Pressable>
-          ))}
-        </View>
-      );
+    // Propositions revealed → tap the right one.
+    if (game!.propsShown > 0) {
+      return renderOptions(playerId, timeMs, true);
     }
 
-    // Open answer: reveal, then the host judges.
+    // Free answer: reveal, then the host judges.
     if (!revealedAnswer) {
       return <Button title="Révéler la réponse" onPress={() => setRevealedAnswer(true)} />;
     }
@@ -530,6 +586,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
   },
+  optionPreview: { opacity: 0.85, borderStyle: 'dashed' },
+  helpBox: {
+    gap: spacing(1),
+    backgroundColor: colors.cardAlt,
+    borderRadius: radius.md,
+    padding: spacing(1.5),
+  },
+  helpRow: { flexDirection: 'row', gap: spacing(1) },
   playerGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing(1) },
   buzzBtn: {
     flexDirection: 'row',
