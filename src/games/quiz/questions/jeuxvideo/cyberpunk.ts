@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const cyberpunk = universe("jeuxvideo", "Cyberpunk 2077", [
+  // --- Faciles (5) ---
+  { id: "cp-f1", d: 1, t: "Quel studio a développé Cyberpunk 2077 ?", a: "CD Projekt Red", acc: ["cd projekt red", "cd projekt"], x: ["Rockstar Games", "Ubisoft", "Bethesda"] },
+  { id: "cp-f2", d: 1, t: "Dans quelle mégapole se déroule Cyberpunk 2077 ?", a: "Night City", x: ["Los Santos", "Rapture", "Neo-Tokyo"] },
+  { id: "cp-f3", d: 1, t: "Quel célèbre acteur incarne Johnny Silverhand ?", a: "Keanu Reeves", acc: ["keanu reeves", "keanu"], x: ["Idris Elba", "Elon Musk", "Ryan Gosling"] },
+  { id: "cp-f4", d: 1, t: "Comment s'appelle le personnage principal que l'on incarne ?", a: "V", x: ["Jackie", "Johnny", "David"] },
+  { id: "cp-f5", d: 1, t: "À quel genre appartient Cyberpunk 2077 ?", a: "Un RPG en monde ouvert", acc: ["rpg", "jeu de role", "action-rpg"], x: ["Un jeu de course", "Un city-builder", "Un jeu de rythme"] },
+
+  // --- Moyennes (10) ---
+  { id: "cp-m1", d: 2, t: "Comment s'appelle le rockeur terroriste dont l'esprit vit dans la tête de V ?", a: "Johnny Silverhand", acc: ["johnny silverhand", "silverhand", "johnny"], x: ["Jackie Welles", "Adam Smasher", "Goro Takemura"] },
+  { id: "cp-m2", d: 2, t: "Comment s'appelle le meilleur ami de V, tué lors du casse du début ?", a: "Jackie Welles", acc: ["jackie welles", "jackie"], x: ["Johnny", "Viktor", "River"] },
+  { id: "cp-m3", d: 2, t: "Quelle puissante mégacorpo japonaise domine Night City ?", a: "Arasaka", x: ["Militech", "Kang Tao", "Biotechnica"] },
+  { id: "cp-m4", d: 2, t: "Comment appelle-t-on la puce contenant l'esprit de Johnny, cœur de l'intrigue ?", a: "Le Relic", acc: ["relic", "la relique", "biopuce"], x: ["Le Béhélit", "La SIM", "Le Data-shard"] },
+  { id: "cp-m5", d: 2, t: "Quelle est la monnaie de Night City ?", a: "Les eddies (eurodollars)", acc: ["eddies", "eddy", "eurodollars"], x: ["Les crédits", "Les caps", "Les nuyens"] },
+  { id: "cp-m6", d: 2, t: "Comment appelle-t-on les médecins clandestins qui posent les implants cybernétiques ?", a: "Les ripperdocs", acc: ["ripperdoc", "ripperdocs"], x: ["Les netrunners", "Les fixers", "Les techies"] },
+  { id: "cp-m7", d: 2, t: "Comment appelle-t-on les hackers d'élite qui piratent réseaux et cerveaux ?", a: "Les netrunners", acc: ["netrunner", "netrunners"], x: ["Les nomades", "Les solos", "Les fixers"] },
+  { id: "cp-m8", d: 2, t: "Comment appelle-t-on les intermédiaires qui filent des contrats aux mercenaires ?", a: "Les fixers", acc: ["fixer", "fixers"], x: ["Les ripperdocs", "Les corpos", "Les nomades"] },
+  { id: "cp-m9", d: 2, t: "Comment appelle-t-on la folie provoquée par un excès d'implants cybernétiques ?", a: "La cyberpsychose", acc: ["cyberpsychose", "cyberpsychosis"], x: ["La cyber-grippe", "Le glitch", "La surchauffe"] },
+  { id: "cp-m10", d: 2, t: "En quelle année Cyberpunk 2077 est-il sorti ?", a: "2020", x: ["2077", "2018", "2022"] },
+
+  // --- Dures (15) ---
+  { id: "cp-d1", d: 3, t: "De quel jeu de rôle sur table Cyberpunk 2077 est-il tiré ?", a: "Cyberpunk 2020", acc: ["cyberpunk 2020"], x: ["Shadowrun", "Warhammer 40k", "Donjons & Dragons"] },
+  { id: "cp-d2", d: 3, t: "Qui a créé le jeu de rôle papier d'origine (et apparaît en caméo) ?", a: "Mike Pondsmith", acc: ["mike pondsmith", "pondsmith"], x: ["Gary Gygax", "Hideo Kojima", "Mike Pond"] },
+  { id: "cp-d3", d: 3, t: "Comment s'appelle le groupe de rock dont Johnny était le chanteur ?", a: "Samurai", x: ["Us Cracks", "Kerry Combo", "IHAG"] },
+  { id: "cp-d4", d: 3, t: "Comment appelle-t-on les enregistrements sensoriels que l'on peut revivre ?", a: "Les braindances (BD)", acc: ["braindance", "braindances", "bd"], x: ["Les mindstreams", "Les holos", "Les dreamcasts"] },
+  { id: "cp-d5", d: 3, t: "Dans quel hôtel de luxe se déroule le casse de la Relic ?", a: "Le Konpeki Plaza", acc: ["konpeki plaza", "konpeki"], x: ["L'Afterlife", "Le Delamain", "L'Arasaka Tower"] },
+  { id: "cp-d6", d: 3, t: "Quel fixer engage V pour le casse, puis le trahit d'une balle dans la tête ?", a: "Dexter DeShawn", acc: ["dexter deshawn", "dexter", "deshawn"], x: ["Rogue", "Wakako", "Regina"] },
+  { id: "cp-d7", d: 3, t: "Comment s'appelle le célèbre bar-repaire des mercenaires de Night City ?", a: "L'Afterlife", acc: ["afterlife", "l'afterlife"], x: ["Le Lizzie's Bar", "Le Totentanz", "Le Riot"] },
+  { id: "cp-d8", d: 3, t: "Quel cyborg-tueur d'Arasaka a assassiné Johnny en 2023 ?", a: "Adam Smasher", acc: ["adam smasher", "smasher"], x: ["Goro Takemura", "Placide", "Royce"] },
+  { id: "cp-d9", d: 3, t: "Comment s'appelle le fondateur tyrannique d'Arasaka, tué par son fils ?", a: "Saburo Arasaka", acc: ["saburo arasaka", "saburo"], x: ["Yorinobu Arasaka", "Adam Smasher", "Goro Takemura"] },
+  { id: "cp-d10", d: 3, t: "Quel garde du corps de Saburo aide ensuite V dans son enquête ?", a: "Goro Takemura", acc: ["takemura", "goro takemura"], x: ["Jackie", "Viktor", "Placide"] },
+  { id: "cp-d11", d: 3, t: "Comment appelle-t-on les clans qui vivent dans le désert des Badlands ?", a: "Les Nomades", acc: ["nomades", "nomads", "aldecaldos"], x: ["Les Scavs", "Les Corpos", "Les Moxes"] },
+  { id: "cp-d12", d: 3, t: "Quelle nomade des Aldecaldos devient une alliée (et romance) de V ?", a: "Panam Palmer", acc: ["panam", "panam palmer"], x: ["Judy", "Rogue", "Misty"] },
+  { id: "cp-d13", d: 3, t: "Quel gang de Watson est obsédé par les implants cybernétiques ?", a: "Les Maelstrom", acc: ["maelstrom"], x: ["Les Tyger Claws", "Les Valentinos", "Les Animals"] },
+  { id: "cp-d14", d: 3, t: "Comment appelle-t-on le programme qui copie puis détruit une conscience ?", a: "Soulkiller", acc: ["soulkiller"], x: ["Blackwall", "ICE", "Daemon"] },
+  { id: "cp-d15", d: 3, t: "Comment appelle-t-on le mur numérique qui contient les IA hostiles hors du réseau ?", a: "Le Blackwall", acc: ["blackwall"], x: ["Le Firewall", "L'ICE", "La Grille"] },
+
+  // --- Pro (20) ---
+  { id: "cp-p1", d: 4, t: "Comment s'appelle le ripperdoc de confiance de V, ancien boxeur ?", a: "Viktor Vector", acc: ["viktor vector", "viktor", "vik"], x: ["Dexter DeShawn", "Goro Takemura", "Placide"] },
+  { id: "cp-p2", d: 4, t: "Quel gang de netrunners haïtiens règne sur le quartier de Pacifica ?", a: "Les Voodoo Boys", acc: ["voodoo boys"], x: ["Les Tyger Claws", "Les Maelstrom", "Les Animals"] },
+  { id: "cp-p3", d: 4, t: "Comment s'appelle la netrunneuse, ex de Johnny, créatrice de Soulkiller ?", a: "Alt Cunningham", acc: ["alt cunningham", "alt"], x: ["Rogue", "Judy", "Panam"] },
+  { id: "cp-p4", d: 4, t: "Quel surnom porte Rogue Amendiares, patronne du bar Afterlife ?", a: "La Reine de l'Afterlife", acc: ["reine de l'afterlife", "queen of the afterlife", "reine des fixers"], x: ["La Reine de Pacifica", "La Dame de Fer", "La Veuve Noire"] },
+  { id: "cp-p5", d: 4, t: "Comment s'appelle la techie experte en braindance, romance possible de V ?", a: "Judy Alvarez", acc: ["judy alvarez", "judy"], x: ["Panam", "Misty", "Rogue"] },
+  { id: "cp-p6", d: 4, t: "Comment s'appelle la voyante-tarot, compagne du ripperdoc Viktor ?", a: "Misty", acc: ["misty", "misty olszewski"], x: ["Judy", "Panam", "Claire"] },
+  { id: "cp-p7", d: 4, t: "Comment s'appelle le service médical d'urgence privé qui débarque en aérodyne ?", a: "La Trauma Team", acc: ["trauma team"], x: ["MedTech", "Arasaka Med", "SOS Corpo"] },
+  { id: "cp-p8", d: 4, t: "Quels sont les trois « lifepaths » (origines) possibles de V ?", a: "Nomade, Enfant des rues, Corpo", acc: ["nomade enfant des rues corpo", "nomad streetkid corpo"], x: ["Soldat, Flic, Voleur", "Netrunner, Solo, Techie", "Guerrier, Mage, Voleur"] },
+  { id: "cp-p9", d: 4, t: "Qu'a fait exploser Johnny au sommet de la Tour Arasaka en 2023 ?", a: "Une mini-bombe nucléaire", acc: ["bombe nucleaire", "mini-nuke", "nuke", "ogive nucleaire"], x: ["Une voiture piégée", "Un réacteur", "Un satellite"] },
+  { id: "cp-p10", d: 4, t: "Comment s'appelle l'IA qui gère la compagnie de taxis autonomes ?", a: "Delamain", acc: ["delamain"], x: ["Skippy", "Johnny", "Arasaka-Net"] },
+  { id: "cp-p11", d: 4, t: "Comment s'appelle l'anime Netflix tiré de l'univers, sorti en 2022 ?", a: "Cyberpunk: Edgerunners", acc: ["edgerunners", "cyberpunk edgerunners"], x: ["Cyberpunk: Night City", "Cyberpunk 2020", "Ghostrunner"] },
+  { id: "cp-p12", d: 4, t: "Quel studio d'animation japonais a réalisé Edgerunners ?", a: "Studio Trigger", acc: ["studio trigger", "trigger"], x: ["Studio Ghibli", "MAPPA", "Ufotable"] },
+  { id: "cp-p13", d: 4, t: "Qui est le héros de l'anime Edgerunners ?", a: "David Martinez", acc: ["david martinez", "david"], x: ["V", "Johnny", "Maine"] },
+  { id: "cp-p14", d: 4, t: "Comment s'appelle la netrunneuse dont David tombe amoureux dans Edgerunners ?", a: "Lucy", acc: ["lucy", "lucyna"], x: ["Rebecca", "Kiwi", "Dorio"] },
+  { id: "cp-p15", d: 4, t: "Comment s'appelle l'extension majeure de 2023, avec un nouveau quartier ?", a: "Phantom Liberty", acc: ["phantom liberty"], x: ["Blood and Wine", "Far Harbor", "The Frozen Wilds"] },
+  { id: "cp-p16", d: 4, t: "Comment s'appelle le quartier militarisé et clos ajouté par Phantom Liberty ?", a: "Dogtown", acc: ["dogtown"], x: ["Pacifica", "Watson", "Heywood"] },
+  { id: "cp-p17", d: 4, t: "Quel acteur incarne l'agent Solomon Reed dans Phantom Liberty ?", a: "Idris Elba", acc: ["idris elba", "idris"], x: ["Keanu Reeves", "Michael B. Jordan", "Denzel Washington"] },
+  { id: "cp-p18", d: 4, t: "Quel fils d'Arasaka assassine son propre père Saburo ?", a: "Yorinobu", acc: ["yorinobu", "yorinobu arasaka"], x: ["Goro", "Adam", "Hanako"] },
+  { id: "cp-p19", d: 4, t: "Quel quartier japonais de Night City est le fief des Tyger Claws ?", a: "Westbrook (Japantown)", acc: ["westbrook", "japantown", "kabuki"], x: ["Pacifica", "Heywood", "Santo Domingo"] },
+  { id: "cp-p20", d: 4, t: "Comment appelle-t-on les charognards qui volent organes et implants ?", a: "Les Scavs (Scavengers)", acc: ["scavs", "scavengers", "charognards"], x: ["Les Moxes", "Les Valentinos", "Les 6th Street"] },
+]);

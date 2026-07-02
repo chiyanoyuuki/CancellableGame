@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const berserk = universe("manga", "Berserk", [
+  // --- Faciles (5) ---
+  { id: "berserk-f1", d: 1, t: "Qui est le héros de Berserk, un épéiste solitaire au lourd passé ?", a: "Guts", acc: ["guts", "gatsu"], x: ["Griffith", "Zodd", "Puck"] },
+  { id: "berserk-f2", d: 1, t: "Comment appelle-t-on l'immense épée que manie Guts ?", a: "Le Dragon Slayer", acc: ["dragon slayer", "dragonslayer", "tueur de dragons"], x: ["Excalibur", "Masamune", "Muramasa"] },
+  { id: "berserk-f3", d: 1, t: "Quel genre décrit le mieux Berserk ?", a: "La dark fantasy médiévale", acc: ["dark fantasy", "fantasy sombre", "heroic fantasy sombre"], x: ["La comédie romantique", "La science-fiction spatiale", "Le sport"] },
+  { id: "berserk-f4", d: 1, t: "Qui est l'auteur (dessinateur) du manga Berserk ?", a: "Kentaro Miura", acc: ["miura", "kentaro miura"], x: ["Eiichiro Oda", "Akira Toriyama", "Masashi Kishimoto"] },
+  { id: "berserk-f5", d: 1, t: "De quelle couleur est l'armure emblématique associée à Guts ?", a: "Noire", acc: ["noir", "noire"], x: ["Blanche", "Rouge", "Dorée"] },
+
+  // --- Moyennes (10) ---
+  { id: "berserk-m1", d: 2, t: "Comment s'appelle le charismatique chef de la Bande du Faucon ?", a: "Griffith", x: ["Guts", "Judeau", "Zodd"] },
+  { id: "berserk-m2", d: 2, t: "Comment s'appelle la guerrière, seule femme commandant de la Bande du Faucon ?", a: "Casca", x: ["Farnese", "Schierke", "Slan"] },
+  { id: "berserk-m3", d: 2, t: "Comment s'appelle la troupe de mercenaires que Guts rejoint au début ?", a: "La Bande du Faucon", acc: ["bande du faucon", "troupe du faucon", "band of the hawk", "faucon"], x: ["Les Chevaliers du Crâne", "La Main de Dieu", "Les Apôtres"] },
+  { id: "berserk-m4", d: 2, t: "Quel petit elfe accompagne Guts et le soigne avec sa poudre ?", a: "Puck", x: ["Isidro", "Rickert", "Ivalera"] },
+  { id: "berserk-m5", d: 2, t: "Comment appelle-t-on l'événement tragique où la Bande du Faucon est sacrifiée ?", a: "L'Éclipse", acc: ["eclipse", "l'eclipse", "éclipse"], x: ["La Nuit des Longs Couteaux", "Le Jugement", "La Purge"] },
+  { id: "berserk-m6", d: 2, t: "Quel membre Guts perd-il durant l'Éclipse, remplacé par une prothèse-canon ?", a: "Son avant-bras gauche", acc: ["bras gauche", "avant-bras gauche", "main gauche", "bras"], x: ["Sa jambe droite", "Son bras droit", "Son pied"] },
+  { id: "berserk-m7", d: 2, t: "Que perd aussi Guts durant l'Éclipse, au niveau du visage ?", a: "Son œil droit", acc: ["oeil droit", "œil droit", "oeil", "un oeil"], x: ["Son oreille", "Son nez", "Ses dents"] },
+  { id: "berserk-m8", d: 2, t: "Quel surnom donne-t-on à Guts en raison de son allure et de sa réputation ?", a: "Le Guerrier Noir", acc: ["guerrier noir", "epeiste noir", "épéiste noir", "black swordsman"], x: ["Le Chevalier Blanc", "Le Faucon", "Le Boucher"] },
+  { id: "berserk-m9", d: 2, t: "Quelle marque, apparue sur Guts, attire sans cesse les esprits maléfiques ?", a: "La Marque du Sacrifice", acc: ["marque du sacrifice", "brand of sacrifice", "marque"], x: ["Le Sceau du Dragon", "La Croix de Sang", "Le Signe"] },
+  { id: "berserk-m10", d: 2, t: "Quel puissant guerrier-démon immortel (Nosferatu) reconnaît la valeur de Guts au combat ?", a: "Zodd", acc: ["zodd", "nosferatu zodd"], x: ["Wyald", "Ganishka", "Void"] },
+
+  // --- Dures (15) ---
+  { id: "berserk-d1", d: 3, t: "Comment appelle-t-on le groupe des cinq entités démoniaques quasi divines ?", a: "La Main de Dieu", acc: ["main de dieu", "god hand"], x: ["Les Apôtres", "Le Conseil", "La Sainte Chaîne"] },
+  { id: "berserk-d2", d: 3, t: "En quel être Griffith se transforme-t-il en rejoignant la Main de Dieu ?", a: "Femto", x: ["Void", "Zodd", "Ganishka"] },
+  { id: "berserk-d3", d: 3, t: "Comment appelle-t-on le talisman en forme d'œuf qui déclenche la transformation ?", a: "Le Béhélit", acc: ["behelit", "béhélit"], x: ["Le Sceau", "L'Amulette", "Le Graal"] },
+  { id: "berserk-d4", d: 3, t: "Comment nomme-t-on les humains devenus démons après avoir sacrifié un être cher ?", a: "Les Apôtres", acc: ["apotres", "apôtres", "apostles"], x: ["Les Possédés", "Les Damnés", "Les Trolls"] },
+  { id: "berserk-d5", d: 3, t: "Dans quel royaume débute l'histoire de Guts et Griffith ?", a: "Midland", x: ["Kushan", "Falconia", "Vritannis"] },
+  { id: "berserk-d6", d: 3, t: "Quel mystérieux allié en armure de crâne vient parfois sauver Guts ?", a: "Le Chevalier du Crâne", acc: ["chevalier du crane", "chevalier du crâne", "skull knight"], x: ["Le Roi Squelette", "Le Cavalier Noir", "Le Spectre"] },
+  { id: "berserk-d7", d: 3, t: "Comment nomme-t-on l'armure maudite qui décuple la force de Guts au péril de sa raison ?", a: "L'Armure du Berserk", acc: ["armure du berserk", "berserker armor", "armure berserk"], x: ["L'Armure du Dragon", "La Cuirasse Noire", "L'Armure Sainte"] },
+  { id: "berserk-d8", d: 3, t: "Quelle jeune sorcière rejoint le groupe et aide Guts à maîtriser l'Armure ?", a: "Schierke", x: ["Farnese", "Casca", "Slan"] },
+  { id: "berserk-d9", d: 3, t: "Quelle ancienne cheffe des Chevaliers de la Sainte Chaîne de Fer rejoint Guts ?", a: "Farnese", x: ["Schierke", "Casca", "Slan"] },
+  { id: "berserk-d10", d: 3, t: "Comment s'appelle le jeune voleur épéiste plein d'admiration qui suit Guts ?", a: "Isidro", x: ["Rickert", "Serpico", "Puck"] },
+  { id: "berserk-d11", d: 3, t: "Quel jeune membre de la Bande du Faucon survit à l'Éclipse car il était absent ?", a: "Rickert", x: ["Judeau", "Corkus", "Pippin"] },
+  { id: "berserk-d12", d: 3, t: "Quelle est la seule femme parmi les membres de la Main de Dieu ?", a: "Slan", x: ["Casca", "Farnese", "Schierke"] },
+  { id: "berserk-d13", d: 3, t: "Comment appelle-t-on la « bête intérieure » qui hante Guts et le pousse à la rage ?", a: "La Bête des Ténèbres", acc: ["bete des tenebres", "bête des ténèbres", "beast of darkness"], x: ["Le Démon Intérieur", "L'Ombre", "Le Loup Noir"] },
+  { id: "berserk-d14", d: 3, t: "Quel demi-frère de Farnese, fin escrimeur, manie une épée liée au vent ?", a: "Serpico", x: ["Isidro", "Judeau", "Rickert"] },
+  { id: "berserk-d15", d: 3, t: "Comment se nomme l'empereur de Kushan, apôtre et ennemi majeur de l'arc du Millénaire ?", a: "Ganishka", x: ["Wyald", "Mozgus", "Zodd"] },
+
+  // --- Pro (20) ---
+  { id: "berserk-p1", d: 4, t: "En quelle année a débuté la publication du manga Berserk ?", a: "1989", x: ["1985", "1992", "1997"] },
+  { id: "berserk-p2", d: 4, t: "Comment se nomme le chef de la Main de Dieu, au cerveau apparent ?", a: "Void", x: ["Femto", "Ubik", "Conrad"] },
+  { id: "berserk-p3", d: 4, t: "Citez l'un des deux membres masculins de la Main de Dieu autres que Void et Femto.", a: "Ubik (ou Conrad)", acc: ["ubik", "conrad"], x: ["Zodd", "Wyald", "Ganishka"] },
+  { id: "berserk-p4", d: 4, t: "Quel forgeron a fabriqué le Dragon Slayer et le canon du bras de Guts ?", a: "Godo", x: ["Rickert", "Gambino", "Serpico"] },
+  { id: "berserk-p5", d: 4, t: "Comment s'appelle la fille adoptive du forgeron Godo, proche de Rickert ?", a: "Erica", x: ["Casca", "Charlotte", "Sonia"] },
+  { id: "berserk-p6", d: 4, t: "Comment s'appelle la princesse de Midland aimée de Griffith ?", a: "Charlotte", x: ["Casca", "Farnese", "Sonia"] },
+  { id: "berserk-p7", d: 4, t: "Quel apôtre débauché dirige les Chevaliers des Chiens Noirs ?", a: "Wyald", x: ["Zodd", "Mozgus", "Ganishka"] },
+  { id: "berserk-p8", d: 4, t: "Quel inquisiteur fanatique tourmente les hérétiques dans l'arc de la Conviction ?", a: "Mozgus", x: ["Farnese", "Wyald", "Void"] },
+  { id: "berserk-p9", d: 4, t: "Comment s'appelle la ville-refuge que Griffith fait ériger après son retour ?", a: "Falconia", x: ["Midland", "Vritannis", "Wyndham"] },
+  { id: "berserk-p10", d: 4, t: "Comment nomme-t-on l'entité présentée comme la source du destin et du mal dans Berserk ?", a: "L'Idée du Mal", acc: ["idee du mal", "idée du mal", "idea of evil"], x: ["Le Roi Noir", "La Main de Dieu", "Le Béhélit"] },
+  { id: "berserk-p11", d: 4, t: "Comment s'appelle la capitale (château royal) de Midland ?", a: "Wyndham", x: ["Falconia", "Vritannis", "Skellig"] },
+  { id: "berserk-p12", d: 4, t: "Sur quelle île mystique des elfes Guts emmène-t-il Casca pour la soigner ?", a: "Skellig (Elfhelm)", acc: ["skellig", "elfhelm"], x: ["Falconia", "Midland", "Vritannis"] },
+  { id: "berserk-p13", d: 4, t: "Comment nomme-t-on l'événement qui offre à Griffith un corps de chair dans le monde réel ?", a: "L'Incarnation", acc: ["incarnation", "l'incarnation", "ceremonie de l'incarnation"], x: ["L'Éclipse", "Le Sacre", "La Résurrection"] },
+  { id: "berserk-p14", d: 4, t: "De quoi Guts est-il né, avant d'être recueilli bébé par des mercenaires ?", a: "D'une pendue (un cadavre pendu)", acc: ["cadavre pendu", "pendue", "corps pendu"], x: ["D'un œuf", "D'une louve", "D'un naufrage"] },
+  { id: "berserk-p15", d: 4, t: "Quel mercenaire a recueilli puis maltraité Guts durant son enfance ?", a: "Gambino", x: ["Godo", "Zodd", "Griffith"] },
+  { id: "berserk-p16", d: 4, t: "Comment surnomme-t-on l'enfant lumineux qui apparaît à Guts les nuits de nouvelle lune ?", a: "L'enfant de la lune", acc: ["enfant de la lune", "moonlight boy"], x: ["L'esprit", "Le farfadet", "L'ange"] },
+  { id: "berserk-p17", d: 4, t: "Après la mort de Miura, quel ami mangaka supervise la suite de Berserk ?", a: "Kouji Mori", acc: ["kouji mori", "mori"], x: ["Eiichiro Oda", "Yasuhiro Nightow", "Yoshihiro Togashi"] },
+  { id: "berserk-p18", d: 4, t: "Quel arc raconte l'ascension de la Bande du Faucon avant l'Éclipse ?", a: "L'Âge d'Or", acc: ["age d'or", "âge d'or", "golden age"], x: ["La Conviction", "Le Faucon du Millénaire", "L'Aurore"] },
+  { id: "berserk-p19", d: 4, t: "Quel petit esprit-fée féminin accompagne le groupe aux côtés de Schierke ?", a: "Ivalera", x: ["Puck", "Sonia", "Erica"] },
+  { id: "berserk-p20", d: 4, t: "Quelle jeune fille clairvoyante voue un culte à Griffith dans l'arc du Millénaire ?", a: "Sonia", x: ["Schierke", "Farnese", "Charlotte"] },
+]);

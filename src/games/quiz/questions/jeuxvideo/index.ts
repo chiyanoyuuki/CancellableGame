@@ -1,7 +1,9 @@
 import type { Question } from '../../../../core/models';
+import { cyberpunk } from './cyberpunk';
 import { halo } from './halo';
 import { lol } from './lol';
 import { pokemon } from './pokemon';
+import { skyrim } from './skyrim';
 
 /**
  * Thème Jeux vidéo, organisé par univers (un fichier par univers).
@@ -13,4 +15,6 @@ export const jeuxvideoQuestions: Question[] = [
   ...halo,
   ...lol,
   ...pokemon,
+  ...cyberpunk,
+  ...skyrim,
 ];

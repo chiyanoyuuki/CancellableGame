@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const arcane = universe("series", "Arcane", [
+  // --- Faciles (5) ---
+  { id: "arcane-f1", d: 1, t: "Sur quel jeu vidéo la série animée Arcane est-elle basée ?", a: "League of Legends", acc: ["league of legends", "lol"], x: ["Valorant", "Fortnite", "World of Warcraft"] },
+  { id: "arcane-f2", d: 1, t: "Sur quelle plateforme Arcane a-t-elle été diffusée ?", a: "Netflix", x: ["Disney+", "Amazon Prime", "HBO"] },
+  { id: "arcane-f3", d: 1, t: "Quelles deux sœurs sont au cœur de l'histoire d'Arcane ?", a: "Vi et Jinx", acc: ["vi et jinx", "jinx et vi"], x: ["Caitlyn et Vi", "Mel et Ambessa", "Powder et Isha"] },
+  { id: "arcane-f4", d: 1, t: "Quelle couleur de cheveux caractérise Jinx ?", a: "Bleue", acc: ["bleu", "bleue"], x: ["Rose", "Rouge", "Blanche"] },
+  { id: "arcane-f5", d: 1, t: "Quel studio d'animation français a réalisé Arcane ?", a: "Fortiche", acc: ["fortiche"], x: ["Pixar", "Studio Ghibli", "Ufotable"] },
+
+  // --- Moyennes (10) ---
+  { id: "arcane-m1", d: 2, t: "Comment s'appelle la cité du progrès et de la haute technologie où vivent les nantis ?", a: "Piltover", x: ["Zaun", "Noxus", "Demacia"] },
+  { id: "arcane-m2", d: 2, t: "Comment appelle-t-on la ville basse, pauvre et polluée, sous Piltover ?", a: "Zaun (les bas-fonds)", acc: ["zaun", "bas-fonds", "undercity"], x: ["Ionia", "Bilgewater", "Freljord"] },
+  { id: "arcane-m3", d: 2, t: "Comment s'appelait Jinx lorsqu'elle était petite fille ?", a: "Powder", x: ["Isha", "Sevika", "Mylo"] },
+  { id: "arcane-m4", d: 2, t: "Quel homme au grand cœur élève Vi et Powder comme ses filles ?", a: "Vander", x: ["Silco", "Jayce", "Viktor"] },
+  { id: "arcane-m5", d: 2, t: "Qui est le principal antagoniste de la saison 1, maître des bas-fonds ?", a: "Silco", x: ["Vander", "Jayce", "Marcus"] },
+  { id: "arcane-m6", d: 2, t: "Comment appelle-t-on la fusion de magie et de technologie inventée à Piltover ?", a: "L'Hextech", acc: ["hextech", "hextec"], x: ["Le Shimmer", "La Runeterra", "Le Chemtech"] },
+  { id: "arcane-m7", d: 2, t: "Comment appelle-t-on la drogue violette qui décuple la force de ses consommateurs ?", a: "Le Shimmer", acc: ["shimmer", "scintillement"], x: ["L'Hextech", "La poudre", "Le Chemtech"] },
+  { id: "arcane-m8", d: 2, t: "Quel jeune inventeur de Piltover crée l'Hextech et entre au Conseil ?", a: "Jayce", x: ["Viktor", "Ekko", "Silco"] },
+  { id: "arcane-m9", d: 2, t: "Comment s'appelle le générique culte de la saison 1 (par Imagine Dragons) ?", a: "Enemy", acc: ["enemy"], x: ["Believer", "Radioactive", "Warriors"] },
+  { id: "arcane-m10", d: 2, t: "Quelle jeune enforcer de Piltover, aux cheveux bleus, se rapproche de Vi ?", a: "Caitlyn", x: ["Mel", "Sevika", "Isha"] },
+
+  // --- Dures (15) ---
+  { id: "arcane-d1", d: 3, t: "Comment s'appelle le partenaire scientifique de Jayce, de santé fragile ?", a: "Viktor", x: ["Heimerdinger", "Ekko", "Singed"] },
+  { id: "arcane-d2", d: 3, t: "Quel petit savant yordle siège au Conseil et dirige l'Académie ?", a: "Heimerdinger", x: ["Viktor", "Jayce", "Singed"] },
+  { id: "arcane-d3", d: 3, t: "Comment s'appelle le lance-roquettes fétiche de Jinx ?", a: "Fishbones", acc: ["fishbones"], x: ["Pow-Pow", "Zapper", "Atlas"] },
+  { id: "arcane-d4", d: 3, t: "Quel jeune inventeur des bas-fonds, ami de Powder, fonde plus tard les Firelights ?", a: "Ekko", x: ["Mylo", "Claggor", "Vander"] },
+  { id: "arcane-d5", d: 3, t: "Quel scientifique de génie, mais sans scrupules, met au point le Shimmer ?", a: "Singed", x: ["Viktor", "Jayce", "Heimerdinger"] },
+  { id: "arcane-d6", d: 3, t: "Comment s'appelle le bras droit de Silco, une combattante au bras mécanique ?", a: "Sevika", x: ["Caitlyn", "Mel", "Vi"] },
+  { id: "arcane-d7", d: 3, t: "Comment s'appelle le bar de Vander, repaire des bas-fonds ?", a: "La Dernière Goutte", acc: ["derniere goutte", "dernière goutte", "last drop", "the last drop"], x: ["Le Bar du Progrès", "Le Refuge", "Le Trou"] },
+  { id: "arcane-d8", d: 3, t: "Comment s'appelle la conseillère influente, originaire de Noxus, proche de Jayce ?", a: "Mel Medarda", acc: ["mel", "mel medarda", "medarda"], x: ["Caitlyn", "Sevika", "Ambessa"] },
+  { id: "arcane-d9", d: 3, t: "Quel shérif corrompu de Piltover travaille en secret pour Silco ?", a: "Marcus", x: ["Jayce", "Vander", "Viktor"] },
+  { id: "arcane-d10", d: 3, t: "En quelle année la saison 1 d'Arcane est-elle sortie ?", a: "2021", x: ["2019", "2023", "2024"] },
+  { id: "arcane-d11", d: 3, t: "Quel drame, causé par une bombe de Powder, hantera Jinx (mort de Mylo et Claggor) ?", a: "L'explosion (le raté de sa bombe)", acc: ["explosion", "bombe", "la bombe"], x: ["Un incendie", "Une noyade", "Une chute"] },
+  { id: "arcane-d12", d: 3, t: "Comment appelle-t-on les forces de police de Piltover ?", a: "Les enforcers", acc: ["enforcers", "enforcer", "argus", "agents"], x: ["Les Sombrages", "Les Firelights", "Les Vigiles"] },
+  { id: "arcane-d13", d: 3, t: "Comment appelle-t-on le groupe de rebelles masqués fondé par Ekko ?", a: "Les Firelights", acc: ["firelights", "firelight"], x: ["Les Chem-Barons", "Les enforcers", "Les Fissures"] },
+  { id: "arcane-d14", d: 3, t: "Quelle grande récompense télé Arcane a-t-elle remportée, une première pour une série en streaming ?", a: "Un Emmy Award", acc: ["emmy", "emmy award", "emmys"], x: ["Un Oscar", "Un Golden Globe", "Une Palme d'Or"] },
+  { id: "arcane-d15", d: 3, t: "Comment appelle-t-on l'objet hextech instable que Viktor étudie et qui évolue seul ?", a: "L'Hexcore", acc: ["hexcore", "hextech core"], x: ["Le Shimmer", "Le Béhélit", "La Gemme"] },
+
+  // --- Pro (20) ---
+  { id: "arcane-p1", d: 4, t: "Comment s'appellent les deux autres enfants de la bande de Vi, morts dans l'explosion ?", a: "Mylo et Claggor", acc: ["mylo et claggor", "mylo claggor"], x: ["Ekko et Isha", "Silco et Vander", "Deckard et Benzo"] },
+  { id: "arcane-p2", d: 4, t: "Comment s'appelle la mère de Mel, générale de Noxus et antagoniste de la saison 2 ?", a: "Ambessa Medarda", acc: ["ambessa", "ambessa medarda"], x: ["Sevika", "Caitlyn", "Cassandra"] },
+  { id: "arcane-p3", d: 4, t: "En quel monstre-loup Vander est-il transformé par Singed dans la saison 2 ?", a: "Warwick", x: ["Urgot", "Rammus", "Zaun"] },
+  { id: "arcane-p4", d: 4, t: "Comment s'appelle la petite fille muette qui se lie d'amitié avec Jinx en saison 2 ?", a: "Isha", x: ["Powder", "Sevika", "Mel"] },
+  { id: "arcane-p5", d: 4, t: "Quel est le nom de famille de Caitlyn, issue d'une riche famille de Piltover ?", a: "Kiramman", acc: ["kiramman"], x: ["Medarda", "Talis", "Ferros"] },
+  { id: "arcane-p6", d: 4, t: "En quel mois et année la saison 2 d'Arcane est-elle sortie ?", a: "Novembre 2024", acc: ["novembre 2024", "2024"], x: ["Novembre 2023", "Juin 2024", "Décembre 2022"] },
+  { id: "arcane-p7", d: 4, t: "Quel groupe interprète le générique « Enemy » avec le rappeur JID ?", a: "Imagine Dragons", acc: ["imagine dragons"], x: ["Linkin Park", "Coldplay", "Twenty One Pilots"] },
+  { id: "arcane-p8", d: 4, t: "Comment s'appelle l'autre arme de Jinx, une mitrailleuse ?", a: "Pow-Pow", acc: ["pow-pow", "pow pow"], x: ["Fishbones", "Zapper", "Atlas"] },
+  { id: "arcane-p9", d: 4, t: "Quel yordle perd son siège au Conseil après le débat sur l'Hextech ?", a: "Heimerdinger", x: ["Jayce", "Viktor", "Mel"] },
+  { id: "arcane-p10", d: 4, t: "Comment appelle-t-on les barons du crime qui se partagent les bas-fonds ?", a: "Les Chem-Barons", acc: ["chem-barons", "chem barons", "chembarons"], x: ["Les Firelights", "Les enforcers", "Les Argus"] },
+  { id: "arcane-p11", d: 4, t: "De quelle région de Runeterra, patrie d'Ambessa, vient la menace de la saison 2 ?", a: "Noxus", x: ["Ionia", "Demacia", "Freljord"] },
+  { id: "arcane-p12", d: 4, t: "Combien d'épisodes compte la première saison d'Arcane ?", a: "9", acc: ["9", "neuf"], x: ["6", "12", "8"] },
+  { id: "arcane-p13", d: 4, t: "Comment s'appelle le vieil ami commerçant de Vander, qui aide les enfants ?", a: "Benzo", x: ["Marcus", "Singed", "Deckard"] },
+  { id: "arcane-p14", d: 4, t: "Quelle arme hextech Vi porte-t-elle aux poings ?", a: "Des gantelets (Atlas)", acc: ["gantelets", "gauntlets", "atlas", "gants"], x: ["Un fusil", "Un fouet", "Une épée"] },
+  { id: "arcane-p15", d: 4, t: "Comment appelle-t-on les portails hextech qui font la fortune commerciale de Piltover ?", a: "Les Hexgates (Portes hextech)", acc: ["hexgates", "hexgate", "portes hextech", "portails hextech"], x: ["Les Hexcores", "Les Nexus", "Les Runes"] },
+  { id: "arcane-p16", d: 4, t: "Sur quel groupe Jinx tire-t-elle une roquette à la toute fin de la saison 1 ?", a: "Le Conseil de Piltover", acc: ["conseil", "le conseil", "conseil de piltover"], x: ["Silco", "Vi", "Les Firelights"] },
+  { id: "arcane-p17", d: 4, t: "Comment s'appelle la mère de Caitlyn, conseillère tuée dans l'attaque de Jinx ?", a: "Cassandra Kiramman", acc: ["cassandra", "cassandra kiramman"], x: ["Mel", "Ambessa", "Sevika"] },
+  { id: "arcane-p18", d: 4, t: "Comment s'appelle la grande fête de Piltover célébrant ses avancées, prise pour cible ?", a: "Le Jour du Progrès", acc: ["jour du progres", "jour du progrès", "fete du progres", "progress day"], x: ["Le Festival hextech", "La Nuit des Lanternes", "Le Jubilé"] },
+  { id: "arcane-p19", d: 4, t: "Quelle substance Vi s'injecte-t-elle pour combattre dans les fosses de la saison 2 ?", a: "Le Shimmer", acc: ["shimmer"], x: ["L'Hextech", "L'adrénaline", "Le Chemtech"] },
+  { id: "arcane-p20", d: 4, t: "Comment s'appelle la vision transhumaniste que poursuit Viktor dans la saison 2 ?", a: "La Glorieuse Évolution", acc: ["glorieuse evolution", "glorieuse évolution", "glorious evolution"], x: ["L'Ascension", "La Singularité", "Le Grand Dessein"] },
+]);

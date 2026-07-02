@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const skyrim = universe("jeuxvideo", "Skyrim", [
+  // --- Faciles (5) ---
+  { id: "sky-f1", d: 1, t: "Quel studio a développé The Elder Scrolls V: Skyrim ?", a: "Bethesda", acc: ["bethesda", "bethesda game studios"], x: ["BioWare", "CD Projekt Red", "Obsidian"] },
+  { id: "sky-f2", d: 1, t: "Comment appelle-t-on le héros de Skyrim, capable d'absorber l'âme des dragons ?", a: "L'Enfant de dragon (Dovahkiin)", acc: ["enfant de dragon", "dovahkiin", "sang-de-dragon", "dragonborn"], x: ["Le Nerevarine", "Le Héraut", "Le Grand-Roi"] },
+  { id: "sky-f3", d: 1, t: "Quelles créatures ailées et cracheuses de feu réapparaissent dans Skyrim ?", a: "Les dragons", acc: ["dragons", "dragon"], x: ["Les trolls", "Les géants", "Les vampires"] },
+  { id: "sky-f4", d: 1, t: "Quel est le cri le plus célèbre du jeu, qui repousse violemment les ennemis ?", a: "Fus Ro Dah", acc: ["fus ro dah", "fus roh dah", "force implacable"], x: ["Yol Toor Shul", "Wuld Nah Kest", "Zun Haal Viik"] },
+  { id: "sky-f5", d: 1, t: "En quelle année Skyrim est-il sorti (la fameuse date 11/11/11) ?", a: "2011", x: ["2009", "2013", "2015"] },
+
+  // --- Moyennes (10) ---
+  { id: "sky-m1", d: 2, t: "Comment s'appelle le grand dragon noir, dévoreur de mondes, antagoniste principal ?", a: "Alduin", x: ["Paarthurnax", "Odahviing", "Miraak"] },
+  { id: "sky-m2", d: 2, t: "Comment appelle-t-on la province de Tamriel où se déroule le jeu ?", a: "Bordeciel", acc: ["bordeciel", "skyrim"], x: ["Cyrodiil", "Morrowind", "Hauteroche"] },
+  { id: "sky-m3", d: 2, t: "Quel peuple, guerriers du Nord, habite majoritairement Bordeciel ?", a: "Les Nordiques (Nords)", acc: ["nordiques", "nords", "nord"], x: ["Les Bretons", "Les Rougegardes", "Les Elfes noirs"] },
+  { id: "sky-m4", d: 2, t: "Comment appelle-t-on le langage magique des dragons, utilisé pour crier ?", a: "Le Thu'um (la Voix)", acc: ["thu'um", "thuum", "la voix", "voix"], x: ["Le Daedrique", "Le Dovah", "L'Aedra"] },
+  { id: "sky-m5", d: 2, t: "Comment appelle-t-on les moines maîtres de la Voix qui forment l'Enfant de dragon ?", a: "Les Grises-Barbes", acc: ["grises-barbes", "grises barbes", "greybeards"], x: ["Les Lames", "Les Compagnons", "Les Sombrages"] },
+  { id: "sky-m6", d: 2, t: "Dans quelle grande ville centrale siège le Jarl Balgruuf ?", a: "Fort-Blanc (Whiterun)", acc: ["fort-blanc", "fort blanc", "whiterun"], x: ["Solitude", "Faillaise", "Markarth"] },
+  { id: "sky-m7", d: 2, t: "Quelle guilde de guerriers de Fort-Blanc cache un secret de loups-garous ?", a: "Les Compagnons", acc: ["compagnons", "companions"], x: ["Les Lames", "Les Sombrages", "La Confrérie Noire"] },
+  { id: "sky-m8", d: 2, t: "Quelle guilde de mages étudie au Collège d'une ville enneigée du nord ?", a: "Le Collège de Winterhold (Hivrebord)", acc: ["college de winterhold", "winterhold", "hivrebord", "college d'hivrebord"], x: ["La Guilde des Voleurs", "Les Lames", "Les Grises-Barbes"] },
+  { id: "sky-m9", d: 2, t: "Dans quelle ville se cache la Guilde des Voleurs ?", a: "Faillaise (Riften)", acc: ["faillaise", "riften"], x: ["Solitude", "Markarth", "Fort-Blanc"] },
+  { id: "sky-m10", d: 2, t: "Comment appelle-t-on la guerre qui déchire Bordeciel entre indépendantistes et Empire ?", a: "La guerre civile", acc: ["guerre civile"], x: ["La Grande Guerre", "La Guerre des Cinq Rois", "La Crise d'Oblivion"] },
+
+  // --- Dures (15) ---
+  { id: "sky-d1", d: 3, t: "Comment s'appelle le chef des Sombrages, meneur de la rébellion nordique ?", a: "Ulfric Sombrage", acc: ["ulfric sombrage", "ulfric", "ulfric stormcloak"], x: ["Balgruuf", "Tullius", "Galmar"] },
+  { id: "sky-d2", d: 3, t: "Comment s'appelle le sommet enneigé, le plus haut de Bordeciel, où vivent les Grises-Barbes ?", a: "La Gorge du Monde", acc: ["gorge du monde", "throat of the world", "haut hrothgar"], x: ["Le Mont Rouge", "Le Solstheim", "La Falaise Grise"] },
+  { id: "sky-d3", d: 3, t: "Quel dragon sage, chef des Grises-Barbes, vit au sommet de la Gorge du Monde ?", a: "Paarthurnax", acc: ["paarthurnax"], x: ["Alduin", "Odahviing", "Durnehviir"] },
+  { id: "sky-d4", d: 3, t: "Quel village, détruit par Alduin, marque le vrai début de l'aventure ?", a: "Helgen", x: ["Rivebois", "Blancherive", "Épervine"] },
+  { id: "sky-d5", d: 3, t: "Comment appelle-t-on les morts-vivants nordiques qui gardent les vieux tombeaux ?", a: "Les draugr", acc: ["draugr", "draugrs"], x: ["Les falmers", "Les squelettes", "Les spectres"] },
+  { id: "sky-d6", d: 3, t: "Comment s'appelle la guilde d'assassins vouée à Sithis que l'on peut rejoindre ?", a: "La Confrérie Noire", acc: ["confrerie noire", "confrérie noire", "dark brotherhood"], x: ["La Guilde des Voleurs", "Les Lames", "La Morag Tong"] },
+  { id: "sky-d7", d: 3, t: "Comment appelle-t-on l'ordre de chasseurs de dragons (Delphine, Esbern) qui aide le héros ?", a: "Les Lames", acc: ["lames", "blades", "les lames"], x: ["Les Grises-Barbes", "Les Compagnons", "Les Vigiles"] },
+  { id: "sky-d8", d: 3, t: "Comment appelle-t-on le paradis nordique des guerriers, théâtre du combat final ?", a: "Sovngarde", acc: ["sovngarde"], x: ["Oblivion", "Aetherius", "Le Havre-du-Néant"] },
+  { id: "sky-d9", d: 3, t: "Où faut-il apprendre les mots de pouvoir gravés dans la pierre ?", a: "Sur les murs des mots", acc: ["murs des mots", "mur des mots", "word wall", "murs de parole"], x: ["Dans les livres", "Auprès des marchands", "Dans les rêves"] },
+  { id: "sky-d10", d: 3, t: "Que faut-il dépenser pour débloquer un mot de cri déjà découvert ?", a: "Une âme de dragon", acc: ["ame de dragon", "âme de dragon", "dragon soul"], x: ["De l'or", "Un point d'aptitude", "Un parchemin"] },
+  { id: "sky-d11", d: 3, t: "Quelle housecarl de Fort-Blanc devient votre première suivante, « liée à porter vos fardeaux » ?", a: "Lydia", x: ["Aela", "Jenassa", "Serana"] },
+  { id: "sky-d12", d: 3, t: "Comment appelle-t-on les elfes hautains qui ont fait interdire le culte de Talos ?", a: "Les Thalmors", acc: ["thalmor", "thalmors"], x: ["Les Dwemers", "Les Falmers", "Les Bosmers"] },
+  { id: "sky-d13", d: 3, t: "Quel dieu, héros devenu divin, les Nordiques vénèrent-ils malgré l'interdiction impériale ?", a: "Talos", x: ["Akatosh", "Sithis", "Mara"] },
+  { id: "sky-d14", d: 3, t: "Comment appelle-t-on le peuple de nains disparu qui a laissé des ruines mécaniques ?", a: "Les Dwemers", acc: ["dwemer", "dwemers", "nains"], x: ["Les Falmers", "Les Elfes des neiges", "Les Draugr"] },
+  { id: "sky-d15", d: 3, t: "Quel objet en or, volé par des bandits, faut-il récupérer lors de la première quête à Rivebois ?", a: "La Griffe d'or", acc: ["griffe d'or", "golden claw", "griffe"], x: ["L'Amulette de Talos", "La Pierre de lune", "Le Sceptre"] },
+
+  // --- Pro (20) ---
+  { id: "sky-p1", d: 4, t: "Comment s'appelle le premier Enfant de dragon, antagoniste du DLC Dragonborn ?", a: "Miraak", x: ["Alduin", "Paarthurnax", "Harkon"] },
+  { id: "sky-p2", d: 4, t: "Sur quelle île se déroule le DLC Dragonborn ?", a: "Solstheim", acc: ["solstheim"], x: ["Vvardenfell", "Roscrea", "Auridia"] },
+  { id: "sky-p3", d: 4, t: "Quel DLC oppose l'ordre des Sentinelles de l'Aube à un clan de vampires ?", a: "Dawnguard", acc: ["dawnguard", "sentinelles de l'aube", "garde de l'aube"], x: ["Hearthfire", "Dragonborn", "Dead Money"] },
+  { id: "sky-p4", d: 4, t: "Quel seigneur vampire dirige le clan Volkihar dans Dawnguard ?", a: "Harkon", acc: ["harkon", "lord harkon"], x: ["Serana", "Miraak", "Molag Bal"] },
+  { id: "sky-p5", d: 4, t: "Comment s'appelle la fille vampire de Harkon, alliée-clé du joueur ?", a: "Serana", x: ["Aela", "Lydia", "Astrid"] },
+  { id: "sky-p6", d: 4, t: "Quel DLC permet de bâtir et de meubler ses propres maisons ?", a: "Hearthfire", acc: ["hearthfire", "foyer"], x: ["Dawnguard", "Dragonborn", "Creation Club"] },
+  { id: "sky-p7", d: 4, t: "Comment s'appelle la cheffe de la Confrérie Noire qui vous recrute ?", a: "Astrid", x: ["Aela", "Delphine", "Karliah"] },
+  { id: "sky-p8", d: 4, t: "Quel prince daedrique de la folie offre une quête déjantée avec le sceptre Wabbajack ?", a: "Sheogorath", acc: ["sheogorath"], x: ["Molag Bal", "Hermaeus Mora", "Mehrunes Dagon"] },
+  { id: "sky-p9", d: 4, t: "Quel Grand-Roi Ulfric a-t-il tué en duel, avec un cri, déclenchant la guerre ?", a: "Le Grand-Roi Torygg", acc: ["torygg", "grand-roi torygg"], x: ["Balgruuf", "Tullius", "Istlod"] },
+  { id: "sky-p10", d: 4, t: "Quel général commande la Légion impériale en Bordeciel ?", a: "Le général Tullius", acc: ["tullius", "general tullius"], x: ["Ulfric", "Galmar", "Rikke"] },
+  { id: "sky-p11", d: 4, t: "Quel dragon rouge le joueur peut-il appeler par un cri pour en faire une monture ?", a: "Odahviing", acc: ["odahviing"], x: ["Paarthurnax", "Alduin", "Durnehviir"] },
+  { id: "sky-p12", d: 4, t: "Comment s'appelle le Jarl de Fort-Blanc au début du jeu ?", a: "Balgruuf le Grand", acc: ["balgruuf", "balgruuf le grand"], x: ["Ulfric", "Torygg", "Igmund"] },
+  { id: "sky-p13", d: 4, t: "Comment s'appelle le PNJ khajiit récurrent de la série, réputé « menteur » ?", a: "M'aiq le Menteur", acc: ["m'aiq", "maiq", "m'aiq le menteur"], x: ["Ri'saad", "J'zargo", "Kharjo"] },
+  { id: "sky-p14", d: 4, t: "Quel artefact ancien le héros utilise-t-il pour renvoyer Alduin dans le temps ?", a: "Un Parchemin des Anciens (Elder Scroll)", acc: ["parchemin des anciens", "elder scroll", "parchemin"], x: ["Une amulette", "Le Sang de dragon", "Le Cœur de Lorkhan"] },
+  { id: "sky-p15", d: 4, t: "Comment s'appelle le maître de la Guilde des Voleurs qui finit par la trahir ?", a: "Mercer Frey", acc: ["mercer frey", "mercer"], x: ["Brynjolf", "Karliah", "Delvin"] },
+  { id: "sky-p16", d: 4, t: "Quel voleur roux recrute le joueur à Faillaise pour la Guilde des Voleurs ?", a: "Brynjolf", acc: ["brynjolf"], x: ["Mercer", "Delvin", "Vex"] },
+  { id: "sky-p17", d: 4, t: "Quel vieux chef des Compagnons souhaite guérir de la lycanthropie ?", a: "Kodlak Whitemane", acc: ["kodlak", "kodlak whitemane"], x: ["Vilkas", "Aela", "Skjor"] },
+  { id: "sky-p18", d: 4, t: "Quelle réplique culte des gardes évoque une carrière finie « par une flèche dans le genou » ?", a: "« J'étais un aventurier, puis j'ai pris une flèche dans le genou »", acc: ["fleche dans le genou", "arrow to the knee", "une fleche dans le genou"], x: ["« Que la route s'élève à ta rencontre »", "« Tu n'es pas censé être là »", "« Rentre chez toi, citoyen »"] },
+  { id: "sky-p19", d: 4, t: "Quel PNJ hautain de Fort-Blanc demande avec mépris si vous allez « souvent dans le quartier des Nuages » ?", a: "Nazeem", x: ["Heimskr", "Belethor", "Nazir"] },
+  { id: "sky-p20", d: 4, t: "Comment s'appelle le patron de Bethesda, réputé pour ressortir Skyrim sur toutes les plateformes ?", a: "Todd Howard", acc: ["todd howard", "todd"], x: ["Hideo Kojima", "Peter Molyneux", "Tim Sweeney"] },
+]);

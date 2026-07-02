@@ -1,4 +1,5 @@
 import type { Question } from '../../../../core/models';
+import { arcane } from './arcane';
 import { breakingbad } from './breakingbad';
 import { casadepapel } from './casadepapel';
 import { friends } from './friends';
@@ -25,4 +26,5 @@ export const seriesQuestions: Question[] = [
   ...casadepapel,
   ...prisonbreak,
   ...theboys,
+  ...arcane,
 ];

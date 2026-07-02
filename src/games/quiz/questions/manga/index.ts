@@ -1,5 +1,6 @@
 import type { Question } from '../../../../core/models';
 import { aot } from './aot';
+import { berserk } from './berserk';
 import { bleach } from './bleach';
 import { deathnote } from './deathnote';
 import { demonslayer } from './demonslayer';
@@ -27,4 +28,5 @@ export const mangaQuestions: Question[] = [
   ...bleach,
   ...hxh,
   ...fma,
+  ...berserk,
 ];
