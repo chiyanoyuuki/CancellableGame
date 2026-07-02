@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const zelda = universe("jeuxvideo", "Zelda", [
+  // --- Faciles (5) ---
+  { id: "zelda-f1", d: 1, t: "Quel est le nom du héros que l'on incarne dans Zelda ?", a: "Link", x: ["Zelda", "Ganon", "Épona"] },
+  { id: "zelda-f2", d: 1, t: "Qui est Zelda dans la série ?", a: "La princesse", acc: ["princesse", "la princesse", "princesse zelda"], x: ["Le héros", "Le méchant", "Le cheval"] },
+  { id: "zelda-f3", d: 1, t: "Dans quel royaume se déroulent la plupart des jeux Zelda ?", a: "Hyrule", x: ["Termina", "Koholint", "Hyliens"] },
+  { id: "zelda-f4", d: 1, t: "De quelle couleur est la tenue classique de Link ?", a: "Verte", acc: ["vert", "verte"], x: ["Rouge", "Bleue", "Noire"] },
+  { id: "zelda-f5", d: 1, t: "Quel grand méchant est l'ennemi récurrent de la saga ?", a: "Ganon", acc: ["ganon", "ganondorf"], x: ["Bowser", "Vaati", "Zant"] },
+
+  // --- Moyennes (10) ---
+  { id: "zelda-m1", d: 2, t: "Comment s'appelle la relique sacrée formée de trois triangles d'or ?", a: "La Triforce", acc: ["triforce"], x: ["La Rune", "Le Sceau", "La Pierre"] },
+  { id: "zelda-m2", d: 2, t: "Comment s'appelle l'épée légendaire qui scelle le mal ?", a: "L'Épée de Légende (Master Sword)", acc: ["epee de legende", "épée de légende", "master sword"], x: ["Excalibur", "La Lame Purificatrice", "L'Épée des Braves"] },
+  { id: "zelda-m3", d: 2, t: "Comment s'appelle la jument fidèle de Link ?", a: "Épona", acc: ["epona", "épona"], x: ["Roach", "Agro", "Yoshi"] },
+  { id: "zelda-m4", d: 2, t: "Quelle société édite la série The Legend of Zelda ?", a: "Nintendo", x: ["Sega", "Sony", "Ubisoft"] },
+  { id: "zelda-m5", d: 2, t: "Comment s'appelle la monnaie que l'on ramasse dans Zelda ?", a: "Les rubis", acc: ["rubis", "rupees"], x: ["Les pièces", "Les cœurs", "Les korogus"] },
+  { id: "zelda-m6", d: 2, t: "De quel peuple aquatique fait partie le prince Sidon (et la princesse Ruto) ?", a: "Les Zoras", acc: ["zora", "zoras"], x: ["Les Gorons", "Les Gerudos", "Les Piafs"] },
+  { id: "zelda-m7", d: 2, t: "Quel peuple robuste mange des pierres et vit près des volcans ?", a: "Les Gorons", acc: ["goron", "gorons"], x: ["Les Zoras", "Les Kokiris", "Les Sheikahs"] },
+  { id: "zelda-m8", d: 2, t: "Quel instrument de musique donne son nom à « Ocarina of Time » ?", a: "L'ocarina", acc: ["ocarina"], x: ["La flûte", "La harpe", "Le luth"] },
+  { id: "zelda-m9", d: 2, t: "Quel fragment de la Triforce Link détient-il traditionnellement ?", a: "La Triforce du Courage", acc: ["courage", "triforce du courage"], x: ["La Force", "La Sagesse", "La Puissance"] },
+  { id: "zelda-m10", d: 2, t: "Quel titre honorifique porte souvent Link, sauveur du royaume ?", a: "Le Héros (du Temps / d'Hyrule)", acc: ["heros", "le héros", "hero"], x: ["Le Roi", "Le Chevalier Noir", "Le Sage"] },
+
+  // --- Dures (15) ---
+  { id: "zelda-d1", d: 3, t: "Quel jeu Zelda de 1998 sur Nintendo 64 est un des plus acclamés de l'histoire ?", a: "Ocarina of Time", acc: ["ocarina of time"], x: ["Majora's Mask", "Wind Waker", "A Link to the Past"] },
+  { id: "zelda-d2", d: 3, t: "Comment s'appelle la fée qui accompagne Link dans Ocarina of Time (« Hé ! Écoute ! ») ?", a: "Navi", x: ["Fi", "Taya", "Midna"] },
+  { id: "zelda-d3", d: 3, t: "Dans Majora's Mask, quelle catastrophe menace le monde dans 3 jours ?", a: "La chute de la lune", acc: ["la lune", "chute de la lune", "la lune tombe"], x: ["Un déluge", "Une éruption", "Une invasion"] },
+  { id: "zelda-d4", d: 3, t: "Dans quel jeu Link peut-il se transformer en loup, aidé par Midna ?", a: "Twilight Princess", acc: ["twilight princess"], x: ["Skyward Sword", "Wind Waker", "Majora's Mask"] },
+  { id: "zelda-d5", d: 3, t: "Comment s'appelle la compagne du crépuscule dans Twilight Princess ?", a: "Midna", acc: ["midna", "midona"], x: ["Fi", "Navi", "Impa"] },
+  { id: "zelda-d6", d: 3, t: "Dans quel jeu au style « cel-shading » Link navigue-t-il sur une grande mer ?", a: "The Wind Waker", acc: ["wind waker"], x: ["Skyward Sword", "Twilight Princess", "Ocarina of Time"] },
+  { id: "zelda-d7", d: 3, t: "Comment s'appelle l'esprit de l'Épée de Légende dans Skyward Sword ?", a: "Fi", x: ["Navi", "Midna", "Ciela"] },
+  { id: "zelda-d8", d: 3, t: "Comment s'appelle la Sheikah, protectrice de Zelda, présente dans plusieurs jeux ?", a: "Impa", x: ["Paya", "Urbosa", "Purah"] },
+  { id: "zelda-d9", d: 3, t: "De quel peuple du désert, presque uniquement féminin, est issu Ganondorf ?", a: "Les Gerudos", acc: ["gerudo", "gerudos"], x: ["Les Sheikahs", "Les Zoras", "Les Kokiris"] },
+  { id: "zelda-d10", d: 3, t: "Sous quelle identité masquée Zelda aide-t-elle Link dans Ocarina of Time ?", a: "Sheik", acc: ["sheik"], x: ["Impa", "Tetra", "Midna"] },
+  { id: "zelda-d11", d: 3, t: "En quelle année est sorti Breath of the Wild ?", a: "2017", x: ["2015", "2019", "2013"] },
+  { id: "zelda-d12", d: 3, t: "Comment s'appelle la forme démoniaque et bestiale de Ganondorf ?", a: "Ganon", x: ["Zant", "Ghirahim", "Vaati"] },
+  { id: "zelda-d13", d: 3, t: "Comment s'appelle l'oiseau que Link chevauche dans le ciel de Skyward Sword ?", a: "Un Célestrier (Loftwing)", acc: ["celestrier", "célestrier", "loftwing"], x: ["Un Piaf", "Épona", "Un Korogu"] },
+  { id: "zelda-d14", d: 3, t: "En quelle année est sorti le tout premier The Legend of Zelda ?", a: "1986", x: ["1984", "1988", "1991"] },
+  { id: "zelda-d15", d: 3, t: "Comment s'appelle le grand arbre gardien de la forêt Kokiri dans Ocarina of Time ?", a: "L'Arbre Mojo", acc: ["arbre mojo", "grand arbre mojo", "deku tree"], x: ["L'Arbre Korogu", "L'Arbre-Dragon", "Sylvain"] },
+
+  // --- Pro (20) ---
+  { id: "zelda-p1", d: 4, t: "Comment s'appelle le grand méchant de Breath of the Wild ?", a: "Le Fléau Ganon", acc: ["fleau ganon", "fléau ganon", "calamity ganon"], x: ["Ganondorf", "Zant", "Ghirahim"] },
+  { id: "zelda-p2", d: 4, t: "Comment s'appellent les 4 immenses machines à libérer dans Breath of the Wild ?", a: "Les Créatures Divines", acc: ["creatures divines", "créatures divines", "divine beasts"], x: ["Les Colosses", "Les Titans", "Les Gardiens"] },
+  { id: "zelda-p3", d: 4, t: "Comment s'appelle la tablette technologique de Link dans Breath of the Wild ?", a: "La tablette Sheikah", acc: ["tablette sheikah", "sheikah slate", "ardoise sheikah"], x: ["La Pierre Gossip", "Le Miroir des Ombres", "La Boussole"] },
+  { id: "zelda-p4", d: 4, t: "Comment s'appellent les petites créatures végétales cachées (900 dans BOTW) ?", a: "Les Korogus", acc: ["korogu", "korogus", "korok"], x: ["Les Piafs", "Les Lumas", "Les Skulltulas"] },
+  { id: "zelda-p5", d: 4, t: "Comment s'appelle la suite de Breath of the Wild sortie en 2023 ?", a: "Tears of the Kingdom", acc: ["tears of the kingdom", "totk"], x: ["Echoes of Wisdom", "Age of Calamity", "Skyward Sword HD"] },
+  { id: "zelda-p6", d: 4, t: "Dans Tears of the Kingdom, quel pouvoir permet de coller et d'assembler des objets ?", a: "L'Emprise (Ultrahand)", acc: ["emprise", "ultrahand"], x: ["L'Amalgame", "L'Infiltration", "La Rétrospective"] },
+  { id: "zelda-p7", d: 4, t: "Quel ancien peuple technologique est au cœur du lore de Tears of the Kingdom ?", a: "Les Soneau (Zonai)", acc: ["soneau", "zonai"], x: ["Les Sheikahs", "Les Twilis", "Les Minish"] },
+  { id: "zelda-p8", d: 4, t: "Comment s'appelle le sorcier maniéré, antagoniste de Skyward Sword ?", a: "Ghirahim", acc: ["ghirahim"], x: ["Zant", "Vaati", "Agahnim"] },
+  { id: "zelda-p9", d: 4, t: "Comment s'appelle l'usurpateur du crépuscule, pantin de Ganondorf dans Twilight Princess ?", a: "Zant", x: ["Ghirahim", "Vaati", "Onox"] },
+  { id: "zelda-p10", d: 4, t: "Comment s'appelle la cité flottante d'où vient Link dans Skyward Sword ?", a: "Célesbourg (Skyloft)", acc: ["celesbourg", "célesbourg", "skyloft"], x: ["Cocorico", "Bourg-Clocher", "Elimith"] },
+  { id: "zelda-p11", d: 4, t: "Comment s'appelle la version enfantine et « toon » de Link (Wind Waker) ?", a: "Toon Link", acc: ["toon link"], x: ["Young Link", "Link Cartoon", "Chibi Link"] },
+  { id: "zelda-p12", d: 4, t: "Quelles sont les trois déesses d'or créatrices d'Hyrule ?", a: "Din, Nayru et Farore", acc: ["din nayru farore", "din", "nayru", "farore"], x: ["Hylia, Impa, Zelda", "Nayru, Lana, Cia", "Din, Onox, Veran"] },
+  { id: "zelda-p13", d: 4, t: "Quelle déesse, sous forme mortelle, est liée à la naissance de Zelda (Skyward Sword) ?", a: "Hylia", acc: ["hylia"], x: ["Nayru", "Farore", "Din"] },
+  { id: "zelda-p14", d: 4, t: "Comment s'appelle le bouclier emblématique et très résistant de Link ?", a: "Le Bouclier Hylien", acc: ["bouclier hylien", "hylian shield"], x: ["Le Bouclier Miroir", "L'Égide", "Le Bouclier Mojo"] },
+  { id: "zelda-p15", d: 4, t: "Dans Wind Waker, quel bateau parlant guide Link ?", a: "Le Lion Rouge (King of Red Lions)", acc: ["lion rouge", "king of red lions"], x: ["Le Célestrier", "L'Épona", "Le Deku"] },
+  { id: "zelda-p16", d: 4, t: "Quel objet permet de s'accrocher et de se propulser vers une cible en hauteur ?", a: "Le grappin", acc: ["grappin", "hookshot", "grappin-griffe"], x: ["Le boomerang", "L'arc", "La bombe"] },
+  { id: "zelda-p17", d: 4, t: "Dans Ocarina of Time, combien d'années Link dort-il avant de devenir adulte ?", a: "7 ans", acc: ["7", "sept", "7 ans"], x: ["3 ans", "10 ans", "100 ans"] },
+  { id: "zelda-p18", d: 4, t: "Comment s'appelle le lutin masqué qui déclenche le drame de Majora's Mask ?", a: "Skull Kid", acc: ["skull kid"], x: ["Tingle", "Ghirahim", "Kaepora"] },
+  { id: "zelda-p19", d: 4, t: "De quelle main Link est-il classiquement (avant Breath of the Wild) ?", a: "Gaucher", acc: ["gaucher", "gauche"], x: ["Droitier", "Ambidextre", "Les deux"] },
+  { id: "zelda-p20", d: 4, t: "Comment s'appelle le spin-off « musou » (baston à foule) de la série ?", a: "Hyrule Warriors", acc: ["hyrule warriors"], x: ["Cadence of Hyrule", "Link's Crossbow Training", "Zelda Tactics"] },
+]);

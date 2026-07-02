@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const mario = universe("jeuxvideo", "Mario", [
+  // --- Faciles (5) ---
+  { id: "mario-f1", d: 1, t: "Quel est le métier officiel de Mario ?", a: "Plombier", acc: ["plombier"], x: ["Pompier", "Cuisinier", "Charpentier"] },
+  { id: "mario-f2", d: 1, t: "De quelle couleur est la casquette de Mario ?", a: "Rouge", acc: ["rouge"], x: ["Verte", "Bleue", "Jaune"] },
+  { id: "mario-f3", d: 1, t: "Comment s'appelle le frère de Mario, habillé en vert ?", a: "Luigi", x: ["Wario", "Yoshi", "Toad"] },
+  { id: "mario-f4", d: 1, t: "Quelle princesse Mario sauve-t-il le plus souvent ?", a: "Peach", acc: ["peach", "princesse peach"], x: ["Daisy", "Zelda", "Rosalina"] },
+  { id: "mario-f5", d: 1, t: "Quel grand méchant à carapace, roi des Koopas, est l'ennemi juré de Mario ?", a: "Bowser", acc: ["bowser", "king koopa"], x: ["Donkey Kong", "Wario", "Kamek"] },
+
+  // --- Moyennes (10) ---
+  { id: "mario-m1", d: 2, t: "Quel dinosaure vert sert souvent de monture à Mario ?", a: "Yoshi", x: ["Birdo", "Rex", "Dorrie"] },
+  { id: "mario-m2", d: 2, t: "Quelle société développe et édite les jeux Mario ?", a: "Nintendo", x: ["Sega", "Sony", "Capcom"] },
+  { id: "mario-m3", d: 2, t: "Comment s'appelle le royaume où vit la princesse Peach ?", a: "Le Royaume Champignon", acc: ["royaume champignon", "mushroom kingdom"], x: ["Le Royaume des Koopas", "Hyrule", "Sarasaland"] },
+  { id: "mario-m4", d: 2, t: "Quel petit personnage à tête de champignon sert la princesse ?", a: "Toad", x: ["Kamek", "Bob-omb", "Luma"] },
+  { id: "mario-m5", d: 2, t: "Quel objet rend Mario invincible pendant quelques secondes ?", a: "L'étoile", acc: ["etoile", "l'étoile", "super étoile"], x: ["Le champignon", "La fleur de feu", "La feuille"] },
+  { id: "mario-m6", d: 2, t: "Que donne la Fleur de feu à Mario ?", a: "Le pouvoir de lancer des boules de feu", acc: ["boules de feu", "lancer du feu", "feu"], x: ["De voler", "De grandir", "De devenir invincible"] },
+  { id: "mario-m7", d: 2, t: "Comment s'appellent les petits ennemis marron en forme de champignon ?", a: "Les Goombas", acc: ["goomba", "goombas"], x: ["Les Koopas", "Les Boos", "Les Maskass"] },
+  { id: "mario-m8", d: 2, t: "Dans quelle série de courses de karting Mario s'affronte-t-il ?", a: "Mario Kart", x: ["Mario Party", "F-Zero", "Diddy Kong Racing"] },
+  { id: "mario-m9", d: 2, t: "Quel objet fait grandir Mario (le fait passer en « Super Mario ») ?", a: "Le Super Champignon", acc: ["super champignon", "champignon"], x: ["La fleur de feu", "L'étoile", "La feuille"] },
+  { id: "mario-m10", d: 2, t: "Comment s'appelle le cousin cupide et rival de Mario, en jaune et violet ?", a: "Wario", x: ["Waluigi", "Bowser", "Donkey Kong"] },
+
+  // --- Dures (15) ---
+  { id: "mario-d1", d: 3, t: "Qui a créé Mario ?", a: "Shigeru Miyamoto", acc: ["miyamoto", "shigeru miyamoto"], x: ["Hideo Kojima", "Satoru Iwata", "Gunpei Yokoi"] },
+  { id: "mario-d2", d: 3, t: "Dans quel jeu de 1981 Mario est-il apparu pour la première fois ?", a: "Donkey Kong", x: ["Super Mario Bros.", "Mario Bros.", "Pac-Man"] },
+  { id: "mario-d3", d: 3, t: "Sous quel nom Mario était-il désigné dans Donkey Kong ?", a: "Jumpman", acc: ["jumpman"], x: ["Mr. Video", "Jumper", "Plumber"] },
+  { id: "mario-d4", d: 3, t: "En quelle année est sorti le premier Super Mario Bros. ?", a: "1985", x: ["1983", "1987", "1990"] },
+  { id: "mario-d5", d: 3, t: "Comment s'appelle le rival de Luigi, tout en violet ?", a: "Waluigi", x: ["Wario", "Kamek", "Bowser Jr."] },
+  { id: "mario-d6", d: 3, t: "Comment s'appelle le fils de Bowser ?", a: "Bowser Jr.", acc: ["bowser jr", "bowser junior"], x: ["Kamek", "Larry", "Iggy"] },
+  { id: "mario-d7", d: 3, t: "Dans Mario Kart, quel objet redouté frappe le joueur en tête de course ?", a: "La carapace bleue", acc: ["carapace bleue", "carapace a epines", "carapace à épines"], x: ["La banane", "La carapace rouge", "L'éclair"] },
+  { id: "mario-d8", d: 3, t: "Comment s'appelle la princesse de Sarasaland, souvent associée à Luigi ?", a: "Daisy", acc: ["daisy", "princesse daisy"], x: ["Peach", "Rosalina", "Toadette"] },
+  { id: "mario-d9", d: 3, t: "Quel premier jeu Mario en 3D est sorti sur Nintendo 64 en 1996 ?", a: "Super Mario 64", acc: ["mario 64", "super mario 64"], x: ["Super Mario Sunshine", "Super Mario Galaxy", "Super Mario World"] },
+  { id: "mario-d10", d: 3, t: "Comment s'appellent les fantômes timides qui se figent quand on les regarde ?", a: "Les Boos", acc: ["boo", "boos"], x: ["Les Thwomps", "Les Bob-ombs", "Les Maskass"] },
+  { id: "mario-d11", d: 3, t: "Comment s'appelle le sorcier Magikoopa au service de Bowser ?", a: "Kamek", x: ["Ludwig", "Iggy", "Toadsworth"] },
+  { id: "mario-d12", d: 3, t: "Comment s'appelle la série de jeux de plateau festifs avec Mario et ses amis ?", a: "Mario Party", x: ["Mario Kart", "WarioWare", "Mario Sports"] },
+  { id: "mario-d13", d: 3, t: "Dans les jeux, que répond-on à Mario quand la princesse a été déplacée ?", a: "« La princesse est dans un autre château »", acc: ["la princesse est dans un autre chateau", "another castle", "un autre chateau"], x: ["« Merci Mario »", "« Game Over »", "« Bienvenue »"] },
+  { id: "mario-d14", d: 3, t: "Comment s'appelle le gorille, ennemi de Mario à l'origine, devenu héros ?", a: "Donkey Kong", acc: ["donkey kong", "dk"], x: ["Diddy Kong", "King K. Rool", "Cranky Kong"] },
+  { id: "mario-d15", d: 3, t: "Quel accessoire aquatique (jet d'eau) Mario utilise-t-il dans Super Mario Sunshine ?", a: "Le J.E.T. (FLUDD)", acc: ["jet", "fludd", "j.e.t."], x: ["Cappy", "La feuille", "Le grappin"] },
+
+  // --- Pro (20) ---
+  { id: "mario-p1", d: 4, t: "Comment s'appelle la casquette vivante, compagnon de Mario dans Super Mario Odyssey ?", a: "Cappy", x: ["Toad", "Luma", "FLUDD"] },
+  { id: "mario-p2", d: 4, t: "Dans Super Mario Odyssey, quelle ville ressemble à New York ?", a: "New Donk City", acc: ["new donk city"], x: ["Delfino", "Toad Town", "Sarasaland"] },
+  { id: "mario-p3", d: 4, t: "Qui est la maire de New Donk City, ancienne demoiselle en détresse de Donkey Kong ?", a: "Pauline", x: ["Peach", "Daisy", "Rosalina"] },
+  { id: "mario-p4", d: 4, t: "Comment s'appelle la gardienne des étoiles dans Super Mario Galaxy (en VF) ?", a: "Harmonie (Rosalina)", acc: ["harmonie", "rosalina"], x: ["Daisy", "Toadette", "Peach"] },
+  { id: "mario-p5", d: 4, t: "Comment s'appellent les petites créatures-étoiles dont s'occupe Harmonie ?", a: "Les Lumas", acc: ["luma", "lumas"], x: ["Les Toads", "Les Boos", "Les Stars"] },
+  { id: "mario-p6", d: 4, t: "Comment appelle-t-on collectivement les 7 sbires (Larry, Wendy, Roy…) de Bowser ?", a: "Les Koopalings", acc: ["koopalings", "koopaling"], x: ["Les Kongs", "Les Boos", "Les Magikoopas"] },
+  { id: "mario-p7", d: 4, t: "Quel comédien a longtemps prêté sa voix à Mario dans les jeux ?", a: "Charles Martinet", acc: ["charles martinet", "martinet"], x: ["Chris Pratt", "Bob Hoskins", "Jack Black"] },
+  { id: "mario-p8", d: 4, t: "Qui double Mario dans le film d'animation de 2023 ?", a: "Chris Pratt", acc: ["chris pratt"], x: ["Charles Martinet", "Jack Black", "Chris Pine"] },
+  { id: "mario-p9", d: 4, t: "Quel acteur double Bowser dans le film de 2023 ?", a: "Jack Black", acc: ["jack black"], x: ["Chris Pratt", "Seth Rogen", "Charlie Day"] },
+  { id: "mario-p10", d: 4, t: "Quel studio a produit le film Super Mario Bros. (2023) avec Nintendo ?", a: "Illumination", acc: ["illumination"], x: ["Pixar", "DreamWorks", "Sony Pictures"] },
+  { id: "mario-p11", d: 4, t: "Comment s'appelle la série où Luigi explore un manoir hanté ?", a: "Luigi's Mansion", acc: ["luigi's mansion", "luigi mansion"], x: ["Luigi's Ghost", "Boo Manor", "Dark Moon"] },
+  { id: "mario-p12", d: 4, t: "Quel aspirateur Luigi utilise-t-il pour capturer les fantômes ?", a: "L'Ectoblast (Poltergust)", acc: ["ectoblast", "poltergust"], x: ["Le FLUDD", "Le Cappy", "Le Turbo"] },
+  { id: "mario-p13", d: 4, t: "Qui est le roi des Boos, ennemi de Luigi ?", a: "King Boo", acc: ["king boo", "roi boo"], x: ["Bowser", "Kamek", "Boolossus"] },
+  { id: "mario-p14", d: 4, t: "Quel objet donne une queue de tanuki dans Super Mario Bros. 3 ?", a: "La Super Feuille", acc: ["feuille", "super feuille"], x: ["La fleur de feu", "La cape", "La clochette"] },
+  { id: "mario-p15", d: 4, t: "Quel objet transforme Mario en chat dans Super Mario 3D World ?", a: "La Super Clochette", acc: ["cloche", "clochette", "super clochette"], x: ["La feuille", "La cape", "La fleur"] },
+  { id: "mario-p16", d: 4, t: "Comment s'appelle le RPG culte de 1996 (SNES) développé avec Square ?", a: "Super Mario RPG", acc: ["super mario rpg", "mario rpg"], x: ["Paper Mario", "Mario & Luigi", "Superstar Saga"] },
+  { id: "mario-p17", d: 4, t: "Quelle série de RPG met en scène un Mario en papier ?", a: "Paper Mario", acc: ["paper mario"], x: ["Mario & Luigi", "Super Mario RPG", "Mario Party"] },
+  { id: "mario-p18", d: 4, t: "Combien de pièces faut-il classiquement ramasser pour gagner une vie ?", a: "100", x: ["50", "99", "1000"] },
+  { id: "mario-p19", d: 4, t: "Comment s'appelle le gros bloc de pierre qui s'écrase du plafond ?", a: "Thwomp", acc: ["thwomp", "thwomps"], x: ["Whomp", "Bob-omb", "Chomp"] },
+  { id: "mario-p20", d: 4, t: "Comment s'appelle la boule à chaîne enragée attachée à un piquet ?", a: "Le Chomp (Chomp enchaîné)", acc: ["chomp", "chain chomp", "chomp enchaine"], x: ["Le Bob-omb", "Le Thwomp", "Le Boo"] },
+]);
