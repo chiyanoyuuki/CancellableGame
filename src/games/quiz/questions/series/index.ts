@@ -1,7 +1,12 @@
 import type { Question } from '../../../../core/models';
 import { breakingbad } from './breakingbad';
+import { casadepapel } from './casadepapel';
+import { friends } from './friends';
 import { got } from './got';
+import { peakyblinders } from './peakyblinders';
+import { prisonbreak } from './prisonbreak';
 import { strangerthings } from './strangerthings';
+import { theboys } from './theboys';
 import { theoffice } from './theoffice';
 
 /**
@@ -15,5 +20,9 @@ export const seriesQuestions: Question[] = [
   ...got,
   ...strangerthings,
   ...theoffice,
-  // À venir : Peaky Blinders, La Casa de Papel, Friends, Prison Break…
+  ...friends,
+  ...peakyblinders,
+  ...casadepapel,
+  ...prisonbreak,
+  ...theboys,
 ];

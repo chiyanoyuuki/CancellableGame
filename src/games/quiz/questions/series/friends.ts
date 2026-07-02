@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const friends = universe("series", "Friends", [
+  // --- Faciles (5) ---
+  { id: "friends-f1", d: 1, t: "Combien d'amis composent le groupe principal de Friends ?", a: "6", acc: ["six"], x: ["4", "5", "7"] },
+  { id: "friends-f2", d: 1, t: "Comment s'appelle le café où le groupe se retrouve ?", a: "Central Perk", x: ["Central Park", "MacLaren's", "The Grind"] },
+  { id: "friends-f3", d: 1, t: "Dans quelle ville se déroule Friends ?", a: "New York", x: ["Los Angeles", "Chicago", "Boston"] },
+  { id: "friends-f4", d: 1, t: "Quelle amie, obsédée par la mode, débarque en robe de mariée dans le pilote ?", a: "Rachel", x: ["Monica", "Phoebe", "Janice"] },
+  { id: "friends-f5", d: 1, t: "Quel paléontologue est le frère de Monica ?", a: "Ross", x: ["Chandler", "Joey", "Gunther"] },
+
+  // --- Moyennes (10) ---
+  { id: "friends-m1", d: 2, t: "Quel est le nom de famille de Chandler ?", a: "Bing", x: ["Geller", "Tribbiani", "Green"] },
+  { id: "friends-m2", d: 2, t: "Quel métier exerce Joey ?", a: "Acteur", x: ["Cuisinier", "Musicien", "Publicitaire"] },
+  { id: "friends-m3", d: 2, t: "Quelle amie maniaque et cheffe cuisinière est la sœur de Ross ?", a: "Monica Geller", acc: ["monica"], x: ["Rachel", "Phoebe", "Janice"] },
+  { id: "friends-m4", d: 2, t: "Quelle amie excentrique chante « Smelly Cat » à la guitare ?", a: "Phoebe Buffay", acc: ["phoebe"], x: ["Rachel", "Monica", "Janice"] },
+  { id: "friends-m5", d: 2, t: "Quel serveur blond de Central Perk est éperdument amoureux de Rachel ?", a: "Gunther", x: ["Joey", "Chandler", "Ross"] },
+  { id: "friends-m6", d: 2, t: "Quel duo vit en face de Monica et Rachel ?", a: "Chandler et Joey", acc: ["chandler et joey"], x: ["Ross et Phoebe", "Gunther et Ross", "Richard et Mike"] },
+  { id: "friends-m7", d: 2, t: "Quels animaux Joey et Chandler adoptent-ils ?", a: "Un poussin et un canard", acc: ["poussin et canard", "canard et poussin"], x: ["Un chat", "Un chien", "Un singe"] },
+  { id: "friends-m8", d: 2, t: "Comment s'appelle le singe de Ross ?", a: "Marcel", x: ["Marcy", "Coco", "Bongo"] },
+  { id: "friends-m9", d: 2, t: "Quelle ex-femme de Ross le quitte pour une autre femme ?", a: "Carol", x: ["Emily", "Rachel", "Susan"] },
+  { id: "friends-m10", d: 2, t: "Quelle phrase de drague est la marque de fabrique de Joey ?", a: "« How you doin' ? »", acc: ["how you doin", "how you doin'"], x: ["« We were on a break »", "« Oh. My. God. »", "« Pivot ! »"] },
+
+  // --- Dures (15) ---
+  { id: "friends-d1", d: 3, t: "Combien de fois Ross s'est-il marié au cours de la série ?", a: "3", acc: ["trois"], x: ["1", "2", "4"] },
+  { id: "friends-d2", d: 3, t: "Comment s'appelle le fils de Ross et Carol ?", a: "Ben", x: ["Emma", "Michael", "Jack"] },
+  { id: "friends-d3", d: 3, t: "Comment s'appelle la fille de Ross et Rachel ?", a: "Emma", x: ["Ben", "Erica", "Phoebe"] },
+  { id: "friends-d4", d: 3, t: "Comment s'appelle la compagne de Carol ?", a: "Susan", x: ["Emily", "Janice", "Kathy"] },
+  { id: "friends-d5", d: 3, t: "Quelle petite amie récurrente et insupportable de Chandler a une voix nasillarde ?", a: "Janice", x: ["Kathy", "Monica", "Emily"] },
+  { id: "friends-d6", d: 3, t: "Quelle réplique est la marque de fabrique de Janice ?", a: "« Oh. My. God. »", acc: ["oh my god"], x: ["« How you doin' ? »", "« We were on a break »", "« Smelly cat »"] },
+  { id: "friends-d7", d: 3, t: "Que répète Ross pour se justifier au sujet de sa rupture avec Rachel ?", a: "« We were on a break ! »", acc: ["we were on a break", "on faisait une pause"], x: ["« Pivot ! »", "« How you doin' ? »", "« Unagi »"] },
+  { id: "friends-d8", d: 3, t: "Quel mot Ross hurle-t-il en montant un canapé dans l'escalier ?", a: "« Pivot ! »", acc: ["pivot"], x: ["« Push »", "« Turn »", "« Lift »"] },
+  { id: "friends-d9", d: 3, t: "Quel mauvais prénom Ross prononce-t-il à l'autel en épousant Emily ?", a: "Rachel", x: ["Carol", "Susan", "Monica"] },
+  { id: "friends-d10", d: 3, t: "Chez quelle grande marque de mode Rachel finit-elle par travailler ?", a: "Ralph Lauren", x: ["Gucci", "Prada", "Chanel"] },
+  { id: "friends-d11", d: 3, t: "Comment s'appelle la sœur jumelle de Phoebe ?", a: "Ursula", x: ["Amy", "Debbie", "Alice"] },
+  { id: "friends-d12", d: 3, t: "Pour quel demi-frère Phoebe accepte-t-elle d'être mère porteuse ?", a: "Frank Jr.", acc: ["frank", "frank jr"], x: ["Ursula", "Mike", "David"] },
+  { id: "friends-d13", d: 3, t: "Combien de bébés Phoebe porte-t-elle pour son frère ?", a: "3 (des triplés)", acc: ["3", "trois", "triples", "triplés"], x: ["1", "2", "4"] },
+  { id: "friends-d14", d: 3, t: "Quel petit ami scientifique de Phoebe part travailler en Russie ?", a: "David", x: ["Mike", "Frank", "Gary"] },
+  { id: "friends-d15", d: 3, t: "Quel objet en résine résume le métier flou de Chandler pour ses amis ?", a: "Personne ne sait ce qu'il fait", acc: ["personne ne sait", "on ne sait pas"], x: ["Il est cuisinier", "Il est acteur", "Il est prof"] },
+
+  // --- Pro (20) ---
+  { id: "friends-p1", d: 4, t: "Qui Phoebe finit-elle par épouser (joué par Paul Rudd) ?", a: "Mike Hannigan", acc: ["mike", "mike hannigan"], x: ["David", "Gary", "Frank"] },
+  { id: "friends-p2", d: 4, t: "Dans quel diner Monica doit-elle porter perruque et faux seins ?", a: "Le Moondance Diner", acc: ["moondance", "moondance diner"], x: ["Central Perk", "Alessandro's", "Javu"] },
+  { id: "friends-p3", d: 4, t: "Qui Rachel devait-elle épouser avant de s'enfuir dans le pilote ?", a: "Barry", x: ["Ross", "Mark", "Paolo"] },
+  { id: "friends-p4", d: 4, t: "Avec quel bel Italien Rachel a-t-elle une aventure ?", a: "Paolo", x: ["Barry", "Mark", "Joshua"] },
+  { id: "friends-p5", d: 4, t: "Quel collègue de Rachel rend Ross fou de jalousie ?", a: "Mark", x: ["Paolo", "Barry", "Joshua"] },
+  { id: "friends-p6", d: 4, t: "Quel acteur incarne Joey Tribbiani ?", a: "Matt LeBlanc", acc: ["matt leblanc", "leblanc"], x: ["Matthew Perry", "David Schwimmer", "Matt Damon"] },
+  { id: "friends-p7", d: 4, t: "Quel acteur incarne Chandler Bing ?", a: "Matthew Perry", acc: ["matthew perry", "perry"], x: ["Matt LeBlanc", "David Schwimmer", "Paul Rudd"] },
+  { id: "friends-p8", d: 4, t: "Quelle actrice incarne Monica ?", a: "Courteney Cox", acc: ["courteney cox", "cox"], x: ["Jennifer Aniston", "Lisa Kudrow", "Maggie Wheeler"] },
+  { id: "friends-p9", d: 4, t: "Quelle actrice incarne Rachel ?", a: "Jennifer Aniston", acc: ["jennifer aniston", "aniston"], x: ["Courteney Cox", "Lisa Kudrow", "Reese Witherspoon"] },
+  { id: "friends-p10", d: 4, t: "Quelle actrice incarne Phoebe ?", a: "Lisa Kudrow", acc: ["lisa kudrow", "kudrow"], x: ["Courteney Cox", "Jennifer Aniston", "Maggie Wheeler"] },
+  { id: "friends-p11", d: 4, t: "Quel acteur incarne Ross ?", a: "David Schwimmer", acc: ["david schwimmer", "schwimmer"], x: ["Matt LeBlanc", "Matthew Perry", "Paul Rudd"] },
+  { id: "friends-p12", d: 4, t: "Combien de saisons compte Friends ?", a: "10", acc: ["dix"], x: ["8", "9", "12"] },
+  { id: "friends-p13", d: 4, t: "Quelle chanson culte Phoebe interprète-t-elle à Central Perk ?", a: "« Smelly Cat »", acc: ["smelly cat"], x: ["« How you doin' »", "« Pivot »", "« Unagi »"] },
+  { id: "friends-p14", d: 4, t: "Quel concept d'« état de vigilance totale » Ross invente-t-il ?", a: "L'Unagi", acc: ["unagi"], x: ["Le Pivot", "Le Zen", "Le Kaio"] },
+  { id: "friends-p15", d: 4, t: "Quel homme plus âgé à moustache (Tom Selleck) Monica fréquente-t-elle ?", a: "Richard", x: ["Pete", "Mike", "Gary"] },
+  { id: "friends-p16", d: 4, t: "Dans quel pays a lieu le mariage raté de Ross et Emily ?", a: "En Angleterre (Londres)", acc: ["angleterre", "londres", "royaume-uni"], x: ["En France", "Aux États-Unis", "En Écosse"] },
+  { id: "friends-p17", d: 4, t: "De quels animaux Ross est-il le spécialiste en tant que paléontologue ?", a: "Les dinosaures", acc: ["dinosaures"], x: ["Les oiseaux", "Les mammifères", "Les poissons"] },
+  { id: "friends-p18", d: 4, t: "Comment se conclut la relation entre Ross et Rachel à la fin de la série ?", a: "Ils se remettent ensemble", acc: ["ensemble", "ils se remettent ensemble"], x: ["Ils restent amis", "Rachel part vivre à Paris", "Ils se marient à Vegas"] },
+  { id: "friends-p19", d: 4, t: "Dans quelle ville Rachel a-t-elle un poste (chez Louis Vuitton) qu'elle renonce à prendre ?", a: "Paris", x: ["Milan", "Londres", "New York"] },
+  { id: "friends-p20", d: 4, t: "Combien d'enfants Ross a-t-il au total (Ben et Emma) ?", a: "2", acc: ["deux"], x: ["1", "3", "0"] },
+]);

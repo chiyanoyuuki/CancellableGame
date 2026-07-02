@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const prisonbreak = universe("series", "Prison Break", [
+  // --- Faciles (5) ---
+  { id: "pbk-f1", d: 1, t: "Quel ingénieur se fait incarcérer volontairement ?", a: "Michael Scofield", acc: ["michael", "scofield", "michael scofield"], x: ["Lincoln", "T-Bag", "Sucre"] },
+  { id: "pbk-f2", d: 1, t: "Pourquoi Michael entre-t-il en prison ?", a: "Pour faire évader son frère", acc: ["evader son frere", "sauver son frere"], x: ["Il est innocent", "Pour de l'argent", "Par erreur"] },
+  { id: "pbk-f3", d: 1, t: "Quel frère de Michael est condamné à mort ?", a: "Lincoln Burrows", acc: ["lincoln", "burrows"], x: ["Michael", "Sucre", "T-Bag"] },
+  { id: "pbk-f4", d: 1, t: "Où Michael cache-t-il le plan complet de l'évasion ?", a: "Dans ses tatouages", acc: ["tatouages", "ses tatouages"], x: ["Dans un livre", "Dans sa cellule", "Dans sa tête"] },
+  { id: "pbk-f5", d: 1, t: "Dans quelle prison se déroule la saison 1 ?", a: "Fox River", x: ["Sona", "Alcatraz", "Rikers"] },
+
+  // --- Moyennes (10) ---
+  { id: "pbk-m1", d: 2, t: "Quel codétenu portoricain devient le compagnon de cellule de Michael ?", a: "Fernando Sucre", acc: ["sucre", "fernando sucre"], x: ["T-Bag", "C-Note", "Abruzzi"] },
+  { id: "pbk-m2", d: 2, t: "Quel détenu raciste et manipulateur est surnommé T-Bag ?", a: "Theodore Bagwell", acc: ["t-bag", "tbag", "bagwell", "theodore bagwell"], x: ["Sucre", "Abruzzi", "Haywire"] },
+  { id: "pbk-m3", d: 2, t: "De quel meurtre Lincoln est-il accusé à tort ?", a: "Celui du frère de la vice-présidente", acc: ["frere de la vice-presidente", "terrence steadman"], x: ["Un policier", "Un juge", "Un gardien"] },
+  { id: "pbk-m4", d: 2, t: "Quel est le métier de Michael Scofield ?", a: "Ingénieur en structure", acc: ["ingenieur", "genie civil"], x: ["Médecin", "Avocat", "Architecte"] },
+  { id: "pbk-m5", d: 2, t: "Quelle médecin de la prison tombe amoureuse de Michael ?", a: "Sara Tancredi", acc: ["sara", "tancredi"], x: ["Veronica", "Gretchen", "LJ"] },
+  { id: "pbk-m6", d: 2, t: "Quelle fonction occupe le père de Sara ?", a: "Gouverneur", acc: ["gouverneur"], x: ["Directeur de prison", "Sénateur", "Juge"] },
+  { id: "pbk-m7", d: 2, t: "Quelle organisation secrète a piégé Lincoln ?", a: "La Compagnie", acc: ["la compagnie", "compagnie", "the company"], x: ["La CIA", "Le Cartel", "La Firme"] },
+  { id: "pbk-m8", d: 2, t: "Quel agent du FBI obsessionnel traque les évadés (saison 2) ?", a: "Alexander Mahone", acc: ["mahone", "alexander mahone"], x: ["Kellerman", "Bellick", "Self"] },
+  { id: "pbk-m9", d: 2, t: "Quel chef des gardiens brutal en veut aux détenus ?", a: "Brad Bellick", acc: ["bellick", "brad bellick"], x: ["Mahone", "Pope", "Kellerman"] },
+  { id: "pbk-m10", d: 2, t: "Quel directeur de Fox River rêve de construire une maquette du Taj Mahal ?", a: "Le directeur Pope", acc: ["pope", "warden pope", "directeur pope"], x: ["Bellick", "Mahone", "Kellerman"] },
+
+  // --- Dures (15) ---
+  { id: "pbk-d1", d: 3, t: "Combien de détenus s'évadent de Fox River (les « Fox River Eight ») ?", a: "8", acc: ["huit"], x: ["6", "7", "10"] },
+  { id: "pbk-d2", d: 3, t: "Comment s'appelle le fils de Lincoln ?", a: "LJ", acc: ["lj", "lincoln jr"], x: ["Michael", "Sucre", "Cameron"] },
+  { id: "pbk-d3", d: 3, t: "Quel mafieux italien aide l'évasion en échange d'informations ?", a: "John Abruzzi", acc: ["abruzzi", "john abruzzi"], x: ["T-Bag", "Sucre", "C-Note"] },
+  { id: "pbk-d4", d: 3, t: "Quel détenu instable et dangereux au crâne rasé souffre de troubles mentaux ?", a: "Haywire", x: ["T-Bag", "Abruzzi", "Sucre"] },
+  { id: "pbk-d5", d: 3, t: "Quel agent tueur de la Compagnie élimine les témoins gênants ?", a: "Paul Kellerman", acc: ["kellerman", "paul kellerman"], x: ["Mahone", "Self", "Bellick"] },
+  { id: "pbk-d6", d: 3, t: "Dans quelle prison du Panama se déroule la saison 3 ?", a: "Sona", x: ["Fox River", "Ogygia", "Rikers"] },
+  { id: "pbk-d7", d: 3, t: "Quelle femme politique corrompue est derrière le complot contre Lincoln ?", a: "Caroline Reynolds", acc: ["caroline reynolds", "reynolds"], x: ["Sara", "Gretchen", "Jane"] },
+  { id: "pbk-d8", d: 3, t: "Quelle agente impitoyable de la Compagnie kidnappe LJ et Sara (saison 3) ?", a: "Gretchen Morgan", acc: ["gretchen", "gretchen morgan"], x: ["Sara", "Caroline", "Jane"] },
+  { id: "pbk-d9", d: 3, t: "Comment s'appelle le trésor de données convoité dans la saison 4 ?", a: "Scylla", x: ["Le Graal", "La Boîte", "Le Livre"] },
+  { id: "pbk-d10", d: 3, t: "Quel agent fédéral recrute l'équipe pour voler Scylla ?", a: "Don Self", acc: ["don self", "self"], x: ["Mahone", "Kellerman", "Bellick"] },
+  { id: "pbk-d11", d: 3, t: "De quelle particularité mentale Michael est-il doté (il perçoit tous les détails) ?", a: "Une inhibition latente faible", acc: ["inhibition latente", "low latent inhibition"], x: ["Amnésie", "Bipolarité", "Insomnie"] },
+  { id: "pbk-d12", d: 3, t: "Quelle avocate, amie d'enfance des frères, enquête et se fait tuer ?", a: "Veronica Donovan", acc: ["veronica", "donovan"], x: ["Sara", "Gretchen", "Jane"] },
+  { id: "pbk-d13", d: 3, t: "Quel détenu noir, ex-militaire, est surnommé C-Note ?", a: "Benjamin Franklin", acc: ["c-note", "cnote", "franklin", "benjamin franklin"], x: ["Sucre", "T-Bag", "Abruzzi"] },
+  { id: "pbk-d14", d: 3, t: "Comment se termine le parcours de Michael à la fin de la saison 4 ?", a: "Il se sacrifie et meurt", acc: ["il se sacrifie", "il meurt", "se sacrifie"], x: ["Il reste en prison", "Il est abattu par la police", "Il survit sans séquelle"] },
+  { id: "pbk-d15", d: 3, t: "Quel enfant Michael et Sara ont-ils (révélé dans le revival) ?", a: "Un fils (Mike Jr.)", acc: ["un fils", "mike", "mike jr"], x: ["Une fille", "Des jumeaux", "LJ"] },
+
+  // --- Pro (20) ---
+  { id: "pbk-p1", d: 4, t: "Sous quelle fausse identité Michael est-il détenu dans la saison 5 ?", a: "Kaniel Outis", acc: ["kaniel outis", "outis"], x: ["Charles Westmoreland", "Aldo", "James"] },
+  { id: "pbk-p2", d: 4, t: "Quel vieux détenu prétend être le célèbre pirate de l'air D.B. Cooper ?", a: "Charles Westmoreland", acc: ["westmoreland", "charles westmoreland"], x: ["Abruzzi", "C-Note", "Haywire"] },
+  { id: "pbk-p3", d: 4, t: "Comment s'appelle la chatte de Westmoreland ?", a: "Marilyn", x: ["Whiskers", "Felix", "Mia"] },
+  { id: "pbk-p4", d: 4, t: "Dans quel État est caché le magot de D.B. Cooper ?", a: "En Utah", acc: ["utah"], x: ["Au Mexique", "En Floride", "à Chicago"] },
+  { id: "pbk-p5", d: 4, t: "Comment s'appelle le père biologique de Michael et Lincoln ?", a: "Aldo Burrows", acc: ["aldo", "aldo burrows"], x: ["Christina", "Kellerman", "Pope"] },
+  { id: "pbk-p6", d: 4, t: "Quelle révélation choque dans la saison 4 au sujet de leur mère ?", a: "Elle est vivante et dirige la Compagnie", acc: ["elle est vivante", "christina", "vivante"], x: ["Elle est morte en prison", "C'est une gardienne", "Elle est juge"] },
+  { id: "pbk-p7", d: 4, t: "Combien de saisons compte Prison Break (revival inclus) ?", a: "5", acc: ["cinq"], x: ["3", "4", "6"] },
+  { id: "pbk-p8", d: 4, t: "Dans quel pays Michael est-il emprisonné dans la saison 5 ?", a: "Au Yémen", acc: ["yemen"], x: ["En Irak", "En Syrie", "En Égypte"] },
+  { id: "pbk-p9", d: 4, t: "Comment s'appelle la prison de la saison 5 ?", a: "Ogygia", x: ["Sona", "Fox River", "Abu Ghraib"] },
+  { id: "pbk-p10", d: 4, t: "Quel jeune détenu, surnommé « Whip », se révèle être le fils de T-Bag ?", a: "David Martin", acc: ["whip", "david martin", "david"], x: ["LJ", "Mike", "Sucre"] },
+  { id: "pbk-p11", d: 4, t: "Comment Michael fait-il croire à sa mort à la fin de la saison 4 ?", a: "Il simule sa mort", acc: ["il simule sa mort", "fausse mort", "simule"], x: ["Un coma", "Une fuite au Mexique", "Une amnésie réelle"] },
+  { id: "pbk-p12", d: 4, t: "Que devient Bellick dans la saison 3 (à Sona) ?", a: "Il devient détenu", acc: ["detenu", "prisonnier"], x: ["Directeur", "Gardien-chef", "Avocat"] },
+  { id: "pbk-p13", d: 4, t: "Comment meurt Bellick dans la saison 4 ?", a: "Il se sacrifie pour l'équipe", acc: ["il se sacrifie", "sacrifie", "noye"], x: ["Abattu", "En prison", "Il survit"] },
+  { id: "pbk-p14", d: 4, t: "Qui a créé la série Prison Break ?", a: "Paul Scheuring", acc: ["paul scheuring", "scheuring"], x: ["Shawn Ryan", "J.J. Abrams", "David Chase"] },
+  { id: "pbk-p15", d: 4, t: "Sur quelle chaîne américaine Prison Break a-t-elle été diffusée ?", a: "FOX", x: ["HBO", "NBC", "AMC"] },
+  { id: "pbk-p16", d: 4, t: "Quelle alliée aide Michael et Lincoln au Yémen (saison 5) ?", a: "Sheba", x: ["Gretchen", "Sara", "Jane"] },
+  { id: "pbk-p17", d: 4, t: "Qui est le grand méchant de la saison 5, un agent nommé « Poséidon » ?", a: "Jacob Ness", acc: ["jacob", "jacob ness", "poseidon"], x: ["Kellerman", "Mahone", "Self"] },
+  { id: "pbk-p18", d: 4, t: "Quel nom de code porte ce méchant au sein de la CIA ?", a: "Poséidon", acc: ["poseidon"], x: ["Scylla", "Kraken", "Neptune"] },
+  { id: "pbk-p19", d: 4, t: "Qui Sara a-t-elle épousé pendant l'absence (supposée mort) de Michael ?", a: "Jacob", acc: ["jacob", "jacob ness"], x: ["Kellerman", "Lincoln", "Mahone"] },
+  { id: "pbk-p20", d: 4, t: "Quel détenu séducteur et manipulateur perd une main au cours de l'évasion ?", a: "T-Bag", acc: ["t-bag", "tbag", "bagwell"], x: ["Sucre", "C-Note", "Abruzzi"] },
+]);

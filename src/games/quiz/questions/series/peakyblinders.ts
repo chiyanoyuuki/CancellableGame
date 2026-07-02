@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const peakyblinders = universe("series", "Peaky Blinders", [
+  // --- Faciles (5) ---
+  { id: "pb-f1", d: 1, t: "Quel est le nom de famille de la famille au cœur de Peaky Blinders ?", a: "Shelby", x: ["Solomons", "Gray", "Changretta"] },
+  { id: "pb-f2", d: 1, t: "Dans quelle ville anglaise se déroule la série ?", a: "Birmingham", x: ["Londres", "Manchester", "Liverpool"] },
+  { id: "pb-f3", d: 1, t: "Qui dirige le gang des Peaky Blinders ?", a: "Thomas Shelby (Tommy)", acc: ["tommy", "thomas shelby", "tommy shelby"], x: ["Arthur", "Michael", "John"] },
+  { id: "pb-f4", d: 1, t: "À quelle décennie débute la série ?", a: "Les années 1920", acc: ["annees 20", "1920"], x: ["Les années 1900", "Les années 1940", "Les années 1960"] },
+  { id: "pb-f5", d: 1, t: "Que cachent les Peaky Blinders dans la visière de leurs casquettes ?", a: "Des lames de rasoir", acc: ["lames de rasoir", "lames"], x: ["Des pièces", "Des couteaux", "Des clous"] },
+
+  // --- Moyennes (10) ---
+  { id: "pb-m1", d: 2, t: "Quel frère aîné violent et instable seconde Tommy ?", a: "Arthur Shelby", acc: ["arthur"], x: ["John", "Michael", "Finn"] },
+  { id: "pb-m2", d: 2, t: "Quelle tante matriarche gère les finances de la famille ?", a: "Polly Gray", acc: ["polly"], x: ["Ada", "Esme", "Linda"] },
+  { id: "pb-m3", d: 2, t: "Quelle sœur des Shelby a des sympathies communistes ?", a: "Ada", x: ["Polly", "Esme", "Lizzie"] },
+  { id: "pb-m4", d: 2, t: "Comment s'appelle le pub qui sert de QG aux Shelby ?", a: "The Garrison", acc: ["garrison"], x: ["The Crown", "The Eagle", "The Marquis"] },
+  { id: "pb-m5", d: 2, t: "Quelle est l'activité officielle des Shelby ?", a: "Bookmakers (paris hippiques)", acc: ["paris", "bookmaker", "courses"], x: ["Brasseurs", "Bouchers", "Mineurs"] },
+  { id: "pb-m6", d: 2, t: "Quel acteur incarne Tommy Shelby ?", a: "Cillian Murphy", acc: ["cillian murphy", "murphy"], x: ["Tom Hardy", "Sam Neill", "Paul Anderson"] },
+  { id: "pb-m7", d: 2, t: "Quel gangster juif de Londres devient un partenaire aussi imprévisible que dangereux ?", a: "Alfie Solomons", acc: ["alfie", "solomons"], x: ["Darby Sabini", "Billy Kimber", "Luca"] },
+  { id: "pb-m8", d: 2, t: "Quel inspecteur acharné venu de Belfast traque les Shelby (saison 1) ?", a: "Chester Campbell", acc: ["campbell"], x: ["Sabini", "Younger", "Moss"] },
+  { id: "pb-m9", d: 2, t: "Qui est la première femme de Tommy ?", a: "Grace", x: ["Lizzie", "May", "Esme"] },
+  { id: "pb-m10", d: 2, t: "Quel rôle joue Grace au début, à l'insu des Shelby ?", a: "Une espionne infiltrée (agent irlandais)", acc: ["espionne", "agent infiltre", "indic"], x: ["Une journaliste", "Une avocate", "Une simple serveuse"] },
+
+  // --- Dures (15) ---
+  { id: "pb-d1", d: 3, t: "Quel acteur incarne Alfie Solomons ?", a: "Tom Hardy", acc: ["tom hardy", "hardy"], x: ["Cillian Murphy", "Paul Anderson", "Sam Neill"] },
+  { id: "pb-d2", d: 3, t: "Quel est le plus jeune frère des Shelby ?", a: "Finn", x: ["Michael", "John", "Isaiah"] },
+  { id: "pb-d3", d: 3, t: "Quel cousin comptable, fils de Polly, rejoint l'entreprise ?", a: "Michael Gray", acc: ["michael", "michael gray"], x: ["Isaiah", "Finn", "John"] },
+  { id: "pb-d4", d: 3, t: "Quel frère Shelby meurt dans une fusillade au début de la saison 4 ?", a: "John Shelby", acc: ["john"], x: ["Arthur", "Michael", "Finn"] },
+  { id: "pb-d5", d: 3, t: "Quelle famille mafieuse italienne lance une vendetta contre les Shelby (saison 4) ?", a: "Les Changretta", acc: ["changretta"], x: ["Les Solomons", "Les Sabini", "Les Gray"] },
+  { id: "pb-d6", d: 3, t: "Quel chef italien (joué par Adrien Brody) mène cette vendetta ?", a: "Luca Changretta", acc: ["luca", "luca changretta"], x: ["Alfie", "Sabini", "Campbell"] },
+  { id: "pb-d7", d: 3, t: "Quel gangster italien de Londres est le rival des Shelby sur les courses (saison 2) ?", a: "Darby Sabini", acc: ["sabini", "darby sabini"], x: ["Alfie", "Kimber", "Luca"] },
+  { id: "pb-d8", d: 3, t: "Quel homme politique fasciste Tommy affronte-t-il (saison 5) ?", a: "Oswald Mosley", acc: ["mosley", "oswald mosley"], x: ["Churchill", "Campbell", "Sabini"] },
+  { id: "pb-d9", d: 3, t: "Quelle fonction politique Tommy occupe-t-il à partir de la saison 5 ?", a: "Député (MP)", acc: ["depute", "mp"], x: ["Maire", "Ministre", "Juge"] },
+  { id: "pb-d10", d: 3, t: "Qui devient la seconde épouse de Tommy ?", a: "Lizzie Stark", acc: ["lizzie", "lizzie stark"], x: ["Grace", "May", "Esme"] },
+  { id: "pb-d11", d: 3, t: "Comment s'appelle l'épouse rangée et croyante d'Arthur ?", a: "Linda", x: ["Esme", "Ada", "Polly"] },
+  { id: "pb-d12", d: 3, t: "Comment s'appelle l'épouse gitane de John ?", a: "Esme", x: ["Linda", "Lizzie", "May"] },
+  { id: "pb-d13", d: 3, t: "Quel jeune homme noir, fidèle aux Shelby, est le fils d'un pasteur ?", a: "Isaiah", x: ["Johnny Dogs", "Michael", "Finn"] },
+  { id: "pb-d14", d: 3, t: "Quel ami gitan roule en roulotte et reste fidèle aux Shelby ?", a: "Johnny Dogs", acc: ["johnny dogs"], x: ["Isaiah", "Aberama", "Bonnie"] },
+  { id: "pb-d15", d: 3, t: "Quel jeune boxeur gitan (fils d'Aberama Gold) s'allie aux Shelby ?", a: "Bonnie Gold", acc: ["bonnie", "bonnie gold"], x: ["Isaiah", "Michael", "Finn"] },
+
+  // --- Pro (20) ---
+  { id: "pb-p1", d: 4, t: "D'où vient, selon la légende, le nom « Peaky Blinders » ?", a: "Des lames cousues dans la visière des casquettes", acc: ["lames dans les casquettes", "lames cousues"], x: ["Des yeux tatoués", "Un chef borgne", "Un quartier de la ville"] },
+  { id: "pb-p2", d: 4, t: "Comment s'appelle l'entreprise légale de Tommy ?", a: "Shelby Company Limited", acc: ["shelby company", "shelby company limited"], x: ["Shelby & Sons", "Garrison Ltd", "Shelby Bros"] },
+  { id: "pb-p3", d: 4, t: "Dans quelle unité Tommy et Arthur ont-ils servi en France (Première Guerre) ?", a: "Les tunneliers (creuseurs de tunnels)", acc: ["tunneliers", "tunnels"], x: ["La cavalerie", "La marine", "L'aviation"] },
+  { id: "pb-p4", d: 4, t: "De quel mal Tommy et Arthur souffrent-ils depuis la guerre ?", a: "Un stress post-traumatique (obus)", acc: ["stress post-traumatique", "ptsd", "traumatisme"], x: ["Amnésie", "Cécité", "Surdité"] },
+  { id: "pb-p5", d: 4, t: "Quel alcool Alfie Solomons produit-il officiellement dans sa distillerie ?", a: "Du rhum", acc: ["rhum"], x: ["Du gin", "Du whisky", "De la bière"] },
+  { id: "pb-p6", d: 4, t: "Pour qui Tommy exécute-t-il des missions clandestines à partir de la saison 2 ?", a: "Pour la Couronne (Churchill)", acc: ["la couronne", "churchill", "l'etat"], x: ["Pour la mafia", "Pour l'IRA", "Pour lui-même"] },
+  { id: "pb-p7", d: 4, t: "Comment s'appelle le fils de Tommy et Grace ?", a: "Charles", acc: ["charles", "charlie"], x: ["Michael", "Finn", "Duke"] },
+  { id: "pb-p8", d: 4, t: "Quel fils illégitime de Tommy réapparaît dans la dernière saison ?", a: "Duke", x: ["Charles", "Michael", "Isaiah"] },
+  { id: "pb-p9", d: 4, t: "Comment meurt Grace ?", a: "Abattue lors d'un gala (balle destinée à Tommy)", acc: ["abattue", "tuee par balle", "balle"], x: ["De maladie", "Dans une explosion", "D'une overdose"] },
+  { id: "pb-p10", d: 4, t: "Quel est le véritable prénom de Polly ?", a: "Elizabeth", x: ["Ada", "Esme", "Linda"] },
+  { id: "pb-p11", d: 4, t: "Quelle Américaine ambitieuse épouse Michael et le pousse contre Tommy ?", a: "Gina", x: ["Lizzie", "Ada", "Esme"] },
+  { id: "pb-p12", d: 4, t: "Quel parti fasciste Oswald Mosley fonde-t-il ?", a: "La British Union of Fascists (BUF)", acc: ["british union of fascists", "buf", "union britannique des fascistes"], x: ["Le parti travailliste", "Les Tories", "L'IRA"] },
+  { id: "pb-p13", d: 4, t: "Quel prêtre manipulateur d'un service secret s'oppose à Tommy (saisons 3-4) ?", a: "Father John Hughes", acc: ["hughes", "father hughes", "john hughes"], x: ["Campbell", "Mosley", "Sabini"] },
+  { id: "pb-p14", d: 4, t: "De quel mal Tommy se croit-il atteint dans la saison 6 ?", a: "Une tumeur au cerveau (un tuberculome)", acc: ["tumeur", "tuberculome", "tumeur au cerveau"], x: ["Un cancer du poumon", "La syphilis", "Le typhus"] },
+  { id: "pb-p15", d: 4, t: "Comment meurt Polly à la fin de la saison 5 ?", a: "Abattue (tuée par balle)", acc: ["abattue", "tuee par balle", "assassinee"], x: ["De maladie", "Dans une explosion", "Pendue"] },
+  { id: "pb-p16", d: 4, t: "Quelle est l'expression / le « mot d'ordre » emblématique de la famille ?", a: "« By order of the Peaky Blinders »", acc: ["by order of the peaky blinders", "by order"], x: ["« Winter is coming »", "« Family first »", "« No fighting »"] },
+  { id: "pb-p17", d: 4, t: "Quel acteur incarne Arthur Shelby ?", a: "Paul Anderson", acc: ["paul anderson"], x: ["Cillian Murphy", "Tom Hardy", "Sam Neill"] },
+  { id: "pb-p18", d: 4, t: "Quel acteur incarne l'inspecteur Campbell ?", a: "Sam Neill", acc: ["sam neill"], x: ["Tom Hardy", "Paul Anderson", "Adrien Brody"] },
+  { id: "pb-p19", d: 4, t: "Quel acteur incarne Oswald Mosley ?", a: "Sam Claflin", acc: ["sam claflin", "claflin"], x: ["Adrien Brody", "Tom Hardy", "Sam Neill"] },
+  { id: "pb-p20", d: 4, t: "Qui a créé la série Peaky Blinders ?", a: "Steven Knight", acc: ["steven knight", "knight"], x: ["Steven Moffat", "Peter Morgan", "Julian Fellowes"] },
+]);

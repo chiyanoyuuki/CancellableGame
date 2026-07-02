@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const theboys = universe("series", "The Boys", [
+  // --- Faciles (5) ---
+  { id: "boys-f1", d: 1, t: "Comment s'appelle le groupe de super-héros stars et corrompus ?", a: "Les Sept (The Seven)", acc: ["les sept", "the seven", "sept"], x: ["Les Vengeurs", "La Ligue", "Les X-Men"] },
+  { id: "boys-f2", d: 1, t: "Quelle entreprise gère et commercialise les super-héros ?", a: "Vought", acc: ["vought"], x: ["Stark", "Umbrella", "Oscorp"] },
+  { id: "boys-f3", d: 1, t: "Quel est le leader psychopathe des Sept ?", a: "Homelander (Le Protecteur)", acc: ["homelander", "le protecteur", "protecteur"], x: ["A-Train", "Black Noir", "Butcher"] },
+  { id: "boys-f4", d: 1, t: "Qui dirige « The Boys », le groupe qui traque les super-héros ?", a: "Billy Butcher", acc: ["butcher", "billy butcher"], x: ["Hughie", "Homelander", "MM"] },
+  { id: "boys-f5", d: 1, t: "Quelle substance donne des super-pouvoirs ?", a: "Le Composé V", acc: ["compose v", "compound v", "v"], x: ["Le sérum", "La kryptonite", "Le mutagène"] },
+
+  // --- Moyennes (10) ---
+  { id: "boys-m1", d: 2, t: "Quel jeune homme rejoint les Boys après la mort de sa petite amie ?", a: "Hughie", x: ["MM", "Frenchie", "Butcher"] },
+  { id: "boys-m2", d: 2, t: "Comment s'appelle la petite amie de Hughie, tuée par A-Train ?", a: "Robin", x: ["Starlight", "Maeve", "Becca"] },
+  { id: "boys-m3", d: 2, t: "Quel super-héros super-rapide des Sept tue Robin ?", a: "A-Train", x: ["Homelander", "Black Noir", "The Deep"] },
+  { id: "boys-m4", d: 2, t: "Quelle nouvelle recrue lumineuse des Sept devient la petite amie de Hughie ?", a: "Starlight", acc: ["starlight", "annie january"], x: ["Maeve", "Stormfront", "Becca"] },
+  { id: "boys-m5", d: 2, t: "Quel super-héros aquatique humilié parle aux poissons ?", a: "The Deep", acc: ["the deep", "deep"], x: ["A-Train", "Black Noir", "Translucent"] },
+  { id: "boys-m6", d: 2, t: "Quel membre français des Boys est expert en armes et gadgets ?", a: "Frenchie", x: ["MM", "Hughie", "Butcher"] },
+  { id: "boys-m7", d: 2, t: "Quel membre des Boys, père de famille, est surnommé « Mother's Milk » ?", a: "MM (Mother's Milk)", acc: ["mm", "mother's milk", "mothers milk"], x: ["Frenchie", "Hughie", "Butcher"] },
+  { id: "boys-m8", d: 2, t: "Quelle guerrière des Sept était l'idole de Starlight ?", a: "Queen Maeve", acc: ["maeve", "queen maeve"], x: ["Stormfront", "Starlight", "Becca"] },
+  { id: "boys-m9", d: 2, t: "Quel super-héros des Sept est un ninja masqué et muet ?", a: "Black Noir", acc: ["black noir", "noir"], x: ["The Deep", "A-Train", "Translucent"] },
+  { id: "boys-m10", d: 2, t: "Pourquoi Butcher hait-il autant Homelander ?", a: "Il le tient pour responsable de la disparition de sa femme", acc: ["sa femme", "becca", "il a tue sa femme"], x: ["Il veut sa place", "Pour de l'argent", "Il l'envie"] },
+
+  // --- Dures (15) ---
+  { id: "boys-d1", d: 3, t: "Quel acteur incarne Homelander ?", a: "Antony Starr", acc: ["antony starr", "starr"], x: ["Karl Urban", "Jack Quaid", "Chace Crawford"] },
+  { id: "boys-d2", d: 3, t: "Quel acteur incarne Billy Butcher ?", a: "Karl Urban", acc: ["karl urban", "urban"], x: ["Antony Starr", "Jack Quaid", "Jensen Ackles"] },
+  { id: "boys-d3", d: 3, t: "Quelle jeune femme muette et surpuissante rejoint les Boys ?", a: "Kimiko", acc: ["kimiko", "the female"], x: ["Maeve", "Starlight", "Stormfront"] },
+  { id: "boys-d4", d: 3, t: "Quelle dirigeante de Vought supervise les Sept dans la saison 1 ?", a: "Madelyn Stillwell", acc: ["madelyn stillwell", "stillwell"], x: ["Ashley", "Stan Edgar", "Victoria"] },
+  { id: "boys-d5", d: 3, t: "Quelle nouvelle héroïne des Sept se révèle être une nazie (saison 2) ?", a: "Stormfront", x: ["Maeve", "Starlight", "Firecracker"] },
+  { id: "boys-d6", d: 3, t: "Quelle est la vraie nature de Stormfront ?", a: "Une nazie centenaire (épouse du fondateur de Vought)", acc: ["nazie", "centenaire", "vieille nazie"], x: ["Une IA", "Une extraterrestre", "Un clone"] },
+  { id: "boys-d7", d: 3, t: "Comment s'appelle la femme de Butcher, cachée par Vought ?", a: "Becca", x: ["Robin", "Maeve", "Ashley"] },
+  { id: "boys-d8", d: 3, t: "Comment s'appelle le fils de Homelander et Becca ?", a: "Ryan", x: ["Teddy", "Hughie", "LJ"] },
+  { id: "boys-d9", d: 3, t: "Quel PDG noir, calme et impitoyable, dirige Vought (saison 2+) ?", a: "Stan Edgar", acc: ["stan edgar", "edgar"], x: ["Stillwell", "Ashley", "Adam"] },
+  { id: "boys-d10", d: 3, t: "Quelle assistante rousse et stressée finit par diriger Vought ?", a: "Ashley", x: ["Madelyn", "Victoria", "Maeve"] },
+  { id: "boys-d11", d: 3, t: "Quel super-héros invisible les Boys tuent-ils avec une bombe ?", a: "Translucent", x: ["The Deep", "Black Noir", "A-Train"] },
+  { id: "boys-d12", d: 3, t: "Quelle femme politique peut faire exploser les têtes par la pensée ?", a: "Victoria Neuman", acc: ["victoria neuman", "neuman"], x: ["Ashley", "Maeve", "Stormfront"] },
+  { id: "boys-d13", d: 3, t: "Comment s'appelle la dose de pouvoirs temporaires (24 h) introduite en saison 3 ?", a: "Le V temporaire (Temp V)", acc: ["temp v", "v temporaire"], x: ["Le Composé V", "Le sérum", "La NovaV"] },
+  { id: "boys-d14", d: 3, t: "Quel super-héros vétéran des années 1940 réapparaît en saison 3 ?", a: "Soldier Boy", acc: ["soldier boy"], x: ["Homelander", "Black Noir", "Stormfront"] },
+  { id: "boys-d15", d: 3, t: "Quel acteur incarne Soldier Boy ?", a: "Jensen Ackles", acc: ["jensen ackles", "ackles"], x: ["Karl Urban", "Antony Starr", "Chace Crawford"] },
+
+  // --- Pro (20) ---
+  { id: "boys-p1", d: 4, t: "Qui est le showrunner (créateur de la série) The Boys ?", a: "Eric Kripke", acc: ["eric kripke", "kripke"], x: ["Garth Ennis", "Seth Rogen", "Evan Goldberg"] },
+  { id: "boys-p2", d: 4, t: "Qui est l'auteur du comic book original dont s'inspire la série ?", a: "Garth Ennis", acc: ["garth ennis", "ennis"], x: ["Alan Moore", "Mark Millar", "Robert Kirkman"] },
+  { id: "boys-p3", d: 4, t: "Quel est le vrai nom de Starlight ?", a: "Annie January", acc: ["annie", "annie january"], x: ["Stella", "Becca", "Maeve"] },
+  { id: "boys-p4", d: 4, t: "Quel est le vrai nom d'A-Train ?", a: "Reggie Franklin", acc: ["reggie", "reggie franklin"], x: ["Kevin", "Alastair", "Nathan"] },
+  { id: "boys-p5", d: 4, t: "Quel est le prénom de The Deep ?", a: "Kevin", x: ["Reggie", "Alastair", "Nathan"] },
+  { id: "boys-p6", d: 4, t: "Quelle capacité de Soldier Boy peut neutraliser les pouvoirs des autres supes ?", a: "Une onde d'énergie qui retire les pouvoirs", acc: ["une onde", "onde d'energie", "il retire les pouvoirs"], x: ["Le feu", "L'eau", "Le laser"] },
+  { id: "boys-p7", d: 4, t: "Comment Homelander a-t-il été élevé ?", a: "En laboratoire, par Vought", acc: ["en laboratoire", "labo", "par vought"], x: ["Sur une autre planète", "Par une famille adoptive", "Naturellement"] },
+  { id: "boys-p8", d: 4, t: "Quelle secte manipule les super-héros (The Deep la rejoint) ?", a: "L'Église du Collectif", acc: ["eglise du collectif", "the church of the collective", "collectif"], x: ["La Scientologie", "Les Témoins", "L'Ordre"] },
+  { id: "boys-p9", d: 4, t: "Qui tue Madelyn Stillwell (au laser) ?", a: "Homelander", x: ["Butcher", "Starlight", "A-Train"] },
+  { id: "boys-p10", d: 4, t: "Comment Kimiko communique-t-elle, étant muette ?", a: "En langue des signes", acc: ["langue des signes", "signes"], x: ["Par télépathie", "Par écrit", "Elle ne communique pas"] },
+  { id: "boys-p11", d: 4, t: "Comment s'appelle le frère de Kimiko ?", a: "Kenji", x: ["Ryan", "Reggie", "Kevin"] },
+  { id: "boys-p12", d: 4, t: "Quelle partie du corps explose quand Victoria Neuman utilise son pouvoir ?", a: "La tête", acc: ["la tete", "tete"], x: ["Le cœur", "Les mains", "Les jambes"] },
+  { id: "boys-p13", d: 4, t: "De qui Victoria Neuman est-elle la protégée / fille adoptive ?", a: "Stan Edgar", acc: ["stan edgar", "edgar"], x: ["Homelander", "Butcher", "Stillwell"] },
+  { id: "boys-p14", d: 4, t: "Comment s'appelle la série dérivée universitaire de The Boys ?", a: "Gen V", acc: ["gen v"], x: ["The Seven", "Vought U", "Supe School"] },
+  { id: "boys-p15", d: 4, t: "Comment Homelander révèle-t-il sa vraie nature à la foule (fin saison 3) ?", a: "Il tue un manifestant au laser devant tout le monde", acc: ["il tue un manifestant", "laser sur un manifestant", "tue un homme"], x: ["Il démissionne", "Il s'excuse", "Il disparaît"] },
+  { id: "boys-p16", d: 4, t: "Qui se révèle être le père biologique de Homelander ?", a: "Soldier Boy", acc: ["soldier boy"], x: ["Stan Edgar", "Butcher", "Vogelbaum"] },
+  { id: "boys-p17", d: 4, t: "Quel scientifique a « élevé » Homelander en laboratoire ?", a: "Dr. Vogelbaum", acc: ["vogelbaum"], x: ["Stan Edgar", "Kripke", "Adam"] },
+  { id: "boys-p18", d: 4, t: "Combien de membres compte officiellement l'équipe des Sept ?", a: "7", acc: ["sept"], x: ["5", "6", "8"] },
+  { id: "boys-p19", d: 4, t: "Quel effet secondaire le V temporaire provoque-t-il chez Butcher et Hughie ?", a: "Des tumeurs au cerveau (mortel à terme)", acc: ["tumeurs", "tumeurs au cerveau", "ca les tue"], x: ["Rien", "La folie seulement", "La perte de mémoire"] },
+  { id: "boys-p20", d: 4, t: "Dans quelle ville se déroule principalement la série ?", a: "New York", x: ["Los Angeles", "Chicago", "Washington"] },
+]);
