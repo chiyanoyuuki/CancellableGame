@@ -43,7 +43,7 @@ export const halo = universe("jeuxvideo", "Halo", [
   { id: "halo-p3", d: 4, t: "Que signifie l'acronyme UNSC ?", a: "United Nations Space Command", acc: ["united nations space command"], x: ["United Nations Security Council", "Universal Navy Space Corps", "United Nature Space Command"] },
   { id: "halo-p4", d: 4, t: "À quelle escouade de Spartans appartient Master Chief ?", a: "Blue Team", x: ["Noble Team", "Fireteam Osiris", "Red Team"] },
   { id: "halo-p5", d: 4, t: "Quelle escouade menée par Locke traque le Chief dans Halo 5 ?", a: "Fireteam Osiris", acc: ["fireteam osiris", "osiris"], x: ["Noble Team", "Blue Team", "Red Team"] },
-  { id: "halo-p6", d: 4, t: "Quel Spartan est chargé de traquer Master Chief dans Halo 5 ?", a: "Spartan Locke", acc: ["locke", "spartan locke", "jameson locke"], x: ["Buck", "Palmer", "Lasky"] },
+  { id: "halo-p6", d: 4, t: "Quel Spartan est chargé de traquer Master Chief dans Halo 5 ?", a: "Locke", acc: ["locke", "spartan locke", "jameson locke"], x: ["Buck", "Palmer", "Lasky"] },
   { id: "halo-p7", d: 4, t: "Quel mal frappe Cortana à la fin de Halo 4 ?", a: "La rampancy", acc: ["rampancy", "rampance", "folie"], x: ["Un virus covenant", "La trahison", "Rien"] },
   { id: "halo-p8", d: 4, t: "Quel acteur prête ses traits au chef ODST de Halo 3: ODST ?", a: "Buck", x: ["Dutch", "Mickey", "Romeo"] },
   { id: "halo-p9", d: 4, t: "Quelle colonie humaine, première attaquée, marque le début de la guerre contre le Covenant ?", a: "Harvest", x: ["Reach", "La Terre", "Arcadia"] },

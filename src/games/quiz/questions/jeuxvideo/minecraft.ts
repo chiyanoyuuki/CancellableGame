@@ -55,7 +55,7 @@ export const minecraft = universe("jeuxvideo", "Minecraft", [
   { id: "mc-p15", d: 4, t: "Quel gros monstre-taureau charge lors des raids de pillards ?", a: "Le Ravageur", acc: ["ravageur", "ravager"], x: ["Le Wither", "Le Warden", "Le Hoglin"] },
   { id: "mc-p16", d: 4, t: "Quel objet, lancé, permet à l'Enderman de se téléporter ?", a: "La Perle de l'Ender", acc: ["perle de l'ender", "ender pearl", "perle"], x: ["L'Œil de l'Ender", "La Poudre de Blaze", "La Fiole"] },
   { id: "mc-p17", d: 4, t: "Comment s'appelle le personnage-mythe qui hante la légende de Minecraft ?", a: "Herobrine", acc: ["herobrine"], x: ["Steve", "Notch", "Null"] },
-  { id: "mc-p18", d: 4, t: "Quel acteur incarne Steve dans le film Minecraft ?", a: "Jack Black", acc: ["jack black"], x: ["Jason Momoa", "Chris Pratt", "Jables"] },
+  { id: "mc-p18", d: 4, t: "Quel acteur incarne Steve dans le film Minecraft ?", a: "Jack Black", acc: ["jack black"], x: ["Jason Momoa", "Chris Pratt", "Ryan Reynolds"] },
   { id: "mc-p19", d: 4, t: "Comment s'appelle la créature cubique verte qui rebondit et se divise en tombant ?", a: "Le Slime", acc: ["slime"], x: ["Le Cube de magma", "Le Creeper", "Le Ghast"] },
   { id: "mc-p20", d: 4, t: "De quel animal le Creeper a-t-il peur ?", a: "Le chat", acc: ["chat", "ocelot", "chats"], x: ["Le loup", "Le golem", "Le cheval"] },
 ]);

@@ -22,9 +22,9 @@ export const gta = universe("jeuxvideo", "GTA", [
 
   // --- Dures (15) ---
   { id: "gta-d1", d: 3, t: "Comment s'appellent les trois héros de GTA V ?", a: "Michael, Franklin et Trevor", acc: ["michael franklin trevor", "michael", "franklin", "trevor"], x: ["Niko, Roman, Little Jacob", "Tommy, Lance, Ken", "CJ, Sweet, Ryder"] },
-  { id: "gta-d2", d: 3, t: "Comment s'appelle le héros de GTA San Andreas ?", a: "Carl Johnson", acc: ["carl johnson", "cj", "carl"], x: ["Tommy Vercetti", "Niko Bellic", "Franklin"] },
-  { id: "gta-d3", d: 3, t: "Comment s'appelle le héros de GTA Vice City ?", a: "Tommy Vercetti", acc: ["tommy vercetti", "tommy", "vercetti"], x: ["Carl Johnson", "Niko Bellic", "Claude"] },
-  { id: "gta-d4", d: 3, t: "Comment s'appelle le héros immigré de GTA IV, venu d'Europe de l'Est ?", a: "Niko Bellic", acc: ["niko bellic", "niko", "bellic"], x: ["Roman", "Tommy", "CJ"] },
+  { id: "gta-d2", d: 3, t: "Comment s'appelle le héros de GTA San Andreas ?", a: "Carl", acc: ["carl johnson", "cj", "carl"], x: ["Tommy", "Niko", "Franklin"] },
+  { id: "gta-d3", d: 3, t: "Comment s'appelle le héros de GTA Vice City ?", a: "Tommy", acc: ["tommy vercetti", "tommy", "vercetti"], x: ["Carl", "Niko", "Claude"] },
+  { id: "gta-d4", d: 3, t: "Comment s'appelle le héros immigré de GTA IV, venu d'Europe de l'Est ?", a: "Niko", acc: ["niko bellic", "niko", "bellic"], x: ["Roman", "Tommy", "CJ"] },
   { id: "gta-d5", d: 3, t: "En quelle année est sorti GTA III, premier de la série en 3D ?", a: "2001", x: ["1999", "2003", "2005"] },
   { id: "gta-d6", d: 3, t: "Comment s'appelle le gang de CJ dans San Andreas ?", a: "Grove Street", acc: ["grove street", "grove street families", "families"], x: ["Les Ballas", "Les Vagos", "Les Aztecas"] },
   { id: "gta-d7", d: 3, t: "Quel acteur célèbre a prêté sa voix à Tommy Vercetti dans Vice City ?", a: "Ray Liotta", acc: ["ray liotta", "liotta"], x: ["Al Pacino", "Robert De Niro", "Samuel L. Jackson"] },
@@ -35,7 +35,7 @@ export const gta = universe("jeuxvideo", "GTA", [
   { id: "gta-d12", d: 3, t: "Quel héros de GTA V est un trafiquant instable et violent ?", a: "Trevor", acc: ["trevor", "trevor philips"], x: ["Michael", "Franklin", "Lamar"] },
   { id: "gta-d13", d: 3, t: "Comment s'appelle le génie du piratage qui planifie les braquages dans GTA V ?", a: "Lester", acc: ["lester"], x: ["Lamar", "Ron", "Dave"] },
   { id: "gta-d14", d: 3, t: "Quel gang rival affronte les Grove Street dans San Andreas ?", a: "Les Ballas", acc: ["ballas"], x: ["Les Vagos", "Les Triades", "Les Aztecas"] },
-  { id: "gta-d15", d: 3, t: "Quel acteur double le flic corrompu Tenpenny dans San Andreas ?", a: "Samuel L. Jackson", acc: ["samuel l jackson", "samuel jackson", "jackson"], x: ["Ray Liotta", "Denzel Washington", "Ice-T"] },
+  { id: "gta-d15", d: 3, t: "Quel acteur double le flic corrompu Tenpenny dans San Andreas ?", a: "Samuel L. Jackson", acc: ["samuel l jackson", "samuel jackson", "jackson"], x: ["Ray Liotta", "Denzel Washington", "Wesley Snipes"] },
 
   // --- Pro (20) ---
   { id: "gta-p1", d: 4, t: "Comment s'appelle le cousin de Niko dans GTA IV, fan de bowling ?", a: "Roman", acc: ["roman", "roman bellic"], x: ["Little Jacob", "Brucie", "Packie"] },
