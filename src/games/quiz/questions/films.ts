@@ -1,4 +1,5 @@
 import type { Question } from '../../../core/models';
+import { universe } from './_build';
 
 export const filmsQuestions: Question[] = [
   {
@@ -256,4 +257,64 @@ export const filmsQuestions: Question[] = [
     acceptable: ['le retour du roi', 'return of the king'],
     distractors: ['Avatar', 'La La Land', 'Gladiator'],
   },
+
+  ...universe('films', 'Horreur', [
+    // --- Faciles (5) ---
+    { id: 'hor-f1', d: 1, t: 'Dans quelle saga un tueur masqué nommé Jason hante le camp Crystal Lake ?', a: 'Vendredi 13', acc: ['vendredi 13', 'friday the 13th'], x: ['Halloween', 'Scream', 'Saw'] },
+    { id: 'hor-f2', d: 1, t: 'Quel masque le tueur de la saga Scream porte-t-il ?', a: 'Le masque Ghostface', acc: ['ghostface', 'masque ghostface'], x: ['Un masque de hockey', 'Un masque en cuir', 'Une cagoule noire'] },
+    { id: 'hor-f3', d: 1, t: 'Quelle poupée rousse est possédée par l\'âme d\'un tueur ?', a: 'Chucky', x: ['Annabelle', 'Billy', 'Slappy'] },
+    { id: 'hor-f4', d: 1, t: 'Dans Les Dents de la mer, quel animal terrorise les baigneurs ?', a: 'Un requin', x: ['Un crocodile', 'Une pieuvre', 'Un orque'] },
+    { id: 'hor-f5', d: 1, t: 'De quelle couleur est le sang qui gicle typiquement dans les films gore ?', a: 'Rouge', x: ['Vert', 'Bleu', 'Noir'] },
+
+    // --- Moyennes (10) ---
+    { id: 'hor-m1', d: 2, t: 'Quel tueur au pull rayé rouge et vert hante les rêves dans Les Griffes de la nuit ?', a: 'Freddy Krueger', x: ['Jason Voorhees', 'Michael Myers', 'Norman Bates'] },
+    { id: 'hor-m2', d: 2, t: 'Dans Halloween, comment s\'appelle le tueur masqué ?', a: 'Michael Myers', x: ['Jason Voorhees', 'Freddy Krueger', 'Leatherface'] },
+    { id: 'hor-m3', d: 2, t: 'Quel film de 1973 met en scène l\'exorcisme de la jeune Regan ?', a: 'L\'Exorciste', x: ['Rosemary\'s Baby', 'La Malédiction', 'Amityville'] },
+    { id: 'hor-m4', d: 2, t: 'Quelle saga de pièges mortels tourne autour d\'un tueur appelé Jigsaw ?', a: 'Saw', x: ['Hostel', 'Scream', 'Insidious'] },
+    { id: 'hor-m5', d: 2, t: 'Quel film de zombies de 1968 de George Romero a lancé le genre ?', a: 'La Nuit des morts-vivants', acc: ['nuit des morts-vivants', 'night of the living dead'], x: ['28 jours plus tard', 'Zombie', 'L\'Armée des morts'] },
+    { id: 'hor-m6', d: 2, t: 'Dans Shining, quel hôtel isolé rend fou Jack Torrance ?', a: 'L\'hôtel Overlook', acc: ['overlook'], x: ['L\'hôtel Bates', 'L\'hôtel Cecil', 'Le manoir Hill'] },
+    { id: 'hor-m7', d: 2, t: 'Quel écrivain américain a écrit Ça, Shining et Carrie ?', a: 'Stephen King', x: ['Dean Koontz', 'Clive Barker', 'Bram Stoker'] },
+    { id: 'hor-m8', d: 2, t: 'Quel clown maléfique hante la ville de Derry dans Ça ?', a: 'Grippe-Sou', acc: ['grippe-sou', 'pennywise'], x: ['Chucky', 'Ghostface', 'Jigsaw'] },
+    { id: 'hor-m9', d: 2, t: 'Quel tueur défiguré manie une tronçonneuse au fin fond du Texas ?', a: 'Leatherface', x: ['Ghostface', 'Chucky', 'Jigsaw'] },
+    { id: 'hor-m10', d: 2, t: 'Quelle franchise met en scène des poupées, des nonnes démoniaques et les époux Warren ?', a: 'Conjuring', acc: ['conjuring', 'the conjuring'], x: ['Insidious', 'Sinister', 'Paranormal Activity'] },
+
+    // --- Dures (15) ---
+    { id: 'hor-d1', d: 3, t: 'Qui a réalisé Halloween en 1978 et en a composé la musique ?', a: 'John Carpenter', x: ['Wes Craven', 'Tobe Hooper', 'Sean Cunningham'] },
+    { id: 'hor-d2', d: 3, t: 'Qui a réalisé Les Griffes de la nuit et le premier Scream ?', a: 'Wes Craven', x: ['John Carpenter', 'Sam Raimi', 'George Romero'] },
+    { id: 'hor-d3', d: 3, t: 'Dans Psychose, comment s\'appelle le motel tenu par Norman Bates ?', a: 'Le motel Bates', acc: ['bates', 'motel bates'], x: ['Le motel Overlook', 'Le motel Cecil', 'Le motel Sunset'] },
+    { id: 'hor-d4', d: 3, t: 'Quel film de 1999 en found footage suit trois étudiants perdus dans une forêt ?', a: 'Le Projet Blair Witch', acc: ['blair witch', 'projet blair witch'], x: ['Paranormal Activity', 'REC', 'Cloverfield'] },
+    { id: 'hor-d5', d: 3, t: 'Quelle poupée possédée a son propre film dérivé de l\'univers Conjuring ?', a: 'Annabelle', x: ['Chucky', 'Slappy', 'Brahms'] },
+    { id: 'hor-d6', d: 3, t: 'Quel réalisateur japonais a lancé la J-horror avec Ring ?', a: 'Hideo Nakata', x: ['Takashi Miike', 'Takashi Shimizu', 'Kiyoshi Kurosawa'] },
+    { id: 'hor-d7', d: 3, t: 'Dans Ring, combien de jours reste-t-il à vivre après avoir vu la cassette maudite ?', a: '7 jours', x: ['3 jours', '13 jours', '1 jour'] },
+    { id: 'hor-d8', d: 3, t: 'Quel film de Jordan Peele de 2017 mêle horreur et satire raciale ?', a: 'Get Out', x: ['Us', 'Nope', 'Midsommar'] },
+    { id: 'hor-d9', d: 3, t: 'Qui a réalisé Hérédité et Midsommar ?', a: 'Ari Aster', x: ['Robert Eggers', 'Jordan Peele', 'David Robert Mitchell'] },
+    { id: 'hor-d10', d: 3, t: 'Quel film de 1979 dans l\'espace a pour slogan « personne ne vous entendra crier » ?', a: 'Alien', x: ['The Thing', 'Event Horizon', 'Life'] },
+    { id: 'hor-d11', d: 3, t: 'Dans The Thing de John Carpenter, qu\'est-ce qui imite parfaitement ses victimes ?', a: 'Un extraterrestre', acc: ['extraterrestre', 'alien', 'la chose'], x: ['Un fantôme', 'Un virus', 'Un robot'] },
+    { id: 'hor-d12', d: 3, t: 'Quel film de 1974 de Tobe Hooper a choqué par son ambiance texane malsaine ?', a: 'Massacre à la tronçonneuse', acc: ['massacre a la tronconneuse'], x: ['La Colline a des yeux', 'Délivrance', 'Wrong Turn'] },
+    { id: 'hor-d13', d: 3, t: 'Quelle saga espagnole en found footage se déroule dans un immeuble en quarantaine ?', a: 'REC', x: ['Paranormal Activity', 'Blair Witch', 'Cloverfield'] },
+    { id: 'hor-d14', d: 3, t: 'Dans le tout premier Vendredi 13, qui est en réalité le tueur ?', a: 'Pamela Voorhees', acc: ['pamela voorhees', 'la mere de jason'], x: ['Jason Voorhees', 'Michael Myers', 'Alice Hardy'] },
+    { id: 'hor-d15', d: 3, t: 'Quel film de 2018 impose le silence face à des créatures sensibles au moindre bruit ?', a: 'Sans un bruit', acc: ['sans un bruit', 'a quiet place'], x: ['Bird Box', 'The Silence', 'Don\'t Breathe'] },
+
+    // --- Pro (20) ---
+    { id: 'hor-p1', d: 4, t: 'En quelle année est sorti le premier Halloween de John Carpenter ?', a: '1978', x: ['1980', '1974', '1982'] },
+    { id: 'hor-p2', d: 4, t: 'Quelle actrice incarne Laurie Strode dans la saga Halloween ?', a: 'Jamie Lee Curtis', x: ['Sigourney Weaver', 'Neve Campbell', 'Heather Langenkamp'] },
+    { id: 'hor-p3', d: 4, t: 'Quel acteur incarne Freddy Krueger dans la saga originale ?', a: 'Robert Englund', x: ['Kane Hodder', 'Doug Bradley', 'Tony Todd'] },
+    { id: 'hor-p4', d: 4, t: 'Quel démon aux épingles plantées dans la tête dirige les Cénobites dans Hellraiser ?', a: 'Pinhead', x: ['Pyramid Head', 'Samara', 'Valak'] },
+    { id: 'hor-p5', d: 4, t: 'Quelle actrice incarne Sidney Prescott dans la saga Scream ?', a: 'Neve Campbell', x: ['Courteney Cox', 'Drew Barrymore', 'Jamie Lee Curtis'] },
+    { id: 'hor-p6', d: 4, t: 'Qui a réalisé la saga culte Evil Dead ?', a: 'Sam Raimi', x: ['Peter Jackson', 'Wes Craven', 'Stuart Gordon'] },
+    { id: 'hor-p7', d: 4, t: 'Quel héros à la tronçonneuse et au fusil combat les morts dans Evil Dead ?', a: 'Ash Williams', x: ['Tommy Jarvis', 'Nancy Thompson', 'Chris Washington'] },
+    { id: 'hor-p8', d: 4, t: 'Quel film muet de 1922 de Murnau est une adaptation non autorisée de Dracula ?', a: 'Nosferatu', x: ['Dracula', 'Vampyr', 'Le Golem'] },
+    { id: 'hor-p9', d: 4, t: 'Quel réalisateur mexicain a fait Le Labyrinthe de Pan et La Forme de l\'eau ?', a: 'Guillermo del Toro', x: ['Alfonso Cuarón', 'Alejandro González Iñárritu', 'Robert Rodriguez'] },
+    { id: 'hor-p10', d: 4, t: 'Comment s\'appelle le croque-mitaine du film d\'horreur australien de 2014 ?', a: 'Le Babadook', acc: ['babadook'], x: ['Le Slender Man', 'Le Bonhomme Sept Heures', 'Le Croque-mitaine'] },
+    { id: 'hor-p11', d: 4, t: 'Quel film de 1976 de Brian De Palma adapte un roman de Stephen King sur une lycéenne télékinésiste ?', a: 'Carrie', x: ['Christine', 'Cujo', 'Firestarter'] },
+    { id: 'hor-p12', d: 4, t: 'Quelle saga de found footage a débuté en 2007 avec une caméra dans une chambre ?', a: 'Paranormal Activity', x: ['REC', 'Blair Witch', 'Cloverfield'] },
+    { id: 'hor-p13', d: 4, t: 'Quel acteur incarne Hannibal Lecter dans Le Silence des agneaux ?', a: 'Anthony Hopkins', x: ['Christopher Lee', 'Vincent Price', 'Robert Englund'] },
+    { id: 'hor-p14', d: 4, t: 'Quel film de 1968 de Roman Polanski met en scène une grossesse démoniaque ?', a: 'Rosemary\'s Baby', x: ['La Malédiction', 'L\'Exorciste', 'L\'Antéchrist'] },
+    { id: 'hor-p15', d: 4, t: 'Quel film de 1980 de Stanley Kubrick adapte le roman Shining de Stephen King ?', a: 'Shining', x: ['Ça', 'Christine', 'Simetierre'] },
+    { id: 'hor-p16', d: 4, t: 'Quelle saga imagine une nuit annuelle où tous les crimes deviennent légaux ?', a: 'American Nightmare', acc: ['american nightmare', 'the purge', 'purge'], x: ['Battle Royale', 'Hunger Games', 'Hostel'] },
+    { id: 'hor-p17', d: 4, t: 'Quel réalisateur néo-zélandais a fait le film gore Braindead avant Le Seigneur des Anneaux ?', a: 'Peter Jackson', x: ['Sam Raimi', 'Guillermo del Toro', 'George Romero'] },
+    { id: 'hor-p18', d: 4, t: 'Quel vampire créé par Bram Stoker en 1897 est le plus adapté au cinéma ?', a: 'Dracula', x: ['Nosferatu', 'Carmilla', 'Lestat'] },
+    { id: 'hor-p19', d: 4, t: 'Quel film japonais de 2000 fait s\'entretuer des lycéens sur une île déserte ?', a: 'Battle Royale', x: ['Ring', 'Ju-on', 'Audition'] },
+    { id: 'hor-p20', d: 4, t: 'Quel spectre au crochet revient si l\'on prononce son nom cinq fois devant un miroir ?', a: 'Candyman', x: ['Bloody Mary', 'Pinhead', 'Samara'] },
+  ]),
 ];

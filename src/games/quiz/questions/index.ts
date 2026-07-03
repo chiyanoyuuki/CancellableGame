@@ -3,6 +3,7 @@ import { blindtestQuestions } from './blindtest';
 import { cultureQuestions } from './culture';
 import { enigmesQuestions } from './enigmes';
 import { filmsQuestions } from './films';
+import { internetQuestions } from './internet';
 import { jeuxvideoQuestions } from './jeuxvideo';
 import { mangaQuestions } from './manga';
 import { musiqueQuestions } from './musique';
@@ -25,6 +26,7 @@ export const QUESTIONS: Question[] = [
   ...filmsQuestions,
   ...musiqueQuestions,
   ...cultureQuestions,
+  ...internetQuestions,
   ...enigmesQuestions,
   ...rebusQuestions,
   ...blindtestQuestions,

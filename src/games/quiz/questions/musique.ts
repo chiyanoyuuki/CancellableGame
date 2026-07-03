@@ -1,4 +1,5 @@
 import type { Question } from '../../../core/models';
+import { universe } from './_build';
 
 export const musiqueQuestions: Question[] = [
   {
@@ -251,4 +252,64 @@ export const musiqueQuestions: Question[] = [
     answer: 'Vivaldi',
     distractors: ['Bach', 'Haendel', 'Pachelbel'],
   },
+
+  ...universe('musique', 'Pop', [
+    // --- Faciles (5) ---
+    { id: 'pop-f1', d: 1, t: 'Qui est surnommé le « Roi de la Pop » ?', a: 'Michael Jackson', acc: ['jackson'], x: ['Elvis Presley', 'Freddie Mercury', 'Justin Timberlake'] },
+    { id: 'pop-f2', d: 1, t: 'Quelle artiste est surnommée la « Reine de la Pop » ?', a: 'Madonna', x: ['Rihanna', 'Beyoncé', 'Shakira'] },
+    { id: 'pop-f3', d: 1, t: 'Quel boys band a chanté « I Want It That Way » ?', a: 'Backstreet Boys', x: ['One Direction', 'NSYNC', 'Take That'] },
+    { id: 'pop-f4', d: 1, t: 'Quelle chanteuse a lancé sa carrière avec « ...Baby One More Time » ?', a: 'Britney Spears', x: ['Christina Aguilera', 'Jessica Simpson', 'Mandy Moore'] },
+    { id: 'pop-f5', d: 1, t: 'Quel groupe de K-pop a connu un succès mondial avec « Dynamite » ?', a: 'BTS', x: ['Blackpink', 'EXO', 'Stray Kids'] },
+
+    // --- Moyennes (10) ---
+    { id: 'pop-m1', d: 2, t: 'Quel duo électro-pop britannique a chanté « West End Girls » ?', a: 'Pet Shop Boys', x: ['Eurythmics', 'Erasure', 'Depeche Mode'] },
+    { id: 'pop-m2', d: 2, t: 'Quelle chanteuse barbadienne a chanté « Umbrella » ?', a: 'Rihanna', x: ['Beyoncé', 'Ciara', 'Ashanti'] },
+    { id: 'pop-m3', d: 2, t: 'Quel chanteur canadien a chanté « Blinding Lights » ?', a: 'The Weeknd', x: ['Drake', 'Usher', 'Akon'] },
+    { id: 'pop-m4', d: 2, t: 'Quelle chanteuse américaine a chanté « Firework » et « Roar » ?', a: 'Katy Perry', x: ['Lady Gaga', 'Dua Lipa', 'Ariana Grande'] },
+    { id: 'pop-m5', d: 2, t: 'Quel DJ suédois, décédé en 2018, a chanté « Wake Me Up » ?', a: 'Avicii', x: ['Alesso', 'Kygo', 'Zedd'] },
+    { id: 'pop-m6', d: 2, t: 'Quel groupe britannique a chanté « Viva la Vida » ?', a: 'Coldplay', x: ['Muse', 'Keane', 'Snow Patrol'] },
+    { id: 'pop-m7', d: 2, t: 'Quelle jeune chanteuse a raflé les Grammy avec « Bad Guy » ?', a: 'Billie Eilish', x: ['Olivia Rodrigo', 'Dua Lipa', 'Ariana Grande'] },
+    { id: 'pop-m8', d: 2, t: 'Quel chanteur a chanté « Uptown Funk » et « 24K Magic » ?', a: 'Bruno Mars', x: ['Justin Timberlake', 'Chris Brown', 'John Legend'] },
+    { id: 'pop-m9', d: 2, t: 'Quelle chanteuse britannique, décédée en 2011, a chanté « Back to Black » ?', a: 'Amy Winehouse', x: ['Lily Allen', 'Joss Stone', 'Leona Lewis'] },
+    { id: 'pop-m10', d: 2, t: 'Quel chanteur belge a chanté « Alors on danse » et « Papaoutai » ?', a: 'Stromae', x: ['Orelsan', 'Angèle', 'Mika'] },
+
+    // --- Dures (15) ---
+    { id: 'pop-d1', d: 3, t: 'Quelle chanteuse néo-zélandaise a percé avec « Royals » ?', a: 'Lorde', x: ['Sia', 'Halsey', 'Banks'] },
+    { id: 'pop-d2', d: 3, t: 'Quel groupe a chanté « Moves Like Jagger » et « Sugar » ?', a: 'Maroon 5', x: ['OneRepublic', 'Imagine Dragons', 'The Killers'] },
+    { id: 'pop-d3', d: 3, t: 'Quelle chanteuse au visage souvent caché a chanté « Chandelier » ?', a: 'Sia', x: ['Halsey', 'Robyn', 'Grimes'] },
+    { id: 'pop-d4', d: 3, t: 'Quel artiste a chanté « Purple Rain » ?', a: 'Prince', x: ['Sting', 'Seal', 'Beck'] },
+    { id: 'pop-d5', d: 3, t: 'Quel rappeur canadien a chanté « God\'s Plan » ?', a: 'Drake', x: ['Future', 'Ludacris', 'Nelly'] },
+    { id: 'pop-d6', d: 3, t: 'Quel chanteur britannique a chanté « Rocket Man » et « Your Song » ?', a: 'Elton John', x: ['David Bowie', 'Rod Stewart', 'Freddie Mercury'] },
+    { id: 'pop-d7', d: 3, t: 'Quelle chanteuse québécoise a chanté « My Heart Will Go On » ?', a: 'Celine Dion', x: ['Mariah Carey', 'Whitney Houston', 'Barbra Streisand'] },
+    { id: 'pop-d8', d: 3, t: 'Quel girl group comptait Mel B, Emma, Geri, Mel C et Victoria ?', a: 'Spice Girls', x: ['Little Mix', 'Girls Aloud', 'Sugababes'] },
+    { id: 'pop-d9', d: 3, t: 'Quel chanteur du duo Wham! a chanté « Careless Whisper » en solo ?', a: 'George Michael', x: ['Andrew Ridgeley', 'Rick Astley', 'Boy George'] },
+    { id: 'pop-d10', d: 3, t: 'Quel producteur suédois est derrière d\'innombrables tubes pop ?', a: 'Max Martin', x: ['Dr. Luke', 'Rick Rubin', 'David Foster'] },
+    { id: 'pop-d11', d: 3, t: 'Quelle chanteuse islandaise excentrique a chanté « It\'s Oh So Quiet » ?', a: 'Björk', x: ['Grimes', 'Robyn', 'Sia'] },
+    { id: 'pop-d12', d: 3, t: 'Quel boys band comptait Harry Styles et Zayn Malik ?', a: 'One Direction', x: ['The Wanted', 'JLS', 'Westlife'] },
+    { id: 'pop-d13', d: 3, t: 'Quel groupe suédois a chanté « The Sign » dans les années 90 ?', a: 'Ace of Base', x: ['Roxette', 'Aqua', 'A-ha'] },
+    { id: 'pop-d14', d: 3, t: 'Quel groupe de filles sud-coréen a chanté « Ddu-Du Ddu-Du » ?', a: 'Blackpink', x: ['Twice', 'Red Velvet', 'Aespa'] },
+    { id: 'pop-d15', d: 3, t: 'Quel groupe a chanté « Californication » et « Under the Bridge » ?', a: 'Red Hot Chili Peppers', x: ['Foo Fighters', 'Green Day', 'Weezer'] },
+
+    // --- Pro (20) ---
+    { id: 'pop-p1', d: 4, t: 'En quelle année Freddie Mercury, chanteur de Queen, est-il décédé ?', a: '1991', x: ['1989', '1993', '1985'] },
+    { id: 'pop-p2', d: 4, t: 'Quel groupe a sorti l\'album « Rumours » en 1977 ?', a: 'Fleetwood Mac', x: ['Eagles', 'The Doors', 'Steely Dan'] },
+    { id: 'pop-p3', d: 4, t: 'Quel groupe britannique des années 80 a chanté « Karma Chameleon » ?', a: 'Culture Club', x: ['Duran Duran', 'Spandau Ballet', 'Tears for Fears'] },
+    { id: 'pop-p4', d: 4, t: 'Dans quelle ville américaine est né le label Motown ?', a: 'Détroit', x: ['Chicago', 'Memphis', 'Atlanta'] },
+    { id: 'pop-p5', d: 4, t: 'Quelle chanteuse est surnommée « The Queen of Soul » ?', a: 'Aretha Franklin', x: ['Diana Ross', 'Tina Turner', 'Gladys Knight'] },
+    { id: 'pop-p6', d: 4, t: 'Quelle chanteuse a interprété « I Will Always Love You » dans Bodyguard ?', a: 'Whitney Houston', x: ['Mariah Carey', 'Celine Dion', 'Toni Braxton'] },
+    { id: 'pop-p7', d: 4, t: 'Quel chanteur britannique a incarné le personnage de Ziggy Stardust ?', a: 'David Bowie', x: ['Freddie Mercury', 'Elton John', 'Marc Bolan'] },
+    { id: 'pop-p8', d: 4, t: 'Quel chanteur portoricain a chanté le tube mondial « Despacito » ?', a: 'Luis Fonsi', x: ['Enrique Iglesias', 'Ricky Martin', 'Marc Anthony'] },
+    { id: 'pop-p9', d: 4, t: 'Quel Beatle a écrit et chanté « Imagine » en solo ?', a: 'John Lennon', x: ['Paul McCartney', 'George Harrison', 'Ringo Starr'] },
+    { id: 'pop-p10', d: 4, t: 'Quel rappeur a sorti l\'album « good kid, m.A.A.d city » ?', a: 'Kendrick Lamar', x: ['J. Cole', 'Travis Scott', 'Big Sean'] },
+    { id: 'pop-p11', d: 4, t: 'Quelle chanteuse a battu des records de streaming avec « Flowers » en 2023 ?', a: 'Miley Cyrus', x: ['Dua Lipa', 'Olivia Rodrigo', 'Ariana Grande'] },
+    { id: 'pop-p12', d: 4, t: 'Quel chanteur canadien, découvert sur YouTube, a chanté « Baby » ?', a: 'Justin Bieber', x: ['Shawn Mendes', 'Charlie Puth', 'Troye Sivan'] },
+    { id: 'pop-p13', d: 4, t: 'Quelle chanteuse a sorti l\'album « SOUR » avec « drivers license » ?', a: 'Olivia Rodrigo', x: ['Billie Eilish', 'Dua Lipa', 'Gracie Abrams'] },
+    { id: 'pop-p14', d: 4, t: 'Quel duo norvégien a chanté « Take On Me » ?', a: 'A-ha', x: ['Roxette', 'Erasure', 'Modern Talking'] },
+    { id: 'pop-p15', d: 4, t: 'Quel groupe britannique a chanté « Bitter Sweet Symphony » ?', a: 'The Verve', x: ['Oasis', 'Blur', 'Pulp'] },
+    { id: 'pop-p16', d: 4, t: 'Quelle chanteuse colombienne a chanté « Waka Waka » et « Hips Don\'t Lie » ?', a: 'Shakira', x: ['Beyoncé', 'Rihanna', 'Ciara'] },
+    { id: 'pop-p17', d: 4, t: 'Quelle chanteuse cubano-américaine a chanté « Havana » ?', a: 'Camila Cabello', x: ['Selena Gomez', 'Becky G', 'Sofia Reyes'] },
+    { id: 'pop-p18', d: 4, t: 'Quel rappeur américain, lié au festival Astroworld, a chanté « Sicko Mode » ?', a: 'Travis Scott', x: ['Post Malone', 'Young Thug', 'Playboi Carti'] },
+    { id: 'pop-p19', d: 4, t: 'Quel groupe britannique a sorti l\'album culte « OK Computer » en 1997 ?', a: 'Radiohead', x: ['Blur', 'Oasis', 'Pulp'] },
+    { id: 'pop-p20', d: 4, t: 'Quel groupe de rock a pour chanteuse Hayley Williams ?', a: 'Paramore', x: ['Evanescence', 'No Doubt', 'Garbage'] },
+  ]),
 ];
