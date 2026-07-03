@@ -12,4 +12,5 @@ export type RootStackParamList = {
   Stats: undefined;
   Settings: undefined;
   CustomContent: undefined;
+  ImageCheck: undefined;
 };

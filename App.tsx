@@ -13,6 +13,7 @@ import { GamePlayScreen } from './src/screens/GamePlayScreen';
 import { GameSelectScreen } from './src/screens/GameSelectScreen';
 import { CustomContentScreen } from './src/screens/CustomContentScreen';
 import { HomeScreen } from './src/screens/HomeScreen';
+import { ImageCheckScreen } from './src/screens/ImageCheckScreen';
 import { LobbyScreen } from './src/screens/LobbyScreen';
 import { PlayersScreen } from './src/screens/PlayersScreen';
 import { ResultsScreen } from './src/screens/ResultsScreen';
@@ -60,6 +61,7 @@ export default function App() {
           <Stack.Screen name="Stats" component={StatsScreen} />
           <Stack.Screen name="Settings" component={SettingsScreen} />
           <Stack.Screen name="CustomContent" component={CustomContentScreen} />
+          <Stack.Screen name="ImageCheck" component={ImageCheckScreen} />
         </Stack.Navigator>
       </NavigationContainer>
       ) : (

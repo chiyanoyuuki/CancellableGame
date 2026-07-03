@@ -93,6 +93,20 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
         </View>
       </Card>
 
+      <SectionHeader title="Contenu" />
+      <Card>
+        <Txt dim size={fontSize.sm} style={{ marginBottom: spacing(1.5) }}>
+          Le thème « Image mystère » charge de vraies photos depuis internet. Vérifiez d'un coup d'œil
+          lesquelles ne s'affichent pas pour pouvoir les signaler.
+        </Txt>
+        <Button
+          title="Vérifier les images"
+          emoji="📸"
+          variant="secondary"
+          onPress={() => navigation.navigate('ImageCheck')}
+        />
+      </Card>
+
       <SectionHeader title="Zone de danger" />
       <Card>
         <Button title="Tout effacer" variant="danger" onPress={reset} disabled={busy} />

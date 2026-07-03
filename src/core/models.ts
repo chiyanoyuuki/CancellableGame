@@ -42,6 +42,7 @@ export const THEMES = [
   'enigmes',
   'rebus',
   'blindtest',
+  'images',
 ] as const;
 export type Theme = (typeof THEMES)[number];
 
@@ -56,6 +57,7 @@ export const THEME_META: Record<Theme, { label: string; emoji: string }> = {
   enigmes: { label: 'Énigmes', emoji: '🧩' },
   rebus: { label: 'Rébus emoji', emoji: '🤔' },
   blindtest: { label: 'Blind test', emoji: '🎧' },
+  images: { label: 'Image mystère', emoji: '📸' },
 };
 
 /**
