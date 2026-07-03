@@ -199,6 +199,50 @@ describe('answering', () => {
   });
 });
 
+describe('broken-image auto-skip', () => {
+  const order = ['p1', 'p2', 'p3'];
+  const reserveQ = q('qr', 'culture', 2);
+
+  function startWithReserve(reserve: Question[]): QuizState {
+    return createQuizState({ config: config({ turnMode: 'turn' }), players, questions, seed: 999, order, reserve });
+  }
+
+  test('IMAGE_FAILED swaps in a reserve, keeps the same player and adds a question', () => {
+    let s = startWithReserve([reserveQ]);
+    expect(s.activePlayerId).toBe('p1');
+    expect(currentQuestion(s)?.id).toBe('q1');
+    const before = s.questions.length;
+
+    s = quizReducer(s, { type: 'IMAGE_FAILED' });
+    expect(s.phase).toBe('question');
+    expect(currentQuestion(s)?.id).toBe('qr'); // replacement swapped in
+    expect(s.activePlayerId).toBe('p1'); // same player still up
+    expect(s.questions.length).toBe(before + 1); // « +1 au total »
+    expect(s.voids).toBe(1);
+    expect(s.answers).toHaveLength(0); // nothing scored for the voided one
+  });
+
+  test('rotation resumes correctly after a void', () => {
+    let s = startWithReserve([reserveQ]);
+    s = quizReducer(s, { type: 'IMAGE_FAILED' }); // p1 now on the replacement
+    s = quizReducer(s, { type: 'SUBMIT', playerId: 'p1', correct: true });
+    s = quizReducer(s, { type: 'CONTINUE' });
+    // The next real question goes to p2 (the player who follows p1).
+    expect(s.activePlayerId).toBe('p2');
+    expect(currentQuestion(s)?.id).toBe('q2');
+  });
+
+  test('without a reserve it skips to the next question, same player up', () => {
+    let s = startWithReserve([]);
+    expect(s.activePlayerId).toBe('p1');
+    s = quizReducer(s, { type: 'IMAGE_FAILED' });
+    expect(currentQuestion(s)?.id).toBe('q2');
+    expect(s.activePlayerId).toBe('p1'); // still p1's turn
+    expect(s.questions.length).toBe(questions.length); // no reserve → no growth
+    expect(s.voids).toBe(1);
+  });
+});
+
 describe('full playthrough', () => {
   test('runs to finished, ranks players and builds a session result', () => {
     let s = start();

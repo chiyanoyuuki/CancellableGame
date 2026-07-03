@@ -17,7 +17,9 @@ import type { Question, QuestionMedia } from '../../../core/models';
  *    vers l'image. Les noms de fichiers ont été vérifiés un par un.
  *
  * Si une image ne se charge malgré tout pas (fichier renommé, hors-ligne…),
- * l'écran « Vérifier les images » (Réglages) la signale d'un coup d'œil.
+ * deux filets de sécurité : en jeu, la question est automatiquement remplacée
+ * (même joueur, +1 au total) ; et l'écran « Vérifier les images » (Réglages)
+ * liste d'un coup d'œil celles qui ne s'affichent pas.
  *
  * Règles maison respectées : aucune parenthèse dans les intitulés / réponses ;
  * les propositions d'une même question sont homogènes (ici : soit des noms de
@@ -170,14 +172,18 @@ export const imagesQuestions: Question[] = [
   { id: 'img-94', theme: 'images', difficulty: 4, text: CREATEUR, answer: 'Pokimane', distractors: ['Ninja', 'KSI', 'MrBeast'], media: wiki('Pokimane_2019.jpg') },
 
   // ---------------------------------------------------------------------------
-  // Manga & anime — mangakas et réalisateurs, vraies photos. 8 questions.
+  // Manga & anime — mangakas et réalisateurs, vraies photos. 12 questions.
   // ---------------------------------------------------------------------------
   { id: 'img-95', theme: 'images', difficulty: 3, text: REAL_ANIME, answer: 'Hayao Miyazaki', distractors: ['Isao Takahata', 'Makoto Shinkai', 'Mamoru Hosoda'], media: wiki('Hayao_Miyazaki.jpg') },
   { id: 'img-96', theme: 'images', difficulty: 3, text: REAL_ANIME, answer: 'Makoto Shinkai', distractors: ['Mamoru Hosoda', 'Hayao Miyazaki', 'Satoshi Kon'], media: wiki('Makoto_Shinkai,_2023.jpg') },
   { id: 'img-97', theme: 'images', difficulty: 4, text: REAL_ANIME, answer: 'Hideaki Anno', distractors: ['Mamoru Oshii', 'Satoshi Kon', 'Makoto Shinkai'], media: wiki('Hideaki_Anno.jpg') },
-  { id: 'img-98', theme: 'images', difficulty: 4, text: MANGAKA, answer: 'Naoki Urasawa', distractors: ['Takehiko Inoue', 'Katsuhiro Otomo', 'Kentaro Miura'], media: wiki('Naoki_Urasawa_in_2012_(cropped).jpg') },
-  { id: 'img-99', theme: 'images', difficulty: 4, text: MANGAKA, answer: 'Junji Ito', distractors: ['Hirohiko Araki', 'Kazuo Umezu', 'Naoki Urasawa'], media: wiki('Junji_Ito_-_Lucca_Comics_&_Games_2018_02.jpg') },
-  { id: 'img-100', theme: 'images', difficulty: 4, text: MANGAKA, answer: 'Hirohiko Araki', distractors: ['Naoki Urasawa', 'Eiichiro Oda', 'Masashi Kishimoto'], media: wiki('Hirohiko_Araki_2013_-_cropped.jpg') },
-  { id: 'img-101', theme: 'images', difficulty: 4, text: MANGAKA, answer: 'Katsuhiro Otomo', distractors: ['Naoki Urasawa', 'Osamu Tezuka', 'Go Nagai'], media: wiki('Katsuhiro_Otomo.jpg') },
-  { id: 'img-102', theme: 'images', difficulty: 3, text: MANGAKA, answer: 'Osamu Tezuka', distractors: ['Go Nagai', 'Leiji Matsumoto', 'Shotaro Ishinomori'], media: wiki('Tezuka_Osamu.JPG') },
+  { id: 'img-98', theme: 'images', difficulty: 4, text: REAL_ANIME, answer: 'Mamoru Hosoda', distractors: ['Makoto Shinkai', 'Satoshi Kon', 'Hideaki Anno'], media: wiki('Mamoru-Hosoda.jpg') },
+  { id: 'img-99', theme: 'images', difficulty: 4, text: MANGAKA, answer: 'Naoki Urasawa', distractors: ['Takehiko Inoue', 'Katsuhiro Otomo', 'Kentaro Miura'], media: wiki('Naoki_Urasawa_in_2012_(cropped).jpg') },
+  { id: 'img-100', theme: 'images', difficulty: 4, text: MANGAKA, answer: 'Junji Ito', distractors: ['Hirohiko Araki', 'Kazuo Umezu', 'Naoki Urasawa'], media: wiki('Junji_Ito_-_Lucca_Comics_&_Games_2018_02.jpg') },
+  { id: 'img-101', theme: 'images', difficulty: 4, text: MANGAKA, answer: 'Hirohiko Araki', distractors: ['Naoki Urasawa', 'Eiichiro Oda', 'Masashi Kishimoto'], media: wiki('Hirohiko_Araki_2013_-_cropped.jpg') },
+  { id: 'img-102', theme: 'images', difficulty: 4, text: MANGAKA, answer: 'Katsuhiro Otomo', distractors: ['Naoki Urasawa', 'Osamu Tezuka', 'Go Nagai'], media: wiki('Katsuhiro_Otomo.jpg') },
+  { id: 'img-103', theme: 'images', difficulty: 4, text: MANGAKA, answer: 'Takehiko Inoue', distractors: ['Naoki Urasawa', 'Tite Kubo', 'Masashi Kishimoto'], media: wiki('Takehiko_Inoue_20240312_(cropped).jpg') },
+  { id: 'img-104', theme: 'images', difficulty: 3, text: MANGAKA, answer: 'Osamu Tezuka', distractors: ['Go Nagai', 'Leiji Matsumoto', 'Shotaro Ishinomori'], media: wiki('Tezuka_Osamu.JPG') },
+  { id: 'img-105', theme: 'images', difficulty: 4, text: MANGAKA, answer: 'Leiji Matsumoto', distractors: ['Go Nagai', 'Osamu Tezuka', 'Shotaro Ishinomori'], media: wiki('Leiji_Matsumoto_-_Salon_du_Livre_Genève,_3rd_May_2014_3.JPG') },
+  { id: 'img-106', theme: 'images', difficulty: 3, text: MANGAKA, answer: 'Eiichiro Oda', distractors: ['Masashi Kishimoto', 'Tite Kubo', 'Akira Toriyama'], media: wiki('Eiichiro_Oda.png') },
 ];

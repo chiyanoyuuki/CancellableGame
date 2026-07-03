@@ -47,6 +47,8 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
   const startedAtRef = useRef<number>(Date.now());
   const questionStartRef = useRef<number>(Date.now());
   const finishedRef = useRef(false);
+  // Question ids already auto-skipped for a broken image (avoid double-firing).
+  const autoSkippedRef = useRef<Set<string>>(new Set());
 
   const byId = useMemo(() => {
     const m: Record<string, Player> = {};
@@ -110,18 +112,28 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
       const order = shuffle(players, mulberry32(seed)).map((p) => p.id);
       const avoidByPlayer: Record<string, string[]> = {};
       for (const p of players) avoidByPlayer[p.id] = avoidance[p.id] ?? [];
-      const selected = selectQuestions(
+      // Pick a few extra questions as a reserve, used to swap in a replacement
+      // whenever a question's image fails to load (so the round keeps its length
+      // and the same player stays up).
+      const RESERVE_COUNT = 8;
+      const selectedAll = selectQuestions(
         pool,
         {
           themes: cfg.themes,
           difficulties: cfg.difficulties,
-          count: cfg.questionCount,
+          count: cfg.questionCount + RESERVE_COUNT,
           excludedUniverses: cfg.excludedUniverses,
         },
         history,
         mulberry32(seed),
         { order, avoidByPlayer, turnMode: cfg.turnMode },
       );
+      const selected = selectedAll.slice(0, cfg.questionCount);
+      // Reserve first uses questions without a remote image, so a replacement is
+      // guaranteed to render even offline.
+      const reserve = selectedAll
+        .slice(cfg.questionCount)
+        .sort((a, b) => Number(a.media?.type === 'image') - Number(b.media?.type === 'image'));
       if (!alive) return;
       startedAtRef.current = Date.now();
       questionStartRef.current = Date.now();
@@ -133,6 +145,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
           seed,
           challenges: [...DRINK_CHALLENGES, ...customChallenges],
           order,
+          reserve,
         }),
       );
     })();
@@ -280,10 +293,22 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
         )}
         {q.media?.type === 'image' && !!q.media.uri && (
           <View>
-            <Image source={{ uri: q.media.uri }} style={styles.media} resizeMode="contain" onError={() => setImgError(true)} />
+            <Image
+              source={{ uri: q.media.uri }}
+              style={styles.media}
+              resizeMode="contain"
+              onError={() => {
+                setImgError(true);
+                // Image won't load → skip to a replacement, same player stays up.
+                if (!autoSkippedRef.current.has(q.id)) {
+                  autoSkippedRef.current.add(q.id);
+                  dispatch({ type: 'IMAGE_FAILED' });
+                }
+              }}
+            />
             {imgError && (
               <Txt faint size={fontSize.xs} center>
-                (image indisponible — connexion requise)
+                (image indisponible — question suivante…)
               </Txt>
             )}
           </View>

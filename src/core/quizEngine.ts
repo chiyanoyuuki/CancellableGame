@@ -59,7 +59,11 @@ export interface QuizState {
   /** Player ids in the (shuffled) turn order. */
   order: string[];
   questions: Question[];
+  /** Spare questions used to replace a broken-image question mid-round. */
+  reserve: Question[];
   index: number;
+  /** How many questions were voided (e.g. broken image) — offsets turn rotation. */
+  voids: number;
   phase: QuizPhase;
   seed: number;
   step: number;
@@ -85,6 +89,7 @@ export type QuizAction =
   | { type: 'REVEAL_PROPS'; count: 2 | 4 }
   | { type: 'SUBMIT'; playerId: string; correct: boolean; timeMs?: number | null }
   | { type: 'SKIP' } // nobody found the answer (fastest mode)
+  | { type: 'IMAGE_FAILED' } // the current question's image won't load → void it
   | { type: 'CONTINUE' };
 
 function emptyScore(playerId: string): QuizPlayerScore {
@@ -112,9 +117,12 @@ function setupQuestion(state: QuizState): QuizState {
   const currentOptions = shuffle([q.answer, ...q.distractors.slice(0, 3)], rng);
   const pairOptions = shuffle([q.answer, q.distractors[0] ?? '???'], rng);
 
+  // The turn number skips voided questions, so a replacement after a broken
+  // image goes to the SAME player who was up for the voided one.
+  const turnNumber = state.index - state.voids;
   const activePlayerId =
     state.config.turnMode === 'turn' && state.order.length > 0
-      ? (state.order[state.index % state.order.length] ?? null)
+      ? (state.order[((turnNumber % state.order.length) + state.order.length) % state.order.length] ?? null)
       : null;
 
   return {
@@ -139,6 +147,8 @@ export function createQuizState(args: {
   challenges?: DrinkChallenge[];
   /** Precomputed turn order (player ids). Defaults to a seeded shuffle. */
   order?: string[];
+  /** Spare questions to swap in when a question's image fails to load. */
+  reserve?: Question[];
 }): QuizState {
   const order = args.order ?? shuffle(args.players, mulberry32(args.seed >>> 0)).map((p) => p.id);
   const scores: Record<string, QuizPlayerScore> = {};
@@ -149,7 +159,9 @@ export function createQuizState(args: {
     players: args.players,
     order,
     questions: args.questions,
+    reserve: args.reserve ?? [],
     index: 0,
+    voids: 0,
     phase: 'question',
     seed: args.seed >>> 0,
     step: 0,
@@ -272,6 +284,37 @@ export function quizReducer(state: QuizState, action: QuizAction): QuizState {
           drink: { sipsDrunk: 0, sipsGiven: 0, reason: 'Personne n\'a trouvé 🤷' },
         },
       };
+    }
+
+    case 'IMAGE_FAILED': {
+      // The current question's image won't load: void it (no score), keep the
+      // SAME player up, and — when a spare is available — slot a replacement in
+      // right after so the round doesn't lose a question ("+1 au total").
+      if (state.phase !== 'question') return state;
+      if (!state.questions[state.index]) return state;
+
+      const [replacement, ...restReserve] = state.reserve;
+      if (replacement) {
+        const questions = [
+          ...state.questions.slice(0, state.index + 1),
+          replacement,
+          ...state.questions.slice(state.index + 1),
+        ];
+        return setupQuestion({
+          ...state,
+          questions,
+          reserve: restReserve,
+          index: state.index + 1,
+          voids: state.voids + 1,
+        });
+      }
+
+      // No spare left: just move past the broken question, same player next.
+      const nextIndex = state.index + 1;
+      if (nextIndex >= state.questions.length) {
+        return { ...state, index: state.questions.length, phase: 'finished' };
+      }
+      return setupQuestion({ ...state, index: nextIndex, voids: state.voids + 1 });
     }
 
     case 'CONTINUE': {
