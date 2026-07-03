@@ -1,6 +1,18 @@
 import { uid } from '../core/id';
 import type { Player } from '../core/models';
 import { getDb } from './database';
+import { kvGetJSON, kvSetJSON } from './kv';
+
+const AVOID_KEY = 'player:avoidedUniverses';
+
+/** Per-player list of universes to avoid (soft: 50% less likely, not excluded). */
+export async function getPlayerAvoidance(): Promise<Record<string, string[]>> {
+  return kvGetJSON<Record<string, string[]>>(AVOID_KEY, {});
+}
+
+export async function setPlayerAvoidance(map: Record<string, string[]>): Promise<void> {
+  await kvSetJSON(AVOID_KEY, map);
+}
 
 interface PlayerRow {
   id: string;

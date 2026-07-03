@@ -92,3 +92,57 @@ describe('selectQuestions', () => {
     expect(h2.m2).toEqual({ timesUsed: 1, lastUsedAt: 1000 });
   });
 });
+
+describe('per-player universe avoidance', () => {
+  function uq(id: string, universe: string): Question {
+    return { id, theme: 'manga', difficulty: 1, universe, text: id, answer: 'a', distractors: ['b', 'c', 'd'] };
+  }
+  // 40 questions in universe A, 40 in universe B.
+  const bigPool: Question[] = [
+    ...Array.from({ length: 40 }, (_, i) => uq(`A${i}`, 'Alpha')),
+    ...Array.from({ length: 40 }, (_, i) => uq(`B${i}`, 'Beta')),
+  ];
+  const count = (qs: Question[], u: string) => qs.filter((q) => q.universe === u).length;
+  // Aggregate over many seeds so the assertion is robust (not seed-dependent).
+  function totals(opts: Parameters<typeof selectQuestions>[4]) {
+    let a = 0, b = 0;
+    for (let seed = 1; seed <= 40; seed++) {
+      const out = selectQuestions(bigPool, { themes: ['manga'], difficulties: [1], count: 40 }, {}, mulberry32(seed), opts);
+      a += count(out, 'Alpha');
+      b += count(out, 'Beta');
+    }
+    return { a, b };
+  }
+
+  test('turn mode: an avoided universe is under-represented for that player (but not excluded)', () => {
+    const single = selectQuestions(
+      bigPool,
+      { themes: ['manga'], difficulties: [1], count: 40 },
+      {},
+      mulberry32(7),
+      { order: ['p1'], avoidByPlayer: { p1: ['Beta'] }, turnMode: 'turn' },
+    );
+    expect(single).toHaveLength(40);
+    expect(count(single, 'Beta')).toBeGreaterThan(0); // soft, not a hard exclusion
+
+    const { a, b } = totals({ order: ['p1'], avoidByPlayer: { p1: ['Beta'] }, turnMode: 'turn' });
+    expect(a).toBeGreaterThan(b * 1.4); // ~2x fewer Beta on average
+  });
+
+  test('fastest mode: a universe avoided by any player is under-represented for everyone', () => {
+    const { a, b } = totals({ order: ['p1', 'p2'], avoidByPlayer: { p2: ['Beta'] }, turnMode: 'fastest' });
+    expect(a).toBeGreaterThan(b * 1.4);
+  });
+
+  test('no avoidance configured falls back to the default selection', () => {
+    const out = selectQuestions(
+      bigPool,
+      { themes: ['manga'], difficulties: [1], count: 20 },
+      {},
+      mulberry32(1),
+      { order: ['p1'], avoidByPlayer: { p1: [] }, turnMode: 'turn' },
+    );
+    expect(out).toHaveLength(20);
+    expect(new Set(out.map((q) => q.id)).size).toBe(20);
+  });
+});

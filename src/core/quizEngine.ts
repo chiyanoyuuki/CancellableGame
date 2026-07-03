@@ -137,8 +137,10 @@ export function createQuizState(args: {
   questions: Question[];
   seed: number;
   challenges?: DrinkChallenge[];
+  /** Precomputed turn order (player ids). Defaults to a seeded shuffle. */
+  order?: string[];
 }): QuizState {
-  const order = shuffle(args.players, mulberry32(args.seed >>> 0)).map((p) => p.id);
+  const order = args.order ?? shuffle(args.players, mulberry32(args.seed >>> 0)).map((p) => p.id);
   const scores: Record<string, QuizPlayerScore> = {};
   for (const p of args.players) scores[p.id] = emptyScore(p.id);
 

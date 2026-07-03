@@ -19,9 +19,9 @@ import {
   toSessionResult,
   visibleOptions,
 } from '../../core/quizEngine';
-import { mulberry32, randomSeed } from '../../core/rng';
+import { mulberry32, randomSeed, shuffle } from '../../core/rng';
 import { selectQuestions } from '../../core/questionSelection';
-import { getQuestionHistory, listCustomChallenges } from '../../db';
+import { getPlayerAvoidance, getQuestionHistory, listCustomChallenges } from '../../db';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import type { MiniGamePlayProps } from '../types';
 import { getQuizPool } from './pool';
@@ -98,12 +98,18 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const [history, pool, customChallenges] = await Promise.all([
+      const [history, pool, customChallenges, avoidance] = await Promise.all([
         getQuestionHistory(),
         getQuizPool(),
         listCustomChallenges(),
+        getPlayerAvoidance(),
       ]);
       const seed = randomSeed();
+      // Turn order, computed once and shared with the engine so that the
+      // per-player weighting lines up with who actually gets each question.
+      const order = shuffle(players, mulberry32(seed)).map((p) => p.id);
+      const avoidByPlayer: Record<string, string[]> = {};
+      for (const p of players) avoidByPlayer[p.id] = avoidance[p.id] ?? [];
       const selected = selectQuestions(
         pool,
         {
@@ -114,6 +120,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
         },
         history,
         mulberry32(seed),
+        { order, avoidByPlayer, turnMode: cfg.turnMode },
       );
       if (!alive) return;
       startedAtRef.current = Date.now();
@@ -125,6 +132,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
           questions: selected,
           seed,
           challenges: [...DRINK_CHALLENGES, ...customChallenges],
+          order,
         }),
       );
     })();

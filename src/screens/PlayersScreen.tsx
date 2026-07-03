@@ -1,18 +1,22 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
-import { useCallback, useState } from 'react';
-import { Alert, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Alert, Modal, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 
 import { Button, Card, Chip, PlayerAvatar, Screen, SectionHeader, Txt } from '../components/ui';
-import type { Player } from '../core/models';
+import { THEME_META, THEMES } from '../core/models';
+import type { Player, Question, Theme } from '../core/models';
 import {
   archivePlayer,
   createPlayer,
   deletePlayerForever,
+  getPlayerAvoidance,
   listPlayers,
   restorePlayer,
+  setPlayerAvoidance,
   updatePlayer,
 } from '../db';
+import { getQuizPool } from '../games/quiz/pool';
 import type { RootStackParamList } from '../navigation';
 import { colors, fontSize, PLAYER_COLORS, PLAYER_EMOJIS, radius, spacing } from '../theme/theme';
 
@@ -24,6 +28,63 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   const [emoji, setEmoji] = useState(PLAYER_EMOJIS[0] as string);
   const [color, setColor] = useState(PLAYER_COLORS[0] as string);
   const [editingId, setEditingId] = useState<string | null>(null);
+
+  // Per-player universe avoidance (soft: 50% less likely).
+  const [pool, setPool] = useState<Question[]>([]);
+  const [avoidance, setAvoidance] = useState<Record<string, string[]>>({});
+  const [avoidPlayer, setAvoidPlayer] = useState<Player | null>(null);
+  const [avoidDraft, setAvoidDraft] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    let alive = true;
+    void (async () => {
+      const [p, a] = await Promise.all([getQuizPool(), getPlayerAvoidance()]);
+      if (alive) {
+        setPool(p);
+        setAvoidance(a);
+      }
+    })();
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  const universesByTheme = useMemo(() => {
+    const map = new Map<Theme, Set<string>>();
+    for (const q of pool) {
+      if (!q.universe) continue;
+      const s = map.get(q.theme) ?? new Set<string>();
+      s.add(q.universe);
+      map.set(q.theme, s);
+    }
+    const out: { theme: Theme; universes: string[] }[] = [];
+    for (const t of THEMES) {
+      const s = map.get(t);
+      if (s && s.size > 0) out.push({ theme: t, universes: [...s].sort() });
+    }
+    return out;
+  }, [pool]);
+
+  const openAvoid = (p: Player) => {
+    setAvoidPlayer(p);
+    setAvoidDraft(new Set(avoidance[p.id] ?? []));
+  };
+  const toggleAvoid = (u: string) =>
+    setAvoidDraft((prev) => {
+      const next = new Set(prev);
+      if (next.has(u)) next.delete(u);
+      else next.add(u);
+      return next;
+    });
+  const saveAvoid = async () => {
+    if (!avoidPlayer) return;
+    const list = [...avoidDraft];
+    const next = { ...avoidance, [avoidPlayer.id]: list };
+    if (list.length === 0) delete next[avoidPlayer.id];
+    setAvoidance(next);
+    setAvoidPlayer(null);
+    await setPlayerAvoidance(next);
+  };
 
   const refresh = useCallback(async () => {
     setPlayers(await listPlayers(showArchived));
@@ -64,6 +125,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   const manage = (p: Player) => {
     Alert.alert(p.name, undefined, [
       { text: 'Modifier', onPress: () => startEdit(p) },
+      { text: 'Univers à éviter', onPress: () => openAvoid(p) },
       {
         text: 'Archiver',
         onPress: async () => {
@@ -92,6 +154,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   };
 
   return (
+    <>
     <Screen title="Joueurs" onBack={() => navigation.goBack()} scroll>
       <Card>
         <Txt weight="800" size={fontSize.md} style={{ marginBottom: spacing(1) }}>
@@ -164,9 +227,12 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
         players.map((p) => (
           <Card key={p.id} style={styles.playerRow} accent={p.color}>
             <PlayerAvatar emoji={p.emoji} color={p.color} />
-            <Txt weight="700" style={{ flex: 1 }}>
-              {p.name}
-            </Txt>
+            <View style={{ flex: 1 }}>
+              <Txt weight="700">{p.name}</Txt>
+              {(avoidance[p.id]?.length ?? 0) > 0 && (
+                <Txt faint size={fontSize.xs}>🚫 évite {avoidance[p.id]!.length} univers</Txt>
+              )}
+            </View>
             {showArchived ? (
               <Button
                 title="Restaurer"
@@ -184,6 +250,38 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
         ))
       )}
     </Screen>
+
+    <Modal visible={avoidPlayer !== null} animationType="slide" transparent onRequestClose={() => setAvoidPlayer(null)}>
+      <View style={styles.modalBackdrop}>
+        <View style={styles.modalSheet}>
+          <Txt weight="800" size={fontSize.lg}>
+            Univers à éviter
+          </Txt>
+          <Txt dim size={fontSize.sm} style={{ marginTop: spacing(0.5) }}>
+            {avoidPlayer?.name} aura 2× moins de chances de tomber sur ces univers (ils ne sont pas exclus).
+          </Txt>
+          <ScrollView style={{ marginTop: spacing(1.5) }} contentContainerStyle={{ paddingBottom: spacing(1) }}>
+            {universesByTheme.map(({ theme, universes }) => (
+              <View key={theme} style={{ marginBottom: spacing(1.5) }}>
+                <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.5) }}>
+                  {THEME_META[theme].emoji} {THEME_META[theme].label.toUpperCase()}
+                </Txt>
+                <View style={styles.chipWrap}>
+                  {universes.map((u) => (
+                    <Chip key={u} label={u} selected={avoidDraft.has(u)} onPress={() => toggleAvoid(u)} />
+                  ))}
+                </View>
+              </View>
+            ))}
+          </ScrollView>
+          <View style={{ flexDirection: 'row', gap: spacing(1), marginTop: spacing(1) }}>
+            <Button title="Annuler" variant="ghost" onPress={() => setAvoidPlayer(null)} style={{ flex: 1 }} />
+            <Button title="Enregistrer" onPress={saveAvoid} style={{ flex: 1 }} />
+          </View>
+        </View>
+      </View>
+    </Modal>
+    </>
   );
 }
 
@@ -211,4 +309,13 @@ const styles = StyleSheet.create({
   colorDot: { width: 36, height: 36, borderRadius: 18, borderWidth: 3, borderColor: 'transparent' },
   colorDotActive: { borderColor: colors.white },
   playerRow: { flexDirection: 'row', alignItems: 'center', gap: spacing(1.5), marginBottom: spacing(1) },
+  modalBackdrop: { flex: 1, backgroundColor: colors.overlay, justifyContent: 'flex-end' },
+  modalSheet: {
+    backgroundColor: colors.bgElevated,
+    borderTopLeftRadius: radius.lg,
+    borderTopRightRadius: radius.lg,
+    padding: spacing(2.5),
+    maxHeight: '82%',
+  },
+  chipWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing(1) },
 });
