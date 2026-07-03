@@ -21,12 +21,15 @@ export function HomeScreen({ navigation }: NativeStackScreenProps<RootStackParam
     <Screen>
       <View style={{ flex: 1, justifyContent: 'center', gap: spacing(1.5) }}>
         <View style={{ alignItems: 'center', marginBottom: spacing(3) }}>
-          <Txt size={fontSize.huge}>🎉</Txt>
+          <Txt size={fontSize.huge}>🔒</Txt>
           <Txt size={fontSize.xxl} weight="900">
-            Soirée
+            Cancellable
           </Txt>
           <Txt dim center>
             Le jeu de vos soirées entre amis
+          </Txt>
+          <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
+            par Arma Cos
           </Txt>
         </View>
 

@@ -21,7 +21,7 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
       const uri = `${FileSystem.documentDirectory ?? FileSystem.cacheDirectory}soiree-backup-${Date.now()}.json`;
       await FileSystem.writeAsStringAsync(uri, json);
       if (await Sharing.isAvailableAsync()) {
-        await Sharing.shareAsync(uri, { mimeType: 'application/json', dialogTitle: 'Sauvegarde Soirée' });
+        await Sharing.shareAsync(uri, { mimeType: 'application/json', dialogTitle: 'Sauvegarde Cancellable' });
       } else {
         Alert.alert('Sauvegarde créée', uri);
       }
@@ -100,7 +100,8 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
 
       <SectionHeader title="À propos" />
       <Card>
-        <Txt weight="800">Soirée 🎉</Txt>
+        <Txt weight="800">Cancellable 🔒</Txt>
+        <Txt faint size={fontSize.xs}>par Arma Cos</Txt>
         <Txt dim size={fontSize.sm}>
           Le jeu de vos soirées entre amis. D'autres mini-jeux arrivent — toutes les stats resteront connectées.
         </Txt>

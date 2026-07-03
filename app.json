@@ -1,25 +1,38 @@
 {
   "expo": {
-    "name": "Soirée",
+    "name": "Cancellable",
     "slug": "soiree-party",
     "version": "1.0.0",
     "orientation": "portrait",
-    "scheme": "soiree",
+    "scheme": "cancellable",
     "userInterfaceStyle": "dark",
     "newArchEnabled": true,
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0e0b1e"
+    },
     "assetBundlePatterns": ["**/*"],
     "android": {
       "package": "com.soireegames.party",
       "versionCode": 1,
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0e0b1e"
+      }
     },
     "ios": {
       "bundleIdentifier": "com.soireegames.party",
       "supportsTablet": true
     },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
     "plugins": ["expo-sqlite"],
     "extra": {
-      "comment": "IMPORTANT: ne changez JAMAIS android.package une fois publié, sinon une mise à jour APK est traitée comme une app différente et les stats locales sont perdues."
+      "comment": "IMPORTANT: ne changez JAMAIS android.package une fois publié, sinon une mise à jour APK est traitée comme une app différente et les stats locales sont perdues. Le nom affiché (name) peut changer sans risque."
     }
   }
 }

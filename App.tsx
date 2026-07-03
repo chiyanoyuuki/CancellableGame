@@ -2,9 +2,10 @@ import { DarkTheme, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { AnimatedSplash } from './src/components/AnimatedSplash';
 import { initDatabase } from './src/db';
 import type { RootStackParamList } from './src/navigation';
 import { GameConfigScreen } from './src/screens/GameConfigScreen';
@@ -35,23 +36,17 @@ const navTheme = {
 
 export default function App() {
   const [ready, setReady] = useState(false);
+  const [splashDone, setSplashDone] = useState(false);
 
   useEffect(() => {
     initDatabase().finally(() => setReady(true));
   }, []);
 
-  if (!ready) {
-    return (
-      <View style={{ flex: 1, backgroundColor: colors.bg, alignItems: 'center', justifyContent: 'center' }}>
-        <ActivityIndicator color={colors.primary} size="large" />
-      </View>
-    );
-  }
-
   return (
     <SafeAreaProvider>
       <StatusBar style="light" />
-      <NavigationContainer theme={navTheme}>
+      {ready ? (
+        <NavigationContainer theme={navTheme}>
         <Stack.Navigator
           screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.bg }, animation: 'slide_from_right' }}
         >
@@ -67,6 +62,10 @@ export default function App() {
           <Stack.Screen name="CustomContent" component={CustomContentScreen} />
         </Stack.Navigator>
       </NavigationContainer>
+      ) : (
+        <View style={{ flex: 1, backgroundColor: colors.bg }} />
+      )}
+      {!splashDone && <AnimatedSplash onFinish={() => setSplashDone(true)} />}
     </SafeAreaProvider>
   );
 }
