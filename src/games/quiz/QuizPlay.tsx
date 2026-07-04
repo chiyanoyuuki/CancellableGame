@@ -126,7 +126,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
         },
         history,
         mulberry32(seed),
-        { order, avoidByPlayer, turnMode: cfg.turnMode },
+        { order, avoidByPlayer, turnMode: cfg.turnMode, preferredThemes: cfg.preferredThemes },
       );
       const selected = selectedAll.slice(0, cfg.questionCount);
       // Reserve first uses questions without a remote image, so a replacement is

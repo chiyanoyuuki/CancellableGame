@@ -38,6 +38,7 @@ function config(overrides: Partial<QuizConfig> = {}): QuizConfig {
     fastestTimeLimitMs: 20000,
     showUniverse: true,
     excludedUniverses: [],
+    preferredThemes: [],
     questionTimerSec: 0,
     ...overrides,
   };
@@ -240,6 +241,27 @@ describe('broken-image auto-skip', () => {
     expect(s.activePlayerId).toBe('p1'); // still p1's turn
     expect(s.questions.length).toBe(questions.length); // no reserve → no growth
     expect(s.voids).toBe(1);
+  });
+
+  test('the whole turn order stays correct after a mid-game void', () => {
+    const qs: Question[] = [
+      q('a', 'manga', 1), q('b', 'culture', 1), q('c', 'films', 1),
+      q('d', 'manga', 1), q('e', 'culture', 1), q('f', 'films', 1),
+    ];
+    let s = createQuizState({
+      config: config({ turnMode: 'turn' }), players, questions: qs, seed: 1,
+      order, reserve: [q('r1', 'culture', 1)],
+    });
+    const seen: (string | null)[] = [s.activePlayerId]; // p1 is up for 'a'
+    s = quizReducer(s, { type: 'IMAGE_FAILED' }); // 'a' voided → same player on the replacement
+    seen.push(s.activePlayerId);
+    while (s.phase !== 'finished') {
+      s = quizReducer(s, { type: 'SUBMIT', playerId: s.activePlayerId as string, correct: true });
+      s = quizReducer(s, { type: 'CONTINUE' });
+      if (s.phase === 'question') seen.push(s.activePlayerId);
+    }
+    // p1 keeps the voided slot (replacement), then the rotation continues cleanly.
+    expect(seen).toEqual(['p1', 'p1', 'p2', 'p3', 'p1', 'p2', 'p3']);
   });
 });
 

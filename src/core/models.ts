@@ -125,6 +125,8 @@ export interface QuizConfig {
   showUniverse: boolean;
   /** Universes (sub-categories) explicitly turned off for this game. */
   excludedUniverses: string[];
+  /** Up to 3 favourite themes: their questions get +50 % weight in the draw. */
+  preferredThemes: Theme[];
   /** Informative per-question countdown in seconds (0 = disabled). */
   questionTimerSec: number;
 }
@@ -140,6 +142,7 @@ export const DEFAULT_QUIZ_CONFIG: QuizConfig = {
   fastestTimeLimitMs: 20000,
   showUniverse: true,
   excludedUniverses: [],
+  preferredThemes: [],
   questionTimerSec: 0,
 };
 

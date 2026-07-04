@@ -29,10 +29,14 @@ export interface SelectionOptions {
   /** Per-player universes to avoid → questions of those universes get half weight. */
   avoidByPlayer?: Record<string, string[]>;
   turnMode?: TurnMode;
+  /** Favourite themes → their questions get a weight bonus in the draw. */
+  preferredThemes?: Theme[];
 }
 
 /** How much an avoided universe is down-weighted (0.5 = « 50 % de chance en moins »). */
 const AVOID_FACTOR = 0.5;
+/** How much a preferred theme is up-weighted (1.5 = « 50 % de chance en plus »). */
+const PREFER_FACTOR = 1.5;
 
 function eligiblePool(pool: readonly Question[], filter: SelectionFilter): Question[] {
   const themeSet = new Set(filter.themes);
@@ -57,7 +61,8 @@ export function selectQuestions(
 
   const avoidByPlayer = opts?.avoidByPlayer ?? {};
   const avoidanceActive = Object.values(avoidByPlayer).some((a) => a.length > 0);
-  if (avoidanceActive) {
+  const preferActive = (opts?.preferredThemes?.length ?? 0) > 0;
+  if (avoidanceActive || preferActive) {
     return weightedSelect(eligible, filter.count, history, rng, opts as SelectionOptions);
   }
 
@@ -97,6 +102,7 @@ function weightedSelect(
     avoidSets[pid] = new Set(arr);
     for (const u of arr) anyAvoided.add(u);
   }
+  const preferred = new Set<string>(opts.preferredThemes ?? []);
 
   const remaining = shuffle(eligible, rng);
   const n = order.length;
@@ -111,6 +117,7 @@ function weightedSelect(
         const avoided = turnMode === 'turn' ? (avoidSet?.has(q.universe) ?? false) : anyAvoided.has(q.universe);
         if (avoided) w *= AVOID_FACTOR;
       }
+      if (preferred.has(q.theme)) w *= PREFER_FACTOR;
       return w;
     });
     const sum = weights.reduce((a, b) => a + b, 0);

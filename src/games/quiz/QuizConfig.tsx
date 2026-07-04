@@ -87,10 +87,22 @@ export function QuizConfigComponent({ onStart }: MiniGameConfigProps) {
   }, [available]);
 
   const toggleTheme = (t: Theme) =>
-    setCfg((c) => ({
-      ...c,
-      themes: c.themes.includes(t) ? c.themes.filter((x) => x !== t) : [...c.themes, t],
-    }));
+    setCfg((c) => {
+      const has = c.themes.includes(t);
+      return {
+        ...c,
+        themes: has ? c.themes.filter((x) => x !== t) : [...c.themes, t],
+        // A theme can only stay "preferred" while it is still selected.
+        preferredThemes: has ? c.preferredThemes.filter((x) => x !== t) : c.preferredThemes,
+      };
+    });
+
+  const togglePreferred = (t: Theme) =>
+    setCfg((c) => {
+      if (c.preferredThemes.includes(t)) return { ...c, preferredThemes: c.preferredThemes.filter((x) => x !== t) };
+      if (c.preferredThemes.length >= 3) return c; // au maximum 3 thèmes préférés
+      return { ...c, preferredThemes: [...c.preferredThemes, t] };
+    });
 
   const toggleDifficulty = (d: Difficulty) =>
     setCfg((c) => ({
@@ -128,6 +140,27 @@ export function QuizConfigComponent({ onStart }: MiniGameConfigProps) {
           />
         ))}
       </View>
+
+      {cfg.themes.length > 1 && (
+        <>
+          <SectionHeader title="Thèmes préférés — +50 % (max 3)" />
+          <View style={styles.wrap}>
+            {cfg.themes.map((t) => (
+              <Chip
+                key={t}
+                label={THEME_META[t].label}
+                emoji={cfg.preferredThemes.includes(t) ? '⭐' : THEME_META[t].emoji}
+                selected={cfg.preferredThemes.includes(t)}
+                onPress={() => togglePreferred(t)}
+                color={colors.warning}
+              />
+            ))}
+          </View>
+          <Txt faint size={fontSize.xs}>
+            Les thèmes en ⭐ ont 50 % de chance en plus de tomber.
+          </Txt>
+        </>
+      )}
 
       <SectionHeader title="Difficulté" />
       <View style={styles.wrap}>

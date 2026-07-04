@@ -146,3 +146,43 @@ describe('per-player universe avoidance', () => {
     expect(new Set(out.map((q) => q.id)).size).toBe(20);
   });
 });
+
+describe('preferred themes boost', () => {
+  function tq(id: string, theme: Theme): Question {
+    return { id, theme, difficulty: 1, text: id, answer: 'a', distractors: ['b', 'c', 'd'] };
+  }
+  // Equal-sized pools so the bias comes only from the preference weight.
+  const bigPool: Question[] = [
+    ...Array.from({ length: 40 }, (_, i) => tq(`M${i}`, 'manga')),
+    ...Array.from({ length: 40 }, (_, i) => tq(`C${i}`, 'culture')),
+  ];
+  const count = (qs: Question[], t: Theme) => qs.filter((q) => q.theme === t).length;
+
+  test('a preferred theme is over-represented in the draw', () => {
+    let m = 0, c = 0;
+    for (let seed = 1; seed <= 40; seed++) {
+      const out = selectQuestions(
+        bigPool,
+        { themes: ['manga', 'culture'], difficulties: [1], count: 30 },
+        {},
+        mulberry32(seed),
+        { preferredThemes: ['manga'] },
+      );
+      m += count(out, 'manga');
+      c += count(out, 'culture');
+    }
+    expect(m).toBeGreaterThan(c * 1.25); // ~1.5x more of the preferred theme
+  });
+
+  test('still respects the count and returns no duplicates', () => {
+    const out = selectQuestions(
+      bigPool,
+      { themes: ['manga', 'culture'], difficulties: [1], count: 30 },
+      {},
+      mulberry32(3),
+      { preferredThemes: ['manga'] },
+    );
+    expect(out).toHaveLength(30);
+    expect(new Set(out.map((q) => q.id)).size).toBe(30);
+  });
+});
