@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button, Card, PlayerAvatar, ProgressBar, Txt } from '../../components/ui';
 import { DRINK_CHALLENGES } from '../../core/drinks';
-import { DIFFICULTY_LABELS, type Player, type QuizConfig, type SessionResult, THEME_META } from '../../core/models';
+import { DIFFICULTY_LABELS, type Player, type QuizConfig, type SessionResult, type Theme, THEME_META } from '../../core/models';
 import {
   createQuizState,
   currentQuestion,
@@ -21,7 +21,7 @@ import {
 } from '../../core/quizEngine';
 import { mulberry32, randomSeed, shuffle } from '../../core/rng';
 import { selectQuestions } from '../../core/questionSelection';
-import { getPlayerAvoidance, getQuestionHistory, listCustomChallenges } from '../../db';
+import { getPlayerAvoidance, getPlayerPreferredThemes, getQuestionHistory, listCustomChallenges } from '../../db';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import type { MiniGamePlayProps } from '../types';
 import { getQuizPool } from './pool';
@@ -130,19 +130,25 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const [history, pool, customChallenges, avoidance] = await Promise.all([
+      const [history, pool, customChallenges, avoidance, preferences] = await Promise.all([
         getQuestionHistory(),
         getQuizPool(),
         listCustomChallenges(),
         getPlayerAvoidance(),
+        getPlayerPreferredThemes(),
       ]);
       const seed = randomSeed();
       // Turn order, computed once and shared with the engine so that the
       // per-player weighting lines up with who actually gets each question.
       const order = shuffle(roster, mulberry32(seed)).map((p) => p.id);
-      // Per-player universe avoidance is ignored in team mode.
+      // Per-player universe avoidance and theme preferences are ignored in team mode.
       const avoidByPlayer: Record<string, string[]> = {};
-      if (!teamMode) for (const p of players) avoidByPlayer[p.id] = avoidance[p.id] ?? [];
+      const preferByPlayer: Record<string, Theme[]> = {};
+      if (!teamMode)
+        for (const p of players) {
+          avoidByPlayer[p.id] = avoidance[p.id] ?? [];
+          preferByPlayer[p.id] = (preferences[p.id] ?? []) as Theme[];
+        }
       // Pick a few extra questions as a reserve, used to swap in a replacement
       // whenever a question's image fails to load (so the round keeps its length
       // and the same player stays up).
@@ -157,7 +163,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
         },
         history,
         mulberry32(seed),
-        { order, avoidByPlayer, turnMode: cfg.turnMode, preferredThemes: cfg.preferredThemes },
+        { order, avoidByPlayer, turnMode: cfg.turnMode, preferByPlayer },
       );
       const selected = selectedAll.slice(0, cfg.questionCount);
       // Reserve first uses questions without a remote image, so a replacement is

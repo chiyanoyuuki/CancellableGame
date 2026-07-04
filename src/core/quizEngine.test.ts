@@ -38,7 +38,6 @@ function config(overrides: Partial<QuizConfig> = {}): QuizConfig {
     fastestTimeLimitMs: 20000,
     showUniverse: true,
     excludedUniverses: [],
-    preferredThemes: [],
     teamMode: false,
     teams: [],
     questionTimerSec: 0,

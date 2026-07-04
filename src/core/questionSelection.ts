@@ -29,8 +29,12 @@ export interface SelectionOptions {
   /** Per-player universes to avoid → questions of those universes get half weight. */
   avoidByPlayer?: Record<string, string[]>;
   turnMode?: TurnMode;
-  /** Favourite themes → their questions get a weight bonus in the draw. */
-  preferredThemes?: Theme[];
+  /**
+   * Per-player favourite themes (max 3 each) → their questions get a weight
+   * bonus: in 'turn' mode only for that player's own slots, in 'fastest' mode
+   * for any player's preference.
+   */
+  preferByPlayer?: Record<string, Theme[]>;
 }
 
 /** How much an avoided universe is down-weighted (0.5 = « 50 % de chance en moins »). */
@@ -61,7 +65,7 @@ export function selectQuestions(
 
   const avoidByPlayer = opts?.avoidByPlayer ?? {};
   const avoidanceActive = Object.values(avoidByPlayer).some((a) => a.length > 0);
-  const preferActive = (opts?.preferredThemes?.length ?? 0) > 0;
+  const preferActive = Object.values(opts?.preferByPlayer ?? {}).some((a) => a.length > 0);
   if (avoidanceActive || preferActive) {
     return weightedSelect(eligible, filter.count, history, rng, opts as SelectionOptions);
   }
@@ -81,11 +85,12 @@ export function selectQuestions(
 }
 
 /**
- * Weighted, per-slot selection used when at least one player avoids a universe.
- * A question's weight combines anti-repeat (0.5^timesUsed) with the avoidance
- * penalty (×0.5 when its universe is avoided by the slot's player in 'turn'
- * mode, or by any player in 'fastest' mode). Questions are picked one slot at a
- * time (no final reshuffle) so that question i is meant for player order[i%N].
+ * Weighted, per-slot selection used when at least one player avoids a universe
+ * or prefers a theme. A question's weight combines anti-repeat (0.5^timesUsed)
+ * with the avoidance penalty (×0.5) and the preference bonus (×1.5). Both are
+ * applied for the slot's player in 'turn' mode, or for any player in 'fastest'
+ * mode. Questions are picked one slot at a time (no final reshuffle) so that
+ * question i is meant for player order[i%N].
  */
 function weightedSelect(
   eligible: Question[],
@@ -102,7 +107,12 @@ function weightedSelect(
     avoidSets[pid] = new Set(arr);
     for (const u of arr) anyAvoided.add(u);
   }
-  const preferred = new Set<string>(opts.preferredThemes ?? []);
+  const preferSets: Record<string, Set<string>> = {};
+  const anyPreferred = new Set<string>();
+  for (const [pid, arr] of Object.entries(opts.preferByPlayer ?? {})) {
+    preferSets[pid] = new Set(arr);
+    for (const t of arr) anyPreferred.add(t);
+  }
 
   const remaining = shuffle(eligible, rng);
   const n = order.length;
@@ -110,14 +120,17 @@ function weightedSelect(
   const result: Question[] = [];
 
   for (let slot = 0; slot < total; slot++) {
-    const avoidSet = turnMode === 'turn' && n > 0 ? avoidSets[order[slot % n] ?? ''] : undefined;
+    const slotPlayer = turnMode === 'turn' && n > 0 ? (order[slot % n] ?? '') : '';
+    const avoidSet = slotPlayer ? avoidSets[slotPlayer] : undefined;
+    const preferSet = slotPlayer ? preferSets[slotPlayer] : undefined;
     const weights = remaining.map((q) => {
       let w = Math.pow(0.5, history[q.id]?.timesUsed ?? 0);
       if (q.universe) {
         const avoided = turnMode === 'turn' ? (avoidSet?.has(q.universe) ?? false) : anyAvoided.has(q.universe);
         if (avoided) w *= AVOID_FACTOR;
       }
-      if (preferred.has(q.theme)) w *= PREFER_FACTOR;
+      const preferred = turnMode === 'turn' ? (preferSet?.has(q.theme) ?? false) : anyPreferred.has(q.theme);
+      if (preferred) w *= PREFER_FACTOR;
       return w;
     });
     const sum = weights.reduce((a, b) => a + b, 0);

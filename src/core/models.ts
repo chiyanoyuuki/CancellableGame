@@ -138,8 +138,6 @@ export interface QuizConfig {
   showUniverse: boolean;
   /** Universes (sub-categories) explicitly turned off for this game. */
   excludedUniverses: string[];
-  /** Up to 3 favourite themes: their questions get +50 % weight in the draw. */
-  preferredThemes: Theme[];
   /** Play by teams: the turn goes to a team instead of a single player. */
   teamMode: boolean;
   /** The teams when `teamMode` is on (each with a name and its members). */
@@ -159,7 +157,6 @@ export const DEFAULT_QUIZ_CONFIG: QuizConfig = {
   fastestTimeLimitMs: 20000,
   showUniverse: true,
   excludedUniverses: [],
-  preferredThemes: [],
   teamMode: false,
   teams: [],
   questionTimerSec: 0,

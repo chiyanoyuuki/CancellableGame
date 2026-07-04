@@ -147,7 +147,7 @@ describe('per-player universe avoidance', () => {
   });
 });
 
-describe('preferred themes boost', () => {
+describe('preferred themes boost (per player)', () => {
   function tq(id: string, theme: Theme): Question {
     return { id, theme, difficulty: 1, text: id, answer: 'a', distractors: ['b', 'c', 'd'] };
   }
@@ -158,7 +158,7 @@ describe('preferred themes boost', () => {
   ];
   const count = (qs: Question[], t: Theme) => qs.filter((q) => q.theme === t).length;
 
-  test('a preferred theme is over-represented in the draw', () => {
+  test("turn mode: a player's preferred theme is over-represented on their slots", () => {
     let m = 0, c = 0;
     for (let seed = 1; seed <= 40; seed++) {
       const out = selectQuestions(
@@ -166,12 +166,28 @@ describe('preferred themes boost', () => {
         { themes: ['manga', 'culture'], difficulties: [1], count: 30 },
         {},
         mulberry32(seed),
-        { preferredThemes: ['manga'] },
+        { order: ['p1'], turnMode: 'turn', preferByPlayer: { p1: ['manga'] } },
       );
       m += count(out, 'manga');
       c += count(out, 'culture');
     }
     expect(m).toBeGreaterThan(c * 1.25); // ~1.5x more of the preferred theme
+  });
+
+  test('fastest mode: a theme preferred by any player is over-represented for everyone', () => {
+    let m = 0, c = 0;
+    for (let seed = 1; seed <= 40; seed++) {
+      const out = selectQuestions(
+        bigPool,
+        { themes: ['manga', 'culture'], difficulties: [1], count: 30 },
+        {},
+        mulberry32(seed),
+        { order: ['p1', 'p2'], turnMode: 'fastest', preferByPlayer: { p2: ['manga'] } },
+      );
+      m += count(out, 'manga');
+      c += count(out, 'culture');
+    }
+    expect(m).toBeGreaterThan(c * 1.25);
   });
 
   test('still respects the count and returns no duplicates', () => {
@@ -180,7 +196,7 @@ describe('preferred themes boost', () => {
       { themes: ['manga', 'culture'], difficulties: [1], count: 30 },
       {},
       mulberry32(3),
-      { preferredThemes: ['manga'] },
+      { order: ['p1'], turnMode: 'turn', preferByPlayer: { p1: ['manga'] } },
     );
     expect(out).toHaveLength(30);
     expect(new Set(out.map((q) => q.id)).size).toBe(30);
