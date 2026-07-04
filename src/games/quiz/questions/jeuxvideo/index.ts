@@ -1,5 +1,6 @@
 import type { Question } from '../../../../core/models';
 import { cyberpunk } from './cyberpunk';
+import { dofus } from './dofus';
 import { gta } from './gta';
 import { halo } from './halo';
 import { lol } from './lol';
@@ -25,4 +26,5 @@ export const jeuxvideoQuestions: Question[] = [
   ...zelda,
   ...minecraft,
   ...gta,
+  ...dofus,
 ];

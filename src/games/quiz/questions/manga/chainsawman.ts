@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const chainsawman = universe("manga", "Chainsaw Man", [
+  // --- Faciles (5) ---
+  { id: "csm-f1", d: 1, t: "Comment s'appelle le héros qui se transforme en homme-tronçonneuse ?", a: "Denji", x: ["Aki", "Power", "Kishibe"] },
+  { id: "csm-f2", d: 1, t: "Quel petit démon-tronçonneuse devient le cœur de Denji ?", a: "Pochita", x: ["Beam", "Meowy", "Ghost"] },
+  { id: "csm-f3", d: 1, t: "Quelle démone du Sang, avec des cornes, devient la coéquipière de Denji ?", a: "Power", x: ["Makima", "Himeno", "Reze"] },
+  { id: "csm-f4", d: 1, t: "Comment Denji déclenche-t-il sa transformation ?", a: "En tirant sur la corde de sa poitrine", x: ["En claquant des doigts", "En avalant du sang", "En criant son nom"] },
+  { id: "csm-f5", d: 1, t: "Pour quelle organisation Denji chasse-t-il les démons ?", a: "La Sécurité Publique", x: ["L'Akatsuki", "La Marine", "La Soul Society"] },
+
+  // --- Moyennes (10) ---
+  { id: "csm-m1", d: 2, t: "Quel démon Makima incarne-t-elle ?", a: "le Démon du Contrôle", x: ["le Démon du Pistolet", "le Démon du Futur", "le Démon des Ténèbres"] },
+  { id: "csm-m2", d: 2, t: "Comment s'appelle le partenaire sérieux et expérimenté de Denji ?", a: "Aki Hayakawa", x: ["Hirofumi Yoshida", "Akane Sawatari", "Kobeni Higashiyama"] },
+  { id: "csm-m3", d: 2, t: "Comment s'appelle le chat que Power adore ?", a: "Meowy", x: ["Pochita", "Beam", "Morris"] },
+  { id: "csm-m4", d: 2, t: "Quel est le rêve tout simple de Denji au début de l'histoire ?", a: "Manger du pain avec de la confiture", x: ["Devenir le plus grand chasseur", "Venger ses parents", "Détruire tous les démons"] },
+  { id: "csm-m5", d: 2, t: "De quoi naissent les démons dans Chainsaw Man ?", a: "des peurs des humains", x: ["des âmes des morts", "de la pollution", "de la magie noire"] },
+  { id: "csm-m6", d: 2, t: "Quel démon très redouté, traqué par la Sécurité Publique, a fait d'innombrables victimes ?", a: "le Démon du Pistolet", x: ["le Démon du Sang", "le Démon du Renard", "le Démon du Zombie"] },
+  { id: "csm-m7", d: 2, t: "Quel chasseur d'élite au visage couturé entraîne Denji et Power ?", a: "Kishibe", x: ["Aki", "Beam", "Angel"] },
+  { id: "csm-m8", d: 2, t: "Quelle collègue extrêmement anxieuse survit improbablement à presque tous les massacres ?", a: "Kobeni", x: ["Himeno", "Power", "Angel"] },
+  { id: "csm-m9", d: 2, t: "Quelle partenaire d'Aki, fumeuse, a un contrat avec le Démon du Fantôme ?", a: "Himeno", x: ["Makima", "Power", "Reze"] },
+  { id: "csm-m10", d: 2, t: "Quel fiend loyal envers Denji peut se changer en requin ?", a: "Beam", x: ["Galgali", "Pochita", "Meowy"] },
+
+  // --- Dures (15) ---
+  { id: "csm-d1", d: 3, t: "Quel démon, matérialisé dans l'œil droit d'Aki, lui coûte des années de vie ?", a: "le Démon du Futur", x: ["le Démon du Renard", "le Démon de la Malédiction", "le Démon du Fantôme"] },
+  { id: "csm-d2", d: 3, t: "Quel démon Aki invoque-t-il sous forme d'épée-clou en payant avec son corps ?", a: "le Démon de la Malédiction", x: ["le Démon du Futur", "le Démon du Renard", "le Démon du Pistolet"] },
+  { id: "csm-d3", d: 3, t: "Quelle serveuse de café est en réalité le Démon de la Bombe, une espionne infiltrée ?", a: "Reze", x: ["Himeno", "Quanxi", "Makima"] },
+  { id: "csm-d4", d: 3, t: "Comment surnomme-t-on l'ennemi au katana, petit-fils du chef yakuza tué par Denji ?", a: "l'Homme au Sabre", acc: ["Katana Man", "homme au katana"], x: ["l'Homme au Fusil", "l'Homme Bombe", "l'Homme Faucon"] },
+  { id: "csm-d5", d: 3, t: "Quelle est la toute première chasseuse de démons, quasi immortelle ?", a: "Quanxi", x: ["Makima", "Reze", "Kobeni"] },
+  { id: "csm-d6", d: 3, t: "Que deviennent les démons lorsqu'ils sont tués sur Terre ?", a: "ils renaissent en Enfer", x: ["ils disparaissent à jamais", "ils deviennent humains", "ils rejoignent la Sécurité Publique"] },
+  { id: "csm-d7", d: 3, t: "Comment appelle-t-on un démon ayant pris possession d'un cadavre humain, comme Power ou Beam ?", a: "un fiend", acc: ["fiend"], x: ["un hybride", "un familier", "un invocateur"] },
+  { id: "csm-d8", d: 3, t: "Quel démon draine l'espérance de vie de ceux qu'il touche et déteste travailler ?", a: "le Démon de l'Ange", acc: ["Ange", "Angel"], x: ["le Démon du Sang", "le Démon du Futur", "le Démon des Ténèbres"] },
+  { id: "csm-d9", d: 3, t: "Quel démon piège l'équipe dans une boucle temporelle au huitième étage d'un hôtel ?", a: "le Démon de l'Éternité", x: ["le Démon des Ténèbres", "le Démon du Pistolet", "le Démon de l'Enfer"] },
+  { id: "csm-d10", d: 3, t: "Quel démon rencontré en Enfer est si puissant qu'il en devient presque un dieu ?", a: "le Démon des Ténèbres", x: ["le Démon du Pistolet", "le Démon de la Faim", "le Démon du Futur"] },
+  { id: "csm-d11", d: 3, t: "Combien de personnes le Démon du Pistolet a-t-il tuées en quelques minutes lors de son apparition ?", a: "environ 1,2 million", x: ["environ 100 000", "environ 50 millions", "environ 10 000"] },
+  { id: "csm-d12", d: 3, t: "Quel marionnettiste manipulant des poupées-démons se fait appeler du nom d'un personnage de Noël ?", a: "le Père Noël", acc: ["Santa Claus"], x: ["le Marchand de Sable", "le Croque-mitaine", "la Petite Souris"] },
+  { id: "csm-d13", d: 3, t: "Quelle contractante au service de Makima manipule le Démon du Serpent ?", a: "Akane Sawatari", x: ["Kobeni Higashiyama", "Asa Mitaka", "Hirofumi Yoshida"] },
+  { id: "csm-d14", d: 3, t: "Quel jeune chasseur nonchalant a un contrat avec le Démon de la Pieuvre ?", a: "Hirofumi Yoshida", x: ["Aki Hayakawa", "Kobeni Higashiyama", "Akane Sawatari"] },
+  { id: "csm-d15", d: 3, t: "Quel est le véritable objectif de Makima concernant le Démon-Tronçonneuse ?", a: "S'en emparer pour créer un monde meilleur", x: ["Le détruire à jamais", "Le renvoyer en Enfer", "Le vendre au plus offrant"] },
+
+  // --- Pro (20) ---
+  { id: "csm-p1", d: 4, t: "Quel surnom donne-t-on au Démon-Tronçonneuse, craint jusqu'en Enfer ?", a: "le Héros de l'Enfer", x: ["le Roi des Enfers", "le Faucheur", "le Dévoreur"] },
+  { id: "csm-p2", d: 4, t: "Que se passe-t-il quand le Démon-Tronçonneuse dévore un autre démon ?", a: "ce démon est effacé de l'existence et des mémoires", x: ["il double sa taille", "il vole ses souvenirs", "il le renvoie en Enfer"] },
+  { id: "csm-p3", d: 4, t: "Quel démon apparaît en déclarant que le futur, c'est génial ?", a: "le Démon du Futur", x: ["le Démon des Ténèbres", "le Démon de l'Éternité", "le Démon du Sang"] },
+  { id: "csm-p4", d: 4, t: "Quel démon Aki invoque-t-il sous la forme d'une tête de renard ?", a: "le Démon du Renard", x: ["le Démon du Futur", "le Démon de la Malédiction", "le Démon du Serpent"] },
+  { id: "csm-p5", d: 4, t: "Comment appelle-t-on le fiend violent au masque à gaz, membre de la Division 4 ?", a: "le Fiend de la Violence", acc: ["Galgali", "Violence"], x: ["le Fiend du Requin", "le Fiend du Fléau", "le Fiend de l'Ange"] },
+  { id: "csm-p6", d: 4, t: "Quelle lycéenne devient l'hôte du Démon de la Guerre dans la deuxième partie ?", a: "Asa Mitaka", x: ["Kobeni Higashiyama", "Akane Sawatari", "Hirofumi Yoshida"] },
+  { id: "csm-p7", d: 4, t: "Quel démon s'installe dans la tête d'Asa Mitaka et la possède ?", a: "le Démon de la Guerre", acc: ["Yoru"], x: ["le Démon du Contrôle", "le Démon de la Faim", "le Démon de la Justice"] },
+  { id: "csm-p8", d: 4, t: "Comment s'appelle la fillette en qui le Démon du Contrôle se réincarne, recueillie par Denji ?", a: "Nayuta", x: ["Yoru", "Fami", "Asa"] },
+  { id: "csm-p9", d: 4, t: "Quelle démone de la Faim s'allie à Asa dans la deuxième partie ?", a: "Fami", x: ["Yoru", "Nayuta", "Makima"] },
+  { id: "csm-p10", d: 4, t: "De quel groupe mythique le Contrôle, la Guerre et la Faim font-ils partie ?", a: "les Quatre Cavaliers", x: ["les Sept Péchés", "les Trois Sages", "les Douze Démons"] },
+  { id: "csm-p11", d: 4, t: "Quel démon complète les Quatre Cavaliers avec le Contrôle, la Guerre et la Faim ?", a: "le Démon de la Mort", x: ["le Démon du Pistolet", "le Démon des Ténèbres", "le Démon de la Justice"] },
+  { id: "csm-p12", d: 4, t: "Qu'arrive-t-il à un démon incarné lorsqu'il meurt en Enfer ?", a: "il renaît sur Terre", x: ["il disparaît définitivement", "il devient un fiend", "il perd ses pouvoirs"] },
+  { id: "csm-p13", d: 4, t: "Quel chasseur immortel possède plusieurs petites amies fiends, comme Cosmo ?", a: "Quanxi", x: ["Kishibe", "Makima", "Reze"] },
+  { id: "csm-p14", d: 4, t: "Dans quelle ville se déroule principalement l'action de Chainsaw Man ?", a: "Tokyo", x: ["Osaka", "Kyoto", "Yokohama"] },
+  { id: "csm-p15", d: 4, t: "Comment Aki finit-il, forçant Denji à l'affronter ?", a: "transformé en Démon du Pistolet", acc: ["Fiend du Pistolet"], x: ["dévoré par Makima", "tué par Reze", "changé en Démon des Ténèbres"] },
+  { id: "csm-p16", d: 4, t: "Quel est le nom de famille d'Aki, le partenaire de Denji ?", a: "Hayakawa", x: ["Higashiyama", "Mitaka", "Sawatari"] },
+  { id: "csm-p17", d: 4, t: "Quel type de démon est Reze, capable de faire exploser son propre corps ?", a: "le Démon de la Bombe", x: ["le Démon du Feu", "le Démon de la Foudre", "le Démon du Poison"] },
+  { id: "csm-p18", d: 4, t: "Quel démon crée une zone où les gens ne peuvent que tomber vers le haut ?", a: "le Démon de la Chute", x: ["le Démon des Ténèbres", "le Démon du Vide", "le Démon de la Gravité"] },
+  { id: "csm-p19", d: 4, t: "Comment Denji est-il perçu par le public dans la deuxième partie ?", a: "comme un héros idolâtré", x: ["comme un criminel recherché", "comme un démon à abattre", "comme un mythe oublié"] },
+  { id: "csm-p20", d: 4, t: "Comment Denji vainc-t-il finalement Makima ?", a: "en la mangeant", acc: ["en la dévorant"], x: ["en la scellant", "en la brûlant", "en la noyant"] },
+]);

@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const dofus = universe("jeuxvideo", "Dofus", [
+  // --- Faciles (5) ---
+  { id: "dofus-f1", d: 1, t: "Quel studio français a créé le jeu Dofus ?", a: "Ankama", x: ["Ubisoft", "Nintendo", "Riot Games"] },
+  { id: "dofus-f2", d: 1, t: "Comment appelle-t-on la monnaie du jeu Dofus ?", a: "les kamas", acc: ["kamas"], x: ["les golds", "les zennys", "les berrys"] },
+  { id: "dofus-f3", d: 1, t: "Que sont les Dofus qui donnent leur nom au jeu ?", a: "des œufs de dragon", x: ["des épées légendaires", "des grimoires magiques", "des cristaux sacrés"] },
+  { id: "dofus-f4", d: 1, t: "Comment s'appelle le monde de Dofus, nommé d'après ses dieux ?", a: "le Monde des Douze", x: ["le Monde des Six", "la Terre du Milieu", "le Monde Flottant"] },
+  { id: "dofus-f5", d: 1, t: "Quelle petite créature volante jaune est la mascotte emblématique de Dofus ?", a: "le Tofu", x: ["le Bouftou", "le Piou", "le Chafer"] },
+
+  // --- Moyennes (10) ---
+  { id: "dofus-m1", d: 2, t: "Combien de dieux compte le Monde des Douze ?", a: "douze", acc: ["12"], x: ["six", "dix", "vingt"] },
+  { id: "dofus-m2", d: 2, t: "Quelle classe est une guerrière du corps à corps portant le nom de son dieu belliqueux ?", a: "l'Iop", x: ["le Cra", "l'Eniripsa", "le Xélor"] },
+  { id: "dofus-m3", d: 2, t: "Quelle classe d'archers redoutables frappe à distance ?", a: "le Cra", x: ["l'Iop", "le Sram", "le Feca"] },
+  { id: "dofus-m4", d: 2, t: "Quelle classe de soigneurs manie la magie de guérison ?", a: "l'Eniripsa", x: ["le Sacrieur", "l'Osamodas", "l'Enutrof"] },
+  { id: "dofus-m5", d: 2, t: "Quelle classe d'assassins pose des pièges et frappe dans l'ombre ?", a: "le Sram", x: ["le Cra", "le Feca", "le Pandawa"] },
+  { id: "dofus-m6", d: 2, t: "Quelle classe de vieux chercheurs de trésors creuse le sol avec une pelle ?", a: "l'Enutrof", x: ["le Sadida", "le Xélor", "l'Ecaflip"] },
+  { id: "dofus-m7", d: 2, t: "Quelle classe maîtrise le temps, à l'image de son dieu horloger ?", a: "le Xélor", x: ["le Feca", "le Sram", "le Sadida"] },
+  { id: "dofus-m8", d: 2, t: "Quelle grande créature noire à cornes, sorte de mouton, est un monstre classique de Dofus ?", a: "le Bouftou", x: ["le Tofu", "le Chafer", "le Bwork"] },
+  { id: "dofus-m9", d: 2, t: "Sur quelle monture ressemblant à une autruche les aventuriers se déplacent-ils ?", a: "la dragodinde", x: ["le muldo", "le seemyool", "le volkorne"] },
+  { id: "dofus-m10", d: 2, t: "Quelles deux cités rivales s'opposent traditionnellement dans l'univers de Dofus ?", a: "Bonta et Brakmar", x: ["Astrub et Amakna", "Sufokia et Otomai", "Incarnam et Enutrosor"] },
+
+  // --- Dures (15) ---
+  { id: "dofus-d1", d: 3, t: "Quelle classe invoque des poupées végétales, à l'image de son dieu arboricole ?", a: "le Sadida", x: ["l'Osamodas", "le Roublard", "le Steamer"] },
+  { id: "dofus-d2", d: 3, t: "Quelle classe dompte et invoque des créatures, y compris des dragons ?", a: "l'Osamodas", x: ["le Sadida", "le Sacrieur", "le Feca"] },
+  { id: "dofus-d3", d: 3, t: "Quelle classe défensive protège ses alliés avec des glyphes et des boucliers ?", a: "le Feca", x: ["le Sacrieur", "l'Iop", "le Sram"] },
+  { id: "dofus-d4", d: 3, t: "Quelle classe de berserkers gagne en puissance en subissant des dégâts ?", a: "le Sacrieur", x: ["l'Iop", "le Feca", "le Pandawa"] },
+  { id: "dofus-d5", d: 3, t: "Quelle classe chanceuse, à l'effigie d'un félin, mise sur le hasard et les jeux ?", a: "l'Ecaflip", x: ["le Pandawa", "le Sram", "l'Enutrof"] },
+  { id: "dofus-d6", d: 3, t: "Quelle classe de guerriers ivres combat à la manière d'un panda ?", a: "le Pandawa", x: ["l'Ecaflip", "le Sacrieur", "l'Iop"] },
+  { id: "dofus-d7", d: 3, t: "Combien de Dofus primordiaux les aventuriers cherchent-ils à réunir ?", a: "six", acc: ["6"], x: ["quatre", "huit", "douze"] },
+  { id: "dofus-d8", d: 3, t: "Quel Dofus primordial de couleur verte est le plus emblématique ?", a: "le Dofus Émeraude", x: ["le Dofus Pourpre", "le Dofus Ocre", "le Dofus Turquoise"] },
+  { id: "dofus-d9", d: 3, t: "Quel ogre a réuni les six Dofus et provoqué un cataclysme par ses larmes ?", a: "Ogrest", x: ["Rushu", "Nox", "Grougaloragran"] },
+  { id: "dofus-d10", d: 3, t: "Comment appelle-t-on le cataclysme provoqué par les larmes de cet ogre ?", a: "le Chaos d'Ogrest", x: ["la Grande Vague", "le Déluge de Brakmar", "la Colère des Dieux"] },
+  { id: "dofus-d11", d: 3, t: "Comment appelle-t-on les téléporteurs qui permettent de voyager instantanément ?", a: "les zaaps", acc: ["zaap"], x: ["les portails", "les sabliers", "les balises"] },
+  { id: "dofus-d12", d: 3, t: "Quelle créature morte-vivante, squelette guerrier, hante les cimetières de Dofus ?", a: "le Chafer", x: ["le Bouftou", "le Tofu", "le Craqueleur"] },
+  { id: "dofus-d13", d: 3, t: "Quelle ville sert traditionnellement de zone de départ aux nouveaux aventuriers ?", a: "Astrub", x: ["Bonta", "Brakmar", "Sufokia"] },
+  { id: "dofus-d14", d: 3, t: "Quelle cité sous-marine abrite le peuple des profondeurs dans l'univers d'Ankama ?", a: "Sufokia", x: ["Otomai", "Amakna", "Astrub"] },
+  { id: "dofus-d15", d: 3, t: "Quel Ecaflip aventurier et collectionneur d'objets est le héros d'une série dérivée ?", a: "Kerubim", acc: ["Kerubim Crépin"], x: ["Joris", "Nox", "Ogrest"] },
+
+  // --- Pro (20) ---
+  { id: "dofus-p1", d: 4, t: "Quel petit être immortel, fils adoptif de Kerubim, est un personnage central de l'univers Ankama ?", a: "Joris", x: ["Nox", "Ogrest", "Rushu"] },
+  { id: "dofus-p2", d: 4, t: "Quelle classe de pirates-voleurs pose des bombes, ajoutée après les douze d'origine ?", a: "le Roublard", x: ["le Zobal", "le Steamer", "l'Ouginak"] },
+  { id: "dofus-p3", d: 4, t: "Quelle classe change de rôle en combat grâce à des masques ?", a: "le Zobal", x: ["le Roublard", "le Steamer", "le Huppermage"] },
+  { id: "dofus-p4", d: 4, t: "Quelle classe déploie des tourelles à vapeur, inspirée de la mécanique ?", a: "le Steamer", x: ["le Roublard", "le Zobal", "l'Eliotrope"] },
+  { id: "dofus-p5", d: 4, t: "Quelle classe manipule des portails pour se téléporter, liée au peuple Eliatrope ?", a: "l'Eliotrope", x: ["le Huppermage", "l'Ouginak", "le Steamer"] },
+  { id: "dofus-p6", d: 4, t: "Quelle classe combine les quatre éléments grâce à des runes magiques ?", a: "le Huppermage", x: ["l'Eliotrope", "le Steamer", "l'Ouginak"] },
+  { id: "dofus-p7", d: 4, t: "Quelle classe de chasseurs mi-hommes mi-chiens entre en rage pour traquer ses proies ?", a: "l'Ouginak", x: ["le Zobal", "le Roublard", "le Forgelance"] },
+  { id: "dofus-p8", d: 4, t: "Quel Dofus primordial de couleur rouge sang porte un nom évoquant sa teinte ?", a: "le Dofus Pourpre", x: ["le Dofus Ocre", "le Dofus Ébène", "le Dofus Ivoire"] },
+  { id: "dofus-p9", d: 4, t: "Quel Dofus noir la sorcière Julith convoite-t-elle dans le film Dofus ?", a: "le Dofus Ébène", x: ["le Dofus Émeraude", "le Dofus Ocre", "le Dofus Turquoise"] },
+  { id: "dofus-p10", d: 4, t: "Quel dragon ancestral, gardien du savoir, est lié au Dofus Ivoire ?", a: "Grougaloragran", x: ["Ogrest", "Rushu", "Nox"] },
+  { id: "dofus-p11", d: 4, t: "Quel dieu-démon règne sur les Shushus et voulait devenir le douzième dieu ?", a: "Rushu", x: ["Ogrest", "Nox", "Grougaloragran"] },
+  { id: "dofus-p12", d: 4, t: "Comment appelle-t-on les objets démoniaques et bavards, esclaves de Rushu ?", a: "les Shushus", acc: ["shushu"], x: ["les Wabbits", "les Bworks", "les Pious"] },
+  { id: "dofus-p13", d: 4, t: "Sur quelle montagne l'ogre Ogrest verse-t-il ses larmes sans fin ?", a: "le mont Zinit", acc: ["Zinit"], x: ["le mont Amakna", "le mont Brakmar", "le mont Sufokia"] },
+  { id: "dofus-p14", d: 4, t: "Quelle classe combat à la lance dans un style chevaleresque, l'une des plus récentes ?", a: "le Forgelance", x: ["l'Ouginak", "le Huppermage", "l'Eliotrope"] },
+  { id: "dofus-p15", d: 4, t: "De quel peuple ancien, maître des portails, les Eliotropes tirent-ils leur origine ?", a: "les Eliatropes", x: ["les Shushus", "les Dopeuls", "les Bworks"] },
+  { id: "dofus-p16", d: 4, t: "Comment appelle-t-on les clones des dieux que l'on affronte en donjon pour prouver sa foi ?", a: "les Dopeuls", acc: ["dopeul"], x: ["les Shushus", "les Bworks", "les Chafers"] },
+  { id: "dofus-p17", d: 4, t: "Quelle créature humanoïde porcine et guerrière vit en tribus dans le monde des Douze ?", a: "le Bwork", x: ["le Chafer", "le Tofu", "le Craqueleur"] },
+  { id: "dofus-p18", d: 4, t: "Quel golem de pierre massif garde certaines zones montagneuses ?", a: "le Craqueleur", x: ["le Bwork", "le Bouftou", "le Chafer"] },
+  { id: "dofus-p19", d: 4, t: "Quel Xélor obsédé par le temps est le grand méchant de la série animée Wakfu ?", a: "Nox", x: ["Ogrest", "Rushu", "Julith"] },
+  { id: "dofus-p20", d: 4, t: "De quelle célèbre marque de montres le nom de la classe Xélor est-il l'anagramme ?", a: "Rolex", x: ["Casio", "Swatch", "Seiko"] },
+]);

@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const mushokutensei = universe("manga", "Mushoku Tensei", [
+  // --- Faciles (5) ---
+  { id: "mushoku-f1", d: 1, t: "Comment s'appelle le héros de Mushoku Tensei, réincarné en bébé dans un monde de magie ?", a: "Rudeus Greyrat", x: ["Paul Greyrat", "Ruijerd Superdia", "Cliff Grimoire"] },
+  { id: "mushoku-f2", d: 1, t: "À quoi le héros consacre-t-il surtout son enfance dans ce nouveau monde ?", a: "apprendre la magie", x: ["forger des épées", "cultiver la terre", "diriger un royaume"] },
+  { id: "mushoku-f3", d: 1, t: "Quelle mage aux cheveux bleus devient la première tutrice de Rudeus ?", a: "Roxy", x: ["Eris", "Sylphiette", "Zenith"] },
+  { id: "mushoku-f4", d: 1, t: "Quelle amie d'enfance aux cheveux verts est très proche de Rudeus ?", a: "Sylphiette", acc: ["Sylphie"], x: ["Roxy", "Eris", "Ghislaine"] },
+  { id: "mushoku-f5", d: 1, t: "Quelle jeune noble rousse au fort caractère Rudeus doit-il éduquer ?", a: "Eris", x: ["Roxy", "Sylphiette", "Norn"] },
+
+  // --- Moyennes (10) ---
+  { id: "mushoku-m1", d: 2, t: "Comment s'appelle le père de Rudeus, épéiste et coureur de jupons ?", a: "Paul Greyrat", x: ["Cliff Grimoire", "Zanoba Shirone", "Ruijerd Superdia"] },
+  { id: "mushoku-m2", d: 2, t: "Comment s'appelle la mère de Rudeus ?", a: "Zenith", x: ["Lilia", "Roxy", "Ghislaine"] },
+  { id: "mushoku-m3", d: 2, t: "Quel guerrier aux cheveux verts de la race Superd accompagne Rudeus et Eris ?", a: "Ruijerd", acc: ["Ruijerd Superdia"], x: ["Orsted", "Badigadi", "Geese"] },
+  { id: "mushoku-m4", d: 2, t: "Quel événement magique catastrophique téléporte Rudeus et Eris loin de chez eux ?", a: "l'Incident de Téléportation", acc: ["incident de déplacement"], x: ["la Guerre de Laplace", "la Chute des Dieux", "l'Éveil du Dragon"] },
+  { id: "mushoku-m5", d: 2, t: "Comment appelle-t-on le monde de Mushoku Tensei, à la forme géométrique ?", a: "le Monde aux Six Faces", acc: ["monde hexaédrique"], x: ["le Monde des Douze", "le Monde du Milieu", "le Monde des Ténèbres"] },
+  { id: "mushoku-m6", d: 2, t: "De quelle race est Roxy, petite et à la longue espérance de vie ?", a: "les Migurds", acc: ["Migurd"], x: ["les Superds", "les Elfes", "les Hommes-bêtes"] },
+  { id: "mushoku-m7", d: 2, t: "Quelle épéiste homme-bête au style du Dieu-Épée entraîne Eris ?", a: "Ghislaine", x: ["Roxy", "Zenith", "Lilia"] },
+  { id: "mushoku-m8", d: 2, t: "Dans quel grand royaume humain se déroule une grande partie de l'histoire ?", a: "le royaume d'Asura", x: ["le royaume de Millis", "le royaume de Shirone", "le royaume de Ranoa"] },
+  { id: "mushoku-m9", d: 2, t: "Quelle université de magie Rudeus fréquente-t-il ?", a: "l'université de Ranoa", acc: ["Ranoa"], x: ["l'université de Millis", "l'université d'Asura", "l'université de Sharia"] },
+  { id: "mushoku-m10", d: 2, t: "Qui est le mystérieux Dieu-Homme qui conseille Rudeus dans ses rêves ?", a: "Hitogami", acc: ["Dieu-Homme"], x: ["Orsted", "Laplace", "Perugius"] },
+
+  // --- Dures (15) ---
+  { id: "mushoku-d1", d: 3, t: "Quel homme immortel et maudit, ennemi de Hitogami, aide parfois Rudeus ?", a: "Orsted", x: ["Perugius", "Badigadi", "Geese"] },
+  { id: "mushoku-d2", d: 3, t: "Comment s'appelle la jeune fille aux cheveux noirs venue du Japon, invoquée dans ce monde ?", a: "Nanahoshi", acc: ["Shizuka Nanahoshi"], x: ["Roxy", "Eris", "Norn"] },
+  { id: "mushoku-d3", d: 3, t: "Quelle grande impératrice du monde des démons offre à Rudeus un Œil Démoniaque ?", a: "Kishirika", acc: ["Kishirika Kishirisu"], x: ["Atofe", "Zenith", "Ghislaine"] },
+  { id: "mushoku-d4", d: 3, t: "Quel pouvoir procure à Rudeus l'Œil Démoniaque qu'il reçoit ?", a: "voir un court instant dans le futur", acc: ["prévoir l'avenir"], x: ["lire les pensées", "voir à travers les murs", "arrêter le temps"] },
+  { id: "mushoku-d5", d: 3, t: "Comment s'appelle la demi-sœur cadette de Rudeus, sérieuse et un peu jalouse ?", a: "Norn", x: ["Aisha", "Lilia", "Sylphiette"] },
+  { id: "mushoku-d6", d: 3, t: "Quelle demi-sœur de Rudeus est un véritable génie précoce ?", a: "Aisha", x: ["Norn", "Zenith", "Roxy"] },
+  { id: "mushoku-d7", d: 3, t: "Comment s'appelle la servante des Greyrat, mère d'Aisha ?", a: "Lilia", x: ["Zenith", "Roxy", "Ghislaine"] },
+  { id: "mushoku-d8", d: 3, t: "Quel puissant magicien légendaire vit dans une forteresse volante et a aidé à sceller Laplace ?", a: "Perugius", acc: ["Perugius Dola"], x: ["Orsted", "Badigadi", "Hitogami"] },
+  { id: "mushoku-d9", d: 3, t: "Quel démon immortel manchot et jovial croise la route de Rudeus ?", a: "Badigadi", x: ["Orsted", "Geese", "Ruijerd"] },
+  { id: "mushoku-d10", d: 3, t: "Quelle race guerrière aux cheveux verts est injustement crainte à cause des guerres de Laplace ?", a: "les Superds", acc: ["Superd"], x: ["les Migurds", "les Hommes-bêtes", "les Elfes"] },
+  { id: "mushoku-d11", d: 3, t: "Quel style de combat parmi les plus puissants Eris maîtrise-t-elle ?", a: "le style du Dieu-Épée", acc: ["Dieu-Épée"], x: ["le style du Dieu-Nord", "le style du Dieu-Eau", "le style du Dieu-Démon"] },
+  { id: "mushoku-d12", d: 3, t: "Comment s'appelle l'aventurière elfe maudite qui voyage avec Rudeus et Cliff ?", a: "Elinalise", acc: ["Elinalise Dragonroad"], x: ["Ghislaine", "Roxy", "Nanahoshi"] },
+  { id: "mushoku-d13", d: 3, t: "Quel prince excentrique, passionné de figurines, devient l'ami de Rudeus à l'université ?", a: "Zanoba", acc: ["Zanoba Shirone"], x: ["Cliff", "Orsted", "Badigadi"] },
+  { id: "mushoku-d14", d: 3, t: "Quel jeune prêtre à la coiffure particulière, petit-fils du pape, se lie d'amitié avec Rudeus ?", a: "Cliff", acc: ["Cliff Grimoire"], x: ["Zanoba", "Ruijerd", "Geese"] },
+  { id: "mushoku-d15", d: 3, t: "Quelle est la grande résolution de Rudeus, marqué par sa vie précédente ?", a: "vivre pleinement sans rien regretter", x: ["conquérir le monde", "retrouver la Terre", "devenir un dieu"] },
+
+  // --- Pro (20) ---
+  { id: "mushoku-p1", d: 4, t: "Qui était le personnage principal avant sa réincarnation ?", a: "un otaku reclus japonais", acc: ["hikikomori", "NEET"], x: ["un chevalier déchu", "un vieux sage", "un roi exilé"] },
+  { id: "mushoku-p2", d: 4, t: "Comment le héros meurt-il dans sa vie d'avant, juste avant sa réincarnation ?", a: "renversé par un camion en sauvant des inconnus", acc: ["écrasé par un camion"], x: ["de maladie dans son lit", "dans un incendie", "assassiné"] },
+  { id: "mushoku-p3", d: 4, t: "Quelle prouesse magique très avancée Rudeus maîtrise-t-il dès son plus jeune âge ?", a: "lancer des sorts sans incantation", acc: ["magie silencieuse"], x: ["la magie de sang", "la magie interdite", "la magie divine"] },
+  { id: "mushoku-p4", d: 4, t: "Quel objet Rudeus fabrique-t-il et vénère-t-il comme un porte-bonheur lié à Roxy ?", a: "une figurine de Roxy", x: ["une épée gravée", "un pendentif", "un grimoire ancien"] },
+  { id: "mushoku-p5", d: 4, t: "Quelle reine démone immortelle et guerrière est la sœur de Badigadi ?", a: "Atofe", acc: ["Atoferatofe"], x: ["Kishirika", "Ghislaine", "Elinalise"] },
+  { id: "mushoku-p6", d: 4, t: "Quel légendaire démon, en cours de réincarnation, menace l'avenir du monde ?", a: "Laplace", x: ["Orsted", "Hitogami", "Perugius"] },
+  { id: "mushoku-p7", d: 4, t: "Contre qui Orsted mène-t-il une guerre éternelle à travers les boucles temporelles ?", a: "Hitogami", x: ["Laplace", "Perugius", "Badigadi"] },
+  { id: "mushoku-p8", d: 4, t: "Pour quelle particularité Sylphiette est-elle harcelée enfant ?", a: "ses cheveux verts", x: ["sa cécité", "sa surdité", "sa très petite taille"] },
+  { id: "mushoku-p9", d: 4, t: "Quel est le vrai prénom japonais de Nanahoshi ?", a: "Shizuka", x: ["Sakura", "Yui", "Aoi"] },
+  { id: "mushoku-p10", d: 4, t: "De quel mal Rudeus souffre-t-il temporairement après un lourd traumatisme ?", a: "il devient impuissant", x: ["il perd la mémoire", "il devient aveugle", "il perd sa magie"] },
+  { id: "mushoku-p11", d: 4, t: "Qui aide Rudeus à se remettre de ce mal et devient l'une de ses épouses ?", a: "Sylphiette", x: ["Roxy", "Eris", "Ghislaine"] },
+  { id: "mushoku-p12", d: 4, t: "Combien d'épouses Rudeus finit-il par avoir ?", a: "trois", acc: ["3"], x: ["une", "deux", "cinq"] },
+  { id: "mushoku-p13", d: 4, t: "Quelles trois femmes Rudeus épouse-t-il ?", a: "Sylphiette, Roxy et Eris", x: ["Roxy, Eris et Ghislaine", "Sylphiette, Norn et Aisha", "Eris, Zenith et Lilia"] },
+  { id: "mushoku-p14", d: 4, t: "Quel personnage manipulateur trahit Rudeus en servant Hitogami ?", a: "Geese", x: ["Orsted", "Ruijerd", "Cliff"] },
+  { id: "mushoku-p15", d: 4, t: "Sur quel continent hostile Rudeus et Eris atterrissent-ils après la téléportation ?", a: "le Continent des Démons", x: ["le Continent Central", "le Continent des Bêtes", "le Continent du Ciel"] },
+  { id: "mushoku-p16", d: 4, t: "Comment appelle-t-on le trio légendaire qui a scellé le démon Laplace jadis ?", a: "les Trois Héros", x: ["les Sept Sages", "les Cinq Rois", "les Douze Gardiens"] },
+  { id: "mushoku-p17", d: 4, t: "Quel rôle Rudeus finit-il par occuper pour combattre Hitogami ?", a: "subordonné d'Orsted", x: ["roi d'Asura", "recteur de Ranoa", "chef des aventuriers"] },
+  { id: "mushoku-p18", d: 4, t: "De quelle couleur sont les cheveux caractéristiques des Superd comme Ruijerd ?", a: "verts", x: ["bleus", "rouges", "blancs"] },
+  { id: "mushoku-p19", d: 4, t: "Quel signe orne le front des guerriers Superd ?", a: "une gemme rouge", acc: ["pierre rouge"], x: ["une corne", "un troisième œil", "une couronne"] },
+  { id: "mushoku-p20", d: 4, t: "Quelle arme les Superd manient-ils, à l'origine de leur malédiction ?", a: "une lance", x: ["une épée", "un arc", "un marteau"] },
+]);

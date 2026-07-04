@@ -2,12 +2,14 @@ import type { Question } from '../../../../core/models';
 import { aot } from './aot';
 import { berserk } from './berserk';
 import { bleach } from './bleach';
+import { chainsawman } from './chainsawman';
 import { deathnote } from './deathnote';
 import { demonslayer } from './demonslayer';
 import { dragonball } from './dragonball';
 import { fma } from './fma';
 import { hxh } from './hxh';
 import { mha } from './mha';
+import { mushokutensei } from './mushokutensei';
 import { naruto } from './naruto';
 import { onepiece } from './onepiece';
 
@@ -29,4 +31,6 @@ export const mangaQuestions: Question[] = [
   ...hxh,
   ...fma,
   ...berserk,
+  ...chainsawman,
+  ...mushokutensei,
 ];
