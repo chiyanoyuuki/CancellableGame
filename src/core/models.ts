@@ -39,6 +39,7 @@ export const THEMES = [
   'musique',
   'culture',
   'internet',
+  'mythologie',
   'enigmes',
   'rebus',
   'blindtest',
@@ -54,6 +55,7 @@ export const THEME_META: Record<Theme, { label: string; emoji: string }> = {
   musique: { label: 'Musique', emoji: '🎵' },
   culture: { label: 'Culture générale', emoji: '🧠' },
   internet: { label: 'Références Internet', emoji: '🌐' },
+  mythologie: { label: 'Mythologie', emoji: '🏛️' },
   enigmes: { label: 'Énigmes', emoji: '🧩' },
   rebus: { label: 'Rébus emoji', emoji: '🤔' },
   blindtest: { label: 'Blind test', emoji: '🎧' },
@@ -129,7 +131,7 @@ export interface QuizConfig {
 
 export const DEFAULT_QUIZ_CONFIG: QuizConfig = {
   // Blind test exclu par défaut : il faut y ajouter ses propres extraits audio.
-  themes: ['manga', 'jeuxvideo', 'series', 'films', 'musique', 'culture', 'internet', 'enigmes', 'rebus'],
+  themes: ['manga', 'jeuxvideo', 'series', 'films', 'musique', 'culture', 'internet', 'mythologie', 'enigmes', 'rebus'],
   difficulties: [1, 2, 3],
   questionCount: 15,
   turnMode: 'turn',

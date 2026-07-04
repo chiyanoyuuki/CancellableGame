@@ -1,0 +1,187 @@
+import type { Question } from '../../../core/models';
+import { universe } from './_build';
+
+/**
+ * Thème Mythologie, découpé par origine (univers) :
+ *   - Mythologie grecque
+ *   - Mythologie nordique
+ *   - Mythologie égyptienne
+ *
+ * Chaque univers respecte la répartition 5 / 10 / 15 / 20 (facile / moyen /
+ * difficile / pro). Règles maison : aucune parenthèse, et les propositions
+ * d'une même question sont homogènes (ici, uniquement des noms de divinités,
+ * de héros, de lieux ou d'objets — jamais de nom de famille).
+ */
+
+const grecque = universe('mythologie', 'Mythologie grecque', [
+  // 5 faciles
+  { id: 'myth-gr-1', d: 1, t: 'Qui est le roi des dieux de l’Olympe, maître de la foudre ?', a: 'Zeus', x: ['Poséidon', 'Hadès', 'Apollon'] },
+  { id: 'myth-gr-2', d: 1, t: 'Quel dieu règne sur les mers et provoque les séismes ?', a: 'Poséidon', x: ['Zeus', 'Hadès', 'Arès'] },
+  { id: 'myth-gr-3', d: 1, t: 'Quel dieu règne sur le royaume des morts ?', a: 'Hadès', x: ['Zeus', 'Poséidon', 'Héphaïstos'] },
+  { id: 'myth-gr-4', d: 1, t: 'Quelle déesse incarne l’amour et la beauté ?', a: 'Aphrodite', x: ['Héra', 'Athéna', 'Artémis'] },
+  { id: 'myth-gr-5', d: 1, t: 'Quel dieu aux sandales ailées est le messager de l’Olympe ?', a: 'Hermès', x: ['Apollon', 'Arès', 'Dionysos'] },
+  // 10 moyennes
+  { id: 'myth-gr-6', d: 2, t: 'Quelle déesse incarne la sagesse et la stratégie militaire ?', a: 'Athéna', x: ['Héra', 'Aphrodite', 'Déméter'] },
+  { id: 'myth-gr-7', d: 2, t: 'Quel dieu incarne la guerre et la fureur des batailles ?', a: 'Arès', x: ['Apollon', 'Hermès', 'Héphaïstos'] },
+  { id: 'myth-gr-8', d: 2, t: 'Quel dieu représente le soleil, la musique et la poésie ?', a: 'Apollon', x: ['Arès', 'Hermès', 'Dionysos'] },
+  { id: 'myth-gr-9', d: 2, t: 'Quelle déesse de la chasse est la sœur jumelle d’Apollon ?', a: 'Artémis', x: ['Athéna', 'Héra', 'Hestia'] },
+  { id: 'myth-gr-10', d: 2, t: 'Quel dieu forgeron travaille le métal dans son atelier volcanique ?', a: 'Héphaïstos', x: ['Arès', 'Hermès', 'Hadès'] },
+  { id: 'myth-gr-11', d: 2, t: 'Quelle déesse du mariage est l’épouse de Zeus ?', a: 'Héra', x: ['Déméter', 'Hestia', 'Aphrodite'] },
+  { id: 'myth-gr-12', d: 2, t: 'Quel dieu préside au vin, à la vigne et aux fêtes ?', a: 'Dionysos', x: ['Apollon', 'Hermès', 'Pan'] },
+  { id: 'myth-gr-13', d: 2, t: 'Quelle déesse veille sur les moissons et l’agriculture ?', a: 'Déméter', x: ['Héra', 'Hestia', 'Perséphone'] },
+  { id: 'myth-gr-14', d: 2, t: 'Quel héros doit accomplir douze travaux pour se racheter ?', a: 'Héraclès', x: ['Thésée', 'Persée', 'Jason'] },
+  { id: 'myth-gr-15', d: 2, t: 'Quel héros athénien tue le Minotaure dans le Labyrinthe ?', a: 'Thésée', x: ['Héraclès', 'Persée', 'Achille'] },
+  // 15 difficiles
+  { id: 'myth-gr-16', d: 3, t: 'Quel Titan est condamné à porter la voûte du ciel sur ses épaules ?', a: 'Atlas', x: ['Cronos', 'Prométhée', 'Hypérion'] },
+  { id: 'myth-gr-17', d: 3, t: 'Quel Titan dérobe le feu aux dieux pour l’offrir aux hommes ?', a: 'Prométhée', x: ['Atlas', 'Épiméthée', 'Cronos'] },
+  { id: 'myth-gr-18', d: 3, t: 'Quel Titan, père de Zeus, dévore ses propres enfants ?', a: 'Cronos', x: ['Ouranos', 'Atlas', 'Hypérion'] },
+  { id: 'myth-gr-19', d: 3, t: 'Quelle créature à la chevelure de serpents pétrifie d’un seul regard ?', a: 'Méduse', x: ['Échidna', 'Charybde', 'Scylla'] },
+  { id: 'myth-gr-20', d: 3, t: 'Quel héros tranche la tête de Méduse ?', a: 'Persée', x: ['Thésée', 'Héraclès', 'Bellérophon'] },
+  { id: 'myth-gr-21', d: 3, t: 'Quelle déesse, enlevée par Hadès, devient reine des Enfers ?', a: 'Perséphone', x: ['Hécate', 'Amphitrite', 'Héra'] },
+  { id: 'myth-gr-22', d: 3, t: 'Quel passeur fait traverser le fleuve des Enfers aux âmes des morts ?', a: 'Charon', x: ['Cerbère', 'Thanatos', 'Hypnos'] },
+  { id: 'myth-gr-23', d: 3, t: 'Quel chien à trois têtes garde l’entrée des Enfers ?', a: 'Cerbère', x: ['Orthos', 'Ladon', 'Argos'] },
+  { id: 'myth-gr-24', d: 3, t: 'Quelle déesse ailée personnifie la victoire ?', a: 'Niké', x: ['Iris', 'Éos', 'Héra'] },
+  { id: 'myth-gr-25', d: 3, t: 'Quelle déesse messagère personnifie l’arc-en-ciel ?', a: 'Iris', x: ['Niké', 'Éos', 'Séléné'] },
+  { id: 'myth-gr-26', d: 3, t: 'Quel héros de la guerre de Troie n’est vulnérable qu’au talon ?', a: 'Achille', x: ['Hector', 'Ajax', 'Ulysse'] },
+  { id: 'myth-gr-27', d: 3, t: 'Quel roi d’Ithaque met dix ans à rentrer chez lui après Troie ?', a: 'Ulysse', x: ['Achille', 'Agamemnon', 'Ménélas'] },
+  { id: 'myth-gr-28', d: 3, t: 'Quel musicien descend aux Enfers pour ramener Eurydice ?', a: 'Orphée', x: ['Amphion', 'Marsyas', 'Linos'] },
+  { id: 'myth-gr-29', d: 3, t: 'Quel jeune homme dépérit d’amour devant son propre reflet ?', a: 'Narcisse', x: ['Adonis', 'Ganymède', 'Hyacinthe'] },
+  { id: 'myth-gr-30', d: 3, t: 'Qui périt en volant trop près du soleil avec des ailes de cire ?', a: 'Icare', x: ['Dédale', 'Phaéton', 'Bellérophon'] },
+  // 20 pro
+  { id: 'myth-gr-31', d: 4, t: 'Quelle divinité primordiale personnifie la Terre ?', a: 'Gaïa', x: ['Nyx', 'Rhéa', 'Théia'] },
+  { id: 'myth-gr-32', d: 4, t: 'Quelle divinité primordiale personnifie le Ciel, époux de Gaïa ?', a: 'Ouranos', x: ['Cronos', 'Pontos', 'Érèbe'] },
+  { id: 'myth-gr-33', d: 4, t: 'Quelle divinité primordiale personnifie la Nuit ?', a: 'Nyx', x: ['Gaïa', 'Héméra', 'Séléné'] },
+  { id: 'myth-gr-34', d: 4, t: 'Quelle Titanide, épouse de Cronos, est la mère des Olympiens ?', a: 'Rhéa', x: ['Gaïa', 'Théia', 'Mnémosyne'] },
+  { id: 'myth-gr-35', d: 4, t: 'Comment nomme-t-on les trois divinités qui filent le destin des mortels ?', a: 'les Moires', x: ['les Muses', 'les Heures', 'les Grâces'] },
+  { id: 'myth-gr-36', d: 4, t: 'Comment nomme-t-on les déesses de la vengeance nées du sang d’Ouranos ?', a: 'les Érinyes', x: ['les Harpies', 'les Gorgones', 'les Sirènes'] },
+  { id: 'myth-gr-37', d: 4, t: 'Quelle nymphe est changée en laurier pour échapper à Apollon ?', a: 'Daphné', x: ['Écho', 'Callisto', 'Io'] },
+  { id: 'myth-gr-38', d: 4, t: 'Quel chasseur est transformé en cerf pour avoir surpris Artémis au bain ?', a: 'Actéon', x: ['Orion', 'Endymion', 'Tirésias'] },
+  { id: 'myth-gr-39', d: 4, t: 'Quel devin aveugle de Thèbes connaît l’avenir ?', a: 'Tirésias', x: ['Calchas', 'Amphiaraos', 'Mopsos'] },
+  { id: 'myth-gr-40', d: 4, t: 'Quel roi est puni d’une faim et d’une soif éternelles au royaume des morts ?', a: 'Tantale', x: ['Sisyphe', 'Ixion', 'Tityos'] },
+  { id: 'myth-gr-41', d: 4, t: 'Quel roi est condamné à rouler sans fin un rocher au sommet d’une colline ?', a: 'Sisyphe', x: ['Tantale', 'Ixion', 'Tityos'] },
+  { id: 'myth-gr-42', d: 4, t: 'Quel cheval ailé jaillit du sang de Méduse ?', a: 'Pégase', x: ['Arion', 'Xanthos', 'Orthos'] },
+  { id: 'myth-gr-43', d: 4, t: 'Quel héros dompte Pégase et abat la Chimère ?', a: 'Bellérophon', x: ['Persée', 'Cadmos', 'Méléagre'] },
+  { id: 'myth-gr-44', d: 4, t: 'Quelle magicienne aide Jason à conquérir la Toison d’or ?', a: 'Médée', x: ['Circé', 'Ariane', 'Pasiphaé'] },
+  { id: 'myth-gr-45', d: 4, t: 'Quelle magicienne change les compagnons d’Ulysse en pourceaux ?', a: 'Circé', x: ['Médée', 'Calypso', 'Hécate'] },
+  { id: 'myth-gr-46', d: 4, t: 'Quelle nymphe retient Ulysse sept ans sur son île ?', a: 'Calypso', x: ['Circé', 'Nausicaa', 'Pénélope'] },
+  { id: 'myth-gr-47', d: 4, t: 'Quelle fille de Minos donne un fil à Thésée pour sortir du Labyrinthe ?', a: 'Ariane', x: ['Phèdre', 'Pasiphaé', 'Antigone'] },
+  { id: 'myth-gr-48', d: 4, t: 'Quel géant aux cent yeux est chargé de surveiller la nymphe Io ?', a: 'Argos', x: ['Typhon', 'Briarée', 'Polyphème'] },
+  { id: 'myth-gr-49', d: 4, t: 'Quel monstre effroyable affronte Zeus pour la domination du monde ?', a: 'Typhon', x: ['Cronos', 'Briarée', 'Encelade'] },
+  { id: 'myth-gr-50', d: 4, t: 'Quel fleuve des Enfers procure l’oubli à ceux qui boivent son eau ?', a: 'Léthé', x: ['Styx', 'Achéron', 'Cocyte'] },
+]);
+
+const nordique = universe('mythologie', 'Mythologie nordique', [
+  // 5 faciles
+  { id: 'myth-no-1', d: 1, t: 'Qui est le père des dieux nordiques, ce dieu borgne à la sagesse infinie ?', a: 'Odin', x: ['Thor', 'Loki', 'Freyr'] },
+  { id: 'myth-no-2', d: 1, t: 'Quel dieu du tonnerre brandit un marteau redoutable ?', a: 'Thor', x: ['Odin', 'Loki', 'Baldr'] },
+  { id: 'myth-no-3', d: 1, t: 'Quel dieu farceur et fourbe sème le chaos chez les Ases ?', a: 'Loki', x: ['Odin', 'Thor', 'Tyr'] },
+  { id: 'myth-no-4', d: 1, t: 'Comment s’appelle le marteau de Thor ?', a: 'Mjöllnir', x: ['Gungnir', 'Gram', 'Draupnir'] },
+  { id: 'myth-no-5', d: 1, t: 'Comment se nomme le paradis des guerriers tombés au combat ?', a: 'le Valhalla', x: ['le Helheim', 'le Niflheim', 'le Muspelheim'] },
+  // 10 moyennes
+  { id: 'myth-no-6', d: 2, t: 'Quelle déesse incarne l’amour, la beauté et la fertilité ?', a: 'Freyja', x: ['Frigg', 'Sif', 'Idunn'] },
+  { id: 'myth-no-7', d: 2, t: 'Quelle déesse, reine des Ases, est l’épouse d’Odin ?', a: 'Frigg', x: ['Freyja', 'Sif', 'Nanna'] },
+  { id: 'myth-no-8', d: 2, t: 'Quel dieu de la lumière et de la pureté est le fils préféré d’Odin ?', a: 'Baldr', x: ['Tyr', 'Heimdall', 'Bragi'] },
+  { id: 'myth-no-9', d: 2, t: 'Quel dieu manchot incarne la guerre et la justice ?', a: 'Tyr', x: ['Thor', 'Baldr', 'Vidar'] },
+  { id: 'myth-no-10', d: 2, t: 'Quel dieu vigilant garde le pont arc-en-ciel qui mène à Asgard ?', a: 'Heimdall', x: ['Tyr', 'Bragi', 'Forseti'] },
+  { id: 'myth-no-11', d: 2, t: 'Comment se nomme le royaume des dieux Ases ?', a: 'l’Asgard', x: ['le Vanaheim', 'le Jötunheim', 'le Niflheim'] },
+  { id: 'myth-no-12', d: 2, t: 'Comment se nomme le monde des humains ?', a: 'le Midgard', x: ['l’Asgard', 'le Helheim', 'le Muspelheim'] },
+  { id: 'myth-no-13', d: 2, t: 'Comment s’appelle la lance magique d’Odin qui ne rate jamais sa cible ?', a: 'Gungnir', x: ['Mjöllnir', 'Gram', 'Draupnir'] },
+  { id: 'myth-no-14', d: 2, t: 'Quel loup gigantesque est destiné à dévorer Odin lors du Ragnarök ?', a: 'Fenrir', x: ['Jörmungand', 'Garm', 'Sköll'] },
+  { id: 'myth-no-15', d: 2, t: 'Quel serpent gigantesque encercle le monde des humains ?', a: 'Jörmungand', x: ['Fenrir', 'Nidhögg', 'Garm'] },
+  // 15 difficiles
+  { id: 'myth-no-16', d: 3, t: 'Comment se nomme la bataille finale où périssent la plupart des dieux ?', a: 'le Ragnarök', x: ['le Fimbulvetr', 'le Ginnungagap', 'le Blót'] },
+  { id: 'myth-no-17', d: 3, t: 'Comment s’appelle l’arbre-monde qui relie les neuf royaumes ?', a: 'Yggdrasil', x: ['Bifröst', 'Gnipahellir', 'Hlidskjalf'] },
+  { id: 'myth-no-18', d: 3, t: 'Quel dieu de la fertilité et de l’abondance est le frère de Freyja ?', a: 'Freyr', x: ['Njörd', 'Bragi', 'Forseti'] },
+  { id: 'myth-no-19', d: 3, t: 'Quel dieu de la mer est le père de Freyr et de Freyja ?', a: 'Njörd', x: ['Freyr', 'Aegir', 'Ull'] },
+  { id: 'myth-no-20', d: 3, t: 'Quelle fille de Loki règne sur le royaume des morts ?', a: 'Hel', x: ['Freyja', 'Frigg', 'Skadi'] },
+  { id: 'myth-no-21', d: 3, t: 'Comment s’appelle le cheval à huit pattes que monte Odin ?', a: 'Sleipnir', x: ['Gullfaxi', 'Svadilfari', 'Grani'] },
+  { id: 'myth-no-22', d: 3, t: 'Comment s’appellent les deux corbeaux qui renseignent Odin ?', a: 'Hugin et Munin', x: ['Geri et Freki', 'Sköll et Hati', 'Vili et Vé'] },
+  { id: 'myth-no-23', d: 3, t: 'Quel dieu à la longue barbe incarne la poésie et l’éloquence ?', a: 'Bragi', x: ['Heimdall', 'Forseti', 'Ull'] },
+  { id: 'myth-no-24', d: 3, t: 'Quelle déesse aux cheveux d’or est l’épouse de Thor ?', a: 'Sif', x: ['Freyja', 'Frigg', 'Idunn'] },
+  { id: 'myth-no-25', d: 3, t: 'Quelle déesse garde les pommes qui donnent la jeunesse éternelle aux dieux ?', a: 'Idunn', x: ['Sif', 'Nanna', 'Gefjon'] },
+  { id: 'myth-no-26', d: 3, t: 'Quel anneau d’or d’Odin engendre huit copies toutes les neuf nuits ?', a: 'Draupnir', x: ['Gungnir', 'Mjöllnir', 'Brísingamen'] },
+  { id: 'myth-no-27', d: 3, t: 'Comment s’appelle le collier précieux que porte Freyja ?', a: 'Brísingamen', x: ['Draupnir', 'Gungnir', 'Andvaranaut'] },
+  { id: 'myth-no-28', d: 3, t: 'Quel navire du Ragnarök est fabriqué avec les ongles des morts ?', a: 'Naglfar', x: ['Skídbladnir', 'Hringhorni', 'Sessrúmnir'] },
+  { id: 'myth-no-29', d: 3, t: 'Comment appelle-t-on la race des géants ennemis des dieux ?', a: 'les Jötuns', x: ['les Ases', 'les Vanes', 'les Alfes'] },
+  { id: 'myth-no-30', d: 3, t: 'Comment nomme-t-on les trois femmes qui tissent le destin des hommes ?', a: 'les Nornes', x: ['les Valkyries', 'les Disir', 'les Ases'] },
+  // 20 pro
+  { id: 'myth-no-31', d: 4, t: 'Comment se nomme le vide béant qui existait avant la création du monde ?', a: 'le Ginnungagap', x: ['le Niflheim', 'le Muspelheim', 'le Vanaheim'] },
+  { id: 'myth-no-32', d: 4, t: 'Comment se nomme le monde primordial du feu ?', a: 'le Muspelheim', x: ['le Niflheim', 'le Helheim', 'le Vanaheim'] },
+  { id: 'myth-no-33', d: 4, t: 'Comment se nomme le monde primordial de glace et de brume ?', a: 'le Niflheim', x: ['le Muspelheim', 'le Midgard', 'l’Alfheim'] },
+  { id: 'myth-no-34', d: 4, t: 'Quel est le nom du premier géant, né de la glace primordiale ?', a: 'Ymir', x: ['Buri', 'Bergelmir', 'Aurgelmir'] },
+  { id: 'myth-no-35', d: 4, t: 'Quelle vache primordiale nourrit le géant Ymir de son lait ?', a: 'Audhumla', x: ['Heidrun', 'Tanngrisnir', 'Gullinbursti'] },
+  { id: 'myth-no-36', d: 4, t: 'Quel écureuil parcourt Yggdrasil en portant des insultes d’un bout à l’autre ?', a: 'Ratatosk', x: ['Nidhögg', 'Vedrfölnir', 'Hræsvelgr'] },
+  { id: 'myth-no-37', d: 4, t: 'Quel dragon ronge sans cesse les racines de l’arbre-monde ?', a: 'Nidhögg', x: ['Fafnir', 'Jörmungand', 'Ladon'] },
+  { id: 'myth-no-38', d: 4, t: 'Quel dragon gardien d’un trésor est tué par le héros Sigurd ?', a: 'Fafnir', x: ['Nidhögg', 'Jörmungand', 'Grendel'] },
+  { id: 'myth-no-39', d: 4, t: 'Quel héros pourfendeur de dragon est le personnage central de la Völsunga saga ?', a: 'Sigurd', x: ['Ragnar', 'Starkad', 'Egil'] },
+  { id: 'myth-no-40', d: 4, t: 'Quel dieu silencieux venge Odin en tuant le loup Fenrir ?', a: 'Vidar', x: ['Vali', 'Forseti', 'Ull'] },
+  { id: 'myth-no-41', d: 4, t: 'Quel dieu de l’hiver excelle au ski et au tir à l’arc ?', a: 'Ull', x: ['Vidar', 'Bragi', 'Forseti'] },
+  { id: 'myth-no-42', d: 4, t: 'Quelle géante des montagnes obtient d’épouser le dieu Njörd ?', a: 'Skadi', x: ['Gerd', 'Sigyn', 'Angrboda'] },
+  { id: 'myth-no-43', d: 4, t: 'Quelle épouse fidèle de Loki recueille le venin qui tombe sur lui ?', a: 'Sigyn', x: ['Angrboda', 'Skadi', 'Nanna'] },
+  { id: 'myth-no-44', d: 4, t: 'Quelle géante enfante Fenrir, Jörmungand et Hel avec Loki ?', a: 'Angrboda', x: ['Sigyn', 'Gerd', 'Gullveig'] },
+  { id: 'myth-no-45', d: 4, t: 'Quel loup poursuit le soleil pour le dévorer à la fin des temps ?', a: 'Sköll', x: ['Hati', 'Garm', 'Fenrir'] },
+  { id: 'myth-no-46', d: 4, t: 'Quel chien monstrueux garde l’entrée du royaume des morts ?', a: 'Garm', x: ['Fenrir', 'Sköll', 'Hati'] },
+  { id: 'myth-no-47', d: 4, t: 'Quelle chèvre donne l’hydromel dont se nourrissent les guerriers du Valhalla ?', a: 'Heidrun', x: ['Audhumla', 'Sæhrímnir', 'Tanngrisnir'] },
+  { id: 'myth-no-48', d: 4, t: 'Quel sanglier est dévoré chaque soir puis ressuscité pour le festin du Valhalla ?', a: 'Sæhrímnir', x: ['Gullinbursti', 'Heidrun', 'Hildisvíni'] },
+  { id: 'myth-no-49', d: 4, t: 'Quel sanglier aux soies d’or appartient au dieu Freyr ?', a: 'Gullinbursti', x: ['Sæhrímnir', 'Hildisvíni', 'Tanngrisnir'] },
+  { id: 'myth-no-50', d: 4, t: 'Comment s’appelle le pont arc-en-ciel qui relie Asgard au monde des humains ?', a: 'le Bifröst', x: ['le Gjallarhorn', 'le Gungnir', 'le Mjöllnir'] },
+]);
+
+const egyptienne = universe('mythologie', 'Mythologie égyptienne', [
+  // 5 faciles
+  { id: 'myth-eg-1', d: 1, t: 'Quel dieu au disque solaire est le dieu du soleil ?', a: 'Rê', x: ['Anubis', 'Osiris', 'Horus'], acc: ['Râ', 'Ra'] },
+  { id: 'myth-eg-2', d: 1, t: 'Quel dieu à tête de chacal préside à l’embaumement et aux morts ?', a: 'Anubis', x: ['Rê', 'Horus', 'Seth'] },
+  { id: 'myth-eg-3', d: 1, t: 'Quel dieu assassiné devient le souverain et le juge du royaume des morts ?', a: 'Osiris', x: ['Anubis', 'Rê', 'Seth'] },
+  { id: 'myth-eg-4', d: 1, t: 'Quel dieu à tête de faucon est le fils d’Osiris et d’Isis ?', a: 'Horus', x: ['Anubis', 'Seth', 'Thot'] },
+  { id: 'myth-eg-5', d: 1, t: 'Quelle grande magicienne ressuscite son époux Osiris ?', a: 'Isis', x: ['Nephtys', 'Hathor', 'Bastet'] },
+  // 10 moyennes
+  { id: 'myth-eg-6', d: 2, t: 'Quel dieu du chaos et des tempêtes assassine son frère Osiris ?', a: 'Seth', x: ['Horus', 'Anubis', 'Thot'] },
+  { id: 'myth-eg-7', d: 2, t: 'Quel dieu à tête d’ibis passe pour l’inventeur de l’écriture ?', a: 'Thot', x: ['Anubis', 'Horus', 'Khonsou'] },
+  { id: 'myth-eg-8', d: 2, t: 'Quelle déesse à tête de lionne répand la guerre et les épidémies ?', a: 'Sekhmet', x: ['Bastet', 'Hathor', 'Isis'] },
+  { id: 'myth-eg-9', d: 2, t: 'Quelle déesse-chatte protège le foyer et la famille ?', a: 'Bastet', x: ['Sekhmet', 'Hathor', 'Nephtys'] },
+  { id: 'myth-eg-10', d: 2, t: 'Quelle déesse de l’amour et de la joie porte des cornes de vache ?', a: 'Hathor', x: ['Bastet', 'Isis', 'Nephtys'] },
+  { id: 'myth-eg-11', d: 2, t: 'Quelle déesse représente la voûte céleste étoilée ?', a: 'Nout', x: ['Geb', 'Chou', 'Tefnout'] },
+  { id: 'myth-eg-12', d: 2, t: 'Quel dieu incarne la terre sur laquelle poussent les récoltes ?', a: 'Geb', x: ['Nout', 'Chou', 'Rê'] },
+  { id: 'myth-eg-13', d: 2, t: 'Quelle sœur d’Isis est l’épouse de Seth ?', a: 'Nephtys', x: ['Isis', 'Hathor', 'Bastet'] },
+  { id: 'myth-eg-14', d: 2, t: 'Quel dieu de Memphis est le patron des artisans et des bâtisseurs ?', a: 'Ptah', x: ['Amon', 'Khnoum', 'Atoum'] },
+  { id: 'myth-eg-15', d: 2, t: 'Quel dieu de Thèbes devient le roi des dieux au Nouvel Empire ?', a: 'Amon', x: ['Ptah', 'Aton', 'Khnoum'] },
+  // 15 difficiles
+  { id: 'myth-eg-16', d: 3, t: 'Quel dieu nain difforme protège les foyers et les naissances ?', a: 'Bès', x: ['Thot', 'Khonsou', 'Min'] },
+  { id: 'myth-eg-17', d: 3, t: 'Quelle déesse hippopotame protège les femmes enceintes ?', a: 'Taouret', x: ['Sekhmet', 'Bastet', 'Ouadjet'] },
+  { id: 'myth-eg-18', d: 3, t: 'Quel dieu à tête de bélier façonne les humains sur un tour de potier ?', a: 'Khnoum', x: ['Ptah', 'Sobek', 'Amon'] },
+  { id: 'myth-eg-19', d: 3, t: 'Quel dieu crocodile incarne la puissance fertile du Nil ?', a: 'Sobek', x: ['Khnoum', 'Apophis', 'Anubis'] },
+  { id: 'myth-eg-20', d: 3, t: 'Quel serpent géant menace chaque nuit la barque solaire de Rê ?', a: 'Apophis', x: ['Sobek', 'Ammit', 'Nehebkaou'] },
+  { id: 'myth-eg-21', d: 3, t: 'Quel dieu lunaire est le fils d’Amon et de Mout ?', a: 'Khonsou', x: ['Thot', 'Aton', 'Chou'] },
+  { id: 'myth-eg-22', d: 3, t: 'Quel disque solaire est imposé comme dieu unique par le pharaon Akhenaton ?', a: 'Aton', x: ['Amon', 'Rê', 'Khepri'] },
+  { id: 'myth-eg-23', d: 3, t: 'Quel dieu scarabée personnifie le soleil levant ?', a: 'Khepri', x: ['Atoum', 'Rê', 'Aton'] },
+  { id: 'myth-eg-24', d: 3, t: 'Quel dieu créateur d’Héliopolis incarne le soleil couchant ?', a: 'Atoum', x: ['Khepri', 'Ptah', 'Amon'] },
+  { id: 'myth-eg-25', d: 3, t: 'Quelle déesse à la plume incarne la vérité et l’ordre du monde ?', a: 'Maât', x: ['Isis', 'Hathor', 'Nephtys'] },
+  { id: 'myth-eg-26', d: 3, t: 'Quelle dévoreuse engloutit le cœur des défunts jugés indignes ?', a: 'Ammit', x: ['Apophis', 'Sobek', 'Taouret'] },
+  { id: 'myth-eg-27', d: 3, t: 'Quelle déesse mère est l’épouse d’Amon dans la triade thébaine ?', a: 'Mout', x: ['Isis', 'Hathor', 'Nephtys'] },
+  { id: 'myth-eg-28', d: 3, t: 'Quelle déesse cobra protège la Basse-Égypte ?', a: 'Ouadjet', x: ['Nekhbet', 'Bastet', 'Maât'] },
+  { id: 'myth-eg-29', d: 3, t: 'Quelle déesse vautour protège la Haute-Égypte ?', a: 'Nekhbet', x: ['Ouadjet', 'Sekhmet', 'Mout'] },
+  { id: 'myth-eg-30', d: 3, t: 'Quelle déesse scorpion veille sur les morts et guérit les piqûres ?', a: 'Serket', x: ['Sekhmet', 'Heket', 'Taouret'] },
+  // 20 pro
+  { id: 'myth-eg-31', d: 4, t: 'Quel océan primordial existe avant la création du monde ?', a: 'le Noun', x: ['le Douat', 'l’Amenti', 'l’Akhet'] },
+  { id: 'myth-eg-32', d: 4, t: 'Quel dieu de l’air sépare le ciel de la terre ?', a: 'Chou', x: ['Geb', 'Tefnout', 'Noun'], acc: ['Shou'] },
+  { id: 'myth-eg-33', d: 4, t: 'Quelle déesse de l’humidité est la sœur-épouse de Chou ?', a: 'Tefnout', x: ['Nout', 'Maât', 'Nephtys'] },
+  { id: 'myth-eg-34', d: 4, t: 'Comment nomme-t-on le groupe des neuf grands dieux d’Héliopolis ?', a: 'l’Ennéade', x: ['l’Ogdoade', 'la Triade', 'le Panthéon'] },
+  { id: 'myth-eg-35', d: 4, t: 'Comment nomme-t-on le groupe des huit dieux primordiaux d’Hermopolis ?', a: 'l’Ogdoade', x: ['l’Ennéade', 'la Triade', 'le Panthéon'] },
+  { id: 'myth-eg-36', d: 4, t: 'Quel taureau sacré est vénéré comme un dieu vivant à Memphis ?', a: 'Apis', x: ['Mnévis', 'Bouchis', 'Bata'] },
+  { id: 'myth-eg-37', d: 4, t: 'Quelle partie de l’âme, figurée par un oiseau à tête humaine, s’envole à la mort ?', a: 'le Bâ', x: ['le Ka', 'l’Akh', 'l’Ombre'] },
+  { id: 'myth-eg-38', d: 4, t: 'Quel double, force vitale du défunt, doit être nourri d’offrandes ?', a: 'le Ka', x: ['le Bâ', 'l’Akh', 'le Renn'] },
+  { id: 'myth-eg-39', d: 4, t: 'Quel recueil de formules guide le défunt à travers l’au-delà ?', a: 'le Livre des Morts', x: ['les Textes des Pyramides', 'le Livre des Portes', 'l’Amdouat'] },
+  { id: 'myth-eg-40', d: 4, t: 'Quelle déesse grenouille préside aux accouchements ?', a: 'Heket', x: ['Serket', 'Taouret', 'Meskhenet'] },
+  { id: 'myth-eg-41', d: 4, t: 'Quel dieu de la fertilité est représenté ithyphallique à Coptos ?', a: 'Min', x: ['Geb', 'Khnoum', 'Onouris'] },
+  { id: 'myth-eg-42', d: 4, t: 'Quel fils d’Horus à tête humaine protège le foie du défunt ?', a: 'Amset', x: ['Hâpi', 'Douamoutef', 'Kébéhsénouf'] },
+  { id: 'myth-eg-43', d: 4, t: 'Quel fils d’Horus à tête de babouin protège les poumons du défunt ?', a: 'Hâpi', x: ['Amset', 'Douamoutef', 'Kébéhsénouf'] },
+  { id: 'myth-eg-44', d: 4, t: 'Quel fils d’Horus à tête de chacal protège l’estomac du défunt ?', a: 'Douamoutef', x: ['Amset', 'Hâpi', 'Kébéhsénouf'] },
+  { id: 'myth-eg-45', d: 4, t: 'Quel fils d’Horus à tête de faucon protège les intestins du défunt ?', a: 'Kébéhsénouf', x: ['Amset', 'Hâpi', 'Douamoutef'] },
+  { id: 'myth-eg-46', d: 4, t: 'Quel symbole en forme de croix à anse représente la vie ?', a: 'l’Ankh', x: ['le Djed', 'le Ouas', 'le Sekhem'] },
+  { id: 'myth-eg-47', d: 4, t: 'Quel pilier symbolise la stabilité et la colonne vertébrale d’Osiris ?', a: 'le Djed', x: ['l’Ankh', 'le Ouas', 'le Scarabée'] },
+  { id: 'myth-eg-48', d: 4, t: 'Quel œil protecteur symbolise la guérison et la plénitude ?', a: 'l’oudjat', x: ['l’Ankh', 'le Djed', 'le Scarabée'] },
+  { id: 'myth-eg-49', d: 4, t: 'Quelle déesse cobra veille sur la nécropole thébaine ?', a: 'Meretseger', x: ['Renenoutet', 'Meskhenet', 'Chesmou'] },
+  { id: 'myth-eg-50', d: 4, t: 'Quel dieu faucon des morts est le patron de la nécropole de Memphis ?', a: 'Sokar', x: ['Nefertem', 'Imhotep', 'Chesmou'] },
+]);
+
+export const mythologieQuestions: Question[] = [...grecque, ...nordique, ...egyptienne];

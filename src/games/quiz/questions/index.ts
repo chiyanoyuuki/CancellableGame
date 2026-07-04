@@ -9,6 +9,7 @@ import { internetQuestions } from './internet';
 import { jeuxvideoQuestions } from './jeuxvideo';
 import { mangaQuestions } from './manga';
 import { musiqueQuestions } from './musique';
+import { mythologieQuestions } from './mythologie';
 import { rebusQuestions } from './rebus';
 import { seriesQuestions } from './series';
 
@@ -29,6 +30,7 @@ export const QUESTIONS: Question[] = [
   ...musiqueQuestions,
   ...cultureQuestions,
   ...internetQuestions,
+  ...mythologieQuestions,
   ...enigmesQuestions,
   ...rebusQuestions,
   ...blindtestQuestions,
