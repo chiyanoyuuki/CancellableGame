@@ -11,10 +11,10 @@ import type { Question, QuestionMedia } from '../../../core/models';
  * Deux sources d'images :
  *  - Pokémon : l'artwork officiel hébergé par le projet PokeAPI sur GitHub —
  *    fiable et vérifié.
- *  - Personnalités (acteurs, chanteurs, scientifiques, mangakas, réalisateurs,
- *    créateurs) : de vraies photos hébergées sur Wikimedia Commons via
- *    `Special:FilePath`, qui ne réclame que le nom exact du fichier et redirige
- *    vers l'image. Les noms de fichiers ont été vérifiés un par un.
+ *  - Personnalités : de vraies photos de Wikimedia Commons, en lien DIRECT
+ *    vers upload.wikimedia.org. Le sous-dossier est dérivé du MD5 du nom de
+ *    fichier, ce qui évite la redirection de Special:FilePath que l'Image de
+ *    React Native ne suivait pas.
  *
  * Si une image ne se charge malgré tout pas (fichier renommé, hors-ligne…),
  * deux filets de sécurité : en jeu, la question est automatiquement remplacée
@@ -32,10 +32,15 @@ const poke = (n: number): QuestionMedia => ({
   uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${n}.png`,
 });
 
-/** Vraie photo depuis Wikimedia Commons (nom de fichier exact, sans « File: »). */
-const wiki = (file: string): QuestionMedia => ({
+/**
+ * Vraie photo Wikimedia Commons, en lien DIRECT vers upload.wikimedia.org.
+ * Le sous-dossier vient du MD5 du nom de fichier ; on évite ainsi la
+ * redirection 302 de Special:FilePath, que l'Image de React Native ne suivait
+ * pas (toutes ces photos ne se chargeaient pas).
+ */
+const wiki = (dir: string, file: string): QuestionMedia => ({
   type: 'image',
-  uri: `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file)}?width=500`,
+  uri: `https://upload.wikimedia.org/wikipedia/commons/${dir}/${encodeURIComponent(file)}`,
 });
 
 const POKE = 'Quel est ce Pokémon ?';
@@ -96,94 +101,94 @@ export const imagesQuestions: Question[] = [
   // ---------------------------------------------------------------------------
   // Séries — vraies photos (Wikimedia Commons). 12 questions.
   // ---------------------------------------------------------------------------
-  { id: 'img-41', theme: 'images', difficulty: 3, text: ACTEUR, answer: 'Bryan Cranston', distractors: ['Aaron Paul', 'Bob Odenkirk', 'Giancarlo Esposito'], media: wiki('Bryan_Cranston_by_Gage_Skidmore_2.jpg') },
-  { id: 'img-42', theme: 'images', difficulty: 3, text: ACTEUR, answer: 'Aaron Paul', distractors: ['Bryan Cranston', 'Bob Odenkirk', 'Giancarlo Esposito'], media: wiki('Aaron_Paul_by_Gage_Skidmore_3.jpg') },
-  { id: 'img-43', theme: 'images', difficulty: 4, text: ACTEUR, answer: 'Giancarlo Esposito', distractors: ['Bob Odenkirk', 'Bryan Cranston', 'Aaron Paul'], media: wiki('Giancarlo_Esposito_by_Gage_Skidmore.jpg') },
-  { id: 'img-44', theme: 'images', difficulty: 4, text: ACTEUR, answer: 'Bob Odenkirk', distractors: ['Bryan Cranston', 'Aaron Paul', 'Giancarlo Esposito'], media: wiki('Bob_Odenkirk_by_Gage_Skidmore.jpg') },
-  { id: 'img-45', theme: 'images', difficulty: 3, text: ACTEUR, answer: 'Peter Dinklage', distractors: ['Kit Harington', 'Pedro Pascal', 'Henry Cavill'], media: wiki('Peter_Dinklage_by_Gage_Skidmore.jpg') },
-  { id: 'img-46', theme: 'images', difficulty: 3, text: ACTRICE, answer: 'Emilia Clarke', distractors: ['Millie Bobby Brown', 'Anya Taylor-Joy', 'Florence Pugh'], media: wiki('Emilia_Clarke_by_Gage_Skidmore_2.jpg') },
-  { id: 'img-47', theme: 'images', difficulty: 4, text: ACTEUR, answer: 'Kit Harington', distractors: ['Peter Dinklage', 'Pedro Pascal', 'Henry Cavill'], media: wiki('Kit_Harrington_(9350745314)_(cropped).jpg') },
-  { id: 'img-48', theme: 'images', difficulty: 3, text: ACTRICE, answer: 'Millie Bobby Brown', distractors: ['Emilia Clarke', 'Anya Taylor-Joy', 'Florence Pugh'], media: wiki('Millie_Bobby_Brown_by_Gage_Skidmore_2.jpg') },
-  { id: 'img-49', theme: 'images', difficulty: 4, text: ACTEUR, answer: 'David Harbour', distractors: ['Bob Odenkirk', 'Giancarlo Esposito', 'Pedro Pascal'], media: wiki('David_Harbour_by_Gage_Skidmore_2.jpg') },
-  { id: 'img-50', theme: 'images', difficulty: 3, text: ACTEUR, answer: 'Pedro Pascal', distractors: ['Henry Cavill', 'Kit Harington', 'Peter Dinklage'], media: wiki('Pedro_Pascal_by_Gage_Skidmore.jpg') },
-  { id: 'img-51', theme: 'images', difficulty: 3, text: ACTEUR, answer: 'Henry Cavill', distractors: ['Pedro Pascal', 'Kit Harington', 'Cillian Murphy'], media: wiki('Henry_Cavill_SDCC_2014.jpg') },
-  { id: 'img-52', theme: 'images', difficulty: 4, text: ACTEUR, answer: 'Cillian Murphy', distractors: ['Henry Cavill', 'Pedro Pascal', 'Kit Harington'], media: wiki('Cillian_Murphy-2014.jpg') },
+  { id: 'img-41', theme: 'images', difficulty: 3, text: ACTEUR, answer: 'Bryan Cranston', distractors: ['Aaron Paul', 'Bob Odenkirk', 'Giancarlo Esposito'], media: wiki('a/a0', 'Bryan_Cranston_by_Gage_Skidmore_2.jpg') },
+  { id: 'img-42', theme: 'images', difficulty: 3, text: ACTEUR, answer: 'Aaron Paul', distractors: ['Bryan Cranston', 'Bob Odenkirk', 'Giancarlo Esposito'], media: wiki('e/ed', 'Aaron_Paul_by_Gage_Skidmore_3.jpg') },
+  { id: 'img-43', theme: 'images', difficulty: 4, text: ACTEUR, answer: 'Giancarlo Esposito', distractors: ['Bob Odenkirk', 'Bryan Cranston', 'Aaron Paul'], media: wiki('0/0d', 'Giancarlo_Esposito_by_Gage_Skidmore.jpg') },
+  { id: 'img-44', theme: 'images', difficulty: 4, text: ACTEUR, answer: 'Bob Odenkirk', distractors: ['Bryan Cranston', 'Aaron Paul', 'Giancarlo Esposito'], media: wiki('7/7e', 'Bob_Odenkirk_by_Gage_Skidmore.jpg') },
+  { id: 'img-45', theme: 'images', difficulty: 3, text: ACTEUR, answer: 'Peter Dinklage', distractors: ['Kit Harington', 'Pedro Pascal', 'Henry Cavill'], media: wiki('5/54', 'Peter_Dinklage_by_Gage_Skidmore.jpg') },
+  { id: 'img-46', theme: 'images', difficulty: 3, text: ACTRICE, answer: 'Emilia Clarke', distractors: ['Millie Bobby Brown', 'Anya Taylor-Joy', 'Florence Pugh'], media: wiki('1/19', 'Emilia_Clarke_by_Gage_Skidmore_2.jpg') },
+  { id: 'img-47', theme: 'images', difficulty: 4, text: ACTEUR, answer: 'Kit Harington', distractors: ['Peter Dinklage', 'Pedro Pascal', 'Henry Cavill'], media: wiki('2/23', 'Kit_Harrington_(9350745314)_(cropped).jpg') },
+  { id: 'img-48', theme: 'images', difficulty: 3, text: ACTRICE, answer: 'Millie Bobby Brown', distractors: ['Emilia Clarke', 'Anya Taylor-Joy', 'Florence Pugh'], media: wiki('8/8d', 'Millie_Bobby_Brown_by_Gage_Skidmore_2.jpg') },
+  { id: 'img-49', theme: 'images', difficulty: 4, text: ACTEUR, answer: 'David Harbour', distractors: ['Bob Odenkirk', 'Giancarlo Esposito', 'Pedro Pascal'], media: wiki('7/7b', 'David_Harbour_by_Gage_Skidmore_2.jpg') },
+  { id: 'img-50', theme: 'images', difficulty: 3, text: ACTEUR, answer: 'Pedro Pascal', distractors: ['Henry Cavill', 'Kit Harington', 'Peter Dinklage'], media: wiki('c/c5', 'Pedro_Pascal_by_Gage_Skidmore.jpg') },
+  { id: 'img-51', theme: 'images', difficulty: 3, text: ACTEUR, answer: 'Henry Cavill', distractors: ['Pedro Pascal', 'Kit Harington', 'Cillian Murphy'], media: wiki('0/04', 'Henry_Cavill_SDCC_2014.jpg') },
+  { id: 'img-52', theme: 'images', difficulty: 4, text: ACTEUR, answer: 'Cillian Murphy', distractors: ['Henry Cavill', 'Pedro Pascal', 'Kit Harington'], media: wiki('7/75', 'Cillian_Murphy-2014.jpg') },
 
   // ---------------------------------------------------------------------------
   // Films — acteurs & réalisateurs, vraies photos. 10 questions.
   // ---------------------------------------------------------------------------
-  { id: 'img-53', theme: 'images', difficulty: 3, text: ACTEUR, answer: 'Leonardo DiCaprio', distractors: ['Joaquin Phoenix', 'Tom Hardy', 'Timothée Chalamet'], media: wiki('Leonardo_DiCaprio_2010.jpg') },
-  { id: 'img-54', theme: 'images', difficulty: 3, text: ACTEUR, answer: 'Joaquin Phoenix', distractors: ['Leonardo DiCaprio', 'Tom Hardy', 'Willem Dafoe'], media: wiki('Joaquin_Phoenix_2014.jpg') },
-  { id: 'img-55', theme: 'images', difficulty: 3, text: ACTRICE, answer: 'Margot Robbie', distractors: ['Florence Pugh', 'Anya Taylor-Joy', 'Emilia Clarke'], media: wiki('Margot_Robbie_by_Gage_Skidmore.jpg') },
-  { id: 'img-56', theme: 'images', difficulty: 3, text: ACTEUR, answer: 'Timothée Chalamet', distractors: ['Leonardo DiCaprio', 'Tom Hardy', 'Joaquin Phoenix'], media: wiki('Timothée_Chalamet_2024.jpg') },
-  { id: 'img-57', theme: 'images', difficulty: 4, text: ACTEUR, answer: 'Tom Hardy', distractors: ['Joaquin Phoenix', 'Willem Dafoe', 'Leonardo DiCaprio'], media: wiki('Tom_Hardy_by_Gage_Skidmore.jpg') },
-  { id: 'img-58', theme: 'images', difficulty: 4, text: ACTEUR, answer: 'Willem Dafoe', distractors: ['Tom Hardy', 'Joaquin Phoenix', 'Christoph Waltz'], media: wiki('Willem_Dafoe_Cannes_2019.jpg') },
-  { id: 'img-59', theme: 'images', difficulty: 4, text: ACTRICE, answer: 'Florence Pugh', distractors: ['Margot Robbie', 'Anya Taylor-Joy', 'Emilia Clarke'], media: wiki('Florence_Pugh_by_Gage_Skidmore.jpg') },
-  { id: 'img-60', theme: 'images', difficulty: 3, text: REAL, answer: 'Christopher Nolan', distractors: ['Quentin Tarantino', 'Denis Villeneuve', 'Guillermo del Toro'], media: wiki('Christopher_Nolan_Cannes_2018.jpg') },
-  { id: 'img-61', theme: 'images', difficulty: 3, text: REAL, answer: 'Quentin Tarantino', distractors: ['Christopher Nolan', 'Denis Villeneuve', 'Martin Scorsese'], media: wiki('Quentin_Tarantino_by_Gage_Skidmore.jpg') },
-  { id: 'img-62', theme: 'images', difficulty: 4, text: REAL, answer: 'Denis Villeneuve', distractors: ['Christopher Nolan', 'Quentin Tarantino', 'Guillermo del Toro'], media: wiki('Denis_Villeneuve_by_Gage_Skidmore.jpg') },
+  { id: 'img-53', theme: 'images', difficulty: 3, text: ACTEUR, answer: 'Leonardo DiCaprio', distractors: ['Joaquin Phoenix', 'Tom Hardy', 'Timothée Chalamet'], media: wiki('9/9a', 'Leonardo_DiCaprio_2010.jpg') },
+  { id: 'img-54', theme: 'images', difficulty: 3, text: ACTEUR, answer: 'Joaquin Phoenix', distractors: ['Leonardo DiCaprio', 'Tom Hardy', 'Willem Dafoe'], media: wiki('b/ba', 'Joaquin_Phoenix_2014.jpg') },
+  { id: 'img-55', theme: 'images', difficulty: 3, text: ACTRICE, answer: 'Margot Robbie', distractors: ['Florence Pugh', 'Anya Taylor-Joy', 'Emilia Clarke'], media: wiki('0/00', 'Margot_Robbie_by_Gage_Skidmore.jpg') },
+  { id: 'img-56', theme: 'images', difficulty: 3, text: ACTEUR, answer: 'Timothée Chalamet', distractors: ['Leonardo DiCaprio', 'Tom Hardy', 'Joaquin Phoenix'], media: wiki('c/c1', 'Timothée_Chalamet_2024.jpg') },
+  { id: 'img-57', theme: 'images', difficulty: 4, text: ACTEUR, answer: 'Tom Hardy', distractors: ['Joaquin Phoenix', 'Willem Dafoe', 'Leonardo DiCaprio'], media: wiki('4/43', 'Tom_Hardy_by_Gage_Skidmore.jpg') },
+  { id: 'img-58', theme: 'images', difficulty: 4, text: ACTEUR, answer: 'Willem Dafoe', distractors: ['Tom Hardy', 'Joaquin Phoenix', 'Christoph Waltz'], media: wiki('1/14', 'Willem_Dafoe_Cannes_2019.jpg') },
+  { id: 'img-59', theme: 'images', difficulty: 4, text: ACTRICE, answer: 'Florence Pugh', distractors: ['Margot Robbie', 'Anya Taylor-Joy', 'Emilia Clarke'], media: wiki('6/6a', 'Florence_Pugh_by_Gage_Skidmore.jpg') },
+  { id: 'img-60', theme: 'images', difficulty: 3, text: REAL, answer: 'Christopher Nolan', distractors: ['Quentin Tarantino', 'Denis Villeneuve', 'Guillermo del Toro'], media: wiki('9/95', 'Christopher_Nolan_Cannes_2018.jpg') },
+  { id: 'img-61', theme: 'images', difficulty: 3, text: REAL, answer: 'Quentin Tarantino', distractors: ['Christopher Nolan', 'Denis Villeneuve', 'Martin Scorsese'], media: wiki('0/0b', 'Quentin_Tarantino_by_Gage_Skidmore.jpg') },
+  { id: 'img-62', theme: 'images', difficulty: 4, text: REAL, answer: 'Denis Villeneuve', distractors: ['Christopher Nolan', 'Quentin Tarantino', 'Guillermo del Toro'], media: wiki('a/a4', 'Denis_Villeneuve_by_Gage_Skidmore.jpg') },
 
   // ---------------------------------------------------------------------------
   // Films d'horreur — vraies photos. 5 questions.
   // ---------------------------------------------------------------------------
-  { id: 'img-63', theme: 'images', difficulty: 3, text: ACTRICE, answer: 'Jamie Lee Curtis', distractors: ['Toni Collette', 'Anya Taylor-Joy', 'Vera Farmiga'], media: wiki('Jamie_Lee_Curtis_by_Gage_Skidmore.jpg') },
-  { id: 'img-64', theme: 'images', difficulty: 3, text: ACTRICE, answer: 'Anya Taylor-Joy', distractors: ['Jamie Lee Curtis', 'Toni Collette', 'Florence Pugh'], media: wiki('Anya_Taylor-Joy_by_Gage_Skidmore.jpg') },
-  { id: 'img-65', theme: 'images', difficulty: 4, text: ACTEUR, answer: 'Bill Skarsgård', distractors: ['Robert Englund', 'Bill Hader', 'Ethan Hawke'], media: wiki('Bill_Skarsgård.jpg') },
-  { id: 'img-66', theme: 'images', difficulty: 4, text: ACTRICE, answer: 'Toni Collette', distractors: ['Jamie Lee Curtis', 'Vera Farmiga', 'Anya Taylor-Joy'], media: wiki('Toni_Collette_by_Gage_Skidmore.jpg') },
-  { id: 'img-67', theme: 'images', difficulty: 4, text: REAL, answer: 'Jordan Peele', distractors: ['Ari Aster', 'Wes Craven', 'John Carpenter'], media: wiki('Jordan_Peele_2012.jpg') },
+  { id: 'img-63', theme: 'images', difficulty: 3, text: ACTRICE, answer: 'Jamie Lee Curtis', distractors: ['Toni Collette', 'Anya Taylor-Joy', 'Vera Farmiga'], media: wiki('f/fc', 'Jamie_Lee_Curtis_by_Gage_Skidmore.jpg') },
+  { id: 'img-64', theme: 'images', difficulty: 3, text: ACTRICE, answer: 'Anya Taylor-Joy', distractors: ['Jamie Lee Curtis', 'Toni Collette', 'Florence Pugh'], media: wiki('9/9a', 'Anya_Taylor-Joy_by_Gage_Skidmore.jpg') },
+  { id: 'img-65', theme: 'images', difficulty: 4, text: ACTEUR, answer: 'Bill Skarsgård', distractors: ['Robert Englund', 'Bill Hader', 'Ethan Hawke'], media: wiki('d/d7', 'Bill_Skarsgård.jpg') },
+  { id: 'img-66', theme: 'images', difficulty: 4, text: ACTRICE, answer: 'Toni Collette', distractors: ['Jamie Lee Curtis', 'Vera Farmiga', 'Anya Taylor-Joy'], media: wiki('7/7e', 'Toni_Collette_by_Gage_Skidmore.jpg') },
+  { id: 'img-67', theme: 'images', difficulty: 4, text: REAL, answer: 'Jordan Peele', distractors: ['Ari Aster', 'Wes Craven', 'John Carpenter'], media: wiki('1/11', 'Jordan_Peele_2012.jpg') },
 
   // ---------------------------------------------------------------------------
   // Musique / Pop — vraies photos. 10 questions.
   // ---------------------------------------------------------------------------
-  { id: 'img-68', theme: 'images', difficulty: 3, text: ARTISTE, answer: 'Billie Eilish', distractors: ['Olivia Rodrigo', 'Dua Lipa', 'Lana Del Rey'], media: wiki('Billie_Eilish_portrait.jpg') },
-  { id: 'img-69', theme: 'images', difficulty: 3, text: ARTISTE, answer: 'Lana Del Rey', distractors: ['Billie Eilish', 'Olivia Rodrigo', 'Ariana Grande'], media: wiki('Lana_Del_Rey_2013.jpg') },
-  { id: 'img-70', theme: 'images', difficulty: 3, text: ARTISTE, answer: 'Dua Lipa', distractors: ['Ariana Grande', 'Olivia Rodrigo', 'Selena Gomez'], media: wiki('Dua_Lipa.jpg') },
-  { id: 'img-71', theme: 'images', difficulty: 3, text: ARTISTE, answer: 'Olivia Rodrigo', distractors: ['Billie Eilish', 'Dua Lipa', 'Selena Gomez'], media: wiki('Olivia_Rodrigo_in_2021.jpg') },
-  { id: 'img-72', theme: 'images', difficulty: 4, text: ARTISTE, answer: 'Ariana Grande', distractors: ['Selena Gomez', 'Dua Lipa', 'Lana Del Rey'], media: wiki('Ariana_Grande.jpg') },
-  { id: 'img-73', theme: 'images', difficulty: 3, text: ARTISTE, answer: 'Harry Styles', distractors: ['Ed Sheeran', 'Shawn Mendes', 'Justin Bieber'], media: wiki('Harry_Styles,_2012.jpg') },
-  { id: 'img-74', theme: 'images', difficulty: 3, text: ARTISTE, answer: 'Ed Sheeran', distractors: ['Harry Styles', 'Shawn Mendes', 'Sam Smith'], media: wiki('Ed_Sheeran.jpg') },
-  { id: 'img-75', theme: 'images', difficulty: 4, text: ARTISTE, answer: 'Bruno Mars', distractors: ['Harry Styles', 'Ed Sheeran', 'Justin Bieber'], media: wiki('Bruno_Mars_Super_Bowl_50.jpg') },
-  { id: 'img-76', theme: 'images', difficulty: 4, text: ARTISTE, answer: 'Selena Gomez', distractors: ['Ariana Grande', 'Dua Lipa', 'Olivia Rodrigo'], media: wiki('Selena_Gomez_2011.jpg') },
-  { id: 'img-77', theme: 'images', difficulty: 3, text: ARTISTE, answer: 'Taylor Swift', distractors: ['Lana Del Rey', 'Ariana Grande', 'Selena Gomez'], media: wiki('Taylor_Swift_2018.jpg') },
+  { id: 'img-68', theme: 'images', difficulty: 3, text: ARTISTE, answer: 'Billie Eilish', distractors: ['Olivia Rodrigo', 'Dua Lipa', 'Lana Del Rey'], media: wiki('c/cc', 'Billie_Eilish_portrait.jpg') },
+  { id: 'img-69', theme: 'images', difficulty: 3, text: ARTISTE, answer: 'Lana Del Rey', distractors: ['Billie Eilish', 'Olivia Rodrigo', 'Ariana Grande'], media: wiki('f/ff', 'Lana_Del_Rey_2013.jpg') },
+  { id: 'img-70', theme: 'images', difficulty: 3, text: ARTISTE, answer: 'Dua Lipa', distractors: ['Ariana Grande', 'Olivia Rodrigo', 'Selena Gomez'], media: wiki('6/69', 'Dua_Lipa.jpg') },
+  { id: 'img-71', theme: 'images', difficulty: 3, text: ARTISTE, answer: 'Olivia Rodrigo', distractors: ['Billie Eilish', 'Dua Lipa', 'Selena Gomez'], media: wiki('5/5f', 'Olivia_Rodrigo_in_2021.jpg') },
+  { id: 'img-72', theme: 'images', difficulty: 4, text: ARTISTE, answer: 'Ariana Grande', distractors: ['Selena Gomez', 'Dua Lipa', 'Lana Del Rey'], media: wiki('b/bd', 'Ariana_Grande.jpg') },
+  { id: 'img-73', theme: 'images', difficulty: 3, text: ARTISTE, answer: 'Harry Styles', distractors: ['Ed Sheeran', 'Shawn Mendes', 'Justin Bieber'], media: wiki('9/9c', 'Harry_Styles,_2012.jpg') },
+  { id: 'img-74', theme: 'images', difficulty: 3, text: ARTISTE, answer: 'Ed Sheeran', distractors: ['Harry Styles', 'Shawn Mendes', 'Sam Smith'], media: wiki('4/4d', 'Ed_Sheeran.jpg') },
+  { id: 'img-75', theme: 'images', difficulty: 4, text: ARTISTE, answer: 'Bruno Mars', distractors: ['Harry Styles', 'Ed Sheeran', 'Justin Bieber'], media: wiki('4/49', 'Bruno_Mars_Super_Bowl_50.jpg') },
+  { id: 'img-76', theme: 'images', difficulty: 4, text: ARTISTE, answer: 'Selena Gomez', distractors: ['Ariana Grande', 'Dua Lipa', 'Olivia Rodrigo'], media: wiki('4/4c', 'Selena_Gomez_2011.jpg') },
+  { id: 'img-77', theme: 'images', difficulty: 3, text: ARTISTE, answer: 'Taylor Swift', distractors: ['Lana Del Rey', 'Ariana Grande', 'Selena Gomez'], media: wiki('8/8f', 'Taylor_Swift_2018.jpg') },
 
   // ---------------------------------------------------------------------------
   // Culture — scientifiques, dirigeants, artistes ; vraies photos. 12 questions.
   // ---------------------------------------------------------------------------
-  { id: 'img-78', theme: 'images', difficulty: 3, text: SAVANT, answer: 'Albert Einstein', distractors: ['Nikola Tesla', 'Niels Bohr', 'Max Planck'], media: wiki('Einstein_1921_by_F_Schmutzer_-_restoration.jpg') },
-  { id: 'img-79', theme: 'images', difficulty: 4, text: SAVANT, answer: 'Alan Turing', distractors: ['John von Neumann', 'Nikola Tesla', 'Claude Shannon'], media: wiki('Alan_Turing_Aged_16.jpg') },
-  { id: 'img-80', theme: 'images', difficulty: 3, text: SAVANT, answer: 'Nikola Tesla', distractors: ['Thomas Edison', 'Albert Einstein', 'Guglielmo Marconi'], media: wiki('Nikola_Tesla.jpg') },
-  { id: 'img-81', theme: 'images', difficulty: 3, text: SAVANT, answer: 'Marie Curie', distractors: ['Rosalind Franklin', 'Ada Lovelace', 'Lise Meitner'], media: wiki('Marie_Curie_c._1920s.jpg') },
-  { id: 'img-82', theme: 'images', difficulty: 4, text: SAVANT, answer: 'Charles Darwin', distractors: ['Alfred Wallace', 'Gregor Mendel', 'Louis Pasteur'], media: wiki('Charles_Darwin_01.jpg') },
-  { id: 'img-83', theme: 'images', difficulty: 4, text: SAVANT, answer: 'Rosalind Franklin', distractors: ['Marie Curie', 'Ada Lovelace', 'Lise Meitner'], media: wiki('Rosalind_Franklin.jpg') },
-  { id: 'img-84', theme: 'images', difficulty: 3, text: SAVANT, answer: 'Stephen Hawking', distractors: ['Roger Penrose', 'Richard Feynman', 'Carl Sagan'], media: wiki('Stephen_Hawking.StarChild.jpg') },
-  { id: 'img-85', theme: 'images', difficulty: 3, text: SAVANT, answer: 'Frida Kahlo', distractors: ['Georgia O’Keeffe', 'Tamara Lempicka', 'Camille Claudel'], media: wiki('Frida_Kahlo,_by_Guillermo_Kahlo.jpg') },
-  { id: 'img-86', theme: 'images', difficulty: 3, text: SAVANT, answer: 'Barack Obama', distractors: ['Bill Clinton', 'George Bush', 'Joe Biden'], media: wiki('President_Barack_Obama.jpg') },
-  { id: 'img-87', theme: 'images', difficulty: 4, text: SAVANT, answer: 'Nelson Mandela', distractors: ['Kofi Annan', 'Desmond Tutu', 'Barack Obama'], media: wiki('Nelson_Mandela_1994.jpg') },
-  { id: 'img-88', theme: 'images', difficulty: 3, text: SAVANT, answer: 'Elon Musk', distractors: ['Jeff Bezos', 'Mark Zuckerberg', 'Bill Gates'], media: wiki('Elon_Musk_Royal_Society_crop.jpg') },
-  { id: 'img-89', theme: 'images', difficulty: 4, text: SAVANT, answer: 'Greta Thunberg', distractors: ['Malala Yousafzai', 'Emma Watson', 'Amanda Gorman'], media: wiki('Greta_Thunberg_4.jpg') },
+  { id: 'img-78', theme: 'images', difficulty: 3, text: SAVANT, answer: 'Albert Einstein', distractors: ['Nikola Tesla', 'Niels Bohr', 'Max Planck'], media: wiki('3/3e', 'Einstein_1921_by_F_Schmutzer_-_restoration.jpg') },
+  { id: 'img-79', theme: 'images', difficulty: 4, text: SAVANT, answer: 'Alan Turing', distractors: ['John von Neumann', 'Nikola Tesla', 'Claude Shannon'], media: wiki('a/a1', 'Alan_Turing_Aged_16.jpg') },
+  { id: 'img-80', theme: 'images', difficulty: 3, text: SAVANT, answer: 'Nikola Tesla', distractors: ['Thomas Edison', 'Albert Einstein', 'Guglielmo Marconi'], media: wiki('5/50', 'Nikola_Tesla.jpg') },
+  { id: 'img-81', theme: 'images', difficulty: 3, text: SAVANT, answer: 'Marie Curie', distractors: ['Rosalind Franklin', 'Ada Lovelace', 'Lise Meitner'], media: wiki('c/c8', 'Marie_Curie_c._1920s.jpg') },
+  { id: 'img-82', theme: 'images', difficulty: 4, text: SAVANT, answer: 'Charles Darwin', distractors: ['Alfred Wallace', 'Gregor Mendel', 'Louis Pasteur'], media: wiki('3/3c', 'Charles_Darwin_01.jpg') },
+  { id: 'img-83', theme: 'images', difficulty: 4, text: SAVANT, answer: 'Rosalind Franklin', distractors: ['Marie Curie', 'Ada Lovelace', 'Lise Meitner'], media: wiki('9/97', 'Rosalind_Franklin.jpg') },
+  { id: 'img-84', theme: 'images', difficulty: 3, text: SAVANT, answer: 'Stephen Hawking', distractors: ['Roger Penrose', 'Richard Feynman', 'Carl Sagan'], media: wiki('e/eb', 'Stephen_Hawking.StarChild.jpg') },
+  { id: 'img-85', theme: 'images', difficulty: 3, text: SAVANT, answer: 'Frida Kahlo', distractors: ['Georgia O’Keeffe', 'Tamara Lempicka', 'Camille Claudel'], media: wiki('0/06', 'Frida_Kahlo,_by_Guillermo_Kahlo.jpg') },
+  { id: 'img-86', theme: 'images', difficulty: 3, text: SAVANT, answer: 'Barack Obama', distractors: ['Bill Clinton', 'George Bush', 'Joe Biden'], media: wiki('8/8d', 'President_Barack_Obama.jpg') },
+  { id: 'img-87', theme: 'images', difficulty: 4, text: SAVANT, answer: 'Nelson Mandela', distractors: ['Kofi Annan', 'Desmond Tutu', 'Barack Obama'], media: wiki('0/02', 'Nelson_Mandela_1994.jpg') },
+  { id: 'img-88', theme: 'images', difficulty: 3, text: SAVANT, answer: 'Elon Musk', distractors: ['Jeff Bezos', 'Mark Zuckerberg', 'Bill Gates'], media: wiki('c/cb', 'Elon_Musk_Royal_Society_crop.jpg') },
+  { id: 'img-89', theme: 'images', difficulty: 4, text: SAVANT, answer: 'Greta Thunberg', distractors: ['Malala Yousafzai', 'Emma Watson', 'Amanda Gorman'], media: wiki('c/cd', 'Greta_Thunberg_4.jpg') },
 
   // ---------------------------------------------------------------------------
   // Internet — créateurs de contenu, vraies photos. 5 questions.
   // ---------------------------------------------------------------------------
-  { id: 'img-90', theme: 'images', difficulty: 3, text: CREATEUR, answer: 'MrBeast', distractors: ['PewDiePie', 'Ninja', 'KSI'], media: wiki('MrBeast_2023.jpg') },
-  { id: 'img-91', theme: 'images', difficulty: 3, text: CREATEUR, answer: 'PewDiePie', distractors: ['MrBeast', 'Markiplier', 'Ninja'], media: wiki('Pewdiepie_head_shot.jpg') },
-  { id: 'img-92', theme: 'images', difficulty: 4, text: CREATEUR, answer: 'Ninja', distractors: ['Pokimane', 'KSI', 'MrBeast'], media: wiki('Tyler_Ninja_Blevins.jpg') },
-  { id: 'img-93', theme: 'images', difficulty: 4, text: CREATEUR, answer: 'KSI', distractors: ['MrBeast', 'PewDiePie', 'Ninja'], media: wiki('KSI_in_2024_(cropped).jpg') },
-  { id: 'img-94', theme: 'images', difficulty: 4, text: CREATEUR, answer: 'Pokimane', distractors: ['Ninja', 'KSI', 'MrBeast'], media: wiki('Pokimane_2019.jpg') },
+  { id: 'img-90', theme: 'images', difficulty: 3, text: CREATEUR, answer: 'MrBeast', distractors: ['PewDiePie', 'Ninja', 'KSI'], media: wiki('5/54', 'MrBeast_2023.jpg') },
+  { id: 'img-91', theme: 'images', difficulty: 3, text: CREATEUR, answer: 'PewDiePie', distractors: ['MrBeast', 'Markiplier', 'Ninja'], media: wiki('5/53', 'Pewdiepie_head_shot.jpg') },
+  { id: 'img-92', theme: 'images', difficulty: 4, text: CREATEUR, answer: 'Ninja', distractors: ['Pokimane', 'KSI', 'MrBeast'], media: wiki('1/13', 'Tyler_Ninja_Blevins.jpg') },
+  { id: 'img-93', theme: 'images', difficulty: 4, text: CREATEUR, answer: 'KSI', distractors: ['MrBeast', 'PewDiePie', 'Ninja'], media: wiki('6/68', 'KSI_in_2024_(cropped).jpg') },
+  { id: 'img-94', theme: 'images', difficulty: 4, text: CREATEUR, answer: 'Pokimane', distractors: ['Ninja', 'KSI', 'MrBeast'], media: wiki('a/a1', 'Pokimane_2019.jpg') },
 
   // ---------------------------------------------------------------------------
   // Manga & anime — mangakas et réalisateurs, vraies photos. 12 questions.
   // ---------------------------------------------------------------------------
-  { id: 'img-95', theme: 'images', difficulty: 3, text: REAL_ANIME, answer: 'Hayao Miyazaki', distractors: ['Isao Takahata', 'Makoto Shinkai', 'Mamoru Hosoda'], media: wiki('Hayao_Miyazaki.jpg') },
-  { id: 'img-96', theme: 'images', difficulty: 3, text: REAL_ANIME, answer: 'Makoto Shinkai', distractors: ['Mamoru Hosoda', 'Hayao Miyazaki', 'Satoshi Kon'], media: wiki('Makoto_Shinkai,_2023.jpg') },
-  { id: 'img-97', theme: 'images', difficulty: 4, text: REAL_ANIME, answer: 'Hideaki Anno', distractors: ['Mamoru Oshii', 'Satoshi Kon', 'Makoto Shinkai'], media: wiki('Hideaki_Anno.jpg') },
-  { id: 'img-98', theme: 'images', difficulty: 4, text: REAL_ANIME, answer: 'Mamoru Hosoda', distractors: ['Makoto Shinkai', 'Satoshi Kon', 'Hideaki Anno'], media: wiki('Mamoru-Hosoda.jpg') },
-  { id: 'img-99', theme: 'images', difficulty: 4, text: MANGAKA, answer: 'Naoki Urasawa', distractors: ['Takehiko Inoue', 'Katsuhiro Otomo', 'Kentaro Miura'], media: wiki('Naoki_Urasawa_in_2012_(cropped).jpg') },
-  { id: 'img-100', theme: 'images', difficulty: 4, text: MANGAKA, answer: 'Junji Ito', distractors: ['Hirohiko Araki', 'Kazuo Umezu', 'Naoki Urasawa'], media: wiki('Junji_Ito_-_Lucca_Comics_&_Games_2018_02.jpg') },
-  { id: 'img-101', theme: 'images', difficulty: 4, text: MANGAKA, answer: 'Hirohiko Araki', distractors: ['Naoki Urasawa', 'Eiichiro Oda', 'Masashi Kishimoto'], media: wiki('Hirohiko_Araki_2013_-_cropped.jpg') },
-  { id: 'img-102', theme: 'images', difficulty: 4, text: MANGAKA, answer: 'Katsuhiro Otomo', distractors: ['Naoki Urasawa', 'Osamu Tezuka', 'Go Nagai'], media: wiki('Katsuhiro_Otomo.jpg') },
-  { id: 'img-103', theme: 'images', difficulty: 4, text: MANGAKA, answer: 'Takehiko Inoue', distractors: ['Naoki Urasawa', 'Tite Kubo', 'Masashi Kishimoto'], media: wiki('Takehiko_Inoue_20240312_(cropped).jpg') },
-  { id: 'img-104', theme: 'images', difficulty: 3, text: MANGAKA, answer: 'Osamu Tezuka', distractors: ['Go Nagai', 'Leiji Matsumoto', 'Shotaro Ishinomori'], media: wiki('Tezuka_Osamu.JPG') },
-  { id: 'img-105', theme: 'images', difficulty: 4, text: MANGAKA, answer: 'Leiji Matsumoto', distractors: ['Go Nagai', 'Osamu Tezuka', 'Shotaro Ishinomori'], media: wiki('Leiji_Matsumoto_-_Salon_du_Livre_Genève,_3rd_May_2014_3.JPG') },
-  { id: 'img-106', theme: 'images', difficulty: 3, text: MANGAKA, answer: 'Eiichiro Oda', distractors: ['Masashi Kishimoto', 'Tite Kubo', 'Akira Toriyama'], media: wiki('Eiichiro_Oda.png') },
+  { id: 'img-95', theme: 'images', difficulty: 3, text: REAL_ANIME, answer: 'Hayao Miyazaki', distractors: ['Isao Takahata', 'Makoto Shinkai', 'Mamoru Hosoda'], media: wiki('e/ef', 'Hayao_Miyazaki.jpg') },
+  { id: 'img-96', theme: 'images', difficulty: 3, text: REAL_ANIME, answer: 'Makoto Shinkai', distractors: ['Mamoru Hosoda', 'Hayao Miyazaki', 'Satoshi Kon'], media: wiki('4/4e', 'Makoto_Shinkai,_2023.jpg') },
+  { id: 'img-97', theme: 'images', difficulty: 4, text: REAL_ANIME, answer: 'Hideaki Anno', distractors: ['Mamoru Oshii', 'Satoshi Kon', 'Makoto Shinkai'], media: wiki('5/5c', 'Hideaki_Anno.jpg') },
+  { id: 'img-98', theme: 'images', difficulty: 4, text: REAL_ANIME, answer: 'Mamoru Hosoda', distractors: ['Makoto Shinkai', 'Satoshi Kon', 'Hideaki Anno'], media: wiki('1/12', 'Mamoru-Hosoda.jpg') },
+  { id: 'img-99', theme: 'images', difficulty: 4, text: MANGAKA, answer: 'Naoki Urasawa', distractors: ['Takehiko Inoue', 'Katsuhiro Otomo', 'Kentaro Miura'], media: wiki('3/38', 'Naoki_Urasawa_in_2012_(cropped).jpg') },
+  { id: 'img-100', theme: 'images', difficulty: 4, text: MANGAKA, answer: 'Junji Ito', distractors: ['Hirohiko Araki', 'Kazuo Umezu', 'Naoki Urasawa'], media: wiki('a/ad', 'Junji_Ito_-_Lucca_Comics_&_Games_2018_02.jpg') },
+  { id: 'img-101', theme: 'images', difficulty: 4, text: MANGAKA, answer: 'Hirohiko Araki', distractors: ['Naoki Urasawa', 'Eiichiro Oda', 'Masashi Kishimoto'], media: wiki('c/c7', 'Hirohiko_Araki_2013_-_cropped.jpg') },
+  { id: 'img-102', theme: 'images', difficulty: 4, text: MANGAKA, answer: 'Katsuhiro Otomo', distractors: ['Naoki Urasawa', 'Osamu Tezuka', 'Go Nagai'], media: wiki('e/ee', 'Katsuhiro_Otomo.jpg') },
+  { id: 'img-103', theme: 'images', difficulty: 4, text: MANGAKA, answer: 'Takehiko Inoue', distractors: ['Naoki Urasawa', 'Tite Kubo', 'Masashi Kishimoto'], media: wiki('c/c0', 'Takehiko_Inoue_20240312_(cropped).jpg') },
+  { id: 'img-104', theme: 'images', difficulty: 3, text: MANGAKA, answer: 'Osamu Tezuka', distractors: ['Go Nagai', 'Leiji Matsumoto', 'Shotaro Ishinomori'], media: wiki('2/22', 'Tezuka_Osamu.JPG') },
+  { id: 'img-105', theme: 'images', difficulty: 4, text: MANGAKA, answer: 'Leiji Matsumoto', distractors: ['Go Nagai', 'Osamu Tezuka', 'Shotaro Ishinomori'], media: wiki('d/d7', 'Leiji_Matsumoto_-_Salon_du_Livre_Genève,_3rd_May_2014_3.JPG') },
+  { id: 'img-106', theme: 'images', difficulty: 3, text: MANGAKA, answer: 'Eiichiro Oda', distractors: ['Masashi Kishimoto', 'Tite Kubo', 'Akira Toriyama'], media: wiki('3/3d', 'Eiichiro_Oda.png') },
 ];
