@@ -178,7 +178,7 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
       </View>
 
       <Txt faint size={fontSize.xs}>
-        Astuce : chaque joueur peut choisir jusqu'à 3 thèmes préférés dans l'écran Joueurs
+        Astuce : chaque joueur peut choisir jusqu'à 3 univers préférés dans l'écran Joueurs
         (50 % de chance en plus), comme les univers à éviter.
       </Txt>
 

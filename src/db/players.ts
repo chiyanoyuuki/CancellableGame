@@ -14,14 +14,14 @@ export async function setPlayerAvoidance(map: Record<string, string[]>): Promise
   await kvSetJSON(AVOID_KEY, map);
 }
 
-const PREFER_KEY = 'player:preferredThemes';
+const PREFER_KEY = 'player:preferredUniverses';
 
-/** Per-player list of favourite themes (max 3: soft boost, 50% more likely). */
-export async function getPlayerPreferredThemes(): Promise<Record<string, string[]>> {
+/** Per-player list of favourite universes (max 3: soft boost, 50% more likely). */
+export async function getPlayerPreferredUniverses(): Promise<Record<string, string[]>> {
   return kvGetJSON<Record<string, string[]>>(PREFER_KEY, {});
 }
 
-export async function setPlayerPreferredThemes(map: Record<string, string[]>): Promise<void> {
+export async function setPlayerPreferredUniverses(map: Record<string, string[]>): Promise<void> {
   await kvSetJSON(PREFER_KEY, map);
 }
 

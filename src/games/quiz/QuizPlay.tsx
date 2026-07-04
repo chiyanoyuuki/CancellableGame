@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button, Card, PlayerAvatar, ProgressBar, Txt } from '../../components/ui';
 import { DRINK_CHALLENGES } from '../../core/drinks';
-import { DIFFICULTY_LABELS, type Player, type QuizConfig, type SessionResult, type Theme, THEME_META } from '../../core/models';
+import { DIFFICULTY_LABELS, type Player, type QuizConfig, type SessionResult, THEME_META } from '../../core/models';
 import {
   createQuizState,
   currentQuestion,
@@ -21,7 +21,7 @@ import {
 } from '../../core/quizEngine';
 import { mulberry32, randomSeed, shuffle } from '../../core/rng';
 import { selectQuestions } from '../../core/questionSelection';
-import { getPlayerAvoidance, getPlayerPreferredThemes, getQuestionHistory, listCustomChallenges } from '../../db';
+import { getPlayerAvoidance, getPlayerPreferredUniverses, getQuestionHistory, listCustomChallenges } from '../../db';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import type { MiniGamePlayProps } from '../types';
 import { getQuizPool } from './pool';
@@ -135,19 +135,19 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
         getQuizPool(),
         listCustomChallenges(),
         getPlayerAvoidance(),
-        getPlayerPreferredThemes(),
+        getPlayerPreferredUniverses(),
       ]);
       const seed = randomSeed();
       // Turn order, computed once and shared with the engine so that the
       // per-player weighting lines up with who actually gets each question.
       const order = shuffle(roster, mulberry32(seed)).map((p) => p.id);
-      // Per-player universe avoidance and theme preferences are ignored in team mode.
+      // Per-player universe avoidance and preferences are ignored in team mode.
       const avoidByPlayer: Record<string, string[]> = {};
-      const preferByPlayer: Record<string, Theme[]> = {};
+      const preferByPlayer: Record<string, string[]> = {};
       if (!teamMode)
         for (const p of players) {
           avoidByPlayer[p.id] = avoidance[p.id] ?? [];
-          preferByPlayer[p.id] = (preferences[p.id] ?? []) as Theme[];
+          preferByPlayer[p.id] = preferences[p.id] ?? [];
         }
       // Pick a few extra questions as a reserve, used to swap in a replacement
       // whenever a question's image fails to load (so the round keeps its length

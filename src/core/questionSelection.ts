@@ -30,11 +30,11 @@ export interface SelectionOptions {
   avoidByPlayer?: Record<string, string[]>;
   turnMode?: TurnMode;
   /**
-   * Per-player favourite themes (max 3 each) → their questions get a weight
-   * bonus: in 'turn' mode only for that player's own slots, in 'fastest' mode
-   * for any player's preference.
+   * Per-player favourite universes (sub-categories, max 3 each) → their
+   * questions get a weight bonus: in 'turn' mode only for that player's own
+   * slots, in 'fastest' mode for any player's preference.
    */
-  preferByPlayer?: Record<string, Theme[]>;
+  preferByPlayer?: Record<string, string[]>;
 }
 
 /** How much an avoided universe is down-weighted (0.5 = « 50 % de chance en moins »). */
@@ -85,8 +85,8 @@ export function selectQuestions(
 }
 
 /**
- * Weighted, per-slot selection used when at least one player avoids a universe
- * or prefers a theme. A question's weight combines anti-repeat (0.5^timesUsed)
+ * Weighted, per-slot selection used when at least one player avoids or prefers
+ * a universe. A question's weight combines anti-repeat (0.5^timesUsed)
  * with the avoidance penalty (×0.5) and the preference bonus (×1.5). Both are
  * applied for the slot's player in 'turn' mode, or for any player in 'fastest'
  * mode. Questions are picked one slot at a time (no final reshuffle) so that
@@ -128,9 +128,9 @@ function weightedSelect(
       if (q.universe) {
         const avoided = turnMode === 'turn' ? (avoidSet?.has(q.universe) ?? false) : anyAvoided.has(q.universe);
         if (avoided) w *= AVOID_FACTOR;
+        const preferred = turnMode === 'turn' ? (preferSet?.has(q.universe) ?? false) : anyPreferred.has(q.universe);
+        if (preferred) w *= PREFER_FACTOR;
       }
-      const preferred = turnMode === 'turn' ? (preferSet?.has(q.theme) ?? false) : anyPreferred.has(q.theme);
-      if (preferred) w *= PREFER_FACTOR;
       return w;
     });
     const sum = weights.reduce((a, b) => a + b, 0);

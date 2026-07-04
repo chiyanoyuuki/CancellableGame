@@ -11,11 +11,11 @@ import {
   createPlayer,
   deletePlayerForever,
   getPlayerAvoidance,
-  getPlayerPreferredThemes,
+  getPlayerPreferredUniverses,
   listPlayers,
   restorePlayer,
   setPlayerAvoidance,
-  setPlayerPreferredThemes,
+  setPlayerPreferredUniverses,
   updatePlayer,
 } from '../db';
 import { getQuizPool } from '../games/quiz/pool';
@@ -37,7 +37,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   const [avoidPlayer, setAvoidPlayer] = useState<Player | null>(null);
   const [avoidDraft, setAvoidDraft] = useState<Set<string>>(new Set());
 
-  // Per-player preferred themes (max 3: soft boost, 50% more likely).
+  // Per-player preferred universes (max 3: soft boost, 50% more likely).
   const [preferences, setPreferences] = useState<Record<string, string[]>>({});
   const [preferPlayer, setPreferPlayer] = useState<Player | null>(null);
   const [preferDraft, setPreferDraft] = useState<Set<string>>(new Set());
@@ -45,7 +45,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const [p, a, pref] = await Promise.all([getQuizPool(), getPlayerAvoidance(), getPlayerPreferredThemes()]);
+      const [p, a, pref] = await Promise.all([getQuizPool(), getPlayerAvoidance(), getPlayerPreferredUniverses()]);
       if (alive) {
         setPool(p);
         setAvoidance(a);
@@ -103,7 +103,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
     setPreferDraft((prev) => {
       const next = new Set(prev);
       if (next.has(t)) next.delete(t);
-      else if (next.size < MAX_PREFERRED) next.add(t); // au maximum 3 thèmes préférés
+      else if (next.size < MAX_PREFERRED) next.add(t); // au maximum 3 univers préférés
       return next;
     });
   const savePrefer = async () => {
@@ -113,7 +113,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
     if (list.length === 0) delete next[preferPlayer.id];
     setPreferences(next);
     setPreferPlayer(null);
-    await setPlayerPreferredThemes(next);
+    await setPlayerPreferredUniverses(next);
   };
 
   const refresh = useCallback(async () => {
@@ -156,7 +156,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
     Alert.alert(p.name, undefined, [
       { text: 'Modifier', onPress: () => startEdit(p) },
       { text: 'Univers à éviter', onPress: () => openAvoid(p) },
-      { text: 'Thèmes préférés', onPress: () => openPrefer(p) },
+      { text: 'Univers préférés', onPress: () => openPrefer(p) },
       {
         text: 'Archiver',
         onPress: async () => {
@@ -264,9 +264,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
                 <Txt faint size={fontSize.xs}>🚫 évite {avoidance[p.id]!.length} univers</Txt>
               )}
               {(preferences[p.id]?.length ?? 0) > 0 && (
-                <Txt faint size={fontSize.xs}>
-                  ⭐ préfère {preferences[p.id]!.length} thème{preferences[p.id]!.length > 1 ? 's' : ''}
-                </Txt>
+                <Txt faint size={fontSize.xs}>⭐ préfère {preferences[p.id]!.length} univers</Txt>
               )}
             </View>
             {showArchived ? (
@@ -322,24 +320,30 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
       <View style={styles.modalBackdrop}>
         <View style={styles.modalSheet}>
           <Txt weight="800" size={fontSize.lg}>
-            Thèmes préférés
+            Univers préférés
           </Txt>
           <Txt dim size={fontSize.sm} style={{ marginTop: spacing(0.5) }}>
-            {preferPlayer?.name} aura 50 % de chances en plus de tomber sur ces thèmes. Maximum {MAX_PREFERRED}.
+            {preferPlayer?.name} aura 50 % de chances en plus de tomber sur ces univers. Maximum {MAX_PREFERRED}.
           </Txt>
           <ScrollView style={{ marginTop: spacing(1.5) }} contentContainerStyle={{ paddingBottom: spacing(1) }}>
-            <View style={styles.chipWrap}>
-              {THEMES.map((t) => (
-                <Chip
-                  key={t}
-                  label={THEME_META[t].label}
-                  emoji={preferDraft.has(t) ? '⭐' : THEME_META[t].emoji}
-                  selected={preferDraft.has(t)}
-                  onPress={() => togglePrefer(t)}
-                  color={colors.warning}
-                />
-              ))}
-            </View>
+            {universesByTheme.map(({ theme, universes }) => (
+              <View key={theme} style={{ marginBottom: spacing(1.5) }}>
+                <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.5) }}>
+                  {THEME_META[theme].emoji} {THEME_META[theme].label.toUpperCase()}
+                </Txt>
+                <View style={styles.chipWrap}>
+                  {universes.map((u) => (
+                    <Chip
+                      key={u}
+                      label={u}
+                      selected={preferDraft.has(u)}
+                      onPress={() => togglePrefer(u)}
+                      color={colors.warning}
+                    />
+                  ))}
+                </View>
+              </View>
+            ))}
           </ScrollView>
           <View style={{ flexDirection: 'row', gap: spacing(1), marginTop: spacing(1) }}>
             <Button title="Annuler" variant="ghost" onPress={() => setPreferPlayer(null)} style={{ flex: 1 }} />
