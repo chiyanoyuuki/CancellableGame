@@ -16,11 +16,22 @@ export async function loadStatSessions(): Promise<StatSession[]> {
 
 export async function loadStatResults(): Promise<StatResult[]> {
   const db = await getDb();
-  return db.getAllAsync<StatResult>(
+  const rows = await db.getAllAsync<StatResult & { details?: string }>(
     `SELECT session_id AS sessionId, game_id AS gameId, started_at AS startedAt, player_id AS playerId,
-            points, rank, sips_drunk AS sipsDrunk, sips_given AS sipsGiven
+            points, rank, sips_drunk AS sipsDrunk, sips_given AS sipsGiven, details
      FROM results`,
   );
+  return rows.map((r) => {
+    let details: Record<string, unknown> | undefined;
+    if (typeof r.details === 'string') {
+      try {
+        details = JSON.parse(r.details) as Record<string, unknown>;
+      } catch {
+        details = undefined;
+      }
+    }
+    return { ...r, details };
+  });
 }
 
 export async function loadStatAnswers(): Promise<StatAnswer[]> {

@@ -28,6 +28,8 @@ export interface StatResult {
   rank: number;
   sipsDrunk: number;
   sipsGiven: number;
+  /** Free-form per-result data. For a team result: { team, name, emoji, color, members }. */
+  details?: Record<string, unknown>;
 }
 
 export interface StatAnswer {

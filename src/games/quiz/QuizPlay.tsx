@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button, Card, PlayerAvatar, ProgressBar, Txt } from '../../components/ui';
 import { DRINK_CHALLENGES } from '../../core/drinks';
-import { DIFFICULTY_LABELS, type Player, type QuizConfig, THEME_META } from '../../core/models';
+import { DIFFICULTY_LABELS, type Player, type QuizConfig, type SessionResult, THEME_META } from '../../core/models';
 import {
   createQuizState,
   currentQuestion,
@@ -50,11 +50,41 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
   // Question ids already auto-skipped for a broken image (avoid double-firing).
   const autoSkippedRef = useRef<Set<string>>(new Set());
 
+  // In team mode the engine rotates over teams: a team behaves like a "player".
+  const teamMode = cfg.teamMode && cfg.teams.length > 0;
+  const roster: Player[] = useMemo(
+    () =>
+      teamMode ? cfg.teams.map((t) => ({ id: t.id, name: t.name, emoji: t.emoji, color: t.color })) : players,
+    [teamMode, cfg.teams, players],
+  );
   const byId = useMemo(() => {
+    const m: Record<string, Player> = {};
+    for (const p of roster) m[p.id] = p;
+    return m;
+  }, [roster]);
+  // Real players, kept to resolve team members when saving the result.
+  const realById = useMemo(() => {
     const m: Record<string, Player> = {};
     for (const p of players) m[p.id] = p;
     return m;
   }, [players]);
+
+  // Attach each team's name and members to its result row, for the stats screen.
+  const withTeamDetails = (result: SessionResult): SessionResult => ({
+    ...result,
+    players: result.players.map((pr) => {
+      const team = cfg.teams.find((t) => t.id === pr.playerId);
+      if (!team) return pr;
+      const members = team.memberIds
+        .map((id) => realById[id])
+        .filter((p): p is Player => !!p)
+        .map((p) => ({ name: p.name, emoji: p.emoji }));
+      return {
+        ...pr,
+        details: { ...(pr.details ?? {}), team: true, name: team.name, emoji: team.emoji, color: team.color, members },
+      };
+    }),
+  });
 
   // --- Audio (blind test) -------------------------------------------------
   const player = useAudioPlayer(null);
@@ -109,9 +139,10 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
       const seed = randomSeed();
       // Turn order, computed once and shared with the engine so that the
       // per-player weighting lines up with who actually gets each question.
-      const order = shuffle(players, mulberry32(seed)).map((p) => p.id);
+      const order = shuffle(roster, mulberry32(seed)).map((p) => p.id);
+      // Per-player universe avoidance is ignored in team mode.
       const avoidByPlayer: Record<string, string[]> = {};
-      for (const p of players) avoidByPlayer[p.id] = avoidance[p.id] ?? [];
+      if (!teamMode) for (const p of players) avoidByPlayer[p.id] = avoidance[p.id] ?? [];
       // Pick a few extra questions as a reserve, used to swap in a replacement
       // whenever a question's image fails to load (so the round keeps its length
       // and the same player stays up).
@@ -140,7 +171,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
       setGame(
         createQuizState({
           config: cfg,
-          players,
+          players: roster,
           questions: selected,
           seed,
           challenges: [...DRINK_CHALLENGES, ...customChallenges],
@@ -200,8 +231,10 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
   useEffect(() => {
     if (game?.phase === 'finished' && !finishedRef.current) {
       finishedRef.current = true;
-      onFinish(toSessionResult(game, startedAtRef.current, Date.now()));
+      const result = toSessionResult(game, startedAtRef.current, Date.now());
+      onFinish(teamMode ? withTeamDetails(result) : result);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [game, onFinish]);
 
   const confirmQuit = () =>
@@ -413,7 +446,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
           </Txt>
           {renderOptions(null, null, false)}
           <View style={styles.playerGrid}>
-            {players.map((p) => (
+            {roster.map((p) => (
               <Pressable
                 key={p.id}
                 style={styles.buzzBtn}

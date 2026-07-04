@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { View } from 'react-native';
 
 import { Button, Card, PlayerAvatar, Screen, Txt } from '../components/ui';
-import type { Player } from '../core/models';
+import type { Player, PlayerSessionResult } from '../core/models';
 import type { RootStackParamList } from '../navigation';
 import { colors, fontSize, RANK_MEDALS, spacing } from '../theme/theme';
 
@@ -16,8 +16,20 @@ export function ResultsScreen({ route, navigation }: NativeStackScreenProps<Root
     return m;
   }, [players]);
 
+  // Resolve display info for either a real player or a team (from its details).
+  const disp = (r: PlayerSessionResult) => {
+    const p = byId[r.playerId];
+    const d = (r.details ?? {}) as { name?: string; emoji?: string; color?: string; members?: { name: string; emoji: string }[] };
+    return {
+      name: p?.name ?? d.name ?? r.playerId,
+      emoji: p?.emoji ?? d.emoji ?? '🏳️',
+      color: p?.color ?? d.color ?? colors.primary,
+      members: d.members,
+    };
+  };
+
   const ranked = useMemo(() => [...result.players].sort((a, b) => a.rank - b.rank), [result.players]);
-  const winner = ranked[0] ? byId[ranked[0].playerId] : undefined;
+  const winner = ranked[0] ? disp(ranked[0]) : undefined;
 
   return (
     <Screen
@@ -50,20 +62,26 @@ export function ResultsScreen({ route, navigation }: NativeStackScreenProps<Root
       )}
 
       {ranked.map((r, i) => {
-        const p = byId[r.playerId];
+        const d = disp(r);
         const details = (r.details ?? {}) as { correct?: number; wrong?: number };
         return (
-          <Card key={r.playerId} accent={i === 0 ? colors.warning : p?.color} style={{ marginBottom: spacing(1) }}>
+          <Card key={r.playerId} accent={i === 0 ? colors.warning : d.color} style={{ marginBottom: spacing(1) }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing(1.5) }}>
               <Txt size={fontSize.lg} weight="900" style={{ width: 34 }}>
                 {RANK_MEDALS[i] ?? `${i + 1}.`}
               </Txt>
-              {p && <PlayerAvatar emoji={p.emoji} color={p.color} />}
+              <PlayerAvatar emoji={d.emoji} color={d.color} />
               <View style={{ flex: 1 }}>
-                <Txt weight="800">{p?.name ?? r.playerId}</Txt>
-                <Txt faint size={fontSize.xs}>
-                  {details.correct ?? 0} ✓ · {details.wrong ?? 0} ✗ · 🍺 {r.sipsDrunk} bu{r.sipsGiven > 0 ? ` · 🤙 ${r.sipsGiven} donné` : ''}
-                </Txt>
+                <Txt weight="800">{d.name}</Txt>
+                {d.members ? (
+                  <Txt faint size={fontSize.xs} numberOfLines={2}>
+                    {d.members.map((m) => `${m.emoji} ${m.name}`).join('  ·  ')}
+                  </Txt>
+                ) : (
+                  <Txt faint size={fontSize.xs}>
+                    {details.correct ?? 0} ✓ · {details.wrong ?? 0} ✗ · 🍺 {r.sipsDrunk} bu{r.sipsGiven > 0 ? ` · 🤙 ${r.sipsGiven} donné` : ''}
+                  </Txt>
+                )}
               </View>
               <Txt size={fontSize.xl} weight="900" color={colors.primary}>
                 {r.points}

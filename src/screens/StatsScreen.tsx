@@ -39,6 +39,7 @@ const PERIODS: { label: string; value: Period }[] = [
 export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'Stats'>) {
   const [data, setData] = useState<Data>(EMPTY);
   const [period, setPeriod] = useState<Period>('all');
+  const [expanded, setExpanded] = useState<string | null>(null);
 
   useFocusEffect(
     useCallback(() => {
@@ -60,6 +61,23 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
     return m;
   }, [data.players]);
 
+  // Team display info (name, emoji, members) rebuilt from team result rows.
+  type TeamInfo = { name: string; emoji: string; color: string; members: { name: string; emoji: string }[] };
+  const teamInfo = useMemo(() => {
+    const m = new Map<string, TeamInfo>();
+    for (const r of data.results) {
+      const d = r.details as (Record<string, unknown> & { team?: boolean }) | undefined;
+      if (!d?.team) continue;
+      m.set(r.playerId, {
+        name: (d.name as string) ?? r.playerId,
+        emoji: (d.emoji as string) ?? '🏳️',
+        color: (d.color as string) ?? colors.primary,
+        members: (d.members as { name: string; emoji: string }[]) ?? [],
+      });
+    }
+    return m;
+  }, [data.results]);
+
   const filter = useMemo(() => ({ period }), [period]);
   const totals = useMemo(() => playerTotals(data.results, filter), [data.results, filter]);
   const facts = useMemo(() => funFacts(data.sessions, data.results, data.answers, filter), [data, filter]);
@@ -69,7 +87,7 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
   );
   const themes = useMemo(() => themeAccuracy(data.answers, undefined, filter), [data.answers, filter]);
 
-  const nameOf = (id: string) => byId[id]?.name ?? '???';
+  const nameOf = (id: string) => byId[id]?.name ?? teamInfo.get(id)?.name ?? '???';
   const hasData = facts.totalGames > 0;
 
   return (
@@ -94,22 +112,45 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
           <SectionHeader title="Classement" />
           {totals.map((t, i) => {
             const p = byId[t.playerId];
+            const team = teamInfo.get(t.playerId);
+            const emoji = p?.emoji ?? team?.emoji ?? '🏳️';
+            const color = p?.color ?? team?.color;
+            const open = expanded === t.playerId;
             return (
-              <Card key={t.playerId} accent={i === 0 ? colors.warning : p?.color} style={styles.rankRow}>
-                <Txt size={fontSize.lg} weight="900" style={{ width: 30 }}>
-                  {RANK_MEDALS[i] ?? `${i + 1}`}
-                </Txt>
-                {p && <PlayerAvatar emoji={p.emoji} color={p.color} size={36} />}
-                <View style={{ flex: 1 }}>
-                  <Txt weight="800">{nameOf(t.playerId)}</Txt>
-                  <Txt faint size={fontSize.xs}>
-                    {t.games} partie{t.games > 1 ? 's' : ''} · {t.wins} 🏆 · 🍺 {t.sipsDrunk}
+              <View key={t.playerId}>
+                <Card
+                  accent={i === 0 ? colors.warning : color}
+                  style={styles.rankRow}
+                  onPress={team ? () => setExpanded(open ? null : t.playerId) : undefined}
+                >
+                  <Txt size={fontSize.lg} weight="900" style={{ width: 30 }}>
+                    {RANK_MEDALS[i] ?? `${i + 1}`}
                   </Txt>
-                </View>
-                <Txt size={fontSize.lg} weight="900" color={colors.primary}>
-                  {t.points}
-                </Txt>
-              </Card>
+                  {(p || team) && <PlayerAvatar emoji={emoji} color={color ?? colors.primary} size={36} />}
+                  <View style={{ flex: 1 }}>
+                    <Txt weight="800">
+                      {nameOf(t.playerId)}
+                      {team ? '  👥' : ''}
+                    </Txt>
+                    <Txt faint size={fontSize.xs}>
+                      {t.games} partie{t.games > 1 ? 's' : ''} · {t.wins} 🏆 · 🍺 {t.sipsDrunk}
+                      {team ? ' · appuie pour voir les membres' : ''}
+                    </Txt>
+                  </View>
+                  <Txt size={fontSize.lg} weight="900" color={colors.primary}>
+                    {t.points}
+                  </Txt>
+                </Card>
+                {team && open && (
+                  <Card style={styles.membersCard}>
+                    <Txt faint size={fontSize.xs}>
+                      {team.members.length > 0
+                        ? team.members.map((m) => `${m.emoji} ${m.name}`).join('   ·   ')
+                        : 'Composition inconnue'}
+                    </Txt>
+                  </Card>
+                )}
+              </View>
             );
           })}
 
@@ -179,6 +220,7 @@ const styles = StyleSheet.create({
   factsRow: { flexDirection: 'row', gap: spacing(1), marginTop: spacing(1.5) },
   factCard: { flex: 1, alignItems: 'center', gap: 2, paddingVertical: spacing(1.5) },
   rankRow: { flexDirection: 'row', alignItems: 'center', gap: spacing(1.5), marginBottom: spacing(1) },
+  membersCard: { marginTop: -spacing(0.5), marginBottom: spacing(1), marginLeft: spacing(3), paddingVertical: spacing(1) },
   titlesWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing(1) },
   titleCard: { width: '47.5%', gap: 2 },
   themeLabel: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: spacing(0.5) },

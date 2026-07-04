@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Pressable, StyleSheet, Switch, View } from 'react-native';
+import { Pressable, StyleSheet, Switch, TextInput, View } from 'react-native';
 
-import { Button, Card, Chip, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
+import { Button, Card, Chip, PlayerAvatar, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
 import {
   DEFAULT_QUIZ_CONFIG,
   type Difficulty,
@@ -9,6 +9,7 @@ import {
   type DrinkIntensity,
   type Question,
   type QuizConfig,
+  type Team,
   THEME_META,
   THEMES,
   type Theme,
@@ -16,17 +17,49 @@ import {
 } from '../../core/models';
 import type { QuestionHistory } from '../../core/questionSelection';
 import { getQuestionHistory, kvGetJSON, kvSetJSON } from '../../db';
-import { colors, fontSize, spacing } from '../../theme/theme';
+import { colors, fontSize, PLAYER_COLORS, radius, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
 import { getQuizPool } from './pool';
 
+const TEAM_EMOJIS = ['🦁', '🐺', '🦅', '🐉', '🦈', '🐻', '🦊', '🐧', '🦖', '🐙'];
+const teamKey = (name: string, i: number) => `team:${(name.trim() || `equipe-${i + 1}`).toLowerCase().replace(/\s+/g, '-')}`;
+
 const LAST_CONFIG_KEY = 'quiz:lastConfig';
 
-export function QuizConfigComponent({ onStart }: MiniGameConfigProps) {
+export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
   const [cfg, setCfg] = useState<QuizConfig>(DEFAULT_QUIZ_CONFIG);
   const [pool, setPool] = useState<Question[]>([]);
   const [history, setHistory] = useState<QuestionHistory>({});
   const [showAdvanced, setShowAdvanced] = useState(false);
+
+  // --- Team mode local state (turned into cfg.teams only at launch) ----------
+  const [teamCount, setTeamCount] = useState(() => Math.min(2, Math.max(1, players.length)));
+  const [teamNames, setTeamNames] = useState<string[]>(() =>
+    Array.from({ length: Math.max(1, players.length) }, (_, i) => `Équipe ${i + 1}`),
+  );
+  const [assign, setAssign] = useState<Record<string, number>>(() => {
+    const n = Math.min(2, Math.max(1, players.length));
+    const a: Record<string, number> = {};
+    players.forEach((p, i) => (a[p.id] = i % n));
+    return a;
+  });
+
+  const buildTeams = (): Team[] => {
+    const teams: Team[] = [];
+    for (let i = 0; i < teamCount; i++) {
+      const memberIds = players.filter((p) => (assign[p.id] ?? 0) === i).map((p) => p.id);
+      if (memberIds.length === 0) continue;
+      const name = teamNames[i]?.trim() || `Équipe ${i + 1}`;
+      teams.push({
+        id: teamKey(name, i),
+        name,
+        emoji: TEAM_EMOJIS[i % TEAM_EMOJIS.length] as string,
+        color: PLAYER_COLORS[i % PLAYER_COLORS.length] as string,
+        memberIds,
+      });
+    }
+    return teams;
+  };
 
   useEffect(() => {
     let alive = true;
@@ -120,8 +153,23 @@ export function QuizConfigComponent({ onStart }: MiniGameConfigProps) {
 
   const valid = cfg.themes.length > 0 && cfg.difficulties.length > 0 && available > 0;
 
+  const changeTeamCount = (n: number) => {
+    setTeamCount(n);
+    setAssign((a) => {
+      const next = { ...a };
+      for (const p of players) if ((next[p.id] ?? 0) >= n) next[p.id] = (next[p.id] ?? 0) % n;
+      return next;
+    });
+  };
+
   const launch = () => {
-    const finalCfg: QuizConfig = { ...cfg, questionCount: Math.min(cfg.questionCount, Math.max(1, available)) };
+    const teams = cfg.teamMode ? buildTeams() : [];
+    const finalCfg: QuizConfig = {
+      ...cfg,
+      questionCount: Math.min(cfg.questionCount, Math.max(1, available)),
+      teams,
+      teamMode: cfg.teamMode && teams.length >= 1,
+    };
     void kvSetJSON(LAST_CONFIG_KEY, finalCfg);
     onStart(finalCfg);
   };
@@ -244,6 +292,80 @@ export function QuizConfigComponent({ onStart }: MiniGameConfigProps) {
         </Card>
       )}
 
+      <SectionHeader title="Équipes" />
+      <Card>
+        <View style={styles.row}>
+          <View style={{ flex: 1 }}>
+            <Txt weight="700">Mode équipe 👥</Txt>
+            <Txt faint size={fontSize.xs}>Le tour passe à une équipe, pas à un joueur. Les univers évités par les joueurs sont ignorés.</Txt>
+          </View>
+          <Switch
+            value={cfg.teamMode}
+            onValueChange={(v) => setCfg((c) => ({ ...c, teamMode: v }))}
+            trackColor={{ true: colors.primary, false: colors.border }}
+            thumbColor={colors.white}
+          />
+        </View>
+      </Card>
+
+      {cfg.teamMode && (
+        <>
+          <Card>
+            <View style={styles.row}>
+              <Txt weight="700">Nombre d'équipes</Txt>
+              <Stepper value={teamCount} min={1} max={Math.max(1, players.length)} onChange={changeTeamCount} />
+            </View>
+          </Card>
+
+          {Array.from({ length: teamCount }).map((_, ti) => {
+            const members = players.filter((p) => (assign[p.id] ?? 0) === ti);
+            return (
+              <Card key={ti} accent={PLAYER_COLORS[ti % PLAYER_COLORS.length]}>
+                <View style={[styles.row, { gap: spacing(1) }]}>
+                  <Txt size={fontSize.lg}>{TEAM_EMOJIS[ti % TEAM_EMOJIS.length]}</Txt>
+                  <TextInput
+                    value={teamNames[ti] ?? ''}
+                    onChangeText={(t) => setTeamNames((ns) => { const c = [...ns]; c[ti] = t; return c; })}
+                    placeholder={`Équipe ${ti + 1}`}
+                    placeholderTextColor={colors.textFaint}
+                    style={styles.teamInput}
+                  />
+                </View>
+                <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
+                  {members.length > 0 ? members.map((m) => `${m.emoji} ${m.name}`).join('  ·  ') : 'Aucun joueur'}
+                </Txt>
+              </Card>
+            );
+          })}
+
+          <Txt faint size={fontSize.xs} weight="800" style={{ marginTop: spacing(0.5) }}>
+            RÉPARTITION DES JOUEURS
+          </Txt>
+          {players.map((p) => (
+            <Card key={p.id} style={[styles.row, { gap: spacing(1) }]}>
+              <PlayerAvatar emoji={p.emoji} color={p.color} size={32} />
+              <Txt weight="700" style={{ flex: 1 }} numberOfLines={1}>
+                {p.name}
+              </Txt>
+              <View style={{ flexDirection: 'row', gap: spacing(0.5), flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+                {Array.from({ length: teamCount }).map((_, ti) => {
+                  const on = (assign[p.id] ?? 0) === ti;
+                  return (
+                    <Pressable
+                      key={ti}
+                      onPress={() => setAssign((a) => ({ ...a, [p.id]: ti }))}
+                      style={[styles.teamPick, on && { backgroundColor: PLAYER_COLORS[ti % PLAYER_COLORS.length], borderColor: PLAYER_COLORS[ti % PLAYER_COLORS.length] }]}
+                    >
+                      <Txt size={fontSize.sm}>{TEAM_EMOJIS[ti % TEAM_EMOJIS.length]}</Txt>
+                    </Pressable>
+                  );
+                })}
+              </View>
+            </Card>
+          ))}
+        </>
+      )}
+
       <SectionHeader title="Réponses & aide" />
       <Card>
         <Txt weight="700">Réponse libre par défaut</Txt>
@@ -330,4 +452,23 @@ export function QuizConfigComponent({ onStart }: MiniGameConfigProps) {
 const styles = StyleSheet.create({
   wrap: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing(1) },
   row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing(1) },
+  teamInput: {
+    flex: 1,
+    color: colors.text,
+    fontSize: fontSize.md,
+    fontWeight: '700',
+    paddingVertical: spacing(0.5),
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+  },
+  teamPick: {
+    minWidth: 34,
+    height: 32,
+    borderRadius: radius.sm,
+    borderWidth: 1,
+    borderColor: colors.border,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: spacing(0.5),
+  },
 });

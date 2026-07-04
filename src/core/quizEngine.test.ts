@@ -39,6 +39,8 @@ function config(overrides: Partial<QuizConfig> = {}): QuizConfig {
     showUniverse: true,
     excludedUniverses: [],
     preferredThemes: [],
+    teamMode: false,
+    teams: [],
     questionTimerSec: 0,
     ...overrides,
   };

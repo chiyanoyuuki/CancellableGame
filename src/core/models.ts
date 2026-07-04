@@ -16,6 +16,19 @@ export interface Player {
   color: string;
 }
 
+/**
+ * A team groups several players under one name. In team mode the quiz rotates
+ * over teams instead of individual players: a team behaves exactly like a
+ * "player" for the turn order, scoring and ranking.
+ */
+export interface Team {
+  id: string;
+  name: string;
+  emoji: string;
+  color: string;
+  memberIds: string[];
+}
+
 // ---------------------------------------------------------------------------
 // Quiz domain
 // ---------------------------------------------------------------------------
@@ -127,6 +140,10 @@ export interface QuizConfig {
   excludedUniverses: string[];
   /** Up to 3 favourite themes: their questions get +50 % weight in the draw. */
   preferredThemes: Theme[];
+  /** Play by teams: the turn goes to a team instead of a single player. */
+  teamMode: boolean;
+  /** The teams when `teamMode` is on (each with a name and its members). */
+  teams: Team[];
   /** Informative per-question countdown in seconds (0 = disabled). */
   questionTimerSec: number;
 }
@@ -143,6 +160,8 @@ export const DEFAULT_QUIZ_CONFIG: QuizConfig = {
   showUniverse: true,
   excludedUniverses: [],
   preferredThemes: [],
+  teamMode: false,
+  teams: [],
   questionTimerSec: 0,
 };
 
