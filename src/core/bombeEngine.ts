@@ -194,9 +194,13 @@ export function bombeReducer(state: BombeState, action: BombeAction): BombeState
         const { current, qIndex } = drawQuestion(state);
         return { ...state, answers, correctById, activeId: next, current, qIndex, propsShown: 0 };
       }
-      // Mauvaise réponse : pénalité de temps, même question (on peut réessayer).
+      // Mauvaise réponse : pénalité de temps et on enchaîne sur une autre question.
       const wrongById = { ...state.wrongById, [active]: (state.wrongById[active] ?? 0) + 1 };
-      return burn({ ...state, answers, wrongById }, state.config.penaltyWrongSec * 1000);
+      const drawn = drawQuestion(state);
+      return burn(
+        { ...state, answers, wrongById, current: drawn.current, qIndex: drawn.qIndex, propsShown: 0 },
+        state.config.penaltyWrongSec * 1000,
+      );
     }
 
     case 'SKIP': {

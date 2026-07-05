@@ -50,6 +50,16 @@ describe('bombeEngine', () => {
     expect(s.activeId).toBe('p1'); // retour au début, sens horaire
   });
 
+  test('une mauvaise réponse enchaîne automatiquement sur une autre question', () => {
+    let s = fresh();
+    const firstQ = s.current?.id;
+    s = bombeReducer(s, { type: 'ANSWER', correct: false });
+    expect(s.activeId).toBe('p1'); // même joueur
+    expect(s.current?.id).not.toBe(firstQ); // nouvelle question
+    expect(s.propsShown).toBe(0); // propositions réinitialisées
+    expect(s.fuseMs).toBe(60000 - 5000); // pénalité appliquée
+  });
+
   test('une bonne réponse ne recharge pas la mèche (même bombe)', () => {
     let s = fresh(30000);
     s = bombeReducer(s, { type: 'TICK', deltaMs: 4000 });
