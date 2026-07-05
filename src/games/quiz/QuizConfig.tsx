@@ -179,7 +179,7 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
 
       <Txt faint size={fontSize.xs}>
         Astuce : chaque joueur peut choisir jusqu'à 3 univers préférés dans l'écran Joueurs
-        (50 % de chance en plus), comme les univers à éviter.
+        (90 % de chance en plus), comme les univers à éviter.
       </Txt>
 
       <SectionHeader title="Difficulté" />

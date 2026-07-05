@@ -31,13 +31,13 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   const [color, setColor] = useState(PLAYER_COLORS[0] as string);
   const [editingId, setEditingId] = useState<string | null>(null);
 
-  // Per-player universe avoidance (soft: 50% less likely).
+  // Per-player universe avoidance (soft: 90% less likely).
   const [pool, setPool] = useState<Question[]>([]);
   const [avoidance, setAvoidance] = useState<Record<string, string[]>>({});
   const [avoidPlayer, setAvoidPlayer] = useState<Player | null>(null);
   const [avoidDraft, setAvoidDraft] = useState<Set<string>>(new Set());
 
-  // Per-player preferred universes (max 3: soft boost, 50% more likely).
+  // Per-player preferred universes (max 3: soft boost, 90% more likely).
   const [preferences, setPreferences] = useState<Record<string, string[]>>({});
   const [preferPlayer, setPreferPlayer] = useState<Player | null>(null);
   const [preferDraft, setPreferDraft] = useState<Set<string>>(new Set());
@@ -292,7 +292,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
             Univers à éviter
           </Txt>
           <Txt dim size={fontSize.sm} style={{ marginTop: spacing(0.5) }}>
-            {avoidPlayer?.name} aura 2× moins de chances de tomber sur ces univers (ils ne sont pas exclus).
+            {avoidPlayer?.name} aura 90 % de chances en moins de tomber sur ces univers, sans qu'ils soient exclus.
           </Txt>
           <ScrollView style={{ marginTop: spacing(1.5) }} contentContainerStyle={{ paddingBottom: spacing(1) }}>
             {universesByTheme.map(({ theme, universes }) => (
@@ -323,7 +323,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
             Univers préférés
           </Txt>
           <Txt dim size={fontSize.sm} style={{ marginTop: spacing(0.5) }}>
-            {preferPlayer?.name} aura 50 % de chances en plus de tomber sur ces univers. Maximum {MAX_PREFERRED}.
+            {preferPlayer?.name} aura 90 % de chances en plus de tomber sur ces univers. Maximum {MAX_PREFERRED}.
           </Txt>
           <ScrollView style={{ marginTop: spacing(1.5) }} contentContainerStyle={{ paddingBottom: spacing(1) }}>
             {universesByTheme.map(({ theme, universes }) => (

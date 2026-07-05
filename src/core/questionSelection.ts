@@ -37,10 +37,10 @@ export interface SelectionOptions {
   preferByPlayer?: Record<string, string[]>;
 }
 
-/** How much an avoided universe is down-weighted (0.5 = « 50 % de chance en moins »). */
-const AVOID_FACTOR = 0.5;
-/** How much a preferred theme is up-weighted (1.5 = « 50 % de chance en plus »). */
-const PREFER_FACTOR = 1.5;
+/** How much an avoided universe is down-weighted (0.1 = « 90 % de chance en moins »). */
+const AVOID_FACTOR = 0.1;
+/** How much a preferred universe is up-weighted (1.9 = « 90 % de chance en plus »). */
+const PREFER_FACTOR = 1.9;
 
 function eligiblePool(pool: readonly Question[], filter: SelectionFilter): Question[] {
   const themeSet = new Set(filter.themes);
