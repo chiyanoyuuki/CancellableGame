@@ -52,7 +52,10 @@ describe('banque de questions', () => {
     // revanche proposer des questions pro supplémentaires (au moins 20).
     const byUniverse = new Map<string, Record<number, number>>();
     for (const q of QUESTIONS) {
-      if (!q.universe) continue;
+      // Le thème « Image mystère » regroupe librement ses univers d'images et
+      // ne suit pas la répartition 5/10/15/20. (Les questions à drapeaux d'autres
+      // thèmes, elles, restent soumises à la règle.)
+      if (!q.universe || q.theme === 'images') continue;
       const counts = byUniverse.get(q.universe) ?? { 1: 0, 2: 0, 3: 0, 4: 0 };
       counts[q.difficulty] = (counts[q.difficulty] ?? 0) + 1;
       byUniverse.set(q.universe, counts);

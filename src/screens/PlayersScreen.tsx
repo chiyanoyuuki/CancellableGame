@@ -37,7 +37,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   const [avoidPlayer, setAvoidPlayer] = useState<Player | null>(null);
   const [avoidDraft, setAvoidDraft] = useState<Set<string>>(new Set());
 
-  // Per-player preferred universes (max 3: soft boost, 90% more likely).
+  // Per-player preferred universes (max 5: soft boost, 90% more likely).
   const [preferences, setPreferences] = useState<Record<string, string[]>>({});
   const [preferPlayer, setPreferPlayer] = useState<Player | null>(null);
   const [preferDraft, setPreferDraft] = useState<Set<string>>(new Set());
@@ -94,7 +94,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
     await setPlayerAvoidance(next);
   };
 
-  const MAX_PREFERRED = 3;
+  const MAX_PREFERRED = 5;
   const openPrefer = (p: Player) => {
     setPreferPlayer(p);
     setPreferDraft(new Set(preferences[p.id] ?? []));
@@ -103,7 +103,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
     setPreferDraft((prev) => {
       const next = new Set(prev);
       if (next.has(t)) next.delete(t);
-      else if (next.size < MAX_PREFERRED) next.add(t); // au maximum 3 univers préférés
+      else if (next.size < MAX_PREFERRED) next.add(t); // au maximum 5 univers préférés
       return next;
     });
   const savePrefer = async () => {
