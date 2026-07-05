@@ -184,4 +184,61 @@ const egyptienne = universe('mythologie', 'Mythologie égyptienne', [
   { id: 'myth-eg-50', d: 4, t: 'Quel dieu faucon des morts est le patron de la nécropole de Memphis ?', a: 'Sokar', x: ['Nefertem', 'Imhotep', 'Chesmou'] },
 ]);
 
-export const mythologieQuestions: Question[] = [...grecque, ...nordique, ...egyptienne];
+const romaine = universe('mythologie', 'Mythologie romaine', [
+  // --- Faciles (5) ---
+  { id: "romain-f1", d: 1, t: "Qui est le roi des dieux dans la mythologie romaine ?", a: "Jupiter", x: ["Neptune", "Pluton", "Mars"] },
+  { id: "romain-f2", d: 1, t: "Quel dieu romain de la guerre a donné son nom à une planète et à un mois ?", a: "Mars", x: ["Vénus", "Jupiter", "Saturne"] },
+  { id: "romain-f3", d: 1, t: "Quelle déesse romaine de l'amour et de la beauté a donné son nom à une planète ?", a: "Vénus", x: ["Junon", "Minerve", "Diane"] },
+  { id: "romain-f4", d: 1, t: "Comment s'appelle le dieu romain des mers et des océans ?", a: "Neptune", x: ["Pluton", "Jupiter", "Mercure"] },
+  { id: "romain-f5", d: 1, t: "Quels jumeaux, élevés par une louve, ont fondé Rome selon la légende ?", a: "Romulus et Rémus", x: ["Castor et Pollux", "Énée et Ascagne", "Numa et Tullus"] },
+  // --- Moyennes (10) ---
+  { id: "romain-m1", d: 2, t: "Quel animal a allaité Romulus et Rémus ?", a: "Une louve", x: ["Une ourse", "Une chèvre", "Une biche"] },
+  { id: "romain-m2", d: 2, t: "Quel dieu romain, messager des dieux, porte des sandales ailées ?", a: "Mercure", x: ["Apollon", "Mars", "Vulcain"] },
+  { id: "romain-m3", d: 2, t: "Quelle déesse romaine, épouse de Jupiter, protège le mariage ?", a: "Junon", x: ["Vénus", "Minerve", "Cérès"] },
+  { id: "romain-m4", d: 2, t: "Quel dieu romain règne sur le monde des morts ?", a: "Pluton", x: ["Neptune", "Saturne", "Janus"] },
+  { id: "romain-m5", d: 2, t: "Quelle déesse romaine de la sagesse et de la guerre équivaut à Athéna ?", a: "Minerve", x: ["Diane", "Vesta", "Junon"] },
+  { id: "romain-m6", d: 2, t: "Quel dieu romain du vin et de la fête équivaut à Dionysos ?", a: "Bacchus", x: ["Apollon", "Mercure", "Vulcain"], acc: ["bacchus"] },
+  { id: "romain-m7", d: 2, t: "Quelle déesse romaine de la chasse équivaut à Artémis ?", a: "Diane", x: ["Minerve", "Vénus", "Cérès"] },
+  { id: "romain-m8", d: 2, t: "Quel forgeron divin, boiteux, fabrique les armes des dieux ?", a: "Vulcain", x: ["Mars", "Mercure", "Apollon"] },
+  { id: "romain-m9", d: 2, t: "Quel dieu à deux visages ouvre et ferme les portes, et donne son nom à janvier ?", a: "Janus", x: ["Saturne", "Neptune", "Pluton"] },
+  { id: "romain-m10", d: 2, t: "Quelle déesse romaine des moissons équivaut à Déméter ?", a: "Cérès", x: ["Vesta", "Junon", "Flore"] },
+  // --- Dures (15) ---
+  { id: "romain-d1", d: 3, t: "Quel héros troyen, ancêtre légendaire des Romains, est le héros de l'Énéide ?", a: "Énée", x: ["Ulysse", "Hector", "Romulus"] },
+  { id: "romain-d2", d: 3, t: "Quel poète latin a écrit l'Énéide ?", a: "Virgile", x: ["Ovide", "Horace", "Homère"] },
+  { id: "romain-d3", d: 3, t: "Quelle œuvre d'Ovide raconte une série de transformations mythologiques ?", a: "Les Métamorphoses", x: ["L'Énéide", "L'Iliade", "Les Géorgiques"] },
+  { id: "romain-d4", d: 3, t: "Comment appelle-t-on les esprits protecteurs du foyer dans la religion romaine ?", a: "Les Lares", x: ["Les Titans", "Les Nymphes", "Les Furies"], acc: ["lares"] },
+  { id: "romain-d5", d: 3, t: "Quelles prêtresses gardaient le feu sacré de Vesta ?", a: "Les Vestales", x: ["Les Amazones", "Les Sibylles", "Les Muses"] },
+  { id: "romain-d6", d: 3, t: "Quel dieu du temps et des récoltes, père de Jupiter, donne son nom à une planète ?", a: "Saturne", x: ["Uranus", "Janus", "Pluton"] },
+  { id: "romain-d7", d: 3, t: "Quel dieu a détrôné son père Saturne pour devenir roi des dieux ?", a: "Jupiter", x: ["Neptune", "Pluton", "Mars"] },
+  { id: "romain-d8", d: 3, t: "Comment appelle-t-on les trois déesses qui filent le destin des hommes ?", a: "Les Parques", x: ["Les Furies", "Les Grâces", "Les Harpies"], acc: ["parques"] },
+  { id: "romain-d9", d: 3, t: "Comment appelle-t-on les déesses de la vengeance qui poursuivent les criminels ?", a: "Les Furies", x: ["Les Parques", "Les Muses", "Les Néréides"], acc: ["furies", "érinyes"] },
+  { id: "romain-d10", d: 3, t: "Quel dieu de l'amour, fils de Vénus, décoche des flèches ?", a: "Cupidon", x: ["Mercure", "Bacchus", "Apollon"], acc: ["cupidon"] },
+  { id: "romain-d11", d: 3, t: "Quel héros aux douze travaux équivaut au grec Héraclès ?", a: "Hercule", x: ["Persée", "Thésée", "Achille"] },
+  { id: "romain-d12", d: 3, t: "Quelle divinité du foyer et du feu sacré était vénérée dans chaque maison romaine ?", a: "Vesta", x: ["Cérès", "Junon", "Flore"] },
+  { id: "romain-d13", d: 3, t: "Quel dieu de la lumière, de la musique et de la poésie garde son nom grec ?", a: "Apollon", x: ["Mercure", "Bacchus", "Mars"] },
+  { id: "romain-d14", d: 3, t: "Sur quelle colline de Rome se dressait le grand temple de Jupiter ?", a: "Le Capitole", x: ["Le Palatin", "L'Aventin", "Le Quirinal"], acc: ["capitole"] },
+  { id: "romain-d15", d: 3, t: "Quel demi-dieu champêtre, moitié homme moitié bouc, hante les forêts ?", a: "Le faune", x: ["Le centaure", "Le minotaure", "La harpie"], acc: ["faune"] },
+  // --- Pro (20) ---
+  { id: "romain-p1", d: 4, t: "Combien de rois se sont succédé à Rome avant la République, selon la tradition ?", a: "7", x: ["5", "10", "3"], acc: ["sept"] },
+  { id: "romain-p2", d: 4, t: "Quelle Vestale était la mère de Romulus et Rémus ?", a: "Rhéa Silvia", x: ["Lucrèce", "Tarpeia", "Cornélie"], acc: ["rhéa silvia", "rhea silvia"] },
+  { id: "romain-p3", d: 4, t: "Quel dieu romain des bornes et des frontières n'avait pas d'équivalent grec direct ?", a: "Terminus", x: ["Janus", "Faunus", "Quirinus"] },
+  { id: "romain-p4", d: 4, t: "Quel épisode légendaire permit à la Rome naissante d'obtenir des épouses ?", a: "L'enlèvement des Sabines", x: ["Le sac de Troie", "Le passage du Rubicon", "Les Fourches Caudines"] },
+  { id: "romain-p5", d: 4, t: "Quel dieu champêtre, protecteur des troupeaux, équivaut au grec Pan ?", a: "Faunus", x: ["Silvanus", "Terminus", "Quirinus"] },
+  { id: "romain-p6", d: 4, t: "Sous quel nom Romulus divinisé fut-il vénéré après sa mort ?", a: "Quirinus", x: ["Janus", "Sancus", "Terminus"], acc: ["quirinus"] },
+  { id: "romain-p7", d: 4, t: "Quelle déesse romaine de l'aube équivaut à la grecque Éos ?", a: "Aurore", x: ["Flore", "Pomone", "Diane"], acc: ["aurore"] },
+  { id: "romain-p8", d: 4, t: "Quelle déesse des fleurs et du printemps était fêtée lors des Floralies ?", a: "Flore", x: ["Cérès", "Pomone", "Vesta"] },
+  { id: "romain-p9", d: 4, t: "Quelle déesse romaine veillait sur les fruits et les vergers ?", a: "Pomone", x: ["Flore", "Cérès", "Diane"] },
+  { id: "romain-p10", d: 4, t: "Quelle prophétesse guidait Énée aux Enfers dans l'Énéide ?", a: "La sibylle de Cumes", x: ["La pythie de Delphes", "Cassandre", "La sibylle de Tibur"], acc: ["cumes"] },
+  { id: "romain-p11", d: 4, t: "Quelle reine de Carthage tombe amoureuse d'Énée avant de se donner la mort ?", a: "Didon", x: ["Lavinia", "Créüse", "Camille"], acc: ["didon"] },
+  { id: "romain-p12", d: 4, t: "Quel fleuve des Enfers les âmes devaient-elles traverser ?", a: "Le Styx", x: ["Le Tibre", "Le Rubicon", "Le Léthé"] },
+  { id: "romain-p13", d: 4, t: "Quel passeur faisait franchir le Styx aux âmes des morts ?", a: "Charon", x: ["Cerbère", "Pluton", "Mercure"], acc: ["charon"] },
+  { id: "romain-p14", d: 4, t: "Quel chien à trois têtes gardait l'entrée des Enfers ?", a: "Cerbère", x: ["L'Hydre", "Le Minotaure", "Le Sphinx"], acc: ["cerbère"] },
+  { id: "romain-p15", d: 4, t: "Quel festival de décembre, en l'honneur de Saturne, renversait l'ordre social ?", a: "Les Saturnales", x: ["Les Lupercales", "Les Bacchanales", "Les Floralies"], acc: ["saturnales"] },
+  { id: "romain-p16", d: 4, t: "Quelle fête de février, liée à l'origine de la Saint-Valentin, était une fête de purification ?", a: "Les Lupercales", x: ["Les Saturnales", "Les Vestalia", "Les Consualia"], acc: ["lupercales"] },
+  { id: "romain-p17", d: 4, t: "Comment appelle-t-on l'esprit gardien qui accompagne chaque homme romain toute sa vie ?", a: "Le génie", x: ["Le lare", "Le mâne", "Le pénate"], acc: ["génie", "genius"] },
+  { id: "romain-p18", d: 4, t: "Comment appelle-t-on les esprits des ancêtres défunts vénérés par les Romains ?", a: "Les Mânes", x: ["Les Lares", "Les Pénates", "Les Lémures"], acc: ["mânes"] },
+  { id: "romain-p19", d: 4, t: "Quel héros borgne défendit seul un pont contre l'armée étrusque ?", a: "Horatius Coclès", x: ["Mucius Scaevola", "Cincinnatus", "Coriolan"], acc: ["horatius coclès", "coclès"] },
+  { id: "romain-p20", d: 4, t: "Quel poète latin a écrit les « Odes » et l'« Art poétique » ?", a: "Horace", x: ["Virgile", "Ovide", "Cicéron"] },
+]);
+
+export const mythologieQuestions: Question[] = [...grecque, ...nordique, ...egyptienne, ...romaine];

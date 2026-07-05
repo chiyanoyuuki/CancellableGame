@@ -3,7 +3,8 @@ import { universe } from './_build';
 // Nouveau thème « Références Internet » : mèmes, virales, plateformes et
 // culture web. Attention, ça vieillit vite — on privilégie les références
 // déjà bien installées.
-export const internetQuestions = universe('internet', 'Mèmes & viral', [
+export const internetQuestions = [
+  ...universe('internet', 'Mèmes & viral', [
   // --- Faciles (5) ---
   { id: 'net-f1', d: 1, t: 'Quel réseau social est connu pour ses vidéos courtes et son fil « Pour toi » ?', a: 'TikTok', x: ['LinkedIn', 'Pinterest', 'Reddit'] },
   { id: 'net-f2', d: 1, t: 'Comment appelle-t-on une image humoristique qui se propage massivement sur internet ?', a: 'Un mème', acc: ['meme', 'mème'], x: ['Un spam', 'Un cookie', 'Un pixel'] },
@@ -61,4 +62,61 @@ export const internetQuestions = universe('internet', 'Mèmes & viral', [
   { id: 'net-p18', d: 4, t: 'Quel mot d\'argot internet signifie « rire » et vient de l\'anglais ?', a: 'LOL', acc: ['lol', 'mdr'], x: ['BRB', 'AFK', 'FYI'] },
   { id: 'net-p19', d: 4, t: 'Quel YouTubeur et boxeur britannique forme un duo célèbre avec Logan Paul ?', a: 'KSI', x: ['MrBeast', 'PewDiePie', 'Ninja'] },
   { id: 'net-p20', d: 4, t: 'Comment appelle-t-on une tendance vidéo que tout le monde reproduit à l\'identique ?', a: 'Un challenge', acc: ['challenge', 'trend', 'tendance'], x: ['Un thread', 'Un raid', 'Un combo'] },
-]);
+  ]),
+  ...universe('internet', 'Réseaux sociaux', [
+    // --- Faciles (5) ---
+    { id: "reso-f1", d: 1, t: "Quel réseau social à l'oiseau bleu s'appelle désormais « X » ?", a: "Twitter", x: ["Facebook", "Instagram", "LinkedIn"], acc: ["twitter", "x"] },
+    { id: "reso-f2", d: 1, t: "Quelle application de vidéos courtes et de danses est très populaire chez les jeunes ?", a: "TikTok", x: ["LinkedIn", "Pinterest", "Reddit"] },
+    { id: "reso-f3", d: 1, t: "Sur quel réseau partage-t-on surtout des photos avec des filtres ?", a: "Instagram", x: ["Twitter", "LinkedIn", "Reddit"] },
+    { id: "reso-f4", d: 1, t: "Comment appelle-t-on un petit symbole exprimant une émotion, comme 😂 ?", a: "Un emoji", x: ["Un pixel", "Un avatar", "Un hashtag"], acc: ["emoji", "émoji"] },
+    { id: "reso-f5", d: 1, t: "Quel mot-clé précédé d'un « # » regroupe les publications sur un thème ?", a: "Un hashtag", x: ["Un tag", "Un lien", "Un pseudo"], acc: ["hashtag"] },
+    // --- Moyennes (10) ---
+    { id: "reso-m1", d: 2, t: "Qui a cofondé Facebook en 2004 ?", a: "Mark Zuckerberg", x: ["Bill Gates", "Steve Jobs", "Elon Musk"] },
+    { id: "reso-m2", d: 2, t: "Quel milliardaire a racheté Twitter en 2022 ?", a: "Elon Musk", x: ["Jeff Bezos", "Mark Zuckerberg", "Bill Gates"] },
+    { id: "reso-m3", d: 2, t: "Quelle entreprise possède Instagram et WhatsApp ?", a: "Meta", x: ["Google", "Apple", "Amazon"], acc: ["meta", "facebook"] },
+    { id: "reso-m4", d: 2, t: "Comment appelle-t-on une photo de soi prise à bout de bras ?", a: "Un selfie", x: ["Un portrait", "Un snap", "Un reel"], acc: ["selfie"] },
+    { id: "reso-m5", d: 2, t: "Quelle application affiche des photos qui s'effacent après quelques secondes ?", a: "Snapchat", x: ["WhatsApp", "Telegram", "Signal"] },
+    { id: "reso-m6", d: 2, t: "Comment appelle-t-on une personne rémunérée pour promouvoir des produits sur les réseaux ?", a: "Un influenceur", x: ["Un modérateur", "Un abonné", "Un troll"], acc: ["influenceur"] },
+    { id: "reso-m7", d: 2, t: "Quel bouton permet d'exprimer qu'on aime une publication ?", a: "Le « j'aime »", x: ["Le partage", "L'abonnement", "Le signalement"], acc: ["like", "j'aime"] },
+    { id: "reso-m8", d: 2, t: "Quel réseau social professionnel sert à chercher un emploi et à réseauter ?", a: "LinkedIn", x: ["TikTok", "Snapchat", "Twitch"] },
+    { id: "reso-m9", d: 2, t: "Comment appelle-t-on le fait de suivre le compte de quelqu'un ?", a: "S'abonner", x: ["Bloquer", "Signaler", "Épingler"], acc: ["suivre", "follow"] },
+    { id: "reso-m10", d: 2, t: "Quelle plateforme de vidéos en direct est surtout dédiée au jeu vidéo ?", a: "Twitch", x: ["TikTok", "Vimeo", "Dailymotion"] },
+    // --- Dures (15) ---
+    { id: "reso-d1", d: 3, t: "En quelle année Facebook a-t-il été lancé ?", a: "2004", x: ["2000", "2008", "2010"] },
+    { id: "reso-d2", d: 3, t: "En quelle année Instagram a-t-il été lancé ?", a: "2010", x: ["2004", "2013", "2016"] },
+    { id: "reso-d3", d: 3, t: "Quelle entreprise chinoise détient TikTok ?", a: "ByteDance", x: ["Tencent", "Alibaba", "Huawei"], acc: ["bytedance"] },
+    { id: "reso-d4", d: 3, t: "Quel réseau américain se présente comme la « page d'accueil de l'internet », avec ses forums ?", a: "Reddit", x: ["Tumblr", "Discord", "Pinterest"] },
+    { id: "reso-d5", d: 3, t: "Comment appelle-t-on une personne qui provoque et sème la discorde en ligne ?", a: "Un troll", x: ["Un modérateur", "Un influenceur", "Un abonné"], acc: ["troll"] },
+    { id: "reso-d6", d: 3, t: "Quelle messagerie, très utilisée par les gamers, s'organise en « serveurs » ?", a: "Discord", x: ["Slack", "Zoom", "Skype"] },
+    { id: "reso-d7", d: 3, t: "Quelle plateforme d'épinglage d'images sert d'inspiration déco et mode ?", a: "Pinterest", x: ["Reddit", "Tumblr", "Flickr"] },
+    { id: "reso-d8", d: 3, t: "Comment appelle-t-on l'ensemble des personnes qui suivent un compte ?", a: "Les abonnés", x: ["Les vues", "Les likes", "Les partages"], acc: ["abonnés", "followers"] },
+    { id: "reso-d9", d: 3, t: "Quel format de vidéo courte et verticale Instagram a-t-il lancé pour concurrencer TikTok ?", a: "Les Reels", x: ["Les Stories", "Les Lives", "Les Threads"], acc: ["reels"] },
+    { id: "reso-d10", d: 3, t: "Comment appelle-t-on le fait de devenir extrêmement populaire très vite sur internet ?", a: "Devenir viral", x: ["Devenir modéré", "Être banni", "Être vérifié"], acc: ["viral"] },
+    { id: "reso-d11", d: 3, t: "Quel petit badge indique qu'un compte est authentifié ?", a: "La coche de vérification", x: ["L'étoile", "Le cadenas", "La couronne"], acc: ["badge", "coche bleue", "certifié"] },
+    { id: "reso-d12", d: 3, t: "Quelle messagerie chiffrée est réputée pour la protection de la vie privée ?", a: "Signal", x: ["Messenger", "Snapchat", "WeChat"] },
+    { id: "reso-d13", d: 3, t: "Quelle « super-application » chinoise combine messagerie, paiement et réseau social ?", a: "WeChat", x: ["WhatsApp", "Telegram", "Line"] },
+    { id: "reso-d14", d: 3, t: "Comment appelle-t-on un contenu sponsorisé qui ressemble à une publication normale ?", a: "Un placement de produit", x: ["Un hashtag", "Un reel", "Un thread"], acc: ["placement de produit", "sponso"] },
+    { id: "reso-d15", d: 3, t: "Quelle plateforme, rachetée par Elon Musk, a lancé un abonnement payant « Blue » ?", a: "Twitter", x: ["Instagram", "TikTok", "LinkedIn"], acc: ["twitter", "x"] },
+    // --- Pro (20) ---
+    { id: "reso-p1", d: 4, t: "Comment s'appelle la version chinoise d'origine de TikTok ?", a: "Douyin", x: ["Weibo", "Kuaishou", "Xiaohongshu"], acc: ["douyin"] },
+    { id: "reso-p2", d: 4, t: "Quel réseau social des années 2000, très populaire avant Facebook, classait ses « amis » ?", a: "MySpace", x: ["Friendster", "Bebo", "Hi5"] },
+    { id: "reso-p3", d: 4, t: "Quelle plateforme de blogs française était très populaire chez les ados dans les années 2000 ?", a: "Skyblog", x: ["MySpace", "Copains d'avant", "Caramail"], acc: ["skyblog", "skyrock"] },
+    { id: "reso-p4", d: 4, t: "Quel PDG de Meta a témoigné plusieurs fois devant le Congrès américain ?", a: "Mark Zuckerberg", x: ["Elon Musk", "Sundar Pichai", "Tim Cook"] },
+    { id: "reso-p5", d: 4, t: "Comment appelle-t-on le fil personnalisé de TikTok qui propose des vidéos ?", a: "Le « Pour toi »", x: ["Le « Mur »", "Le « Feed pro »", "La « Story »"], acc: ["pour toi", "for you"] },
+    { id: "reso-p6", d: 4, t: "Quel réseau social a été fondé par Kevin Systrom et Mike Krieger ?", a: "Instagram", x: ["Twitter", "Snapchat", "Pinterest"] },
+    { id: "reso-p7", d: 4, t: "Qui a cofondé et dirigé Snapchat ?", a: "Evan Spiegel", x: ["Kevin Systrom", "Jack Dorsey", "Jan Koum"] },
+    { id: "reso-p8", d: 4, t: "Qui était le cofondateur et PDG historique de Twitter ?", a: "Jack Dorsey", x: ["Evan Spiegel", "Kevin Systrom", "Reid Hoffman"] },
+    { id: "reso-p9", d: 4, t: "Quelle application de rencontres a popularisé le « swipe » à droite ou à gauche ?", a: "Tinder", x: ["Bumble", "Hinge", "Meetic"] },
+    { id: "reso-p10", d: 4, t: "Comment appelle-t-on une image ou une idée qui se propage et se décline en masse sur internet ?", a: "Un mème", x: ["Un thread", "Un cookie", "Un flux"], acc: ["mème", "meme"] },
+    { id: "reso-p11", d: 4, t: "Quel réseau professionnel a été racheté par Microsoft en 2016 ?", a: "LinkedIn", x: ["Slack", "Zoom", "Yammer"] },
+    { id: "reso-p12", d: 4, t: "Quel concurrent de Twitter Meta a-t-il lancé en 2023 ?", a: "Threads", x: ["Mastodon", "Bluesky", "Truth Social"] },
+    { id: "reso-p13", d: 4, t: "Comment appelle-t-on le fait de faire défiler sans fin son fil d'actualité ?", a: "Le scroll", x: ["Le buzz", "Le spam", "Le hack"], acc: ["scroll", "scroller", "doomscrolling"] },
+    { id: "reso-p14", d: 4, t: "Quelle application de visioconférence est devenue incontournable pendant le confinement ?", a: "Zoom", x: ["Discord", "Twitch", "Reddit"] },
+    { id: "reso-p15", d: 4, t: "Comment appelle-t-on un effet qui déforme ou décore le visage en direct ?", a: "Un filtre", x: ["Un emoji", "Un hashtag", "Un avatar"], acc: ["filtre"] },
+    { id: "reso-p16", d: 4, t: "À quelle entreprise appartient YouTube ?", a: "Google", x: ["Meta", "Microsoft", "Amazon"] },
+    { id: "reso-p17", d: 4, t: "Comment appelle-t-on la pratique de dévoiler publiquement les données privées de quelqu'un ?", a: "Le doxxing", x: ["Le phishing", "Le spamming", "Le streaming"], acc: ["doxxing", "doxing"] },
+    { id: "reso-p18", d: 4, t: "Quel réseau de microblogging décentralisé, alternative à Twitter, fonctionne par « instances » ?", a: "Mastodon", x: ["Threads", "Bluesky", "Reddit"] },
+    { id: "reso-p19", d: 4, t: "Comment appelle-t-on le harcèlement en ligne visant à intimider une personne ?", a: "Le cyberharcèlement", x: ["Le clickbait", "Le référencement", "Le community management"], acc: ["cyberharcèlement"] },
+    { id: "reso-p20", d: 4, t: "Comment appelle-t-on un titre ou une image aguicheuse conçue pour pousser au clic ?", a: "Le clickbait", x: ["Le doxxing", "Le sample", "Le hashtag"], acc: ["clickbait", "piège à clics"] },
+  ]),
+];
