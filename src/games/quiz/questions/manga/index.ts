@@ -11,6 +11,7 @@ import { hxh } from './hxh';
 import { jujutsukaisen } from './jujutsukaisen';
 import { mha } from './mha';
 import { mushokutensei } from './mushokutensei';
+import { nana } from './nana';
 import { naruto } from './naruto';
 import { onepiece } from './onepiece';
 
@@ -35,4 +36,5 @@ export const mangaQuestions: Question[] = [
   ...chainsawman,
   ...mushokutensei,
   ...jujutsukaisen,
+  ...nana,
 ];

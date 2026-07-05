@@ -9,6 +9,7 @@ import { lol } from './lol';
 import { mario } from './mario';
 import { minecraft } from './minecraft';
 import { pokemon } from './pokemon';
+import { residentevil } from './residentevil';
 import { skyrim } from './skyrim';
 import { stardewvalley } from './stardewvalley';
 import { thewitcher } from './thewitcher';
@@ -38,4 +39,5 @@ export const jeuxvideoQuestions: Question[] = [
   ...stardewvalley,
   ...worldofwarcraft,
   ...thewitcher,
+  ...residentevil,
 ];
