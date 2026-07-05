@@ -17,6 +17,7 @@ import {
   themeAccuracy,
 } from '../core/stats';
 import { listPlayers, loadStatAnswers, loadStatResults, loadStatSessions } from '../db';
+import { MINI_GAMES } from '../games/registry';
 import type { RootStackParamList } from '../navigation';
 import { colors, fontSize, RANK_MEDALS, radius, spacing } from '../theme/theme';
 
@@ -39,7 +40,13 @@ const PERIODS: { label: string; value: Period }[] = [
 export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'Stats'>) {
   const [data, setData] = useState<Data>(EMPTY);
   const [period, setPeriod] = useState<Period>('all');
+  const [gameId, setGameId] = useState<string>('all');
   const [expanded, setExpanded] = useState<string | null>(null);
+
+  const gameOptions = useMemo(
+    () => [{ label: 'Tous', value: 'all' }, ...MINI_GAMES.map((g) => ({ label: g.title, value: g.id }))],
+    [],
+  );
 
   useFocusEffect(
     useCallback(() => {
@@ -78,7 +85,7 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
     return m;
   }, [data.results]);
 
-  const filter = useMemo(() => ({ period }), [period]);
+  const filter = useMemo(() => ({ period, gameId: gameId === 'all' ? undefined : gameId }), [period, gameId]);
   const totals = useMemo(() => playerTotals(data.results, filter), [data.results, filter]);
   const facts = useMemo(() => funFacts(data.sessions, data.results, data.answers, filter), [data, filter]);
   const titles = useMemo(
@@ -93,6 +100,11 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
   return (
     <Screen title="Statistiques" subtitle="Le palmarès de vos soirées" onBack={() => navigation.goBack()} scroll>
       <Segmented<Period> value={period} onChange={setPeriod} options={PERIODS} />
+      {gameOptions.length > 2 && (
+        <View style={{ marginTop: spacing(1) }}>
+          <Segmented<string> value={gameId} onChange={setGameId} options={gameOptions} />
+        </View>
+      )}
 
       {!hasData ? (
         <EmptyState emoji="📊" title="Pas encore de stats" subtitle="Jouez une partie et revenez admirer le palmarès !" />

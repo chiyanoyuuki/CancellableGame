@@ -163,6 +163,44 @@ export const DEFAULT_QUIZ_CONFIG: QuizConfig = {
 };
 
 // ---------------------------------------------------------------------------
+// « La Bombe » — élimination : une bombe au minuteur caché tourne, on ne la
+// passe au joueur suivant qu'en répondant juste ; chaque erreur, aide ou
+// « passer » la fait accélérer. Le porteur au moment de l'explosion est éliminé.
+// ---------------------------------------------------------------------------
+
+export interface BombeConfig {
+  themes: Theme[];
+  difficulties: Difficulty[];
+  /** Univers (sous-catégories) désactivés pour cette partie. */
+  excludedUniverses: string[];
+  /** Secondes de mèche de base par joueur encore en vie (tiré au hasard à chaque manche). */
+  secondsPerPlayer: number;
+  /** Secondes retirées de la mèche sur une mauvaise réponse. */
+  penaltyWrongSec: number;
+  /** Secondes retirées quand on demande 4 propositions. */
+  penaltyProps4Sec: number;
+  /** Secondes retirées quand on demande 2 propositions. */
+  penaltyProps2Sec: number;
+  /** Secondes retirées quand on passe la question. */
+  penaltySkipSec: number;
+  drinksEnabled: boolean;
+  drinkIntensity: DrinkIntensity;
+}
+
+export const DEFAULT_BOMBE_CONFIG: BombeConfig = {
+  themes: ['manga', 'jeuxvideo', 'series', 'films', 'musique', 'culture', 'internet', 'mythologie'],
+  difficulties: [1, 2, 3],
+  excludedUniverses: [],
+  secondsPerPlayer: 12,
+  penaltyWrongSec: 5,
+  penaltyProps4Sec: 5,
+  penaltyProps2Sec: 8,
+  penaltySkipSec: 7,
+  drinksEnabled: true,
+  drinkIntensity: 'normal',
+};
+
+// ---------------------------------------------------------------------------
 // Generic, cross-game result contract
 //
 // EVERY mini-game emits a SessionResult when it finishes. The persistence and

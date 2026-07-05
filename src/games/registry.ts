@@ -1,3 +1,4 @@
+import { bombeGame } from './bombe';
 import { quizGame } from './quiz';
 import type { MiniGameDefinition } from './types';
 
@@ -7,8 +8,7 @@ import type { MiniGameDefinition } from './types';
  */
 export const MINI_GAMES: MiniGameDefinition[] = [
   quizGame,
-  // Future games, e.g.:
-  // { id: 'undercover', title: 'Undercover', emoji: '🕵️', available: false, ... },
+  bombeGame,
 ];
 
 export function getGame(id: string): MiniGameDefinition | null {
