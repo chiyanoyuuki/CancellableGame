@@ -8,6 +8,7 @@ import { demonslayer } from './demonslayer';
 import { dragonball } from './dragonball';
 import { fma } from './fma';
 import { hxh } from './hxh';
+import { jujutsukaisen } from './jujutsukaisen';
 import { mha } from './mha';
 import { mushokutensei } from './mushokutensei';
 import { naruto } from './naruto';
@@ -33,4 +34,5 @@ export const mangaQuestions: Question[] = [
   ...berserk,
   ...chainsawman,
   ...mushokutensei,
+  ...jujutsukaisen,
 ];

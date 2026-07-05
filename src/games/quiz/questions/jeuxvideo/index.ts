@@ -11,6 +11,7 @@ import { minecraft } from './minecraft';
 import { pokemon } from './pokemon';
 import { skyrim } from './skyrim';
 import { stardewvalley } from './stardewvalley';
+import { thewitcher } from './thewitcher';
 import { worldofwarcraft } from './worldofwarcraft';
 import { zelda } from './zelda';
 
@@ -36,4 +37,5 @@ export const jeuxvideoQuestions: Question[] = [
   ...lessims,
   ...stardewvalley,
   ...worldofwarcraft,
+  ...thewitcher,
 ];

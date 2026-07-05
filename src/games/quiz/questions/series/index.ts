@@ -6,6 +6,7 @@ import { friends } from './friends';
 import { got } from './got';
 import { peakyblinders } from './peakyblinders';
 import { prisonbreak } from './prisonbreak';
+import { squidgame } from './squidgame';
 import { strangerthings } from './strangerthings';
 import { theboys } from './theboys';
 import { theoffice } from './theoffice';
@@ -27,4 +28,5 @@ export const seriesQuestions: Question[] = [
   ...prisonbreak,
   ...theboys,
   ...arcane,
+  ...squidgame,
 ];
