@@ -19,11 +19,9 @@ export function LobbyScreen({ route, navigation }: NativeStackScreenProps<RootSt
   const refresh = useCallback(async () => {
     const list = await listPlayers(false);
     setRoster(list);
-    // Keep selection valid; default to selecting everyone the first time.
-    setSelected((prev) => {
-      if (prev.size === 0) return new Set(list.map((p) => p.id));
-      return new Set([...prev].filter((id) => list.some((p) => p.id === id)));
-    });
+    // Aucun joueur coché par défaut : chaque nouvelle partie démarre sans
+    // sélection. On garde seulement les sélections déjà faites et encore valides.
+    setSelected((prev) => new Set([...prev].filter((id) => list.some((p) => p.id === id))));
   }, []);
 
   useFocusEffect(
