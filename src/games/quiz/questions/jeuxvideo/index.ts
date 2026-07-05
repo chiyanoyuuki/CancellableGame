@@ -11,13 +11,15 @@ import { minecraft } from './minecraft';
 import { pokemon } from './pokemon';
 import { skyrim } from './skyrim';
 import { stardewvalley } from './stardewvalley';
+import { worldofwarcraft } from './worldofwarcraft';
 import { zelda } from './zelda';
 
 /**
  * Thème Jeux vidéo, organisé par univers (un fichier par univers).
- * Convention par univers : 5 faciles, 10 moyennes, 15 dures, 20 pro (= 50).
- * Pour ajouter un univers : créez son fichier (cf. halo.ts), importez-le ici
- * et ajoutez-le au tableau.
+ * Convention par univers : 5 faciles, 10 moyennes, 15 dures, au moins 20 pro.
+ * La plupart des univers en ont 20 ; certains, plus riches (World of Warcraft),
+ * en proposent davantage. Pour ajouter un univers : créez son fichier (cf.
+ * halo.ts), importez-le ici et ajoutez-le au tableau.
  */
 export const jeuxvideoQuestions: Question[] = [
   ...halo,
@@ -33,4 +35,5 @@ export const jeuxvideoQuestions: Question[] = [
   ...farmingsimulator,
   ...lessims,
   ...stardewvalley,
+  ...worldofwarcraft,
 ];

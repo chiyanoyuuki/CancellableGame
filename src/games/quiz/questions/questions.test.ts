@@ -47,7 +47,9 @@ describe('banque de questions', () => {
     expect(levels.has(4)).toBe(true);
   });
 
-  test('chaque univers respecte la répartition 5 / 10 / 15 / 20', () => {
+  test('chaque univers respecte la répartition 5 / 10 / 15 / 20 (pro : au moins 20)', () => {
+    // Les paliers facile/moyen/dur sont fixes (5/10/15) ; un univers peut en
+    // revanche proposer des questions pro supplémentaires (au moins 20).
     const byUniverse = new Map<string, Record<number, number>>();
     for (const q of QUESTIONS) {
       if (!q.universe) continue;
@@ -57,8 +59,8 @@ describe('banque de questions', () => {
     }
     const problems: string[] = [];
     for (const [u, c] of byUniverse) {
-      if (c[1] !== 5 || c[2] !== 10 || c[3] !== 15 || c[4] !== 20) {
-        problems.push(`${u}: ${c[1]}/${c[2]}/${c[3]}/${c[4]} (attendu 5/10/15/20)`);
+      if (c[1] !== 5 || c[2] !== 10 || c[3] !== 15 || (c[4] ?? 0) < 20) {
+        problems.push(`${u}: ${c[1]}/${c[2]}/${c[3]}/${c[4]} (attendu 5/10/15/≥20)`);
       }
     }
     expect(problems).toEqual([]);
