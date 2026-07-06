@@ -50,6 +50,7 @@ export const THEMES = [
   'series',
   'films',
   'musique',
+  'litterature',
   'culture',
   'internet',
   'mythologie',
@@ -66,6 +67,7 @@ export const THEME_META: Record<Theme, { label: string; emoji: string }> = {
   series: { label: 'Séries', emoji: '📺' },
   films: { label: 'Films', emoji: '🎬' },
   musique: { label: 'Musique', emoji: '🎵' },
+  litterature: { label: 'Littérature', emoji: '📚' },
   culture: { label: 'Culture générale', emoji: '🧠' },
   internet: { label: 'Références Internet', emoji: '🌐' },
   mythologie: { label: 'Mythologie', emoji: '🏛️' },
@@ -148,7 +150,7 @@ export interface QuizConfig {
 
 export const DEFAULT_QUIZ_CONFIG: QuizConfig = {
   // Blind test exclu par défaut : il faut y ajouter ses propres extraits audio.
-  themes: ['manga', 'jeuxvideo', 'series', 'films', 'musique', 'culture', 'internet', 'mythologie', 'enigmes', 'rebus'],
+  themes: ['manga', 'jeuxvideo', 'series', 'films', 'musique', 'litterature', 'culture', 'internet', 'mythologie', 'enigmes', 'rebus'],
   difficulties: [1, 2, 3],
   questionCount: 15,
   turnMode: 'turn',
@@ -188,7 +190,7 @@ export interface BombeConfig {
 }
 
 export const DEFAULT_BOMBE_CONFIG: BombeConfig = {
-  themes: ['manga', 'jeuxvideo', 'series', 'films', 'musique', 'culture', 'internet', 'mythologie'],
+  themes: ['manga', 'jeuxvideo', 'series', 'films', 'musique', 'litterature', 'culture', 'internet', 'mythologie'],
   difficulties: [1, 2, 3],
   excludedUniverses: [],
   secondsPerPlayer: 12,
