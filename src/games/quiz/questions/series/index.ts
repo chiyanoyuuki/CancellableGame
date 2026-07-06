@@ -4,6 +4,7 @@ import { breakingbad } from './breakingbad';
 import { casadepapel } from './casadepapel';
 import { friends } from './friends';
 import { got } from './got';
+import { netflix } from './netflix';
 import { peakyblinders } from './peakyblinders';
 import { prisonbreak } from './prisonbreak';
 import { sexandthecity } from './sexandthecity';
@@ -31,4 +32,5 @@ export const seriesQuestions: Question[] = [
   ...arcane,
   ...squidgame,
   ...sexandthecity,
+  ...netflix,
 ];
