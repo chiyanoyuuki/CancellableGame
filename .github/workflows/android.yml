@@ -43,6 +43,17 @@ jobs:
       - name: Générer le projet Android (expo prebuild)
         run: npx expo prebuild --platform android --no-install
 
+      - name: Plus de mémoire pour Gradle (évite l'erreur « Java heap space »)
+        # Le projet android/ est régénéré à chaque build par prebuild : on augmente
+        # donc le tas de la JVM Gradle ICI, après la génération. La dernière valeur
+        # de org.gradle.jvmargs dans le fichier l'emporte, ce qui remplace le
+        # défaut (2 Go) devenu trop juste pour :app:collectReleaseDependencies.
+        run: |
+          {
+            echo ""
+            echo "org.gradle.jvmargs=-Xmx6144m -XX:MaxMetaspaceSize=1024m -Dfile.encoding=UTF-8"
+          } >> android/gradle.properties
+
       - name: Compiler l'APK release
         run: |
           chmod +x android/gradlew
