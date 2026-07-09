@@ -292,7 +292,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
             Univers à éviter
           </Txt>
           <Txt dim size={fontSize.sm} style={{ marginTop: spacing(0.5) }}>
-            {avoidPlayer?.name} aura 90 % de chances en moins de tomber sur ces univers, sans qu'ils soient exclus.
+            {avoidPlayer?.name} tombera bien plus rarement sur ces univers, sans qu'ils soient totalement exclus.
           </Txt>
           <ScrollView style={{ marginTop: spacing(1.5) }} contentContainerStyle={{ paddingBottom: spacing(1) }}>
             {universesByTheme.map(({ theme, universes }) => (
@@ -323,7 +323,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
             Univers préférés
           </Txt>
           <Txt dim size={fontSize.sm} style={{ marginTop: spacing(0.5) }}>
-            {preferPlayer?.name} aura 90 % de chances en plus de tomber sur ces univers. Maximum {MAX_PREFERRED}.
+            {preferPlayer?.name} tombera plus souvent sur ces univers. Maximum {MAX_PREFERRED}.
           </Txt>
           <ScrollView style={{ marginTop: spacing(1.5) }} contentContainerStyle={{ paddingBottom: spacing(1) }}>
             {universesByTheme.map(({ theme, universes }) => (

@@ -2,10 +2,16 @@ import type { Difficulty, Question, Theme, TurnMode } from './models';
 import { type Rng, shuffle } from './rng';
 
 /**
- * Selecting which questions a round uses. This is the other half of "chaque
- * partie est différente": we keep a per-question usage history and always
- * prefer the least-used questions, so a fresh round avoids the ones you just
- * saw until the eligible pool has been exhausted.
+ * Selecting which questions a round uses. Three goals, in priority order:
+ *  1. Nouvelles questions d'abord : on épuise les questions jamais vues (puis les
+ *     moins vues) avant de réutiliser une question déjà posée.
+ *  2. Un maximum d'univers différents : au sein des questions d'un même joueur,
+ *     on évite de reprendre deux fois le même univers tant qu'il en reste
+ *     d'autres — personne ne se retrouve noyé sous un univers qu'il ne connaît
+ *     pas.
+ *  3. Univers préférés / à éviter : les préférés d'un joueur sont sur-pondérés,
+ *     les évités fortement sous-pondérés, sur les questions de CE joueur (mode
+ *     « chacun son tour ») ou de n'importe qui (mode « au plus rapide »).
  */
 
 export interface QuestionUsage {
@@ -26,13 +32,13 @@ export interface SelectionFilter {
 export interface SelectionOptions {
   /** Turn order (player ids). In 'turn' mode, question i is for order[i % N]. */
   order?: string[];
-  /** Per-player universes to avoid → questions of those universes get half weight. */
+  /** Per-player universes to avoid → their questions get a heavy penalty. */
   avoidByPlayer?: Record<string, string[]>;
   turnMode?: TurnMode;
   /**
-   * Per-player favourite universes (sub-categories, max 3 each) → their
-   * questions get a weight bonus: in 'turn' mode only for that player's own
-   * slots, in 'fastest' mode for any player's preference.
+   * Per-player favourite universes (sub-categories) → their questions get a
+   * bonus: in 'turn' mode only for that player's own slots, in 'fastest' mode
+   * for any player's preference.
    */
   preferByPlayer?: Record<string, string[]>;
 }
@@ -41,6 +47,14 @@ export interface SelectionOptions {
 const AVOID_FACTOR = 0.1;
 /** How much a preferred universe is up-weighted (1.9 = « 90 % de chance en plus »). */
 const PREFER_FACTOR = 1.9;
+/**
+ * Chaque question supplémentaire tirée d'un univers déjà servi (au même joueur
+ * en mode « tour », ou globalement sinon) est ré-pondérée par ce facteur. Assez
+ * bas pour qu'avec un vrai pool (des dizaines d'univers) chaque joueur tombe sur
+ * autant d'univers distincts que possible, mais pas nul : si un univers est le
+ * seul disponible, ses questions restent tirables.
+ */
+const UNIVERSE_REPEAT_DECAY = 0.15;
 
 function eligiblePool(pool: readonly Question[], filter: SelectionFilter): Question[] {
   const themeSet = new Set(filter.themes);
@@ -54,6 +68,11 @@ function eligiblePool(pool: readonly Question[], filter: SelectionFilter): Quest
   );
 }
 
+/** Clé de diversité : l'univers, ou à défaut le thème (pour les questions sans univers). */
+function diversityKey(q: Question): string {
+  return q.universe ?? `#${q.theme}`;
+}
+
 export function selectQuestions(
   pool: readonly Question[],
   filter: SelectionFilter,
@@ -62,83 +81,93 @@ export function selectQuestions(
   opts?: SelectionOptions,
 ): Question[] {
   const eligible = eligiblePool(pool, filter);
+  const order = opts?.order ?? [];
+  const turnMode: TurnMode = opts?.turnMode ?? 'turn';
+  const n = order.length;
 
-  const avoidByPlayer = opts?.avoidByPlayer ?? {};
-  const avoidanceActive = Object.values(avoidByPlayer).some((a) => a.length > 0);
-  const preferActive = Object.values(opts?.preferByPlayer ?? {}).some((a) => a.length > 0);
-  if (avoidanceActive || preferActive) {
-    return weightedSelect(eligible, filter.count, history, rng, opts as SelectionOptions);
-  }
-
-  // Default path: shuffle first so equal-usage questions come out random, then
-  // bring the least-used (and least-recently-used) to the front.
-  const decorated = shuffle(eligible, rng).map((q) => {
-    const usage = history[q.id];
-    return { q, times: usage?.timesUsed ?? 0, last: usage?.lastUsedAt ?? 0 };
-  });
-  decorated.sort((a, b) => a.times - b.times || a.last - b.last);
-
-  const picked = decorated.slice(0, Math.max(0, Math.min(filter.count, decorated.length))).map((d) => d.q);
-
-  // Final shuffle so themes/difficulties are interleaved instead of grouped.
-  return shuffle(picked, rng);
-}
-
-/**
- * Weighted, per-slot selection used when at least one player avoids or prefers
- * a universe. A question's weight combines anti-repeat (0.5^timesUsed)
- * with the avoidance penalty (×0.5) and the preference bonus (×1.5). Both are
- * applied for the slot's player in 'turn' mode, or for any player in 'fastest'
- * mode. Questions are picked one slot at a time (no final reshuffle) so that
- * question i is meant for player order[i%N].
- */
-function weightedSelect(
-  eligible: Question[],
-  count: number,
-  history: QuestionHistory,
-  rng: Rng,
-  opts: SelectionOptions,
-): Question[] {
-  const order = opts.order ?? [];
-  const turnMode = opts.turnMode ?? 'turn';
   const avoidSets: Record<string, Set<string>> = {};
   const anyAvoided = new Set<string>();
-  for (const [pid, arr] of Object.entries(opts.avoidByPlayer ?? {})) {
+  for (const [pid, arr] of Object.entries(opts?.avoidByPlayer ?? {})) {
     avoidSets[pid] = new Set(arr);
     for (const u of arr) anyAvoided.add(u);
   }
   const preferSets: Record<string, Set<string>> = {};
   const anyPreferred = new Set<string>();
-  for (const [pid, arr] of Object.entries(opts.preferByPlayer ?? {})) {
+  for (const [pid, arr] of Object.entries(opts?.preferByPlayer ?? {})) {
     preferSets[pid] = new Set(arr);
-    for (const t of arr) anyPreferred.add(t);
+    for (const u of arr) anyPreferred.add(u);
   }
 
+  // Pre-shuffle so that, among questions of equal weight, the pick is random.
   const remaining = shuffle(eligible, rng);
-  const n = order.length;
-  const total = Math.max(0, Math.min(count, remaining.length));
+  const total = Math.max(0, Math.min(filter.count, remaining.length));
   const result: Question[] = [];
+
+  // How many times each universe has already been served — globally, and per
+  // player. We decay a universe's weight by how often it has already come up for
+  // whoever is about to receive the question, which spreads a round across as
+  // many distinct universes as possible.
+  const globalUniv = new Map<string, number>();
+  const perPlayerUniv = new Map<string, Map<string, number>>();
+  const seenCount = (playerId: string, key: string): number => {
+    if (turnMode === 'turn' && playerId) return perPlayerUniv.get(playerId)?.get(key) ?? 0;
+    return globalUniv.get(key) ?? 0;
+  };
 
   for (let slot = 0; slot < total; slot++) {
     const slotPlayer = turnMode === 'turn' && n > 0 ? (order[slot % n] ?? '') : '';
     const avoidSet = slotPlayer ? avoidSets[slotPlayer] : undefined;
     const preferSet = slotPlayer ? preferSets[slotPlayer] : undefined;
-    const weights = remaining.map((q) => {
-      let w = Math.pow(0.5, history[q.id]?.timesUsed ?? 0);
+
+    // Nouvelles questions d'abord : on restreint le tirage au palier d'usage le
+    // plus bas encore disponible (jamais vues, puis vues une fois, etc.).
+    let minUsage = Infinity;
+    for (const q of remaining) {
+      const u = history[q.id]?.timesUsed ?? 0;
+      if (u < minUsage) minUsage = u;
+    }
+
+    let bestSum = 0;
+    const weighted: { q: Question; w: number; idx: number }[] = [];
+    remaining.forEach((q, idx) => {
+      if ((history[q.id]?.timesUsed ?? 0) !== minUsage) return;
+      let w = 1;
+      const key = diversityKey(q);
+      w *= Math.pow(UNIVERSE_REPEAT_DECAY, seenCount(slotPlayer, key));
       if (q.universe) {
         const avoided = turnMode === 'turn' ? (avoidSet?.has(q.universe) ?? false) : anyAvoided.has(q.universe);
         if (avoided) w *= AVOID_FACTOR;
         const preferred = turnMode === 'turn' ? (preferSet?.has(q.universe) ?? false) : anyPreferred.has(q.universe);
         if (preferred) w *= PREFER_FACTOR;
       }
-      return w;
+      bestSum += w;
+      weighted.push({ q, w, idx });
     });
-    const sum = weights.reduce((a, b) => a + b, 0);
-    let r = rng() * sum;
-    let idx = 0;
-    while (idx < weights.length - 1 && (r -= weights[idx] as number) > 0) idx++;
-    result.push(remaining[idx] as Question);
-    remaining.splice(idx, 1);
+
+    // Weighted draw within the current usage tier.
+    let r = rng() * bestSum;
+    let chosen = weighted[weighted.length - 1] as { q: Question; w: number; idx: number };
+    for (const cand of weighted) {
+      r -= cand.w;
+      if (r <= 0) {
+        chosen = cand;
+        break;
+      }
+    }
+
+    result.push(chosen.q);
+    remaining.splice(chosen.idx, 1);
+
+    const key = diversityKey(chosen.q);
+    globalUniv.set(key, (globalUniv.get(key) ?? 0) + 1);
+    if (turnMode === 'turn' && slotPlayer) {
+      let m = perPlayerUniv.get(slotPlayer);
+      if (!m) {
+        m = new Map<string, number>();
+        perPlayerUniv.set(slotPlayer, m);
+      }
+      m.set(key, (m.get(key) ?? 0) + 1);
+    }
   }
   return result;
 }
