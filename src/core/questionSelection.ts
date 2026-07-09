@@ -41,7 +41,19 @@ export interface SelectionOptions {
    * for any player's preference.
    */
   preferByPlayer?: Record<string, string[]>;
+  /**
+   * Per-player question history (each player's OWN seen questions). When
+   * provided, 'turn' mode gives every player their own lot: their slots
+   * prioritise questions THAT player hasn't seen yet — independently of what
+   * other players on the device already saw. A player absent from the map is
+   * treated as brand new (everything is fresh for them). The top-level
+   * `history` argument is then only used in 'fastest' mode.
+   */
+  historyByPlayer?: Record<string, QuestionHistory>;
 }
+
+/** Reused for players with no personal history yet (everything is fresh). */
+const EMPTY_HISTORY: QuestionHistory = {};
 
 /** How much an avoided universe is down-weighted (0.1 = « 90 % de chance en moins »). */
 const AVOID_FACTOR = 0.1;
@@ -118,19 +130,25 @@ export function selectQuestions(
     const slotPlayer = turnMode === 'turn' && n > 0 ? (order[slot % n] ?? '') : '';
     const avoidSet = slotPlayer ? avoidSets[slotPlayer] : undefined;
     const preferSet = slotPlayer ? preferSets[slotPlayer] : undefined;
+    // Each player's own history drives « nouvelles questions d'abord » for their
+    // own slots; fall back to the shared history when none is provided.
+    const slotHistory =
+      turnMode === 'turn' && slotPlayer && opts?.historyByPlayer
+        ? (opts.historyByPlayer[slotPlayer] ?? EMPTY_HISTORY)
+        : history;
 
     // Nouvelles questions d'abord : on restreint le tirage au palier d'usage le
     // plus bas encore disponible (jamais vues, puis vues une fois, etc.).
     let minUsage = Infinity;
     for (const q of remaining) {
-      const u = history[q.id]?.timesUsed ?? 0;
+      const u = slotHistory[q.id]?.timesUsed ?? 0;
       if (u < minUsage) minUsage = u;
     }
 
     let bestSum = 0;
     const weighted: { q: Question; w: number; idx: number }[] = [];
     remaining.forEach((q, idx) => {
-      if ((history[q.id]?.timesUsed ?? 0) !== minUsage) return;
+      if ((slotHistory[q.id]?.timesUsed ?? 0) !== minUsage) return;
       let w = 1;
       const key = diversityKey(q);
       w *= Math.pow(UNIVERSE_REPEAT_DECAY, seenCount(slotPlayer, key));

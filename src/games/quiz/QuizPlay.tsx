@@ -21,7 +21,13 @@ import {
 } from '../../core/quizEngine';
 import { mulberry32, randomSeed, shuffle } from '../../core/rng';
 import { selectQuestions } from '../../core/questionSelection';
-import { getPlayerAvoidance, getPlayerPreferredUniverses, getQuestionHistory, listCustomChallenges } from '../../db';
+import {
+  getPlayerAvoidance,
+  getPlayerPreferredUniverses,
+  getQuestionHistory,
+  getQuestionHistoryByPlayer,
+  listCustomChallenges,
+} from '../../db';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import type { MiniGamePlayProps } from '../types';
 import { getQuizPool } from './pool';
@@ -130,8 +136,9 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const [history, pool, customChallenges, avoidance, preferences] = await Promise.all([
+      const [history, historyByPlayer, pool, customChallenges, avoidance, preferences] = await Promise.all([
         getQuestionHistory(),
+        getQuestionHistoryByPlayer(),
         getQuizPool(),
         listCustomChallenges(),
         getPlayerAvoidance(),
@@ -163,7 +170,14 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
         },
         history,
         mulberry32(seed),
-        { order, avoidByPlayer, turnMode: cfg.turnMode, preferByPlayer },
+        {
+          order,
+          avoidByPlayer,
+          turnMode: cfg.turnMode,
+          preferByPlayer,
+          // Per-player fresh questions only make sense outside team mode.
+          historyByPlayer: teamMode ? undefined : historyByPlayer,
+        },
       );
       const selected = selectedAll.slice(0, cfg.questionCount);
       // Reserve first uses questions without a remote image, so a replacement is

@@ -196,3 +196,37 @@ describe('univers préférés / évités', () => {
     expect(new Set(out.map((x) => x.id)).size).toBe(30);
   });
 });
+
+describe('lot personnalisé par joueur (historique par joueur)', () => {
+  const p: Question[] = [
+    ...Array.from({ length: 10 }, (_, i) => uq(`A${i}`, 'A')),
+    ...Array.from({ length: 10 }, (_, i) => uq(`B${i}`, 'B')),
+  ];
+  // p1 has already seen every question of universe A; p2 is brand new.
+  const historyByPlayer = {
+    p1: Object.fromEntries(p.filter((q) => q.universe === 'A').map((q) => [q.id, { timesUsed: 1, lastUsedAt: 1 }])),
+  };
+
+  test('a player only gets questions THEY have not seen, while a new player still gets them', () => {
+    let p1GotSeen = 0;
+    let seenServedToNewPlayer = 0;
+    for (let seed = 1; seed <= 40; seed++) {
+      const out = selectQuestions(p, { themes: ['manga'], difficulties: [1], count: 8 }, {}, mulberry32(seed), {
+        order: ['p1', 'p2'],
+        turnMode: 'turn',
+        historyByPlayer,
+      });
+      out.forEach((q, i) => {
+        const player = i % 2 === 0 ? 'p1' : 'p2';
+        if (q.universe === 'A') {
+          if (player === 'p1') p1GotSeen++;
+          else seenServedToNewPlayer++;
+        }
+      });
+    }
+    // p1 is never served a question they had already seen…
+    expect(p1GotSeen).toBe(0);
+    // …but universe A is still used — for p2, to whom it is new.
+    expect(seenServedToNewPlayer).toBeGreaterThan(0);
+  });
+});
