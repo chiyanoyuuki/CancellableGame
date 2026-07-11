@@ -1,4 +1,5 @@
 import type { Question } from '../../../../core/models';
+import { animes90 } from './animes90';
 import { aot } from './aot';
 import { berserk } from './berserk';
 import { bleach } from './bleach';
@@ -37,4 +38,5 @@ export const mangaQuestions: Question[] = [
   ...mushokutensei,
   ...jujutsukaisen,
   ...nana,
+  ...animes90,
 ];
