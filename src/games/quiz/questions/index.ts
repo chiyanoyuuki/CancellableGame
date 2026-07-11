@@ -6,6 +6,7 @@ import { filmsQuestions } from './films';
 import { imageCharsQuestions } from './imageChars';
 import { imagesQuestions } from './images';
 import { internetQuestions } from './internet';
+import { japonQuestions } from './japon';
 import { jeuxvideoQuestions } from './jeuxvideo';
 import { litteratureQuestions } from './litterature';
 import { mangaQuestions } from './manga';
@@ -30,6 +31,7 @@ export const QUESTIONS: Question[] = [
   ...filmsQuestions,
   ...musiqueQuestions,
   ...litteratureQuestions,
+  ...japonQuestions,
   ...cultureQuestions,
   ...internetQuestions,
   ...mythologieQuestions,
