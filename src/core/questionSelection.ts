@@ -2,16 +2,16 @@ import type { Difficulty, Question, Theme, TurnMode } from './models';
 import { type Rng, shuffle } from './rng';
 
 /**
- * Selecting which questions a round uses. Three goals, in priority order:
+ * Selecting which questions a round uses. Priorités, dans l'ordre :
  *  1. Nouvelles questions d'abord : on épuise les questions jamais vues (puis les
  *     moins vues) avant de réutiliser une question déjà posée.
  *  2. Un maximum d'univers différents : au sein des questions d'un même joueur,
  *     on évite de reprendre deux fois le même univers tant qu'il en reste
- *     d'autres — personne ne se retrouve noyé sous un univers qu'il ne connaît
- *     pas.
- *  3. Univers préférés / à éviter : les préférés d'un joueur sont sur-pondérés,
- *     les évités fortement sous-pondérés, sur les questions de CE joueur (mode
- *     « chacun son tour ») ou de n'importe qui (mode « au plus rapide »).
+ *     d'autres.
+ *  3. Thèmes non souhaités : chaque joueur peut marquer des thèmes non
+ *     souhaités. Une question n'a alors qu'environ 1 % de chance, par tirage, de
+ *     provenir de l'un de ces thèmes (un thème au hasard parmi eux) ; sinon on
+ *     tire dans les thèmes souhaités.
  */
 
 export interface QuestionUsage {
@@ -32,22 +32,20 @@ export interface SelectionFilter {
 export interface SelectionOptions {
   /** Turn order (player ids). In 'turn' mode, question i is for order[i % N]. */
   order?: string[];
-  /** Per-player universes to avoid → their questions get a heavy penalty. */
-  avoidByPlayer?: Record<string, string[]>;
   turnMode?: TurnMode;
   /**
-   * Per-player favourite universes (sub-categories) → their questions get a
-   * bonus: in 'turn' mode only for that player's own slots, in 'fastest' mode
-   * for any player's preference.
+   * Per-player UNWANTED themes. Leurs questions ne sont quasiment jamais tirées :
+   * chaque tirage n'a qu'environ 1 % de chance de piocher dans un thème non
+   * souhaité. En mode « tour », on utilise la liste du joueur du slot ; en mode
+   * « au plus rapide » (question partagée), l'union des listes de tous.
    */
-  preferByPlayer?: Record<string, string[]>;
+  unwantedThemesByPlayer?: Record<string, Theme[]>;
   /**
    * Per-player question history (each player's OWN seen questions). When
    * provided, 'turn' mode gives every player their own lot: their slots
-   * prioritise questions THAT player hasn't seen yet — independently of what
-   * other players on the device already saw. A player absent from the map is
-   * treated as brand new (everything is fresh for them). The top-level
-   * `history` argument is then only used in 'fastest' mode.
+   * prioritise questions THAT player hasn't seen yet. A player absent from the
+   * map is treated as brand new. The top-level `history` argument is then only
+   * used in 'fastest' mode.
    */
   historyByPlayer?: Record<string, QuestionHistory>;
 }
@@ -55,18 +53,16 @@ export interface SelectionOptions {
 /** Reused for players with no personal history yet (everything is fresh). */
 const EMPTY_HISTORY: QuestionHistory = {};
 
-/** How much an avoided universe is down-weighted (0.1 = « 90 % de chance en moins »). */
-const AVOID_FACTOR = 0.1;
-/** How much a preferred universe is up-weighted (1.9 = « 90 % de chance en plus »). */
-const PREFER_FACTOR = 1.9;
 /**
  * Chaque question supplémentaire tirée d'un univers déjà servi (au même joueur
  * en mode « tour », ou globalement sinon) est ré-pondérée par ce facteur. Assez
  * bas pour qu'avec un vrai pool (des dizaines d'univers) chaque joueur tombe sur
- * autant d'univers distincts que possible, mais pas nul : si un univers est le
- * seul disponible, ses questions restent tirables.
+ * autant d'univers distincts que possible, mais pas nul.
  */
 const UNIVERSE_REPEAT_DECAY = 0.15;
+
+/** Probabilité, par question, de piocher malgré tout dans un thème non souhaité. */
+const UNWANTED_THEME_CHANCE = 0.01;
 
 function eligiblePool(pool: readonly Question[], filter: SelectionFilter): Question[] {
   const themeSet = new Set(filter.themes);
@@ -97,17 +93,11 @@ export function selectQuestions(
   const turnMode: TurnMode = opts?.turnMode ?? 'turn';
   const n = order.length;
 
-  const avoidSets: Record<string, Set<string>> = {};
-  const anyAvoided = new Set<string>();
-  for (const [pid, arr] of Object.entries(opts?.avoidByPlayer ?? {})) {
-    avoidSets[pid] = new Set(arr);
-    for (const u of arr) anyAvoided.add(u);
-  }
-  const preferSets: Record<string, Set<string>> = {};
-  const anyPreferred = new Set<string>();
-  for (const [pid, arr] of Object.entries(opts?.preferByPlayer ?? {})) {
-    preferSets[pid] = new Set(arr);
-    for (const u of arr) anyPreferred.add(u);
+  const unwantedSets: Record<string, Set<Theme>> = {};
+  const anyUnwanted = new Set<Theme>();
+  for (const [pid, arr] of Object.entries(opts?.unwantedThemesByPlayer ?? {})) {
+    unwantedSets[pid] = new Set(arr);
+    for (const t of arr) anyUnwanted.add(t);
   }
 
   // Pre-shuffle so that, among questions of equal weight, the pick is random.
@@ -116,9 +106,7 @@ export function selectQuestions(
   const result: Question[] = [];
 
   // How many times each universe has already been served — globally, and per
-  // player. We decay a universe's weight by how often it has already come up for
-  // whoever is about to receive the question, which spreads a round across as
-  // many distinct universes as possible.
+  // player — to spread a round across as many distinct universes as possible.
   const globalUniv = new Map<string, number>();
   const perPlayerUniv = new Map<string, Map<string, number>>();
   const seenCount = (playerId: string, key: string): number => {
@@ -128,19 +116,31 @@ export function selectQuestions(
 
   for (let slot = 0; slot < total; slot++) {
     const slotPlayer = turnMode === 'turn' && n > 0 ? (order[slot % n] ?? '') : '';
-    const avoidSet = slotPlayer ? avoidSets[slotPlayer] : undefined;
-    const preferSet = slotPlayer ? preferSets[slotPlayer] : undefined;
-    // Each player's own history drives « nouvelles questions d'abord » for their
-    // own slots; fall back to the shared history when none is provided.
     const slotHistory =
       turnMode === 'turn' && slotPlayer && opts?.historyByPlayer
         ? (opts.historyByPlayer[slotPlayer] ?? EMPTY_HISTORY)
         : history;
+    const unwanted = turnMode === 'turn' ? (slotPlayer ? unwantedSets[slotPlayer] : undefined) : anyUnwanted;
+    const isUnwanted = (q: Question): boolean => unwanted?.has(q.theme) ?? false;
+
+    // 99 % thèmes souhaités, 1 % thème non souhaité — sans jamais tirer dans un
+    // sous-ensemble vide.
+    let pickUnwanted = (unwanted?.size ?? 0) > 0 && rng() < UNWANTED_THEME_CHANCE;
+    let hasWanted = false;
+    let hasUnwanted = false;
+    for (const q of remaining) {
+      if (isUnwanted(q)) hasUnwanted = true;
+      else hasWanted = true;
+      if (hasWanted && hasUnwanted) break;
+    }
+    if (pickUnwanted && !hasUnwanted) pickUnwanted = false;
+    if (!pickUnwanted && !hasWanted) pickUnwanted = true;
 
     // Nouvelles questions d'abord : on restreint le tirage au palier d'usage le
-    // plus bas encore disponible (jamais vues, puis vues une fois, etc.).
+    // plus bas encore disponible, dans le sous-ensemble choisi.
     let minUsage = Infinity;
     for (const q of remaining) {
+      if (isUnwanted(q) !== pickUnwanted) continue;
       const u = slotHistory[q.id]?.timesUsed ?? 0;
       if (u < minUsage) minUsage = u;
     }
@@ -148,16 +148,9 @@ export function selectQuestions(
     let bestSum = 0;
     const weighted: { q: Question; w: number; idx: number }[] = [];
     remaining.forEach((q, idx) => {
+      if (isUnwanted(q) !== pickUnwanted) return;
       if ((slotHistory[q.id]?.timesUsed ?? 0) !== minUsage) return;
-      let w = 1;
-      const key = diversityKey(q);
-      w *= Math.pow(UNIVERSE_REPEAT_DECAY, seenCount(slotPlayer, key));
-      if (q.universe) {
-        const avoided = turnMode === 'turn' ? (avoidSet?.has(q.universe) ?? false) : anyAvoided.has(q.universe);
-        if (avoided) w *= AVOID_FACTOR;
-        const preferred = turnMode === 'turn' ? (preferSet?.has(q.universe) ?? false) : anyPreferred.has(q.universe);
-        if (preferred) w *= PREFER_FACTOR;
-      }
+      const w = Math.pow(UNIVERSE_REPEAT_DECAY, seenCount(slotPlayer, diversityKey(q)));
       bestSum += w;
       weighted.push({ q, w, idx });
     });

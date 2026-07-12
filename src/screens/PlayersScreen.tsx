@@ -6,16 +6,16 @@ import { Alert, Modal, Pressable, ScrollView, StyleSheet, TextInput, View } from
 import { Button, Card, Chip, PlayerAvatar, Screen, SectionHeader, Txt } from '../components/ui';
 import { THEME_META, THEMES } from '../core/models';
 import type { Player, Question, Theme } from '../core/models';
+import type { QuestionHistory } from '../core/questionSelection';
 import {
   archivePlayer,
   createPlayer,
   deletePlayerForever,
-  getPlayerAvoidance,
-  getPlayerPreferredUniverses,
+  getPlayerUnwantedThemes,
+  getQuestionHistoryByPlayer,
   listPlayers,
   restorePlayer,
-  setPlayerAvoidance,
-  setPlayerPreferredUniverses,
+  setPlayerUnwantedThemes,
   updatePlayer,
 } from '../db';
 import { getQuizPool } from '../games/quiz/pool';
@@ -31,25 +31,21 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   const [color, setColor] = useState(PLAYER_COLORS[0] as string);
   const [editingId, setEditingId] = useState<string | null>(null);
 
-  // Per-player universe avoidance (soft: 90% less likely).
+  // Per-player unwanted THEMES (a question a ~1 % de chance d'en venir quand même).
   const [pool, setPool] = useState<Question[]>([]);
-  const [avoidance, setAvoidance] = useState<Record<string, string[]>>({});
-  const [avoidPlayer, setAvoidPlayer] = useState<Player | null>(null);
-  const [avoidDraft, setAvoidDraft] = useState<Set<string>>(new Set());
-
-  // Per-player preferred universes (max 5: soft boost, 90% more likely).
-  const [preferences, setPreferences] = useState<Record<string, string[]>>({});
-  const [preferPlayer, setPreferPlayer] = useState<Player | null>(null);
-  const [preferDraft, setPreferDraft] = useState<Set<string>>(new Set());
+  const [historyByPlayer, setHistoryByPlayer] = useState<Record<string, QuestionHistory>>({});
+  const [unwanted, setUnwanted] = useState<Record<string, Theme[]>>({});
+  const [unwantedPlayer, setUnwantedPlayer] = useState<Player | null>(null);
+  const [unwantedDraft, setUnwantedDraft] = useState<Set<Theme>>(new Set());
 
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const [p, a, pref] = await Promise.all([getQuizPool(), getPlayerAvoidance(), getPlayerPreferredUniverses()]);
+      const [p, u, h] = await Promise.all([getQuizPool(), getPlayerUnwantedThemes(), getQuestionHistoryByPlayer()]);
       if (alive) {
         setPool(p);
-        setAvoidance(a);
-        setPreferences(pref);
+        setUnwanted(u);
+        setHistoryByPlayer(h);
       }
     })();
     return () => {
@@ -57,63 +53,46 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
     };
   }, []);
 
-  const universesByTheme = useMemo(() => {
-    const map = new Map<Theme, Set<string>>();
-    for (const q of pool) {
-      if (!q.universe) continue;
-      const s = map.get(q.theme) ?? new Set<string>();
-      s.add(q.universe);
-      map.set(q.theme, s);
-    }
-    const out: { theme: Theme; universes: string[] }[] = [];
-    for (const t of THEMES) {
-      const s = map.get(t);
-      if (s && s.size > 0) out.push({ theme: t, universes: [...s].sort() });
-    }
-    return out;
+  // Themes that actually have questions in the pool, in the canonical order.
+  const availableThemes = useMemo(() => {
+    const present = new Set<Theme>();
+    for (const q of pool) present.add(q.theme);
+    return THEMES.filter((t) => present.has(t));
   }, [pool]);
 
-  const openAvoid = (p: Player) => {
-    setAvoidPlayer(p);
-    setAvoidDraft(new Set(avoidance[p.id] ?? []));
-  };
-  const toggleAvoid = (u: string) =>
-    setAvoidDraft((prev) => {
-      const next = new Set(prev);
-      if (next.has(u)) next.delete(u);
-      else next.add(u);
-      return next;
-    });
-  const saveAvoid = async () => {
-    if (!avoidPlayer) return;
-    const list = [...avoidDraft];
-    const next = { ...avoidance, [avoidPlayer.id]: list };
-    if (list.length === 0) delete next[avoidPlayer.id];
-    setAvoidance(next);
-    setAvoidPlayer(null);
-    await setPlayerAvoidance(next);
-  };
+  // Questions inédites (jamais vues par ce joueur) qui restent tirables une fois
+  // les thèmes non souhaités du brouillon écartés — recalculé en direct.
+  const unseenRemaining = useMemo(() => {
+    if (!unwantedPlayer) return 0;
+    const seen = new Set(Object.keys(historyByPlayer[unwantedPlayer.id] ?? {}));
+    let count = 0;
+    for (const q of pool) {
+      if (unwantedDraft.has(q.theme)) continue;
+      if (seen.has(q.id)) continue;
+      count++;
+    }
+    return count;
+  }, [unwantedPlayer, historyByPlayer, pool, unwantedDraft]);
 
-  const MAX_PREFERRED = 5;
-  const openPrefer = (p: Player) => {
-    setPreferPlayer(p);
-    setPreferDraft(new Set(preferences[p.id] ?? []));
+  const openUnwanted = (p: Player) => {
+    setUnwantedPlayer(p);
+    setUnwantedDraft(new Set(unwanted[p.id] ?? []));
   };
-  const togglePrefer = (t: string) =>
-    setPreferDraft((prev) => {
+  const toggleUnwanted = (t: Theme) =>
+    setUnwantedDraft((prev) => {
       const next = new Set(prev);
       if (next.has(t)) next.delete(t);
-      else if (next.size < MAX_PREFERRED) next.add(t); // au maximum 5 univers préférés
+      else next.add(t);
       return next;
     });
-  const savePrefer = async () => {
-    if (!preferPlayer) return;
-    const list = [...preferDraft];
-    const next = { ...preferences, [preferPlayer.id]: list };
-    if (list.length === 0) delete next[preferPlayer.id];
-    setPreferences(next);
-    setPreferPlayer(null);
-    await setPlayerPreferredUniverses(next);
+  const saveUnwanted = async () => {
+    if (!unwantedPlayer) return;
+    const list = [...unwantedDraft];
+    const next = { ...unwanted, [unwantedPlayer.id]: list };
+    if (list.length === 0) delete next[unwantedPlayer.id];
+    setUnwanted(next);
+    setUnwantedPlayer(null);
+    await setPlayerUnwantedThemes(next);
   };
 
   const refresh = useCallback(async () => {
@@ -155,8 +134,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   const manage = (p: Player) => {
     Alert.alert(p.name, undefined, [
       { text: 'Modifier', onPress: () => startEdit(p) },
-      { text: 'Univers à éviter', onPress: () => openAvoid(p) },
-      { text: 'Univers préférés', onPress: () => openPrefer(p) },
+      { text: 'Thèmes non souhaités', onPress: () => openUnwanted(p) },
       {
         text: 'Archiver',
         onPress: async () => {
@@ -260,11 +238,10 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
             <PlayerAvatar emoji={p.emoji} color={p.color} />
             <View style={{ flex: 1 }}>
               <Txt weight="700">{p.name}</Txt>
-              {(avoidance[p.id]?.length ?? 0) > 0 && (
-                <Txt faint size={fontSize.xs}>🚫 évite {avoidance[p.id]!.length} univers</Txt>
-              )}
-              {(preferences[p.id]?.length ?? 0) > 0 && (
-                <Txt faint size={fontSize.xs}>⭐ préfère {preferences[p.id]!.length} univers</Txt>
+              {(unwanted[p.id]?.length ?? 0) > 0 && (
+                <Txt faint size={fontSize.xs}>
+                  🚫 évite {unwanted[p.id]!.length} thème{unwanted[p.id]!.length > 1 ? 's' : ''}
+                </Txt>
               )}
             </View>
             {showArchived ? (
@@ -285,69 +262,40 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
       )}
     </Screen>
 
-    <Modal visible={avoidPlayer !== null} animationType="slide" transparent onRequestClose={() => setAvoidPlayer(null)}>
+    <Modal visible={unwantedPlayer !== null} animationType="slide" transparent onRequestClose={() => setUnwantedPlayer(null)}>
       <View style={styles.modalBackdrop}>
         <View style={styles.modalSheet}>
           <Txt weight="800" size={fontSize.lg}>
-            Univers à éviter
+            Thèmes non souhaités
           </Txt>
           <Txt dim size={fontSize.sm} style={{ marginTop: spacing(0.5) }}>
-            {avoidPlayer?.name} tombera bien plus rarement sur ces univers, sans qu'ils soient totalement exclus.
+            {unwantedPlayer?.name} ne tombera quasiment jamais sur ces thèmes : environ 1 % de chance par question,
+            juste pour la surprise.
           </Txt>
-          <ScrollView style={{ marginTop: spacing(1.5) }} contentContainerStyle={{ paddingBottom: spacing(1) }}>
-            {universesByTheme.map(({ theme, universes }) => (
-              <View key={theme} style={{ marginBottom: spacing(1.5) }}>
-                <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.5) }}>
-                  {THEME_META[theme].emoji} {THEME_META[theme].label.toUpperCase()}
-                </Txt>
-                <View style={styles.chipWrap}>
-                  {universes.map((u) => (
-                    <Chip key={u} label={u} selected={avoidDraft.has(u)} onPress={() => toggleAvoid(u)} />
-                  ))}
-                </View>
-              </View>
-            ))}
-          </ScrollView>
-          <View style={{ flexDirection: 'row', gap: spacing(1), marginTop: spacing(1) }}>
-            <Button title="Annuler" variant="ghost" onPress={() => setAvoidPlayer(null)} style={{ flex: 1 }} />
-            <Button title="Enregistrer" onPress={saveAvoid} style={{ flex: 1 }} />
+          <View style={styles.counter}>
+            <Txt weight="800" size={fontSize.lg} color={unseenRemaining > 0 ? colors.success : colors.danger}>
+              {unseenRemaining}
+            </Txt>
+            <Txt dim size={fontSize.sm} style={{ flex: 1 }}>
+              question{unseenRemaining > 1 ? 's' : ''} inédite{unseenRemaining > 1 ? 's' : ''} restante{unseenRemaining > 1 ? 's' : ''} pour {unwantedPlayer?.name} avec ce choix
+            </Txt>
           </View>
-        </View>
-      </View>
-    </Modal>
-
-    <Modal visible={preferPlayer !== null} animationType="slide" transparent onRequestClose={() => setPreferPlayer(null)}>
-      <View style={styles.modalBackdrop}>
-        <View style={styles.modalSheet}>
-          <Txt weight="800" size={fontSize.lg}>
-            Univers préférés
-          </Txt>
-          <Txt dim size={fontSize.sm} style={{ marginTop: spacing(0.5) }}>
-            {preferPlayer?.name} tombera plus souvent sur ces univers. Maximum {MAX_PREFERRED}.
-          </Txt>
           <ScrollView style={{ marginTop: spacing(1.5) }} contentContainerStyle={{ paddingBottom: spacing(1) }}>
-            {universesByTheme.map(({ theme, universes }) => (
-              <View key={theme} style={{ marginBottom: spacing(1.5) }}>
-                <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.5) }}>
-                  {THEME_META[theme].emoji} {THEME_META[theme].label.toUpperCase()}
-                </Txt>
-                <View style={styles.chipWrap}>
-                  {universes.map((u) => (
-                    <Chip
-                      key={u}
-                      label={u}
-                      selected={preferDraft.has(u)}
-                      onPress={() => togglePrefer(u)}
-                      color={colors.warning}
-                    />
-                  ))}
-                </View>
-              </View>
-            ))}
+            <View style={styles.chipWrap}>
+              {availableThemes.map((t) => (
+                <Chip
+                  key={t}
+                  label={`${THEME_META[t].emoji} ${THEME_META[t].label}`}
+                  selected={unwantedDraft.has(t)}
+                  onPress={() => toggleUnwanted(t)}
+                  color={colors.danger}
+                />
+              ))}
+            </View>
           </ScrollView>
           <View style={{ flexDirection: 'row', gap: spacing(1), marginTop: spacing(1) }}>
-            <Button title="Annuler" variant="ghost" onPress={() => setPreferPlayer(null)} style={{ flex: 1 }} />
-            <Button title="Enregistrer" onPress={savePrefer} style={{ flex: 1 }} />
+            <Button title="Annuler" variant="ghost" onPress={() => setUnwantedPlayer(null)} style={{ flex: 1 }} />
+            <Button title="Enregistrer" onPress={saveUnwanted} style={{ flex: 1 }} />
           </View>
         </View>
       </View>
@@ -387,6 +335,15 @@ const styles = StyleSheet.create({
     borderTopRightRadius: radius.lg,
     padding: spacing(2.5),
     maxHeight: '82%',
+  },
+  counter: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing(1),
+    marginTop: spacing(1.5),
+    padding: spacing(1.5),
+    borderRadius: radius.md,
+    backgroundColor: colors.card,
   },
   chipWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing(1) },
 });

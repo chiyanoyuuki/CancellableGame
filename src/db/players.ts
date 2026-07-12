@@ -1,28 +1,21 @@
 import { uid } from '../core/id';
-import type { Player } from '../core/models';
+import type { Player, Theme } from '../core/models';
 import { getDb } from './database';
 import { kvGetJSON, kvSetJSON } from './kv';
 
-const AVOID_KEY = 'player:avoidedUniverses';
+const UNWANTED_THEMES_KEY = 'player:unwantedThemes';
 
-/** Per-player list of universes to avoid (soft: 50% less likely, not excluded). */
-export async function getPlayerAvoidance(): Promise<Record<string, string[]>> {
-  return kvGetJSON<Record<string, string[]>>(AVOID_KEY, {});
+/**
+ * Per-player list of UNWANTED themes. A player almost never gets questions from
+ * these themes : au tirage, chaque question n'a qu'environ 1 % de chance de
+ * provenir de l'un d'eux.
+ */
+export async function getPlayerUnwantedThemes(): Promise<Record<string, Theme[]>> {
+  return kvGetJSON<Record<string, Theme[]>>(UNWANTED_THEMES_KEY, {});
 }
 
-export async function setPlayerAvoidance(map: Record<string, string[]>): Promise<void> {
-  await kvSetJSON(AVOID_KEY, map);
-}
-
-const PREFER_KEY = 'player:preferredUniverses';
-
-/** Per-player list of favourite universes (max 3: soft boost, 50% more likely). */
-export async function getPlayerPreferredUniverses(): Promise<Record<string, string[]>> {
-  return kvGetJSON<Record<string, string[]>>(PREFER_KEY, {});
-}
-
-export async function setPlayerPreferredUniverses(map: Record<string, string[]>): Promise<void> {
-  await kvSetJSON(PREFER_KEY, map);
+export async function setPlayerUnwantedThemes(map: Record<string, Theme[]>): Promise<void> {
+  await kvSetJSON(UNWANTED_THEMES_KEY, map);
 }
 
 interface PlayerRow {

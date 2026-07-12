@@ -15,20 +15,20 @@ export async function getQuestionHistory(): Promise<QuestionHistory> {
 }
 
 /**
- * Load the question history split PER PLAYER, reconstructed from the recorded
- * « answer » events (each carries the player who was asked the question). This
- * lets every player get their own fresh questions: someone who never saw a
- * question still receives it, even if another player on this device already did.
+ * Load the question history split PER PLAYER. Une question est comptée comme
+ * « vue » par un joueur dès qu'il a PARTICIPÉ à une partie qui la contenait —
+ * même si c'est quelqu'un d'autre qui y a répondu. On croise donc les parties
+ * jouées par chaque joueur (`results`) avec les questions posées dans chaque
+ * partie (événements « answer »).
  */
 export async function getQuestionHistoryByPlayer(): Promise<Record<string, QuestionHistory>> {
   const db = await getDb();
-  const rows = await db.getAllAsync<{ player_id: string | null; payload: string; at: number }>(
-    "SELECT player_id, payload, at FROM events WHERE type = 'answer'",
+  // Questions posées par session (via les événements « answer »), avec l'instant le plus récent.
+  const eventRows = await db.getAllAsync<{ session_id: number; payload: string; at: number }>(
+    "SELECT session_id, payload, at FROM events WHERE type = 'answer'",
   );
-  const byPlayer: Record<string, QuestionHistory> = {};
-  for (const r of rows) {
-    const pid = r.player_id;
-    if (!pid) continue;
+  const sessionQuestions = new Map<number, Map<string, number>>();
+  for (const r of eventRows) {
     let qid: unknown;
     try {
       qid = (JSON.parse(r.payload) as { questionId?: unknown }).questionId;
@@ -36,13 +36,30 @@ export async function getQuestionHistoryByPlayer(): Promise<Record<string, Quest
       continue;
     }
     if (typeof qid !== 'string') continue;
-    let h = byPlayer[pid];
+    let m = sessionQuestions.get(r.session_id);
+    if (!m) {
+      m = new Map<string, number>();
+      sessionQuestions.set(r.session_id, m);
+    }
+    m.set(qid, Math.max(m.get(qid) ?? 0, r.at));
+  }
+  // Participants de chaque session.
+  const resultRows = await db.getAllAsync<{ session_id: number; player_id: string }>(
+    'SELECT session_id, player_id FROM results',
+  );
+  const byPlayer: Record<string, QuestionHistory> = {};
+  for (const r of resultRows) {
+    const questions = sessionQuestions.get(r.session_id);
+    if (!questions) continue;
+    let h = byPlayer[r.player_id];
     if (!h) {
       h = {};
-      byPlayer[pid] = h;
+      byPlayer[r.player_id] = h;
     }
-    const prev = h[qid];
-    h[qid] = { timesUsed: (prev?.timesUsed ?? 0) + 1, lastUsedAt: Math.max(prev?.lastUsedAt ?? 0, r.at) };
+    for (const [qid, at] of questions) {
+      const prev = h[qid];
+      h[qid] = { timesUsed: (prev?.timesUsed ?? 0) + 1, lastUsedAt: Math.max(prev?.lastUsedAt ?? 0, at) };
+    }
   }
   return byPlayer;
 }

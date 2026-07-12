@@ -179,8 +179,8 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
 
       <Txt faint size={fontSize.xs}>
         Astuce : chaque partie pioche des questions inédites et un maximum d'univers différents.
-        Chaque joueur peut choisir jusqu'à 5 univers préférés dans l'écran Joueurs (ils reviennent
-        plus souvent), comme les univers à éviter.
+        Chaque joueur peut marquer des thèmes non souhaités dans l'écran Joueurs : il n'a alors
+        qu'environ 1 % de chance par question d'en croiser un.
       </Txt>
 
       <SectionHeader title="Difficulté" />
