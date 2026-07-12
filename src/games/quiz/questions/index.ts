@@ -10,6 +10,7 @@ import { japonQuestions } from './japon';
 import { jeuxvideoQuestions } from './jeuxvideo';
 import { litteratureQuestions } from './litterature';
 import { mangaQuestions } from './manga';
+import { modeQuestions } from './mode';
 import { musiqueQuestions } from './musique';
 import { mythologieQuestions } from './mythologie';
 import { rebusQuestions } from './rebus';
@@ -32,6 +33,7 @@ export const QUESTIONS: Question[] = [
   ...musiqueQuestions,
   ...litteratureQuestions,
   ...japonQuestions,
+  ...modeQuestions,
   ...cultureQuestions,
   ...internetQuestions,
   ...mythologieQuestions,
