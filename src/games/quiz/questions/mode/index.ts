@@ -1,6 +1,9 @@
 import type { Question } from '../../../../core/models';
+import { beauteEtParfums } from './beauteetparfums';
 import { grandscouturiers } from './grandscouturiers';
+import { histoireDeLaMode } from './histoiredelamode';
 import { maisonsdeluxe } from './maisonsdeluxe';
+import { mannequinsFashionWeek } from './mannequinsfashionweek';
 import { streetwear } from './streetwear';
 
 /**
@@ -11,4 +14,7 @@ export const modeQuestions: Question[] = [
   ...grandscouturiers,
   ...maisonsdeluxe,
   ...streetwear,
+  ...mannequinsFashionWeek,
+  ...beauteEtParfums,
+  ...histoireDeLaMode,
 ];
