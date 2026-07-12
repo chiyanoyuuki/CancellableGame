@@ -3,6 +3,7 @@ import { blindtestQuestions } from './blindtest';
 import { cultureQuestions } from './culture';
 import { enigmesQuestions } from './enigmes';
 import { filmsQuestions } from './films';
+import { franceQuestions } from './france';
 import { imageCharsQuestions } from './imageChars';
 import { imagesQuestions } from './images';
 import { internetQuestions } from './internet';
@@ -33,6 +34,7 @@ export const QUESTIONS: Question[] = [
   ...musiqueQuestions,
   ...litteratureQuestions,
   ...japonQuestions,
+  ...franceQuestions,
   ...modeQuestions,
   ...cultureQuestions,
   ...internetQuestions,
