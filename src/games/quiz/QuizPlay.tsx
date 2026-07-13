@@ -48,6 +48,9 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
   const [buzzed, setBuzzed] = useState<{ playerId: string; timeMs: number } | null>(null);
   const [imgError, setImgError] = useState(false);
   const [remaining, setRemaining] = useState<number | null>(null);
+  // Univers non souhaités par joueur — sert à signaler, sous l'univers, quand
+  // une question sort d'un univers que le joueur actif avait écarté.
+  const [unwantedByPlayer, setUnwantedByPlayer] = useState<Record<string, string[]>>({});
 
   const startedAtRef = useRef<number>(Date.now());
   const questionStartRef = useRef<number>(Date.now());
@@ -178,6 +181,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
         .slice(cfg.questionCount)
         .sort((a, b) => Number(a.media?.type === 'image') - Number(b.media?.type === 'image'));
       if (!alive) return;
+      setUnwantedByPlayer(unwantedUniversesByPlayer);
       startedAtRef.current = Date.now();
       questionStartRef.current = Date.now();
       setGame(
@@ -320,15 +324,32 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
     const theme = THEME_META[q.theme];
     const revealedHints = (q.hints ?? []).slice(0, game!.hintsRevealed);
 
+    // Sous l'univers : indique au joueur actif s'il avait écarté cet univers.
+    // Seulement en mode « tour » (un seul joueur à la question) et quand
+    // l'univers est effectivement affiché.
+    const activeId = cfg.turnMode === 'turn' ? game!.activePlayerId : null;
+    const universeShown = cfg.showUniverse && !!q.universe;
+    const activeName = activeId ? byId[activeId]?.name : undefined;
+    const universeExcluded = universeShown && !!activeId && (unwantedByPlayer[activeId] ?? []).includes(q.universe!);
+
     return (
       <View style={{ gap: spacing(2) }}>
-        <View style={styles.metaRow}>
-          <Txt weight="800" color={colors.accent}>
-            {theme.emoji} {cfg.showUniverse && q.universe ? q.universe : theme.label}
-          </Txt>
-          <Txt faint weight="700" size={fontSize.xs}>
-            {DIFFICULTY_LABELS[q.difficulty].toUpperCase()}
-          </Txt>
+        <View style={{ gap: spacing(0.5) }}>
+          <View style={styles.metaRow}>
+            <Txt weight="800" color={colors.accent}>
+              {theme.emoji} {cfg.showUniverse && q.universe ? q.universe : theme.label}
+            </Txt>
+            <Txt faint weight="700" size={fontSize.xs}>
+              {DIFFICULTY_LABELS[q.difficulty].toUpperCase()}
+            </Txt>
+          </View>
+          {universeShown && !!activeId && (
+            <Txt weight="700" size={fontSize.xs} color={universeExcluded ? colors.danger : colors.textFaint}>
+              {universeExcluded
+                ? `🚫 Univers non souhaité${activeName ? ` par ${activeName}` : ''}`
+                : '✓ Univers non exclu'}
+            </Txt>
+          )}
         </View>
 
         {q.media?.type === 'emoji' && !!q.media.emoji && (

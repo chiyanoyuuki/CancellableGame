@@ -50,9 +50,9 @@ describe('selectQuestions — bases', () => {
 
   test('excludes disabled universes but keeps questions without a universe', () => {
     const withUni: Question[] = [
-      { id: 'n1', theme: 'manga', difficulty: 1, universe: 'Naruto', text: 'x', answer: 'a', distractors: ['b', 'c', 'd'] },
-      { id: 'o1', theme: 'manga', difficulty: 1, universe: 'One Piece', text: 'x', answer: 'a', distractors: ['b', 'c', 'd'] },
-      { id: 'noUni', theme: 'manga', difficulty: 1, text: 'x', answer: 'a', distractors: ['b', 'c', 'd'] },
+      { id: 'n1', theme: 'manga', difficulty: 1, universe: 'Naruto', text: 'n1', answer: 'a', distractors: ['b', 'c', 'd'] },
+      { id: 'o1', theme: 'manga', difficulty: 1, universe: 'One Piece', text: 'o1', answer: 'a', distractors: ['b', 'c', 'd'] },
+      { id: 'noUni', theme: 'manga', difficulty: 1, text: 'noUni', answer: 'a', distractors: ['b', 'c', 'd'] },
     ];
     const out = selectQuestions(
       withUni,
@@ -232,6 +232,42 @@ describe('univers non souhaités (≈ 2 %)', () => {
     );
     expect(out).toHaveLength(30);
     expect(new Set(out.map((x) => x.id)).size).toBe(30);
+  });
+});
+
+describe('anti-doublon (jamais deux fois la même question)', () => {
+  test('deux entrées au même énoncé et à la même réponse ne sortent jamais ensemble', () => {
+    // La même question rangée dans deux thèmes différents (ex. le marteau de Thor).
+    const dup: Question[] = [
+      { id: 'a1', theme: 'manga', difficulty: 1, universe: 'U1', text: 'Le marteau de Thor ?', answer: 'Mjöllnir', distractors: ['x', 'y', 'z'] },
+      { id: 'b1', theme: 'jeuxvideo', difficulty: 1, universe: 'U2', text: 'le  marteau de THOR ?', answer: 'Mjöllnir', distractors: ['x', 'y', 'z'] },
+      { id: 'c1', theme: 'culture', difficulty: 1, text: 'Autre question ?', answer: 'Autre', distractors: ['x', 'y', 'z'] },
+    ];
+    for (let seed = 1; seed <= 40; seed++) {
+      const out = selectQuestions(
+        dup,
+        { themes: ['manga', 'jeuxvideo', 'culture'], difficulties: [1], count: 3 },
+        {},
+        mulberry32(seed),
+      );
+      const ids = out.map((x) => x.id);
+      // a1 et b1 sont la même question (casse/espaces mis à part) → jamais les deux.
+      expect(ids.includes('a1') && ids.includes('b1')).toBe(false);
+      // Aucun énoncé répété dans le lot.
+      const keys = out.map((x) => x.text.toLowerCase().replace(/\s+/g, ' ').trim());
+      expect(new Set(keys).size).toBe(out.length);
+    }
+  });
+
+  test('même énoncé mais réponses différentes restent deux questions distinctes', () => {
+    // Deux drapeaux : même question, réponses différentes → doivent coexister.
+    const flags: Question[] = [
+      { id: 'f1', theme: 'culture', difficulty: 1, universe: 'Géo', text: 'Quel pays ?', answer: 'France', distractors: ['x', 'y', 'z'] },
+      { id: 'f2', theme: 'culture', difficulty: 1, universe: 'Géo', text: 'Quel pays ?', answer: 'Italie', distractors: ['x', 'y', 'z'] },
+    ];
+    const out = selectQuestions(flags, { themes: ['culture'], difficulties: [1], count: 2 }, {}, mulberry32(1));
+    expect(out).toHaveLength(2);
+    expect(new Set(out.map((x) => x.id)).size).toBe(2);
   });
 });
 
