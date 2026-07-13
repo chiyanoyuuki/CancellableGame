@@ -1,21 +1,21 @@
 import { uid } from '../core/id';
-import type { Player, Theme } from '../core/models';
+import type { Player } from '../core/models';
 import { getDb } from './database';
 import { kvGetJSON, kvSetJSON } from './kv';
 
-const UNWANTED_THEMES_KEY = 'player:unwantedThemes';
+const UNWANTED_UNIVERSES_KEY = 'player:unwantedUniverses';
 
 /**
- * Per-player list of UNWANTED themes. A player almost never gets questions from
- * these themes : au tirage, chaque question n'a qu'environ 1 % de chance de
- * provenir de l'un d'eux.
+ * Per-player list of UNWANTED universes. A player almost never gets questions
+ * from these universes : chaque question qui lui est attribuée n'a qu'environ
+ * 2 % de chance d'appartenir à l'un d'eux.
  */
-export async function getPlayerUnwantedThemes(): Promise<Record<string, Theme[]>> {
-  return kvGetJSON<Record<string, Theme[]>>(UNWANTED_THEMES_KEY, {});
+export async function getPlayerUnwantedUniverses(): Promise<Record<string, string[]>> {
+  return kvGetJSON<Record<string, string[]>>(UNWANTED_UNIVERSES_KEY, {});
 }
 
-export async function setPlayerUnwantedThemes(map: Record<string, Theme[]>): Promise<void> {
-  await kvSetJSON(UNWANTED_THEMES_KEY, map);
+export async function setPlayerUnwantedUniverses(map: Record<string, string[]>): Promise<void> {
+  await kvSetJSON(UNWANTED_UNIVERSES_KEY, map);
 }
 
 interface PlayerRow {

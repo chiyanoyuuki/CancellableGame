@@ -146,7 +146,7 @@ describe('diversité des univers', () => {
   });
 });
 
-describe('thèmes non souhaités (≈ 1 %)', () => {
+describe('univers non souhaités (≈ 2 %)', () => {
   // 15 univers de manga + 15 univers de jeux vidéo, 4 questions chacun.
   function tq(id: string, theme: Theme, universe: string): Question {
     return { id, theme, difficulty: 1, universe, text: id, answer: 'a', distractors: ['b', 'c', 'd'] };
@@ -154,6 +154,8 @@ describe('thèmes non souhaités (≈ 1 %)', () => {
   const twoThemes: Question[] = [];
   for (let u = 0; u < 15; u++) for (let i = 0; i < 4; i++) twoThemes.push(tq(`M${u}_${i}`, 'manga', `M${u}`));
   for (let u = 0; u < 15; u++) for (let i = 0; i < 4; i++) twoThemes.push(tq(`V${u}_${i}`, 'jeuxvideo', `V${u}`));
+  // Tous les univers de jeux vidéo, marqués comme non souhaités en bloc.
+  const vUniverses = Array.from({ length: 15 }, (_, u) => `V${u}`);
   const SEEDS = 100;
   const N = 20;
 
@@ -172,24 +174,24 @@ describe('thèmes non souhaités (≈ 1 %)', () => {
     return t;
   }
 
-  test('turn mode: an unwanted theme almost never comes up', () => {
+  test('turn mode: un univers non souhaité ne sort quasiment jamais', () => {
     const neutral = jeuxvideoTotal({ order: ['p1'], turnMode: 'turn' });
-    const unwanted = jeuxvideoTotal({ order: ['p1'], turnMode: 'turn', unwantedThemesByPlayer: { p1: ['jeuxvideo'] } });
-    // Neutral is ~half of 20×100 = ~1000 ; unwanted is ~1 % of picks (~20).
+    const unwanted = jeuxvideoTotal({ order: ['p1'], turnMode: 'turn', unwantedUniversesByPlayer: { p1: vUniverses } });
+    // Neutral est ~la moitié de 20×100 = ~1000 ; non souhaité ~2 % des tirages (~40).
     expect(unwanted).toBeLessThan(neutral * 0.1);
   });
 
-  test('fastest mode: a theme unwanted by any player is avoided for the shared question', () => {
+  test('fastest mode: un univers non souhaité par un joueur est évité pour la question partagée', () => {
     const neutral = jeuxvideoTotal({ order: ['p1', 'p2'], turnMode: 'fastest' });
     const unwanted = jeuxvideoTotal({
       order: ['p1', 'p2'],
       turnMode: 'fastest',
-      unwantedThemesByPlayer: { p2: ['jeuxvideo'] },
+      unwantedUniversesByPlayer: { p2: vUniverses },
     });
     expect(unwanted).toBeLessThan(neutral * 0.1);
   });
 
-  test('per player: only the player who marked it unwanted avoids the theme', () => {
+  test('par joueur : seul le joueur qui a marqué les univers les évite', () => {
     let p1Jeuxvideo = 0;
     let p2Jeuxvideo = 0;
     for (let seed = 1; seed <= SEEDS; seed++) {
@@ -198,7 +200,7 @@ describe('thèmes non souhaités (≈ 1 %)', () => {
         { themes: ['manga', 'jeuxvideo'], difficulties: [1], count: N },
         {},
         mulberry32(seed),
-        { order: ['p1', 'p2'], turnMode: 'turn', unwantedThemesByPlayer: { p1: ['jeuxvideo'] } },
+        { order: ['p1', 'p2'], turnMode: 'turn', unwantedUniversesByPlayer: { p1: vUniverses } },
       );
       out.forEach((qq, i) => {
         if (qq.theme !== 'jeuxvideo') return;
@@ -206,27 +208,27 @@ describe('thèmes non souhaités (≈ 1 %)', () => {
         else p2Jeuxvideo++;
       });
     }
-    // p1 (unwanted) almost never; p2 (no restriction) freely.
+    // p1 (non souhaité) quasiment jamais ; p2 (aucune restriction) librement.
     expect(p1Jeuxvideo).toBeLessThan(p2Jeuxvideo * 0.2);
   });
 
-  test('soft: an unwanted theme is still used when nothing else is available', () => {
-    const soloTheme = Array.from({ length: 5 }, (_, i) => tq(`V${i}`, 'jeuxvideo', 'Solo'));
-    const out = selectQuestions(soloTheme, { themes: ['jeuxvideo'], difficulties: [1], count: 3 }, {}, mulberry32(1), {
+  test('soft : un univers non souhaité reste utilisé quand il ne reste que lui', () => {
+    const soloUniverse = Array.from({ length: 5 }, (_, i) => tq(`V${i}`, 'jeuxvideo', 'Solo'));
+    const out = selectQuestions(soloUniverse, { themes: ['jeuxvideo'], difficulties: [1], count: 3 }, {}, mulberry32(1), {
       order: ['p1'],
       turnMode: 'turn',
-      unwantedThemesByPlayer: { p1: ['jeuxvideo'] },
+      unwantedUniversesByPlayer: { p1: ['Solo'] },
     });
     expect(out).toHaveLength(3);
   });
 
-  test('still respects the count and returns no duplicates', () => {
+  test('respecte toujours le nombre et ne renvoie pas de doublons', () => {
     const out = selectQuestions(
       twoThemes,
       { themes: ['manga', 'jeuxvideo'], difficulties: [1], count: 30 },
       {},
       mulberry32(3),
-      { order: ['p1'], turnMode: 'turn', unwantedThemesByPlayer: { p1: ['jeuxvideo'] } },
+      { order: ['p1'], turnMode: 'turn', unwantedUniversesByPlayer: { p1: vUniverses } },
     );
     expect(out).toHaveLength(30);
     expect(new Set(out.map((x) => x.id)).size).toBe(30);

@@ -8,10 +8,10 @@ import { type Rng, shuffle } from './rng';
  *  2. Un maximum d'univers différents : au sein des questions d'un même joueur,
  *     on évite de reprendre deux fois le même univers tant qu'il en reste
  *     d'autres.
- *  3. Thèmes non souhaités : chaque joueur peut marquer des thèmes non
- *     souhaités. Une question n'a alors qu'environ 1 % de chance, par tirage, de
- *     provenir de l'un de ces thèmes (un thème au hasard parmi eux) ; sinon on
- *     tire dans les thèmes souhaités.
+ *  3. Univers non souhaités : chaque joueur peut marquer des univers non
+ *     souhaités. Une question qui lui est attribuée n'a alors qu'environ 2 % de
+ *     chance d'appartenir à l'un d'eux (un univers au hasard parmi eux) ; sinon
+ *     on tire dans les univers souhaités.
  */
 
 export interface QuestionUsage {
@@ -34,12 +34,13 @@ export interface SelectionOptions {
   order?: string[];
   turnMode?: TurnMode;
   /**
-   * Per-player UNWANTED themes. Leurs questions ne sont quasiment jamais tirées :
-   * chaque tirage n'a qu'environ 1 % de chance de piocher dans un thème non
-   * souhaité. En mode « tour », on utilise la liste du joueur du slot ; en mode
-   * « au plus rapide » (question partagée), l'union des listes de tous.
+   * Per-player UNWANTED universes. Leurs questions ne sont quasiment jamais
+   * tirées : chaque question attribuée à un joueur n'a qu'environ 2 % de chance
+   * d'appartenir à l'un de ses univers non souhaités. En mode « tour », on
+   * utilise la liste du joueur du slot ; en mode « au plus rapide » (question
+   * partagée), l'union des listes de tous.
    */
-  unwantedThemesByPlayer?: Record<string, Theme[]>;
+  unwantedUniversesByPlayer?: Record<string, string[]>;
   /**
    * Per-player question history (each player's OWN seen questions). When
    * provided, 'turn' mode gives every player their own lot: their slots
@@ -61,8 +62,8 @@ const EMPTY_HISTORY: QuestionHistory = {};
  */
 const UNIVERSE_REPEAT_DECAY = 0.15;
 
-/** Probabilité, par question, de piocher malgré tout dans un thème non souhaité. */
-const UNWANTED_THEME_CHANCE = 0.01;
+/** Probabilité, par question attribuée à un joueur, qu'elle vienne d'un de ses univers non souhaités. */
+const UNWANTED_UNIVERSE_CHANCE = 0.02;
 
 function eligiblePool(pool: readonly Question[], filter: SelectionFilter): Question[] {
   const themeSet = new Set(filter.themes);
@@ -93,11 +94,11 @@ export function selectQuestions(
   const turnMode: TurnMode = opts?.turnMode ?? 'turn';
   const n = order.length;
 
-  const unwantedSets: Record<string, Set<Theme>> = {};
-  const anyUnwanted = new Set<Theme>();
-  for (const [pid, arr] of Object.entries(opts?.unwantedThemesByPlayer ?? {})) {
+  const unwantedSets: Record<string, Set<string>> = {};
+  const anyUnwanted = new Set<string>();
+  for (const [pid, arr] of Object.entries(opts?.unwantedUniversesByPlayer ?? {})) {
     unwantedSets[pid] = new Set(arr);
-    for (const t of arr) anyUnwanted.add(t);
+    for (const u of arr) anyUnwanted.add(u);
   }
 
   // Pre-shuffle so that, among questions of equal weight, the pick is random.
@@ -121,11 +122,11 @@ export function selectQuestions(
         ? (opts.historyByPlayer[slotPlayer] ?? EMPTY_HISTORY)
         : history;
     const unwanted = turnMode === 'turn' ? (slotPlayer ? unwantedSets[slotPlayer] : undefined) : anyUnwanted;
-    const isUnwanted = (q: Question): boolean => unwanted?.has(q.theme) ?? false;
+    const isUnwanted = (q: Question): boolean => q.universe !== undefined && (unwanted?.has(q.universe) ?? false);
 
-    // 99 % thèmes souhaités, 1 % thème non souhaité — sans jamais tirer dans un
-    // sous-ensemble vide.
-    let pickUnwanted = (unwanted?.size ?? 0) > 0 && rng() < UNWANTED_THEME_CHANCE;
+    // 98 % univers souhaités, 2 % univers non souhaité — sans jamais tirer dans
+    // un sous-ensemble vide.
+    let pickUnwanted = (unwanted?.size ?? 0) > 0 && rng() < UNWANTED_UNIVERSE_CHANCE;
     let hasWanted = false;
     let hasUnwanted = false;
     for (const q of remaining) {

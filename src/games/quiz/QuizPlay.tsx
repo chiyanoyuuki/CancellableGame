@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button, Card, PlayerAvatar, ProgressBar, Txt } from '../../components/ui';
 import { DRINK_CHALLENGES } from '../../core/drinks';
-import { DIFFICULTY_LABELS, type Player, type QuizConfig, type SessionResult, type Theme, THEME_META } from '../../core/models';
+import { DIFFICULTY_LABELS, type Player, type QuizConfig, type SessionResult, THEME_META } from '../../core/models';
 import {
   createQuizState,
   currentQuestion,
@@ -22,7 +22,7 @@ import {
 import { mulberry32, randomSeed, shuffle } from '../../core/rng';
 import { selectQuestions } from '../../core/questionSelection';
 import {
-  getPlayerUnwantedThemes,
+  getPlayerUnwantedUniverses,
   getQuestionHistory,
   getQuestionHistoryByPlayer,
   listCustomChallenges,
@@ -135,20 +135,20 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const [history, historyByPlayer, pool, customChallenges, unwantedThemes] = await Promise.all([
+      const [history, historyByPlayer, pool, customChallenges, unwantedUniverses] = await Promise.all([
         getQuestionHistory(),
         getQuestionHistoryByPlayer(),
         getQuizPool(),
         listCustomChallenges(),
-        getPlayerUnwantedThemes(),
+        getPlayerUnwantedUniverses(),
       ]);
       const seed = randomSeed();
       // Turn order, computed once and shared with the engine so that the
       // per-player weighting lines up with who actually gets each question.
       const order = shuffle(roster, mulberry32(seed)).map((p) => p.id);
-      // Per-player unwanted themes are ignored in team mode.
-      const unwantedThemesByPlayer: Record<string, Theme[]> = {};
-      if (!teamMode) for (const p of players) unwantedThemesByPlayer[p.id] = unwantedThemes[p.id] ?? [];
+      // Per-player unwanted universes are ignored in team mode.
+      const unwantedUniversesByPlayer: Record<string, string[]> = {};
+      if (!teamMode) for (const p of players) unwantedUniversesByPlayer[p.id] = unwantedUniverses[p.id] ?? [];
       // Pick a few extra questions as a reserve, used to swap in a replacement
       // whenever a question's image fails to load (so the round keeps its length
       // and the same player stays up).
@@ -166,7 +166,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
         {
           order,
           turnMode: cfg.turnMode,
-          unwantedThemesByPlayer,
+          unwantedUniversesByPlayer,
           // Per-player fresh questions only make sense outside team mode.
           historyByPlayer: teamMode ? undefined : historyByPlayer,
         },

@@ -11,11 +11,11 @@ import {
   archivePlayer,
   createPlayer,
   deletePlayerForever,
-  getPlayerUnwantedThemes,
+  getPlayerUnwantedUniverses,
   getQuestionHistoryByPlayer,
   listPlayers,
   restorePlayer,
-  setPlayerUnwantedThemes,
+  setPlayerUnwantedUniverses,
   updatePlayer,
 } from '../db';
 import { getQuizPool } from '../games/quiz/pool';
@@ -31,17 +31,17 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   const [color, setColor] = useState(PLAYER_COLORS[0] as string);
   const [editingId, setEditingId] = useState<string | null>(null);
 
-  // Per-player unwanted THEMES (a question a ~1 % de chance d'en venir quand même).
+  // Per-player unwanted UNIVERSES (a question a ~2 % de chance d'en venir quand même).
   const [pool, setPool] = useState<Question[]>([]);
   const [historyByPlayer, setHistoryByPlayer] = useState<Record<string, QuestionHistory>>({});
-  const [unwanted, setUnwanted] = useState<Record<string, Theme[]>>({});
+  const [unwanted, setUnwanted] = useState<Record<string, string[]>>({});
   const [unwantedPlayer, setUnwantedPlayer] = useState<Player | null>(null);
-  const [unwantedDraft, setUnwantedDraft] = useState<Set<Theme>>(new Set());
+  const [unwantedDraft, setUnwantedDraft] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const [p, u, h] = await Promise.all([getQuizPool(), getPlayerUnwantedThemes(), getQuestionHistoryByPlayer()]);
+      const [p, u, h] = await Promise.all([getQuizPool(), getPlayerUnwantedUniverses(), getQuestionHistoryByPlayer()]);
       if (alive) {
         setPool(p);
         setUnwanted(u);
@@ -53,21 +53,32 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
     };
   }, []);
 
-  // Themes that actually have questions in the pool, in the canonical order.
-  const availableThemes = useMemo(() => {
-    const present = new Set<Theme>();
-    for (const q of pool) present.add(q.theme);
-    return THEMES.filter((t) => present.has(t));
+  // Univers présents dans le pool, groupés par thème, dans l'ordre canonique.
+  const universesByTheme = useMemo(() => {
+    const byTheme = new Map<Theme, Set<string>>();
+    for (const q of pool) {
+      if (!q.universe) continue;
+      let s = byTheme.get(q.theme);
+      if (!s) {
+        s = new Set<string>();
+        byTheme.set(q.theme, s);
+      }
+      s.add(q.universe);
+    }
+    return THEMES.filter((t) => byTheme.has(t)).map((t) => ({
+      theme: t,
+      universes: [...byTheme.get(t)!].sort((a, b) => a.localeCompare(b, 'fr')),
+    }));
   }, [pool]);
 
   // Questions inédites (jamais vues par ce joueur) qui restent tirables une fois
-  // les thèmes non souhaités du brouillon écartés — recalculé en direct.
+  // les univers non souhaités du brouillon écartés — recalculé en direct.
   const unseenRemaining = useMemo(() => {
     if (!unwantedPlayer) return 0;
     const seen = new Set(Object.keys(historyByPlayer[unwantedPlayer.id] ?? {}));
     let count = 0;
     for (const q of pool) {
-      if (unwantedDraft.has(q.theme)) continue;
+      if (q.universe && unwantedDraft.has(q.universe)) continue;
       if (seen.has(q.id)) continue;
       count++;
     }
@@ -78,11 +89,11 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
     setUnwantedPlayer(p);
     setUnwantedDraft(new Set(unwanted[p.id] ?? []));
   };
-  const toggleUnwanted = (t: Theme) =>
+  const toggleUnwanted = (u: string) =>
     setUnwantedDraft((prev) => {
       const next = new Set(prev);
-      if (next.has(t)) next.delete(t);
-      else next.add(t);
+      if (next.has(u)) next.delete(u);
+      else next.add(u);
       return next;
     });
   const saveUnwanted = async () => {
@@ -92,7 +103,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
     if (list.length === 0) delete next[unwantedPlayer.id];
     setUnwanted(next);
     setUnwantedPlayer(null);
-    await setPlayerUnwantedThemes(next);
+    await setPlayerUnwantedUniverses(next);
   };
 
   const refresh = useCallback(async () => {
@@ -134,7 +145,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   const manage = (p: Player) => {
     Alert.alert(p.name, undefined, [
       { text: 'Modifier', onPress: () => startEdit(p) },
-      { text: 'Thèmes non souhaités', onPress: () => openUnwanted(p) },
+      { text: 'Univers non souhaités', onPress: () => openUnwanted(p) },
       {
         text: 'Archiver',
         onPress: async () => {
@@ -240,7 +251,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
               <Txt weight="700">{p.name}</Txt>
               {(unwanted[p.id]?.length ?? 0) > 0 && (
                 <Txt faint size={fontSize.xs}>
-                  🚫 évite {unwanted[p.id]!.length} thème{unwanted[p.id]!.length > 1 ? 's' : ''}
+                  🚫 évite {unwanted[p.id]!.length} univers
                 </Txt>
               )}
             </View>
@@ -266,10 +277,10 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
       <View style={styles.modalBackdrop}>
         <View style={styles.modalSheet}>
           <Txt weight="800" size={fontSize.lg}>
-            Thèmes non souhaités
+            Univers non souhaités
           </Txt>
           <Txt dim size={fontSize.sm} style={{ marginTop: spacing(0.5) }}>
-            {unwantedPlayer?.name} ne tombera quasiment jamais sur ces thèmes : environ 1 % de chance par question,
+            {unwantedPlayer?.name} ne tombera quasiment jamais sur ces univers : environ 2 % de chance par question,
             juste pour la surprise.
           </Txt>
           <View style={styles.counter}>
@@ -281,17 +292,24 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
             </Txt>
           </View>
           <ScrollView style={{ marginTop: spacing(1.5) }} contentContainerStyle={{ paddingBottom: spacing(1) }}>
-            <View style={styles.chipWrap}>
-              {availableThemes.map((t) => (
-                <Chip
-                  key={t}
-                  label={`${THEME_META[t].emoji} ${THEME_META[t].label}`}
-                  selected={unwantedDraft.has(t)}
-                  onPress={() => toggleUnwanted(t)}
-                  color={colors.danger}
-                />
-              ))}
-            </View>
+            {universesByTheme.map(({ theme, universes }) => (
+              <View key={theme} style={{ marginBottom: spacing(1.5) }}>
+                <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.75) }}>
+                  {THEME_META[theme].emoji} {THEME_META[theme].label.toUpperCase()}
+                </Txt>
+                <View style={styles.chipWrap}>
+                  {universes.map((u) => (
+                    <Chip
+                      key={u}
+                      label={u}
+                      selected={unwantedDraft.has(u)}
+                      onPress={() => toggleUnwanted(u)}
+                      color={colors.danger}
+                    />
+                  ))}
+                </View>
+              </View>
+            ))}
           </ScrollView>
           <View style={{ flexDirection: 'row', gap: spacing(1), marginTop: spacing(1) }}>
             <Button title="Annuler" variant="ghost" onPress={() => setUnwantedPlayer(null)} style={{ flex: 1 }} />
