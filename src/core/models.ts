@@ -53,6 +53,7 @@ export const THEMES = [
   'litterature',
   'japon',
   'france',
+  'tcheque',
   'mode',
   'culture',
   'internet',
@@ -73,6 +74,7 @@ export const THEME_META: Record<Theme, { label: string; emoji: string }> = {
   litterature: { label: 'Littérature', emoji: '📚' },
   japon: { label: 'Japon', emoji: '🇯🇵' },
   france: { label: 'France', emoji: '🇫🇷' },
+  tcheque: { label: 'République tchèque', emoji: '🇨🇿' },
   mode: { label: 'Mode', emoji: '👗' },
   culture: { label: 'Culture générale', emoji: '🧠' },
   internet: { label: 'Références Internet', emoji: '🌐' },
@@ -156,7 +158,7 @@ export interface QuizConfig {
 
 export const DEFAULT_QUIZ_CONFIG: QuizConfig = {
   // Blind test exclu par défaut : il faut y ajouter ses propres extraits audio.
-  themes: ['manga', 'jeuxvideo', 'series', 'films', 'musique', 'litterature', 'japon', 'france', 'mode', 'culture', 'internet', 'mythologie', 'enigmes', 'rebus'],
+  themes: ['manga', 'jeuxvideo', 'series', 'films', 'musique', 'litterature', 'japon', 'france', 'tcheque', 'mode', 'culture', 'internet', 'mythologie', 'enigmes', 'rebus'],
   difficulties: [1, 2, 3],
   questionCount: 15,
   turnMode: 'turn',
@@ -196,7 +198,7 @@ export interface BombeConfig {
 }
 
 export const DEFAULT_BOMBE_CONFIG: BombeConfig = {
-  themes: ['manga', 'jeuxvideo', 'series', 'films', 'musique', 'litterature', 'japon', 'france', 'mode', 'culture', 'internet', 'mythologie'],
+  themes: ['manga', 'jeuxvideo', 'series', 'films', 'musique', 'litterature', 'japon', 'france', 'tcheque', 'mode', 'culture', 'internet', 'mythologie'],
   difficulties: [1, 2, 3],
   excludedUniverses: [],
   secondsPerPlayer: 12,

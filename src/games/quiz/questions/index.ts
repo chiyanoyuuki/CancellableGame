@@ -16,6 +16,7 @@ import { musiqueQuestions } from './musique';
 import { mythologieQuestions } from './mythologie';
 import { rebusQuestions } from './rebus';
 import { seriesQuestions } from './series';
+import { tchequeQuestions } from './tcheque';
 
 /**
  * Banque de questions complète, agrégée depuis un fichier par thème.
@@ -35,6 +36,7 @@ export const QUESTIONS: Question[] = [
   ...litteratureQuestions,
   ...japonQuestions,
   ...franceQuestions,
+  ...tchequeQuestions,
   ...modeQuestions,
   ...cultureQuestions,
   ...internetQuestions,
