@@ -53,32 +53,50 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
     };
   }, []);
 
-  // Univers présents dans le pool, groupés par thème, dans l'ordre canonique.
-  const universesByTheme = useMemo(() => {
-    const byTheme = new Map<Theme, Set<string>>();
+  // Catégories désactivables, groupées par thème (ordre canonique). Un thème
+  // à univers propose une case par univers ; un thème sans univers (rébus,
+  // énigmes, blind test…) propose une seule case pour tout le thème, avec la
+  // clé « #thème ».
+  const categoriesByTheme = useMemo(() => {
+    const univ = new Map<Theme, Set<string>>();
+    const bare = new Set<Theme>();
+    const present = new Set<Theme>();
     for (const q of pool) {
-      if (!q.universe) continue;
-      let s = byTheme.get(q.theme);
-      if (!s) {
-        s = new Set<string>();
-        byTheme.set(q.theme, s);
+      present.add(q.theme);
+      if (q.universe) {
+        let s = univ.get(q.theme);
+        if (!s) {
+          s = new Set<string>();
+          univ.set(q.theme, s);
+        }
+        s.add(q.universe);
+      } else {
+        bare.add(q.theme);
       }
-      s.add(q.universe);
     }
-    return THEMES.filter((t) => byTheme.has(t)).map((t) => ({
-      theme: t,
-      universes: [...byTheme.get(t)!].sort((a, b) => a.localeCompare(b, 'fr')),
-    }));
+    return THEMES.filter((t) => present.has(t))
+      .map((t) => {
+        const us = univ.get(t);
+        const items = us
+          ? [...us].sort((a, b) => a.localeCompare(b, 'fr')).map((u) => ({ key: u, label: u }))
+          : [];
+        if (items.length === 0 && bare.has(t)) items.push({ key: `#${t}`, label: THEME_META[t].label });
+        return { theme: t, items };
+      })
+      .filter((g) => g.items.length > 0);
   }, [pool]);
 
+  /** Clé d'évitement d'une question : son univers, ou « #thème » à défaut. */
+  const avoidKey = (q: Question) => q.universe ?? `#${q.theme}`;
+
   // Questions inédites (jamais vues par ce joueur) qui restent tirables une fois
-  // les univers non souhaités du brouillon écartés — recalculé en direct.
+  // les catégories désactivées du brouillon écartées — recalculé en direct.
   const unseenRemaining = useMemo(() => {
     if (!unwantedPlayer) return 0;
     const seen = new Set(Object.keys(historyByPlayer[unwantedPlayer.id] ?? {}));
     let count = 0;
     for (const q of pool) {
-      if (q.universe && unwantedDraft.has(q.universe)) continue;
+      if (unwantedDraft.has(avoidKey(q))) continue;
       if (seen.has(q.id)) continue;
       count++;
     }
@@ -145,7 +163,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   const manage = (p: Player) => {
     Alert.alert(p.name, undefined, [
       { text: 'Modifier', onPress: () => startEdit(p) },
-      { text: 'Univers non souhaités', onPress: () => openUnwanted(p) },
+      { text: 'Univers et thèmes', onPress: () => openUnwanted(p) },
       {
         text: 'Archiver',
         onPress: async () => {
@@ -251,7 +269,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
               <Txt weight="700">{p.name}</Txt>
               {(unwanted[p.id]?.length ?? 0) > 0 && (
                 <Txt faint size={fontSize.xs}>
-                  🚫 évite {unwanted[p.id]!.length} univers
+                  🚫 évite {unwanted[p.id]!.length} catégorie{unwanted[p.id]!.length > 1 ? 's' : ''}
                 </Txt>
               )}
             </View>
@@ -277,11 +295,11 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
       <View style={styles.modalBackdrop}>
         <View style={styles.modalSheet}>
           <Txt weight="800" size={fontSize.lg}>
-            Univers non souhaités
+            Univers et thèmes
           </Txt>
           <Txt dim size={fontSize.sm} style={{ marginTop: spacing(0.5) }}>
-            {unwantedPlayer?.name} ne tombera quasiment jamais sur ces univers : environ 2 % de chance par question,
-            juste pour la surprise.
+            Tout est activé par défaut. Touche une catégorie pour la désactiver : {unwantedPlayer?.name} n'aura
+            alors qu'environ 2 % de chance de tomber dessus, juste pour la surprise.
           </Txt>
           <View style={styles.counter}>
             <Txt weight="800" size={fontSize.lg} color={unseenRemaining > 0 ? colors.success : colors.danger}>
@@ -292,19 +310,18 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
             </Txt>
           </View>
           <ScrollView style={{ marginTop: spacing(1.5) }} contentContainerStyle={{ paddingBottom: spacing(1) }}>
-            {universesByTheme.map(({ theme, universes }) => (
+            {categoriesByTheme.map(({ theme, items }) => (
               <View key={theme} style={{ marginBottom: spacing(1.5) }}>
                 <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.75) }}>
                   {THEME_META[theme].emoji} {THEME_META[theme].label.toUpperCase()}
                 </Txt>
                 <View style={styles.chipWrap}>
-                  {universes.map((u) => (
+                  {items.map((it) => (
                     <Chip
-                      key={u}
-                      label={u}
-                      selected={unwantedDraft.has(u)}
-                      onPress={() => toggleUnwanted(u)}
-                      color={colors.danger}
+                      key={it.key}
+                      label={it.label}
+                      selected={!unwantedDraft.has(it.key)}
+                      onPress={() => toggleUnwanted(it.key)}
                     />
                   ))}
                 </View>

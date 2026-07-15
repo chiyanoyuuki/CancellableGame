@@ -4,6 +4,7 @@ export * from './sessions';
 export * from './history';
 export * from './statsLoader';
 export * from './kv';
+export * from './currentGame';
 export * from './backup';
 export * from './customQuestions';
 export * from './customChallenges';

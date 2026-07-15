@@ -233,6 +233,28 @@ describe('univers non souhaités (≈ 2 %)', () => {
     expect(out).toHaveLength(30);
     expect(new Set(out.map((x) => x.id)).size).toBe(30);
   });
+
+  test('un thème sans univers peut être désactivé via « #thème »', () => {
+    // manga (avec univers, souhaité) + rébus (sans univers, désactivé via #rebus).
+    const mixed: Question[] = [];
+    for (let u = 0; u < 10; u++) for (let i = 0; i < 4; i++) mixed.push(tq(`M${u}_${i}`, 'manga', `M${u}`));
+    for (let i = 0; i < 20; i++) {
+      mixed.push({ id: `R${i}`, theme: 'rebus', difficulty: 1, text: `r${i}`, answer: 'a', distractors: ['b', 'c', 'd'] });
+    }
+    let rebusTotal = 0;
+    for (let seed = 1; seed <= SEEDS; seed++) {
+      const out = selectQuestions(
+        mixed,
+        { themes: ['manga', 'rebus'], difficulties: [1], count: N },
+        {},
+        mulberry32(seed),
+        { order: ['p1'], turnMode: 'turn', unwantedUniversesByPlayer: { p1: ['#rebus'] } },
+      );
+      rebusTotal += out.filter((x) => x.theme === 'rebus').length;
+    }
+    // Le thème rébus fait la moitié du pool mais ne sort quasiment jamais (~2 %).
+    expect(rebusTotal).toBeLessThan(SEEDS * N * 0.1);
+  });
 });
 
 describe('anti-doublon (jamais deux fois la même question)', () => {

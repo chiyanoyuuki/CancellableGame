@@ -24,8 +24,10 @@ export interface MiniGamePlayProps {
   config: unknown;
   /** Called once when the game is over with the result to persist. */
   onFinish: (result: SessionResult) => void;
-  /** Called when the user abandons the game (nothing is saved). */
+  /** Called when the user leaves the game (nothing is saved to stats). */
   onQuit: () => void;
+  /** Resume a previously saved in-progress game instead of starting a new one. */
+  resume?: boolean;
 }
 
 export interface MiniGameDefinition {

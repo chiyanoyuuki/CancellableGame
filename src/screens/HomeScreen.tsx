@@ -4,16 +4,18 @@ import { useFocusEffect } from '@react-navigation/native';
 import { View } from 'react-native';
 
 import { Button, Screen, Txt } from '../components/ui';
-import { getSessionCount } from '../db';
+import { getSessionCount, loadCurrentGame, type SavedGame } from '../db';
 import type { RootStackParamList } from '../navigation';
 import { fontSize, spacing } from '../theme/theme';
 
 export function HomeScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'Home'>) {
   const [games, setGames] = useState<number | null>(null);
+  const [resumable, setResumable] = useState<SavedGame | null>(null);
 
   useFocusEffect(
     useCallback(() => {
       void getSessionCount().then(setGames);
+      void loadCurrentGame().then(setResumable);
     }, []),
   );
 
@@ -33,7 +35,22 @@ export function HomeScreen({ navigation }: NativeStackScreenProps<RootStackParam
           </Txt>
         </View>
 
-        <Button title="Jouer" emoji="🎮" size="lg" onPress={() => navigation.navigate('GameSelect')} />
+        {resumable && (
+          <Button
+            title="Reprendre la partie"
+            emoji="⏯️"
+            size="lg"
+            onPress={() =>
+              navigation.navigate('GamePlay', {
+                gameId: resumable.gameId,
+                players: resumable.players,
+                config: resumable.config,
+                resume: true,
+              })
+            }
+          />
+        )}
+        <Button title={resumable ? 'Nouvelle partie' : 'Jouer'} emoji="🎮" variant={resumable ? 'secondary' : 'primary'} size="lg" onPress={() => navigation.navigate('GameSelect')} />
         <Button title="Joueurs" emoji="👥" variant="secondary" size="lg" onPress={() => navigation.navigate('Players')} />
         <Button title="Statistiques" emoji="📊" variant="secondary" size="lg" onPress={() => navigation.navigate('Stats')} />
         <Button title="Mon contenu" emoji="✏️" variant="secondary" size="lg" onPress={() => navigation.navigate('CustomContent')} />

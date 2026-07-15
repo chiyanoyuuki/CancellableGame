@@ -22,10 +22,13 @@ import {
 import { mulberry32, randomSeed, shuffle } from '../../core/rng';
 import { selectQuestions } from '../../core/questionSelection';
 import {
+  clearCurrentGame,
   getPlayerUnwantedUniverses,
   getQuestionHistory,
   getQuestionHistoryByPlayer,
   listCustomChallenges,
+  loadCurrentGame,
+  saveCurrentGame,
 } from '../../db';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import type { MiniGamePlayProps } from '../types';
@@ -41,7 +44,7 @@ function haptic(success: boolean) {
   }
 }
 
-export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGamePlayProps) {
+export function QuizPlayComponent({ players, config, onFinish, onQuit, resume }: MiniGamePlayProps) {
   const cfg = config as QuizConfig;
   const [game, setGame] = useState<QuizState | null>(null);
   const [revealedAnswer, setRevealedAnswer] = useState(false);
@@ -135,9 +138,27 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
   }, []);
 
   // Build the round: pick anti-repeat questions, then create the engine state.
+  // In « resume » mode, restore the saved in-progress game instead.
   useEffect(() => {
     let alive = true;
     void (async () => {
+      if (resume) {
+        const saved = await loadCurrentGame();
+        const st = saved?.state as QuizState | undefined;
+        if (st && Array.isArray(st.questions) && typeof st.index === 'number') {
+          const unwantedUniverses = await getPlayerUnwantedUniverses();
+          const unwantedUniversesByPlayer: Record<string, string[]> = {};
+          if (!teamMode) for (const p of players) unwantedUniversesByPlayer[p.id] = unwantedUniverses[p.id] ?? [];
+          if (!alive) return;
+          setUnwantedByPlayer(unwantedUniversesByPlayer);
+          startedAtRef.current = saved?.startedAt ?? Date.now();
+          questionStartRef.current = Date.now();
+          setGame(st);
+          return;
+        }
+        // Nothing valid to resume → fall through and start a fresh game.
+      }
+
       const [history, historyByPlayer, pool, customChallenges, unwantedUniverses] = await Promise.all([
         getQuestionHistory(),
         getQuestionHistoryByPlayer(),
@@ -202,6 +223,18 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Persist the in-progress game on every change so it can be resumed after
+  // quitting the app or pressing « retour ». Starting a new game overwrites it;
+  // finishing all the questions clears it (stats are saved elsewhere).
+  useEffect(() => {
+    if (!game) return;
+    if (game.phase === 'finished') {
+      void clearCurrentGame();
+      return;
+    }
+    void saveCurrentGame({ gameId: 'quiz', players, config: cfg, state: game, startedAt: startedAtRef.current });
+  }, [game, players, cfg]);
+
   const dispatch = useCallback((a: QuizAction) => setGame((s) => (s ? quizReducer(s, a) : s)), []);
 
   // Reset per-question local state when a new question appears.
@@ -253,10 +286,25 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [game, onFinish]);
 
+  // Quitter = mettre en pause : la partie est gardée et reprendra plus tard.
   const confirmQuit = () =>
-    Alert.alert('Quitter la partie ?', 'La partie en cours ne sera pas enregistrée.', [
-      { text: 'Continuer', style: 'cancel' },
-      { text: 'Quitter', style: 'destructive', onPress: onQuit },
+    Alert.alert('Quitter la partie ?', 'La partie est gardée : tu pourras la reprendre plus tard.', [
+      { text: 'Continuer à jouer', style: 'cancel' },
+      { text: 'Quitter', onPress: onQuit },
+    ]);
+
+  // Terminer = abandonner : on efface la partie, sans enregistrer les stats.
+  const confirmTerminate = () =>
+    Alert.alert('Terminer la partie ?', 'La partie en cours sera perdue et les statistiques ne seront pas enregistrées.', [
+      { text: 'Annuler', style: 'cancel' },
+      {
+        text: 'Terminer',
+        style: 'destructive',
+        onPress: async () => {
+          await clearCurrentGame().catch(() => undefined);
+          onQuit();
+        },
+      },
     ]);
 
   const answer = (playerId: string, correct: boolean, timeMs: number | null) => {
@@ -291,6 +339,11 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
         <Txt faint size={fontSize.sm} weight="700">
           {prog.current} / {prog.total}
         </Txt>
+        <Pressable onPress={confirmTerminate} hitSlop={12}>
+          <Txt color={colors.danger} weight="700">
+            🏁 Terminer
+          </Txt>
+        </Pressable>
       </View>
       <View style={{ paddingHorizontal: spacing(2) }}>
         <ProgressBar value={prog.current} total={prog.total} />
@@ -324,13 +377,17 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
     const theme = THEME_META[q.theme];
     const revealedHints = (q.hints ?? []).slice(0, game!.hintsRevealed);
 
-    // Sous l'univers : indique au joueur actif s'il avait écarté cet univers.
-    // Seulement en mode « tour » (un seul joueur à la question) et quand
-    // l'univers est effectivement affiché.
+    // Sous l'univers : indique au joueur actif s'il avait désactivé cette
+    // catégorie (son univers, ou le thème entier s'il n'a pas d'univers).
+    // Seulement en mode « tour » (un seul joueur à la question).
     const activeId = cfg.turnMode === 'turn' ? game!.activePlayerId : null;
-    const universeShown = cfg.showUniverse && !!q.universe;
     const activeName = activeId ? byId[activeId]?.name : undefined;
-    const universeExcluded = universeShown && !!activeId && (unwantedByPlayer[activeId] ?? []).includes(q.universe!);
+    const categoryWord = q.universe ? 'Univers' : 'Thème';
+    const categoryKey = q.universe ?? `#${q.theme}`;
+    const categoryExcluded = !!activeId && (unwantedByPlayer[activeId] ?? []).includes(categoryKey);
+    // Pour une question à univers, on ne montre la ligne que si l'univers est
+    // affiché ; pour un thème sans univers, on la montre toujours.
+    const showCategoryLine = !!activeId && (q.universe ? cfg.showUniverse : true);
 
     return (
       <View style={{ gap: spacing(2) }}>
@@ -343,11 +400,11 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit }: MiniGam
               {DIFFICULTY_LABELS[q.difficulty].toUpperCase()}
             </Txt>
           </View>
-          {universeShown && !!activeId && (
-            <Txt weight="700" size={fontSize.xs} color={universeExcluded ? colors.danger : colors.textFaint}>
-              {universeExcluded
-                ? `🚫 Univers non souhaité${activeName ? ` par ${activeName}` : ''}`
-                : '✓ Univers non exclu'}
+          {showCategoryLine && (
+            <Txt weight="700" size={fontSize.xs} color={categoryExcluded ? colors.danger : colors.textFaint}>
+              {categoryExcluded
+                ? `🚫 ${categoryWord} non souhaité${activeName ? ` par ${activeName}` : ''}`
+                : `✓ ${categoryWord} activé`}
             </Txt>
           )}
         </View>

@@ -1,4 +1,4 @@
-import { DarkTheme, NavigationContainer } from '@react-navigation/native';
+import { DarkTheme, type InitialState, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
@@ -6,7 +6,7 @@ import { View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { AnimatedSplash } from './src/components/AnimatedSplash';
-import { initDatabase } from './src/db';
+import { initDatabase, loadCurrentGame } from './src/db';
 import type { RootStackParamList } from './src/navigation';
 import { GameConfigScreen } from './src/screens/GameConfigScreen';
 import { GamePlayScreen } from './src/screens/GamePlayScreen';
@@ -38,16 +38,39 @@ const navTheme = {
 export default function App() {
   const [ready, setReady] = useState(false);
   const [splashDone, setSplashDone] = useState(false);
+  // If a game was in progress, open straight into it (with Home underneath, so
+  // « retour » revient à l'accueil) — la partie reprend automatiquement.
+  const [initialNavState, setInitialNavState] = useState<InitialState | undefined>(undefined);
 
   useEffect(() => {
-    initDatabase().finally(() => setReady(true));
+    void (async () => {
+      await initDatabase();
+      try {
+        const saved = await loadCurrentGame();
+        if (saved) {
+          setInitialNavState({
+            index: 1,
+            routes: [
+              { name: 'Home' },
+              {
+                name: 'GamePlay',
+                params: { gameId: saved.gameId, players: saved.players, config: saved.config, resume: true },
+              },
+            ],
+          });
+        }
+      } catch {
+        // ignore a corrupt saved game — just start on Home
+      }
+      setReady(true);
+    })();
   }, []);
 
   return (
     <SafeAreaProvider>
       <StatusBar style="light" />
       {ready ? (
-        <NavigationContainer theme={navTheme}>
+        <NavigationContainer theme={navTheme} initialState={initialNavState}>
         <Stack.Navigator
           screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.bg }, animation: 'slide_from_right' }}
         >

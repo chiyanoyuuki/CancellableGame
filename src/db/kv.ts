@@ -16,6 +16,11 @@ export async function kvSet(key: string, value: string): Promise<void> {
   );
 }
 
+export async function kvDelete(key: string): Promise<void> {
+  const db = await getDb();
+  await db.runAsync('DELETE FROM kv WHERE key = ?', [key]);
+}
+
 export async function kvGetJSON<T>(key: string, fallback: T): Promise<T> {
   const raw = await kvGet(key);
   if (raw == null) return fallback;
