@@ -1,6 +1,6 @@
 import type { Question } from '../../../core/models';
 import { blindtestQuestions } from './blindtest';
-import { cultureQuestions } from './culture';
+import { cultureQuestions, sciencesQuestions, societeQuestions } from './culture';
 import { enigmesQuestions } from './enigmes';
 import { filmsQuestions } from './films';
 import { franceQuestions } from './france';
@@ -39,6 +39,8 @@ export const QUESTIONS: Question[] = [
   ...tchequeQuestions,
   ...modeQuestions,
   ...cultureQuestions,
+  ...sciencesQuestions,
+  ...societeQuestions,
   ...internetQuestions,
   ...mythologieQuestions,
   ...enigmesQuestions,

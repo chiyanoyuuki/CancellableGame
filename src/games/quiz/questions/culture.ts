@@ -8,7 +8,9 @@ const flag = (code: string): { type: 'image'; uri: string } => ({
   uri: `https://flagcdn.com/w320/${code}.png`,
 });
 
-export const cultureQuestions: Question[] = [
+// Banque « savoir & société ». Les questions sont taguées par thème et
+// réparties en fin de fichier : culture générale, sciences & nature, société.
+const allBank: Question[] = [
   ...universe('culture', 'Géographie', [
     // --- Faciles (5) ---
     { id: "geo-f1", d: 1, t: "Quelle est la capitale de la France ?", a: "Paris", x: ["Lyon", "Marseille", "Bordeaux"] },
@@ -123,7 +125,7 @@ export const cultureQuestions: Question[] = [
     { id: "hist-p20", d: 4, t: "En quelle année la Grande Charte, la « Magna Carta », a-t-elle été signée en Angleterre ?", a: "1215", x: ["1066", "1348", "1492"] },
   ]),
 
-  ...universe('culture', 'Sciences', [
+  ...universe('sciences', 'Sciences', [
     // --- Faciles (5) ---
     { id: "sci-f1", d: 1, t: "Combien de côtés possède un hexagone ?", a: "6", x: ["5", "7", "8"], acc: ["six"] },
     { id: "sci-f2", d: 1, t: "Quelle planète est surnommée la planète rouge ?", a: "Mars", x: ["Vénus", "Jupiter", "Saturne"] },
@@ -464,7 +466,7 @@ export const cultureQuestions: Question[] = [
     { id: "gastro-p20", d: 4, t: "Quelle épice, tirée d'une orchidée, parfume glaces et pâtisseries ?", a: "La vanille", x: ["La cannelle", "La muscade", "Le clou de girofle"] },
   ]),
 
-  ...universe('culture', 'Astrologie', [
+  ...universe('societe', 'Astrologie', [
     // --- Faciles (5) ---
     { id: "astrol-f1", d: 1, t: "Combien y a-t-il de signes dans le zodiaque astrologique ?", a: "12", x: ["10", "13", "7"], acc: ["douze"] },
     { id: "astrol-f2", d: 1, t: "Quel astre détermine votre signe solaire en astrologie ?", a: "Le Soleil", x: ["La Lune", "Mars", "Vénus"], acc: ["soleil"] },
@@ -521,7 +523,7 @@ export const cultureQuestions: Question[] = [
     { id: "astrol-p20", d: 4, t: "Quelle planète moderne, découverte en 1846, est aujourd'hui associée aux Poissons ?", a: "Neptune", x: ["Uranus", "Pluton", "Saturne"], acc: ["neptune"] },
   ]),
 
-  ...universe('culture', 'Insectes', [
+  ...universe('sciences', 'Insectes', [
     // --- Faciles (5) ---
     { id: "insect-f1", d: 1, t: "Combien de pattes possède un insecte adulte ?", a: "6", x: ["4", "8", "10"], acc: ["six"] },
     { id: "insect-f2", d: 1, t: "Quel insecte produit le miel ?", a: "L'abeille", x: ["La guêpe", "Le frelon", "Le bourdon"], acc: ["abeille"] },
@@ -578,7 +580,7 @@ export const cultureQuestions: Question[] = [
     { id: "insect-p20", d: 4, t: "Quel insecte adulte a la vie la plus brève, ne vivant souvent qu'un jour ?", a: "L'éphémère", x: ["La mouche", "Le moustique", "La coccinelle"], acc: ["ephemere", "éphémère"] },
   ]),
 
-  ...universe('culture', 'Animaux', [
+  ...universe('sciences', 'Animaux', [
     // --- Faciles (5) ---
     { id: "zoo-f1", d: 1, t: "Quel est le plus grand animal terrestre vivant ?", a: "L'éléphant d'Afrique", x: ["Le rhinocéros", "L'hippopotame", "La girafe"], acc: ["elephant", "éléphant", "elephant d'afrique"] },
     { id: "zoo-f2", d: 1, t: "Quel animal est surnommé le roi des animaux ?", a: "Le lion", x: ["Le tigre", "L'ours", "L'aigle"], acc: ["lion"] },
@@ -635,7 +637,7 @@ export const cultureQuestions: Question[] = [
     { id: "zoo-p20", d: 4, t: "Comment appelle-t-on un animal qui se nourrit de cadavres, comme le vautour ?", a: "Un charognard", x: ["Un herbivore", "Un pollinisateur", "Un filtreur"], acc: ["charognard", "necrophage"] },
   ]),
 
-  ...universe('culture', 'Alcool', [
+  ...universe('societe', 'Alcool', [
     // --- Faciles (5) ---
     { id: "alcool-f1", d: 1, t: "De quel fruit provient le vin ?", a: "Le raisin", x: ["La pomme", "La prune", "La poire"], acc: ["raisin"] },
     { id: "alcool-f2", d: 1, t: "Quelle boisson alcoolisée est fabriquée à partir d'orge et de houblon ?", a: "La bière", x: ["Le vin", "Le cidre", "Le rhum"], acc: ["biere", "bière"] },
@@ -692,7 +694,7 @@ export const cultureQuestions: Question[] = [
     { id: "alcool-p20", d: 4, t: "Quel gaz, produit avec l'alcool lors de la fermentation, fait pétiller certaines boissons ?", a: "Le dioxyde de carbone", x: ["L'oxygène", "L'azote", "L'hydrogène"], acc: ["dioxyde de carbone", "co2", "gaz carbonique"] },
   ]),
 
-  ...universe('culture', 'Astronomie', [
+  ...universe('sciences', 'Astronomie', [
     // --- Faciles (5) ---
     { id: "astron-f1", d: 1, t: "Quel est le satellite naturel de la Terre ?", a: "La Lune", x: ["Le Soleil", "Mars", "Vénus"], acc: ["lune"] },
     { id: "astron-f2", d: 1, t: "Comment appelle-t-on une étoile filante qui traverse le ciel ?", a: "Un météore", x: ["Une comète", "Une planète", "Une galaxie"], acc: ["meteore", "météore", "etoile filante"] },
@@ -749,7 +751,7 @@ export const cultureQuestions: Question[] = [
     { id: "astron-p20", d: 4, t: "Comment appelle-t-on l'alignement de trois corps célestes, comme lors d'une éclipse ?", a: "Une syzygie", x: ["Une opposition", "Une parallaxe", "Une occultation"], acc: ["syzygie"] },
   ]),
 
-  ...universe('culture', 'Arbres', [
+  ...universe('sciences', 'Arbres', [
     // --- Faciles (5) ---
     { id: "arbre-f1", d: 1, t: "Quel arbre produit les glands ?", a: "Le chêne", x: ["Le hêtre", "Le bouleau", "Le platane"], acc: ["chene", "chêne"] },
     { id: "arbre-f2", d: 1, t: "De quel arbre provient le marron que l'on ramasse à l'automne ?", a: "Le marronnier", x: ["Le noyer", "Le châtaignier", "Le chêne"], acc: ["marronnier"] },
@@ -806,7 +808,7 @@ export const cultureQuestions: Question[] = [
     { id: "arbre-p20", d: 4, t: "Quel arbre fournit le caoutchouc naturel à partir de son latex ?", a: "L'hévéa", x: ["Le teck", "Le palmier à huile", "Le kapokier"], acc: ["hevea", "hévéa"] },
   ]),
 
-  ...universe('culture', 'Voitures', [
+  ...universe('societe', 'Voitures', [
     // --- Faciles (5) ---
     { id: "voiture-f1", d: 1, t: "Quel constructeur automobile a pour logo quatre anneaux entrelacés ?", a: "Audi", x: ["BMW", "Mercedes-Benz", "Volkswagen"], acc: ["audi"] },
     { id: "voiture-f2", d: 1, t: "Quelle marque italienne de sport a un cheval cabré pour emblème ?", a: "Ferrari", x: ["Lamborghini", "Maserati", "Alfa Romeo"], acc: ["ferrari"] },
@@ -862,4 +864,179 @@ export const cultureQuestions: Question[] = [
     { id: "voiture-p19", d: 4, t: "Comment appelle-t-on une voiture familiale au toit prolongé et au grand coffre à hayon ?", a: "Un break", x: ["Un coupé", "Un roadster", "Un pick-up"], acc: ["break"] },
     { id: "voiture-p20", d: 4, t: "Quel ingénieur a inventé le moteur à allumage par compression qui porte son nom ?", a: "Rudolf Diesel", x: ["Nikolaus Otto", "Karl Benz", "Felix Wankel"], acc: ["diesel", "rudolf diesel"] },
   ]),
+
+  ...universe('sciences', 'SVT', [
+    // --- Faciles (5) ---
+    { id: "svt-f1", d: 1, t: "Comment appelle-t-on l'unité de base de tous les êtres vivants ?", a: "La cellule", x: ["L'atome", "La molécule", "L'organe"], acc: ["cellule"] },
+    { id: "svt-f2", d: 1, t: "Quel liquide rouge circule dans nos veines et nos artères ?", a: "Le sang", x: ["La lymphe", "La bile", "La salive"], acc: ["sang"] },
+    { id: "svt-f3", d: 1, t: "De quoi les plantes vertes ont-elles besoin, avec l'eau et le CO2, pour la photosynthèse ?", a: "La lumière", x: ["L'obscurité", "Le sable", "Le vent"], acc: ["lumiere", "lumière", "soleil"] },
+    { id: "svt-f4", d: 1, t: "Quel organe des sens permet de voir ?", a: "L'œil", x: ["L'oreille", "Le nez", "La langue"], acc: ["oeil", "œil"] },
+    { id: "svt-f5", d: 1, t: "Comment appelle-t-on un être vivant qui ne mange que des plantes ?", a: "Un herbivore", x: ["Un carnivore", "Un omnivore", "Un charognard"], acc: ["herbivore"] },
+    // --- Moyennes (10) ---
+    { id: "svt-m1", d: 2, t: "Quel organe malaxe les aliments avec des sucs acides lors de la digestion ?", a: "L'estomac", x: ["Le foie", "Le cœur", "Le poumon"], acc: ["estomac"] },
+    { id: "svt-m2", d: 2, t: "Comment appelle-t-on les cellules du sang qui transportent l'oxygène ?", a: "Les globules rouges", x: ["Les globules blancs", "Les plaquettes", "Les neurones"], acc: ["globules rouges", "hematies", "hématies"] },
+    { id: "svt-m3", d: 2, t: "Quel organe filtre le sang et produit l'urine ?", a: "Les reins", x: ["Le foie", "La vessie", "La rate"], acc: ["reins", "rein"] },
+    { id: "svt-m4", d: 2, t: "Comment appelle-t-on la transformation profonde d'une chenille en papillon ?", a: "La métamorphose", x: ["La mutation", "La digestion", "La respiration"], acc: ["metamorphose", "métamorphose"] },
+    { id: "svt-m5", d: 2, t: "Comment appelle-t-on l'ensemble des êtres vivants et leur milieu qui interagissent ?", a: "Un écosystème", x: ["Une population", "Une espèce", "Un habitat"], acc: ["ecosysteme", "écosystème"] },
+    { id: "svt-m6", d: 2, t: "Quel organe traite les informations et commande le corps ?", a: "Le cerveau", x: ["Le cœur", "Le foie", "L'estomac"], acc: ["cerveau"] },
+    { id: "svt-m7", d: 2, t: "Comment appelle-t-on les cellules qui transmettent les messages nerveux ?", a: "Les neurones", x: ["Les globules", "Les muscles", "Les gènes"], acc: ["neurones", "neurone"] },
+    { id: "svt-m8", d: 2, t: "Quelle matière en fusion s'écoule d'un volcan en éruption ?", a: "La lave", x: ["Le granite", "Le calcaire", "Le sable"], acc: ["lave", "magma"] },
+    { id: "svt-m9", d: 2, t: "Comment appelle-t-on le passage de l'eau de l'état liquide à l'état gazeux ?", a: "L'évaporation", x: ["La condensation", "La solidification", "La fusion"], acc: ["evaporation", "évaporation"] },
+    { id: "svt-m10", d: 2, t: "Quel est l'organe reproducteur femelle de la fleur qui deviendra un fruit ?", a: "Le pistil", x: ["L'étamine", "Le pétale", "La tige"], acc: ["pistil"] },
+    // --- Dures (15) ---
+    { id: "svt-d1", d: 3, t: "Comment appelle-t-on les grandes plaques de la surface terrestre qui se déplacent lentement ?", a: "Les plaques tectoniques", x: ["Les continents", "Les failles", "Les dorsales"], acc: ["plaques tectoniques", "tectonique des plaques"] },
+    { id: "svt-d2", d: 3, t: "Quelle couche de la Terre, entre la croûte et le noyau, est la plus épaisse ?", a: "Le manteau", x: ["La croûte", "Le noyau externe", "La lithosphère"], acc: ["manteau"] },
+    { id: "svt-d3", d: 3, t: "Comment appelle-t-on la partie liquide du sang, sans les cellules ?", a: "Le plasma", x: ["La lymphe", "Le sérum", "La moelle"], acc: ["plasma"] },
+    { id: "svt-d4", d: 3, t: "Quel pigment des globules rouges transporte l'oxygène en se liant au fer ?", a: "L'hémoglobine", x: ["La chlorophylle", "La kératine", "La mélanine"], acc: ["hemoglobine", "hémoglobine"] },
+    { id: "svt-d5", d: 3, t: "Comment appelle-t-on l'échange gazeux entre l'air des poumons et le sang ?", a: "L'hématose", x: ["La digestion", "La circulation", "L'excrétion"], acc: ["hematose", "hématose", "echanges gazeux"] },
+    { id: "svt-d6", d: 3, t: "Combien de chromosomes contient une cellule reproductrice humaine, ovule ou spermatozoïde ?", a: "23", x: ["46", "22", "48"], acc: ["23", "vingt-trois"] },
+    { id: "svt-d7", d: 3, t: "Comment appelle-t-on la rencontre d'un ovule et d'un spermatozoïde ?", a: "La fécondation", x: ["La gestation", "La mitose", "La digestion"], acc: ["fecondation", "fécondation"] },
+    { id: "svt-d8", d: 3, t: "Quelle glande située dans le cou règle le métabolisme grâce à ses hormones ?", a: "La thyroïde", x: ["Le pancréas", "Le foie", "L'hypophyse"], acc: ["thyroide", "thyroïde"] },
+    { id: "svt-d9", d: 3, t: "Comment appelle-t-on la division d'une cellule en deux cellules identiques ?", a: "La mitose", x: ["La méiose", "La fécondation", "La digestion"], acc: ["mitose"] },
+    { id: "svt-d10", d: 3, t: "Quel appareil du corps comprend le cœur et les vaisseaux sanguins ?", a: "L'appareil circulatoire", x: ["L'appareil digestif", "L'appareil respiratoire", "L'appareil excréteur"], acc: ["circulatoire", "appareil circulatoire"] },
+    { id: "svt-d11", d: 3, t: "Comment qualifie-t-on une espèce animale qui a totalement disparu ?", a: "Une espèce éteinte", x: ["Une espèce endémique", "Une espèce invasive", "Une espèce protégée"], acc: ["eteinte", "éteinte", "disparue"] },
+    { id: "svt-d12", d: 3, t: "Quel instrument enregistre les tremblements de terre ?", a: "Le sismographe", x: ["Le baromètre", "Le thermomètre", "L'anémomètre"], acc: ["sismographe", "sismometre"] },
+    { id: "svt-d13", d: 3, t: "Quel gaz de la haute atmosphère nous protège des rayons ultraviolets du Soleil ?", a: "L'ozone", x: ["L'azote", "Le méthane", "L'hélium"], acc: ["ozone"] },
+    { id: "svt-d14", d: 3, t: "Comment appelle-t-on l'empreinte ou le reste d'un être vivant conservé dans la roche ?", a: "Un fossile", x: ["Un minéral", "Un cristal", "Un sédiment"], acc: ["fossile"] },
+    { id: "svt-d15", d: 3, t: "Quel organe du système digestif produit la bile ?", a: "Le foie", x: ["L'estomac", "Le pancréas", "La rate"], acc: ["foie"] },
+    // --- Pro (20) ---
+    { id: "svt-p1", d: 4, t: "Comment appelle-t-on la division cellulaire qui réduit de moitié le nombre de chromosomes ?", a: "La méiose", x: ["La mitose", "La fécondation", "La mutation"], acc: ["meiose", "méiose"] },
+    { id: "svt-p2", d: 4, t: "Quel organite de la cellule produit l'énergie sous forme d'ATP ?", a: "La mitochondrie", x: ["Le noyau", "Le ribosome", "Le lysosome"], acc: ["mitochondrie", "mitochondries"] },
+    { id: "svt-p3", d: 4, t: "Dans quel organite de la cellule végétale se déroule la photosynthèse ?", a: "Le chloroplaste", x: ["La mitochondrie", "Le noyau", "La vacuole"], acc: ["chloroplaste", "chloroplastes"] },
+    { id: "svt-p4", d: 4, t: "Quel scientifique a proposé la théorie de la dérive des continents en 1912 ?", a: "Alfred Wegener", x: ["Charles Darwin", "Louis Pasteur", "Georges Cuvier"], acc: ["wegener", "alfred wegener"] },
+    { id: "svt-p5", d: 4, t: "Comment appelle-t-on le supercontinent qui regroupait toutes les terres il y a 250 millions d'années ?", a: "La Pangée", x: ["Le Gondwana", "La Laurasia", "La Panthalassa"], acc: ["pangee", "pangée"] },
+    { id: "svt-p6", d: 4, t: "Quel moine autrichien a découvert les lois de l'hérédité en étudiant des petits pois ?", a: "Gregor Mendel", x: ["Charles Darwin", "James Watson", "Louis Pasteur"], acc: ["mendel", "gregor mendel"] },
+    { id: "svt-p7", d: 4, t: "Comment appelle-t-on une portion d'ADN qui code une caractéristique héréditaire ?", a: "Un gène", x: ["Un chromosome", "Une protéine", "Une cellule"], acc: ["gene", "gène"] },
+    { id: "svt-p8", d: 4, t: "Quels deux chercheurs ont décrit la structure en double hélice de l'ADN en 1953 ?", a: "Watson et Crick", x: ["Mendel et Morgan", "Darwin et Wallace", "Pasteur et Koch"], acc: ["watson et crick", "watson crick"] },
+    { id: "svt-p9", d: 4, t: "Comment appelle-t-on la couche externe solide de la Terre, croûte et sommet du manteau ?", a: "La lithosphère", x: ["L'asthénosphère", "L'hydrosphère", "La biosphère"], acc: ["lithosphere", "lithosphère"] },
+    { id: "svt-p10", d: 4, t: "Comment appelle-t-on le point à la surface, à la verticale du foyer d'un séisme ?", a: "L'épicentre", x: ["L'hypocentre", "La faille", "La dorsale"], acc: ["epicentre", "épicentre"] },
+    { id: "svt-p11", d: 4, t: "Comment appelle-t-on l'enchaînement « qui mange qui » dans un écosystème ?", a: "La chaîne alimentaire", x: ["La pyramide des âges", "Le cycle de l'eau", "La niche écologique"], acc: ["chaine alimentaire", "chaîne alimentaire", "reseau trophique"] },
+    { id: "svt-p12", d: 4, t: "Quel organe assure les échanges entre la mère et le fœtus pendant la grossesse ?", a: "Le placenta", x: ["L'utérus", "Le cordon", "L'ovaire"], acc: ["placenta"] },
+    { id: "svt-p13", d: 4, t: "Comment appelle-t-on le prolongement du neurone qui conduit le message sur de longues distances ?", a: "L'axone", x: ["La dendrite", "Le noyau", "La synapse"], acc: ["axone"] },
+    { id: "svt-p14", d: 4, t: "Comment appelle-t-on la zone de contact entre deux neurones où passe le message ?", a: "La synapse", x: ["L'axone", "La dendrite", "Le nerf"], acc: ["synapse"] },
+    { id: "svt-p15", d: 4, t: "Quel type de roche se forme par accumulation et compactage de sédiments ?", a: "Une roche sédimentaire", x: ["Une roche magmatique", "Une roche métamorphique", "Une roche volcanique"], acc: ["sedimentaire", "roche sedimentaire"] },
+    { id: "svt-p16", d: 4, t: "Comment appelle-t-on le lent changement des espèces au fil des générations ?", a: "L'évolution", x: ["La photosynthèse", "La digestion", "La respiration"], acc: ["evolution", "évolution"] },
+    { id: "svt-p17", d: 4, t: "Quel gaz à effet de serre, issu de l'élevage et des marais, a pour formule CH4 ?", a: "Le méthane", x: ["Le dioxyde de carbone", "L'ozone", "Le protoxyde d'azote"], acc: ["methane", "méthane", "ch4"] },
+    { id: "svt-p18", d: 4, t: "Comment appelle-t-on un être vivant qui fabrique sa matière organique à partir de minéral, comme les plantes ?", a: "Un autotrophe", x: ["Un hétérotrophe", "Un décomposeur", "Un parasite"], acc: ["autotrophe"] },
+    { id: "svt-p19", d: 4, t: "Quelle hormone produite par les ovaires joue un rôle clé dans le cycle féminin ?", a: "L'œstrogène", x: ["La testostérone", "L'insuline", "L'adrénaline"], acc: ["oestrogene", "œstrogène", "estrogene"] },
+    { id: "svt-p20", d: 4, t: "Comment appelle-t-on la couche de la Terre, sous la lithosphère, où les roches sont plus ductiles ?", a: "L'asthénosphère", x: ["La lithosphère", "Le noyau", "La croûte"], acc: ["asthenosphere", "asthénosphère"] },
+  ]),
+
+  ...universe('societe', 'Célébrités', [
+    // --- Faciles (5) ---
+    { id: "celeb-f1", d: 1, t: "Quel chanteur américain était surnommé le Roi de la pop ?", a: "Michael Jackson", x: ["Elvis Presley", "Prince", "Freddie Mercury"], acc: ["michael jackson", "jackson"] },
+    { id: "celeb-f2", d: 1, t: "Quel milliardaire dirige Tesla et SpaceX ?", a: "Elon Musk", x: ["Jeff Bezos", "Bill Gates", "Mark Zuckerberg"], acc: ["elon musk", "musk"] },
+    { id: "celeb-f3", d: 1, t: "Quelle famille de télé-réalité américaine est menée par Kim Kardashian ?", a: "Les Kardashian", x: ["Les Hilton", "Les Osbourne", "Les Beckham"], acc: ["kardashian", "les kardashian"] },
+    { id: "celeb-f4", d: 1, t: "Quel acteur de films d'action a été gouverneur de Californie ?", a: "Arnold Schwarzenegger", x: ["Sylvester Stallone", "Bruce Willis", "Jean-Claude Van Damme"], acc: ["schwarzenegger", "arnold schwarzenegger"] },
+    { id: "celeb-f5", d: 1, t: "Quel footballeur portugais est surnommé CR7 ?", a: "Cristiano Ronaldo", x: ["Lionel Messi", "Neymar", "Kylian Mbappé"], acc: ["cristiano ronaldo", "ronaldo", "cr7"] },
+    // --- Moyennes (10) ---
+    { id: "celeb-m1", d: 2, t: "Quel est le vrai nom de la chanteuse Lady Gaga ?", a: "Stefani Germanotta", x: ["Robyn Fenty", "Alecia Moore", "Katheryn Hudson"], acc: ["stefani germanotta", "germanotta"] },
+    { id: "celeb-m2", d: 2, t: "Quel est le vrai nom de la chanteuse Rihanna ?", a: "Robyn Fenty", x: ["Stefani Germanotta", "Beyoncé Knowles", "Alicia Keys"], acc: ["robyn fenty", "fenty"] },
+    { id: "celeb-m3", d: 2, t: "Quel couple d'acteurs a été surnommé Brangelina ?", a: "Brad Pitt et Angelina Jolie", x: ["Ben Affleck et Jennifer Lopez", "Tom Cruise et Katie Holmes", "Johnny Depp et Amber Heard"], acc: ["brad pitt et angelina jolie", "brangelina"] },
+    { id: "celeb-m4", d: 2, t: "Quelle animatrice américaine, milliardaire, est célèbre pour son talk-show ?", a: "Oprah Winfrey", x: ["Ellen DeGeneres", "Barbara Walters", "Kim Kardashian"], acc: ["oprah", "oprah winfrey"] },
+    { id: "celeb-m5", d: 2, t: "Quel acteur britannique a incarné James Bond dans les années 2000 et 2010 ?", a: "Daniel Craig", x: ["Pierce Brosnan", "Sean Connery", "Roger Moore"], acc: ["daniel craig", "craig"] },
+    { id: "celeb-m6", d: 2, t: "Quelle chanteuse britannique a interprété le titre Hello et l'album 21 ?", a: "Adele", x: ["Amy Winehouse", "Dua Lipa", "Sia"], acc: ["adele", "adèle"] },
+    { id: "celeb-m7", d: 2, t: "Quel homme d'affaires américain a cofondé Microsoft avec Paul Allen ?", a: "Bill Gates", x: ["Steve Jobs", "Elon Musk", "Jeff Bezos"], acc: ["bill gates", "gates"] },
+    { id: "celeb-m8", d: 2, t: "Quel acteur incarne Iron Man dans les films Marvel ?", a: "Robert Downey Jr.", x: ["Chris Evans", "Chris Hemsworth", "Mark Ruffalo"], acc: ["robert downey jr", "downey"] },
+    { id: "celeb-m9", d: 2, t: "Quelle joueuse de tennis américaine a remporté 23 titres du Grand Chelem en simple ?", a: "Serena Williams", x: ["Venus Williams", "Steffi Graf", "Martina Navratilova"], acc: ["serena williams", "serena"] },
+    { id: "celeb-m10", d: 2, t: "Quel chanteur canadien s'est fait connaître ado sur YouTube avec le titre Baby ?", a: "Justin Bieber", x: ["Shawn Mendes", "Ed Sheeran", "Charlie Puth"], acc: ["justin bieber", "bieber"] },
+    // --- Dures (15) ---
+    { id: "celeb-d1", d: 3, t: "Quel est le vrai nom de l'artiste belge Stromae ?", a: "Paul Van Haver", x: ["David Guetta", "Christophe Willem", "Julien Doré"], acc: ["paul van haver", "van haver"] },
+    { id: "celeb-d2", d: 3, t: "Quel est le vrai nom du rappeur français Booba ?", a: "Élie Yaffa", x: ["Karim Zenoud", "Gandhi Djuna", "William Kalubi"], acc: ["elie yaffa", "yaffa"] },
+    { id: "celeb-d3", d: 3, t: "Quel chef étoilé, juré de Top Chef, tient des restaurants à Bordeaux ?", a: "Philippe Etchebest", x: ["Cyril Lignac", "Hélène Darroze", "Paul Bocuse"], acc: ["philippe etchebest", "etchebest"] },
+    { id: "celeb-d4", d: 3, t: "Quel est le nom de famille de la chanteuse Beyoncé ?", a: "Knowles", x: ["Fenty", "Germanotta", "Carey"], acc: ["knowles", "beyonce knowles"] },
+    { id: "celeb-d5", d: 3, t: "Quel réalisateur américain est célèbre pour Pulp Fiction et Kill Bill ?", a: "Quentin Tarantino", x: ["Martin Scorsese", "Steven Spielberg", "Christopher Nolan"], acc: ["tarantino", "quentin tarantino"] },
+    { id: "celeb-d6", d: 3, t: "Quelle femme d'affaires est devenue milliardaire avec sa marque de cosmétiques éponyme ?", a: "Kylie Jenner", x: ["Kim Kardashian", "Kendall Jenner", "Gigi Hadid"], acc: ["kylie jenner", "kylie"] },
+    { id: "celeb-d7", d: 3, t: "Quel acteur américain incarne Jack Sparrow dans Pirates des Caraïbes ?", a: "Johnny Depp", x: ["Orlando Bloom", "Javier Bardem", "Geoffrey Rush"], acc: ["johnny depp", "depp"] },
+    { id: "celeb-d8", d: 3, t: "Quel chef cuisinier britannique est connu pour s'emporter dans ses émissions de cuisine ?", a: "Gordon Ramsay", x: ["Jamie Oliver", "Cyril Lignac", "Philippe Etchebest"], acc: ["gordon ramsay", "ramsay"] },
+    { id: "celeb-d9", d: 3, t: "Quel acteur américain a incarné Forrest Gump ?", a: "Tom Hanks", x: ["Tom Cruise", "Kevin Costner", "Harrison Ford"], acc: ["tom hanks", "hanks"] },
+    { id: "celeb-d10", d: 3, t: "Quel couturier allemand à catogan et lunettes noires a longtemps dirigé Chanel ?", a: "Karl Lagerfeld", x: ["Yves Saint Laurent", "Christian Dior", "Jean Paul Gaultier"], acc: ["karl lagerfeld", "lagerfeld"] },
+    { id: "celeb-d11", d: 3, t: "Quelle chanteuse britannique, morte à 27 ans, a marqué avec l'album Back to Black ?", a: "Amy Winehouse", x: ["Adele", "Duffy", "Lily Allen"], acc: ["amy winehouse", "winehouse"] },
+    { id: "celeb-d12", d: 3, t: "Quel journaliste a présenté le JT de 20h de TF1 dans les années 1990 ?", a: "Patrick Poivre d'Arvor", x: ["Jean-Pierre Pernaut", "David Pujadas", "Gilles Bouleau"], acc: ["patrick poivre d'arvor", "ppda", "poivre d'arvor"] },
+    { id: "celeb-d13", d: 3, t: "Quel acteur espagnol est connu pour Le Masque de Zorro et Desperado ?", a: "Antonio Banderas", x: ["Javier Bardem", "Benicio del Toro", "Gael García Bernal"], acc: ["antonio banderas", "banderas"] },
+    { id: "celeb-d14", d: 3, t: "Quel milliardaire américain a fondé Amazon ?", a: "Jeff Bezos", x: ["Bill Gates", "Elon Musk", "Larry Page"], acc: ["jeff bezos", "bezos"] },
+    { id: "celeb-d15", d: 3, t: "Quelle top-modèle britannique des années 90 a incarné le style heroin chic ?", a: "Kate Moss", x: ["Naomi Campbell", "Cindy Crawford", "Claudia Schiffer"], acc: ["kate moss", "moss"] },
+    // --- Pro (20) ---
+    { id: "celeb-p1", d: 4, t: "Quel est le vrai nom du chanteur Elton John ?", a: "Reginald Dwight", x: ["David Jones", "Gordon Sumner", "Farrokh Bulsara"], acc: ["reginald dwight", "dwight"] },
+    { id: "celeb-p2", d: 4, t: "Quel était le vrai nom de Freddie Mercury, chanteur de Queen ?", a: "Farrokh Bulsara", x: ["Reginald Dwight", "David Jones", "Gordon Sumner"], acc: ["farrokh bulsara", "bulsara"] },
+    { id: "celeb-p3", d: 4, t: "Quel était le vrai nom de David Bowie ?", a: "David Jones", x: ["Farrokh Bulsara", "Reginald Dwight", "Marc Feld"], acc: ["david jones", "jones"] },
+    { id: "celeb-p4", d: 4, t: "Quel est le vrai nom de l'artiste Sting ?", a: "Gordon Sumner", x: ["Reginald Dwight", "David Jones", "Paul Hewson"], acc: ["gordon sumner", "sumner"] },
+    { id: "celeb-p5", d: 4, t: "Quel est le vrai nom de Bono, chanteur de U2 ?", a: "Paul Hewson", x: ["Gordon Sumner", "David Evans", "Farrokh Bulsara"], acc: ["paul hewson", "hewson"] },
+    { id: "celeb-p6", d: 4, t: "Quelle actrice détient le record de nominations aux Oscars, avec plus de vingt citations ?", a: "Meryl Streep", x: ["Katharine Hepburn", "Bette Davis", "Judi Dench"], acc: ["meryl streep", "streep"] },
+    { id: "celeb-p7", d: 4, t: "Quel acteur américain a refusé son Oscar pour Le Parrain en 1973 ?", a: "Marlon Brando", x: ["Al Pacino", "Jack Nicholson", "Robert De Niro"], acc: ["marlon brando", "brando"] },
+    { id: "celeb-p8", d: 4, t: "Quel est le nom de famille de la chanteuse Adele ?", a: "Adkins", x: ["Germanotta", "Fenty", "Knowles"], acc: ["adkins", "adele adkins"] },
+    { id: "celeb-p9", d: 4, t: "Quel acteur gallois a incarné le cannibale Hannibal Lecter au cinéma ?", a: "Anthony Hopkins", x: ["Ian McKellen", "Christopher Lee", "Michael Caine"], acc: ["anthony hopkins", "hopkins"] },
+    { id: "celeb-p10", d: 4, t: "Quel investisseur a cofondé PayPal et fut un premier grand financeur de Facebook ?", a: "Peter Thiel", x: ["Elon Musk", "Reid Hoffman", "Marc Andreessen"], acc: ["peter thiel", "thiel"] },
+    { id: "celeb-p11", d: 4, t: "Quelle chanteuse colombienne est connue pour Waka Waka et Hips Don't Lie ?", a: "Shakira", x: ["Jennifer Lopez", "Gloria Estefan", "Rosalía"], acc: ["shakira"] },
+    { id: "celeb-p12", d: 4, t: "Quelle actrice française oscarisée a incarné Édith Piaf dans La Môme ?", a: "Marion Cotillard", x: ["Juliette Binoche", "Isabelle Adjani", "Audrey Tautou"], acc: ["marion cotillard", "cotillard"] },
+    { id: "celeb-p13", d: 4, t: "Quel réalisateur britannique est célèbre pour Inception, Interstellar et Oppenheimer ?", a: "Christopher Nolan", x: ["Ridley Scott", "Denis Villeneuve", "Steven Spielberg"], acc: ["christopher nolan", "nolan"] },
+    { id: "celeb-p14", d: 4, t: "Quel acteur canadien a incarné Neo dans Matrix et le tueur John Wick ?", a: "Keanu Reeves", x: ["Tom Cruise", "Brad Pitt", "Will Smith"], acc: ["keanu reeves", "reeves"] },
+    { id: "celeb-p15", d: 4, t: "Quel ingénieur a cofondé Apple avec Steve Jobs et Ronald Wayne ?", a: "Steve Wozniak", x: ["Bill Gates", "Paul Allen", "Jonathan Ive"], acc: ["steve wozniak", "wozniak"] },
+    { id: "celeb-p16", d: 4, t: "Quelle chanteuse américaine détient le record de récompenses aux Grammy Awards ?", a: "Beyoncé", x: ["Taylor Swift", "Adele", "Mariah Carey"], acc: ["beyonce", "beyoncé"] },
+    { id: "celeb-p17", d: 4, t: "Quel acteur britannique a incarné Sherlock Holmes dans la série de la BBC ?", a: "Benedict Cumberbatch", x: ["Martin Freeman", "Hugh Laurie", "David Tennant"], acc: ["benedict cumberbatch", "cumberbatch"] },
+    { id: "celeb-p18", d: 4, t: "Quel milliardaire français dirige le groupe de luxe LVMH ?", a: "Bernard Arnault", x: ["François Pinault", "Xavier Niel", "Vincent Bolloré"], acc: ["bernard arnault", "arnault"] },
+    { id: "celeb-p19", d: 4, t: "Quelle actrice a incarné Hermione Granger dans les films Harry Potter ?", a: "Emma Watson", x: ["Emma Stone", "Emma Roberts", "Bonnie Wright"], acc: ["emma watson", "watson"] },
+    { id: "celeb-p20", d: 4, t: "Quel musicien américain, disparu en 2016, est l'auteur de Purple Rain ?", a: "Prince", x: ["David Bowie", "Michael Jackson", "George Michael"], acc: ["prince"] },
+  ]),
+
+  ...universe('societe', 'Sexe', [
+    // --- Faciles (5) ---
+    { id: "sexe-f1", d: 1, t: "Comment appelle-t-on la cellule reproductrice masculine ?", a: "Le spermatozoïde", x: ["L'ovule", "L'embryon", "L'hormone"], acc: ["spermatozoide", "spermatozoïde"] },
+    { id: "sexe-f2", d: 1, t: "Comment appelle-t-on la cellule reproductrice féminine ?", a: "L'ovule", x: ["Le spermatozoïde", "L'utérus", "L'ovaire"], acc: ["ovule"] },
+    { id: "sexe-f3", d: 1, t: "Quel moyen de contraception protège aussi des infections sexuellement transmissibles ?", a: "Le préservatif", x: ["La pilule", "Le stérilet", "L'implant"], acc: ["preservatif", "préservatif", "capote"] },
+    { id: "sexe-f4", d: 1, t: "Comment appelle-t-on la période où le corps devient capable de se reproduire ?", a: "La puberté", x: ["La ménopause", "L'enfance", "La vieillesse"], acc: ["puberte", "puberté"] },
+    { id: "sexe-f5", d: 1, t: "Quelle fête des amoureux est célébrée le 14 février ?", a: "La Saint-Valentin", x: ["La Sainte-Catherine", "Halloween", "Mardi gras"], acc: ["saint-valentin", "valentin"] },
+    // --- Moyennes (10) ---
+    { id: "sexe-m1", d: 2, t: "Quel contraceptif hormonal se prend chaque jour par voie orale ?", a: "La pilule contraceptive", x: ["Le préservatif", "Le stérilet", "Le patch"], acc: ["pilule", "pilule contraceptive"] },
+    { id: "sexe-m2", d: 2, t: "Quel petit dispositif en forme de T se pose dans l'utérus comme contraceptif de longue durée ?", a: "Le stérilet", x: ["Le préservatif", "La pilule", "L'anneau"], acc: ["sterilet", "stérilet", "diu"] },
+    { id: "sexe-m3", d: 2, t: "Comment appelle-t-on l'arrêt naturel des règles vers la cinquantaine ?", a: "La ménopause", x: ["La puberté", "L'ovulation", "La grossesse"], acc: ["menopause", "ménopause"] },
+    { id: "sexe-m4", d: 2, t: "Quelle hormone est souvent qualifiée d'hormone masculine ?", a: "La testostérone", x: ["L'œstrogène", "L'insuline", "La progestérone"], acc: ["testosterone", "testostérone"] },
+    { id: "sexe-m5", d: 2, t: "Comment abrège-t-on les infections qui se transmettent lors de rapports sexuels ?", a: "Les IST", x: ["Les allergies", "Les carences", "Les migraines"], acc: ["ist", "infections sexuellement transmissibles", "mst"] },
+    { id: "sexe-m6", d: 2, t: "Quel virus responsable du sida se transmet lors de rapports non protégés ?", a: "Le VIH", x: ["L'hépatite B", "Le papillomavirus", "L'herpès"], acc: ["vih", "hiv"] },
+    { id: "sexe-m7", d: 2, t: "Comment appelle-t-on la libération d'un ovule par l'ovaire au milieu du cycle ?", a: "L'ovulation", x: ["La menstruation", "La fécondation", "La nidation"], acc: ["ovulation"] },
+    { id: "sexe-m8", d: 2, t: "Quel ancien texte indien est un célèbre traité sur l'amour et la sexualité ?", a: "Le Kâma Sûtra", x: ["Le Coran", "La Torah", "Le Tao Tö King"], acc: ["kama sutra", "kâma sûtra", "kamasutra"] },
+    { id: "sexe-m9", d: 2, t: "Comment appelle-t-on l'attirance amoureuse et sexuelle envers des personnes du même sexe ?", a: "L'homosexualité", x: ["L'hétérosexualité", "L'asexualité", "La bisexualité"], acc: ["homosexualite", "homosexualité"] },
+    { id: "sexe-m10", d: 2, t: "Comment appelle-t-on le fait d'être attiré par les hommes comme par les femmes ?", a: "La bisexualité", x: ["L'homosexualité", "L'hétérosexualité", "L'asexualité"], acc: ["bisexualite", "bisexualité"] },
+    // --- Dures (15) ---
+    { id: "sexe-d1", d: 3, t: "Combien de jours dure en moyenne un cycle menstruel ?", a: "28 jours", x: ["14 jours", "40 jours", "21 jours"], acc: ["28 jours", "28"] },
+    { id: "sexe-d2", d: 3, t: "Comment appelle-t-on l'implantation de l'embryon dans la paroi de l'utérus ?", a: "La nidation", x: ["L'ovulation", "La fécondation", "La menstruation"], acc: ["nidation"] },
+    { id: "sexe-d3", d: 3, t: "Quelle contraception d'urgence peut être prise après un rapport à risque ?", a: "La pilule du lendemain", x: ["La pilule contraceptive", "L'aspirine", "L'antibiotique"], acc: ["pilule du lendemain", "contraception d'urgence"] },
+    { id: "sexe-d4", d: 3, t: "Quel virus sexuellement transmissible peut être prévenu par un vaccin chez les jeunes ?", a: "Le papillomavirus", x: ["Le VIH", "L'hépatite A", "La grippe"], acc: ["papillomavirus", "hpv"] },
+    { id: "sexe-d5", d: 3, t: "Comment appelle-t-on l'incapacité à concevoir un enfant après de longs essais ?", a: "L'infertilité", x: ["La ménopause", "La contraception", "La puberté"], acc: ["infertilite", "infertilité", "sterilite"] },
+    { id: "sexe-d6", d: 3, t: "Quelle technique médicale dite FIV féconde un ovule en laboratoire ?", a: "La fécondation in vitro", x: ["L'insémination", "Le clonage", "La contraception"], acc: ["fecondation in vitro", "fiv"] },
+    { id: "sexe-d7", d: 3, t: "Comment appelle-t-on les toutes premières règles d'une jeune fille ?", a: "Les ménarches", x: ["La ménopause", "L'ovulation", "La nidation"], acc: ["menarche", "ménarche", "premieres regles"] },
+    { id: "sexe-d8", d: 3, t: "Quel médecin autrichien a fondé la psychanalyse et théorisé la libido ?", a: "Sigmund Freud", x: ["Carl Jung", "Alfred Kinsey", "Wilhelm Reich"], acc: ["freud", "sigmund freud"] },
+    { id: "sexe-d9", d: 3, t: "Quel biologiste américain a mené de grandes enquêtes sur la sexualité dans les années 1950 ?", a: "Alfred Kinsey", x: ["Sigmund Freud", "Havelock Ellis", "Carl Jung"], acc: ["kinsey", "alfred kinsey"] },
+    { id: "sexe-d10", d: 3, t: "Comment appelle-t-on le fait de ne ressentir aucune attirance sexuelle ?", a: "L'asexualité", x: ["La bisexualité", "L'homosexualité", "L'abstinence"], acc: ["asexualite", "asexualité"] },
+    { id: "sexe-d11", d: 3, t: "Quelle hormone de l'attachement, dite hormone de l'amour, est libérée lors des câlins ?", a: "L'ocytocine", x: ["L'adrénaline", "La testostérone", "L'insuline"], acc: ["ocytocine", "oxytocine"] },
+    { id: "sexe-d12", d: 3, t: "Comment appelle-t-on médicalement l'incapacité à obtenir une érection ?", a: "La dysfonction érectile", x: ["La stérilité", "L'andropause", "La prostatite"], acc: ["dysfonction erectile", "impuissance", "dysfonction érectile"] },
+    { id: "sexe-d13", d: 3, t: "Quel médicament bleu, commercialisé en 1998, traite les troubles de l'érection ?", a: "Le Viagra", x: ["Le Prozac", "L'aspirine", "Le Xanax"], acc: ["viagra", "sildenafil"] },
+    { id: "sexe-d14", d: 3, t: "Dans quel organe se développe le fœtus pendant la grossesse ?", a: "L'utérus", x: ["L'ovaire", "Le vagin", "Le placenta"], acc: ["uterus", "utérus"] },
+    { id: "sexe-d15", d: 3, t: "Comment appelle-t-on la couche interne de l'utérus qui se renouvelle à chaque cycle ?", a: "L'endomètre", x: ["Le myomètre", "Le col", "Les trompes"], acc: ["endometre", "endomètre"] },
+    // --- Pro (20) ---
+    { id: "sexe-p1", d: 4, t: "Quel duo de chercheurs américains a étudié la réponse sexuelle en laboratoire dans les années 1960 ?", a: "Masters et Johnson", x: ["Watson et Crick", "Kinsey et Pomeroy", "Freud et Jung"], acc: ["masters et johnson", "masters johnson"] },
+    { id: "sexe-p2", d: 4, t: "Combien de spermatozoïdes environ compte une éjaculation moyenne, en ordre de grandeur ?", a: "Plusieurs centaines de millions", x: ["Quelques centaines", "Quelques milliers", "Une dizaine"], acc: ["centaines de millions", "plusieurs centaines de millions"] },
+    { id: "sexe-p3", d: 4, t: "Comment appelle-t-on les canaux reliant les ovaires à l'utérus, lieu de la fécondation ?", a: "Les trompes de Fallope", x: ["Les canaux déférents", "L'urètre", "Le col"], acc: ["trompes de fallope", "trompes"] },
+    { id: "sexe-p4", d: 4, t: "Quel conduit transporte les spermatozoïdes depuis les testicules ?", a: "Le canal déférent", x: ["L'urètre", "La trompe", "L'épididyme"], acc: ["canal deferent", "canal déférent"] },
+    { id: "sexe-p5", d: 4, t: "Quelle glande masculine, sous la vessie, produit une partie du liquide séminal ?", a: "La prostate", x: ["Le testicule", "L'épididyme", "La vésicule biliaire"], acc: ["prostate"] },
+    { id: "sexe-p6", d: 4, t: "Comment appelle-t-on la baisse de fertilité et de testostérone chez l'homme avec l'âge ?", a: "L'andropause", x: ["La ménopause", "La puberté", "La libido"], acc: ["andropause"] },
+    { id: "sexe-p7", d: 4, t: "Quel gynécologue allemand a donné son nom au point G ?", a: "Ernst Gräfenberg", x: ["Alfred Kinsey", "Sigmund Freud", "William Masters"], acc: ["grafenberg", "gräfenberg", "ernst grafenberg"] },
+    { id: "sexe-p8", d: 4, t: "En quelle année le mariage pour tous a-t-il été légalisé en France ?", a: "2013", x: ["1999", "2008", "2017"], acc: ["2013"] },
+    { id: "sexe-p9", d: 4, t: "Comment appelle-t-on l'union civile française ouverte aux couples depuis 1999 ?", a: "Le PACS", x: ["Le concubinage", "Le mariage", "Le contrat"], acc: ["pacs"] },
+    { id: "sexe-p10", d: 4, t: "Quel pays a été le premier au monde à légaliser le mariage homosexuel, en 2001 ?", a: "Les Pays-Bas", x: ["La Belgique", "Le Canada", "L'Espagne"], acc: ["pays-bas", "les pays-bas"] },
+    { id: "sexe-p11", d: 4, t: "Comment appelle-t-on le rejet ou la peur de l'homosexualité ?", a: "L'homophobie", x: ["La misogynie", "La xénophobie", "La claustrophobie"], acc: ["homophobie"] },
+    { id: "sexe-p12", d: 4, t: "Comment appelle-t-on la fine membrane parfois présente à l'entrée du vagin ?", a: "L'hymen", x: ["Le clitoris", "L'utérus", "La vulve"], acc: ["hymen"] },
+    { id: "sexe-p13", d: 4, t: "Quel jour de mai est dédié à la lutte contre l'homophobie et la transphobie ?", a: "Le 17 mai", x: ["Le 1er mai", "Le 8 mai", "Le 14 février"], acc: ["17 mai", "le 17 mai"] },
+    { id: "sexe-p14", d: 4, t: "Comment appelle-t-on les hormones féminines produites surtout par les ovaires ?", a: "Les œstrogènes", x: ["Les androgènes", "Les insulines", "Les adrénalines"], acc: ["oestrogenes", "œstrogènes", "estrogenes"] },
+    { id: "sexe-p15", d: 4, t: "Quelle infection sexuellement transmissible bactérienne se soigne aujourd'hui aux antibiotiques ?", a: "La syphilis", x: ["Le sida", "L'herpès", "Les condylomes"], acc: ["syphilis"] },
+    { id: "sexe-p16", d: 4, t: "Comment appelle-t-on la contraception masculine définitive par section du canal déférent ?", a: "La vasectomie", x: ["La circoncision", "La ligature", "La castration"], acc: ["vasectomie"] },
+    { id: "sexe-p17", d: 4, t: "Comment appelle-t-on la contraception féminine définitive par obstruction des trompes ?", a: "La ligature des trompes", x: ["La vasectomie", "Le stérilet", "L'hystérectomie"], acc: ["ligature des trompes", "ligature"] },
+    { id: "sexe-p18", d: 4, t: "Quelle petite structure très innervée est un organe clé du plaisir féminin ?", a: "Le clitoris", x: ["L'utérus", "L'ovaire", "Le col"], acc: ["clitoris"] },
+    { id: "sexe-p19", d: 4, t: "Comment appelle-t-on l'attirance envers une personne quel que soit son genre ?", a: "La pansexualité", x: ["L'asexualité", "L'homosexualité", "L'hétérosexualité"], acc: ["pansexualite", "pansexualité"] },
+    { id: "sexe-p20", d: 4, t: "Quel médecin a mis au point le frottis qui dépiste le cancer du col de l'utérus ?", a: "George Papanicolaou", x: ["Ernst Gräfenberg", "Alfred Kinsey", "Ignace Semmelweis"], acc: ["papanicolaou", "george papanicolaou"] },
+  ]),
 ];
+
+export const cultureQuestions: Question[] = allBank.filter((q) => q.theme === 'culture');
+export const sciencesQuestions: Question[] = allBank.filter((q) => q.theme === 'sciences');
+export const societeQuestions: Question[] = allBank.filter((q) => q.theme === 'societe');

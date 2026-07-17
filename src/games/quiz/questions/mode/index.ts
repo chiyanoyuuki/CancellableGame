@@ -4,6 +4,7 @@ import { grandscouturiers } from './grandscouturiers';
 import { histoireDeLaMode } from './histoiredelamode';
 import { maisonsdeluxe } from './maisonsdeluxe';
 import { mannequinsFashionWeek } from './mannequinsfashionweek';
+import { maquillage } from './maquillage';
 import { streetwear } from './streetwear';
 
 /**
@@ -16,5 +17,6 @@ export const modeQuestions: Question[] = [
   ...streetwear,
   ...mannequinsFashionWeek,
   ...beauteEtParfums,
+  ...maquillage,
   ...histoireDeLaMode,
 ];
