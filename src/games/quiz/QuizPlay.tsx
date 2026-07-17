@@ -54,6 +54,8 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume }:
   // Univers non souhaités par joueur — sert à signaler, sous l'univers, quand
   // une question sort d'un univers que le joueur actif avait écarté.
   const [unwantedByPlayer, setUnwantedByPlayer] = useState<Record<string, string[]>>({});
+  // Pile d'états « avant réponse » pour revenir à la question précédente.
+  const [history, setHistory] = useState<QuizState[]>([]);
 
   const startedAtRef = useRef<number>(Date.now());
   const questionStartRef = useRef<number>(Date.now());
@@ -237,6 +239,22 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume }:
 
   const dispatch = useCallback((a: QuizAction) => setGame((s) => (s ? quizReducer(s, a) : s)), []);
 
+  // « Revenir en arrière » : on empile l'état AVANT chaque réponse, et on le
+  // restaure tel quel (score, réponses, question) si l'on s'est trompé.
+  const snapshot = () => {
+    if (game) setHistory((h) => [...h, game].slice(-100));
+  };
+  const goBack = () => {
+    if (history.length === 0) return;
+    const prev = history[history.length - 1];
+    setHistory((h) => h.slice(0, -1));
+    setBuzzed(null);
+    setRevealedAnswer(false);
+    setImgError(false);
+    if (prev) setGame(prev);
+  };
+  const canGoBack = history.length > 0;
+
   // Reset per-question local state when a new question appears.
   useEffect(() => {
     if (game?.phase === 'question') {
@@ -309,6 +327,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume }:
 
   const answer = (playerId: string, correct: boolean, timeMs: number | null) => {
     haptic(correct);
+    snapshot();
     dispatch({ type: 'SUBMIT', playerId, correct, timeMs });
   };
 
@@ -461,6 +480,10 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume }:
         {renderHelpBar()}
 
         {cfg.turnMode === 'turn' ? renderTurn() : renderFastest()}
+
+        {canGoBack && (
+          <Button title="↩︎ Question précédente" variant="ghost" size="sm" onPress={goBack} />
+        )}
       </View>
     );
   }
@@ -549,7 +572,15 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume }:
               </Pressable>
             ))}
           </View>
-          <Button title="Personne n'a trouvé" variant="ghost" size="sm" onPress={() => dispatch({ type: 'SKIP' })} />
+          <Button
+            title="Personne n'a trouvé"
+            variant="ghost"
+            size="sm"
+            onPress={() => {
+              snapshot();
+              dispatch({ type: 'SKIP' });
+            }}
+          />
         </View>
       );
     }
@@ -686,6 +717,9 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume }:
         </View>
 
         <Button title={prog.current >= prog.total ? 'Voir les résultats' : 'Question suivante'} size="lg" onPress={() => dispatch({ type: 'CONTINUE' })} />
+        {canGoBack && (
+          <Button title="↩︎ Corriger" variant="ghost" onPress={goBack} />
+        )}
       </View>
     );
   }
