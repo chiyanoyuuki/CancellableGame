@@ -7,7 +7,7 @@ export type RootStackParamList = {
   GameSelect: undefined;
   Lobby: { gameId: string };
   GameConfig: { gameId: string; players: Player[] };
-  GamePlay: { gameId: string; players: Player[]; config: unknown; resume?: boolean };
+  GamePlay: { gameId: string; players: Player[]; config: unknown; resume?: boolean; slotId?: string };
   Results: { result: SessionResult; players: Player[] };
   Stats: undefined;
   Settings: undefined;

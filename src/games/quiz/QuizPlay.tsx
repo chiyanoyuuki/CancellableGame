@@ -22,13 +22,14 @@ import {
 import { mulberry32, randomSeed, shuffle } from '../../core/rng';
 import { selectQuestions } from '../../core/questionSelection';
 import {
-  clearCurrentGame,
+  deleteSavedGame,
   getPlayerUnwantedUniverses,
   getQuestionHistory,
   getQuestionHistoryByPlayer,
+  getSavedGame,
   listCustomChallenges,
-  loadCurrentGame,
-  saveCurrentGame,
+  newSlotId,
+  saveGame,
 } from '../../db';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import type { MiniGamePlayProps } from '../types';
@@ -44,8 +45,10 @@ function haptic(success: boolean) {
   }
 }
 
-export function QuizPlayComponent({ players, config, onFinish, onQuit, resume }: MiniGamePlayProps) {
+export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, slotId: resumeSlotId }: MiniGamePlayProps) {
   const cfg = config as QuizConfig;
+  // Slot de sauvegarde de CETTE partie : repris s'il est fourni, sinon nouveau.
+  const [gameSlotId] = useState(() => resumeSlotId ?? newSlotId());
   const [game, setGame] = useState<QuizState | null>(null);
   const [revealedAnswer, setRevealedAnswer] = useState(false);
   const [buzzed, setBuzzed] = useState<{ playerId: string; timeMs: number } | null>(null);
@@ -146,8 +149,8 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume }:
   useEffect(() => {
     let alive = true;
     void (async () => {
-      if (resume) {
-        const saved = await loadCurrentGame();
+      if (resume && resumeSlotId) {
+        const saved = await getSavedGame(resumeSlotId);
         const st = saved?.state as QuizState | undefined;
         if (st && Array.isArray(st.questions) && typeof st.index === 'number') {
           const unwantedUniverses = await getPlayerUnwantedUniverses();
@@ -241,11 +244,11 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume }:
   useEffect(() => {
     if (!game) return;
     if (game.phase === 'finished') {
-      void clearCurrentGame();
+      void deleteSavedGame(gameSlotId);
       return;
     }
-    void saveCurrentGame({ gameId: 'quiz', players, config: cfg, state: game, startedAt: startedAtRef.current });
-  }, [game, players, cfg]);
+    void saveGame({ slotId: gameSlotId, gameId: 'quiz', players, config: cfg, state: game, startedAt: startedAtRef.current });
+  }, [game, players, cfg, gameSlotId]);
 
   const dispatch = useCallback((a: QuizAction) => setGame((s) => (s ? quizReducer(s, a) : s)), []);
 
@@ -329,7 +332,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume }:
         text: 'Terminer',
         style: 'destructive',
         onPress: async () => {
-          await clearCurrentGame().catch(() => undefined);
+          await deleteSavedGame(gameSlotId).catch(() => undefined);
           onQuit();
         },
       },

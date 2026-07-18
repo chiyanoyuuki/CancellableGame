@@ -28,6 +28,8 @@ export interface MiniGamePlayProps {
   onQuit: () => void;
   /** Resume a previously saved in-progress game instead of starting a new one. */
   resume?: boolean;
+  /** Save-slot id to bind this play session to (resume uses it; new games get their own). */
+  slotId?: string;
 }
 
 export interface MiniGameDefinition {

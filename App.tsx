@@ -6,7 +6,7 @@ import { View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { AnimatedSplash } from './src/components/AnimatedSplash';
-import { initDatabase, loadCurrentGame } from './src/db';
+import { initDatabase, mostRecentSavedGame } from './src/db';
 import type { RootStackParamList } from './src/navigation';
 import { GameConfigScreen } from './src/screens/GameConfigScreen';
 import { GamePlayScreen } from './src/screens/GamePlayScreen';
@@ -46,7 +46,7 @@ export default function App() {
     void (async () => {
       await initDatabase();
       try {
-        const saved = await loadCurrentGame();
+        const saved = await mostRecentSavedGame();
         if (saved) {
           setInitialNavState({
             index: 1,
@@ -54,7 +54,13 @@ export default function App() {
               { name: 'Home' },
               {
                 name: 'GamePlay',
-                params: { gameId: saved.gameId, players: saved.players, config: saved.config, resume: true },
+                params: {
+                  gameId: saved.gameId,
+                  players: saved.players,
+                  config: saved.config,
+                  resume: true,
+                  slotId: saved.slotId,
+                },
               },
             ],
           });
