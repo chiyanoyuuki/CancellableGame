@@ -62,8 +62,16 @@ export interface QuizState {
   /** Spare questions used to replace a broken-image question mid-round. */
   reserve: Question[];
   index: number;
-  /** How many questions were voided (e.g. broken image) — offsets turn rotation. */
+  /** How many questions were voided (e.g. broken image). Informational. */
   voids: number;
+  /** Rotation cursor over `order` (turn mode) — advances one step per question. */
+  turnPos: number;
+  /** Players currently paused ("standby"): the rotation skips them. */
+  standby: string[];
+  /** Missed turns owed to each player (accrue while on standby, spent on return). */
+  owed: Record<string, number>;
+  /** True when the current question is a returning player's catch-up burst. */
+  activeCatchUp: boolean;
   phase: QuizPhase;
   seed: number;
   step: number;
@@ -90,6 +98,7 @@ export type QuizAction =
   | { type: 'SUBMIT'; playerId: string; correct: boolean; timeMs?: number | null }
   | { type: 'SKIP' } // nobody found the answer (fastest mode)
   | { type: 'IMAGE_FAILED' } // the current question's image won't load → void it
+  | { type: 'TOGGLE_STANDBY'; playerId: string } // pause/resume a player mid-game
   | { type: 'CONTINUE' };
 
 function emptyScore(playerId: string): QuizPlayerScore {
@@ -107,7 +116,49 @@ export function availableHints(state: QuizState): number {
   return state.questions[state.index]?.hints?.length ?? 0;
 }
 
-function setupQuestion(state: QuizState): QuizState {
+/**
+ * Whose turn is the next question (turn mode) :
+ *  - Priorité au rattrapage : un joueur revenu de pause avec des tours en
+ *    retard répond d'abord, jusqu'à épuiser sa dette (« toutes ses questions
+ *    d'un coup »).
+ *  - Sinon rotation normale : on avance sur `order` en sautant les joueurs en
+ *    pause, dont chaque tour manqué est comptabilisé dans `owed`.
+ */
+function assignTurn(state: QuizState): {
+  activePlayerId: string | null;
+  turnPos: number;
+  owed: Record<string, number>;
+  catchUp: boolean;
+} {
+  const order = state.order;
+  const N = order.length;
+  const standby = new Set(state.standby ?? []);
+  const owed = { ...(state.owed ?? {}) };
+
+  // Catch-up : un joueur de nouveau présent rattrape ses tours manqués.
+  for (const pid of order) {
+    if (!standby.has(pid) && (owed[pid] ?? 0) > 0) {
+      owed[pid] = (owed[pid] ?? 0) - 1;
+      return { activePlayerId: pid, turnPos: state.turnPos ?? 0, owed, catchUp: true };
+    }
+  }
+
+  // Rotation normale, en sautant les joueurs en pause.
+  let pos = state.turnPos ?? 0;
+  for (let steps = 0; steps < N; steps++) {
+    const pid = order[((pos % N) + N) % N] as string;
+    pos += 1;
+    if (standby.has(pid)) {
+      owed[pid] = (owed[pid] ?? 0) + 1;
+      continue;
+    }
+    return { activePlayerId: pid, turnPos: pos, owed, catchUp: false };
+  }
+  // Tout le monde en pause : personne ne répond.
+  return { activePlayerId: null, turnPos: pos, owed, catchUp: false };
+}
+
+function setupQuestion(state: QuizState, keepTurn = false): QuizState {
   const q = state.questions[state.index];
   if (!q) return { ...state, phase: 'finished' };
 
@@ -117,13 +168,22 @@ function setupQuestion(state: QuizState): QuizState {
   const currentOptions = shuffle([q.answer, ...q.distractors.slice(0, 3)], rng);
   const pairOptions = shuffle([q.answer, q.distractors[0] ?? '???'], rng);
 
-  // The turn number skips voided questions, so a replacement after a broken
-  // image goes to the SAME player who was up for the voided one.
-  const turnNumber = state.index - state.voids;
-  const activePlayerId =
-    state.config.turnMode === 'turn' && state.order.length > 0
-      ? (state.order[((turnNumber % state.order.length) + state.order.length) % state.order.length] ?? null)
-      : null;
+  // keepTurn : le même joueur reste (remplacement après une image cassée).
+  let activePlayerId = state.activePlayerId;
+  let turnPos = state.turnPos ?? 0;
+  let owed = state.owed ?? {};
+  let activeCatchUp = false;
+  if (!keepTurn) {
+    if (state.config.turnMode === 'turn' && state.order.length > 0) {
+      const t = assignTurn(state);
+      activePlayerId = t.activePlayerId;
+      turnPos = t.turnPos;
+      owed = t.owed;
+      activeCatchUp = t.catchUp;
+    } else {
+      activePlayerId = null;
+    }
+  }
 
   return {
     ...state,
@@ -134,6 +194,9 @@ function setupQuestion(state: QuizState): QuizState {
     propsShown: 0,
     hintsRevealed: 0,
     activePlayerId,
+    turnPos,
+    owed,
+    activeCatchUp,
     lastOutcome: null,
     pendingChallenge: null,
   };
@@ -162,6 +225,10 @@ export function createQuizState(args: {
     reserve: args.reserve ?? [],
     index: 0,
     voids: 0,
+    turnPos: 0,
+    standby: [],
+    owed: {},
+    activeCatchUp: false,
     phase: 'question',
     seed: args.seed >>> 0,
     step: 0,
@@ -300,13 +367,16 @@ export function quizReducer(state: QuizState, action: QuizAction): QuizState {
           replacement,
           ...state.questions.slice(state.index + 1),
         ];
-        return setupQuestion({
-          ...state,
-          questions,
-          reserve: restReserve,
-          index: state.index + 1,
-          voids: state.voids + 1,
-        });
+        return setupQuestion(
+          {
+            ...state,
+            questions,
+            reserve: restReserve,
+            index: state.index + 1,
+            voids: state.voids + 1,
+          },
+          true, // keep the same player up on the replacement
+        );
       }
 
       // No spare left: just move past the broken question, same player next.
@@ -314,7 +384,17 @@ export function quizReducer(state: QuizState, action: QuizAction): QuizState {
       if (nextIndex >= state.questions.length) {
         return { ...state, index: state.questions.length, phase: 'finished' };
       }
-      return setupQuestion({ ...state, index: nextIndex, voids: state.voids + 1 });
+      return setupQuestion({ ...state, index: nextIndex, voids: state.voids + 1 }, true);
+    }
+
+    case 'TOGGLE_STANDBY': {
+      // Mettre un joueur en pause (ou le faire revenir). La rotation en tient
+      // compte dès la question suivante ; sa dette de tours se règle au retour.
+      const paused = (state.standby ?? []).includes(action.playerId);
+      const standby = paused
+        ? (state.standby ?? []).filter((id) => id !== action.playerId)
+        : [...(state.standby ?? []), action.playerId];
+      return { ...state, standby };
     }
 
     case 'CONTINUE': {

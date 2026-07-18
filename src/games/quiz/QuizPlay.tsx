@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, Image, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Alert, Image, Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { setAudioModeAsync, useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -56,6 +56,8 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume }:
   const [unwantedByPlayer, setUnwantedByPlayer] = useState<Record<string, string[]>>({});
   // Pile d'états « avant réponse » pour revenir à la question précédente.
   const [history, setHistory] = useState<QuizState[]>([]);
+  // Panneau de gestion des joueurs (mise en pause / retour).
+  const [showPlayers, setShowPlayers] = useState(false);
 
   const startedAtRef = useRef<number>(Date.now());
   const questionStartRef = useRef<number>(Date.now());
@@ -155,7 +157,15 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume }:
           setUnwantedByPlayer(unwantedUniversesByPlayer);
           startedAtRef.current = saved?.startedAt ?? Date.now();
           questionStartRef.current = Date.now();
-          setGame(st);
+          // Défauts pour les parties sauvegardées avant l'ajout de la pause.
+          setGame({
+            ...st,
+            voids: st.voids ?? 0,
+            turnPos: st.turnPos ?? 0,
+            standby: st.standby ?? [],
+            owed: st.owed ?? {},
+            activeCatchUp: st.activeCatchUp ?? false,
+          });
           return;
         }
         // Nothing valid to resume → fall through and start a fresh game.
@@ -358,11 +368,16 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume }:
         <Txt faint size={fontSize.sm} weight="700">
           {prog.current} / {prog.total}
         </Txt>
-        <Pressable onPress={confirmTerminate} hitSlop={12}>
-          <Txt color={colors.danger} weight="700">
-            🏁 Terminer
-          </Txt>
-        </Pressable>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing(2) }}>
+          <Pressable onPress={() => setShowPlayers(true)} hitSlop={12}>
+            <Txt weight="700">👥{game.standby.length > 0 ? ` ${game.standby.length}⏸` : ''}</Txt>
+          </Pressable>
+          <Pressable onPress={confirmTerminate} hitSlop={12}>
+            <Txt color={colors.danger} weight="700">
+              🏁 Terminer
+            </Txt>
+          </Pressable>
+        </View>
       </View>
       <View style={{ paddingHorizontal: spacing(2) }}>
         <ProgressBar value={prog.current} total={prog.total} />
@@ -384,6 +399,52 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume }:
               ? renderQuestion()
               : null}
       </ScrollView>
+
+      <Modal visible={showPlayers} animationType="slide" transparent onRequestClose={() => setShowPlayers(false)}>
+        <View style={styles.modalBackdrop}>
+          <View style={styles.modalSheet}>
+            <Txt weight="800" size={fontSize.lg}>
+              Joueurs
+            </Txt>
+            <Txt dim size={fontSize.sm} style={{ marginTop: spacing(0.5) }}>
+              Mets un joueur en pause s'il s'absente : la partie continue sans lui. À son retour, il rattrape
+              d'un coup toutes les questions manquées.
+            </Txt>
+            <ScrollView style={{ marginTop: spacing(1.5) }} contentContainerStyle={{ paddingBottom: spacing(1) }}>
+              {roster.map((p) => {
+                const paused = game.standby.includes(p.id);
+                const owedN = game.owed[p.id] ?? 0;
+                return (
+                  <View key={p.id} style={styles.manageRow}>
+                    <PlayerAvatar emoji={p.emoji} color={p.color} size={32} />
+                    <View style={{ flex: 1 }}>
+                      <Txt weight="700">{p.name}</Txt>
+                      {paused ? (
+                        <Txt size={fontSize.xs} weight="700" color={colors.sip}>
+                          ⏸ en pause{owedN > 0 ? ` · ${owedN} à rattraper` : ''}
+                        </Txt>
+                      ) : owedN > 0 ? (
+                        <Txt size={fontSize.xs} weight="700" color={colors.accent}>
+                          🔥 rattrape {owedN} question{owedN > 1 ? 's' : ''}
+                        </Txt>
+                      ) : (
+                        <Txt faint size={fontSize.xs}>en jeu</Txt>
+                      )}
+                    </View>
+                    <Button
+                      title={paused ? '▶️ Revenir' : '⏸ Pause'}
+                      size="sm"
+                      variant={paused ? 'primary' : 'secondary'}
+                      onPress={() => dispatch({ type: 'TOGGLE_STANDBY', playerId: p.id })}
+                    />
+                  </View>
+                );
+              })}
+            </ScrollView>
+            <Button title="Fermer" onPress={() => setShowPlayers(false)} style={{ marginTop: spacing(1) }} />
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 
@@ -542,7 +603,12 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume }:
         {active && (
           <View style={styles.activeBanner}>
             <PlayerAvatar emoji={active.emoji} color={active.color} size={32} />
-            <Txt weight="800">À toi, {active.name} !</Txt>
+            <Txt weight="800" style={{ flex: 1 }}>À toi, {active.name} !</Txt>
+            {game!.activeCatchUp && (
+              <Txt weight="800" size={fontSize.xs} color={colors.accent}>
+                🔥 RATTRAPAGE
+              </Txt>
+            )}
           </View>
         )}
         {renderAnswerControls(active?.id ?? null, null)}
@@ -559,7 +625,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume }:
           </Txt>
           {renderOptions(null, null, false)}
           <View style={styles.playerGrid}>
-            {roster.map((p) => (
+            {roster.filter((p) => !game!.standby.includes(p.id)).map((p) => (
               <Pressable
                 key={p.id}
                 style={styles.buzzBtn}
@@ -758,6 +824,22 @@ const styles = StyleSheet.create({
   },
   body: { padding: spacing(2), paddingBottom: spacing(4) },
   metaRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  modalBackdrop: { flex: 1, backgroundColor: colors.overlay, justifyContent: 'flex-end' },
+  modalSheet: {
+    backgroundColor: colors.bgElevated,
+    borderTopLeftRadius: radius.lg,
+    borderTopRightRadius: radius.lg,
+    padding: spacing(2.5),
+    maxHeight: '82%',
+  },
+  manageRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing(1.5),
+    paddingVertical: spacing(1),
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: colors.border,
+  },
   rebus: { fontSize: 60, lineHeight: 72 },
   media: { width: '100%', height: 200, borderRadius: radius.md, backgroundColor: colors.card },
   audioBox: { gap: spacing(1.5), backgroundColor: colors.card, borderRadius: radius.md, padding: spacing(2) },

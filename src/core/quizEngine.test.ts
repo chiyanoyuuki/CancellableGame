@@ -291,3 +291,65 @@ describe('full playthrough', () => {
     expect(result.endedAt).toBe(2000);
   });
 });
+
+describe('mise en pause d’un joueur (standby)', () => {
+  const order = ['p1', 'p2', 'p3'];
+  const qs = Array.from({ length: 9 }, (_, i) => q(`s${i}`, 'manga', 1));
+  const startTurn = () =>
+    createQuizState({ config: config({ turnMode: 'turn' }), players, questions: qs, seed: 7, order });
+  const next = (s: QuizState) =>
+    quizReducer(quizReducer(s, { type: 'SUBMIT', playerId: s.activePlayerId as string, correct: true }), {
+      type: 'CONTINUE',
+    });
+
+  test('un joueur en pause est sauté et sa dette de tours grandit ; les autres jouent', () => {
+    let s = startTurn();
+    expect(s.activePlayerId).toBe('p1');
+    s = quizReducer(s, { type: 'TOGGLE_STANDBY', playerId: 'p2' });
+    s = next(s); // Q2
+    expect(s.activePlayerId).toBe('p3'); // p2 sauté
+    expect(s.owed.p2).toBe(1);
+    s = next(s); // Q3
+    expect(s.activePlayerId).toBe('p1');
+    s = next(s); // Q4
+    expect(s.activePlayerId).toBe('p3'); // p2 sauté à nouveau
+    expect(s.owed.p2).toBe(2);
+  });
+
+  test('au retour, le joueur rattrape tous ses tours d’un coup, puis la rotation reprend', () => {
+    let s = startTurn();
+    s = quizReducer(s, { type: 'TOGGLE_STANDBY', playerId: 'p2' });
+    s = next(s); // Q2 p3, owed p2=1
+    s = next(s); // Q3 p1
+    s = next(s); // Q4 p3, owed p2=2
+    s = quizReducer(s, { type: 'TOGGLE_STANDBY', playerId: 'p2' }); // p2 revient
+    s = next(s); // Q5 rattrapage p2
+    expect(s.activePlayerId).toBe('p2');
+    expect(s.activeCatchUp).toBe(true);
+    s = next(s); // Q6 rattrapage p2
+    expect(s.activePlayerId).toBe('p2');
+    expect(s.activeCatchUp).toBe(true);
+    s = next(s); // Q7 rotation normale
+    expect(s.activePlayerId).toBe('p1');
+    expect(s.activeCatchUp).toBe(false);
+    expect(s.owed.p2 ?? 0).toBe(0);
+  });
+
+  test('sur toute la partie, chacun obtient le même nombre de tours', () => {
+    let s = startTurn();
+    s = quizReducer(s, { type: 'TOGGLE_STANDBY', playerId: 'p2' });
+    const seen: (string | null)[] = [s.activePlayerId];
+    let back = false;
+    while (s.phase !== 'finished') {
+      s = next(s);
+      if (!back && s.owed.p2 === 2) {
+        s = quizReducer(s, { type: 'TOGGLE_STANDBY', playerId: 'p2' }); // p2 revient
+        back = true;
+      }
+      if (s.phase === 'question') seen.push(s.activePlayerId);
+    }
+    const counts = { p1: 0, p2: 0, p3: 0 } as Record<string, number>;
+    for (const p of seen) if (p) counts[p] = (counts[p] ?? 0) + 1;
+    expect(counts).toEqual({ p1: 3, p2: 3, p3: 3 });
+  });
+});
