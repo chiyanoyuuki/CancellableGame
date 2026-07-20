@@ -215,6 +215,19 @@ export const DEFAULT_BOMBE_CONFIG: BombeConfig = {
 };
 
 // ---------------------------------------------------------------------------
+// « Duel » — élimination : chacun a des questions sur SON thème, chacun son
+// tour. La difficulté monte pour tout le monde (2 faciles, 2 moyennes, 2 dures,
+// puis tout le reste en pro). Une mauvaise réponse élimine ; dernier debout gagne.
+// ---------------------------------------------------------------------------
+
+export interface DuelConfig {
+  /** Thème attribué à chaque joueur, par identifiant. */
+  themesByPlayer: Record<string, Theme>;
+  /** Autoriser la demande de propositions (aide) pendant la partie. */
+  allowPropositions: boolean;
+}
+
+// ---------------------------------------------------------------------------
 // Generic, cross-game result contract
 //
 // EVERY mini-game emits a SessionResult when it finishes. The persistence and
