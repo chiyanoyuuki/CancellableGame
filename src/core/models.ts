@@ -215,14 +215,15 @@ export const DEFAULT_BOMBE_CONFIG: BombeConfig = {
 };
 
 // ---------------------------------------------------------------------------
-// « Duel » — élimination : chacun a des questions sur SON thème, chacun son
-// tour. La difficulté monte pour tout le monde (2 faciles, 2 moyennes, 2 dures,
-// puis tout le reste en pro). Une mauvaise réponse élimine ; dernier debout gagne.
+// « Duel » — élimination : on choisit 1 à n univers (communs à tous), et chacun
+// son tour répond. La difficulté monte PAR JOUEUR : 3 faciles, 3 moyennes,
+// 2 dures, puis tout le reste en pro. Une mauvaise réponse élimine ; dernier
+// debout gagne.
 // ---------------------------------------------------------------------------
 
 export interface DuelConfig {
-  /** Thème attribué à chaque joueur, par identifiant. */
-  themesByPlayer: Record<string, Theme>;
+  /** Univers sélectionnés (1 à n), communs à tous les joueurs. */
+  universes: string[];
   /** Autoriser la demande de propositions (aide) pendant la partie. */
   allowPropositions: boolean;
 }

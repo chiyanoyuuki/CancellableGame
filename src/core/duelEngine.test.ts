@@ -7,19 +7,21 @@ const players: Player[] = [
   { id: 'p3', name: 'Cléo', emoji: '🐸', color: '#00f' },
 ];
 
-function q(id: string, theme: Theme, d: Difficulty): Question {
-  return { id, theme, difficulty: d, text: id, answer: 'bon', distractors: ['a', 'b', 'c'] };
-}
-
+const PER: Record<Difficulty, number> = { 1: 5, 2: 10, 3: 15, 4: 20 };
 const pool: Question[] = [];
-for (const t of ['manga', 'films', 'culture'] as Theme[]) {
+for (const [theme, uni] of [
+  ['manga', 'Naruto'],
+  ['films', 'Marvel'],
+] as [Theme, string][]) {
   for (const d of [1, 2, 3, 4] as Difficulty[]) {
-    for (let i = 0; i < 15; i++) pool.push(q(`${t}-${d}-${i}`, t, d));
+    for (let i = 0; i < PER[d]; i++) {
+      pool.push({ id: `${uni}-${d}-${i}`, theme, universe: uni, difficulty: d, text: `${uni}-${d}-${i}`, answer: 'bon', distractors: ['a', 'b', 'c'] });
+    }
   }
 }
 
 function config(over: Partial<DuelConfig> = {}): DuelConfig {
-  return { themesByPlayer: { p1: 'manga', p2: 'films', p3: 'culture' }, allowPropositions: true, ...over };
+  return { universes: ['Naruto', 'Marvel'], allowPropositions: true, ...over };
 }
 
 const start = (order: string[], over: Partial<DuelConfig> = {}) =>
@@ -28,34 +30,41 @@ const start = (order: string[], over: Partial<DuelConfig> = {}) =>
 const turn = (s: DuelState, correct: boolean) =>
   duelReducer(duelReducer(s, { type: 'ANSWER', correct }), { type: 'CONTINUE' });
 
-describe('duelDifficulty (barème 2/2/2 puis pro)', () => {
-  test('2 faciles, 2 moyennes, 2 dures, puis tout le reste en pro', () => {
-    expect([0, 1, 2, 3, 4, 5, 6, 7, 20].map(duelDifficulty)).toEqual([1, 1, 2, 2, 3, 3, 4, 4, 4]);
+describe('duelDifficulty (barème PAR JOUEUR 3/3/2 puis pro)', () => {
+  test('3 faciles, 3 moyennes, 2 dures, puis tout le reste en pro', () => {
+    expect([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 20].map(duelDifficulty)).toEqual([1, 1, 1, 2, 2, 2, 3, 3, 4, 4, 4]);
   });
 });
 
 describe('createDuelState', () => {
-  test('la première question est pour le premier joueur, facile, sur son thème', () => {
+  test('la première question est pour le premier joueur, facile, dans un univers choisi', () => {
     const s = start(['p1', 'p2', 'p3']);
     expect(s.activeId).toBe('p1');
-    expect(s.current?.theme).toBe('manga');
     expect(s.current?.difficulty).toBe(1);
+    expect(['Naruto', 'Marvel']).toContain(s.current?.universe);
     expect(s.phase).toBe('question');
   });
 });
 
-describe('déroulé et difficulté croissante', () => {
-  test('chacun son tour, sur son thème, avec la difficulté qui monte', () => {
-    let s = start(['p1', 'p2', 'p3']);
-    const seq: { id: string | null; theme?: string; d?: number }[] = [];
-    for (let i = 0; i < 9; i++) {
-      seq.push({ id: s.activeId, theme: s.current?.theme, d: s.current?.difficulty });
+describe('difficulté croissante par joueur', () => {
+  test('les questions d’un joueur suivent 3 faciles, 3 moyennes, 2 dures, puis pro', () => {
+    let s = start(['p1', 'p2']);
+    const p1diffs: number[] = [];
+    for (let i = 0; i < 18; i++) {
+      if (s.activeId === 'p1' && s.current) p1diffs.push(s.current.difficulty);
       s = turn(s, true);
     }
-    expect(seq.map((x) => x.id)).toEqual(['p1', 'p2', 'p3', 'p1', 'p2', 'p3', 'p1', 'p2', 'p3']);
-    expect(seq.map((x) => x.theme)).toEqual(['manga', 'films', 'culture', 'manga', 'films', 'culture', 'manga', 'films', 'culture']);
-    // 2 faciles, 2 moyennes, 2 dures, puis pro.
-    expect(seq.map((x) => x.d)).toEqual([1, 1, 2, 2, 3, 3, 4, 4, 4]);
+    expect(p1diffs.slice(0, 9)).toEqual([1, 1, 1, 2, 2, 2, 3, 3, 4]);
+  });
+
+  test('chacun son tour', () => {
+    let s = start(['p1', 'p2', 'p3']);
+    const ids: (string | null)[] = [];
+    for (let i = 0; i < 6; i++) {
+      ids.push(s.activeId);
+      s = turn(s, true);
+    }
+    expect(ids).toEqual(['p1', 'p2', 'p3', 'p1', 'p2', 'p3']);
   });
 });
 

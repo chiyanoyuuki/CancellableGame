@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ScrollView, StyleSheet, Switch, View } from 'react-native';
+import { StyleSheet, Switch, View } from 'react-native';
 
-import { Button, Card, Chip, PlayerAvatar, SectionHeader, Txt } from '../../components/ui';
+import { Button, Card, Chip, SectionHeader, Txt } from '../../components/ui';
 import { type DuelConfig, type Question, type Theme, THEME_META, THEMES } from '../../core/models';
 import { colors, fontSize, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
@@ -12,7 +12,7 @@ const EXCLUDED_THEMES: Theme[] = ['images', 'blindtest'];
 
 export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
   const [pool, setPool] = useState<Question[]>([]);
-  const [themesByPlayer, setThemesByPlayer] = useState<Record<string, Theme>>({});
+  const [selected, setSelected] = useState<Set<string>>(new Set());
   const [allowPropositions, setAllowPropositions] = useState(true);
 
   useEffect(() => {
@@ -23,63 +23,81 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
     };
   }, []);
 
-  const availableThemes = useMemo(() => {
-    const present = new Set<Theme>();
-    for (const q of pool) present.add(q.theme);
-    return THEMES.filter((t) => present.has(t) && !EXCLUDED_THEMES.includes(t));
+  // Univers présents dans le pool, groupés par thème (hors thèmes exclus).
+  const universesByTheme = useMemo(() => {
+    const byTheme = new Map<Theme, Set<string>>();
+    for (const q of pool) {
+      if (!q.universe || EXCLUDED_THEMES.includes(q.theme)) continue;
+      let s = byTheme.get(q.theme);
+      if (!s) {
+        s = new Set<string>();
+        byTheme.set(q.theme, s);
+      }
+      s.add(q.universe);
+    }
+    return THEMES.filter((t) => byTheme.has(t)).map((t) => ({
+      theme: t,
+      universes: [...byTheme.get(t)!].sort((a, b) => a.localeCompare(b, 'fr')),
+    }));
   }, [pool]);
 
-  // Défaut : chaque joueur reçoit un thème distinct, en tournant sur la liste.
-  useEffect(() => {
-    if (availableThemes.length === 0) return;
-    setThemesByPlayer((prev) => {
-      const next: Record<string, Theme> = {};
-      players.forEach((p, i) => {
-        const kept = prev[p.id];
-        next[p.id] = kept && availableThemes.includes(kept) ? kept : (availableThemes[i % availableThemes.length] as Theme);
-      });
-      return next;
+  const toggle = (u: string) =>
+    setSelected((prev) => {
+      const n = new Set(prev);
+      if (n.has(u)) n.delete(u);
+      else n.add(u);
+      return n;
     });
-  }, [players, availableThemes]);
+  const toggleTheme = (universes: string[]) =>
+    setSelected((prev) => {
+      const n = new Set(prev);
+      const allIn = universes.every((u) => n.has(u));
+      for (const u of universes) allIn ? n.delete(u) : n.add(u);
+      return n;
+    });
 
-  const setTheme = (pid: string, t: Theme) => setThemesByPlayer((m) => ({ ...m, [pid]: t }));
+  const eligibleCount = useMemo(
+    () => pool.filter((q) => q.universe !== undefined && selected.has(q.universe)).length,
+    [pool, selected],
+  );
 
-  const valid = players.length >= 2 && availableThemes.length > 0 && players.every((p) => themesByPlayer[p.id]);
-
-  const launch = () => onStart({ themesByPlayer, allowPropositions } satisfies DuelConfig);
+  const valid = players.length >= 2 && selected.size >= 1;
+  const launch = () => onStart({ universes: [...selected], allowPropositions } satisfies DuelConfig);
 
   return (
     <View style={{ gap: spacing(1) }}>
       <Card accent={colors.accent}>
         <Txt weight="800">⚔️ Duel — élimination</Txt>
         <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-          Chacun son tour, chacun sur son thème. Les 2 premières questions sont faciles, puis 2 moyennes,
-          2 dures, et tout le reste en pro. Une mauvaise réponse élimine le joueur. Dernier debout gagne !
+          Chacun son tour, sur les univers choisis. La difficulté monte pour chaque joueur : 3 faciles,
+          3 moyennes, 2 dures, puis tout le reste en pro. Une mauvaise réponse élimine. Dernier debout gagne !
         </Txt>
       </Card>
 
-      <SectionHeader title="Le thème de chaque joueur" />
-      {players.map((p) => (
-        <Card key={p.id}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing(1), marginBottom: spacing(1) }}>
-            <PlayerAvatar emoji={p.emoji} color={p.color} size={28} />
-            <Txt weight="800">{p.name}</Txt>
-          </View>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View style={styles.wrap}>
-              {availableThemes.map((t) => (
-                <Chip
-                  key={t}
-                  label={THEME_META[t].label}
-                  emoji={THEME_META[t].emoji}
-                  selected={themesByPlayer[p.id] === t}
-                  onPress={() => setTheme(p.id, t)}
-                />
+      <SectionHeader title="Univers du duel" />
+      <Txt faint size={fontSize.xs}>
+        {selected.size} univers choisi{selected.size > 1 ? 's' : ''} · {eligibleCount} question
+        {eligibleCount > 1 ? 's' : ''}
+      </Txt>
+
+      {universesByTheme.map(({ theme, universes }) => {
+        const allIn = universes.every((u) => selected.has(u));
+        return (
+          <View key={theme} style={{ marginBottom: spacing(1) }}>
+            <Chip
+              label={`${allIn ? '✓ ' : ''}${THEME_META[theme].label.toUpperCase()}`}
+              emoji={THEME_META[theme].emoji}
+              selected={allIn}
+              onPress={() => toggleTheme(universes)}
+            />
+            <View style={[styles.wrap, { marginTop: spacing(0.75) }]}>
+              {universes.map((u) => (
+                <Chip key={u} label={u} selected={selected.has(u)} onPress={() => toggle(u)} />
               ))}
             </View>
-          </ScrollView>
-        </Card>
-      ))}
+          </View>
+        );
+      })}
 
       <SectionHeader title="Aide" />
       <Card>
@@ -99,9 +117,9 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
 
       <View style={{ height: spacing(1) }} />
       <Button title="Lancer le duel" emoji="⚔️" size="lg" variant="accent" onPress={launch} disabled={!valid} />
-      {players.length < 2 && (
+      {!valid && (
         <Txt faint size={fontSize.xs} center>
-          Il faut au moins 2 joueurs pour un duel.
+          {players.length < 2 ? 'Il faut au moins 2 joueurs pour un duel.' : 'Choisis au moins un univers.'}
         </Txt>
       )}
     </View>
@@ -109,6 +127,6 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
 }
 
 const styles = StyleSheet.create({
-  wrap: { flexDirection: 'row', gap: spacing(1) },
+  wrap: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing(1) },
   row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing(1) },
 });

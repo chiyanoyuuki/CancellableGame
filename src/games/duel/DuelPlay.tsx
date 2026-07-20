@@ -119,7 +119,7 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
       <View style={{ gap: spacing(2) }}>
         <View style={styles.metaRow}>
           <Txt weight="800" color={colors.accent}>
-            {theme.emoji} {theme.label}
+            {theme.emoji} {q.universe ?? theme.label}
           </Txt>
           <Txt faint weight="700" size={fontSize.xs}>
             {DIFFICULTY_LABELS[q.difficulty].toUpperCase()}

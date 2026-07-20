@@ -1,18 +1,18 @@
 /**
  * « Duel » — moteur pur et testable (aucun import React Native).
  *
- * Chacun a des questions sur SON thème, chacun son tour. La difficulté monte
- * pour tout le monde selon un barème global : les 2 premières questions sont
- * faciles, les 2 suivantes moyennes, les 2 suivantes dures, puis tout le reste
- * en pro. Une mauvaise réponse élimine le joueur ; la partie s'arrête quand il
- * ne reste qu'un joueur, le survivant.
+ * On choisit 1 à n univers, communs à tous les joueurs. Chacun son tour répond
+ * à une question tirée de ces univers. La difficulté monte PAR JOUEUR selon ses
+ * propres questions déjà passées : 3 faciles, 3 moyennes, 2 dures, puis tout le
+ * reste en pro. Une mauvaise réponse élimine le joueur ; la partie s'arrête
+ * quand il ne reste qu'un joueur, le survivant.
  */
 import type { Difficulty, DuelConfig, GameEvent, Player, PlayerSessionResult, Question, SessionResult } from './models';
 import { mulberry32, type Rng, shuffle } from './rng';
 
 export type DuelPhase = 'question' | 'reveal' | 'finished';
 
-type ThemeQueues = Record<string, Partial<Record<Difficulty, Question[]>>>;
+type DiffQueues = Partial<Record<Difficulty, Question[]>>;
 
 export interface DuelState {
   config: DuelConfig;
@@ -26,10 +26,12 @@ export interface DuelState {
   /** Index du joueur actif dans `alive`. */
   turnIdx: number;
   activeId: string | null;
-  /** Nombre total de questions déjà posées (pilote le barème de difficulté). */
+  /** Total de questions posées (info). */
   asked: number;
-  /** Files de questions mélangées, par thème puis difficulté. */
-  queues: ThemeQueues;
+  /** Questions déjà posées à chaque joueur — pilote SON barème de difficulté. */
+  askedByPlayer: Record<string, number>;
+  /** Files de questions mélangées des univers choisis, par difficulté (communes). */
+  queues: DiffQueues;
   current: Question | null;
   currentOptions: string[];
   pairOptions: string[];
@@ -51,11 +53,11 @@ export type DuelAction =
 
 const DIFFS: Difficulty[] = [1, 2, 3, 4];
 
-/** Barème : 2 faciles, 2 moyennes, 2 dures, puis tout le reste en pro. */
-export function duelDifficulty(asked: number): Difficulty {
-  if (asked < 2) return 1;
-  if (asked < 4) return 2;
-  if (asked < 6) return 3;
+/** Barème PAR JOUEUR : 3 faciles, 3 moyennes, 2 dures, puis tout le reste en pro. */
+export function duelDifficulty(playerAsked: number): Difficulty {
+  if (playerAsked < 3) return 1;
+  if (playerAsked < 6) return 2;
+  if (playerAsked < 8) return 3;
   return 4;
 }
 
@@ -64,16 +66,14 @@ function stepRng(state: DuelState): { rng: Rng; step: number } {
   return { rng, step: state.step + 1 };
 }
 
-/** Tire une question du thème à la difficulté voulue ; sinon replie sur une autre. */
-function drawFor(queues: ThemeQueues, theme: string, diff: Difficulty): { q: Question | null; queues: ThemeQueues } {
-  const themeQ = queues[theme] ?? {};
-  const prefs = [diff, ...DIFFS.filter((d) => d !== diff)]; // difficulté voulue d'abord, puis les autres
+/** Tire une question à la difficulté voulue ; sinon replie sur une autre difficulté. */
+function drawFor(queues: DiffQueues, diff: Difficulty): { q: Question | null; queues: DiffQueues } {
+  const prefs = [diff, ...DIFFS.filter((d) => d !== diff)];
   for (const d of prefs) {
-    const arr = themeQ[d];
+    const arr = queues[d];
     if (arr && arr.length > 0) {
       const q = arr[0] as Question;
-      const nextThemeQ = { ...themeQ, [d]: arr.slice(1) };
-      return { q, queues: { ...queues, [theme]: nextThemeQ } };
+      return { q, queues: { ...queues, [d]: arr.slice(1) } };
     }
   }
   return { q: null, queues };
@@ -88,12 +88,11 @@ function setupQuestion(state: DuelState): DuelState {
   if (!activeId) return { ...state, phase: 'finished' };
 
   const { rng, step } = stepRng(state);
-  const theme = state.config.themesByPlayer[activeId] ?? Object.keys(state.queues)[0] ?? '';
-  const diff = duelDifficulty(state.asked);
-  const drawn = drawFor(state.queues, theme, diff);
+  const diff = duelDifficulty(state.askedByPlayer[activeId] ?? 0);
+  const drawn = drawFor(state.queues, diff);
   const q = drawn.q;
   if (!q) {
-    // Thème épuisé (improbable) : le joueur actif survit et gagne.
+    // Plus aucune question disponible (improbable) : le joueur actif l'emporte.
     return { ...state, phase: 'finished', winnerId: activeId, activeId };
   }
   const currentOptions = shuffle([q.answer, ...q.distractors.slice(0, 3)], rng);
@@ -107,6 +106,7 @@ function setupQuestion(state: DuelState): DuelState {
     pairOptions,
     propsShown: 0,
     asked: state.asked + 1,
+    askedByPlayer: { ...state.askedByPlayer, [activeId]: (state.askedByPlayer[activeId] ?? 0) + 1 },
     activeId,
     phase: 'question',
     lastCorrect: null,
@@ -124,16 +124,13 @@ export function createDuelState(args: {
 }): DuelState {
   const order = args.order ?? args.players.map((p) => p.id);
   const rng0 = mulberry32(args.seed >>> 0);
-  const queues: ThemeQueues = {};
-  for (const theme of new Set(Object.values(args.config.themesByPlayer))) {
-    const buckets: Partial<Record<Difficulty, Question[]>> = {};
-    for (const d of DIFFS) {
-      buckets[d] = shuffle(
-        args.pool.filter((q) => q.theme === theme && q.difficulty === d),
-        rng0,
-      );
-    }
-    queues[theme] = buckets;
+  const chosen = new Set(args.config.universes);
+  const queues: DiffQueues = {};
+  for (const d of DIFFS) {
+    queues[d] = shuffle(
+      args.pool.filter((q) => q.universe !== undefined && chosen.has(q.universe) && q.difficulty === d),
+      rng0,
+    );
   }
 
   const base: DuelState = {
@@ -145,6 +142,7 @@ export function createDuelState(args: {
     turnIdx: 0,
     activeId: order[0] ?? null,
     asked: 0,
+    askedByPlayer: {},
     queues,
     current: null,
     currentOptions: [],
