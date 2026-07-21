@@ -23,6 +23,7 @@ import { mulberry32, randomSeed, shuffle } from '../../core/rng';
 import { selectQuestions } from '../../core/questionSelection';
 import {
   deleteSavedGame,
+  getPlayerChosenUniverses,
   getPlayerUnwantedUniverses,
   getQuestionHistory,
   getQuestionHistoryByPlayer,
@@ -57,6 +58,9 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
   // Univers non souhaités par joueur — sert à signaler, sous l'univers, quand
   // une question sort d'un univers que le joueur actif avait écarté.
   const [unwantedByPlayer, setUnwantedByPlayer] = useState<Record<string, string[]>>({});
+  // Univers favoris par joueur (profil) — en mode équipe, sert à afficher sous
+  // chaque question quels membres de l'équipe active ont cet univers en favori.
+  const [chosenByPlayer, setChosenByPlayer] = useState<Record<string, string[]>>({});
   // Pile d'états « avant réponse » pour revenir à la question précédente.
   const [history, setHistory] = useState<QuizState[]>([]);
   // Panneau de gestion des joueurs (mise en pause / retour).
@@ -153,11 +157,15 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
         const saved = await getSavedGame(resumeSlotId);
         const st = saved?.state as QuizState | undefined;
         if (st && Array.isArray(st.questions) && typeof st.index === 'number') {
-          const unwantedUniverses = await getPlayerUnwantedUniverses();
+          const [unwantedUniverses, chosenUniverses] = await Promise.all([
+            getPlayerUnwantedUniverses(),
+            getPlayerChosenUniverses(),
+          ]);
           const unwantedUniversesByPlayer: Record<string, string[]> = {};
           if (!teamMode) for (const p of players) unwantedUniversesByPlayer[p.id] = unwantedUniverses[p.id] ?? [];
           if (!alive) return;
           setUnwantedByPlayer(unwantedUniversesByPlayer);
+          setChosenByPlayer(chosenUniverses);
           startedAtRef.current = saved?.startedAt ?? Date.now();
           questionStartRef.current = Date.now();
           // Défauts pour les parties sauvegardées avant l'ajout de la pause.
@@ -174,12 +182,13 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
         // Nothing valid to resume → fall through and start a fresh game.
       }
 
-      const [history, historyByPlayer, pool, customChallenges, unwantedUniverses] = await Promise.all([
+      const [history, historyByPlayer, pool, customChallenges, unwantedUniverses, chosenUniverses] = await Promise.all([
         getQuestionHistory(),
         getQuestionHistoryByPlayer(),
         getQuizPool(),
         listCustomChallenges(),
         getPlayerUnwantedUniverses(),
+        getPlayerChosenUniverses(),
       ]);
       const seed = randomSeed();
       // Turn order, computed once and shared with the engine so that the
@@ -188,6 +197,16 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
       // Per-player unwanted universes are ignored in team mode.
       const unwantedUniversesByPlayer: Record<string, string[]> = {};
       if (!teamMode) for (const p of players) unwantedUniversesByPlayer[p.id] = unwantedUniverses[p.id] ?? [];
+      // Mode équipe : les questions d'une équipe doivent venir des univers choisis
+      // par au moins un de ses membres (union des favoris de l'équipe).
+      const allowedUniversesByPlayer: Record<string, string[]> = {};
+      if (teamMode) {
+        for (const t of cfg.teams) {
+          const union = new Set<string>();
+          for (const mid of t.memberIds) for (const u of chosenUniverses[mid] ?? []) union.add(u);
+          allowedUniversesByPlayer[t.id] = [...union];
+        }
+      }
       // Pick a few extra questions as a reserve, used to swap in a replacement
       // whenever a question's image fails to load (so the round keeps its length
       // and the same player stays up).
@@ -206,6 +225,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
           order,
           turnMode: cfg.turnMode,
           unwantedUniversesByPlayer,
+          allowedUniversesByPlayer,
           // Per-player fresh questions only make sense outside team mode.
           historyByPlayer: teamMode ? undefined : historyByPlayer,
         },
@@ -218,6 +238,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
         .sort((a, b) => Number(a.media?.type === 'image') - Number(b.media?.type === 'image'));
       if (!alive) return;
       setUnwantedByPlayer(unwantedUniversesByPlayer);
+      setChosenByPlayer(chosenUniverses);
       startedAtRef.current = Date.now();
       questionStartRef.current = Date.now();
       setGame(
@@ -460,17 +481,25 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
     const theme = THEME_META[q.theme];
     const revealedHints = (q.hints ?? []).slice(0, game!.hintsRevealed);
 
-    // Sous l'univers : indique au joueur actif s'il avait désactivé cette
-    // catégorie (son univers, ou le thème entier s'il n'a pas d'univers).
-    // Seulement en mode « tour » (un seul joueur à la question).
+    // Sous l'univers, en mode « tour » seulement (un seul « joueur » à la question) :
+    //  - en solo : indique au joueur actif s'il avait désactivé cette catégorie ;
+    //  - en équipe : liste les membres de l'équipe active qui ont cet univers en favori.
     const activeId = cfg.turnMode === 'turn' ? game!.activePlayerId : null;
+    const activeTeam = teamMode && activeId ? cfg.teams.find((t) => t.id === activeId) : undefined;
     const activeName = activeId ? byId[activeId]?.name : undefined;
     const categoryWord = q.universe ? 'Univers' : 'Thème';
     const categoryKey = q.universe ?? `#${q.theme}`;
-    const categoryExcluded = !!activeId && (unwantedByPlayer[activeId] ?? []).includes(categoryKey);
+    const categoryExcluded = !teamMode && !!activeId && (unwantedByPlayer[activeId] ?? []).includes(categoryKey);
     // Pour une question à univers, on ne montre la ligne que si l'univers est
     // affiché ; pour un thème sans univers, on la montre toujours.
-    const showCategoryLine = !!activeId && (q.universe ? cfg.showUniverse : true);
+    const showSoloLine = !teamMode && !!activeId && (q.universe ? cfg.showUniverse : true);
+    // Membres de l'équipe active ayant cet univers dans leurs favoris de profil.
+    const teamMembersWithUniverse =
+      activeTeam && q.universe
+        ? activeTeam.memberIds
+            .map((id) => realById[id])
+            .filter((p): p is Player => !!p && (chosenByPlayer[p.id] ?? []).includes(q.universe!))
+        : [];
 
     return (
       <View style={{ gap: spacing(2) }}>
@@ -483,11 +512,22 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
               {DIFFICULTY_LABELS[q.difficulty].toUpperCase()}
             </Txt>
           </View>
-          {showCategoryLine && (
+          {showSoloLine && (
             <Txt weight="700" size={fontSize.xs} color={categoryExcluded ? colors.danger : colors.textFaint}>
               {categoryExcluded
                 ? `🚫 ${categoryWord} non souhaité${activeName ? ` par ${activeName}` : ''}`
                 : `✓ ${categoryWord} activé`}
+            </Txt>
+          )}
+          {activeTeam && q.universe && (
+            <Txt
+              weight="700"
+              size={fontSize.xs}
+              color={teamMembersWithUniverse.length > 0 ? colors.accent : colors.textFaint}
+            >
+              {teamMembersWithUniverse.length > 0
+                ? `⭐ Univers choisi par ${teamMembersWithUniverse.map((m) => m.name).join(', ')}`
+                : "Univers hors des profils de l'équipe"}
             </Txt>
           )}
         </View>

@@ -293,6 +293,68 @@ describe('anti-doublon (jamais deux fois la même question)', () => {
   });
 });
 
+describe('univers autorisés par joueur (mode équipe)', () => {
+  // 10 univers de manga + 10 univers de jeux vidéo, 4 questions chacun.
+  function tq(id: string, theme: Theme, universe: string): Question {
+    return { id, theme, difficulty: 1, universe, text: id, answer: 'a', distractors: ['b', 'c', 'd'] };
+  }
+  const big: Question[] = [];
+  for (let u = 0; u < 10; u++) for (let i = 0; i < 4; i++) big.push(tq(`M${u}_${i}`, 'manga', `M${u}`));
+  for (let u = 0; u < 10; u++) for (let i = 0; i < 4; i++) big.push(tq(`V${u}_${i}`, 'jeuxvideo', `V${u}`));
+  const allThemes = { themes: ['manga', 'jeuxvideo'] as Theme[], difficulties: [1] as Difficulty[], count: 20 };
+
+  test("un joueur restreint ne reçoit QUE des questions de ses univers autorisés", () => {
+    const allowed = new Set(['M0', 'M2', 'V5']);
+    for (let seed = 1; seed <= 40; seed++) {
+      const out = selectQuestions(big, allThemes, {}, mulberry32(seed), {
+        order: ['p1', 'p2'],
+        turnMode: 'turn',
+        allowedUniversesByPlayer: { p1: [...allowed] },
+      });
+      out.forEach((q, i) => {
+        if (i % 2 === 0) expect(allowed.has(q.universe!)).toBe(true); // slots de p1
+      });
+    }
+  });
+
+  test("le joueur sans restriction n'est pas contraint", () => {
+    let p2OutsideAllowed = 0;
+    const allowed = ['M0'];
+    for (let seed = 1; seed <= 40; seed++) {
+      const out = selectQuestions(big, allThemes, {}, mulberry32(seed), {
+        order: ['p1', 'p2'],
+        turnMode: 'turn',
+        allowedUniversesByPlayer: { p1: allowed },
+      });
+      out.forEach((q, i) => {
+        if (i % 2 === 1 && q.universe !== 'M0') p2OutsideAllowed++; // slots de p2
+      });
+    }
+    expect(p2OutsideAllowed).toBeGreaterThan(0);
+  });
+
+  test('repli : si aucune question autorisée, le joueur reçoit quand même des questions', () => {
+    const out = selectQuestions(big, allThemes, {}, mulberry32(1), {
+      order: ['p1'],
+      turnMode: 'turn',
+      allowedUniversesByPlayer: { p1: ['UniversInexistant'] },
+    });
+    expect(out).toHaveLength(20);
+    expect(new Set(out.map((x) => x.id)).size).toBe(20);
+  });
+
+  test('respecte le nombre et sans doublons même sous restriction', () => {
+    const out = selectQuestions(big, allThemes, {}, mulberry32(7), {
+      order: ['p1'],
+      turnMode: 'turn',
+      allowedUniversesByPlayer: { p1: ['M0', 'M1', 'M2', 'M3', 'M4'] },
+    });
+    expect(out).toHaveLength(20);
+    expect(new Set(out.map((x) => x.id)).size).toBe(20);
+    expect(out.every((q) => ['M0', 'M1', 'M2', 'M3', 'M4'].includes(q.universe!))).toBe(true);
+  });
+});
+
 describe('lot personnalisé par joueur (historique par joueur)', () => {
   const p: Question[] = [
     ...Array.from({ length: 10 }, (_, i) => uq(`A${i}`, 'A')),
