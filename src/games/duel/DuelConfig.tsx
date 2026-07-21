@@ -3,6 +3,8 @@ import { StyleSheet, Switch, View } from 'react-native';
 
 import { Button, Card, Chip, SectionHeader, Txt } from '../../components/ui';
 import { type DuelConfig, type DuelJoker, type Question, type Theme, THEME_META, THEMES } from '../../core/models';
+import { shuffle } from '../../core/rng';
+import { getPlayerChosenUniverses } from '../../db';
 import { colors, fontSize, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
 import { getQuizPool } from '../quiz/pool';
@@ -20,6 +22,8 @@ const JOKER_META: { key: DuelJoker; label: string; desc: string }[] = [
 export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
   const [pool, setPool] = useState<Question[]>([]);
   const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [chosenMap, setChosenMap] = useState<Record<string, string[]>>({});
+  const [randomMode, setRandomMode] = useState(false);
   const [jokers, setJokers] = useState<Record<DuelJoker, boolean>>({
     props4: true,
     props2: true,
@@ -29,11 +33,24 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
 
   useEffect(() => {
     let alive = true;
-    void getQuizPool().then((p) => alive && setPool(p));
+    void (async () => {
+      const [p, c] = await Promise.all([getQuizPool(), getPlayerChosenUniverses()]);
+      if (alive) {
+        setPool(p);
+        setChosenMap(c);
+      }
+    })();
     return () => {
       alive = false;
     };
   }, []);
+
+  // Union des univers favoris des joueurs de cette partie.
+  const favoritesUnion = useMemo(() => {
+    const s = new Set<string>();
+    for (const p of players) for (const u of chosenMap[p.id] ?? []) s.add(u);
+    return s;
+  }, [players, chosenMap]);
 
   // Univers présents dans le pool, groupés par thème (hors thèmes exclus).
   const universesByTheme = useMemo(() => {
@@ -73,8 +90,11 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
     [pool, selected],
   );
 
-  const valid = players.length >= 2 && selected.size >= 1;
-  const launch = () => onStart({ universes: [...selected], jokers } satisfies DuelConfig);
+  const valid = players.length >= 2 && (randomMode ? favoritesUnion.size >= 1 : selected.size >= 1);
+  const launch = () => {
+    const universes = randomMode ? shuffle([...favoritesUnion], Math.random).slice(0, 10) : [...selected];
+    onStart({ universes, jokers, randomFromProfiles: randomMode } satisfies DuelConfig);
+  };
 
   return (
     <View style={{ gap: spacing(1) }}>
@@ -87,20 +107,44 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
       </Card>
 
       <SectionHeader title="Univers du duel" />
-      <Txt faint size={fontSize.xs}>
-        {selected.size} univers choisi{selected.size > 1 ? 's' : ''} · {eligibleCount} question
-        {eligibleCount > 1 ? 's' : ''}
-      </Txt>
+      <Card>
+        <View style={styles.row}>
+          <View style={{ flex: 1 }}>
+            <Txt weight="700">🎲 Univers aléatoires</Txt>
+            <Txt faint size={fontSize.xs}>Tirés au hasard parmi les univers favoris des profils des joueurs.</Txt>
+          </View>
+          <Switch
+            value={randomMode}
+            onValueChange={setRandomMode}
+            trackColor={{ true: colors.primary, false: colors.border }}
+            thumbColor={colors.white}
+          />
+        </View>
+      </Card>
 
-      {universesByTheme.map(({ theme, universes }) => {
-        const allIn = universes.every((u) => selected.has(u));
-        return (
-          <View key={theme} style={{ marginBottom: spacing(1) }}>
-            <Chip
-              label={`${allIn ? '✓ ' : ''}${THEME_META[theme].label.toUpperCase()}`}
-              emoji={THEME_META[theme].emoji}
-              selected={allIn}
-              onPress={() => toggleTheme(universes)}
+      {randomMode ? (
+        <Txt faint size={fontSize.xs}>
+          {favoritesUnion.size > 0
+            ? `${favoritesUnion.size} univers favori${favoritesUnion.size > 1 ? 's' : ''} dans les profils — quelques-uns seront tirés au hasard à chaque partie.`
+            : "Aucun univers favori dans les profils. Ajoute-en dans l'écran Joueurs (⋯ → Univers favoris)."}
+        </Txt>
+      ) : (
+        <Txt faint size={fontSize.xs}>
+          {selected.size} univers choisi{selected.size > 1 ? 's' : ''} · {eligibleCount} question
+          {eligibleCount > 1 ? 's' : ''}
+        </Txt>
+      )}
+
+      {!randomMode &&
+        universesByTheme.map(({ theme, universes }) => {
+          const allIn = universes.every((u) => selected.has(u));
+          return (
+            <View key={theme} style={{ marginBottom: spacing(1) }}>
+              <Chip
+                label={`${allIn ? '✓ ' : ''}${THEME_META[theme].label.toUpperCase()}`}
+                emoji={THEME_META[theme].emoji}
+                selected={allIn}
+                onPress={() => toggleTheme(universes)}
             />
             <View style={[styles.wrap, { marginTop: spacing(0.75) }]}>
               {universes.map((u) => (
