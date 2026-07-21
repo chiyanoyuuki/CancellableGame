@@ -34,9 +34,9 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
 
   // --- Team mode local state (turned into cfg.teams only at launch) ----------
   const [teamCount, setTeamCount] = useState(() => Math.min(2, Math.max(1, players.length)));
-  const [teamNames, setTeamNames] = useState<string[]>(() =>
-    Array.from({ length: Math.max(1, players.length) }, (_, i) => `Équipe ${i + 1}`),
-  );
+  // Nom d'équipe : par défaut la concaténation des 3 premières lettres du pseudo
+  // de chaque membre ; on ne mémorise que les noms saisis à la main (par index).
+  const [manualNames, setManualNames] = useState<Record<number, string>>({});
   const [assign, setAssign] = useState<Record<string, number>>(() => {
     const n = Math.min(2, Math.max(1, players.length));
     const a: Record<string, number> = {};
@@ -44,12 +44,19 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
     return a;
   });
 
+  // Concaténation des 3 premières lettres du pseudo de chaque membre de l'équipe.
+  const autoTeamName = (i: number): string => {
+    const members = players.filter((p) => (assign[p.id] ?? 0) === i);
+    if (members.length === 0) return `Équipe ${i + 1}`;
+    return members.map((m) => m.name.trim().slice(0, 3)).join('');
+  };
+
   const buildTeams = (): Team[] => {
     const teams: Team[] = [];
     for (let i = 0; i < teamCount; i++) {
       const memberIds = players.filter((p) => (assign[p.id] ?? 0) === i).map((p) => p.id);
       if (memberIds.length === 0) continue;
-      const name = teamNames[i]?.trim() || `Équipe ${i + 1}`;
+      const name = manualNames[i]?.trim() || autoTeamName(i);
       teams.push({
         id: teamKey(name, i),
         name,
@@ -297,9 +304,9 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
                 <View style={[styles.row, { gap: spacing(1) }]}>
                   <Txt size={fontSize.lg}>{TEAM_EMOJIS[ti % TEAM_EMOJIS.length]}</Txt>
                   <TextInput
-                    value={teamNames[ti] ?? ''}
-                    onChangeText={(t) => setTeamNames((ns) => { const c = [...ns]; c[ti] = t; return c; })}
-                    placeholder={`Équipe ${ti + 1}`}
+                    value={manualNames[ti] ?? autoTeamName(ti)}
+                    onChangeText={(t) => setManualNames((m) => ({ ...m, [ti]: t }))}
+                    placeholder={autoTeamName(ti)}
                     placeholderTextColor={colors.textFaint}
                     style={styles.teamInput}
                   />

@@ -4,6 +4,7 @@ import { getDb } from './database';
 import { kvGetJSON, kvSetJSON } from './kv';
 
 const UNWANTED_UNIVERSES_KEY = 'player:unwantedUniverses';
+const CHOSEN_UNIVERSES_KEY = 'player:chosenUniverses';
 
 /**
  * Per-player list of UNWANTED universes. A player almost never gets questions
@@ -16,6 +17,20 @@ export async function getPlayerUnwantedUniverses(): Promise<Record<string, strin
 
 export async function setPlayerUnwantedUniverses(map: Record<string, string[]>): Promise<void> {
   await kvSetJSON(UNWANTED_UNIVERSES_KEY, map);
+}
+
+/**
+ * Per-player list of CHOSEN (favourite) universes : les univers que le joueur
+ * connaît / préfère. Sert au Duel « univers aléatoires depuis les profils » et
+ * au mode équipe (les questions d'une équipe viennent des univers choisis par
+ * au moins un de ses membres).
+ */
+export async function getPlayerChosenUniverses(): Promise<Record<string, string[]>> {
+  return kvGetJSON<Record<string, string[]>>(CHOSEN_UNIVERSES_KEY, {});
+}
+
+export async function setPlayerChosenUniverses(map: Record<string, string[]>): Promise<void> {
+  await kvSetJSON(CHOSEN_UNIVERSES_KEY, map);
 }
 
 interface PlayerRow {

@@ -11,10 +11,12 @@ import {
   archivePlayer,
   createPlayer,
   deletePlayerForever,
+  getPlayerChosenUniverses,
   getPlayerUnwantedUniverses,
   getQuestionHistoryByPlayer,
   listPlayers,
   restorePlayer,
+  setPlayerChosenUniverses,
   setPlayerUnwantedUniverses,
   updatePlayer,
 } from '../db';
@@ -38,14 +40,25 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   const [unwantedPlayer, setUnwantedPlayer] = useState<Player | null>(null);
   const [unwantedDraft, setUnwantedDraft] = useState<Set<string>>(new Set());
 
+  // Per-player CHOSEN (favourite) universes — pour le Duel aléatoire et les équipes.
+  const [chosen, setChosen] = useState<Record<string, string[]>>({});
+  const [chosenPlayer, setChosenPlayer] = useState<Player | null>(null);
+  const [chosenDraft, setChosenDraft] = useState<Set<string>>(new Set());
+
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const [p, u, h] = await Promise.all([getQuizPool(), getPlayerUnwantedUniverses(), getQuestionHistoryByPlayer()]);
+      const [p, u, h, c] = await Promise.all([
+        getQuizPool(),
+        getPlayerUnwantedUniverses(),
+        getQuestionHistoryByPlayer(),
+        getPlayerChosenUniverses(),
+      ]);
       if (alive) {
         setPool(p);
         setUnwanted(u);
         setHistoryByPlayer(h);
+        setChosen(c);
       }
     })();
     return () => {
@@ -124,6 +137,36 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
     await setPlayerUnwantedUniverses(next);
   };
 
+  // Vrais univers seulement (pas les thèmes sans univers), pour les favoris.
+  const universesByTheme = useMemo(
+    () =>
+      categoriesByTheme
+        .map(({ theme, items }) => ({ theme, items: items.filter((it) => !it.key.startsWith('#')) }))
+        .filter((g) => g.items.length > 0),
+    [categoriesByTheme],
+  );
+
+  const openChosen = (p: Player) => {
+    setChosenPlayer(p);
+    setChosenDraft(new Set(chosen[p.id] ?? []));
+  };
+  const toggleChosen = (u: string) =>
+    setChosenDraft((prev) => {
+      const next = new Set(prev);
+      if (next.has(u)) next.delete(u);
+      else next.add(u);
+      return next;
+    });
+  const saveChosen = async () => {
+    if (!chosenPlayer) return;
+    const list = [...chosenDraft];
+    const next = { ...chosen, [chosenPlayer.id]: list };
+    if (list.length === 0) delete next[chosenPlayer.id];
+    setChosen(next);
+    setChosenPlayer(null);
+    await setPlayerChosenUniverses(next);
+  };
+
   const refresh = useCallback(async () => {
     setPlayers(await listPlayers(showArchived));
   }, [showArchived]);
@@ -163,7 +206,8 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   const manage = (p: Player) => {
     Alert.alert(p.name, undefined, [
       { text: 'Modifier', onPress: () => startEdit(p) },
-      { text: 'Univers et thèmes', onPress: () => openUnwanted(p) },
+      { text: 'Univers favoris (Duel / Équipe)', onPress: () => openChosen(p) },
+      { text: 'Univers et thèmes évités', onPress: () => openUnwanted(p) },
       {
         text: 'Archiver',
         onPress: async () => {
@@ -267,6 +311,11 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
             <PlayerAvatar emoji={p.emoji} color={p.color} />
             <View style={{ flex: 1 }}>
               <Txt weight="700">{p.name}</Txt>
+              {(chosen[p.id]?.length ?? 0) > 0 && (
+                <Txt faint size={fontSize.xs}>
+                  ⭐ {chosen[p.id]!.length} univers favori{chosen[p.id]!.length > 1 ? 's' : ''}
+                </Txt>
+              )}
               {(unwanted[p.id]?.length ?? 0) > 0 && (
                 <Txt faint size={fontSize.xs}>
                   🚫 évite {unwanted[p.id]!.length} catégorie{unwanted[p.id]!.length > 1 ? 's' : ''}
@@ -331,6 +380,51 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
           <View style={{ flexDirection: 'row', gap: spacing(1), marginTop: spacing(1) }}>
             <Button title="Annuler" variant="ghost" onPress={() => setUnwantedPlayer(null)} style={{ flex: 1 }} />
             <Button title="Enregistrer" onPress={saveUnwanted} style={{ flex: 1 }} />
+          </View>
+        </View>
+      </View>
+    </Modal>
+
+    <Modal visible={chosenPlayer !== null} animationType="slide" transparent onRequestClose={() => setChosenPlayer(null)}>
+      <View style={styles.modalBackdrop}>
+        <View style={styles.modalSheet}>
+          <Txt weight="800" size={fontSize.lg}>
+            Univers favoris de {chosenPlayer?.name}
+          </Txt>
+          <Txt dim size={fontSize.sm} style={{ marginTop: spacing(0.5) }}>
+            Les univers que {chosenPlayer?.name} connaît le mieux. Ils servent au Duel « univers aléatoires »
+            et au mode équipe, où chaque équipe joue sur les univers favoris de ses membres.
+          </Txt>
+          <View style={styles.counter}>
+            <Txt weight="800" size={fontSize.lg} color={chosenDraft.size > 0 ? colors.success : colors.textFaint}>
+              {chosenDraft.size}
+            </Txt>
+            <Txt dim size={fontSize.sm} style={{ flex: 1 }}>
+              univers favori{chosenDraft.size > 1 ? 's' : ''} sélectionné{chosenDraft.size > 1 ? 's' : ''}
+            </Txt>
+          </View>
+          <ScrollView style={{ marginTop: spacing(1.5) }} contentContainerStyle={{ paddingBottom: spacing(1) }}>
+            {universesByTheme.map(({ theme, items }) => (
+              <View key={theme} style={{ marginBottom: spacing(1.5) }}>
+                <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.75) }}>
+                  {THEME_META[theme].emoji} {THEME_META[theme].label.toUpperCase()}
+                </Txt>
+                <View style={styles.chipWrap}>
+                  {items.map((it) => (
+                    <Chip
+                      key={it.key}
+                      label={it.label}
+                      selected={chosenDraft.has(it.key)}
+                      onPress={() => toggleChosen(it.key)}
+                    />
+                  ))}
+                </View>
+              </View>
+            ))}
+          </ScrollView>
+          <View style={{ flexDirection: 'row', gap: spacing(1), marginTop: spacing(1) }}>
+            <Button title="Annuler" variant="ghost" onPress={() => setChosenPlayer(null)} style={{ flex: 1 }} />
+            <Button title="Enregistrer" onPress={saveChosen} style={{ flex: 1 }} />
           </View>
         </View>
       </View>
