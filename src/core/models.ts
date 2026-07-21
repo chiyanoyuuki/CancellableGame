@@ -221,11 +221,22 @@ export const DEFAULT_BOMBE_CONFIG: BombeConfig = {
 // debout gagne.
 // ---------------------------------------------------------------------------
 
+export type DuelJoker = 'props4' | 'props2' | 'playerHelp' | 'otherUniverse';
+
 export interface DuelConfig {
   /** Univers sélectionnés (1 à n), communs à tous les joueurs. */
   universes: string[];
-  /** Autoriser la demande de propositions (aide) pendant la partie. */
-  allowPropositions: boolean;
+  /**
+   * Jokers activés. Chaque joueur en possède un exemplaire de chaque joker
+   * activé, utilisable une seule fois de toute la partie :
+   *  - props4        : révéler 4 propositions
+   *  - props2        : révéler 2 propositions
+   *  - playerHelp    : demander l'aide d'un autre joueur
+   *  - otherUniverse : obtenir une question d'un autre univers
+   */
+  jokers: Record<DuelJoker, boolean>;
+  /** Tirer les univers au hasard parmi les favoris des profils des joueurs. */
+  randomFromProfiles?: boolean;
 }
 
 // ---------------------------------------------------------------------------

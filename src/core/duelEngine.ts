@@ -7,7 +7,7 @@
  * reste en pro. Une mauvaise réponse élimine le joueur ; la partie s'arrête
  * quand il ne reste qu'un joueur, le survivant.
  */
-import type { Difficulty, DuelConfig, GameEvent, Player, PlayerSessionResult, Question, SessionResult } from './models';
+import type { Difficulty, DuelConfig, DuelJoker, GameEvent, Player, PlayerSessionResult, Question, SessionResult } from './models';
 import { mulberry32, type Rng, shuffle } from './rng';
 
 export type DuelPhase = 'question' | 'reveal' | 'finished';
@@ -36,6 +36,10 @@ export interface DuelState {
   currentOptions: string[];
   pairOptions: string[];
   propsShown: 0 | 2 | 4;
+  /** Jokers déjà utilisés par chaque joueur (une fois chacun, toute la partie). */
+  jokersUsed: Record<string, DuelJoker[]>;
+  /** Le joueur actif a-t-il demandé l'aide d'un autre joueur sur CETTE question ? */
+  helpUsed: boolean;
   correctById: Record<string, number>;
   wrongById: Record<string, number>;
   phase: DuelPhase;
@@ -47,7 +51,7 @@ export interface DuelState {
 }
 
 export type DuelAction =
-  | { type: 'REVEAL_PROPS'; count: 2 | 4 }
+  | { type: 'USE_JOKER'; joker: DuelJoker }
   | { type: 'ANSWER'; correct: boolean }
   | { type: 'CONTINUE' };
 
@@ -105,6 +109,7 @@ function setupQuestion(state: DuelState): DuelState {
     currentOptions,
     pairOptions,
     propsShown: 0,
+    helpUsed: false,
     asked: state.asked + 1,
     askedByPlayer: { ...state.askedByPlayer, [activeId]: (state.askedByPlayer[activeId] ?? 0) + 1 },
     activeId,
@@ -148,6 +153,8 @@ export function createDuelState(args: {
     currentOptions: [],
     pairOptions: [],
     propsShown: 0,
+    jokersUsed: {},
+    helpUsed: false,
     correctById: {},
     wrongById: {},
     phase: 'question',
@@ -165,11 +172,48 @@ export function duelReducer(state: DuelState, action: DuelAction): DuelState {
   if (state.phase === 'finished') return state;
 
   switch (action.type) {
-    case 'REVEAL_PROPS': {
-      if (state.phase !== 'question' || !state.config.allowPropositions) return state;
-      if (state.propsShown === 2) return state; // 2 propositions est l'aide maximale
-      if (action.count === 4 && state.propsShown !== 0) return state;
-      return { ...state, propsShown: action.count };
+    case 'USE_JOKER': {
+      if (state.phase !== 'question' || !state.activeId) return state;
+      const active = state.activeId;
+      const j = action.joker;
+      // Joker désactivé, ou déjà utilisé par ce joueur.
+      if (!state.config.jokers[j]) return state;
+      if ((state.jokersUsed[active] ?? []).includes(j)) return state;
+      const consume: Record<string, DuelJoker[]> = {
+        ...state.jokersUsed,
+        [active]: [...(state.jokersUsed[active] ?? []), j],
+      };
+
+      if (j === 'props4') {
+        if (state.propsShown !== 0) return state;
+        return { ...state, propsShown: 4, jokersUsed: consume };
+      }
+      if (j === 'props2') {
+        if (state.propsShown === 2) return state;
+        return { ...state, propsShown: 2, jokersUsed: consume };
+      }
+      if (j === 'playerHelp') {
+        return { ...state, helpUsed: true, jokersUsed: consume };
+      }
+      // otherUniverse : une question d'un AUTRE univers, même difficulté.
+      const q = state.current;
+      if (!q) return state;
+      const arr = state.queues[q.difficulty] ?? [];
+      const idx = arr.findIndex((x) => x.universe !== q.universe);
+      if (idx < 0) return state; // aucun autre univers dispo → joker non consommé
+      const replacement = arr[idx] as Question;
+      const nextArr = [...arr.slice(0, idx), ...arr.slice(idx + 1)];
+      const { rng, step } = stepRng(state);
+      return {
+        ...state,
+        step,
+        current: replacement,
+        currentOptions: shuffle([replacement.answer, ...replacement.distractors.slice(0, 3)], rng),
+        pairOptions: shuffle([replacement.answer, replacement.distractors[0] ?? '???'], rng),
+        propsShown: 0,
+        queues: { ...state.queues, [q.difficulty]: nextArr },
+        jokersUsed: consume,
+      };
     }
 
     case 'ANSWER': {

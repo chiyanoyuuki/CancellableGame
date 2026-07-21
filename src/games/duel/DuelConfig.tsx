@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, Switch, View } from 'react-native';
 
 import { Button, Card, Chip, SectionHeader, Txt } from '../../components/ui';
-import { type DuelConfig, type Question, type Theme, THEME_META, THEMES } from '../../core/models';
+import { type DuelConfig, type DuelJoker, type Question, type Theme, THEME_META, THEMES } from '../../core/models';
 import { colors, fontSize, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
 import { getQuizPool } from '../quiz/pool';
@@ -10,10 +10,22 @@ import { getQuizPool } from '../quiz/pool';
 // Thèmes qui demandent un rendu spécial (image distante / audio) : exclus du duel.
 const EXCLUDED_THEMES: Theme[] = ['images', 'blindtest'];
 
+const JOKER_META: { key: DuelJoker; label: string; desc: string }[] = [
+  { key: 'props4', label: '🔎 4 propositions', desc: 'Révéler 4 propositions.' },
+  { key: 'props2', label: '🔍 2 propositions', desc: 'Révéler 2 propositions.' },
+  { key: 'playerHelp', label: "🆘 Aide d'un joueur", desc: "Demander l'aide d'un autre joueur." },
+  { key: 'otherUniverse', label: '🔄 Autre univers', desc: "Obtenir une question d'un autre univers." },
+];
+
 export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
   const [pool, setPool] = useState<Question[]>([]);
   const [selected, setSelected] = useState<Set<string>>(new Set());
-  const [allowPropositions, setAllowPropositions] = useState(true);
+  const [jokers, setJokers] = useState<Record<DuelJoker, boolean>>({
+    props4: true,
+    props2: true,
+    playerHelp: true,
+    otherUniverse: true,
+  });
 
   useEffect(() => {
     let alive = true;
@@ -62,7 +74,7 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
   );
 
   const valid = players.length >= 2 && selected.size >= 1;
-  const launch = () => onStart({ universes: [...selected], allowPropositions } satisfies DuelConfig);
+  const launch = () => onStart({ universes: [...selected], jokers } satisfies DuelConfig);
 
   return (
     <View style={{ gap: spacing(1) }}>
@@ -99,21 +111,23 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
         );
       })}
 
-      <SectionHeader title="Aide" />
-      <Card>
-        <View style={styles.row}>
-          <View style={{ flex: 1 }}>
-            <Txt weight="700">Autoriser les propositions 🔎</Txt>
-            <Txt faint size={fontSize.xs}>Si activé, chaque joueur peut demander 4 puis 2 propositions.</Txt>
+      <SectionHeader title="Jokers — un de chaque par joueur" />
+      {JOKER_META.map(({ key, label, desc }) => (
+        <Card key={key}>
+          <View style={styles.row}>
+            <View style={{ flex: 1 }}>
+              <Txt weight="700">{label}</Txt>
+              <Txt faint size={fontSize.xs}>{desc}</Txt>
+            </View>
+            <Switch
+              value={jokers[key]}
+              onValueChange={(v) => setJokers((jk) => ({ ...jk, [key]: v }))}
+              trackColor={{ true: colors.primary, false: colors.border }}
+              thumbColor={colors.white}
+            />
           </View>
-          <Switch
-            value={allowPropositions}
-            onValueChange={setAllowPropositions}
-            trackColor={{ true: colors.primary, false: colors.border }}
-            thumbColor={colors.white}
-          />
-        </View>
-      </Card>
+        </Card>
+      ))}
 
       <View style={{ height: spacing(1) }} />
       <Button title="Lancer le duel" emoji="⚔️" size="lg" variant="accent" onPress={launch} disabled={!valid} />

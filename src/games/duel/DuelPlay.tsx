@@ -4,7 +4,7 @@ import * as Haptics from 'expo-haptics';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button, Card, PlayerAvatar, Txt } from '../../components/ui';
-import { DIFFICULTY_LABELS, type DuelConfig, type Player, THEME_META } from '../../core/models';
+import { DIFFICULTY_LABELS, type DuelConfig, type DuelJoker, type Player, THEME_META } from '../../core/models';
 import { type DuelAction, type DuelState, createDuelState, duelReducer, duelToSessionResult } from '../../core/duelEngine';
 import { mulberry32, randomSeed, shuffle } from '../../core/rng';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
@@ -143,31 +143,48 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
           {q.text}
         </Txt>
 
-        {cfg.allowPropositions && renderHelpBar()}
+        {renderJokers()}
         {renderAnswerControls()}
       </View>
     );
   }
 
-  function renderHelpBar() {
+  function renderJokers() {
+    const activeId = game!.activeId;
+    if (!activeId) return null;
+    const used = game!.jokersUsed[activeId] ?? [];
+    const jk = cfg.jokers;
+    const canOther = cfg.universes.length > 1;
+    const buttons: { joker: DuelJoker; label: string; disabled: boolean }[] = [];
+    if (jk.props4) buttons.push({ joker: 'props4', label: '🔎 4 props', disabled: used.includes('props4') || game!.propsShown !== 0 });
+    if (jk.props2) buttons.push({ joker: 'props2', label: '🔍 2 props', disabled: used.includes('props2') || game!.propsShown === 2 });
+    if (jk.playerHelp) buttons.push({ joker: 'playerHelp', label: '🆘 Aide joueur', disabled: used.includes('playerHelp') });
+    if (jk.otherUniverse && canOther) buttons.push({ joker: 'otherUniverse', label: '🔄 Autre univers', disabled: used.includes('otherUniverse') });
+    if (buttons.length === 0) return null;
+
     return (
-      <View style={styles.helpRow}>
-        <Button
-          title="4 propositions"
-          variant="secondary"
-          size="sm"
-          style={{ flex: 1 }}
-          disabled={game!.propsShown !== 0}
-          onPress={() => dispatch({ type: 'REVEAL_PROPS', count: 4 })}
-        />
-        <Button
-          title="2 propositions"
-          variant="secondary"
-          size="sm"
-          style={{ flex: 1 }}
-          disabled={game!.propsShown === 2}
-          onPress={() => dispatch({ type: 'REVEAL_PROPS', count: 2 })}
-        />
+      <View style={styles.jokerBox}>
+        <Txt faint size={fontSize.xs} weight="800">
+          JOKERS DE {active?.name?.toUpperCase() ?? ''}
+        </Txt>
+        <View style={styles.jokerRow}>
+          {buttons.map((b) => (
+            <Button
+              key={b.joker}
+              title={b.label}
+              variant="secondary"
+              size="sm"
+              disabled={b.disabled}
+              onPress={() => dispatch({ type: 'USE_JOKER', joker: b.joker })}
+              style={{ flexGrow: 1 }}
+            />
+          ))}
+        </View>
+        {game!.helpUsed && (
+          <Txt weight="700" size={fontSize.xs} color={colors.accent}>
+            🆘 {active?.name} a demandé l'aide d'un autre joueur !
+          </Txt>
+        )}
       </View>
     );
   }
@@ -289,7 +306,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
   },
-  helpRow: { flexDirection: 'row', gap: spacing(1) },
+  jokerBox: { gap: spacing(1), backgroundColor: colors.cardAlt, borderRadius: radius.md, padding: spacing(1.5) },
+  jokerRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing(1) },
   aliveWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing(1) },
   aliveChip: {
     flexDirection: 'row',

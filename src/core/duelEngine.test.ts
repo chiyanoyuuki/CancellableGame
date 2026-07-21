@@ -20,8 +20,10 @@ for (const [theme, uni] of [
   }
 }
 
+const ALL_JOKERS = { props4: true, props2: true, playerHelp: true, otherUniverse: true };
+
 function config(over: Partial<DuelConfig> = {}): DuelConfig {
-  return { universes: ['Naruto', 'Marvel'], allowPropositions: true, ...over };
+  return { universes: ['Naruto', 'Marvel'], jokers: ALL_JOKERS, ...over };
 }
 
 const start = (order: string[], over: Partial<DuelConfig> = {}) =>
@@ -96,18 +98,51 @@ describe('élimination et dernier debout', () => {
   });
 });
 
-describe('propositions activables', () => {
-  test('désactivées : REVEAL_PROPS est ignoré', () => {
-    let s = start(['p1', 'p2'], { allowPropositions: false });
-    s = duelReducer(s, { type: 'REVEAL_PROPS', count: 4 });
+describe('jokers (un de chaque par joueur, activables)', () => {
+  test('joker désactivé : USE_JOKER est ignoré', () => {
+    let s = start(['p1', 'p2'], { jokers: { ...ALL_JOKERS, props4: false } });
+    s = duelReducer(s, { type: 'USE_JOKER', joker: 'props4' });
     expect(s.propsShown).toBe(0);
   });
 
-  test('activées : on peut révéler 4 puis 2 propositions', () => {
-    let s = start(['p1', 'p2'], { allowPropositions: true });
-    s = duelReducer(s, { type: 'REVEAL_PROPS', count: 4 });
+  test('props4 puis props2, chacun consommé une fois', () => {
+    let s = start(['p1', 'p2']);
+    s = duelReducer(s, { type: 'USE_JOKER', joker: 'props4' });
     expect(s.propsShown).toBe(4);
-    s = duelReducer(s, { type: 'REVEAL_PROPS', count: 2 });
+    expect(s.jokersUsed.p1).toContain('props4');
+    s = duelReducer(s, { type: 'USE_JOKER', joker: 'props2' });
     expect(s.propsShown).toBe(2);
+    // props4 déjà utilisé : ignoré.
+    const before = s;
+    expect(duelReducer(s, { type: 'USE_JOKER', joker: 'props4' })).toBe(before);
+  });
+
+  test('playerHelp : marque l’aide demandée et consomme le joker', () => {
+    let s = start(['p1', 'p2']);
+    s = duelReducer(s, { type: 'USE_JOKER', joker: 'playerHelp' });
+    expect(s.helpUsed).toBe(true);
+    expect(s.jokersUsed.p1).toContain('playerHelp');
+  });
+
+  test('otherUniverse : une question d’un autre univers, même difficulté', () => {
+    let s = start(['p1', 'p2']);
+    const u0 = s.current?.universe;
+    const d0 = s.current?.difficulty;
+    s = duelReducer(s, { type: 'USE_JOKER', joker: 'otherUniverse' });
+    expect(s.current?.universe).not.toBe(u0);
+    expect(s.current?.difficulty).toBe(d0);
+    expect(s.jokersUsed.p1).toContain('otherUniverse');
+  });
+
+  test('un joker est à usage unique pour toute la partie', () => {
+    let s = start(['p1', 'p2']);
+    s = duelReducer(s, { type: 'USE_JOKER', joker: 'playerHelp' }); // p1 sur Q1
+    s = turn(s, true);
+    s = turn(s, true); // retour à p1
+    expect(s.activeId).toBe('p1');
+    expect(s.helpUsed).toBe(false); // remis à zéro à la nouvelle question
+    s = duelReducer(s, { type: 'USE_JOKER', joker: 'playerHelp' }); // déjà consommé
+    expect(s.helpUsed).toBe(false);
+    expect(s.jokersUsed.p1).toEqual(['playerHelp']);
   });
 });
