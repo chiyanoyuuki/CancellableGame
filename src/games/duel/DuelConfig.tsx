@@ -4,7 +4,7 @@ import { StyleSheet, Switch, View } from 'react-native';
 import { Button, Card, Chip, SectionHeader, Txt } from '../../components/ui';
 import { type DuelConfig, type DuelJoker, type Question, type Theme, THEME_META, THEMES } from '../../core/models';
 import { shuffle } from '../../core/rng';
-import { getPlayerChosenUniverses } from '../../db';
+import { getPlayerUnwantedUniverses } from '../../db';
 import { colors, fontSize, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
 import { getQuizPool } from '../quiz/pool';
@@ -22,7 +22,7 @@ const JOKER_META: { key: DuelJoker; label: string; desc: string }[] = [
 export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
   const [pool, setPool] = useState<Question[]>([]);
   const [selected, setSelected] = useState<Set<string>>(new Set());
-  const [chosenMap, setChosenMap] = useState<Record<string, string[]>>({});
+  const [unwantedMap, setUnwantedMap] = useState<Record<string, string[]>>({});
   const [randomMode, setRandomMode] = useState(false);
   const [jokers, setJokers] = useState<Record<DuelJoker, boolean>>({
     props4: true,
@@ -34,23 +34,16 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const [p, c] = await Promise.all([getQuizPool(), getPlayerChosenUniverses()]);
+      const [p, u] = await Promise.all([getQuizPool(), getPlayerUnwantedUniverses()]);
       if (alive) {
         setPool(p);
-        setChosenMap(c);
+        setUnwantedMap(u);
       }
     })();
     return () => {
       alive = false;
     };
   }, []);
-
-  // Union des univers favoris des joueurs de cette partie.
-  const favoritesUnion = useMemo(() => {
-    const s = new Set<string>();
-    for (const p of players) for (const u of chosenMap[p.id] ?? []) s.add(u);
-    return s;
-  }, [players, chosenMap]);
 
   // Univers présents dans le pool, groupés par thème (hors thèmes exclus).
   const universesByTheme = useMemo(() => {
@@ -69,6 +62,19 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
       universes: [...byTheme.get(t)!].sort((a, b) => a.localeCompare(b, 'fr')),
     }));
   }, [pool]);
+
+  // Univers « voulus » du groupe = tous ceux présents qu'AU MOINS un joueur n'a
+  // pas mis dans ses non souhaités. Aucune liste de favoris : le souhaité est le
+  // complément du non souhaité. On n'exclut donc qu'un univers rejeté par tous.
+  const wantedUnion = useMemo(() => {
+    const s = new Set<string>();
+    for (const { universes } of universesByTheme) {
+      for (const u of universes) {
+        if (players.some((p) => !(unwantedMap[p.id] ?? []).includes(u))) s.add(u);
+      }
+    }
+    return s;
+  }, [universesByTheme, players, unwantedMap]);
 
   const toggle = (u: string) =>
     setSelected((prev) => {
@@ -90,9 +96,9 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
     [pool, selected],
   );
 
-  const valid = players.length >= 2 && (randomMode ? favoritesUnion.size >= 1 : selected.size >= 1);
+  const valid = players.length >= 2 && (randomMode ? wantedUnion.size >= 1 : selected.size >= 1);
   const launch = () => {
-    const universes = randomMode ? shuffle([...favoritesUnion], Math.random).slice(0, 10) : [...selected];
+    const universes = randomMode ? shuffle([...wantedUnion], Math.random).slice(0, 10) : [...selected];
     onStart({ universes, jokers, randomFromProfiles: randomMode } satisfies DuelConfig);
   };
 
@@ -111,7 +117,7 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
         <View style={styles.row}>
           <View style={{ flex: 1 }}>
             <Txt weight="700">🎲 Univers aléatoires</Txt>
-            <Txt faint size={fontSize.xs}>Tirés au hasard parmi les univers favoris des profils des joueurs.</Txt>
+            <Txt faint size={fontSize.xs}>Tirés au hasard parmi les univers que les joueurs n'ont pas exclus dans leur profil.</Txt>
           </View>
           <Switch
             value={randomMode}
@@ -124,9 +130,9 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
 
       {randomMode ? (
         <Txt faint size={fontSize.xs}>
-          {favoritesUnion.size > 0
-            ? `${favoritesUnion.size} univers favori${favoritesUnion.size > 1 ? 's' : ''} dans les profils — quelques-uns seront tirés au hasard à chaque partie.`
-            : "Aucun univers favori dans les profils. Ajoute-en dans l'écran Joueurs (⋯ → Univers favoris)."}
+          {wantedUnion.size > 0
+            ? `${wantedUnion.size} univers possible${wantedUnion.size > 1 ? 's' : ''} — quelques-uns seront tirés au hasard à chaque partie.`
+            : "Aucun univers disponible : les joueurs ont tout exclu dans leur profil."}
         </Txt>
       ) : (
         <Txt faint size={fontSize.xs}>
