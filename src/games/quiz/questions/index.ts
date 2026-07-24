@@ -15,6 +15,7 @@ import { modeQuestions } from './mode';
 import { musiqueQuestions } from './musique';
 import { mythologieQuestions } from './mythologie';
 import { rebusQuestions } from './rebus';
+import { religionsQuestions } from './religions';
 import { seriesQuestions } from './series';
 import { tchequeQuestions } from './tcheque';
 
@@ -43,6 +44,7 @@ export const QUESTIONS: Question[] = [
   ...societeQuestions,
   ...internetQuestions,
   ...mythologieQuestions,
+  ...religionsQuestions,
   ...enigmesQuestions,
   ...rebusQuestions,
   ...blindtestQuestions,

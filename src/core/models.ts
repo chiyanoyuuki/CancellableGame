@@ -60,6 +60,7 @@ export const THEMES = [
   'societe',
   'internet',
   'mythologie',
+  'religions',
   'enigmes',
   'rebus',
   'blindtest',
@@ -83,6 +84,7 @@ export const THEME_META: Record<Theme, { label: string; emoji: string }> = {
   societe: { label: 'Société & lifestyle', emoji: '🎉' },
   internet: { label: 'Références Internet', emoji: '🌐' },
   mythologie: { label: 'Mythologie', emoji: '🏛️' },
+  religions: { label: 'Religions', emoji: '🛐' },
   enigmes: { label: 'Énigmes', emoji: '🧩' },
   rebus: { label: 'Rébus emoji', emoji: '🤔' },
   blindtest: { label: 'Blind test', emoji: '🎧' },
@@ -162,7 +164,7 @@ export interface QuizConfig {
 
 export const DEFAULT_QUIZ_CONFIG: QuizConfig = {
   // Blind test exclu par défaut : il faut y ajouter ses propres extraits audio.
-  themes: ['manga', 'jeuxvideo', 'series', 'films', 'musique', 'litterature', 'japon', 'france', 'tcheque', 'mode', 'culture', 'sciences', 'societe', 'internet', 'mythologie', 'enigmes', 'rebus'],
+  themes: ['manga', 'jeuxvideo', 'series', 'films', 'musique', 'litterature', 'japon', 'france', 'tcheque', 'mode', 'culture', 'sciences', 'societe', 'internet', 'mythologie', 'religions', 'enigmes', 'rebus'],
   difficulties: [1, 2, 3],
   questionCount: 15,
   turnMode: 'turn',
@@ -202,7 +204,7 @@ export interface BombeConfig {
 }
 
 export const DEFAULT_BOMBE_CONFIG: BombeConfig = {
-  themes: ['manga', 'jeuxvideo', 'series', 'films', 'musique', 'litterature', 'japon', 'france', 'tcheque', 'mode', 'culture', 'sciences', 'societe', 'internet', 'mythologie'],
+  themes: ['manga', 'jeuxvideo', 'series', 'films', 'musique', 'litterature', 'japon', 'france', 'tcheque', 'mode', 'culture', 'sciences', 'societe', 'internet', 'mythologie', 'religions'],
   difficulties: [1, 2, 3],
   excludedUniverses: [],
   secondsPerPlayer: 12,

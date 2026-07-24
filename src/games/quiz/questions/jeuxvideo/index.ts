@@ -4,6 +4,7 @@ import { dofus } from './dofus';
 import { farmingsimulator } from './farmingsimulator';
 import { gta } from './gta';
 import { halo } from './halo';
+import { kingdomcome } from './kingdomcome';
 import { lessims } from './lessims';
 import { lol } from './lol';
 import { mario } from './mario';
@@ -40,4 +41,5 @@ export const jeuxvideoQuestions: Question[] = [
   ...worldofwarcraft,
   ...thewitcher,
   ...residentevil,
+  ...kingdomcome,
 ];
