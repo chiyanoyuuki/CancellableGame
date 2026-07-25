@@ -51,3 +51,21 @@ export const QUESTIONS: Question[] = [
   ...imagesQuestions,
   ...imageCharsQuestions,
 ];
+
+/**
+ * Ordre d'ajout des univers les plus récents, du plus ancien au plus récent.
+ * La banque est concaténée par thème, donc l'ordre du pool ne reflète pas la
+ * chronologie réelle ; cette liste sert à trier « par date d'ajout » (ex. dans
+ * l'écran Joueurs). Les univers absents sont considérés comme anciens.
+ *
+ * À METTRE À JOUR en ajoutant tout nouvel univers : ajoutez sa clé à la fin.
+ */
+export const UNIVERSE_ADD_ORDER: string[] = [
+  'Astrologie', 'Insectes', 'Animaux', 'Alcool', 'Astronomie',
+  'Arbres', 'Voitures', 'Culture tchèque', 'Gastronomie tchèque', 'Histoire de Prague',
+  'SVT', 'Célébrités', 'Sexe',
+  'Kingdom Come Deliverance', 'Bouddhisme', 'Catholicisme', 'Chrétienté', 'Latin', 'Kim Jong-un',
+  'Phasmophobia', 'Far Cry', 'Hades', "Baldur's Gate", 'Final Fantasy', 'The Walking Dead',
+  '86', 'Spy x Family', 'The Promised Neverland', 'Tokyo Ghoul',
+  'Moi quand je me réincarne en slime', 'Dr. Stone', 'Haikyu',
+];

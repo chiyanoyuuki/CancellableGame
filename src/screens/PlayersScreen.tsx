@@ -19,8 +19,14 @@ import {
   updatePlayer,
 } from '../db';
 import { getQuizPool } from '../games/quiz/pool';
+import { UNIVERSE_ADD_ORDER } from '../games/quiz/questions';
 import type { RootStackParamList } from '../navigation';
 import { colors, fontSize, PLAYER_COLORS, PLAYER_EMOJIS, radius, spacing } from '../theme/theme';
+
+// Rang d'ancienneté d'un univers : plus l'indice est grand, plus il est récent.
+const ADD_RANK = new Map(UNIVERSE_ADD_ORDER.map((key, i) => [key, i] as const));
+// Au-delà de ce nombre d'exclusions, on trie par date d'ajout plutôt que par thème.
+const UNWANTED_DATE_SORT_THRESHOLD = 20;
 
 export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'Players'>) {
   const [players, setPlayers] = useState<Player[]>([]);
@@ -89,6 +95,21 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
       })
       .filter((g) => g.items.length > 0);
   }, [pool]);
+
+  // Mêmes catégories qu'au-dessus, mais à plat et triées par date d'ajout (les
+  // plus récentes d'abord) ; les univers non listés sont traités comme anciens.
+  const categoriesByAge = useMemo(
+    () =>
+      categoriesByTheme
+        .flatMap(({ theme, items }) => items.map((it) => ({ ...it, theme })))
+        .sort((a, b) => (ADD_RANK.get(b.key) ?? -1) - (ADD_RANK.get(a.key) ?? -1)),
+    [categoriesByTheme],
+  );
+
+  // Sous le seuil d'exclusions, on garde le tri par thème ; au-delà, on bascule
+  // sur le tri par date d'ajout pour repérer vite les derniers univers ajoutés.
+  const sortUnwantedByDate =
+    !!unwantedPlayer && (unwanted[unwantedPlayer.id]?.length ?? 0) >= UNWANTED_DATE_SORT_THRESHOLD;
 
   /** Clé d'évitement d'une question : son univers, ou « #thème » à défaut. */
   const avoidKey = (q: Question) => q.universe ?? `#${q.theme}`;
@@ -313,24 +334,43 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
               question{unseenRemaining > 1 ? 's' : ''} inédite{unseenRemaining > 1 ? 's' : ''} restante{unseenRemaining > 1 ? 's' : ''} pour {unwantedPlayer?.name} avec ce choix
             </Txt>
           </View>
+          {sortUnwantedByDate && (
+            <Txt faint size={fontSize.xs} style={{ marginTop: spacing(1) }}>
+              🆕 Triés par ajout : les univers les plus récents en premier.
+            </Txt>
+          )}
           <ScrollView style={{ marginTop: spacing(1.5) }} contentContainerStyle={{ paddingBottom: spacing(1) }}>
-            {categoriesByTheme.map(({ theme, items }) => (
-              <View key={theme} style={{ marginBottom: spacing(1.5) }}>
-                <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.75) }}>
-                  {THEME_META[theme].emoji} {THEME_META[theme].label.toUpperCase()}
-                </Txt>
-                <View style={styles.chipWrap}>
-                  {items.map((it) => (
-                    <Chip
-                      key={it.key}
-                      label={it.label}
-                      selected={!unwantedDraft.has(it.key)}
-                      onPress={() => toggleUnwanted(it.key)}
-                    />
-                  ))}
-                </View>
+            {sortUnwantedByDate ? (
+              <View style={styles.chipWrap}>
+                {categoriesByAge.map((it) => (
+                  <Chip
+                    key={it.key}
+                    label={it.label}
+                    emoji={THEME_META[it.theme].emoji}
+                    selected={!unwantedDraft.has(it.key)}
+                    onPress={() => toggleUnwanted(it.key)}
+                  />
+                ))}
               </View>
-            ))}
+            ) : (
+              categoriesByTheme.map(({ theme, items }) => (
+                <View key={theme} style={{ marginBottom: spacing(1.5) }}>
+                  <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.75) }}>
+                    {THEME_META[theme].emoji} {THEME_META[theme].label.toUpperCase()}
+                  </Txt>
+                  <View style={styles.chipWrap}>
+                    {items.map((it) => (
+                      <Chip
+                        key={it.key}
+                        label={it.label}
+                        selected={!unwantedDraft.has(it.key)}
+                        onPress={() => toggleUnwanted(it.key)}
+                      />
+                    ))}
+                  </View>
+                </View>
+              ))
+            )}
           </ScrollView>
           <View style={{ flexDirection: 'row', gap: spacing(1), marginTop: spacing(1) }}>
             <Button title="Annuler" variant="ghost" onPress={() => setUnwantedPlayer(null)} style={{ flex: 1 }} />
