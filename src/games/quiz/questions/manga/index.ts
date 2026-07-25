@@ -7,7 +7,10 @@ import { chainsawman } from './chainsawman';
 import { deathnote } from './deathnote';
 import { demonslayer } from './demonslayer';
 import { dragonball } from './dragonball';
+import { drstone } from './drstone';
+import { eightysix } from './eightysix';
 import { fma } from './fma';
+import { haikyuu } from './haikyuu';
 import { hxh } from './hxh';
 import { jujutsukaisen } from './jujutsukaisen';
 import { mha } from './mha';
@@ -15,6 +18,10 @@ import { mushokutensei } from './mushokutensei';
 import { nana } from './nana';
 import { naruto } from './naruto';
 import { onepiece } from './onepiece';
+import { promisedneverland } from './promisedneverland';
+import { slime } from './slime';
+import { spyfamily } from './spyfamily';
+import { tokyoghoul } from './tokyoghoul';
 
 /**
  * Thème Manga, organisé par univers (un fichier par univers).
@@ -39,4 +46,11 @@ export const mangaQuestions: Question[] = [
   ...jujutsukaisen,
   ...nana,
   ...animes90,
+  ...eightysix,
+  ...spyfamily,
+  ...promisedneverland,
+  ...tokyoghoul,
+  ...slime,
+  ...drstone,
+  ...haikyuu,
 ];

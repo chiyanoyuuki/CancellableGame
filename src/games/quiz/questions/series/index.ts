@@ -13,6 +13,7 @@ import { squidgame } from './squidgame';
 import { strangerthings } from './strangerthings';
 import { theboys } from './theboys';
 import { theoffice } from './theoffice';
+import { walkingdead } from './walkingdead';
 
 /**
  * Thème Séries, organisé par univers (une série = un fichier).
@@ -35,4 +36,5 @@ export const seriesQuestions: Question[] = [
   ...sexandthecity,
   ...netflix,
   ...enfance,
+  ...walkingdead,
 ];

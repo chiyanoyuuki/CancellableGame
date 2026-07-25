@@ -1,10 +1,15 @@
 import type { Question } from '../../../../core/models';
+import { baldursgate } from './baldursgate';
 import { cyberpunk } from './cyberpunk';
 import { dofus } from './dofus';
+import { farcry } from './farcry';
 import { farmingsimulator } from './farmingsimulator';
+import { finalfantasy } from './finalfantasy';
 import { gta } from './gta';
+import { hades } from './hades';
 import { halo } from './halo';
 import { kingdomcome } from './kingdomcome';
+import { phasmophobia } from './phasmophobia';
 import { lessims } from './lessims';
 import { lol } from './lol';
 import { mario } from './mario';
@@ -42,4 +47,9 @@ export const jeuxvideoQuestions: Question[] = [
   ...thewitcher,
   ...residentevil,
   ...kingdomcome,
+  ...phasmophobia,
+  ...farcry,
+  ...hades,
+  ...baldursgate,
+  ...finalfantasy,
 ];
