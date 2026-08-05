@@ -1,7 +1,7 @@
 import { DarkTheme, type InitialState, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -15,10 +15,13 @@ import { CustomContentScreen } from './src/screens/CustomContentScreen';
 import { HomeScreen } from './src/screens/HomeScreen';
 import { ImageCheckScreen } from './src/screens/ImageCheckScreen';
 import { LobbyScreen } from './src/screens/LobbyScreen';
+import { OnboardingScreen } from './src/screens/OnboardingScreen';
 import { PlayersScreen } from './src/screens/PlayersScreen';
 import { ResultsScreen } from './src/screens/ResultsScreen';
 import { SettingsScreen } from './src/screens/SettingsScreen';
 import { StatsScreen } from './src/screens/StatsScreen';
+import { StoreScreen } from './src/screens/StoreScreen';
+import { StoreProvider, useStore } from './src/store/StoreProvider';
 import { colors } from './src/theme/theme';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -36,6 +39,18 @@ const navTheme = {
 };
 
 export default function App() {
+  return (
+    <SafeAreaProvider>
+      <StatusBar style="light" />
+      <StoreProvider>
+        <AppInner />
+      </StoreProvider>
+    </SafeAreaProvider>
+  );
+}
+
+function AppInner() {
+  const store = useStore();
   const [ready, setReady] = useState(false);
   const [splashDone, setSplashDone] = useState(false);
   // If a game was in progress, open straight into it (with Home underneath, so
@@ -72,11 +87,15 @@ export default function App() {
     })();
   }, []);
 
-  return (
-    <SafeAreaProvider>
-      <StatusBar style="light" />
-      {ready ? (
-        <NavigationContainer theme={navTheme} initialState={initialNavState}>
+  let content: ReactNode;
+  if (!ready || store.loading) {
+    content = <View style={{ flex: 1, backgroundColor: colors.bg }} />;
+  } else if (!store.onboarded) {
+    // Premier lancement : choix des univers gratuits avant d'entrer dans l'app.
+    content = <OnboardingScreen onDone={store.completeOnboarding} />;
+  } else {
+    content = (
+      <NavigationContainer theme={navTheme} initialState={initialNavState}>
         <Stack.Navigator
           screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.bg }, animation: 'slide_from_right' }}
         >
@@ -91,12 +110,16 @@ export default function App() {
           <Stack.Screen name="Settings" component={SettingsScreen} />
           <Stack.Screen name="CustomContent" component={CustomContentScreen} />
           <Stack.Screen name="ImageCheck" component={ImageCheckScreen} />
+          <Stack.Screen name="Store" component={StoreScreen} />
         </Stack.Navigator>
       </NavigationContainer>
-      ) : (
-        <View style={{ flex: 1, backgroundColor: colors.bg }} />
-      )}
+    );
+  }
+
+  return (
+    <>
+      {content}
       {!splashDone && <AnimatedSplash onFinish={() => setSplashDone(true)} />}
-    </SafeAreaProvider>
+    </>
   );
 }

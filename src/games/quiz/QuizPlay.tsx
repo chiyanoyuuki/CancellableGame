@@ -32,6 +32,7 @@ import {
   saveGame,
 } from '../../db';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
+import { useStore } from '../../store/StoreProvider';
 import type { MiniGamePlayProps } from '../types';
 import { getQuizPool } from './pool';
 
@@ -46,6 +47,7 @@ function haptic(success: boolean) {
 }
 
 export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, slotId: resumeSlotId }: MiniGamePlayProps) {
+  const store = useStore();
   const cfg = config as QuizConfig;
   // Slot de sauvegarde de CETTE partie : repris s'il est fourni, sinon nouveau.
   const [gameSlotId] = useState(() => resumeSlotId ?? newSlotId());
@@ -179,13 +181,17 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
         // Nothing valid to resume → fall through and start a fresh game.
       }
 
-      const [history, historyByPlayer, pool, customChallenges, unwantedUniverses] = await Promise.all([
+      const [history, historyByPlayer, fullPool, customChallenges, unwantedUniverses] = await Promise.all([
         getQuestionHistory(),
         getQuestionHistoryByPlayer(),
         getQuizPool(),
         listCustomChallenges(),
         getPlayerUnwantedUniverses(),
       ]);
+      // Version gratuite : ne tire que dans les univers débloqués du joueur.
+      const pool = store.ent.allThemes
+        ? fullPool
+        : fullPool.filter((q) => store.isUniverseUnlocked(q.universe ?? `#${q.theme}`));
       const seed = randomSeed();
       // Turn order, computed once and shared with the engine so that the
       // per-player weighting lines up with who actually gets each question.

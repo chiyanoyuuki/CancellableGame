@@ -8,6 +8,7 @@ import { DIFFICULTY_LABELS, type DuelConfig, type DuelJoker, type Player, THEME_
 import { type DuelAction, type DuelState, createDuelState, duelReducer, duelToSessionResult } from '../../core/duelEngine';
 import { mulberry32, randomSeed, shuffle } from '../../core/rng';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
+import { useStore } from '../../store/StoreProvider';
 import type { MiniGamePlayProps } from '../types';
 import { getQuizPool } from '../quiz/pool';
 
@@ -22,6 +23,7 @@ function haptic(success: boolean) {
 }
 
 export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGamePlayProps) {
+  const store = useStore();
   const cfg = config as DuelConfig;
   const [game, setGame] = useState<DuelState | null>(null);
   const [revealedAnswer, setRevealedAnswer] = useState(false);
@@ -38,7 +40,11 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const pool = await getQuizPool();
+      const fullPool = await getQuizPool();
+      // Version gratuite : ne tire que dans les univers débloqués du joueur.
+      const pool = store.ent.allThemes
+        ? fullPool
+        : fullPool.filter((q) => store.isUniverseUnlocked(q.universe ?? `#${q.theme}`));
       const seed = randomSeed();
       const order = shuffle(players, mulberry32(seed)).map((p) => p.id);
       if (!alive) return;

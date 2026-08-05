@@ -3,11 +3,13 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Screen, Txt } from '../components/ui';
 import { getGame } from '../games/registry';
 import type { RootStackParamList } from '../navigation';
+import { useStore } from '../store/StoreProvider';
 
 /** Generic wrapper that renders the chosen mini-game's config component. */
 export function GameConfigScreen({ route, navigation }: NativeStackScreenProps<RootStackParamList, 'GameConfig'>) {
   const { gameId, players } = route.params;
   const game = getGame(gameId);
+  const { requestGameStart } = useStore();
 
   if (!game) {
     return (
@@ -28,7 +30,10 @@ export function GameConfigScreen({ route, navigation }: NativeStackScreenProps<R
       <Config
         players={players}
         onCancel={() => navigation.goBack()}
-        onStart={(config) => navigation.navigate('GamePlay', { gameId, players, config })}
+        onStart={(config) =>
+          // Pub avant chaque partie au-delà de la première de la session.
+          requestGameStart(() => navigation.navigate('GamePlay', { gameId, players, config }))
+        }
       />
     </Screen>
   );

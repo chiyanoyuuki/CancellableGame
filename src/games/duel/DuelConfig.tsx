@@ -5,6 +5,7 @@ import { Button, Card, Chip, Segmented, SectionHeader, Txt } from '../../compone
 import { type DuelConfig, type DuelJoker, type Question, type Theme, THEME_META, THEMES } from '../../core/models';
 import { shuffle } from '../../core/rng';
 import { getPlayerUnwantedUniverses } from '../../db';
+import { useStore } from '../../store/StoreProvider';
 import { colors, fontSize, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
 import { getQuizPool } from '../quiz/pool';
@@ -24,6 +25,7 @@ const JOKER_META: { key: DuelJoker; label: string; desc: string }[] = [
 ];
 
 export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
+  const store = useStore();
   const [pool, setPool] = useState<Question[]>([]);
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [unwantedMap, setUnwantedMap] = useState<Record<string, string[]>>({});
@@ -61,11 +63,16 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
       }
       s.add(q.universe);
     }
-    return THEMES.filter((t) => byTheme.has(t)).map((t) => ({
-      theme: t,
-      universes: [...byTheme.get(t)!].sort((a, b) => a.localeCompare(b, 'fr')),
-    }));
-  }, [pool]);
+    return THEMES.filter((t) => byTheme.has(t))
+      .map((t) => ({
+        theme: t,
+        // Version gratuite : on ne propose que les univers débloqués.
+        universes: [...byTheme.get(t)!]
+          .filter((u) => store.isUniverseUnlocked(u))
+          .sort((a, b) => a.localeCompare(b, 'fr')),
+      }))
+      .filter((g) => g.universes.length > 0);
+  }, [pool, store]);
 
   // Tous les univers jouables du jeu (hors thèmes exclus).
   const allUniverses = useMemo(() => universesByTheme.flatMap((g) => g.universes), [universesByTheme]);

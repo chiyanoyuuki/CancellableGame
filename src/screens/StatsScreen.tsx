@@ -1,6 +1,6 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { Card, EmptyState, PlayerAvatar, Screen, SectionHeader, Segmented, Txt } from '../components/ui';
@@ -19,6 +19,7 @@ import {
 import { listPlayers, loadStatAnswers, loadStatResults, loadStatSessions } from '../db';
 import { MINI_GAMES } from '../games/registry';
 import type { RootStackParamList } from '../navigation';
+import { useStore } from '../store/StoreProvider';
 import { colors, fontSize, RANK_MEDALS, radius, spacing } from '../theme/theme';
 
 interface Data {
@@ -38,10 +39,25 @@ const PERIODS: { label: string; value: Period }[] = [
 ];
 
 export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'Stats'>) {
+  const { ent } = useStore();
   const [data, setData] = useState<Data>(EMPTY);
   const [period, setPeriod] = useState<Period>('all');
   const [gameId, setGameId] = useState<string>('all');
   const [expanded, setExpanded] = useState<string | null>(null);
+
+  // Version gratuite : seules les stats du soir sont visibles.
+  useEffect(() => {
+    if (!ent.allStats && period !== 'today') setPeriod('today');
+  }, [ent.allStats, period]);
+
+  // Changer de période : bloqué (renvoi Boutique) tant que « all_stats » n'est pas acheté.
+  const changePeriod = (p: Period) => {
+    if (p !== 'today' && !ent.allStats) {
+      navigation.navigate('Store');
+      return;
+    }
+    setPeriod(p);
+  };
 
   const gameOptions = useMemo(
     () => [{ label: 'Tous', value: 'all' }, ...MINI_GAMES.map((g) => ({ label: g.title, value: g.id }))],
@@ -99,7 +115,17 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
 
   return (
     <Screen title="Statistiques" subtitle="Le palmarès de vos soirées" onBack={() => navigation.goBack()} scroll>
-      <Segmented<Period> value={period} onChange={setPeriod} options={PERIODS} />
+      <Segmented<Period> value={period} onChange={changePeriod} options={PERIODS} />
+      {!ent.allStats && (
+        <Card accent={colors.accent} onPress={() => navigation.navigate('Store')} style={{ marginTop: spacing(1) }}>
+          <Txt weight="800" size={fontSize.sm}>
+            🔒 Stats du soir uniquement
+          </Txt>
+          <Txt faint size={fontSize.xs}>
+            Débloque le mois, l'année et le total dans la Boutique — 1,99 €.
+          </Txt>
+        </Card>
+      )}
       {gameOptions.length > 2 && (
         <View style={{ marginTop: spacing(1) }}>
           <Segmented<string> value={gameId} onChange={setGameId} options={gameOptions} />

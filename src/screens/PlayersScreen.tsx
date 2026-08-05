@@ -21,6 +21,8 @@ import {
 import { getQuizPool } from '../games/quiz/pool';
 import { UNIVERSE_ADD_ORDER } from '../games/quiz/questions';
 import type { RootStackParamList } from '../navigation';
+import { useStore } from '../store/StoreProvider';
+import { canAddProfile, FREE_PROFILE_LIMIT } from '../store/products';
 import { colors, fontSize, PLAYER_COLORS, PLAYER_EMOJIS, radius, spacing } from '../theme/theme';
 
 // Rang d'ancienneté d'un univers : plus l'indice est grand, plus il est récent.
@@ -29,6 +31,7 @@ const ADD_RANK = new Map(UNIVERSE_ADD_ORDER.map((key, i) => [key, i] as const));
 const UNWANTED_DATE_SORT_THRESHOLD = 20;
 
 export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'Players'>) {
+  const store = useStore();
   const [players, setPlayers] = useState<Player[]>([]);
   const [showArchived, setShowArchived] = useState(false);
 
@@ -166,12 +169,27 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
     setColor(PLAYER_COLORS[Math.floor(Math.random() * PLAYER_COLORS.length)] as string);
   };
 
+  const showProfileLimit = () =>
+    Alert.alert(
+      'Limite de profils atteinte',
+      `La version gratuite est limitée à ${FREE_PROFILE_LIMIT} profils. Débloque les profils illimités dans la Boutique.`,
+      [
+        { text: 'Plus tard', style: 'cancel' },
+        { text: 'Boutique', onPress: () => navigation.navigate('Store') },
+      ],
+    );
+
   const submit = async () => {
     const trimmed = name.trim();
     if (!trimmed) return;
     if (editingId) {
       await updatePlayer({ id: editingId, name: trimmed, emoji, color });
     } else {
+      const active = await listPlayers(false);
+      if (!canAddProfile(active.length, store.ent)) {
+        showProfileLimit();
+        return;
+      }
       await createPlayer({ name: trimmed, emoji, color });
     }
     resetForm();
@@ -187,6 +205,11 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
 
   // Duplique un profil : même avatar et mêmes univers évités, nom suffixé « copie ».
   const duplicatePlayer = async (p: Player) => {
+    const active = await listPlayers(false);
+    if (!canAddProfile(active.length, store.ent)) {
+      showProfileLimit();
+      return;
+    }
     const copy = await createPlayer({ name: `${p.name} copie`, emoji: p.emoji, color: p.color });
     const src = unwanted[p.id] ?? [];
     if (src.length > 0) {
@@ -227,6 +250,28 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
       },
       { text: 'Annuler', style: 'cancel' },
     ]);
+  };
+
+  // Puce d'une catégorie dans le sélecteur d'univers évités. Les univers non
+  // débloqués (version gratuite) sont grisés et renvoient vers la Boutique.
+  const catChip = (it: { key: string; label: string; theme?: Theme }) => {
+    const emoji = it.theme ? THEME_META[it.theme].emoji : undefined;
+    if (!store.isUniverseUnlocked(it.key)) {
+      return (
+        <View key={it.key} style={{ opacity: 0.45 }}>
+          <Chip label={`🔒 ${it.label}`} emoji={emoji} selected={false} onPress={() => navigation.navigate('Store')} />
+        </View>
+      );
+    }
+    return (
+      <Chip
+        key={it.key}
+        label={it.label}
+        emoji={emoji}
+        selected={!unwantedDraft.has(it.key)}
+        onPress={() => toggleUnwanted(it.key)}
+      />
+    );
   };
 
   return (
@@ -354,33 +399,14 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
           )}
           <ScrollView style={{ marginTop: spacing(1.5) }} contentContainerStyle={{ paddingBottom: spacing(1) }}>
             {sortUnwantedByDate ? (
-              <View style={styles.chipWrap}>
-                {categoriesByAge.map((it) => (
-                  <Chip
-                    key={it.key}
-                    label={it.label}
-                    emoji={THEME_META[it.theme].emoji}
-                    selected={!unwantedDraft.has(it.key)}
-                    onPress={() => toggleUnwanted(it.key)}
-                  />
-                ))}
-              </View>
+              <View style={styles.chipWrap}>{categoriesByAge.map((it) => catChip(it))}</View>
             ) : (
               categoriesByTheme.map(({ theme, items }) => (
                 <View key={theme} style={{ marginBottom: spacing(1.5) }}>
                   <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.75) }}>
                     {THEME_META[theme].emoji} {THEME_META[theme].label.toUpperCase()}
                   </Txt>
-                  <View style={styles.chipWrap}>
-                    {items.map((it) => (
-                      <Chip
-                        key={it.key}
-                        label={it.label}
-                        selected={!unwantedDraft.has(it.key)}
-                        onPress={() => toggleUnwanted(it.key)}
-                      />
-                    ))}
-                  </View>
+                  <View style={styles.chipWrap}>{items.map((it) => catChip({ ...it }))}</View>
                 </View>
               ))
             )}

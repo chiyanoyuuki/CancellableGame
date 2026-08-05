@@ -17,6 +17,7 @@ import { getQuestionHistory } from '../../db';
 import { selectQuestions } from '../../core/questionSelection';
 import { mulberry32, randomSeed, shuffle } from '../../core/rng';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
+import { useStore } from '../../store/StoreProvider';
 import type { MiniGamePlayProps } from '../types';
 import { getQuizPool } from '../quiz/pool';
 
@@ -41,6 +42,7 @@ function seedFromId(id: string): number {
 }
 
 export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGamePlayProps) {
+  const store = useStore();
   const cfg = config as BombeConfig;
   const [game, setGame] = useState<BombeState | null>(null);
   const [revealed, setRevealed] = useState(false);
@@ -113,7 +115,11 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const [history, pool] = await Promise.all([getQuestionHistory(), getQuizPool()]);
+      const [history, fullPool] = await Promise.all([getQuestionHistory(), getQuizPool()]);
+      // Version gratuite : ne tire que dans les univers débloqués du joueur.
+      const pool = store.ent.allThemes
+        ? fullPool
+        : fullPool.filter((q) => store.isUniverseUnlocked(q.universe ?? `#${q.theme}`));
       const seed = randomSeed();
       const rng = mulberry32(seed);
       rngRef.current = rng;
