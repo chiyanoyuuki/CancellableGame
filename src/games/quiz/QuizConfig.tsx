@@ -118,13 +118,16 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
     [eligible, history],
   );
 
-  // Keep the requested count within what the current filters can provide.
+  // « Questions par joueur » × nombre de joueurs = total de la manche, plafonné
+  // à ce que les filtres actuels peuvent fournir.
+  const nPlayers = Math.max(1, players.length);
+  const maxPerPlayer = Math.max(1, Math.floor(available / nPlayers));
+  const totalQuestions = Math.min(cfg.questionsPerPlayer * nPlayers, Math.max(1, available));
+
+  // Garde le « par joueur » dans ce que les filtres permettent.
   useEffect(() => {
-    setCfg((c) => {
-      const max = Math.max(1, available);
-      return c.questionCount > max ? { ...c, questionCount: max } : c;
-    });
-  }, [available]);
+    setCfg((c) => (c.questionsPerPlayer > maxPerPlayer ? { ...c, questionsPerPlayer: maxPerPlayer } : c));
+  }, [maxPerPlayer]);
 
   const toggleTheme = (t: Theme) =>
     setCfg((c) => ({
@@ -161,7 +164,7 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
     const teams = cfg.teamMode ? buildTeams() : [];
     const finalCfg: QuizConfig = {
       ...cfg,
-      questionCount: Math.min(cfg.questionCount, Math.max(1, available)),
+      questionCount: totalQuestions,
       teams,
       teamMode: cfg.teamMode && teams.length >= 1,
     };
@@ -223,19 +226,20 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
         </>
       )}
 
-      <SectionHeader title="Nombre de questions" />
+      <SectionHeader title="Questions par joueur" />
       <Card>
         <View style={styles.row}>
-          <Txt weight="700">Questions</Txt>
+          <Txt weight="700">Par joueur</Txt>
           <Stepper
-            value={cfg.questionCount}
+            value={cfg.questionsPerPlayer}
             min={1}
-            max={Math.max(1, available)}
-            onChange={(v) => setCfg((c) => ({ ...c, questionCount: v }))}
+            max={maxPerPlayer}
+            onChange={(v) => setCfg((c) => ({ ...c, questionsPerPlayer: v }))}
           />
         </View>
         <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-          {available} dispo · {unseen} jamais vue{unseen > 1 ? 's' : ''} avec ces filtres
+          {cfg.questionsPerPlayer} × {nPlayers} joueur{nPlayers > 1 ? 's' : ''} = {totalQuestions} question
+          {totalQuestions > 1 ? 's' : ''} · {available} dispo · {unseen} jamais vue{unseen > 1 ? 's' : ''}
         </Txt>
       </Card>
 
@@ -383,12 +387,24 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
         <View style={styles.row}>
           <View style={{ flex: 1 }}>
             <Txt weight="700">Gorgées 🍻</Txt>
-            <Txt faint size={fontSize.xs}>Défis et gorgées à boire / distribuer</Txt>
+            <Txt faint size={fontSize.xs}>Gorgées à boire / distribuer selon les réponses</Txt>
           </View>
           <Switch
             value={cfg.drinksEnabled}
             onValueChange={(v) => setCfg((c) => ({ ...c, drinksEnabled: v }))}
             trackColor={{ true: colors.sip, false: colors.border }}
+            thumbColor={colors.white}
+          />
+        </View>
+        <View style={[styles.row, { marginTop: spacing(1.5) }]}>
+          <View style={{ flex: 1 }}>
+            <Txt weight="700">Défis 🎲</Txt>
+            <Txt faint size={fontSize.xs}>Cartes « Défi ! » proposées entre les questions</Txt>
+          </View>
+          <Switch
+            value={cfg.challengesEnabled ?? true}
+            onValueChange={(v) => setCfg((c) => ({ ...c, challengesEnabled: v }))}
+            trackColor={{ true: colors.accent, false: colors.border }}
             thumbColor={colors.white}
           />
         </View>

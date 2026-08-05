@@ -1,5 +1,4 @@
 import type { Question } from '../../../core/models';
-import { blindtestQuestions } from './blindtest';
 import { cultureQuestions, sciencesQuestions, societeQuestions } from './culture';
 import { enigmesQuestions } from './enigmes';
 import { filmsQuestions } from './films';
@@ -47,7 +46,6 @@ export const QUESTIONS: Question[] = [
   ...religionsQuestions,
   ...enigmesQuestions,
   ...rebusQuestions,
-  ...blindtestQuestions,
   ...imagesQuestions,
   ...imageCharsQuestions,
 ];

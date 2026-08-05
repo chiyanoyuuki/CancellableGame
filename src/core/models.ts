@@ -63,7 +63,6 @@ export const THEMES = [
   'religions',
   'enigmes',
   'rebus',
-  'blindtest',
   'images',
 ] as const;
 export type Theme = (typeof THEMES)[number];
@@ -87,7 +86,6 @@ export const THEME_META: Record<Theme, { label: string; emoji: string }> = {
   religions: { label: 'Religions', emoji: '🛐' },
   enigmes: { label: 'Énigmes', emoji: '🧩' },
   rebus: { label: 'Rébus emoji', emoji: '🤔' },
-  blindtest: { label: 'Blind test', emoji: '🎧' },
   images: { label: 'Image mystère', emoji: '📸' },
 };
 
@@ -144,9 +142,14 @@ export type DrinkIntensity = 'soft' | 'normal' | 'hardcore';
 export interface QuizConfig {
   themes: Theme[];
   difficulties: Difficulty[];
+  /** Total questions for the round (derived from questionsPerPlayer × players). */
   questionCount: number;
+  /** Questions par joueur : multiplié par le nombre de joueurs pour le total. */
+  questionsPerPlayer: number;
   turnMode: TurnMode;
   drinksEnabled: boolean;
+  /** Active les cartes « Défi ! » entre les questions (indépendant des gorgées). */
+  challengesEnabled: boolean;
   drinkIntensity: DrinkIntensity;
   /** Time limit per question for the "fastest" mode (ms). */
   fastestTimeLimitMs: number;
@@ -167,8 +170,10 @@ export const DEFAULT_QUIZ_CONFIG: QuizConfig = {
   themes: ['manga', 'jeuxvideo', 'series', 'films', 'musique', 'litterature', 'japon', 'france', 'tcheque', 'mode', 'culture', 'sciences', 'societe', 'internet', 'mythologie', 'religions', 'enigmes', 'rebus'],
   difficulties: [1, 2, 3],
   questionCount: 15,
+  questionsPerPlayer: 5,
   turnMode: 'turn',
   drinksEnabled: true,
+  challengesEnabled: true,
   drinkIntensity: 'normal',
   fastestTimeLimitMs: 20000,
   showUniverse: true,
