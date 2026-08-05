@@ -17,6 +17,7 @@ import {
 } from '../../core/models';
 import type { QuestionHistory } from '../../core/questionSelection';
 import { getQuestionHistory, kvGetJSON, kvSetJSON } from '../../db';
+import { useStore } from '../../store/StoreProvider';
 import { colors, fontSize, PLAYER_COLORS, radius, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
 import { getQuizPool } from './pool';
@@ -27,6 +28,7 @@ const teamKey = (name: string, i: number) => `team:${(name.trim() || `equipe-${i
 const LAST_CONFIG_KEY = 'quiz:lastConfig';
 
 export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
+  const store = useStore();
   const [cfg, setCfg] = useState<QuizConfig>(DEFAULT_QUIZ_CONFIG);
   const [pool, setPool] = useState<Question[]>([]);
   const [history, setHistory] = useState<QuestionHistory>({});
@@ -91,9 +93,11 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
         (q) =>
           cfg.themes.includes(q.theme) &&
           cfg.difficulties.includes(q.difficulty) &&
-          !(q.universe !== undefined && cfg.excludedUniverses.includes(q.universe)),
+          !(q.universe !== undefined && cfg.excludedUniverses.includes(q.universe)) &&
+          // Version gratuite : ne compter que les univers débloqués.
+          store.isUniverseUnlocked(q.universe ?? `#${q.theme}`),
       ),
-    [pool, cfg.themes, cfg.difficulties, cfg.excludedUniverses],
+    [pool, cfg.themes, cfg.difficulties, cfg.excludedUniverses, store],
   );
 
   // Universes available per selected theme (for the advanced options).
@@ -217,9 +221,15 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
                   {THEME_META[theme].emoji} {THEME_META[theme].label.toUpperCase()}
                 </Txt>
                 <View style={styles.wrap}>
-                  {universes.map((u) => (
-                    <Chip key={u} label={u} selected={!cfg.excludedUniverses.includes(u)} onPress={() => toggleUniverse(u)} />
-                  ))}
+                  {universes.map((u) =>
+                    store.isUniverseUnlocked(u) ? (
+                      <Chip key={u} label={u} selected={!cfg.excludedUniverses.includes(u)} onPress={() => toggleUniverse(u)} />
+                    ) : (
+                      <View key={u} style={{ opacity: 0.45 }}>
+                        <Chip label={`🔒 ${u}`} selected={false} />
+                      </View>
+                    ),
+                  )}
                 </View>
               </View>
             ))}
