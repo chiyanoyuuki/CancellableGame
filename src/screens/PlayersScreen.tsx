@@ -164,9 +164,22 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
     setColor(p.color);
   };
 
+  // Duplique un profil : même avatar et mêmes univers évités, nom suffixé « copie ».
+  const duplicatePlayer = async (p: Player) => {
+    const copy = await createPlayer({ name: `${p.name} copie`, emoji: p.emoji, color: p.color });
+    const src = unwanted[p.id] ?? [];
+    if (src.length > 0) {
+      const next = { ...unwanted, [copy.id]: [...src] };
+      setUnwanted(next);
+      await setPlayerUnwantedUniverses(next);
+    }
+    await refresh();
+  };
+
   const manage = (p: Player) => {
     Alert.alert(p.name, undefined, [
       { text: 'Modifier', onPress: () => startEdit(p) },
+      { text: 'Dupliquer', onPress: () => void duplicatePlayer(p) },
       { text: 'Univers et thèmes évités', onPress: () => openUnwanted(p) },
       {
         text: 'Archiver',

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, Switch, View } from 'react-native';
 
-import { Button, Card, Chip, SectionHeader, Txt } from '../../components/ui';
+import { Button, Card, Chip, Segmented, SectionHeader, Txt } from '../../components/ui';
 import { type DuelConfig, type DuelJoker, type Question, type Theme, THEME_META, THEMES } from '../../core/models';
 import { shuffle } from '../../core/rng';
 import { getPlayerUnwantedUniverses } from '../../db';
@@ -9,8 +9,12 @@ import { colors, fontSize, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
 import { getQuizPool } from '../quiz/pool';
 
-// Thèmes qui demandent un rendu spécial (image distante / audio) : exclus du duel.
-const EXCLUDED_THEMES: Theme[] = ['images', 'blindtest'];
+// Thèmes qui demandent un rendu spécial (image distante) : exclus du duel.
+const EXCLUDED_THEMES: Theme[] = ['images'];
+
+// Mode de choix des univers : manuel, tous les univers, ou tous ceux non exclus
+// par les profils des joueurs de la partie.
+type UniverseMode = 'manual' | 'all' | 'profiles';
 
 const JOKER_META: { key: DuelJoker; label: string; desc: string }[] = [
   { key: 'props4', label: '🔎 4 propositions', desc: 'Révéler 4 propositions.' },
@@ -23,7 +27,7 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
   const [pool, setPool] = useState<Question[]>([]);
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [unwantedMap, setUnwantedMap] = useState<Record<string, string[]>>({});
-  const [randomMode, setRandomMode] = useState(false);
+  const [mode, setMode] = useState<UniverseMode>('manual');
   const [jokers, setJokers] = useState<Record<DuelJoker, boolean>>({
     props4: true,
     props2: true,
@@ -63,18 +67,19 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
     }));
   }, [pool]);
 
+  // Tous les univers jouables du jeu (hors thèmes exclus).
+  const allUniverses = useMemo(() => universesByTheme.flatMap((g) => g.universes), [universesByTheme]);
+
   // Univers « voulus » du groupe = tous ceux présents qu'AU MOINS un joueur n'a
   // pas mis dans ses non souhaités. Aucune liste de favoris : le souhaité est le
   // complément du non souhaité. On n'exclut donc qu'un univers rejeté par tous.
   const wantedUnion = useMemo(() => {
     const s = new Set<string>();
-    for (const { universes } of universesByTheme) {
-      for (const u of universes) {
-        if (players.some((p) => !(unwantedMap[p.id] ?? []).includes(u))) s.add(u);
-      }
+    for (const u of allUniverses) {
+      if (players.some((p) => !(unwantedMap[p.id] ?? []).includes(u))) s.add(u);
     }
     return s;
-  }, [universesByTheme, players, unwantedMap]);
+  }, [allUniverses, players, unwantedMap]);
 
   const toggle = (u: string) =>
     setSelected((prev) => {
@@ -96,10 +101,18 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
     [pool, selected],
   );
 
-  const valid = players.length >= 2 && (randomMode ? wantedUnion.size >= 1 : selected.size >= 1);
+  const available =
+    mode === 'manual' ? selected.size : mode === 'all' ? allUniverses.length : wantedUnion.size;
+  const valid = players.length >= 2 && available >= 1;
   const launch = () => {
-    const universes = randomMode ? shuffle([...wantedUnion], Math.random).slice(0, 10) : [...selected];
-    onStart({ universes, jokers, randomFromProfiles: randomMode } satisfies DuelConfig);
+    // Tous les univers du mode choisi, sans limite : le duel puise dedans.
+    const universes =
+      mode === 'all'
+        ? shuffle([...allUniverses], Math.random)
+        : mode === 'profiles'
+          ? shuffle([...wantedUnion], Math.random)
+          : [...selected];
+    onStart({ universes, jokers, randomFromProfiles: mode === 'profiles' } satisfies DuelConfig);
   };
 
   return (
@@ -113,25 +126,24 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
       </Card>
 
       <SectionHeader title="Univers du duel" />
-      <Card>
-        <View style={styles.row}>
-          <View style={{ flex: 1 }}>
-            <Txt weight="700">🎲 Univers aléatoires</Txt>
-            <Txt faint size={fontSize.xs}>Tirés au hasard parmi les univers que les joueurs n'ont pas exclus dans leur profil.</Txt>
-          </View>
-          <Switch
-            value={randomMode}
-            onValueChange={setRandomMode}
-            trackColor={{ true: colors.primary, false: colors.border }}
-            thumbColor={colors.white}
-          />
-        </View>
-      </Card>
+      <Segmented<UniverseMode>
+        value={mode}
+        onChange={setMode}
+        options={[
+          { label: 'Manuel', value: 'manual' },
+          { label: 'Tous', value: 'all' },
+          { label: 'Profils', value: 'profiles' },
+        ]}
+      />
 
-      {randomMode ? (
+      {mode === 'all' ? (
+        <Txt faint size={fontSize.xs}>
+          🎲 Tous les univers du jeu — {allUniverses.length} au total. Le duel puise ses questions dans l'ensemble.
+        </Txt>
+      ) : mode === 'profiles' ? (
         <Txt faint size={fontSize.xs}>
           {wantedUnion.size > 0
-            ? `${wantedUnion.size} univers possible${wantedUnion.size > 1 ? 's' : ''} — quelques-uns seront tirés au hasard à chaque partie.`
+            ? `🎲 ${wantedUnion.size} univers — tous ceux qu'au moins un joueur n'a pas exclus dans son profil.`
             : "Aucun univers disponible : les joueurs ont tout exclu dans leur profil."}
         </Txt>
       ) : (
@@ -141,7 +153,7 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
         </Txt>
       )}
 
-      {!randomMode &&
+      {mode === 'manual' &&
         universesByTheme.map(({ theme, universes }) => {
           const allIn = universes.every((u) => selected.has(u));
           return (

@@ -394,13 +394,37 @@ export function quizReducer(state: QuizState, action: QuizAction): QuizState {
       const standby = paused
         ? (state.standby ?? []).filter((id) => id !== action.playerId)
         : [...(state.standby ?? []), action.playerId];
-      return { ...state, standby };
+      const next = { ...state, standby };
+
+      // Si on met en pause le joueur dont c'est justement le tour, on reporte sa
+      // question (elle lui sera redonnée au retour) et on passe au suivant, sur
+      // la même question, sans en gâcher une.
+      if (
+        !paused &&
+        state.phase === 'question' &&
+        state.config.turnMode === 'turn' &&
+        state.activePlayerId === action.playerId
+      ) {
+        const owed = { ...(state.owed ?? {}) };
+        owed[action.playerId] = (owed[action.playerId] ?? 0) + 1;
+        const t = assignTurn({ ...next, owed });
+        return {
+          ...next,
+          activePlayerId: t.activePlayerId,
+          turnPos: t.turnPos,
+          owed: t.owed,
+          activeCatchUp: t.catchUp,
+          propsShown: 0,
+          hintsRevealed: 0,
+        };
+      }
+      return next;
     }
 
     case 'CONTINUE': {
       if (state.phase === 'reveal') {
         const { rng, step } = stepRng(state);
-        const challenge = state.config.drinksEnabled
+        const challenge = (state.config.challengesEnabled ?? true)
           ? maybeChallenge(rng, state.config.drinkIntensity, state.challenges)
           : null;
         if (challenge) return { ...state, step, phase: 'challenge', pendingChallenge: challenge };

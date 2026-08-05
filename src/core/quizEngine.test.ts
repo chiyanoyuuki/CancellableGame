@@ -32,8 +32,10 @@ function config(overrides: Partial<QuizConfig> = {}): QuizConfig {
     themes: ['manga', 'culture', 'films'],
     difficulties: [1, 2, 3],
     questionCount: 3,
+    questionsPerPlayer: 1,
     turnMode: 'turn',
     drinksEnabled: false, // keep CONTINUE deterministic (no random challenge)
+    challengesEnabled: false, // idem : pas de carte « Défi ! » aléatoire
     drinkIntensity: 'normal',
     fastestTimeLimitMs: 20000,
     showUniverse: true,
@@ -314,6 +316,18 @@ describe('mise en pause d’un joueur (standby)', () => {
     s = next(s); // Q4
     expect(s.activePlayerId).toBe('p3'); // p2 sauté à nouveau
     expect(s.owed.p2).toBe(2);
+  });
+
+  test('mettre en pause le joueur actif reporte sa question et passe au suivant', () => {
+    let s = startTurn();
+    expect(s.activePlayerId).toBe('p1');
+    const idx = s.index;
+    s = quizReducer(s, { type: 'TOGGLE_STANDBY', playerId: 'p1' });
+    expect(s.index).toBe(idx); // même question, pas gâchée
+    expect(s.activePlayerId).toBe('p2'); // on passe au joueur suivant
+    expect(s.owed.p1).toBe(1); // la question de p1 est reportée
+    expect(s.standby).toContain('p1');
+    expect(s.phase).toBe('question');
   });
 
   test('au retour, le joueur rattrape tous ses tours d’un coup, puis la rotation reprend', () => {
