@@ -67,10 +67,14 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
   const [history, setHistory] = useState<QuizState[]>([]);
   // Panneau de gestion des joueurs (mise en pause / retour).
   const [showPlayers, setShowPlayers] = useState(false);
+  // Petite étape marquante affichée avant une question (« à la moitié », etc.).
+  const [milestone, setMilestone] = useState<{ emoji: string; title: string; subtitle: string } | null>(null);
 
   const startedAtRef = useRef<number>(Date.now());
   const questionStartRef = useRef<number>(Date.now());
   const finishedRef = useRef(false);
+  // Étapes déjà affichées (pour ne pas les remontrer, ex. après un retour arrière).
+  const shownMilestonesRef = useRef<Set<string>>(new Set());
   // Question ids already auto-skipped for a broken image (avoid double-firing).
   const autoSkippedRef = useRef<Set<string>>(new Set());
 
@@ -309,6 +313,26 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [game?.index, game?.phase]);
 
+  // Étapes marquantes affichées avant une question : à la moitié, puis au
+  // dernier tour (quand il reste une question par personne). Une seule fois.
+  useEffect(() => {
+    if (game?.phase !== 'question') return;
+    const total = game.questions.length;
+    const idx = game.index;
+    const n = Math.max(1, roster.length);
+    let m: { key: string; emoji: string; title: string; subtitle: string } | null = null;
+    if (total > n && idx === total - n) {
+      m = { key: 'lastlap', emoji: '🏁', title: 'Dernier tour !', subtitle: n > 1 ? 'Il reste une question par personne.' : 'Dernière question !' };
+    } else if (total >= 4 && idx === Math.floor(total / 2)) {
+      m = { key: 'half', emoji: '⏳', title: 'On est à la moitié !', subtitle: `${idx} question${idx > 1 ? 's' : ''} déjà passée${idx > 1 ? 's' : ''}.` };
+    }
+    if (m && !shownMilestonesRef.current.has(m.key)) {
+      shownMilestonesRef.current.add(m.key);
+      setMilestone({ emoji: m.emoji, title: m.title, subtitle: m.subtitle });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [game?.index, game?.phase]);
+
   // Informative per-question countdown (no penalty; host decides).
   useEffect(() => {
     if (game?.phase !== 'question' || cfg.questionTimerSec <= 0) {
@@ -424,9 +448,11 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
           ? renderChallenge()
           : game.phase === 'reveal'
             ? renderReveal()
-            : q
-              ? renderQuestion()
-              : null}
+            : milestone
+              ? renderMilestone()
+              : q
+                ? renderQuestion()
+                : null}
       </ScrollView>
 
       <Modal visible={showPlayers} animationType="slide" transparent onRequestClose={() => setShowPlayers(false)}>
@@ -835,6 +861,23 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
         {canGoBack && (
           <Button title="↩︎ Corriger" variant="ghost" onPress={goBack} />
         )}
+      </View>
+    );
+  }
+
+  function renderMilestone() {
+    if (!milestone) return null;
+    return (
+      <View style={{ gap: spacing(2), paddingTop: spacing(6), alignItems: 'center' }}>
+        <Txt style={{ fontSize: 72 }}>{milestone.emoji}</Txt>
+        <Txt size={fontSize.xxl} weight="900" center>
+          {milestone.title}
+        </Txt>
+        <Txt dim center>
+          {milestone.subtitle}
+        </Txt>
+        <View style={{ height: spacing(2) }} />
+        <Button title="Continuer" size="lg" onPress={() => setMilestone(null)} style={{ alignSelf: 'stretch' }} />
       </View>
     );
   }

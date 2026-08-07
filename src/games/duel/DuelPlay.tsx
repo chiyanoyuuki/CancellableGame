@@ -4,7 +4,7 @@ import * as Haptics from 'expo-haptics';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button, Card, PlayerAvatar, Txt } from '../../components/ui';
-import { DIFFICULTY_LABELS, type DuelConfig, type DuelJoker, type Player, THEME_META } from '../../core/models';
+import { DIFFICULTY_LABELS, type Difficulty, type DuelConfig, type DuelJoker, type Player, THEME_META } from '../../core/models';
 import { type DuelAction, type DuelState, createDuelState, duelReducer, duelToSessionResult } from '../../core/duelEngine';
 import { mulberry32, randomSeed, shuffle } from '../../core/rng';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
@@ -27,9 +27,13 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
   const cfg = config as DuelConfig;
   const [game, setGame] = useState<DuelState | null>(null);
   const [revealedAnswer, setRevealedAnswer] = useState(false);
+  // Écran de transition affiché quand la difficulté d'un joueur change.
+  const [diffTransition, setDiffTransition] = useState<Difficulty | null>(null);
 
   const startedAtRef = useRef(Date.now());
   const finishedRef = useRef(false);
+  // Dernière difficulté vue par chaque joueur, pour détecter les changements.
+  const lastDiffRef = useRef<Record<string, number>>({});
 
   const byId = useMemo(() => {
     const m: Record<string, Player> = {};
@@ -63,6 +67,16 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
   useEffect(() => {
     if (game?.phase === 'question') setRevealedAnswer(false);
   }, [game?.activeId, game?.phase, game?.current?.id]);
+
+  // Détecte le changement de difficulté du joueur actif et affiche une transition.
+  useEffect(() => {
+    if (game?.phase !== 'question' || !game.activeId || !game.current) return;
+    const pid = game.activeId;
+    const d = game.current.difficulty;
+    const prev = lastDiffRef.current[pid];
+    if (prev !== undefined && prev !== d) setDiffTransition(d);
+    lastDiffRef.current[pid] = d;
+  }, [game?.activeId, game?.current?.id, game?.phase]);
 
   useEffect(() => {
     if (game?.phase === 'finished' && !finishedRef.current) {
@@ -113,10 +127,39 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
       </View>
 
       <ScrollView contentContainerStyle={styles.body} showsVerticalScrollIndicator={false}>
-        {game.phase === 'reveal' ? renderReveal() : q ? renderQuestion() : null}
+        {game.phase === 'reveal'
+          ? renderReveal()
+          : diffTransition !== null
+            ? renderDiffTransition()
+            : q
+              ? renderQuestion()
+              : null}
       </ScrollView>
     </SafeAreaView>
   );
+
+  function renderDiffTransition() {
+    if (diffTransition === null) return null;
+    const diffEmoji: Record<Difficulty, string> = { 1: '🟢', 2: '🟡', 3: '🟠', 4: '🔴' };
+    return (
+      <View style={{ gap: spacing(2), paddingTop: spacing(6), alignItems: 'center' }}>
+        <Txt style={{ fontSize: 72 }}>{diffEmoji[diffTransition]}</Txt>
+        <Txt faint weight="800" size={fontSize.sm}>
+          CHANGEMENT DE DIFFICULTÉ
+        </Txt>
+        <Txt size={fontSize.xxl} weight="900" center color={colors.accent}>
+          {DIFFICULTY_LABELS[diffTransition].toUpperCase()}
+        </Txt>
+        {active && (
+          <Txt dim center>
+            À toi, {active.name} !
+          </Txt>
+        )}
+        <View style={{ height: spacing(2) }} />
+        <Button title="Continuer" size="lg" variant="accent" onPress={() => setDiffTransition(null)} style={{ alignSelf: 'stretch' }} />
+      </View>
+    );
+  }
 
   function renderQuestion() {
     if (!q) return null;
