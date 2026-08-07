@@ -1,5 +1,6 @@
 import type { Question } from '../../../../core/models';
 import { baldursgate } from './baldursgate';
+import { clairobscur } from './clairobscur';
 import { cyberpunk } from './cyberpunk';
 import { dofus } from './dofus';
 import { farcry } from './farcry';
@@ -20,6 +21,7 @@ import { skyrim } from './skyrim';
 import { stardewvalley } from './stardewvalley';
 import { thewitcher } from './thewitcher';
 import { worldofwarcraft } from './worldofwarcraft';
+import { yakuza } from './yakuza';
 import { zelda } from './zelda';
 
 /**
@@ -52,4 +54,6 @@ export const jeuxvideoQuestions: Question[] = [
   ...hades,
   ...baldursgate,
   ...finalfantasy,
+  ...yakuza,
+  ...clairobscur,
 ];

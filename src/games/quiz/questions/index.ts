@@ -13,6 +13,7 @@ import { mangaQuestions } from './manga';
 import { modeQuestions } from './mode';
 import { musiqueQuestions } from './musique';
 import { mythologieQuestions } from './mythologie';
+import { politiqueQuestions } from './politique';
 import { rebusQuestions } from './rebus';
 import { religionsQuestions } from './religions';
 import { seriesQuestions } from './series';
@@ -41,6 +42,7 @@ export const QUESTIONS: Question[] = [
   ...cultureQuestions,
   ...sciencesQuestions,
   ...societeQuestions,
+  ...politiqueQuestions,
   ...internetQuestions,
   ...mythologieQuestions,
   ...religionsQuestions,
@@ -66,4 +68,7 @@ export const UNIVERSE_ADD_ORDER: string[] = [
   'Phasmophobia', 'Far Cry', 'Hades', "Baldur's Gate", 'Final Fantasy', 'The Walking Dead',
   '86', 'Spy x Family', 'The Promised Neverland', 'Tokyo Ghoul',
   'Moi quand je me réincarne en slime', 'Dr. Stone', 'Haikyu',
+  'Yakuza', 'Clair Obscur Expédition 33',
+  'Adolf Hitler', 'Donald Trump', 'La gauche', 'La droite',
+  'Théories du complot', 'Polémiques',
 ];

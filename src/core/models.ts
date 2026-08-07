@@ -58,6 +58,7 @@ export const THEMES = [
   'culture',
   'sciences',
   'societe',
+  'politique',
   'internet',
   'mythologie',
   'religions',
@@ -81,6 +82,7 @@ export const THEME_META: Record<Theme, { label: string; emoji: string }> = {
   culture: { label: 'Culture générale', emoji: '🧠' },
   sciences: { label: 'Sciences & Nature', emoji: '🔬' },
   societe: { label: 'Société & lifestyle', emoji: '🎉' },
+  politique: { label: 'Politique & Histoire', emoji: '🗳️' },
   internet: { label: 'Références Internet', emoji: '🌐' },
   mythologie: { label: 'Mythologie', emoji: '🏛️' },
   religions: { label: 'Religions', emoji: '🛐' },
@@ -167,7 +169,7 @@ export interface QuizConfig {
 
 export const DEFAULT_QUIZ_CONFIG: QuizConfig = {
   // Blind test exclu par défaut : il faut y ajouter ses propres extraits audio.
-  themes: ['manga', 'jeuxvideo', 'series', 'films', 'musique', 'litterature', 'japon', 'france', 'tcheque', 'mode', 'culture', 'sciences', 'societe', 'internet', 'mythologie', 'religions', 'enigmes', 'rebus'],
+  themes: ['manga', 'jeuxvideo', 'series', 'films', 'musique', 'litterature', 'japon', 'france', 'tcheque', 'mode', 'culture', 'sciences', 'societe', 'politique', 'internet', 'mythologie', 'religions', 'enigmes', 'rebus'],
   difficulties: [1, 2, 3],
   questionCount: 15,
   questionsPerPlayer: 5,
@@ -209,7 +211,7 @@ export interface BombeConfig {
 }
 
 export const DEFAULT_BOMBE_CONFIG: BombeConfig = {
-  themes: ['manga', 'jeuxvideo', 'series', 'films', 'musique', 'litterature', 'japon', 'france', 'tcheque', 'mode', 'culture', 'sciences', 'societe', 'internet', 'mythologie', 'religions'],
+  themes: ['manga', 'jeuxvideo', 'series', 'films', 'musique', 'litterature', 'japon', 'france', 'tcheque', 'mode', 'culture', 'sciences', 'societe', 'politique', 'internet', 'mythologie', 'religions'],
   difficulties: [1, 2, 3],
   excludedUniverses: [],
   secondsPerPlayer: 12,
