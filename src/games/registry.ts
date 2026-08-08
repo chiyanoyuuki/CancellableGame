@@ -1,5 +1,6 @@
 import { bombeGame } from './bombe';
 import { duelGame } from './duel';
+import { duelUltimeGame } from './duelultime';
 import { quizGame } from './quiz';
 import type { MiniGameDefinition } from './types';
 
@@ -11,6 +12,7 @@ export const MINI_GAMES: MiniGameDefinition[] = [
   quizGame,
   bombeGame,
   duelGame,
+  duelUltimeGame,
 ];
 
 export function getGame(id: string): MiniGameDefinition | null {

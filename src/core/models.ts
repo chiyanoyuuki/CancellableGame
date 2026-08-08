@@ -249,6 +249,19 @@ export interface DuelConfig {
 }
 
 // ---------------------------------------------------------------------------
+// « Duel Ultime » — 1 ou 2 joueurs (voire plus). Chaque joueur choisit SON
+// propre univers et répond à N questions pro (difficulté 4) dessus, en QCM.
+// Meilleur score gagne. Chacun joue son bloc de questions à tour de rôle.
+// ---------------------------------------------------------------------------
+
+export interface DuelUltimeConfig {
+  /** Univers choisi par chaque joueur : identifiant du joueur -> nom d'univers. */
+  universeByPlayer: Record<string, string>;
+  /** Nombre de questions pro posées à chaque joueur (défaut 10). */
+  questionsPerPlayer: number;
+}
+
+// ---------------------------------------------------------------------------
 // Generic, cross-game result contract
 //
 // EVERY mini-game emits a SessionResult when it finishes. The persistence and
