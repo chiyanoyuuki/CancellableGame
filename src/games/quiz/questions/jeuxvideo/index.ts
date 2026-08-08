@@ -2,6 +2,7 @@ import type { Question } from '../../../../core/models';
 import { baldursgate } from './baldursgate';
 import { clairobscur } from './clairobscur';
 import { cyberpunk } from './cyberpunk';
+import { devilmaycry } from './devilmaycry';
 import { dofus } from './dofus';
 import { farcry } from './farcry';
 import { farmingsimulator } from './farmingsimulator';
@@ -56,4 +57,5 @@ export const jeuxvideoQuestions: Question[] = [
   ...finalfantasy,
   ...yakuza,
   ...clairobscur,
+  ...devilmaycry,
 ];

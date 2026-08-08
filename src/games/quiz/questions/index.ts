@@ -71,4 +71,5 @@ export const UNIVERSE_ADD_ORDER: string[] = [
   'Yakuza', 'Clair Obscur Expédition 33',
   'Adolf Hitler', 'Donald Trump', 'La gauche', 'La droite',
   'Théories du complot', 'Polémiques',
+  'Les Simpson', 'Family Guy', 'Futurama', 'Devil May Cry',
 ];
