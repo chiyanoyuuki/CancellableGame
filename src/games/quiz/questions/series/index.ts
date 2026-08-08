@@ -2,13 +2,16 @@ import type { Question } from '../../../../core/models';
 import { arcane } from './arcane';
 import { breakingbad } from './breakingbad';
 import { casadepapel } from './casadepapel';
+import { familyguy } from './familyguy';
 import { friends } from './friends';
 import { enfance } from './enfance';
+import { futurama } from './futurama';
 import { got } from './got';
 import { netflix } from './netflix';
 import { peakyblinders } from './peakyblinders';
 import { prisonbreak } from './prisonbreak';
 import { sexandthecity } from './sexandthecity';
+import { simpsons } from './simpsons';
 import { squidgame } from './squidgame';
 import { strangerthings } from './strangerthings';
 import { theboys } from './theboys';
@@ -37,4 +40,7 @@ export const seriesQuestions: Question[] = [
   ...netflix,
   ...enfance,
   ...walkingdead,
+  ...simpsons,
+  ...familyguy,
+  ...futurama,
 ];
