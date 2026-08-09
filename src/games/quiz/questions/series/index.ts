@@ -7,6 +7,7 @@ import { friends } from './friends';
 import { enfance } from './enfance';
 import { futurama } from './futurama';
 import { got } from './got';
+import { mercredi } from './mercredi';
 import { netflix } from './netflix';
 import { peakyblinders } from './peakyblinders';
 import { prisonbreak } from './prisonbreak';
@@ -43,4 +44,5 @@ export const seriesQuestions: Question[] = [
   ...simpsons,
   ...familyguy,
   ...futurama,
+  ...mercredi,
 ];

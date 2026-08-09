@@ -3,6 +3,7 @@ import { animes90 } from './animes90';
 import { aot } from './aot';
 import { berserk } from './berserk';
 import { bleach } from './bleach';
+import { bluelock } from './bluelock';
 import { chainsawman } from './chainsawman';
 import { deathnote } from './deathnote';
 import { demonslayer } from './demonslayer';
@@ -20,6 +21,7 @@ import { naruto } from './naruto';
 import { onepiece } from './onepiece';
 import { promisedneverland } from './promisedneverland';
 import { slime } from './slime';
+import { sololeveling } from './sololeveling';
 import { spyfamily } from './spyfamily';
 import { tokyoghoul } from './tokyoghoul';
 
@@ -53,4 +55,6 @@ export const mangaQuestions: Question[] = [
   ...slime,
   ...drstone,
   ...haikyuu,
+  ...bluelock,
+  ...sololeveling,
 ];
