@@ -2,6 +2,7 @@ import type { Question } from '../../../../core/models';
 import { cinemafrancais } from './cinemafrancais';
 import { culturefrancaise } from './culturefrancaise';
 import { gastronomiefrancaise } from './gastronomiefrancaise';
+import { kaamelott } from './kaamelott';
 import { musiquefrancaise } from './musiquefrancaise';
 import { seriesfrancaises } from './seriesfrancaises';
 
@@ -15,4 +16,5 @@ export const franceQuestions: Question[] = [
   ...seriesfrancaises,
   ...musiquefrancaise,
   ...gastronomiefrancaise,
+  ...kaamelott,
 ];

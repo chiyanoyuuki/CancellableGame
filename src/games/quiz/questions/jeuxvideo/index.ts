@@ -1,6 +1,8 @@
 import type { Question } from '../../../../core/models';
+import { acreed } from './acreed';
 import { baldursgate } from './baldursgate';
 import { clairobscur } from './clairobscur';
+import { cod } from './cod';
 import { cyberpunk } from './cyberpunk';
 import { devilmaycry } from './devilmaycry';
 import { dofus } from './dofus';
@@ -9,6 +11,7 @@ import { farcry } from './farcry';
 import { farmingsimulator } from './farmingsimulator';
 import { finalfantasy } from './finalfantasy';
 import { fortnite } from './fortnite';
+import { genshin } from './genshin';
 import { gta } from './gta';
 import { hades } from './hades';
 import { halo } from './halo';
@@ -64,4 +67,7 @@ export const jeuxvideoQuestions: Question[] = [
   ...eldenring,
   ...fortnite,
   ...tlou,
+  ...cod,
+  ...acreed,
+  ...genshin,
 ];

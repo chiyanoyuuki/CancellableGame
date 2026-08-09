@@ -19,6 +19,7 @@ import { mushokutensei } from './mushokutensei';
 import { nana } from './nana';
 import { naruto } from './naruto';
 import { onepiece } from './onepiece';
+import { opm } from './opm';
 import { promisedneverland } from './promisedneverland';
 import { slime } from './slime';
 import { sololeveling } from './sololeveling';
@@ -57,4 +58,5 @@ export const mangaQuestions: Question[] = [
   ...haikyuu,
   ...bluelock,
   ...sololeveling,
+  ...opm,
 ];
