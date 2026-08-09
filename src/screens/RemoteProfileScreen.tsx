@@ -1,24 +1,26 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useRef, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 
 import { Button, Card, PlayerAvatar, Screen, Txt } from '../components/ui';
 import { REMOTE_PROFILE_CONFIGURED, REMOTE_PROFILE_URL } from '../config';
-import { decodeProfile } from '../core/profileCodec';
+import type { Player } from '../core/models';
+import { decodeProfile, type RemoteProfile } from '../core/profileCodec';
 import {
   createPlayer,
   getPlayerUnwantedUniverses,
   listPlayers,
   setPlayerUnwantedUniverses,
+  updatePlayer,
 } from '../db';
 import type { RootStackParamList } from '../navigation';
 import { useStore } from '../store/StoreProvider';
 import { canAddProfile } from '../store/products';
 import { colors, fontSize, radius, spacing } from '../theme/theme';
 
-type Imported = { name: string; emoji: string; color: string; unwanted: number };
+type Imported = { name: string; emoji: string; color: string; unwanted: number; updated: boolean };
 
 export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'RemoteProfile'>) {
   const store = useStore();
@@ -42,25 +44,17 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
     setScanning(true);
   };
 
-  const onScanned = async (raw: string) => {
-    if (busyRef.current) return;
-    busyRef.current = true;
+  const recordImported = (p: { name: string; emoji: string; color: string }, unwanted: number, updated: boolean) => {
+    setImported((prev) => [{ name: p.name, emoji: p.emoji, color: p.color, unwanted, updated }, ...prev]);
+    setFeedback({ ok: true, text: updated ? `${p.name} mis à jour !` : `${p.name} ajouté !` });
+  };
 
-    const profile = decodeProfile(raw);
-    if (!profile) {
-      setFeedback({ ok: false, text: 'QR non reconnu. Assure-toi que c’est bien un profil Cancellable.' });
-      setScanning(false);
+  // Crée un nouveau joueur (en respectant la limite de la version gratuite).
+  const applyCreate = async (profile: RemoteProfile, activeCount: number) => {
+    if (!canAddProfile(activeCount, store.ent)) {
+      setFeedback({ ok: false, text: `Limite de ${activeCount} profils atteinte. Débloque les profils illimités dans la Boutique.` });
       return;
     }
-
-    // Respecte la limite de profils de la version gratuite.
-    const active = await listPlayers(false);
-    if (!canAddProfile(active.length, store.ent)) {
-      setScanning(false);
-      setFeedback({ ok: false, text: `Limite de ${active.length} profils atteinte. Débloque les profils illimités dans la Boutique.` });
-      return;
-    }
-
     const player = await createPlayer({
       name: profile.name,
       emoji: profile.emoji || '🙂',
@@ -71,13 +65,47 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
       map[player.id] = profile.unwanted;
       await setPlayerUnwantedUniverses(map);
     }
+    recordImported(player, profile.unwanted.length, false);
+  };
 
-    setImported((prev) => [
-      { name: player.name, emoji: player.emoji, color: player.color, unwanted: profile.unwanted.length },
-      ...prev,
-    ]);
-    setFeedback({ ok: true, text: `${player.name} ajouté !` });
+  // Met à jour un joueur existant (avatar, couleur, univers non souhaités).
+  const applyUpdate = async (existing: Player, profile: RemoteProfile) => {
+    const emoji = profile.emoji || existing.emoji;
+    const color = profile.color || existing.color;
+    await updatePlayer({ id: existing.id, name: profile.name, emoji, color });
+    const map = await getPlayerUnwantedUniverses();
+    if (profile.unwanted.length > 0) map[existing.id] = profile.unwanted;
+    else delete map[existing.id];
+    await setPlayerUnwantedUniverses(map);
+    recordImported({ name: profile.name, emoji, color }, profile.unwanted.length, true);
+  };
+
+  const onScanned = async (raw: string) => {
+    if (busyRef.current) return;
+    busyRef.current = true;
+
+    const profile = decodeProfile(raw);
+    if (!profile) {
+      setFeedback({ ok: false, text: 'QR non reconnu. Assure-toi que c’est bien un profil Cancellable.' });
+      setScanning(false);
+      return;
+    }
     setScanning(false);
+
+    // Un profil du même prénom existe déjà ? On propose de le mettre à jour.
+    const active = await listPlayers(false);
+    const existing = active.find(
+      (p) => p.name.trim().toLowerCase() === profile.name.trim().toLowerCase(),
+    );
+    if (existing) {
+      Alert.alert(`« ${profile.name} » existe déjà`, 'Mettre à jour ce profil ou en créer un nouveau ?', [
+        { text: 'Annuler', style: 'cancel' },
+        { text: 'Créer un nouveau', onPress: () => void applyCreate(profile, active.length) },
+        { text: 'Mettre à jour', onPress: () => void applyUpdate(existing, profile) },
+      ]);
+      return;
+    }
+    await applyCreate(profile, active.length);
   };
 
   // --- Vue caméra plein écran pendant le scan ---
@@ -161,7 +189,8 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
               <View style={{ flex: 1 }}>
                 <Txt weight="700">{p.name}</Txt>
                 <Txt faint size={fontSize.xs}>
-                  {p.unwanted > 0 ? `${p.unwanted} univers exclus` : 'Tous les univers gardés'}
+                  {(p.unwanted > 0 ? `${p.unwanted} univers exclus` : 'Tous les univers gardés') +
+                    (p.updated ? ' · mis à jour' : '')}
                 </Txt>
               </View>
             </View>
