@@ -4,9 +4,11 @@ import { clairobscur } from './clairobscur';
 import { cyberpunk } from './cyberpunk';
 import { devilmaycry } from './devilmaycry';
 import { dofus } from './dofus';
+import { eldenring } from './eldenring';
 import { farcry } from './farcry';
 import { farmingsimulator } from './farmingsimulator';
 import { finalfantasy } from './finalfantasy';
+import { fortnite } from './fortnite';
 import { gta } from './gta';
 import { hades } from './hades';
 import { halo } from './halo';
@@ -21,6 +23,7 @@ import { residentevil } from './residentevil';
 import { skyrim } from './skyrim';
 import { stardewvalley } from './stardewvalley';
 import { thewitcher } from './thewitcher';
+import { tlou } from './tlou';
 import { worldofwarcraft } from './worldofwarcraft';
 import { yakuza } from './yakuza';
 import { zelda } from './zelda';
@@ -58,4 +61,7 @@ export const jeuxvideoQuestions: Question[] = [
   ...yakuza,
   ...clairobscur,
   ...devilmaycry,
+  ...eldenring,
+  ...fortnite,
+  ...tlou,
 ];
