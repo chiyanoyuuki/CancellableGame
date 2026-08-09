@@ -4,6 +4,7 @@ import type { Player, SessionResult } from './core/models';
 export type RootStackParamList = {
   Home: undefined;
   Players: undefined;
+  RemoteProfile: undefined;
   GameSelect: undefined;
   Lobby: { gameId: string };
   GameConfig: { gameId: string; players: Player[] };

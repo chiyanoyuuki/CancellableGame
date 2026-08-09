@@ -329,6 +329,17 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
         </View>
       </Card>
 
+      <Button
+        title="Profil à distance (QR)"
+        emoji="📲"
+        variant="secondary"
+        onPress={() => navigation.navigate('RemoteProfile')}
+        style={{ marginTop: spacing(1) }}
+      />
+      <Txt faint size={fontSize.xs} center style={{ marginTop: spacing(0.5) }}>
+        Chaque invité remplit son profil sur son téléphone, tu scannes son QR.
+      </Txt>
+
       <SectionHeader
         title={showArchived ? 'Archivés' : 'Roster'}
         right={

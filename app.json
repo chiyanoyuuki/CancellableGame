@@ -30,7 +30,13 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": ["expo-sqlite"],
+    "plugins": [
+      "expo-sqlite",
+      [
+        "expo-camera",
+        { "cameraPermission": "L'appareil photo sert à scanner les QR codes de profil des invités." }
+      ]
+    ],
     "extra": {
       "comment": "IMPORTANT: ne changez JAMAIS android.package une fois publié, sinon une mise à jour APK est traitée comme une app différente et les stats locales sont perdues. Le nom affiché (name) peut changer sans risque."
     }
