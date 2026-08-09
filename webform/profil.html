@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mon profil — Cancellable</title>
+<script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@master/qrcode.min.js"></script>
+<style>
+  :root { --bg:#0f1020; --card:#1a1b2e; --card2:#24263d; --border:#33354f; --text:#f4f4fb; --dim:#a6a8c6; --accent:#7c5cff; }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; padding:16px; padding-bottom:64px; }
+  h1 { font-size:22px; margin:8px 0 2px; }
+  .sub { color:var(--dim); font-size:13px; margin:0 0 16px; }
+  label { display:block; font-weight:700; margin:18px 0 8px; font-size:14px; }
+  input[type=text] { width:100%; padding:14px; font-size:17px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--text); }
+  .grid { display:flex; flex-wrap:wrap; gap:8px; }
+  .emoji { font-size:24px; width:48px; height:48px; display:flex; align-items:center; justify-content:center; border-radius:12px; background:var(--card); border:2px solid var(--border); cursor:pointer; }
+  .emoji.sel { border-color:var(--accent); background:var(--card2); }
+  .swatch { width:40px; height:40px; border-radius:50%; border:3px solid transparent; cursor:pointer; }
+  .swatch.sel { border-color:#fff; }
+  details { margin-top:18px; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:12px 14px; }
+  summary { font-weight:700; cursor:pointer; font-size:14px; }
+  .hint { color:var(--dim); font-size:12px; margin:6px 0 10px; }
+  .theme { margin:14px 0 6px; font-weight:800; font-size:13px; color:var(--dim); }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; }
+  .chip { padding:8px 12px; border-radius:999px; background:var(--card2); border:1px solid var(--border); font-size:13px; cursor:pointer; }
+  .chip.off { background:#3a1f2b; border-color:#7a3b52; color:#ffb3c8; text-decoration:line-through; }
+  button.primary { width:100%; margin-top:24px; padding:16px; font-size:17px; font-weight:800; border:0; border-radius:14px; background:var(--accent); color:#fff; cursor:pointer; }
+  button.ghost { width:100%; margin-top:12px; padding:14px; font-size:15px; font-weight:700; border:1px solid var(--border); border-radius:14px; background:transparent; color:var(--text); cursor:pointer; }
+  #result { display:none; text-align:center; }
+  #qr { display:inline-block; background:#fff; padding:16px; border-radius:16px; margin:16px auto; }
+  .big { font-size:19px; font-weight:800; margin:8px 0; }
+  .count { color:var(--dim); font-size:12px; }
+  .err { color:#ffb3c8; font-size:13px; margin-top:10px; }
+</style>
+</head>
+<body>
+<div id="form">
+  <h1>🎉 Mon profil Cancellable</h1>
+  <p class="sub">Remplis ton profil, puis montre ton QR code à la personne qui a l'appli. Rien n'est envoyé sur Internet : tout tient dans le QR.</p>
+
+  <label>Ton prénom</label>
+  <input id="name" type="text" placeholder="Ex. Sofiane" maxlength="40" autocomplete="off">
+
+  <label>Ton avatar</label>
+  <div class="grid" id="emojis"></div>
+
+  <label>Ta couleur</label>
+  <div class="grid" id="colors"></div>
+
+  <details>
+    <summary>Univers que je ne veux pas voir (optionnel)</summary>
+    <p class="hint">Décoche les univers qui ne t'intéressent pas : tu n'auras quasiment jamais de questions dessus. Par défaut, tout est gardé.</p>
+    <div id="universes"></div>
+  </details>
+
+  <button class="primary" id="gen">Générer mon QR code ▶</button>
+  <div class="err" id="formerr"></div>
+</div>
+
+<div id="result">
+  <h1>✅ Prêt !</h1>
+  <p class="big" id="who"></p>
+  <div id="qr"></div>
+  <p class="count" id="cnt"></p>
+  <p class="sub">Montre ce QR à l'hôte → « Scanner un profil » dans l'appli.</p>
+  <button class="ghost" id="edit">← Modifier mon profil</button>
+  <div class="err" id="qrerr"></div>
+</div>
+
+<script>
+  var EMOJIS = ["🦊","🐼","🐸","🐯","🦄","🐙","🐲","🦁","🐵","🐧","👽","🤖","🎃","👑","🍕","🔥","⚡","🌮","🦖","🐝"];
+  var COLORS = ["#7c5cff","#ff5c8a","#33d69f","#ffd166","#5cc6ff","#ff8c42","#c45cff","#ff5c5c","#52e0c4","#a0e548"];
+  var GROUPS = [{"theme":"manga","label":"Manga / Anime","emoji":"🍥","universes":["86","Animés des années 90-2000","Berserk","Bleach","Blue Lock","Chainsaw Man","Death Note","Demon Slayer","Dr. Stone","Dragon Ball","Fullmetal Alchemist","Haikyu","Hunter x Hunter","Jujutsu Kaisen","L'Attaque des Titans","Moi quand je me réincarne en slime","Mushoku Tensei","My Hero Academia","Nana","Naruto","One Piece","One Punch Man","Solo Leveling","Spy x Family","The Promised Neverland","Tokyo Ghoul"]},{"theme":"jeuxvideo","label":"Jeux vidéo","emoji":"🎮","universes":["Assassin's Creed","Baldur's Gate","Call of Duty","Clair Obscur Expédition 33","Cyberpunk 2077","Devil May Cry","Dofus","Elden Ring","Far Cry","Farming Simulator","Final Fantasy","Fortnite","Genshin Impact","GTA","Hades","Halo","Kingdom Come Deliverance","League of Legends","Les Sims","Mario","Minecraft","Phasmophobia","Pokémon","Resident Evil","Skyrim","Stardew Valley","The Last of Us","The Witcher","World of Warcraft","Yakuza","Zelda"]},{"theme":"series","label":"Séries","emoji":"📺","universes":["Arcane","Breaking Bad","Dessins animés de notre enfance","Family Guy","Friends","Futurama","Game of Thrones","La Casa de Papel","Les Simpson","Lupin","Mercredi","Peaky Blinders","Prison Break","Rick et Morty","Séries Netflix","Sex and the City","Squid Game","Stranger Things","The Boys","The Office (US)","The Walking Dead"]},{"theme":"films","label":"Films","emoji":"🎬","universes":["Cinéma des années 80","Comédies romantiques","Disney","Drames","Grands classiques","Harry Potter","Horreur","Le Seigneur des Anneaux","Marvel","Oscars et Césars","Star Wars","Super-héros","Thriller"]},{"theme":"musique","label":"Musique","emoji":"🎵","universes":["Culture musicale","K-pop","Métal","Michael Jackson","Pop","Rap","Rock","Taylor Swift","Tubes des années 80"]},{"theme":"litterature","label":"Littérature","emoji":"📚","universes":["Bande dessinée","Policier","Science-fiction"]},{"theme":"japon","label":"Japon","emoji":"🇯🇵","universes":["Cinéma japonais","Culture japonaise","Gastronomie japonaise","Musique japonaise","Séries japonaises"]},{"theme":"france","label":"France","emoji":"🇫🇷","universes":["Cinéma français","Culture française","Gastronomie française","Kaamelott","Musique française","Séries françaises"]},{"theme":"tcheque","label":"République tchèque","emoji":"🇨🇿","universes":["Culture tchèque","Gastronomie tchèque","Histoire de Prague"]},{"theme":"mode","label":"Mode","emoji":"👗","universes":["Beauté et parfums","Grands couturiers","Histoire de la mode","Maisons de luxe","Mannequins et Fashion Week","Maquillage","Streetwear et sneakers"]},{"theme":"culture","label":"Culture générale","emoji":"🧠","universes":["Anglais","Art","Culture générale","Expressions","Gastronomie","Géographie","Histoire","Kim Jong-un","Latin"]},{"theme":"sciences","label":"Sciences & Nature","emoji":"🔬","universes":["Animaux","Arbres","Astronomie","Insectes","Sciences","SVT"]},{"theme":"societe","label":"Société & lifestyle","emoji":"🎉","universes":["Alcool","Astrologie","Célébrités","Polémiques","Sexe","Théories du complot","Voitures"]},{"theme":"politique","label":"Politique & Histoire","emoji":"🗳️","universes":["Adolf Hitler","Donald Trump","La droite","La gauche"]},{"theme":"internet","label":"Références Internet","emoji":"🌐","universes":["Mèmes & viral","Réseaux sociaux"]},{"theme":"mythologie","label":"Mythologie","emoji":"🏛️","universes":["Mythologie égyptienne","Mythologie grecque","Mythologie nordique","Mythologie romaine"]},{"theme":"religions","label":"Religions","emoji":"🛐","universes":["Bouddhisme","Catholicisme","Chrétienté"]}];
+  var state = { emoji: EMOJIS[0], color: COLORS[0], unwanted: {} };
+
+  var eBox = document.getElementById('emojis');
+  EMOJIS.forEach(function(e){
+    var d = document.createElement('div');
+    d.className = 'emoji' + (e===state.emoji?' sel':''); d.textContent = e;
+    d.onclick = function(){ state.emoji=e; [].forEach.call(eBox.children,function(c){c.className='emoji'+(c.textContent===e?' sel':'');}); };
+    eBox.appendChild(d);
+  });
+
+  var cBox = document.getElementById('colors');
+  COLORS.forEach(function(c){
+    var d = document.createElement('div');
+    d.className = 'swatch' + (c===state.color?' sel':''); d.style.background = c;
+    d.onclick = function(){ state.color=c; [].forEach.call(cBox.children,function(x,i){x.className='swatch'+(COLORS[i]===c?' sel':'');}); };
+    cBox.appendChild(d);
+  });
+
+  var uBox = document.getElementById('universes');
+  GROUPS.forEach(function(g){
+    var t = document.createElement('div'); t.className='theme'; t.textContent = g.emoji+' '+g.label.toUpperCase(); uBox.appendChild(t);
+    var row = document.createElement('div'); row.className='chips';
+    g.universes.forEach(function(u){
+      var c = document.createElement('div'); c.className='chip'; c.textContent=u;
+      c.onclick = function(){ if(state.unwanted[u]){ delete state.unwanted[u]; c.className='chip'; } else { state.unwanted[u]=1; c.className='chip off'; } };
+      row.appendChild(c);
+    });
+    uBox.appendChild(row);
+  });
+
+  function encodeProfile(p){
+    return 'CANCELLABLE-PROFILE|1|' + JSON.stringify({ n:p.name, e:p.emoji, c:p.color, u:p.unwanted });
+  }
+
+  document.getElementById('gen').onclick = function(){
+    var name = document.getElementById('name').value.trim();
+    var err = document.getElementById('formerr');
+    if(!name){ err.textContent = 'Indique ton prénom.'; return; }
+    err.textContent = '';
+    var unwanted = Object.keys(state.unwanted);
+    var code = encodeProfile({ name:name, emoji:state.emoji, color:state.color, unwanted:unwanted });
+    var qr = document.getElementById('qr'); qr.innerHTML = '';
+    var qerr = document.getElementById('qrerr'); qerr.textContent='';
+    try {
+      new QRCode(qr, { text: code, width: 240, height: 240, correctLevel: QRCode.CorrectLevel.L });
+    } catch(e){
+      qerr.textContent = 'Trop d\'univers exclus pour un seul QR : réduis un peu la sélection.';
+      return;
+    }
+    document.getElementById('who').textContent = state.emoji + ' ' + name;
+    document.getElementById('cnt').textContent = unwanted.length ? (unwanted.length + ' univers exclus') : 'Tous les univers gardés';
+    document.getElementById('form').style.display='none';
+    document.getElementById('result').style.display='block';
+    window.scrollTo(0,0);
+  };
+  document.getElementById('edit').onclick = function(){
+    document.getElementById('result').style.display='none';
+    document.getElementById('form').style.display='block';
+    window.scrollTo(0,0);
+  };
+</script>
+</body>
+</html>
