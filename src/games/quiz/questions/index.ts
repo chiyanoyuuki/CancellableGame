@@ -74,4 +74,6 @@ export const UNIVERSE_ADD_ORDER: string[] = [
   'Les Simpson', 'Family Guy', 'Futurama', 'Devil May Cry',
   'Blue Lock', 'Solo Leveling', 'Elden Ring', 'Fortnite', 'The Last of Us',
   'Harry Potter', 'Star Wars', 'Le Seigneur des Anneaux', 'Mercredi', 'Taylor Swift',
+  'One Punch Man', 'Call of Duty', "Assassin's Creed", 'Genshin Impact', 'Rick et Morty',
+  'Lupin', 'Kaamelott', 'Marvel', 'Disney', 'Michael Jackson',
 ];
