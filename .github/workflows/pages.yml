@@ -1,0 +1,38 @@
+name: Deploy web form to GitHub Pages
+
+# Publie le formulaire de profil (dossier webform/) sur GitHub Pages à chaque
+# push qui le modifie. La page est 100 % statique : aucune donnée ne transite
+# par un serveur, le profil voyage uniquement dans le QR code.
+#
+# Réglage UNIQUE côté GitHub (une seule fois) :
+#   Settings → Pages → Build and deployment → Source = « Deploy from a branch »
+#   → Branch = « gh-pages » / dossier « / (root) ».
+# Le dépôt doit être public (Pages gratuit) ; c'est ce workflow qui pousse le
+# site sur la branche gh-pages, donc ça marche depuis n'importe quelle branche.
+
+on:
+  push:
+    branches: ['main', 'claude/**']
+    paths:
+      - 'webform/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write # nécessaire pour pousser le site sur la branche gh-pages
+
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publier webform/ sur la branche gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./webform
+          publish_branch: gh-pages
