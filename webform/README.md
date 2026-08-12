@@ -37,24 +37,29 @@ gratuit sur les dépôts publics) :
 
 ## Le parcours complet
 
-1. Dans l'appli : « Joueurs → Profil à distance (QR) » affiche le **QR = le lien**
-   vers cette page. Ce lien embarque aussi la **liste des joueurs déjà
-   enregistrés** (nom, avatar, univers exclus), dans son ancre `#r=`.
-2. Chaque invité scanne ce QR → la page s'ouvre dans son navigateur. **S'il est
-   déjà enregistré**, il touche son profil dans « Choisis ton profil » : prénom,
-   avatar et **univers déjà exclus sont pré-cochés** (triés comme dans l'appli,
-   les plus récents en premier au-delà de 20 exclusions). Sinon il remplit un
-   nouveau profil : **prénom, avatar, couleur** et, s'il veut, les **univers
-   qu'il ne veut pas voir**.
-3. Il touche « Générer mon QR code » → son téléphone affiche un QR.
-4. L'hôte fait « Scanner un profil » dans l'appli et scanne le QR de l'invité → une
-   **pop-up de validation** montre le nom + le nombre d'univers évités, puis le
-   profil est créé (ou mis à jour s'il existe déjà). ~2 s par invité.
+Dans l'appli, l'écran « Profil à distance » propose **deux sortes de QR** :
 
-> Le roster tient dans le QR de l'hôte tant qu'il reste raisonnable ; s'il y a
-> beaucoup de joueurs avec beaucoup d'exclusions, les univers pré-cochés sont
-> omis (les invités restent sélectionnables par leur nom) pour garder le QR
-> facilement scannable.
+- **Créer un profil** : un QR unique vers le formulaire **vierge**. Pour les
+  nouveaux joueurs.
+- **Mettre à jour un joueur** : un QR **par joueur** (touche un joueur pour
+  l'afficher). Ce QR ne contient qu'**un seul** profil (nom, avatar, univers
+  exclus, encodés dans l'ancre `#r=`) → petit et toujours scannable.
+
+1. L'hôte montre (ou envoie une capture d')un QR à l'invité.
+2. L'invité le scanne → la page s'ouvre dans son navigateur :
+   - QR **créer** → formulaire vierge : il remplit **prénom, avatar, couleur** et,
+     s'il veut, les **univers qu'il ne veut pas voir**.
+   - QR **mettre à jour** → formulaire **déjà rempli** (bandeau « Mise à jour du
+     profil de … ») : avatar et univers déjà exclus **pré-cochés**, il n'a plus
+     qu'à ajuster.
+3. Il touche « Générer mon QR code » → son téléphone affiche un QR retour.
+4. L'hôte fait « Scanner un profil » et scanne ce QR → une **pop-up de
+   validation** montre le nom + le nombre d'univers évités, puis le profil est
+   créé (ou mis à jour s'il existe déjà). ~2 s par invité.
+
+> Le formulaire accepte aussi un ancien lien « multi-profils » (`#r=` avec
+> plusieurs profils) : il affiche alors une liste « Choisis ton profil ». Le lien
+> par joueur (un seul profil) pré-remplit directement, sans étape de sélection.
 
 ## Mise à jour de la liste des univers
 

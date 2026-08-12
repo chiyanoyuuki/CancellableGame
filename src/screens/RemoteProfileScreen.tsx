@@ -2,7 +2,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useCallback, useRef, useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, Modal, Pressable, StyleSheet, View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 
 import { Button, Card, PlayerAvatar, Screen, Txt } from '../components/ui';
@@ -24,55 +24,36 @@ import { colors, fontSize, radius, spacing } from '../theme/theme';
 
 type Imported = { name: string; emoji: string; color: string; unwanted: number; updated: boolean };
 
-// Le lien du QR de l'hôte embarque le « roster » (profils déjà connus) dans son
-// ancre `#r=`, pour que chaque invité puisse retrouver son profil et voir ses
-// univers déjà exclus pré-cochés. Les univers sont encodés par leur INDICE dans
-// le catalogue (compact) ; `v` = taille du catalogue, garde-fou anti-décalage.
-const ROSTER_MAX_LEN = 1400;
+// Catalogue figé au chargement : sert à encoder les univers évités par leur
+// INDICE (compact) dans les liens de mise à jour.
+const CATALOGUE = getUniverseCatalogue();
+const CAT_INDEX = new Map(CATALOGUE.map((u, i) => [u, i] as const));
 
-type RosterUrl = { url: string; included: number; total: number };
-
-// Base de l'URL, avec le cache-buster `?v=` (voir REMOTE_FORM_VERSION). L'ancre
-// `#r=` est ajoutée ensuite ; elle n'affecte pas le cache, d'où le `?v=`.
+// Base de l'URL du formulaire, avec le cache-buster `?v=` (voir
+// REMOTE_FORM_VERSION) : une ancre `#r=` seule ne casse pas le cache du
+// navigateur de l'invité, d'où ce paramètre qui force la page à jour.
 function formBase(): string {
   const sep = REMOTE_PROFILE_URL.includes('?') ? '&' : '?';
   return `${REMOTE_PROFILE_URL}${sep}v=${REMOTE_FORM_VERSION}`;
 }
 
-function buildRosterUrl(active: Player[], unwantedByPlayer: Record<string, string[]>): RosterUrl {
-  const catalogue = getUniverseCatalogue();
-  const indexOf = new Map(catalogue.map((u, i) => [u, i] as const));
-  const people = active.map((p) => ({
-    n: p.name,
-    e: p.emoji,
-    c: p.color,
-    u: (unwantedByPlayer[p.id] ?? [])
-      .map((u) => indexOf.get(u))
-      .filter((i): i is number => i !== undefined),
-  }));
-  const encode = (arr: typeof people) =>
-    encodeURIComponent(JSON.stringify({ v: catalogue.length, p: arr }));
-  const withHash = (arr: typeof people) => `${formBase()}#r=${encode(arr)}`;
-  const base = { total: people.length };
+// QR « créer un profil » : formulaire vierge (aucune ancre).
+function createUrl(): string {
+  return formBase();
+}
 
-  // Le QR doit rester scannable d'écran à écran : on borne la charge utile, mais
-  // on n'abandonne JAMAIS tout le roster. 1) tout (avec univers) ; 2) sinon sans
-  // les univers (on garde nom + avatar pour la sélection) ; 3) sinon on tronque
-  // la liste (cas rare : profils illimités et beaucoup de joueurs).
-  if (people.length === 0) return { url: withHash(people), included: 0, ...base };
-  if (encode(people).length <= ROSTER_MAX_LEN) {
-    return { url: withHash(people), included: people.length, ...base };
-  }
-  const light = people.map((p) => ({ ...p, u: [] as number[] }));
-  if (encode(light).length <= ROSTER_MAX_LEN) {
-    return { url: withHash(light), included: light.length, ...base };
-  }
-  const kept: typeof light = [];
-  for (const p of light) {
-    if (encode([...kept, p]).length > ROSTER_MAX_LEN) break;
-    kept.push(p);
-  }
-  return { url: withHash(kept), included: kept.length, ...base };
+// QR « mettre à jour » propre à UN joueur : le formulaire s'ouvre déjà rempli
+// (avatar, couleur, univers évités pré-cochés). Un seul profil par QR → petit
+// et toujours scannable. Le formulaire web auto-remplit quand `#r=` ne contient
+// qu'un profil.
+function updateUrl(p: Player, unwantedNames: string[]): string {
+  const u = unwantedNames
+    .map((n) => CAT_INDEX.get(n))
+    .filter((i): i is number => i !== undefined);
+  const payload = encodeURIComponent(
+    JSON.stringify({ v: CATALOGUE.length, p: [{ n: p.name, e: p.emoji, c: p.color, u }] }),
+  );
+  return `${formBase()}#r=${payload}`;
 }
 
 export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'RemoteProfile'>) {
@@ -84,23 +65,22 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
   // Verrou anti-rebond : la caméra émet plusieurs fois le même QR par seconde.
   const busyRef = useRef(false);
 
-  // Lien encodé dans le QR de l'hôte : inclut le roster des joueurs actuels
-  // (dans l'ancre `#r=`) pour que chaque invité retrouve son profil. Rafraîchi
-  // à chaque affichage de l'écran et après chaque import.
-  const [qrValue, setQrValue] = useState(REMOTE_PROFILE_URL);
-  const [rosterInfo, setRosterInfo] = useState<{ included: number; total: number }>({ included: 0, total: 0 });
+  // Joueurs existants + leurs univers évités (pour les QR de mise à jour).
+  const [players, setPlayers] = useState<Player[]>([]);
+  const [unwanted, setUnwanted] = useState<Record<string, string[]>>({});
+  // Joueur dont on affiche le QR de mise à jour en grand (modale).
+  const [qrPlayer, setQrPlayer] = useState<Player | null>(null);
 
-  const refreshRoster = useCallback(async () => {
+  const refresh = useCallback(async () => {
     const [active, map] = await Promise.all([listPlayers(false), getPlayerUnwantedUniverses()]);
-    const res = buildRosterUrl(active, map);
-    setQrValue(res.url);
-    setRosterInfo({ included: res.included, total: res.total });
+    setPlayers(active);
+    setUnwanted(map);
   }, []);
 
   useFocusEffect(
     useCallback(() => {
-      void refreshRoster();
-    }, [refreshRoster]),
+      void refresh();
+    }, [refresh]),
   );
 
   const openScanner = async () => {
@@ -116,11 +96,11 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
     setScanning(true);
   };
 
-  const recordImported = (p: { name: string; emoji: string; color: string }, unwanted: number, updated: boolean) => {
-    setImported((prev) => [{ name: p.name, emoji: p.emoji, color: p.color, unwanted, updated }, ...prev]);
+  const recordImported = (p: { name: string; emoji: string; color: string }, count: number, updated: boolean) => {
+    setImported((prev) => [{ name: p.name, emoji: p.emoji, color: p.color, unwanted: count, updated }, ...prev]);
     setFeedback({ ok: true, text: updated ? `${p.name} mis à jour !` : `${p.name} ajouté !` });
-    // Le nouveau/màj joueur doit apparaître dans le roster du QR de l'hôte.
-    void refreshRoster();
+    // La liste des joueurs (et donc les QR de mise à jour) doit refléter l'import.
+    void refresh();
   };
 
   // Crée un nouveau joueur (en respectant la limite de la version gratuite).
@@ -211,55 +191,87 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
     );
   }
 
+  if (!REMOTE_PROFILE_CONFIGURED) {
+    return (
+      <Screen title="Profil à distance" onBack={() => navigation.goBack()} scroll>
+        <Card>
+          <Txt weight="700" color={colors.warning}>URL du formulaire non configurée</Txt>
+          <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
+            Hébergez le dossier `webform/` puis renseignez son adresse dans `REMOTE_PROFILE_URL`
+            (src/config.ts) pour afficher les QR d'accès.
+          </Txt>
+        </Card>
+      </Screen>
+    );
+  }
+
   return (
     <Screen title="Profil à distance" onBack={() => navigation.goBack()} scroll>
       <Card accent={colors.accent}>
-        <Txt weight="800">📲 Chacun son profil, en même temps</Txt>
+        <Txt weight="800">📲 Chacun édite son profil, sans se passer le tel</Txt>
         <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-          Les invités scannent le QR ci-dessous, remplissent leur profil dans leur navigateur
-          (sans installer l'appli), puis te montrent leur propre QR. Tu le scannes ici pour l'ajouter.
-          Rien ne passe par Internet : le profil est transporté par le QR.
+          Deux sortes de QR : un pour <Txt weight="800" size={fontSize.xs}>créer</Txt> un nouveau profil,
+          et un <Txt weight="800" size={fontSize.xs}>par joueur</Txt> pour mettre à jour le sien
+          (avatar et univers évités déjà pré-cochés). L'invité scanne, ajuste dans son navigateur,
+          puis te montre son QR retour que tu scannes ici. Rien ne passe par Internet.
         </Txt>
       </Card>
 
+      {/* --- Créer un profil --- */}
+      <Txt weight="800" size={fontSize.xs} faint style={styles.section}>
+        ➕ CRÉER UN NOUVEAU PROFIL
+      </Txt>
       <View style={styles.qrWrap}>
-        {REMOTE_PROFILE_CONFIGURED ? (
-          <>
-            <View style={styles.qrBox}>
-              <QRCode value={qrValue} size={240} ecl="L" />
-            </View>
-            <Txt
-              center
-              size={fontSize.xs}
-              weight="800"
-              color={rosterInfo.total > 0 ? colors.success : colors.textFaint}
-              style={{ marginTop: spacing(1) }}
-            >
-              {rosterInfo.total === 0
-                ? 'Aucun profil enregistré à pré-remplir pour l’instant.'
-                : rosterInfo.included >= rosterInfo.total
-                  ? `✓ ${rosterInfo.included} profil${rosterInfo.included > 1 ? 's' : ''} inclus dans ce QR`
-                  : `✓ ${rosterInfo.included}/${rosterInfo.total} profils inclus (QR limité pour rester lisible)`}
-            </Txt>
-            <Txt faint size={fontSize.xs} center style={{ marginTop: spacing(0.5) }}>
-              1. Les invités scannent ce QR pour ouvrir le formulaire (et retrouver leur profil).
-            </Txt>
-          </>
-        ) : (
-          <Card>
-            <Txt weight="700" color={colors.warning}>URL du formulaire non configurée</Txt>
-            <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-              Hébergez `webform/profil.html` puis renseignez son adresse dans `REMOTE_PROFILE_URL`
-              (src/config.ts) pour afficher le QR d'accès.
-            </Txt>
-          </Card>
-        )}
+        <View style={styles.qrBox}>
+          <QRCode value={createUrl()} size={180} ecl="L" />
+        </View>
+        <Txt faint size={fontSize.xs} center style={{ marginTop: spacing(1) }}>
+          Un invité scanne ce QR pour créer son profil de zéro.
+        </Txt>
       </View>
 
-      <View style={{ height: spacing(1) }} />
+      {/* --- Mettre à jour un profil existant --- */}
+      <Txt weight="800" size={fontSize.xs} faint style={styles.section}>
+        ✏️ METTRE À JOUR UN JOUEUR
+      </Txt>
+      {players.length === 0 ? (
+        <Card>
+          <Txt faint size={fontSize.xs}>
+            Aucun joueur pour l'instant. Crée-en d'abord (QR ci-dessus, ou écran Joueurs).
+          </Txt>
+        </Card>
+      ) : (
+        <>
+          <Txt faint size={fontSize.xs} style={{ marginBottom: spacing(1) }}>
+            Touche un joueur pour afficher SON QR : son profil s'ouvrira déjà rempli.
+          </Txt>
+          {players.map((p) => {
+            const n = unwanted[p.id]?.length ?? 0;
+            return (
+              <Pressable
+                key={p.id}
+                onPress={() => setQrPlayer(p)}
+                style={({ pressed }) => [styles.row, pressed && { opacity: 0.6 }]}
+              >
+                <PlayerAvatar emoji={p.emoji} color={p.color} size={36} />
+                <View style={{ flex: 1 }}>
+                  <Txt weight="700">{p.name}</Txt>
+                  <Txt faint size={fontSize.xs}>
+                    {n > 0 ? `${n} univers évité${n > 1 ? 's' : ''}` : 'Aucun univers évité'}
+                  </Txt>
+                </View>
+                <Txt weight="800" color={colors.accent}>QR ▸</Txt>
+              </Pressable>
+            );
+          })}
+        </>
+      )}
+
+      {/* --- Scanner les QR retour --- */}
+      <View style={{ height: spacing(2) }} />
       <Button title="Scanner un profil" emoji="📷" size="lg" variant="accent" onPress={() => void openScanner()} />
       <Txt faint size={fontSize.xs} center style={{ marginTop: spacing(1) }}>
-        2. Quand un invité a fini, scanne le QR qu'il affiche.
+        Quand un invité a fini, scanne le QR qu'il affiche (création ou mise à jour).
       </Txt>
 
       {feedback && (
@@ -274,7 +286,7 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
       {imported.length > 0 && (
         <View style={{ marginTop: spacing(2) }}>
           <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(1) }}>
-            AJOUTÉS CETTE SESSION ({imported.length})
+            REÇUS CETTE SESSION ({imported.length})
           </Txt>
           {imported.map((p, i) => (
             <View key={`${p.name}-${i}`} style={styles.row}>
@@ -283,19 +295,54 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
                 <Txt weight="700">{p.name}</Txt>
                 <Txt faint size={fontSize.xs}>
                   {(p.unwanted > 0 ? `${p.unwanted} univers exclus` : 'Tous les univers gardés') +
-                    (p.updated ? ' · mis à jour' : '')}
+                    (p.updated ? ' · mis à jour' : ' · nouveau')}
                 </Txt>
               </View>
             </View>
           ))}
         </View>
       )}
+
+      {/* --- Modale : QR de mise à jour d'un joueur --- */}
+      <Modal
+        visible={qrPlayer !== null}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setQrPlayer(null)}
+      >
+        <Pressable style={styles.modalRoot} onPress={() => setQrPlayer(null)}>
+          <Pressable style={styles.modalCard} onPress={() => {}}>
+            {qrPlayer && (
+              <>
+                <View style={styles.modalHead}>
+                  <PlayerAvatar emoji={qrPlayer.emoji} color={qrPlayer.color} size={40} />
+                  <Txt weight="800" size={fontSize.lg}>{qrPlayer.name}</Txt>
+                </View>
+                <View style={styles.qrBoxLg}>
+                  <QRCode value={updateUrl(qrPlayer, unwanted[qrPlayer.id] ?? [])} size={240} ecl="L" />
+                </View>
+                <Txt faint size={fontSize.xs} center style={{ marginTop: spacing(1.5) }}>
+                  {qrPlayer.name} scanne ce QR : son profil s'ouvre déjà rempli. Il ajuste puis te
+                  montre son QR retour, que tu scannes ici. (Tu peux aussi lui envoyer une capture.)
+                </Txt>
+                <Button
+                  title="Fermer"
+                  variant="secondary"
+                  onPress={() => setQrPlayer(null)}
+                  style={{ alignSelf: 'stretch', marginTop: spacing(2) }}
+                />
+              </>
+            )}
+          </Pressable>
+        </Pressable>
+      </Modal>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  qrWrap: { alignItems: 'center', marginTop: spacing(2) },
+  section: { marginTop: spacing(3), marginBottom: spacing(1), letterSpacing: 1 },
+  qrWrap: { alignItems: 'center' },
   qrBox: { backgroundColor: colors.white, padding: spacing(2), borderRadius: radius.md },
   row: {
     flexDirection: 'row',
@@ -324,4 +371,21 @@ const styles = StyleSheet.create({
     borderRadius: radius.lg,
   },
   scanHint: { marginBottom: spacing(1) },
+  modalRoot: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: spacing(3),
+  },
+  modalCard: {
+    backgroundColor: colors.bgElevated,
+    borderRadius: radius.lg,
+    padding: spacing(3),
+    alignItems: 'center',
+    width: '100%',
+    maxWidth: 360,
+  },
+  modalHead: { flexDirection: 'row', alignItems: 'center', gap: spacing(1.5), marginBottom: spacing(2) },
+  qrBoxLg: { backgroundColor: colors.white, padding: spacing(2), borderRadius: radius.md },
 });
