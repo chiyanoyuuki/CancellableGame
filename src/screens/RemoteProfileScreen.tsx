@@ -92,20 +92,26 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
     }
     setScanning(false);
 
-    // Un profil du même prénom existe déjà ? On propose de le mettre à jour.
+    // Pop-up de validation : on montre le nom et le nombre d'univers évités.
+    const count = profile.unwanted.length;
+    const summary = `${profile.emoji || '🙂'}  ${profile.name}\n${count > 0 ? `${count} univers évité${count > 1 ? 's' : ''}` : 'Aucun univers évité'}`;
+
     const active = await listPlayers(false);
     const existing = active.find(
       (p) => p.name.trim().toLowerCase() === profile.name.trim().toLowerCase(),
     );
     if (existing) {
-      Alert.alert(`« ${profile.name} » existe déjà`, 'Mettre à jour ce profil ou en créer un nouveau ?', [
+      Alert.alert('Profil existant', `${summary}\n\nUn profil du même nom existe déjà.`, [
         { text: 'Annuler', style: 'cancel' },
         { text: 'Créer un nouveau', onPress: () => void applyCreate(profile, active.length) },
         { text: 'Mettre à jour', onPress: () => void applyUpdate(existing, profile) },
       ]);
       return;
     }
-    await applyCreate(profile, active.length);
+    Alert.alert('Ajouter ce joueur ?', summary, [
+      { text: 'Annuler', style: 'cancel' },
+      { text: 'Ajouter', onPress: () => void applyCreate(profile, active.length) },
+    ]);
   };
 
   // --- Vue caméra plein écran pendant le scan ---

@@ -46,6 +46,8 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   const [unwanted, setUnwanted] = useState<Record<string, string[]>>({});
   const [unwantedPlayer, setUnwantedPlayer] = useState<Player | null>(null);
   const [unwantedDraft, setUnwantedDraft] = useState<Set<string>>(new Set());
+  // Menu d'actions d'un joueur (Modal : Android n'affiche que 3 boutons d'Alert).
+  const [menuPlayer, setMenuPlayer] = useState<Player | null>(null);
 
   useEffect(() => {
     let alive = true;
@@ -220,36 +222,26 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
     await refresh();
   };
 
-  const manage = (p: Player) => {
-    Alert.alert(p.name, undefined, [
-      { text: 'Modifier', onPress: () => startEdit(p) },
-      { text: 'Dupliquer', onPress: () => void duplicatePlayer(p) },
-      { text: 'Univers et thèmes évités', onPress: () => openUnwanted(p) },
+  // Ouvre le menu d'actions (rendu via un Modal, cf. plus bas).
+  const manage = (p: Player) => setMenuPlayer(p);
+
+  const confirmDelete = (p: Player) =>
+    Alert.alert('Supprimer définitivement ?', `Les statistiques de ${p.name} seront effacées.`, [
+      { text: 'Annuler', style: 'cancel' },
       {
-        text: 'Archiver',
+        text: 'Supprimer',
+        style: 'destructive',
         onPress: async () => {
-          await archivePlayer(p.id);
+          await deletePlayerForever(p.id);
           await refresh();
         },
       },
-      {
-        text: 'Supprimer (efface les stats)',
-        style: 'destructive',
-        onPress: () =>
-          Alert.alert('Supprimer définitivement ?', `Les statistiques de ${p.name} seront effacées.`, [
-            { text: 'Annuler', style: 'cancel' },
-            {
-              text: 'Supprimer',
-              style: 'destructive',
-              onPress: async () => {
-                await deletePlayerForever(p.id);
-                await refresh();
-              },
-            },
-          ]),
-      },
-      { text: 'Annuler', style: 'cancel' },
     ]);
+
+  const archiveToggle = async (p: Player) => {
+    if (showArchived) await restorePlayer(p.id);
+    else await archivePlayer(p.id);
+    await refresh();
   };
 
   // Puce d'une catégorie dans le sélecteur d'univers évités. Les univers non
@@ -429,6 +421,29 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
         </View>
       </View>
     </Modal>
+
+    <Modal visible={!!menuPlayer} transparent animationType="fade" onRequestClose={() => setMenuPlayer(null)}>
+      <Pressable style={styles.modalBackdrop} onPress={() => setMenuPlayer(null)}>
+        <Pressable style={styles.menuSheet} onPress={() => {}}>
+          {menuPlayer && (
+            <>
+              <View style={styles.menuHeader}>
+                <PlayerAvatar emoji={menuPlayer.emoji} color={menuPlayer.color} size={32} />
+                <Txt weight="800" size={fontSize.lg}>
+                  {menuPlayer.name}
+                </Txt>
+              </View>
+              <Button title="Modifier" variant="secondary" onPress={() => { const p = menuPlayer; setMenuPlayer(null); startEdit(p); }} />
+              <Button title="Dupliquer" variant="secondary" onPress={() => { const p = menuPlayer; setMenuPlayer(null); void duplicatePlayer(p); }} />
+              <Button title="Univers et thèmes évités" variant="secondary" onPress={() => { const p = menuPlayer; setMenuPlayer(null); openUnwanted(p); }} />
+              <Button title={showArchived ? 'Restaurer' : 'Archiver'} variant="secondary" onPress={() => { const p = menuPlayer; setMenuPlayer(null); void archiveToggle(p); }} />
+              <Button title="Supprimer (efface les stats)" variant="danger" onPress={() => { const p = menuPlayer; setMenuPlayer(null); confirmDelete(p); }} />
+              <Button title="Annuler" variant="ghost" onPress={() => setMenuPlayer(null)} />
+            </>
+          )}
+        </Pressable>
+      </Pressable>
+    </Modal>
     </>
   );
 }
@@ -458,6 +473,14 @@ const styles = StyleSheet.create({
   colorDotActive: { borderColor: colors.white },
   playerRow: { flexDirection: 'row', alignItems: 'center', gap: spacing(1.5), marginBottom: spacing(1) },
   modalBackdrop: { flex: 1, backgroundColor: colors.overlay, justifyContent: 'flex-end' },
+  menuSheet: {
+    backgroundColor: colors.bgElevated,
+    borderTopLeftRadius: radius.lg,
+    borderTopRightRadius: radius.lg,
+    padding: spacing(2.5),
+    gap: spacing(1),
+  },
+  menuHeader: { flexDirection: 'row', alignItems: 'center', gap: spacing(1.5), marginBottom: spacing(0.5) },
   modalSheet: {
     backgroundColor: colors.bgElevated,
     borderTopLeftRadius: radius.lg,
