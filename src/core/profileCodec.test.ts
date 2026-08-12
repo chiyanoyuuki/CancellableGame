@@ -1,4 +1,4 @@
-import { decodeProfile, encodeProfile, isProfileCode, type RemoteProfile } from './profileCodec';
+import { decodeProfile, encodeProfile, encodeProfileCompact, isProfileCode, type RemoteProfile } from './profileCodec';
 
 const sample: RemoteProfile = {
   name: 'Sofiane',
@@ -61,5 +61,34 @@ describe('profileCodec', () => {
     const many = Array.from({ length: 1000 }, (_, i) => `U${i}`);
     const decoded = decodeProfile(encodeProfile({ ...sample, unwanted: many }));
     expect((decoded?.unwanted.length ?? 0) <= 400).toBe(true);
+  });
+
+  describe('format v2 (univers par indices)', () => {
+    const catalogue = ['Naruto', 'One Piece', 'La gauche', "Assassin's Creed", 'Théories du complot', 'Bleach'];
+
+    test('aller-retour compact avec catalogue', () => {
+      const code = encodeProfileCompact(sample, catalogue);
+      expect(decodeProfile(code, catalogue)).toEqual(sample);
+    });
+
+    test('plus court que le v1 quand il y a beaucoup d’univers', () => {
+      const big: RemoteProfile = { ...sample, unwanted: catalogue };
+      expect(encodeProfileCompact(big, catalogue).length).toBeLessThan(encodeProfile(big).length);
+    });
+
+    test('sans catalogue, un v2 se décode sans exclusions', () => {
+      const code = encodeProfileCompact(sample, catalogue);
+      expect(decodeProfile(code)).toEqual({ ...sample, unwanted: [] });
+    });
+
+    test('catalogue de taille différente (décalage) → aucune exclusion', () => {
+      const code = encodeProfileCompact(sample, catalogue);
+      expect(decodeProfile(code, catalogue.slice(0, 4))?.unwanted).toEqual([]);
+    });
+
+    test('ignore les indices hors bornes', () => {
+      const code = `CANCELLABLE-PROFILE|2|{"n":"Tom","v":${catalogue.length},"u":[0,99,-1,5]}`;
+      expect(decodeProfile(code, catalogue)?.unwanted).toEqual(['Naruto', 'Bleach']);
+    });
   });
 });

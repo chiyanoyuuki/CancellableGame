@@ -138,7 +138,7 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
     if (busyRef.current) return;
     busyRef.current = true;
 
-    const profile = decodeProfile(raw);
+    const profile = decodeProfile(raw, CATALOGUE);
     if (!profile) {
       setFeedback({ ok: false, text: 'QR non reconnu. Assure-toi que c’est bien un profil Cancellable.' });
       setScanning(false);
