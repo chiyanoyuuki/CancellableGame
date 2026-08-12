@@ -1,6 +1,7 @@
+import { useFocusEffect } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { CameraView, useCameraPermissions } from 'expo-camera';
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 
@@ -15,12 +16,43 @@ import {
   setPlayerUnwantedUniverses,
   updatePlayer,
 } from '../db';
+import { getUniverseCatalogue } from '../games/quiz/questions/catalogue';
 import type { RootStackParamList } from '../navigation';
 import { useStore } from '../store/StoreProvider';
 import { canAddProfile } from '../store/products';
 import { colors, fontSize, radius, spacing } from '../theme/theme';
 
 type Imported = { name: string; emoji: string; color: string; unwanted: number; updated: boolean };
+
+// Le lien du QR de l'hôte embarque le « roster » (profils déjà connus) dans son
+// ancre `#r=`, pour que chaque invité puisse retrouver son profil et voir ses
+// univers déjà exclus pré-cochés. Les univers sont encodés par leur INDICE dans
+// le catalogue (compact) ; `v` = taille du catalogue, garde-fou anti-décalage.
+// Le QR doit rester scannable d'écran à écran : on borne la charge utile. Si
+// c'est trop gros, on retire d'abord les univers (on garde nom + avatar pour la
+// sélection), puis en dernier recours on n'embarque pas de roster.
+const ROSTER_MAX_LEN = 1200;
+
+function buildRosterUrl(active: Player[], unwantedByPlayer: Record<string, string[]>): string {
+  const catalogue = getUniverseCatalogue();
+  const indexOf = new Map(catalogue.map((u, i) => [u, i] as const));
+  const full = active.map((p) => ({
+    n: p.name,
+    e: p.emoji,
+    c: p.color,
+    u: (unwantedByPlayer[p.id] ?? [])
+      .map((u) => indexOf.get(u))
+      .filter((i): i is number => i !== undefined),
+  }));
+  const encode = (people: typeof full) =>
+    encodeURIComponent(JSON.stringify({ v: catalogue.length, p: people }));
+
+  let encoded = encode(full);
+  if (encoded.length > ROSTER_MAX_LEN) {
+    encoded = encode(full.map((p) => ({ ...p, u: [] })));
+  }
+  return REMOTE_PROFILE_URL + (encoded.length <= ROSTER_MAX_LEN ? `#r=${encoded}` : '');
+}
 
 export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'RemoteProfile'>) {
   const store = useStore();
@@ -30,6 +62,22 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
   const [feedback, setFeedback] = useState<{ ok: boolean; text: string } | null>(null);
   // Verrou anti-rebond : la caméra émet plusieurs fois le même QR par seconde.
   const busyRef = useRef(false);
+
+  // Lien encodé dans le QR de l'hôte : inclut le roster des joueurs actuels
+  // (dans l'ancre `#r=`) pour que chaque invité retrouve son profil. Rafraîchi
+  // à chaque affichage de l'écran et après chaque import.
+  const [qrValue, setQrValue] = useState(REMOTE_PROFILE_URL);
+
+  const refreshRoster = useCallback(async () => {
+    const [active, map] = await Promise.all([listPlayers(false), getPlayerUnwantedUniverses()]);
+    setQrValue(buildRosterUrl(active, map));
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      void refreshRoster();
+    }, [refreshRoster]),
+  );
 
   const openScanner = async () => {
     if (!permission?.granted) {
@@ -47,6 +95,8 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
   const recordImported = (p: { name: string; emoji: string; color: string }, unwanted: number, updated: boolean) => {
     setImported((prev) => [{ name: p.name, emoji: p.emoji, color: p.color, unwanted, updated }, ...prev]);
     setFeedback({ ok: true, text: updated ? `${p.name} mis à jour !` : `${p.name} ajouté !` });
+    // Le nouveau/màj joueur doit apparaître dans le roster du QR de l'hôte.
+    void refreshRoster();
   };
 
   // Crée un nouveau joueur (en respectant la limite de la version gratuite).
@@ -152,7 +202,7 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
         {REMOTE_PROFILE_CONFIGURED ? (
           <>
             <View style={styles.qrBox}>
-              <QRCode value={REMOTE_PROFILE_URL} size={200} />
+              <QRCode value={qrValue} size={220} ecl="L" />
             </View>
             <Txt faint size={fontSize.xs} center style={{ marginTop: spacing(1) }}>
               1. Les invités scannent ce QR pour ouvrir le formulaire.

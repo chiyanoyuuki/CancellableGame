@@ -20,6 +20,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   .emoji.sel { border-color:var(--accent); background:var(--card2); }
   .swatch { width:40px; height:40px; border-radius:50%; border:3px solid transparent; cursor:pointer; }
   .swatch.sel { border-color:#fff; }
+  #known { margin:6px 0 4px; background:var(--card); border:1px solid var(--accent); border-radius:12px; padding:12px 14px; }
   details { margin-top:18px; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:12px 14px; }
   summary { font-weight:700; cursor:pointer; font-size:14px; }
   .hint { color:var(--dim); font-size:12px; margin:6px 0 10px; }
@@ -27,6 +28,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   .chips { display:flex; flex-wrap:wrap; gap:8px; }
   .chip { padding:8px 12px; border-radius:999px; background:var(--card2); border:1px solid var(--border); font-size:13px; cursor:pointer; }
   .chip.off { background:#3a1f2b; border-color:#7a3b52; color:#ffb3c8; text-decoration:line-through; }
+  .chip.known { background:var(--card2); border-color:var(--accent); }
   button.primary { width:100%; margin-top:24px; padding:16px; font-size:17px; font-weight:800; border:0; border-radius:14px; background:var(--accent); color:#fff; cursor:pointer; }
   button.ghost { width:100%; margin-top:12px; padding:14px; font-size:15px; font-weight:700; border:1px solid var(--border); border-radius:14px; background:transparent; color:var(--text); cursor:pointer; }
   #result { display:none; text-align:center; }
@@ -34,12 +36,19 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   .big { font-size:19px; font-weight:800; margin:8px 0; }
   .count { color:var(--dim); font-size:12px; }
   .err { color:#ffb3c8; font-size:13px; margin-top:10px; }
+  #sorthint { display:none; color:#9fd3ff; font-size:12px; margin:8px 0; }
 </style>
 </head>
 <body>
 <div id="form">
   <h1>🎉 Mon profil Cancellable</h1>
   <p class="sub">Remplis ton profil, puis montre ton QR code à la personne qui a l'appli. Rien n'est envoyé sur Internet : tout tient dans le QR.</p>
+
+  <div id="known" style="display:none">
+    <label style="margin-top:0">Tu es déjà enregistré ? Choisis ton profil</label>
+    <div class="chips" id="knownList"></div>
+    <p class="hint" style="margin-bottom:0">Tes univers déjà exclus seront pré-cochés. Sinon, remplis un nouveau profil ci-dessous.</p>
+  </div>
 
   <label>Ton prénom</label>
   <input id="name" type="text" placeholder="Ex. Sofiane" maxlength="40" autocomplete="off">
@@ -50,9 +59,10 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   <label>Ta couleur</label>
   <div class="grid" id="colors"></div>
 
-  <details>
+  <details id="univDetails">
     <summary>Univers que je ne veux pas voir (optionnel)</summary>
-    <p class="hint">Décoche les univers qui ne t'intéressent pas : tu n'auras quasiment jamais de questions dessus. Par défaut, tout est gardé.</p>
+    <p class="hint">Touche un univers pour l'exclure : tu n'auras quasiment jamais de questions dessus. Par défaut, tout est gardé.</p>
+    <p id="sorthint">🆕 Triés par ajout : les univers les plus récents en premier.</p>
     <div id="universes"></div>
   </details>
 
@@ -74,35 +84,91 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   var EMOJIS = ["🦊","🐼","🐸","🐯","🦄","🐙","🐲","🦁","🐵","🐧","👽","🤖","🎃","👑","🍕","🔥","⚡","🌮","🦖","🐝"];
   var COLORS = ["#7c5cff","#ff5c8a","#33d69f","#ffd166","#5cc6ff","#ff8c42","#c45cff","#ff5c5c","#52e0c4","#a0e548"];
   var GROUPS = [{"theme":"manga","label":"Manga / Anime","emoji":"🍥","universes":["86","Animés des années 90-2000","Berserk","Bleach","Blue Lock","Chainsaw Man","Death Note","Demon Slayer","Dr. Stone","Dragon Ball","Fullmetal Alchemist","Haikyu","Hunter x Hunter","Jujutsu Kaisen","L'Attaque des Titans","Moi quand je me réincarne en slime","Mushoku Tensei","My Hero Academia","Nana","Naruto","One Piece","One Punch Man","Solo Leveling","Spy x Family","The Promised Neverland","Tokyo Ghoul"]},{"theme":"jeuxvideo","label":"Jeux vidéo","emoji":"🎮","universes":["Assassin's Creed","Baldur's Gate","Call of Duty","Clair Obscur Expédition 33","Cyberpunk 2077","Devil May Cry","Dofus","Elden Ring","Far Cry","Farming Simulator","Final Fantasy","Fortnite","Genshin Impact","GTA","Hades","Halo","Kingdom Come Deliverance","League of Legends","Les Sims","Mario","Minecraft","Phasmophobia","Pokémon","Resident Evil","Skyrim","Stardew Valley","The Last of Us","The Witcher","World of Warcraft","Yakuza","Zelda"]},{"theme":"series","label":"Séries","emoji":"📺","universes":["Arcane","Breaking Bad","Dessins animés de notre enfance","Family Guy","Friends","Futurama","Game of Thrones","La Casa de Papel","Les Simpson","Lupin","Mercredi","Peaky Blinders","Prison Break","Rick et Morty","Séries Netflix","Sex and the City","Squid Game","Stranger Things","The Boys","The Office (US)","The Walking Dead"]},{"theme":"films","label":"Films","emoji":"🎬","universes":["Cinéma des années 80","Comédies romantiques","Disney","Drames","Grands classiques","Harry Potter","Horreur","Le Seigneur des Anneaux","Marvel","Oscars et Césars","Star Wars","Super-héros","Thriller"]},{"theme":"musique","label":"Musique","emoji":"🎵","universes":["Culture musicale","K-pop","Métal","Michael Jackson","Pop","Rap","Rock","Taylor Swift","Tubes des années 80"]},{"theme":"litterature","label":"Littérature","emoji":"📚","universes":["Bande dessinée","Policier","Science-fiction"]},{"theme":"japon","label":"Japon","emoji":"🇯🇵","universes":["Cinéma japonais","Culture japonaise","Gastronomie japonaise","Musique japonaise","Séries japonaises"]},{"theme":"france","label":"France","emoji":"🇫🇷","universes":["Cinéma français","Culture française","Gastronomie française","Kaamelott","Musique française","Séries françaises"]},{"theme":"tcheque","label":"République tchèque","emoji":"🇨🇿","universes":["Culture tchèque","Gastronomie tchèque","Histoire de Prague"]},{"theme":"mode","label":"Mode","emoji":"👗","universes":["Beauté et parfums","Grands couturiers","Histoire de la mode","Maisons de luxe","Mannequins et Fashion Week","Maquillage","Streetwear et sneakers"]},{"theme":"culture","label":"Culture générale","emoji":"🧠","universes":["Anglais","Art","Culture générale","Expressions","Gastronomie","Géographie","Histoire","Kim Jong-un","Latin"]},{"theme":"sciences","label":"Sciences & Nature","emoji":"🔬","universes":["Animaux","Arbres","Astronomie","Insectes","Sciences","SVT"]},{"theme":"societe","label":"Société & lifestyle","emoji":"🎉","universes":["Alcool","Astrologie","Célébrités","Polémiques","Sexe","Théories du complot","Voitures"]},{"theme":"politique","label":"Politique & Histoire","emoji":"🗳️","universes":["Adolf Hitler","Donald Trump","La droite","La gauche"]},{"theme":"internet","label":"Références Internet","emoji":"🌐","universes":["Mèmes & viral","Réseaux sociaux"]},{"theme":"mythologie","label":"Mythologie","emoji":"🏛️","universes":["Mythologie égyptienne","Mythologie grecque","Mythologie nordique","Mythologie romaine"]},{"theme":"religions","label":"Religions","emoji":"🛐","universes":["Bouddhisme","Catholicisme","Chrétienté"]}];
-  var state = { emoji: EMOJIS[0], color: COLORS[0], unwanted: {} };
+  var ADD_ORDER = ["Astrologie","Insectes","Animaux","Alcool","Astronomie","Arbres","Voitures","Culture tchèque","Gastronomie tchèque","Histoire de Prague","SVT","Célébrités","Sexe","Kingdom Come Deliverance","Bouddhisme","Catholicisme","Chrétienté","Latin","Kim Jong-un","Phasmophobia","Far Cry","Hades","Baldur's Gate","Final Fantasy","The Walking Dead","86","Spy x Family","The Promised Neverland","Tokyo Ghoul","Moi quand je me réincarne en slime","Dr. Stone","Haikyu","Yakuza","Clair Obscur Expédition 33","Adolf Hitler","Donald Trump","La gauche","La droite","Théories du complot","Polémiques","Les Simpson","Family Guy","Futurama","Devil May Cry","Blue Lock","Solo Leveling","Elden Ring","Fortnite","The Last of Us","Harry Potter","Star Wars","Le Seigneur des Anneaux","Mercredi","Taylor Swift","One Punch Man","Call of Duty","Assassin's Creed","Genshin Impact","Rick et Morty","Lupin","Kaamelott","Marvel","Disney","Michael Jackson"];
+  var FLAT = []; GROUPS.forEach(function(g){ g.universes.forEach(function(u){ FLAT.push(u); }); });
+  var ADD_RANK = {}; ADD_ORDER.forEach(function(k,i){ ADD_RANK[k]=i; });
+  var state = { emoji: EMOJIS[0], color: COLORS[0], unwanted: {}, dateSort: false };
+
+  // Roster éventuel passé par l'hôte dans le lien (#r=...) : profils déjà connus.
+  var roster = null, catMatch = true;
+  try {
+    var h = location.hash || '';
+    if (h.indexOf('#r=') === 0) {
+      var obj = JSON.parse(decodeURIComponent(h.slice(3)));
+      roster = obj.p || [];
+      catMatch = (obj.v === FLAT.length);
+    }
+  } catch(e) { roster = null; }
 
   var eBox = document.getElementById('emojis');
   EMOJIS.forEach(function(e){
-    var d = document.createElement('div');
-    d.className = 'emoji' + (e===state.emoji?' sel':''); d.textContent = e;
-    d.onclick = function(){ state.emoji=e; [].forEach.call(eBox.children,function(c){c.className='emoji'+(c.textContent===e?' sel':'');}); };
+    var d = document.createElement('div'); d.className='emoji'; d.textContent=e;
+    d.onclick = function(){ state.emoji=e; highlightEmoji(); };
     eBox.appendChild(d);
   });
+  function highlightEmoji(){ [].forEach.call(eBox.children,function(c){ c.className='emoji'+(c.textContent===state.emoji?' sel':''); }); }
+  highlightEmoji();
 
   var cBox = document.getElementById('colors');
   COLORS.forEach(function(c){
-    var d = document.createElement('div');
-    d.className = 'swatch' + (c===state.color?' sel':''); d.style.background = c;
-    d.onclick = function(){ state.color=c; [].forEach.call(cBox.children,function(x,i){x.className='swatch'+(COLORS[i]===c?' sel':'');}); };
+    var d = document.createElement('div'); d.className='swatch'; d.style.background=c;
+    d.onclick = function(){ state.color=c; highlightColor(); };
     cBox.appendChild(d);
   });
+  function highlightColor(){ [].forEach.call(cBox.children,function(x,i){ x.className='swatch'+(COLORS[i]===state.color?' sel':''); }); }
+  highlightColor();
 
-  var uBox = document.getElementById('universes');
-  GROUPS.forEach(function(g){
-    var t = document.createElement('div'); t.className='theme'; t.textContent = g.emoji+' '+g.label.toUpperCase(); uBox.appendChild(t);
-    var row = document.createElement('div'); row.className='chips';
-    g.universes.forEach(function(u){
-      var c = document.createElement('div'); c.className='chip'; c.textContent=u;
-      c.onclick = function(){ if(state.unwanted[u]){ delete state.unwanted[u]; c.className='chip'; } else { state.unwanted[u]=1; c.className='chip off'; } };
-      row.appendChild(c);
+  function chip(u){
+    var c = document.createElement('div');
+    c.className = 'chip' + (state.unwanted[u] ? ' off' : '');
+    c.textContent = u;
+    c.onclick = function(){ if(state.unwanted[u]){ delete state.unwanted[u]; c.className='chip'; } else { state.unwanted[u]=1; c.className='chip off'; } };
+    return c;
+  }
+
+  function renderUniverses(){
+    var box = document.getElementById('universes'); box.innerHTML='';
+    document.getElementById('sorthint').style.display = state.dateSort ? 'block' : 'none';
+    if (state.dateSort){
+      var items = FLAT.slice();
+      items.sort(function(a,b){ var ra=(a in ADD_RANK)?ADD_RANK[a]:-1, rb=(b in ADD_RANK)?ADD_RANK[b]:-1; return rb-ra; });
+      var row = document.createElement('div'); row.className='chips';
+      items.forEach(function(u){ row.appendChild(chip(u)); });
+      box.appendChild(row);
+    } else {
+      GROUPS.forEach(function(g){
+        var t = document.createElement('div'); t.className='theme'; t.textContent = g.emoji+' '+g.label.toUpperCase(); box.appendChild(t);
+        var row = document.createElement('div'); row.className='chips';
+        g.universes.forEach(function(u){ row.appendChild(chip(u)); });
+        box.appendChild(row);
+      });
+    }
+  }
+
+  function selectProfile(item){
+    document.getElementById('name').value = item.n || '';
+    if (item.e) { state.emoji = item.e; highlightEmoji(); }
+    if (item.c) { state.color = item.c; highlightColor(); }
+    state.unwanted = {};
+    var count = 0;
+    if (catMatch && item.u) { item.u.forEach(function(i){ var u = FLAT[i]; if(u){ state.unwanted[u]=1; count++; } }); }
+    state.dateSort = count >= 20; // même seuil que l'app
+    renderUniverses();
+    if (count > 0) { document.getElementById('univDetails').open = true; }
+    window.scrollTo(0, 0);
+  }
+
+  if (roster && roster.length){
+    var known = document.getElementById('known'); known.style.display='block';
+    var list = document.getElementById('knownList');
+    roster.forEach(function(item){
+      var c = document.createElement('div'); c.className='chip known'; c.textContent = (item.e?item.e+' ':'') + item.n;
+      c.onclick = function(){ [].forEach.call(list.children,function(x){x.className='chip known';}); c.className='chip known off'; selectProfile(item); };
+      list.appendChild(c);
     });
-    uBox.appendChild(row);
-  });
+  }
+
+  renderUniverses();
 
   function encodeProfile(p){
     return 'CANCELLABLE-PROFILE|1|' + JSON.stringify({ n:p.name, e:p.emoji, c:p.color, u:p.unwanted });
