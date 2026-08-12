@@ -7,6 +7,7 @@ import {
   duelUltimeWinner,
   type DuelUltimeState,
 } from './duelUltimeEngine';
+import type { QuestionHistory } from './questionSelection';
 
 const players: Player[] = [
   { id: 'p1', name: 'Alice', emoji: '🦊', color: '#f00' },
@@ -27,7 +28,7 @@ for (const [theme, uni] of [
 }
 
 function config(over: Partial<DuelUltimeConfig> = {}): DuelUltimeConfig {
-  return { universeByPlayer: { p1: 'Naruto', p2: 'Marvel' }, questionsPerPlayer: 10, ...over };
+  return { universesByPlayer: { p1: ['Naruto'], p2: ['Marvel'] }, questionsPerPlayer: 10, ...over };
 }
 
 const start = (over: Partial<DuelUltimeConfig> = {}, order?: string[]) =>
@@ -38,15 +39,63 @@ const turn = (s: DuelUltimeState, correct: boolean) =>
   duelUltimeReducer(duelUltimeReducer(s, { type: 'ANSWER', correct }), { type: 'CONTINUE' });
 
 describe('createDuelUltimeState', () => {
-  test('première question : premier joueur, pro, son univers, QCM à 4 options', () => {
+  test('première question : premier joueur, pro, son univers, sans propositions', () => {
     const s = start();
     expect(s.activeId).toBe('p1');
     expect(s.current?.difficulty).toBe(4);
     expect(s.current?.universe).toBe('Naruto');
     expect(s.qNumber).toBe(1);
     expect(s.phase).toBe('question');
-    expect(s.currentOptions).toHaveLength(4);
-    expect(s.currentOptions).toContain('bon');
+  });
+});
+
+describe('univers multiples et questions inédites', () => {
+  test('un joueur peut choisir plusieurs univers : tirage dans leur union', () => {
+    // « A » n'a que 3 questions pro ; le reste vient forcément de « B ».
+    const twoUni: Question[] = [];
+    for (let i = 0; i < 3; i++) {
+      twoUni.push({ id: `A-4-${i}`, theme: 'manga' as Theme, universe: 'A', difficulty: 4, text: `a${i}`, answer: 'bon', distractors: ['a', 'b', 'c'] });
+    }
+    for (let i = 0; i < 20; i++) {
+      twoUni.push({ id: `B-4-${i}`, theme: 'films' as Theme, universe: 'B', difficulty: 4, text: `b${i}`, answer: 'bon', distractors: ['a', 'b', 'c'] });
+    }
+    let s = createDuelUltimeState({
+      config: { universesByPlayer: { p1: ['A', 'B'] }, questionsPerPlayer: 10 },
+      players: [players[0] as Player],
+      pool: twoUni,
+      seed: 7,
+    });
+    const unis = new Set<string>();
+    let count = 0;
+    while (s.phase === 'question' && s.current) {
+      unis.add(s.current.universe ?? '');
+      count += 1;
+      s = turn(s, true);
+    }
+    expect(count).toBe(10);
+    expect([...unis].every((u) => u === 'A' || u === 'B')).toBe(true);
+    expect(unis.has('A') && unis.has('B')).toBe(true);
+  });
+
+  test('questions jamais vues d’abord (comme le quiz)', () => {
+    // On marque Naruto-4-0..14 comme déjà vues → seules 15..19 sont inédites.
+    const seen: QuestionHistory = {};
+    for (let i = 0; i < 15; i++) seen[`Naruto-4-${i}`] = { timesUsed: 1, lastUsedAt: 0 };
+    let s = createDuelUltimeState({
+      config: { universesByPlayer: { p1: ['Naruto'] }, questionsPerPlayer: 5 },
+      players: [players[0] as Player],
+      pool,
+      seed: 9,
+      historyByPlayer: { p1: seen },
+    });
+    const ids: string[] = [];
+    while (s.phase === 'question' && s.current) {
+      ids.push(s.current.id);
+      s = turn(s, true);
+    }
+    expect(ids).toHaveLength(5);
+    const unseen = new Set(['Naruto-4-15', 'Naruto-4-16', 'Naruto-4-17', 'Naruto-4-18', 'Naruto-4-19']);
+    expect(ids.every((id) => unseen.has(id))).toBe(true);
   });
 });
 
@@ -107,7 +156,7 @@ describe('mode solo (1 joueur)', () => {
   test('un seul joueur : N questions, score enregistré, pas de vainqueur', () => {
     const solo: Player[] = [players[0] as Player];
     let s = createDuelUltimeState({
-      config: { universeByPlayer: { p1: 'Naruto' }, questionsPerPlayer: 10 },
+      config: { universesByPlayer: { p1: ['Naruto'] }, questionsPerPlayer: 10 },
       players: solo,
       pool,
       seed: 3,
@@ -130,7 +179,7 @@ describe('robustesse', () => {
       small.push({ id: `Solo-4-${i}`, theme: 'manga' as Theme, universe: 'Petit', difficulty: 4, text: `q${i}`, answer: 'bon', distractors: ['a', 'b', 'c'] });
     }
     let s = createDuelUltimeState({
-      config: { universeByPlayer: { p1: 'Petit' }, questionsPerPlayer: 10 },
+      config: { universesByPlayer: { p1: ['Petit'] }, questionsPerPlayer: 10 },
       players: [players[0] as Player],
       pool: small,
       seed: 5,

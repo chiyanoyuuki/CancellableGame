@@ -1,15 +1,17 @@
 /**
  * « Duel Ultime » — moteur pur et testable (aucun import React Native).
  *
- * 1 à n joueurs. Chaque joueur choisit SON propre univers et répond à N
- * questions PRO (difficulté 4) tirées de cet univers, sous forme de QCM.
- * Les joueurs jouent leur bloc de questions à tour de rôle. À la fin, on
- * compare les scores (nombre de bonnes réponses) : le meilleur l'emporte.
- * Avec un seul joueur, c'est un défi solo chronométré par le score.
+ * 1 à n joueurs. Chaque joueur choisit UN OU PLUSIEURS univers et répond à N
+ * questions PRO (difficulté 4) tirées de ces univers, SANS propositions : la
+ * question est posée, la réponse est révélée, et le joueur déclare s'il l'a
+ * trouvée. Priorité aux questions jamais vues (comme le quiz). Les joueurs
+ * jouent leur bloc à tour de rôle ; à la fin on compare les scores (nombre de
+ * bonnes réponses) : le meilleur l'emporte. En solo, c'est un défi.
  */
 import type { GameEvent, Player, PlayerSessionResult, Question, SessionResult } from './models';
-import { mulberry32, type Rng, shuffle } from './rng';
 import type { DuelUltimeConfig } from './models';
+import type { QuestionHistory } from './questionSelection';
+import { mulberry32, shuffle } from './rng';
 
 export type DuelUltimePhase = 'question' | 'reveal' | 'finished';
 
@@ -23,10 +25,9 @@ export interface DuelUltimeState {
   activeId: string | null;
   /** Numéro de la question en cours pour le joueur actif (1..questionsPerPlayer). */
   qNumber: number;
-  /** Files de questions restantes par joueur (déjà mélangées, limitées à N). */
+  /** Files de questions restantes par joueur (déjà triées, limitées à N). */
   queues: Record<string, Question[]>;
   current: Question | null;
-  currentOptions: string[];
   correctById: Record<string, number>;
   wrongById: Record<string, number>;
   /** Nombre de questions déjà répondues par chaque joueur. */
@@ -34,17 +35,11 @@ export interface DuelUltimeState {
   phase: DuelUltimePhase;
   lastCorrect: boolean | null;
   seed: number;
-  step: number;
 }
 
 export type DuelUltimeAction =
   | { type: 'ANSWER'; correct: boolean }
   | { type: 'CONTINUE' };
-
-function stepRng(state: DuelUltimeState): { rng: Rng; step: number } {
-  const rng = mulberry32((state.seed ^ Math.imul(state.step + 1, 0x9e3779b1)) >>> 0);
-  return { rng, step: state.step + 1 };
-}
 
 /**
  * Prépare la prochaine question. Avance de joueur en joueur tant que la file du
@@ -57,24 +52,20 @@ function setupQuestion(state: DuelUltimeState): DuelUltimeState {
     const queue = id ? state.queues[id] ?? [] : [];
     if (id && queue.length > 0) {
       const q = queue[0] as Question;
-      const { rng, step } = stepRng({ ...state, playerIdx });
-      const currentOptions = shuffle([q.answer, ...q.distractors.slice(0, 3)], rng);
       return {
         ...state,
-        step,
         playerIdx,
         activeId: id,
         qNumber: (state.answeredById[id] ?? 0) + 1,
         queues: { ...state.queues, [id]: queue.slice(1) },
         current: q,
-        currentOptions,
         phase: 'question',
         lastCorrect: null,
       };
     }
     playerIdx += 1;
   }
-  return { ...state, playerIdx, activeId: null, current: null, currentOptions: [], phase: 'finished' };
+  return { ...state, playerIdx, activeId: null, current: null, phase: 'finished' };
 }
 
 export function createDuelUltimeState(args: {
@@ -84,17 +75,28 @@ export function createDuelUltimeState(args: {
   seed: number;
   /** Ordre de passage imposé (identifiants) ; défaut = ordre des joueurs. */
   order?: string[];
+  /** Historique par joueur : priorise les questions que CE joueur n'a pas vues. */
+  historyByPlayer?: Record<string, QuestionHistory>;
 }): DuelUltimeState {
   const order = (args.order ?? args.players.map((p) => p.id)).filter(
-    (id) => args.config.universeByPlayer[id] !== undefined,
+    (id) => (args.config.universesByPlayer[id]?.length ?? 0) > 0,
   );
   const n = Math.max(1, args.config.questionsPerPlayer);
   const queues: Record<string, Question[]> = {};
   order.forEach((id, i) => {
-    const universe = args.config.universeByPlayer[id];
+    const universes = new Set(args.config.universesByPlayer[id] ?? []);
     const rng = mulberry32((args.seed ^ Math.imul(i + 1, 0x85ebca6b)) >>> 0);
-    const pro = args.pool.filter((q) => q.universe === universe && q.difficulty === 4);
-    queues[id] = shuffle(pro, rng).slice(0, n);
+    const pro = args.pool.filter(
+      (q) => q.difficulty === 4 && q.universe !== undefined && universes.has(q.universe),
+    );
+    // Questions jamais vues d'abord (comme le quiz) : on mélange pour l'aléatoire,
+    // puis on trie de façon stable par nombre de fois déjà vues (croissant).
+    const hist = args.historyByPlayer?.[id];
+    const shuffled = shuffle(pro, rng);
+    if (hist) {
+      shuffled.sort((a, b) => (hist[a.id]?.timesUsed ?? 0) - (hist[b.id]?.timesUsed ?? 0));
+    }
+    queues[id] = shuffled.slice(0, n);
   });
 
   const base: DuelUltimeState = {
@@ -106,14 +108,12 @@ export function createDuelUltimeState(args: {
     qNumber: 0,
     queues,
     current: null,
-    currentOptions: [],
     correctById: {},
     wrongById: {},
     answeredById: {},
     phase: 'question',
     lastCorrect: null,
     seed: args.seed >>> 0,
-    step: 0,
   };
   if (order.length === 0) return { ...base, phase: 'finished', activeId: null };
   return setupQuestion(base);
@@ -190,7 +190,7 @@ export function duelUltimeToSessionResult(
       details: {
         correct: points,
         wrong: state.wrongById[id] ?? 0,
-        universe: state.config.universeByPlayer[id] ?? '',
+        universe: (state.config.universesByPlayer[id] ?? []).join(', '),
       },
     };
   });

@@ -13,6 +13,7 @@ import {
   duelUltimeToSessionResult,
 } from '../../core/duelUltimeEngine';
 import { randomSeed } from '../../core/rng';
+import { getQuestionHistoryByPlayer } from '../../db';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import { useStore } from '../../store/StoreProvider';
 import type { MiniGamePlayProps } from '../types';
@@ -32,7 +33,8 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
   const store = useStore();
   const cfg = config as DuelUltimeConfig;
   const [game, setGame] = useState<DuelUltimeState | null>(null);
-  const [picked, setPicked] = useState<string | null>(null);
+  // Réponse révélée (l'invité se juge : trouvé / raté) — pas de propositions.
+  const [revealed, setRevealed] = useState(false);
   // Écran « passe le téléphone » affiché au début du bloc de chaque joueur.
   const [handoff, setHandoff] = useState<Player | null>(null);
 
@@ -48,7 +50,7 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const fullPool = await getQuizPool();
+      const [fullPool, historyByPlayer] = await Promise.all([getQuizPool(), getQuestionHistoryByPlayer()]);
       const pool = store.ent.allThemes
         ? fullPool
         : fullPool.filter((q) => store.isUniverseUnlocked(q.universe ?? `#${q.theme}`));
@@ -56,7 +58,7 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
       const order = players.map((p) => p.id);
       if (!alive) return;
       startedAtRef.current = Date.now();
-      setGame(createDuelUltimeState({ config: cfg, players, pool, seed, order }));
+      setGame(createDuelUltimeState({ config: cfg, players, pool, seed, order, historyByPlayer }));
     })();
     return () => {
       alive = false;
@@ -88,16 +90,14 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
       { text: 'Quitter', style: 'destructive', onPress: onQuit },
     ]);
 
-  const answer = (opt: string) => {
-    if (!game?.current) return;
-    const correct = opt === game.current.answer;
-    setPicked(opt);
+  // L'invité déclare s'il a trouvé la réponse (aucune proposition affichée).
+  const judge = (correct: boolean) => {
     haptic(correct);
     dispatch({ type: 'ANSWER', correct });
   };
 
   const next = () => {
-    setPicked(null);
+    setRevealed(false);
     dispatch({ type: 'CONTINUE' });
   };
 
@@ -147,7 +147,7 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
 
   function renderHandoff() {
     if (!handoff) return null;
-    const uni = cfg.universeByPlayer[handoff.id];
+    const unis = cfg.universesByPlayer[handoff.id] ?? [];
     return (
       <View style={{ gap: spacing(2), paddingTop: spacing(6), alignItems: 'center' }}>
         <PlayerAvatar emoji={handoff.emoji} color={handoff.color} size={72} />
@@ -157,9 +157,9 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
         <Txt size={fontSize.xxl} weight="900" center>
           À toi, {handoff.name} !
         </Txt>
-        {uni && (
+        {unis.length > 0 && (
           <Txt dim center>
-            🎯 {total} questions pro sur {uni}
+            🎯 {total} questions pro sur {unis.join(', ')}
           </Txt>
         )}
         <View style={{ height: spacing(2) }} />
@@ -195,13 +195,40 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
           {q.text}
         </Txt>
 
-        <View style={{ gap: spacing(1) }}>
-          {game!.currentOptions.map((opt) => (
-            <Pressable key={opt} style={styles.option} onPress={() => answer(opt)}>
-              <Txt weight="700">{opt}</Txt>
-            </Pressable>
-          ))}
-        </View>
+        {!revealed ? (
+          <View style={{ gap: spacing(1) }}>
+            <Txt faint size={fontSize.sm}>
+              Réfléchis (ou dis ta réponse à voix haute), puis révèle la bonne réponse.
+            </Txt>
+            <Button title="Voir la réponse" emoji="👀" size="lg" onPress={() => setRevealed(true)} />
+          </View>
+        ) : (
+          <View style={{ gap: spacing(1.5) }}>
+            <Card accent={colors.success}>
+              <Txt faint size={fontSize.xs}>
+                RÉPONSE
+              </Txt>
+              <Txt size={fontSize.lg} weight="800">
+                {q.answer}
+              </Txt>
+            </Card>
+            <Txt center weight="800">
+              Tu l'avais ?
+            </Txt>
+            <View style={styles.judgeRow}>
+              <Pressable style={[styles.judge, styles.judgeWrong]} onPress={() => judge(false)}>
+                <Txt weight="800" size={fontSize.lg} color={colors.white}>
+                  ❌ Raté
+                </Txt>
+              </Pressable>
+              <Pressable style={[styles.judge, styles.judgeRight]} onPress={() => judge(true)}>
+                <Txt weight="800" size={fontSize.lg} color={colors.white}>
+                  ✅ Trouvé
+                </Txt>
+              </Pressable>
+            </View>
+          </View>
+        )}
       </View>
     );
   }
@@ -219,17 +246,6 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
             {correct ? 'Bonne réponse !' : 'Raté !'}
           </Txt>
         </View>
-
-        {!correct && !!picked && (
-          <Card>
-            <Txt faint size={fontSize.xs}>
-              TA RÉPONSE
-            </Txt>
-            <Txt size={fontSize.lg} weight="800" color={colors.danger}>
-              {picked}
-            </Txt>
-          </Card>
-        )}
 
         <Card accent={colors.success}>
           <Txt faint size={fontSize.xs}>
@@ -272,11 +288,14 @@ const styles = StyleSheet.create({
     padding: spacing(1.5),
     borderRadius: radius.md,
   },
-  option: {
-    backgroundColor: colors.card,
+  judgeRow: { flexDirection: 'row', gap: spacing(1.5) },
+  judge: {
+    flex: 1,
     borderRadius: radius.md,
-    padding: spacing(2),
-    borderWidth: 1,
-    borderColor: colors.border,
+    padding: spacing(2.25),
+    alignItems: 'center',
+    justifyContent: 'center',
   },
+  judgeRight: { backgroundColor: colors.success },
+  judgeWrong: { backgroundColor: colors.danger },
 });

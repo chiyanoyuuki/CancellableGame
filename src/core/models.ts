@@ -255,8 +255,8 @@ export interface DuelConfig {
 // ---------------------------------------------------------------------------
 
 export interface DuelUltimeConfig {
-  /** Univers choisi par chaque joueur : identifiant du joueur -> nom d'univers. */
-  universeByPlayer: Record<string, string>;
+  /** Univers choisis par chaque joueur : identifiant du joueur -> noms d'univers. */
+  universesByPlayer: Record<string, string[]>;
   /** Nombre de questions pro posées à chaque joueur (défaut 10). */
   questionsPerPlayer: number;
 }

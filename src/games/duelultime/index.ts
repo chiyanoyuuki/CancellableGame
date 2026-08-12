@@ -6,7 +6,7 @@ export const duelUltimeGame: MiniGameDefinition = {
   id: 'duelultime',
   title: 'Duel Ultime',
   emoji: '🥊',
-  description: "Chacun choisit son univers et affronte 10 questions pro dessus. Meilleur score gagne. Jouable en solo.",
+  description: "Chacun choisit un ou plusieurs univers et affronte des questions pro, sans propositions. Meilleur score gagne. Jouable en solo.",
   minPlayers: 1,
   available: true,
   ConfigComponent: DuelUltimeConfigComponent,

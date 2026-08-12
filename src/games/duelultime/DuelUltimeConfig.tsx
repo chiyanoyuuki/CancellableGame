@@ -17,7 +17,7 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
   const store = useStore();
   const [pool, setPool] = useState<Question[]>([]);
   const [n, setN] = useState(10);
-  const [universeByPlayer, setUniverseByPlayer] = useState<Record<string, string>>({});
+  const [universesByPlayer, setUniversesByPlayer] = useState<Record<string, string[]>>({});
   const [editing, setEditing] = useState<string>(players[0]?.id ?? '');
 
   useEffect(() => {
@@ -41,12 +41,13 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
     return m;
   }, [pool]);
 
-  // Univers jouables (assez de questions pro + débloqués), groupés par thème.
+  // Univers jouables (au moins une question pro + débloqués), groupés par thème.
+  // Multi-sélection : plusieurs petits univers se combinent pour atteindre N.
   const universesByTheme = useMemo(() => {
     const byTheme = new Map<Theme, Set<string>>();
     for (const q of pool) {
       if (!q.universe || EXCLUDED_THEMES.includes(q.theme)) continue;
-      if ((proCount.get(q.universe) ?? 0) < n) continue;
+      if ((proCount.get(q.universe) ?? 0) < 1) continue;
       let s = byTheme.get(q.theme);
       if (!s) {
         s = new Set<string>();
@@ -62,34 +63,34 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
           .sort((a, b) => a.localeCompare(b, 'fr')),
       }))
       .filter((g) => g.universes.length > 0);
-  }, [pool, proCount, n, store]);
+  }, [pool, proCount, store]);
 
-  // Choisir un univers pour le joueur en cours d'édition, puis avancer vers le
-  // prochain joueur sans univers (le tirage se fait ainsi de proche en proche).
-  const pick = (u: string) => {
-    setUniverseByPlayer((prev) => {
-      const next = { ...prev, [editing]: u };
-      const nextPlayer = players.find((p) => !next[p.id]);
-      if (nextPlayer) setEditing(nextPlayer.id);
-      return next;
+  // Ajoute/retire un univers pour le joueur en cours d'édition (multi-sélection).
+  const toggle = (u: string) => {
+    setUniversesByPlayer((prev) => {
+      const cur = prev[editing] ?? [];
+      const next = cur.includes(u) ? cur.filter((x) => x !== u) : [...cur, u];
+      return { ...prev, [editing]: next };
     });
   };
 
-  const allAssigned = players.length >= 1 && players.every((p) => universeByPlayer[p.id]);
-  const valid = allAssigned;
+  const valid = players.length >= 1 && players.every((p) => (universesByPlayer[p.id]?.length ?? 0) > 0);
 
   const launch = () =>
-    onStart({ universeByPlayer, questionsPerPlayer: n } satisfies DuelUltimeConfig);
+    onStart({ universesByPlayer, questionsPerPlayer: n } satisfies DuelUltimeConfig);
 
-  const editingPick = universeByPlayer[editing];
+  const editingName = players.find((p) => p.id === editing)?.name ?? '';
+  const editingUniverses = universesByPlayer[editing] ?? [];
+  const editingProTotal = editingUniverses.reduce((sum, u) => sum + (proCount.get(u) ?? 0), 0);
 
   return (
     <View style={{ gap: spacing(1) }}>
       <Card accent={colors.accent}>
         <Txt weight="800">🥊 Duel Ultime</Txt>
         <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-          Chaque joueur choisit SON univers et répond à {n} questions pro dessus. Le meilleur score
-          l'emporte ! Jouable à un seul joueur en défi solo.
+          Chaque joueur choisit un ou plusieurs univers et affronte {n} questions pro dessus,
+          <Txt weight="800" size={fontSize.xs}> sans propositions</Txt> : on révèle la réponse, tu dis
+          si tu l'avais. Priorité aux questions jamais vues. Le meilleur score gagne — jouable en solo.
         </Txt>
       </Card>
 
@@ -100,10 +101,10 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
         options={QUESTION_OPTIONS.map((q) => ({ label: `${q}`, value: String(q) }))}
       />
 
-      <SectionHeader title="Univers de chaque joueur" />
+      <SectionHeader title="Univers de chaque joueur (un ou plusieurs)" />
       <View style={{ gap: spacing(1) }}>
         {players.map((p) => {
-          const chosen = universeByPlayer[p.id];
+          const chosen = universesByPlayer[p.id] ?? [];
           const isEditing = p.id === editing;
           return (
             <Pressable
@@ -114,8 +115,8 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
               <PlayerAvatar emoji={p.emoji} color={p.color} size={32} />
               <View style={{ flex: 1 }}>
                 <Txt weight="800">{p.name}</Txt>
-                <Txt faint size={fontSize.xs}>
-                  {chosen ? `🎯 ${chosen}` : 'Univers à choisir…'}
+                <Txt faint size={fontSize.xs} numberOfLines={1}>
+                  {chosen.length ? `🎯 ${chosen.join(', ')}` : 'Univers à choisir…'}
                 </Txt>
               </View>
               {isEditing && (
@@ -129,9 +130,9 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
       </View>
 
       <Txt faint size={fontSize.xs} center style={{ marginTop: spacing(0.5) }}>
-        {editingPick
-          ? `Univers de ${players.find((p) => p.id === editing)?.name ?? ''} : ${editingPick}. Touche un autre pour changer.`
-          : `Choisis l'univers de ${players.find((p) => p.id === editing)?.name ?? ''} ci-dessous.`}
+        {editingUniverses.length
+          ? `${editingName} : ${editingUniverses.length} univers · ${editingProTotal} questions pro dispo${editingProTotal < n ? ` (moins que ${n})` : ''}. Touche pour ajouter/retirer.`
+          : `Choisis un ou plusieurs univers pour ${editingName}.`}
       </Txt>
 
       {universesByTheme.map(({ theme, universes }) => (
@@ -141,7 +142,7 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
           </Txt>
           <View style={styles.wrap}>
             {universes.map((u) => (
-              <Chip key={u} label={u} selected={editingPick === u} onPress={() => pick(u)} />
+              <Chip key={u} label={u} selected={editingUniverses.includes(u)} onPress={() => toggle(u)} />
             ))}
           </View>
         </View>
@@ -151,7 +152,7 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
       <Button title="Lancer le Duel Ultime" emoji="🥊" size="lg" variant="accent" onPress={launch} disabled={!valid} />
       {!valid && (
         <Txt faint size={fontSize.xs} center>
-          Chaque joueur doit choisir un univers.
+          Chaque joueur doit choisir au moins un univers.
         </Txt>
       )}
     </View>
