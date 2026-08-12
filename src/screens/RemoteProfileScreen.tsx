@@ -6,7 +6,7 @@ import { Alert, StyleSheet, View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 
 import { Button, Card, PlayerAvatar, Screen, Txt } from '../components/ui';
-import { REMOTE_PROFILE_CONFIGURED, REMOTE_PROFILE_URL } from '../config';
+import { REMOTE_FORM_VERSION, REMOTE_PROFILE_CONFIGURED, REMOTE_PROFILE_URL } from '../config';
 import type { Player } from '../core/models';
 import { decodeProfile, type RemoteProfile } from '../core/profileCodec';
 import {
@@ -28,15 +28,21 @@ type Imported = { name: string; emoji: string; color: string; unwanted: number; 
 // ancre `#r=`, pour que chaque invité puisse retrouver son profil et voir ses
 // univers déjà exclus pré-cochés. Les univers sont encodés par leur INDICE dans
 // le catalogue (compact) ; `v` = taille du catalogue, garde-fou anti-décalage.
-// Le QR doit rester scannable d'écran à écran : on borne la charge utile. Si
-// c'est trop gros, on retire d'abord les univers (on garde nom + avatar pour la
-// sélection), puis en dernier recours on n'embarque pas de roster.
-const ROSTER_MAX_LEN = 1200;
+const ROSTER_MAX_LEN = 1400;
 
-function buildRosterUrl(active: Player[], unwantedByPlayer: Record<string, string[]>): string {
+type RosterUrl = { url: string; included: number; total: number };
+
+// Base de l'URL, avec le cache-buster `?v=` (voir REMOTE_FORM_VERSION). L'ancre
+// `#r=` est ajoutée ensuite ; elle n'affecte pas le cache, d'où le `?v=`.
+function formBase(): string {
+  const sep = REMOTE_PROFILE_URL.includes('?') ? '&' : '?';
+  return `${REMOTE_PROFILE_URL}${sep}v=${REMOTE_FORM_VERSION}`;
+}
+
+function buildRosterUrl(active: Player[], unwantedByPlayer: Record<string, string[]>): RosterUrl {
   const catalogue = getUniverseCatalogue();
   const indexOf = new Map(catalogue.map((u, i) => [u, i] as const));
-  const full = active.map((p) => ({
+  const people = active.map((p) => ({
     n: p.name,
     e: p.emoji,
     c: p.color,
@@ -44,14 +50,29 @@ function buildRosterUrl(active: Player[], unwantedByPlayer: Record<string, strin
       .map((u) => indexOf.get(u))
       .filter((i): i is number => i !== undefined),
   }));
-  const encode = (people: typeof full) =>
-    encodeURIComponent(JSON.stringify({ v: catalogue.length, p: people }));
+  const encode = (arr: typeof people) =>
+    encodeURIComponent(JSON.stringify({ v: catalogue.length, p: arr }));
+  const withHash = (arr: typeof people) => `${formBase()}#r=${encode(arr)}`;
+  const base = { total: people.length };
 
-  let encoded = encode(full);
-  if (encoded.length > ROSTER_MAX_LEN) {
-    encoded = encode(full.map((p) => ({ ...p, u: [] })));
+  // Le QR doit rester scannable d'écran à écran : on borne la charge utile, mais
+  // on n'abandonne JAMAIS tout le roster. 1) tout (avec univers) ; 2) sinon sans
+  // les univers (on garde nom + avatar pour la sélection) ; 3) sinon on tronque
+  // la liste (cas rare : profils illimités et beaucoup de joueurs).
+  if (people.length === 0) return { url: withHash(people), included: 0, ...base };
+  if (encode(people).length <= ROSTER_MAX_LEN) {
+    return { url: withHash(people), included: people.length, ...base };
   }
-  return REMOTE_PROFILE_URL + (encoded.length <= ROSTER_MAX_LEN ? `#r=${encoded}` : '');
+  const light = people.map((p) => ({ ...p, u: [] as number[] }));
+  if (encode(light).length <= ROSTER_MAX_LEN) {
+    return { url: withHash(light), included: light.length, ...base };
+  }
+  const kept: typeof light = [];
+  for (const p of light) {
+    if (encode([...kept, p]).length > ROSTER_MAX_LEN) break;
+    kept.push(p);
+  }
+  return { url: withHash(kept), included: kept.length, ...base };
 }
 
 export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'RemoteProfile'>) {
@@ -67,10 +88,13 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
   // (dans l'ancre `#r=`) pour que chaque invité retrouve son profil. Rafraîchi
   // à chaque affichage de l'écran et après chaque import.
   const [qrValue, setQrValue] = useState(REMOTE_PROFILE_URL);
+  const [rosterInfo, setRosterInfo] = useState<{ included: number; total: number }>({ included: 0, total: 0 });
 
   const refreshRoster = useCallback(async () => {
     const [active, map] = await Promise.all([listPlayers(false), getPlayerUnwantedUniverses()]);
-    setQrValue(buildRosterUrl(active, map));
+    const res = buildRosterUrl(active, map);
+    setQrValue(res.url);
+    setRosterInfo({ included: res.included, total: res.total });
   }, []);
 
   useFocusEffect(
@@ -202,10 +226,23 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
         {REMOTE_PROFILE_CONFIGURED ? (
           <>
             <View style={styles.qrBox}>
-              <QRCode value={qrValue} size={220} ecl="L" />
+              <QRCode value={qrValue} size={240} ecl="L" />
             </View>
-            <Txt faint size={fontSize.xs} center style={{ marginTop: spacing(1) }}>
-              1. Les invités scannent ce QR pour ouvrir le formulaire.
+            <Txt
+              center
+              size={fontSize.xs}
+              weight="800"
+              color={rosterInfo.total > 0 ? colors.success : colors.textFaint}
+              style={{ marginTop: spacing(1) }}
+            >
+              {rosterInfo.total === 0
+                ? 'Aucun profil enregistré à pré-remplir pour l’instant.'
+                : rosterInfo.included >= rosterInfo.total
+                  ? `✓ ${rosterInfo.included} profil${rosterInfo.included > 1 ? 's' : ''} inclus dans ce QR`
+                  : `✓ ${rosterInfo.included}/${rosterInfo.total} profils inclus (QR limité pour rester lisible)`}
+            </Txt>
+            <Txt faint size={fontSize.xs} center style={{ marginTop: spacing(0.5) }}>
+              1. Les invités scannent ce QR pour ouvrir le formulaire (et retrouver leur profil).
             </Txt>
           </>
         ) : (
