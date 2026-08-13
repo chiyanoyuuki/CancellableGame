@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, Switch, View } from 'react-native';
 
 import { Button, Card, Chip, PlayerAvatar, Segmented, SectionHeader, Txt } from '../../components/ui';
-import { type DuelUltimeConfig, type Question, type Theme, THEME_META, THEMES } from '../../core/models';
+import { type DrinkIntensity, type DuelUltimeConfig, type Question, type Theme, THEME_META, THEMES } from '../../core/models';
 import { useStore } from '../../store/StoreProvider';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
@@ -17,6 +17,8 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
   const store = useStore();
   const [pool, setPool] = useState<Question[]>([]);
   const [n, setN] = useState(10);
+  const [drinksEnabled, setDrinksEnabled] = useState(true);
+  const [drinkIntensity, setDrinkIntensity] = useState<DrinkIntensity>('normal');
   const [universesByPlayer, setUniversesByPlayer] = useState<Record<string, string[]>>({});
   const [editing, setEditing] = useState<string>(players[0]?.id ?? '');
 
@@ -77,7 +79,7 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
   const valid = players.length >= 1 && players.every((p) => (universesByPlayer[p.id]?.length ?? 0) > 0);
 
   const launch = () =>
-    onStart({ universesByPlayer, questionsPerPlayer: n } satisfies DuelUltimeConfig);
+    onStart({ universesByPlayer, questionsPerPlayer: n, drinksEnabled, drinkIntensity } satisfies DuelUltimeConfig);
 
   const editingName = players.find((p) => p.id === editing)?.name ?? '';
   const editingUniverses = universesByPlayer[editing] ?? [];
@@ -100,6 +102,23 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
         onChange={(v) => setN(Number(v))}
         options={QUESTION_OPTIONS.map((q) => ({ label: `${q}`, value: String(q) }))}
       />
+
+      <SectionHeader title="Mode alcool" />
+      <View style={styles.rowBetween}>
+        <Txt weight="700">🍺 Gorgées</Txt>
+        <Switch value={drinksEnabled} onValueChange={setDrinksEnabled} />
+      </View>
+      {drinksEnabled && (
+        <Segmented<DrinkIntensity>
+          value={drinkIntensity}
+          onChange={setDrinkIntensity}
+          options={[
+            { label: 'Soft', value: 'soft' },
+            { label: 'Normal', value: 'normal' },
+            { label: 'Hardcore', value: 'hardcore' },
+          ]}
+        />
+      )}
 
       <SectionHeader title="Univers de chaque joueur (un ou plusieurs)" />
       <View style={{ gap: spacing(1) }}>
@@ -160,6 +179,7 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
 }
 
 const styles = StyleSheet.create({
+  rowBetween: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: spacing(0.5) },
   wrap: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing(1) },
   playerRow: {
     flexDirection: 'row',

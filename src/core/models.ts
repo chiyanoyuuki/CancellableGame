@@ -246,6 +246,9 @@ export interface DuelConfig {
   jokers: Record<DuelJoker, boolean>;
   /** Tirer les univers au hasard parmi les favoris des profils des joueurs. */
   randomFromProfiles?: boolean;
+  /** Mode alcool : gorgées sur les réponses (le perdant boit à l'élimination). */
+  drinksEnabled: boolean;
+  drinkIntensity: DrinkIntensity;
 }
 
 // ---------------------------------------------------------------------------
@@ -259,6 +262,9 @@ export interface DuelUltimeConfig {
   universesByPlayer: Record<string, string[]>;
   /** Nombre de questions pro posées à chaque joueur (défaut 10). */
   questionsPerPlayer: number;
+  /** Mode alcool : gorgées sur les réponses (raté = tu bois, sans faute = tu distribues). */
+  drinksEnabled: boolean;
+  drinkIntensity: DrinkIntensity;
 }
 
 // ---------------------------------------------------------------------------

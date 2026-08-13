@@ -12,6 +12,7 @@ import {
   duelUltimeReducer,
   duelUltimeToSessionResult,
 } from '../../core/duelUltimeEngine';
+import { type DrinkOutcome, rollAnswerDrink } from '../../core/drinks';
 import { randomSeed } from '../../core/rng';
 import { getQuestionHistoryByPlayer } from '../../db';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
@@ -90,14 +91,30 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
       { text: 'Quitter', style: 'destructive', onPress: onQuit },
     ]);
 
+  // Gorgées (mode alcool) : calculées à la réponse, affichées à la révélation.
+  const [lastDrink, setLastDrink] = useState<DrinkOutcome | null>(null);
+
   // L'invité déclare s'il a trouvé la réponse (aucune proposition affichée).
   const judge = (correct: boolean) => {
     haptic(correct);
+    if (cfg.drinksEnabled) {
+      setLastDrink(
+        rollAnswerDrink({
+          correct,
+          difficulty: game?.current?.difficulty ?? 4,
+          turnMode: 'turn',
+          hintsUsed: 0,
+          intensity: cfg.drinkIntensity,
+          rng: Math.random,
+        }),
+      );
+    }
     dispatch({ type: 'ANSWER', correct });
   };
 
   const next = () => {
     setRevealed(false);
+    setLastDrink(null);
     dispatch({ type: 'CONTINUE' });
   };
 
@@ -260,6 +277,22 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
           <Txt center faint weight="700">
             {active.name} : {score} bonne{score > 1 ? 's' : ''} sur {done}
           </Txt>
+        )}
+
+        {lastDrink && !!lastDrink.reason && (lastDrink.sipsDrunk > 0 || lastDrink.sipsGiven > 0) && (
+          <Card accent={colors.warning}>
+            <Txt weight="800" color={colors.warning}>🍺 {lastDrink.reason}</Txt>
+            {lastDrink.sipsDrunk > 0 && (
+              <Txt weight="700" style={{ marginTop: spacing(0.5) }}>
+                {active?.name ?? 'Tu'} bois {lastDrink.sipsDrunk} gorgée{lastDrink.sipsDrunk > 1 ? 's' : ''}.
+              </Txt>
+            )}
+            {lastDrink.sipsGiven > 0 && (
+              <Txt weight="700" style={{ marginTop: spacing(0.5) }}>
+                {active?.name ?? 'Tu'} distribue {lastDrink.sipsGiven} gorgée{lastDrink.sipsGiven > 1 ? 's' : ''}.
+              </Txt>
+            )}
+          </Card>
         )}
 
         <Button title="Continuer" size="lg" onPress={next} />

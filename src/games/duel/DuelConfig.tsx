@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, Switch, View } from 'react-native';
 
 import { Button, Card, Chip, Segmented, SectionHeader, Txt } from '../../components/ui';
-import { type DuelConfig, type DuelJoker, type Question, type Theme, THEME_META, THEMES } from '../../core/models';
+import { type DrinkIntensity, type DuelConfig, type DuelJoker, type Question, type Theme, THEME_META, THEMES } from '../../core/models';
 import { shuffle } from '../../core/rng';
 import { getPlayerUnwantedUniverses } from '../../db';
 import { useStore } from '../../store/StoreProvider';
@@ -36,6 +36,8 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
     playerHelp: true,
     otherUniverse: true,
   });
+  const [drinksEnabled, setDrinksEnabled] = useState(true);
+  const [drinkIntensity, setDrinkIntensity] = useState<DrinkIntensity>('normal');
 
   useEffect(() => {
     let alive = true;
@@ -119,7 +121,7 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
         : mode === 'profiles'
           ? shuffle([...wantedUnion], Math.random)
           : [...selected];
-    onStart({ universes, jokers, randomFromProfiles: mode === 'profiles' } satisfies DuelConfig);
+    onStart({ universes, jokers, randomFromProfiles: mode === 'profiles', drinksEnabled, drinkIntensity } satisfies DuelConfig);
   };
 
   return (
@@ -197,6 +199,35 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
           </View>
         </Card>
       ))}
+
+      <SectionHeader title="Mode alcool" />
+      <Card>
+        <View style={styles.row}>
+          <View style={{ flex: 1 }}>
+            <Txt weight="700">🍺 Gorgées</Txt>
+            <Txt faint size={fontSize.xs}>Le joueur éliminé boit ; sans-faute sur une dure, tu distribues.</Txt>
+          </View>
+          <Switch
+            value={drinksEnabled}
+            onValueChange={setDrinksEnabled}
+            trackColor={{ true: colors.primary, false: colors.border }}
+            thumbColor={colors.white}
+          />
+        </View>
+        {drinksEnabled && (
+          <View style={{ marginTop: spacing(1) }}>
+            <Segmented<DrinkIntensity>
+              value={drinkIntensity}
+              onChange={setDrinkIntensity}
+              options={[
+                { label: 'Soft', value: 'soft' },
+                { label: 'Normal', value: 'normal' },
+                { label: 'Hardcore', value: 'hardcore' },
+              ]}
+            />
+          </View>
+        )}
+      </Card>
 
       <View style={{ height: spacing(1) }} />
       <Button title="Lancer le duel" emoji="⚔️" size="lg" variant="accent" onPress={launch} disabled={!valid} />

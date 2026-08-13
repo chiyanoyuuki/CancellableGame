@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Card, PlayerAvatar, Txt } from '../../components/ui';
 import { DIFFICULTY_LABELS, type Difficulty, type DuelConfig, type DuelJoker, type Player, THEME_META } from '../../core/models';
 import { type DuelAction, type DuelState, createDuelState, duelReducer, duelToSessionResult } from '../../core/duelEngine';
+import { type DrinkOutcome, rollAnswerDrink } from '../../core/drinks';
 import { mulberry32, randomSeed, shuffle } from '../../core/rng';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import { useStore } from '../../store/StoreProvider';
@@ -92,8 +93,22 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
       { text: 'Quitter', style: 'destructive', onPress: onQuit },
     ]);
 
+  const [lastDrink, setLastDrink] = useState<DrinkOutcome | null>(null);
+
   const answer = (correct: boolean) => {
     haptic(correct);
+    if (cfg.drinksEnabled) {
+      setLastDrink(
+        rollAnswerDrink({
+          correct,
+          difficulty: game?.current?.difficulty ?? 2,
+          turnMode: 'turn',
+          hintsUsed: (game?.propsShown ?? 0) >= 2 ? 2 : 0,
+          intensity: cfg.drinkIntensity,
+          rng: Math.random,
+        }),
+      );
+    }
     dispatch({ type: 'ANSWER', correct });
   };
 
@@ -321,7 +336,25 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
           </View>
         </View>
 
-        <Button title="Continuer" size="lg" onPress={() => dispatch({ type: 'CONTINUE' })} />
+        {lastDrink && !!lastDrink.reason && (lastDrink.sipsDrunk > 0 || lastDrink.sipsGiven > 0) && (
+          <Card accent={colors.warning}>
+            <Txt weight="800" color={colors.warning}>🍺 {lastDrink.reason}</Txt>
+            {lastDrink.sipsDrunk > 0 && (
+              <Txt weight="700" style={{ marginTop: spacing(0.5) }}>
+                {(survived ? active?.name : elim?.name) ?? 'Le joueur'} boit {lastDrink.sipsDrunk} gorgée
+                {lastDrink.sipsDrunk > 1 ? 's' : ''}.
+              </Txt>
+            )}
+            {lastDrink.sipsGiven > 0 && (
+              <Txt weight="700" style={{ marginTop: spacing(0.5) }}>
+                {active?.name ?? 'Le joueur'} distribue {lastDrink.sipsGiven} gorgée
+                {lastDrink.sipsGiven > 1 ? 's' : ''}.
+              </Txt>
+            )}
+          </Card>
+        )}
+
+        <Button title="Continuer" size="lg" onPress={() => { setLastDrink(null); dispatch({ type: 'CONTINUE' }); }} />
       </View>
     );
   }

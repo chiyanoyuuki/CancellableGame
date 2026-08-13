@@ -23,7 +23,7 @@ for (const [theme, uni] of [
 const ALL_JOKERS = { props4: true, props2: true, playerHelp: true, otherUniverse: true };
 
 function config(over: Partial<DuelConfig> = {}): DuelConfig {
-  return { universes: ['Naruto', 'Marvel'], jokers: ALL_JOKERS, ...over };
+  return { universes: ['Naruto', 'Marvel'], jokers: ALL_JOKERS, drinksEnabled: false, drinkIntensity: 'normal', ...over };
 }
 
 const start = (order: string[], over: Partial<DuelConfig> = {}) =>
