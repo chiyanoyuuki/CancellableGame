@@ -7,6 +7,7 @@ import { friends } from './friends';
 import { enfance } from './enfance';
 import { futurama } from './futurama';
 import { got } from './got';
+import { himym } from './himym';
 import { lupin } from './lupin';
 import { mercredi } from './mercredi';
 import { netflix } from './netflix';
@@ -49,4 +50,5 @@ export const seriesQuestions: Question[] = [
   ...mercredi,
   ...rickmorty,
   ...lupin,
+  ...himym,
 ];

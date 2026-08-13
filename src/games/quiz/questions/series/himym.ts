@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const himym = universe("series", "How I Met Your Mother", [
+  // --- Faciles (5) ---
+  { id: "himym-f1", d: 1, t: "À qui Ted raconte-t-il comment il a rencontré leur mère ?", a: "À ses enfants", acc: ["ses enfants", "enfants"], x: ["À ses amis", "À sa femme", "À son thérapeute"] },
+  { id: "himym-f2", d: 1, t: "Dans quelle ville se déroule la série ?", a: "New York", x: ["Los Angeles", "Chicago", "Boston"] },
+  { id: "himym-f3", d: 1, t: "Quel dragueur en costume dit toujours Légen... attends... daire ?", a: "Barney", acc: ["barney", "barney stinson"], x: ["Ted", "Marshall", "Robin"] },
+  { id: "himym-f4", d: 1, t: "Dans quel bar la bande se retrouve-t-elle en permanence ?", a: "Le MacLaren's", acc: ["maclaren's", "maclaren", "le maclaren"], x: ["Le Central Perk", "Le Cheers", "Le Paddy's"] },
+  { id: "himym-f5", d: 1, t: "Combien d'amis proches forment la bande principale ?", a: "Cinq", acc: ["cinq", "5"], x: ["Quatre", "Six", "Trois"] },
+
+  // --- Moyennes (10) ---
+  { id: "himym-m1", d: 2, t: "Comment s'appelle le héros narrateur, architecte romantique ?", a: "Ted Mosby", acc: ["ted", "ted mosby"], x: ["Barney", "Marshall", "Robin"] },
+  { id: "himym-m2", d: 2, t: "Quel couple d'amoureux de longue date se marie au fil de la série ?", a: "Marshall et Lily", acc: ["marshall et lily"], x: ["Ted et Robin", "Barney et Robin", "Ted et Lily"] },
+  { id: "himym-m3", d: 2, t: "Quelle journaliste canadienne rejoint la bande et sort avec Ted puis Barney ?", a: "Robin", acc: ["robin", "robin scherbatsky"], x: ["Lily", "Victoria", "Zoey"] },
+  { id: "himym-m4", d: 2, t: "Quel acteur incarne Barney Stinson ?", a: "Neil Patrick Harris", acc: ["neil patrick harris", "harris"], x: ["Josh Radnor", "Jason Segel", "Bob Saget"] },
+  { id: "himym-m5", d: 2, t: "Quel objet, un parapluie d'une certaine couleur, est un fil rouge vers la mère ?", a: "Un parapluie jaune", acc: ["parapluie jaune", "jaune"], x: ["Un parapluie rouge", "Une écharpe bleue", "Un chapeau vert"] },
+  { id: "himym-m6", d: 2, t: "Quelle expression Barney lance-t-il pour dire de se mettre en costume ?", a: "Suit up", acc: ["suit up", "enfile un costard"], x: ["Wait for it", "Challenge accepted", "High five"] },
+  { id: "himym-m7", d: 2, t: "Quel métier exerce Ted ?", a: "Architecte", x: ["Avocat", "Médecin", "Journaliste"] },
+  { id: "himym-m8", d: 2, t: "De quel pays vient Robin ?", a: "Du Canada", acc: ["canada"], x: ["Des États-Unis", "D'Angleterre", "D'Australie"] },
+  { id: "himym-m9", d: 2, t: "Quel métier vise Marshall, passionné de justice et d'environnement ?", a: "Avocat", x: ["Médecin", "Architecte", "Cuisinier"] },
+  { id: "himym-m10", d: 2, t: "Combien de saisons compte la série ?", a: "Neuf", acc: ["neuf", "9"], x: ["Sept", "Cinq", "Douze"] },
+
+  // --- Dures (15) ---
+  { id: "himym-d1", d: 3, t: "Quel acteur joue Marshall Eriksen ?", a: "Jason Segel", acc: ["jason segel", "segel"], x: ["Josh Radnor", "Neil Patrick Harris", "Bob Saget"] },
+  { id: "himym-d2", d: 3, t: "Quelle actrice, aussi vue dans Buffy, joue Lily ?", a: "Alyson Hannigan", acc: ["alyson hannigan", "hannigan"], x: ["Cobie Smulders", "Cristin Milioti", "Sarah Chalke"] },
+  { id: "himym-d3", d: 3, t: "Quelle actrice joue Robin Scherbatsky ?", a: "Cobie Smulders", acc: ["cobie smulders", "smulders"], x: ["Alyson Hannigan", "Cristin Milioti", "Sarah Chalke"] },
+  { id: "himym-d4", d: 3, t: "Quel personnage a un alter ego pop adolescent nommé Robin Sparkles ?", a: "Robin", acc: ["robin", "robin scherbatsky"], x: ["Lily", "Victoria", "Quinn"] },
+  { id: "himym-d5", d: 3, t: "Quelle chanson kitsch de Robin Sparkles invite à aller au centre commercial ?", a: "Let's Go to the Mall", acc: ["let's go to the mall", "lets go to the mall"], x: ["Sandcastles in the Sand", "Two Beavers", "P.S. I Love You"] },
+  { id: "himym-d6", d: 3, t: "Comment s'appelle le recueil de techniques de drague de Barney ?", a: "Le Playbook", acc: ["playbook", "le playbook"], x: ["Le Bro Code", "Le Manuel", "Le Little Black Book"] },
+  { id: "himym-d7", d: 3, t: "Comment s'appelle le code d'honneur entre potes écrit par Barney ?", a: "Le Bro Code", acc: ["bro code", "le bro code"], x: ["Le Playbook", "Le Man Code", "Le Code des Gars"] },
+  { id: "himym-d8", d: 3, t: "Lors de quel pari Marshall gagne-t-il le droit de gifler Barney ?", a: "Le Slap Bet", acc: ["slap bet", "le slap bet", "pari de la gifle"], x: ["Le Bro Bet", "Le Pari du costume", "Le Challenge"] },
+  { id: "himym-d9", d: 3, t: "Quelle réplique Barney utilise-t-il pour présenter Ted aux filles ?", a: "Have you met Ted", acc: ["have you met ted"], x: ["Suit up", "Challenge accepted", "Wait for it"] },
+  { id: "himym-d10", d: 3, t: "Quel épisode culte tourne autour d'un ananas mystérieux sur la table de nuit de Ted ?", a: "The Pineapple Incident", acc: ["pineapple incident", "l'ananas"], x: ["The Slap Bet", "The Naked Man", "Slapsgiving"] },
+  { id: "himym-d11", d: 3, t: "Comment s'appelle le chauffeur immigré, ami de la bande, souvent au volant ?", a: "Ranjit", x: ["Sandy", "Marvin", "Scooter"] },
+  { id: "himym-d12", d: 3, t: "Comment s'appelle le fils de Marshall et Lily ?", a: "Marvin", x: ["Ted", "Barney", "Luke"] },
+  { id: "himym-d13", d: 3, t: "Quelle est la grande obsession vestimentaire de Barney ?", a: "Les costumes", acc: ["costumes", "les costards"], x: ["Les chaussures", "Les cravates à motifs", "Les chapeaux"] },
+  { id: "himym-d14", d: 3, t: "Quel jeu de mots festif de Thanksgiving associe gifles et dinde ?", a: "Slapsgiving", acc: ["slapsgiving"], x: ["Slapmas", "Thankslap", "Turkey Slap"] },
+  { id: "himym-d15", d: 3, t: "Quel acteur, père dans La Fête à la maison, prête sa voix au Ted narrateur âgé ?", a: "Bob Saget", acc: ["bob saget", "saget"], x: ["Josh Radnor", "Neil Patrick Harris", "John Stamos"] },
+
+  // --- Pro (20) ---
+  { id: "himym-p1", d: 4, t: "Comment s'appelle la mère, révélée à la fin de la série ?", a: "Tracy McConnell", acc: ["tracy", "tracy mcconnell"], x: ["Victoria", "Zoey", "Quinn"] },
+  { id: "himym-p2", d: 4, t: "Quelle actrice joue la Mère ?", a: "Cristin Milioti", acc: ["cristin milioti", "milioti"], x: ["Cobie Smulders", "Alyson Hannigan", "Sarah Chalke"] },
+  { id: "himym-p3", d: 4, t: "De quel instrument joue la Mère, retrouvé grâce au parapluie jaune ?", a: "La basse", acc: ["basse", "guitare basse"], x: ["Le violon", "La guitare", "Le piano"] },
+  { id: "himym-p4", d: 4, t: "Avec qui Ted finit-il, de façon controversée, dans le tout dernier épisode ?", a: "Robin", acc: ["robin"], x: ["La Mère", "Victoria", "Zoey"] },
+  { id: "himym-p5", d: 4, t: "Qui sont les deux créateurs de la série ?", a: "Carter Bays et Craig Thomas", acc: ["carter bays", "craig thomas"], x: ["Chuck Lorre et Bill Prady", "David Crane et Marta Kauffman", "Greg Daniels"] },
+  { id: "himym-p6", d: 4, t: "En quelle année la série s'est-elle terminée ?", a: "2014", x: ["2010", "2016", "2012"] },
+  { id: "himym-p7", d: 4, t: "Comment s'appelle la banque où travaillent Barney et un temps Marshall ?", a: "La Goliath National Bank", acc: ["goliath national bank", "gnb"], x: ["La Lehman Brothers", "La Altrucell", "La Pied Piper"] },
+  { id: "himym-p8", d: 4, t: "Comment s'appelle le frère de Barney, joué par Wayne Brady ?", a: "James", acc: ["james", "james stinson"], x: ["Jerry", "Marvin", "Sam"] },
+  { id: "himym-p9", d: 4, t: "Quel acteur joue Ted Mosby ?", a: "Josh Radnor", acc: ["josh radnor", "radnor"], x: ["Jason Segel", "Neil Patrick Harris", "Bob Saget"] },
+  { id: "himym-p10", d: 4, t: "Quelle fiancée dermatologue de Ted, jouée par Sarah Chalke, le laisse à l'autel ?", a: "Stella", acc: ["stella"], x: ["Victoria", "Zoey", "Robin"] },
+  { id: "himym-p11", d: 4, t: "Quelle expression Barney lance-t-il pour dire qu'il relève un défi ?", a: "Challenge accepted", acc: ["challenge accepted", "defi accepte"], x: ["Suit up", "Wait for it", "Have you met Ted"] },
+  { id: "himym-p12", d: 4, t: "Quel instrument de musique bleu Ted vole-t-il pour un rendez-vous avec Robin ?", a: "Un cor de chasse bleu", acc: ["cor de chasse bleu", "cor bleu", "french horn bleu"], x: ["Un parapluie jaune", "Une trompette dorée", "Un violon"] },
+  { id: "himym-p13", d: 4, t: "Quelle profession Ted finit-il par exercer, en plus d'être architecte ?", a: "Professeur d'architecture", acc: ["professeur", "enseignant", "professeur d'architecture"], x: ["Avocat", "Écrivain", "Journaliste"] },
+  { id: "himym-p14", d: 4, t: "Quel mot la bande emploie-t-elle pour désigner les sosies de chacun croisés en ville ?", a: "Les doppelgangers", acc: ["doppelganger", "doppelgangers", "sosies"], x: ["Les clones", "Les jumeaux", "Les fantômes"] },
+  { id: "himym-p15", d: 4, t: "Quand on demande son métier à Barney, que répond-il invariablement ?", a: "Please", acc: ["please", "s'il te plait"], x: ["Avocat", "Banquier", "Secret"] },
+  { id: "himym-p16", d: 4, t: "Dans quel pays Robin Sparkles était-elle une star adolescente ?", a: "Au Canada", acc: ["canada"], x: ["Aux États-Unis", "En Australie", "Au Royaume-Uni"] },
+  { id: "himym-p17", d: 4, t: "À quelle occasion Ted rencontre-t-il enfin la Mère ?", a: "Au mariage de Barney et Robin", acc: ["mariage de barney et robin", "mariage de robin"], x: ["Au MacLaren's", "À un cours", "Dans le métro"] },
+  { id: "himym-p18", d: 4, t: "Quelle ex de Ted, pâtissière, est jouée par Ashley Williams ?", a: "Victoria", x: ["Stella", "Zoey", "Quinn"] },
+  { id: "himym-p19", d: 4, t: "Quel épisode met en scène une technique de séduction désespérée entièrement nu ?", a: "The Naked Man", acc: ["the naked man", "l'homme nu"], x: ["The Pineapple Incident", "Slapsgiving", "The Playbook"] },
+  { id: "himym-p20", d: 4, t: "Quel spin-off, avec Hilary Duff, a été lancé en 2022 sur le même principe ?", a: "How I Met Your Father", acc: ["how i met your father"], x: ["Friends", "The Big Bang Theory", "New Girl"] },
+]);

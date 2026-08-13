@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const darksouls = universe("jeuxvideo", "Dark Souls", [
+  // --- Faciles (5) ---
+  { id: "dksl-f1", d: 1, t: "Quel studio japonais a développé Dark Souls ?", a: "FromSoftware", acc: ["fromsoftware", "from software"], x: ["Bandai Namco", "CD Projekt", "Naughty Dog"] },
+  { id: "dksl-f2", d: 1, t: "Quel message rouge s'affiche à chaque mort ?", a: "YOU DIED", acc: ["you died"], x: ["GAME OVER", "VICTORY", "YOU WIN"] },
+  { id: "dksl-f3", d: 1, t: "Comment appelle-t-on les points de repos et de sauvegarde ?", a: "Les feux de camp", acc: ["feu de camp", "feux de camp", "bonfire", "bonfires"], x: ["Les autels", "Les portails", "Les tentes"] },
+  { id: "dksl-f4", d: 1, t: "Quelle flasque restaure les points de vie ?", a: "La Fiole d'Estus", acc: ["estus", "fiole d'estus"], x: ["La potion rouge", "La gourde", "L'élixir"] },
+  { id: "dksl-f5", d: 1, t: "Que récupère-t-on sur les ennemis, servant de monnaie et d'expérience ?", a: "Les âmes", acc: ["ames", "souls"], x: ["Les pièces", "Les cristaux", "Les runes"] },
+
+  // --- Moyennes (10) ---
+  { id: "dksl-m1", d: 2, t: "À quel genre, réputé difficile, appartient Dark Souls ?", a: "Action-RPG", acc: ["action rpg", "rpg"], x: ["FPS", "Course", "Gestion"] },
+  { id: "dksl-m2", d: 2, t: "Qui est le directeur emblématique de Dark Souls ?", a: "Hidetaka Miyazaki", acc: ["miyazaki", "hidetaka miyazaki"], x: ["Hideo Kojima", "Shigeru Miyamoto", "Todd Howard"] },
+  { id: "dksl-m3", d: 2, t: "Dans le premier Dark Souls, comment s'appelle le monde à explorer ?", a: "Lordran", x: ["Drangleic", "Lothric", "Yharnam"] },
+  { id: "dksl-m4", d: 2, t: "Quel chevalier au soleil est célèbre pour sa réplique Praise the Sun ?", a: "Solaire d'Astora", acc: ["solaire", "solaire d'astora"], x: ["Siegmeyer", "Artorias", "Gwyn"] },
+  { id: "dksl-m5", d: 2, t: "Comment appelle-t-on le fait de perdre son humanité et se dessécher ?", a: "Le Creux", acc: ["creux", "hollow", "devenir creux"], x: ["La Malédiction", "L'Embrasement", "Le Sombre"] },
+  { id: "dksl-m6", d: 2, t: "Quel objet permet de redevenir humain dans le premier opus ?", a: "L'Humanité", acc: ["humanite", "humanity"], x: ["Le Tison", "L'Os de retour", "La Braise"] },
+  { id: "dksl-m7", d: 2, t: "Comment s'appelle le sanctuaire central du premier jeu ?", a: "Le Sanctuaire de Lige-feu", acc: ["lige-feu", "firelink", "sanctuaire de lige-feu"], x: ["Majula", "Le Nexus", "Le Hub"] },
+  { id: "dksl-m8", d: 2, t: "À quel Âge s'oppose l'Âge du Feu dans la mythologie du jeu ?", a: "L'Âge des Ténèbres", acc: ["age des tenebres", "age du sombre", "age of dark"], x: ["L'Âge des Dieux", "L'Âge des Héros", "L'Âge de Fer"] },
+  { id: "dksl-m9", d: 2, t: "Comment appelle-t-on le fait d'envahir en ligne le monde d'un autre joueur ?", a: "L'invasion", acc: ["invasion", "pvp"], x: ["Le raid", "Le duel amical", "La coopération"] },
+  { id: "dksl-m10", d: 2, t: "Comment appelle-t-on les seigneurs ayant lié leur âme à la Première Flamme ?", a: "Les Seigneurs des Cendres", acc: ["seigneurs des cendres", "lords of cinder"], x: ["Les Seigneurs du Sang", "Les Rois Déchus", "Les Élus"] },
+
+  // --- Dures (15) ---
+  { id: "dksl-d1", d: 3, t: "Qui est le Seigneur de la Lumière du Soleil, boss final du premier jeu ?", a: "Gwyn", acc: ["gwyn"], x: ["Nito", "Artorias", "Manus"] },
+  { id: "dksl-d2", d: 3, t: "Quel duo de boss unit un chevalier de foudre et un colosse au marteau ?", a: "Ornstein et Smough", acc: ["ornstein et smough", "ornstein", "smough"], x: ["Les Frères Bélier", "Les Gardiens", "Les Rois Jumeaux"] },
+  { id: "dksl-d3", d: 3, t: "Quel chevalier légendaire est surnommé l'Arpenteur de l'Abîme ?", a: "Artorias", acc: ["artorias", "arpenteur de l'abime"], x: ["Gwyn", "Ornstein", "Havel"] },
+  { id: "dksl-d4", d: 3, t: "Quel grand loup gris manie une épée, compagnon d'Artorias ?", a: "Sif", x: ["Kalameet", "Priscilla", "Manus"] },
+  { id: "dksl-d5", d: 3, t: "Quel signe maudit, gravé sur les morts-vivants, empêche la vraie mort ?", a: "Le Darksign", acc: ["darksign", "signe des tenebres"], x: ["La Braise", "Le Tison", "L'Anneau"] },
+  { id: "dksl-d6", d: 3, t: "Dans Dark Souls 3, comment appelle-t-on le héros que l'on incarne ?", a: "Le Porteur de Cendres", acc: ["porteur de cendres", "ashen one", "sans-cendre"], x: ["L'Élu", "Le Porteur de la Malédiction", "Le Chasseur"] },
+  { id: "dksl-d7", d: 3, t: "Dans Dark Souls 3, quel Seigneur des Cendres dévore les dieux ?", a: "Aldrich", acc: ["aldrich"], x: ["Yhorm", "Ludleth", "Gundyr"] },
+  { id: "dksl-d8", d: 3, t: "Quel gigantesque Seigneur des Cendres se bat avec la Tempête de Braise ?", a: "Yhorm le Géant", acc: ["yhorm", "yhorm le geant"], x: ["Aldrich", "Ludleth", "Gwyn"] },
+  { id: "dksl-d9", d: 3, t: "Comment s'appelle la légion de guerriers loups, Seigneurs des Cendres de DS3 ?", a: "Les Gardiens de l'Abîme", acc: ["gardiens de l'abime", "abyss watchers"], x: ["Les Chevaliers d'Astora", "La Légion Noire", "Les Sentinelles"] },
+  { id: "dksl-d10", d: 3, t: "Dans Dark Souls 2, comment appelle-t-on le héros maudit ?", a: "Le Porteur de la Malédiction", acc: ["porteur de la malediction", "bearer of the curse"], x: ["L'Élu", "Le Porteur de Cendres", "Le Cendreux"] },
+  { id: "dksl-d11", d: 3, t: "Quel royaume explore-t-on dans Dark Souls 2 ?", a: "Drangleic", x: ["Lordran", "Lothric", "Boletaria"] },
+  { id: "dksl-d12", d: 3, t: "Quelle reine manipulatrice règne sur Drangleic dans Dark Souls 2 ?", a: "Nashandra", x: ["Gwynevere", "Priscilla", "Quelaag"] },
+  { id: "dksl-d13", d: 3, t: "Comment appelle-t-on l'acte de raviver la Première Flamme en s'y sacrifiant ?", a: "Lier le Feu", acc: ["lier le feu", "link the fire", "embraser"], x: ["Éteindre la Flamme", "Fuir", "Sombrer"] },
+  { id: "dksl-d14", d: 3, t: "Quelle sorcière a créé les démons avec l'Âme du Chaos ?", a: "La Sorcière d'Izalith", acc: ["sorciere d'izalith", "witch of izalith"], x: ["Gwynevere", "Priscilla", "Nashandra"] },
+  { id: "dksl-d15", d: 3, t: "Quel premier des morts, seigneur des tombes, détient une Âme de Seigneur ?", a: "Nito", acc: ["nito", "gravelord nito"], x: ["Gwyn", "Seath", "Manus"] },
+
+  // --- Pro (20) ---
+  { id: "dksl-p1", d: 4, t: "Quel dragon pâle sans écailles, traître aux dragons, maîtrise les cristaux ?", a: "Seath l'Impie", acc: ["seath", "seath l'impie"], x: ["Kalameet", "Midir", "Sinh"] },
+  { id: "dksl-p2", d: 4, t: "Qui est le Pygmée Furtif, oublié de l'histoire, détenteur de l'Âme Sombre ?", a: "Le Pygmée", acc: ["pygmee", "furtive pygmy", "pygmee furtif"], x: ["Gwyn", "Nito", "Manus"] },
+  { id: "dksl-p3", d: 4, t: "Quel boss du DLC est l'Abysse incarné, le Père de l'Abîme ?", a: "Manus", acc: ["manus"], x: ["Artorias", "Kalameet", "Midir"] },
+  { id: "dksl-p4", d: 4, t: "Quelle princesse serpent blanche, demi-sœur cachée, vit dans le Monde Peint ?", a: "Priscilla", acc: ["priscilla"], x: ["Gwynevere", "Quelaag", "Nashandra"] },
+  { id: "dksl-p5", d: 4, t: "Quelle fille de Gwyn, illusion de beauté, offre l'Âme Seigneuriale ?", a: "Gwynevere", acc: ["gwynevere"], x: ["Priscilla", "Quelaag", "Nashandra"] },
+  { id: "dksl-p6", d: 4, t: "Comment s'appelle la cité des dieux, toute d'or, du premier jeu ?", a: "Anor Londo", x: ["Lothric", "Irithyll", "Drangleic"] },
+  { id: "dksl-p7", d: 4, t: "Quels princes jumeaux, un chevalier et un mage, forment un Seigneur des Cendres de DS3 ?", a: "Lothric et Lorian", acc: ["lothric et lorian", "princes jumeaux", "twin princes"], x: ["Ornstein et Smough", "Les Rois Déchus", "Gwyn et Gwyndolin"] },
+  { id: "dksl-p8", d: 4, t: "Quel ultime adversaire de Dark Souls 3 réunit tous les Seigneurs des Cendres ?", a: "L'Âme des Cendres", acc: ["ame des cendres", "soul of cinder"], x: ["Gwyn", "Gael", "Aldrich"] },
+  { id: "dksl-p9", d: 4, t: "Quel boss final du DLC The Ringed City chasse l'Âme Sombre ?", a: "Gael l'Esclave", acc: ["gael", "slave knight gael"], x: ["Midir", "Friede", "Manus"] },
+  { id: "dksl-p10", d: 4, t: "Quel dragon noir géant, gardien de l'Abîme, se combat dans le dernier DLC ?", a: "Darkeater Midir", acc: ["midir", "darkeater midir"], x: ["Kalameet", "Seath", "Sinh"] },
+  { id: "dksl-p11", d: 4, t: "Quel dieu de la lune, fils de Gwyn élevé comme une fille, garde Anor Londo ?", a: "Gwyndolin", acc: ["gwyndolin"], x: ["Gwynevere", "Gwyn", "Aldrich"] },
+  { id: "dksl-p12", d: 4, t: "Comment s'appelle la Fille du Chaos araignée de la Ruine d'Izalith ?", a: "Quelaag", acc: ["quelaag"], x: ["Quelaan", "Priscilla", "Nashandra"] },
+  { id: "dksl-p13", d: 4, t: "Quel chevalier de pierre increvable laisse un anneau augmentant la charge ?", a: "Havel le Roc", acc: ["havel", "havel le roc"], x: ["Artorias", "Ornstein", "Siegmeyer"] },
+  { id: "dksl-p14", d: 4, t: "Dans Dark Souls 2, comment s'appelle le roi déchu de Drangleic ?", a: "Vendrick", acc: ["vendrick", "roi vendrick"], x: ["Gwyn", "Aldia", "Nashandra"] },
+  { id: "dksl-p15", d: 4, t: "Comment appelle-t-on la cité de lune et de glace, patrie d'Aldrich, dans DS3 ?", a: "Irithyll", acc: ["irithyll"], x: ["Anor Londo", "Lothric", "Drangleic"] },
+  { id: "dksl-p16", d: 4, t: "Quel juge de fer, premier boss de DS3, revient sous une forme corrompue ?", a: "Champion Gundyr", acc: ["gundyr", "champion gundyr", "iudex gundyr"], x: ["Vordt", "Gael", "Friede"] },
+  { id: "dksl-p17", d: 4, t: "Comment s'appelle le forgeron d'Astora du Sanctuaire de Lige-feu ?", a: "Andre", acc: ["andre", "andre d'astora"], x: ["Vamos", "Rickert", "Ed"] },
+  { id: "dksl-p18", d: 4, t: "Quel serment invite à louer le soleil aux côtés de Solaire ?", a: "Les Guerriers du Soleil", acc: ["guerriers du soleil", "warriors of sunlight"], x: ["Les Sentinelles Bleues", "La Voie du Bleu", "Les Chercheurs de Lumière"] },
+  { id: "dksl-p19", d: 4, t: "Quel niveau marécageux du premier Dark Souls est tristement célèbre ?", a: "Blighttown", acc: ["blighttown", "bourbe"], x: ["Anor Londo", "Irithyll", "Majula"] },
+  { id: "dksl-p20", d: 4, t: "Comment s'appelle le hub central de Dark Souls 2, une paisible bourgade ?", a: "Majula", x: ["Lige-feu", "Irithyll", "Le Nexus"] },
+]);

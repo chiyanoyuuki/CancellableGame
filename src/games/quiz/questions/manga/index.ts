@@ -13,7 +13,9 @@ import { eightysix } from './eightysix';
 import { fma } from './fma';
 import { haikyuu } from './haikyuu';
 import { hxh } from './hxh';
+import { jojo } from './jojo';
 import { jujutsukaisen } from './jujutsukaisen';
+import { fairytail } from './fairytail';
 import { mha } from './mha';
 import { mushokutensei } from './mushokutensei';
 import { nana } from './nana';
@@ -59,4 +61,6 @@ export const mangaQuestions: Question[] = [
   ...bluelock,
   ...sololeveling,
   ...opm,
+  ...jojo,
+  ...fairytail,
 ];

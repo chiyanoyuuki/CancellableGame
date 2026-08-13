@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const fairytail = universe("manga", "Fairy Tail", [
+  // --- Faciles (5) ---
+  { id: "ft-f1", d: 1, t: "Comment s'appelle la guilde de magiciens au cœur de la série ?", a: "Fairy Tail", x: ["Sabertooth", "Phantom Lord", "Blue Pegasus"] },
+  { id: "ft-f2", d: 1, t: "Quel héros aux cheveux roses est un mage de feu ?", a: "Natsu Dragneel", acc: ["natsu"], x: ["Gray", "Gajeel", "Loki"] },
+  { id: "ft-f3", d: 1, t: "Quel chat bleu ailé accompagne Natsu ?", a: "Happy", x: ["Carla", "Panther Lily", "Frosch"] },
+  { id: "ft-f4", d: 1, t: "Quel élément la magie de Natsu manie-t-elle ?", a: "Le feu", acc: ["feu"], x: ["La glace", "La foudre", "L'eau"] },
+  { id: "ft-f5", d: 1, t: "Quelle mage blonde invoque des esprits stellaires ?", a: "Lucy Heartfilia", acc: ["lucy"], x: ["Erza", "Wendy", "Juvia"] },
+
+  // --- Moyennes (10) ---
+  { id: "ft-m1", d: 2, t: "Quel mage de glace se déshabille sans s'en rendre compte ?", a: "Gray Fullbuster", acc: ["gray"], x: ["Natsu", "Gajeel", "Laxus"] },
+  { id: "ft-m2", d: 2, t: "Quelle mage rousse en armure est surnommée Titania ?", a: "Erza Scarlet", acc: ["erza"], x: ["Lucy", "Wendy", "Mirajane"] },
+  { id: "ft-m3", d: 2, t: "Comment appelle-t-on les mages tueurs de dragons ?", a: "Les Dragon Slayers", acc: ["dragon slayers", "dragon slayer", "chasseurs de dragons"], x: ["Les God Slayers", "Les Exceeds", "Les Célestes"] },
+  { id: "ft-m4", d: 2, t: "Dans quelle ville se trouve la guilde Fairy Tail ?", a: "Magnolia", x: ["Crocus", "Hargeon", "Era"] },
+  { id: "ft-m5", d: 2, t: "Comment s'appelle le royaume où se déroule la série ?", a: "Fiore", x: ["Alvarez", "Bosco", "Seven"] },
+  { id: "ft-m6", d: 2, t: "Quelle jeune Dragon Slayer manie la magie du ciel et soigne ?", a: "Wendy Marvell", acc: ["wendy"], x: ["Lucy", "Juvia", "Levy"] },
+  { id: "ft-m7", d: 2, t: "Quel Dragon Slayer de fer, ancien de Phantom Lord, rejoint Fairy Tail ?", a: "Gajeel Redfox", acc: ["gajeel"], x: ["Natsu", "Laxus", "Sting"] },
+  { id: "ft-m8", d: 2, t: "Quelle mage d'eau est éperdument amoureuse de Gray ?", a: "Juvia", acc: ["juvia", "juvia lockser"], x: ["Lucy", "Erza", "Cana"] },
+  { id: "ft-m9", d: 2, t: "Qui est le petit vieux maître de la guilde Fairy Tail ?", a: "Makarov", acc: ["makarov", "makarov dreyar"], x: ["Gildarts", "Laxus", "Zeref"] },
+  { id: "ft-m10", d: 2, t: "Comment appelle-t-on les chats ailés parlants comme Happy ?", a: "Les Exceeds", acc: ["exceed", "exceeds"], x: ["Les Célestes", "Les Esprits", "Les Slayers"] },
+
+  // --- Dures (15) ---
+  { id: "ft-d1", d: 3, t: "Quel dragon de feu a élevé Natsu ?", a: "Igneel", x: ["Grandeeney", "Metalicana", "Acnologia"] },
+  { id: "ft-d2", d: 3, t: "Quel dragon a élevé Wendy ?", a: "Grandeeney", x: ["Igneel", "Metalicana", "Weisslogia"] },
+  { id: "ft-d3", d: 3, t: "Quel puissant mage noir est le grand antagoniste de la série ?", a: "Zeref", acc: ["zeref", "zeref dragneel"], x: ["Acnologia", "Hades", "Jellal"] },
+  { id: "ft-d4", d: 3, t: "Quel dragon noir, incarnation de l'apocalypse, terrifie les mages ?", a: "Acnologia", x: ["Igneel", "Zeref", "Irene"] },
+  { id: "ft-d5", d: 3, t: "Qui est la première maîtresse fondatrice de Fairy Tail ?", a: "Mavis Vermillion", acc: ["mavis"], x: ["Erza", "Mirajane", "Irene"] },
+  { id: "ft-d6", d: 3, t: "Quelle magie permet à Erza de changer d'armure instantanément ?", a: "Le rééquipement", acc: ["reequipement", "requip"], x: ["Le Take Over", "La magie céleste", "La magie de glace"] },
+  { id: "ft-d7", d: 3, t: "Quelle magie de Mirajane lui permet de prendre la forme de démons ?", a: "Le Take Over", acc: ["take over"], x: ["Le rééquipement", "La magie céleste", "La magie noire"] },
+  { id: "ft-d8", d: 3, t: "Quel petit-fils de Makarov manie la foudre ?", a: "Laxus Dreyar", acc: ["laxus"], x: ["Gildarts", "Gray", "Gajeel"] },
+  { id: "ft-d9", d: 3, t: "Quel mage surpuissant détruit tout sur son passage sans le vouloir ?", a: "Gildarts", acc: ["gildarts", "gildarts clive"], x: ["Laxus", "Makarov", "Mystogan"] },
+  { id: "ft-d10", d: 3, t: "Comment s'appelle la guilde rivale de Sting et Rogue ?", a: "Sabertooth", x: ["Phantom Lord", "Blue Pegasus", "Lamia Scale"] },
+  { id: "ft-d11", d: 3, t: "Quel esprit céleste, une sirène, appartient à Lucy ?", a: "Aquarius", x: ["Loki", "Taurus", "Virgo"] },
+  { id: "ft-d12", d: 3, t: "Quel esprit céleste lion se fait aussi appeler Loki ?", a: "Leo", acc: ["leo", "loki"], x: ["Taurus", "Aquarius", "Scorpio"] },
+  { id: "ft-d13", d: 3, t: "Quel grand tournoi oppose les guildes du royaume de Fiore ?", a: "Les Grands Jeux Magiques", acc: ["grands jeux magiques", "grand magic games"], x: ["L'Examen de rang S", "La Guerre des Guildes", "Le Festival de la Récolte"] },
+  { id: "ft-d14", d: 3, t: "Quelle guilde noire dirigée par Hades veut réveiller Zeref ?", a: "Grimoire Heart", x: ["Tartaros", "Phantom Lord", "Oracion Seis"] },
+  { id: "ft-d15", d: 3, t: "Quel ami d'enfance d'Erza, manipulé, devient un antagoniste repenti ?", a: "Jellal", acc: ["jellal", "jellal fernandes"], x: ["Zeref", "Laxus", "Sting"] },
+
+  // --- Pro (20) ---
+  { id: "ft-p1", d: 4, t: "Quel dragon de fer a élevé Gajeel ?", a: "Metalicana", x: ["Igneel", "Grandeeney", "Skiadrum"] },
+  { id: "ft-p2", d: 4, t: "Quelle est la véritable identité démoniaque de Natsu, créée par Zeref ?", a: "E.N.D.", acc: ["end", "etherious natsu dragneel"], x: ["Acnologia", "Deliora", "Lullaby"] },
+  { id: "ft-p3", d: 4, t: "Quel lien unit Zeref et Natsu ?", a: "Ils sont frères", acc: ["freres"], x: ["Père et fils", "Cousins", "Maître et élève"] },
+  { id: "ft-p4", d: 4, t: "Quelle guilde de démons de Zeref est l'ennemie de l'arc Tartaros ?", a: "Tartaros", x: ["Grimoire Heart", "Oracion Seis", "Sabertooth"] },
+  { id: "ft-p5", d: 4, t: "Quel empire dirigé par Zeref envahit Fiore dans l'arc final ?", a: "L'Empire d'Alvarez", acc: ["alvarez", "empire d'alvarez"], x: ["Le royaume de Fiore", "Bosco", "Ishgar"] },
+  { id: "ft-p6", d: 4, t: "Quel Dragon Slayer d'ombre de Sabertooth fait équipe avec Sting ?", a: "Rogue", acc: ["rogue", "rogue cheney"], x: ["Gajeel", "Laxus", "Cobra"] },
+  { id: "ft-p7", d: 4, t: "Quel Dragon Slayer de lumière dirige Sabertooth avec Rogue ?", a: "Sting", acc: ["sting", "sting eucliffe"], x: ["Rogue", "Natsu", "Gajeel"] },
+  { id: "ft-p8", d: 4, t: "Quel Exceed noir accompagne Gajeel ?", a: "Panther Lily", acc: ["panther lily", "lily"], x: ["Happy", "Carla", "Frosch"] },
+  { id: "ft-p9", d: 4, t: "Quelle meilleure amie de Lucy est une petite mage des mots et bibliothécaire ?", a: "Levy", acc: ["levy", "levy mcgarden"], x: ["Cana", "Juvia", "Wendy"] },
+  { id: "ft-p10", d: 4, t: "Quelle mage brune adore l'alcool et lit les cartes ?", a: "Cana", acc: ["cana", "cana alberona"], x: ["Juvia", "Levy", "Mirajane"] },
+  { id: "ft-p11", d: 4, t: "De qui Cana est-elle la fille cachée ?", a: "Gildarts", acc: ["gildarts"], x: ["Makarov", "Laxus", "Gray"] },
+  { id: "ft-p12", d: 4, t: "Quel type de magie de glace Gray hérite-t-il de son père Silver ?", a: "Le Tueur de Démons de glace", acc: ["ice devil slayer", "tueur de demons de glace", "devil slayer"], x: ["Le Take Over", "La magie céleste", "Le rééquipement"] },
+  { id: "ft-p13", d: 4, t: "Qui est la mère d'Erza, reine dragon de l'empire d'Alvarez ?", a: "Irene Belserion", acc: ["irene", "irene belserion"], x: ["Mavis", "Grandeeney", "Ultear"] },
+  { id: "ft-p14", d: 4, t: "Quelle magie du temps utilise Ultear ?", a: "L'Arc of Time", acc: ["arc of time", "arc du temps"], x: ["Le Take Over", "La magie céleste", "Le rééquipement"] },
+  { id: "ft-p15", d: 4, t: "Quel adorable Exceed de Sabertooth accompagne Rogue ?", a: "Frosch", x: ["Lector", "Happy", "Carla"] },
+  { id: "ft-p16", d: 4, t: "Quel Exceed rouge accompagne Sting ?", a: "Lector", x: ["Frosch", "Happy", "Panther Lily"] },
+  { id: "ft-p17", d: 4, t: "Quel sort sacré de Fairy Tail, utilisé par Makarov, juge les ennemis ?", a: "Fairy Law", acc: ["fairy law"], x: ["Fairy Glitter", "Fairy Sphere", "Dragon Force"] },
+  { id: "ft-p18", d: 4, t: "Quel état de puissance ultime un Dragon Slayer peut-il atteindre ?", a: "Le Dragon Force", acc: ["dragon force"], x: ["Le Take Over", "L'Unison Raid", "Le Fairy Law"] },
+  { id: "ft-p19", d: 4, t: "Qui est l'auteur de Fairy Tail ?", a: "Hiro Mashima", acc: ["hiro mashima", "mashima"], x: ["Eiichiro Oda", "Masashi Kishimoto", "Tite Kubo"] },
+  { id: "ft-p20", d: 4, t: "Comment appelle-t-on l'attaque qui fusionne les magies de deux mages ?", a: "L'Unison Raid", acc: ["unison raid"], x: ["Le Dragon Force", "Le Fairy Law", "Le Take Over"] },
+]);

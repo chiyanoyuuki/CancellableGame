@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const godofwar = universe("jeuxvideo", "God of War", [
+  // --- Faciles (5) ---
+  { id: "gow-f1", d: 1, t: "Quel guerrier spartiate chauve à la peau pâle est le héros ?", a: "Kratos", x: ["Atreus", "Zeus", "Baldur"] },
+  { id: "gow-f2", d: 1, t: "De quelle couleur sont les marques peintes sur le corps de Kratos ?", a: "Rouge", x: ["Bleu", "Vert", "Noir"] },
+  { id: "gow-f3", d: 1, t: "Dans les premiers jeux, quelles armes-chaînes enflammées Kratos manie-t-il ?", a: "Les Lames du Chaos", acc: ["lames du chaos", "blades of chaos"], x: ["La Hache Léviathan", "Le Marteau", "L'épée d'Olympe"] },
+  { id: "gow-f4", d: 1, t: "À quelle mythologie appartient la première saga du jeu ?", a: "La mythologie grecque", acc: ["grecque", "grece"], x: ["La mythologie nordique", "La mythologie égyptienne", "La mythologie romaine"] },
+  { id: "gow-f5", d: 1, t: "Comment s'appelle le fils de Kratos dans les jeux récents ?", a: "Atreus", x: ["Baldur", "Mimir", "Tyr"] },
+
+  // --- Moyennes (10) ---
+  { id: "gow-m1", d: 2, t: "Quel dieu de la guerre Kratos tue-t-il à la fin du premier jeu ?", a: "Arès", acc: ["ares"], x: ["Zeus", "Hadès", "Poséidon"] },
+  { id: "gow-m2", d: 2, t: "Dans les jeux nordiques, quelle hache magique et givrante Kratos utilise-t-il ?", a: "La Hache Léviathan", acc: ["leviathan", "hache leviathan"], x: ["Les Lames du Chaos", "Mjölnir", "Gungnir"] },
+  { id: "gow-m3", d: 2, t: "Quel roi des dieux de l'Olympe Kratos finit par affronter ?", a: "Zeus", x: ["Arès", "Poséidon", "Hadès"] },
+  { id: "gow-m4", d: 2, t: "Quelle tête coupée mais vivante devient le guide de Kratos en terre nordique ?", a: "Mimir", x: ["Tyr", "Brok", "Sindri"] },
+  { id: "gow-m5", d: 2, t: "Dans quel royaume nordique commence God of War de 2018 ?", a: "Midgard", x: ["Asgard", "Alfheim", "Helheim"] },
+  { id: "gow-m6", d: 2, t: "Quel studio développe la série God of War ?", a: "Santa Monica Studio", acc: ["santa monica", "santa monica studio"], x: ["Naughty Dog", "FromSoftware", "Rockstar"] },
+  { id: "gow-m7", d: 2, t: "Comment s'appelle le géant serpent qui entoure le monde nordique ?", a: "Jörmungandr", acc: ["jormungandr", "serpent monde", "world serpent"], x: ["Fenrir", "Nidhogg", "Ratatoskr"] },
+  { id: "gow-m8", d: 2, t: "Quelle sorcière des bois aide Kratos, avant de se révéler être une déesse ?", a: "Freya", x: ["Athéna", "Aphrodite", "Angrboda"] },
+  { id: "gow-m9", d: 2, t: "Quel surnom terrifiant Kratos porte-t-il dans la saga grecque ?", a: "Le Fantôme de Sparte", acc: ["fantome de sparte", "ghost of sparta"], x: ["Le Dieu Déchu", "Le Boucher", "Le Spartiate"] },
+  { id: "gow-m10", d: 2, t: "Quel dieu du tonnerre, ennemi majeur, Kratos affronte-t-il dans Ragnarök ?", a: "Thor", x: ["Odin", "Baldur", "Tyr"] },
+
+  // --- Dures (15) ---
+  { id: "gow-d1", d: 3, t: "Quel dieu invincible et enragé est l'antagoniste de God of War de 2018 ?", a: "Baldur", x: ["Thor", "Odin", "Magni"] },
+  { id: "gow-d2", d: 3, t: "Quelle est la véritable identité mythologique d'Atreus ?", a: "Loki", x: ["Thor", "Tyr", "Baldur"] },
+  { id: "gow-d3", d: 3, t: "Comment s'appelle la défunte épouse de Kratos, mère d'Atreus ?", a: "Faye", acc: ["faye", "laufey"], x: ["Freya", "Angrboda", "Lysandra"] },
+  { id: "gow-d4", d: 3, t: "Quels deux frères forgerons nains améliorent les armes de Kratos ?", a: "Brok et Sindri", acc: ["brok et sindri", "brok", "sindri"], x: ["Fafnir et Fafner", "Eitri et Buri", "Ivaldi et Reginn"] },
+  { id: "gow-d5", d: 3, t: "Quel dieu de la guerre nordique disparu Kratos cherche-t-il ?", a: "Tyr", x: ["Odin", "Thor", "Baldur"] },
+  { id: "gow-d6", d: 3, t: "Dans la saga grecque, quelle déesse guide longtemps Kratos ?", a: "Athéna", acc: ["athena"], x: ["Aphrodite", "Héra", "Freya"] },
+  { id: "gow-d7", d: 3, t: "Quel Titan porte Kratos gravissant l'Olympe dans God of War 3 ?", a: "Gaïa", acc: ["gaia"], x: ["Cronos", "Atlas", "Prométhée"] },
+  { id: "gow-d8", d: 3, t: "Quelle arme légendaire Kratos utilise-t-il beaucoup dans God of War 3 ?", a: "L'Épée de l'Olympe", acc: ["epee de l'olympe", "blade of olympus"], x: ["Les Lames d'Athéna", "La Hache Léviathan", "La Lance"] },
+  { id: "gow-d9", d: 3, t: "Comment s'appelle le royaume des morts nordique visité par Kratos ?", a: "Helheim", x: ["Asgard", "Vanaheim", "Muspelheim"] },
+  { id: "gow-d10", d: 3, t: "Quel roi des dieux nordiques, manipulateur, est le grand méchant de Ragnarök ?", a: "Odin", x: ["Thor", "Baldur", "Tyr"] },
+  { id: "gow-d11", d: 3, t: "Quelle géante devient l'amie d'Atreus et dessine l'avenir dans Ragnarök ?", a: "Angrboda", x: ["Freya", "Faye", "Gunnr"] },
+  { id: "gow-d12", d: 3, t: "Quel énorme loup, allié d'Atreus, apparaît dans Ragnarök ?", a: "Fenrir", x: ["Garm", "Skoll", "Hati"] },
+  { id: "gow-d13", d: 3, t: "Dans God of War 2, quelles sœurs tissant le destin Kratos affronte-t-il ?", a: "Les Sœurs du Destin", acc: ["soeurs du destin", "sisters of fate"], x: ["Les Harpies", "Les Gorgones", "Les Furies"] },
+  { id: "gow-d14", d: 3, t: "Quelle créature à la chevelure de serpents Kratos décapite-t-il dans la saga grecque ?", a: "Méduse", acc: ["meduse"], x: ["Euryale", "Écho", "Circé"] },
+  { id: "gow-d15", d: 3, t: "Quel frère perdu de Kratos apparaît dans Ghost of Sparta ?", a: "Deimos", x: ["Arès", "Hermès", "Thanatos"] },
+
+  // --- Pro (20) ---
+  { id: "gow-p1", d: 4, t: "Quel acteur double la voix de Kratos dans les jeux nordiques ?", a: "Christopher Judge", acc: ["christopher judge"], x: ["Terrence Carson", "Nolan North", "Troy Baker"] },
+  { id: "gow-p2", d: 4, t: "Quel fils brutal de Thor affronte Kratos dans God of War de 2018 ?", a: "Magni", x: ["Modi", "Baldur", "Heimdall"] },
+  { id: "gow-p3", d: 4, t: "Quel autre fils de Thor accompagne Magni puis prend la fuite ?", a: "Modi", x: ["Magni", "Heimdall", "Baldur"] },
+  { id: "gow-p4", d: 4, t: "Quel gardien arrogant d'Asgard, qui lit les intentions, est un ennemi de Ragnarök ?", a: "Heimdall", x: ["Baldur", "Thor", "Tyr"] },
+  { id: "gow-p5", d: 4, t: "Comment s'appelle le marteau de Thor dans le jeu ?", a: "Mjölnir", acc: ["mjolnir"], x: ["Gungnir", "Léviathan", "Gram"] },
+  { id: "gow-p6", d: 4, t: "Quelle lance de lumière, troisième arme de Kratos dans Ragnarök, rejoint hache et lames ?", a: "La Lance Draupnir", acc: ["draupnir", "lance draupnir"], x: ["Gungnir", "Mjölnir", "L'Épée de l'Olympe"] },
+  { id: "gow-p7", d: 4, t: "Quel royaume de feu, gardé par Surtr, abrite des épreuves de combat ?", a: "Muspelheim", x: ["Niflheim", "Helheim", "Alfheim"] },
+  { id: "gow-p8", d: 4, t: "Quel royaume glacé et brumeux abrite un labyrinthe mortel ?", a: "Niflheim", x: ["Muspelheim", "Vanaheim", "Asgard"] },
+  { id: "gow-p9", d: 4, t: "Comment s'appelle l'écureuil messager qui parcourt Yggdrasil ?", a: "Ratatoskr", acc: ["ratatoskr"], x: ["Nidhogg", "Hraezlyr", "Fenrir"] },
+  { id: "gow-p10", d: 4, t: "Quelle épouse grecque de Kratos meurt de sa main sous l'emprise d'Arès ?", a: "Lysandra", acc: ["lysandra"], x: ["Faye", "Calliope", "Freya"] },
+  { id: "gow-p11", d: 4, t: "Comment s'appelle la fille défunte de Kratos dans la saga grecque ?", a: "Calliope", acc: ["calliope"], x: ["Lysandra", "Faye", "Angrboda"] },
+  { id: "gow-p12", d: 4, t: "Quel arbre-monde relie les neuf royaumes nordiques ?", a: "Yggdrasil", acc: ["yggdrasil"], x: ["Yddra", "Bifröst", "Valhalla"] },
+  { id: "gow-p13", d: 4, t: "Quel pont arc-en-ciel relie les royaumes nordiques ?", a: "Le Bifröst", acc: ["bifrost"], x: ["Yggdrasil", "Le Valhalla", "Le Gjallarhorn"] },
+  { id: "gow-p14", d: 4, t: "Dans God of War 3, quel forgeron des dieux Kratos rencontre-t-il ?", a: "Héphaïstos", acc: ["hephaistos"], x: ["Dédale", "Prométhée", "Icare"] },
+  { id: "gow-p15", d: 4, t: "Quel Titan condamné à porter le monde aide Kratos dans God of War 2 ?", a: "Atlas", x: ["Cronos", "Gaïa", "Prométhée"] },
+  { id: "gow-p16", d: 4, t: "Comment s'appelle le DLC gratuit roguelike de God of War Ragnarök ?", a: "Valhalla", x: ["Muspelheim", "Niflheim", "Helheim"] },
+  { id: "gow-p17", d: 4, t: "Quelle capitale fortifiée des dieux nordiques Kratos attaque-t-il dans Ragnarök ?", a: "Asgard", x: ["Midgard", "Vanaheim", "Alfheim"] },
+  { id: "gow-p18", d: 4, t: "Quelle reine des Valkyries est le boss optionnel le plus dur de God of War 2018 ?", a: "Sigrún", acc: ["sigrun"], x: ["Gunnr", "Kara", "Hildr"] },
+  { id: "gow-p19", d: 4, t: "Dans quel jeu grec Kratos descend-il aux Enfers affronter Hadès ?", a: "God of War 3", acc: ["god of war 3", "gow3"], x: ["God of War 1", "God of War 2", "Ascension"] },
+  { id: "gow-p20", d: 4, t: "Quel titre préquelle, doté d'un multijoueur, est sorti en 2013 ?", a: "God of War Ascension", acc: ["ascension", "god of war ascension"], x: ["Ghost of Sparta", "Chains of Olympus", "Ragnarök"] },
+]);

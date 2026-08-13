@@ -22,4 +22,4 @@ export const REMOTE_PROFILE_CONFIGURED = !REMOTE_PROFILE_URL.includes('example')
  * ouvert l'ancienne page en garde une version périmée. À incrémenter à chaque
  * changement notable de `webform/index.html`.
  */
-export const REMOTE_FORM_VERSION = 104;
+export const REMOTE_FORM_VERSION = 105;

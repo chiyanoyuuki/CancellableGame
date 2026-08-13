@@ -27,6 +27,8 @@ import { skyrim } from './skyrim';
 import { stardewvalley } from './stardewvalley';
 import { thewitcher } from './thewitcher';
 import { tlou } from './tlou';
+import { darksouls } from './darksouls';
+import { godofwar } from './godofwar';
 import { worldofwarcraft } from './worldofwarcraft';
 import { yakuza } from './yakuza';
 import { zelda } from './zelda';
@@ -70,4 +72,6 @@ export const jeuxvideoQuestions: Question[] = [
   ...cod,
   ...acreed,
   ...genshin,
+  ...darksouls,
+  ...godofwar,
 ];

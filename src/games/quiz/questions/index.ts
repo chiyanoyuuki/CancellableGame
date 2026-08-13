@@ -76,4 +76,6 @@ export const UNIVERSE_ADD_ORDER: string[] = [
   'Harry Potter', 'Star Wars', 'Le Seigneur des Anneaux', 'Mercredi', 'Taylor Swift',
   'One Punch Man', 'Call of Duty', "Assassin's Creed", 'Genshin Impact', 'Rick et Morty',
   'Lupin', 'Kaamelott', 'Marvel', 'Disney', 'Michael Jackson',
+  "JoJo's Bizarre Adventure", 'Fairy Tail', 'Dark Souls', 'God of War', 'Studio Ghibli',
+  'James Bond', 'Le Parrain', 'How I Met Your Mother', 'Queen', 'Daft Punk',
 ];

@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const jojo = universe("manga", "JoJo's Bizarre Adventure", [
+  // --- Faciles (5) ---
+  { id: "jojo-f1", d: 1, t: "Quel est le cri emblématique de Jotaro quand il frappe ?", a: "ORA", x: ["MUDA", "WRYYY", "ARRIVEDERCI"] },
+  { id: "jojo-f2", d: 1, t: "Comment appelle-t-on les pouvoirs spirituels combattants de JoJo ?", a: "Les Stands", acc: ["stand", "stands"], x: ["Les Nen", "Les Quirks", "Les Zanpakuto"] },
+  { id: "jojo-f3", d: 1, t: "Quel grand méchant vampire affronte la lignée Joestar ?", a: "Dio", acc: ["dio brando", "dio"], x: ["Kars", "Kira", "Diavolo"] },
+  { id: "jojo-f4", d: 1, t: "Comment s'appelle la famille de héros au fil des générations ?", a: "Joestar", x: ["Kujo", "Higashikata", "Zeppeli"] },
+  { id: "jojo-f5", d: 1, t: "Quel héros au chapeau marin est le protagoniste de Stardust Crusaders ?", a: "Jotaro Kujo", acc: ["jotaro"], x: ["Josuke", "Giorno", "Jonathan"] },
+
+  // --- Moyennes (10) ---
+  { id: "jojo-m1", d: 2, t: "Quel est le Stand de Jotaro ?", a: "Star Platinum", x: ["The World", "Crazy Diamond", "Gold Experience"] },
+  { id: "jojo-m2", d: 2, t: "Quel est le Stand de Dio ?", a: "The World", acc: ["the world", "za warudo"], x: ["Star Platinum", "Killer Queen", "King Crimson"] },
+  { id: "jojo-m3", d: 2, t: "Quelle capacité partagent Star Platinum et The World ?", a: "Arrêter le temps", acc: ["arreter le temps"], x: ["Voler", "Devenir invisible", "Lire les pensées"] },
+  { id: "jojo-m4", d: 2, t: "Quelle technique de respiration utilisent Jonathan et Joseph ?", a: "Le Hamon", acc: ["hamon", "onde"], x: ["Le Nen", "Le Chakra", "Le Ki"] },
+  { id: "jojo-m5", d: 2, t: "Qui est le protagoniste de Phantom Blood, la partie 1 ?", a: "Jonathan Joestar", acc: ["jonathan"], x: ["Joseph Joestar", "Jotaro Kujo", "Josuke Higashikata"] },
+  { id: "jojo-m6", d: 2, t: "Qui est le protagoniste de Battle Tendency, la partie 2 ?", a: "Joseph Joestar", acc: ["joseph"], x: ["Jonathan Joestar", "Jotaro Kujo", "Giorno Giovanna"] },
+  { id: "jojo-m7", d: 2, t: "Qui est le protagoniste de Golden Wind, la partie 5 ?", a: "Giorno Giovanna", acc: ["giorno"], x: ["Josuke", "Jolyne", "Johnny"] },
+  { id: "jojo-m8", d: 2, t: "Quel est le Stand de Giorno ?", a: "Gold Experience", x: ["Sticky Fingers", "Star Platinum", "Purple Haze"] },
+  { id: "jojo-m9", d: 2, t: "Comment s'appelle le gang mafieux au cœur de la partie 5 ?", a: "Passione", x: ["La Camorra", "Les Hommes du Pilier", "La Fondation Speedwagon"] },
+  { id: "jojo-m10", d: 2, t: "Qui est le protagoniste de Diamond is Unbreakable, la partie 4 ?", a: "Josuke Higashikata", acc: ["josuke"], x: ["Jotaro", "Giorno", "Jolyne"] },
+
+  // --- Dures (15) ---
+  { id: "jojo-d1", d: 3, t: "Quel Stand de Josuke peut réparer et soigner ce qu'il touche ?", a: "Crazy Diamond", x: ["Killer Queen", "Gold Experience", "Stone Free"] },
+  { id: "jojo-d2", d: 3, t: "Quel tueur en série obsédé par les mains sévit dans la partie 4 ?", a: "Yoshikage Kira", acc: ["kira", "yoshikage kira"], x: ["Diavolo", "Dio", "Kars"] },
+  { id: "jojo-d3", d: 3, t: "Quel est le Stand de Kira, dont le chat-bombe explose ?", a: "Killer Queen", x: ["Crazy Diamond", "King Crimson", "The Hand"] },
+  { id: "jojo-d4", d: 3, t: "Dans quelle ville japonaise se déroule la partie 4 ?", a: "Morioh", x: ["Naples", "Le Caire", "New York"] },
+  { id: "jojo-d5", d: 3, t: "Qui est l'héroïne de Stone Ocean, la partie 6 ?", a: "Jolyne Cujoh", acc: ["jolyne"], x: ["Jotaro", "Josuke", "Johnny"] },
+  { id: "jojo-d6", d: 3, t: "Quel est le Stand de Jolyne, fait de fils ?", a: "Stone Free", x: ["Star Platinum", "Crazy Diamond", "Sticky Fingers"] },
+  { id: "jojo-d7", d: 3, t: "Qui est le chef de Passione, obsédé par le secret de son identité ?", a: "Diavolo", x: ["Dio", "Kira", "Kars"] },
+  { id: "jojo-d8", d: 3, t: "Quel est le Stand de Diavolo, qui efface des fragments de temps ?", a: "King Crimson", x: ["The World", "Killer Queen", "Made in Heaven"] },
+  { id: "jojo-d9", d: 3, t: "Qui est le protagoniste de Steel Ball Run, la partie 7 ?", a: "Johnny Joestar", acc: ["johnny"], x: ["Jonathan", "Jotaro", "Gyro Zeppeli"] },
+  { id: "jojo-d10", d: 3, t: "Quel mentor apprend à Johnny les boules d'acier tournoyantes ?", a: "Gyro Zeppeli", acc: ["gyro", "gyro zeppeli"], x: ["Will Zeppeli", "Speedwagon", "Avdol"] },
+  { id: "jojo-d11", d: 3, t: "Comment appelle-t-on les ennemis surhumains de la partie 2 ?", a: "Les Hommes du Pilier", acc: ["hommes du pilier", "pillar men"], x: ["Les Sternritter", "Les Espada", "Les Arrancars"] },
+  { id: "jojo-d12", d: 3, t: "Qui est le chef des Hommes du Pilier ?", a: "Kars", x: ["Wamuu", "Esidisi", "Santana"] },
+  { id: "jojo-d13", d: 3, t: "Quel est le Stand du chien Iggy dans la partie 3 ?", a: "The Fool", x: ["The World", "The Hand", "Hierophant Green"] },
+  { id: "jojo-d14", d: 3, t: "Quel est le Stand de Kakyoin, aux tentacules d'émeraude ?", a: "Hierophant Green", acc: ["hierophant green"], x: ["Magician's Red", "Silver Chariot", "Hermit Purple"] },
+  { id: "jojo-d15", d: 3, t: "Quel objet ancien transforme ses porteurs en vampires ?", a: "Le Masque de Pierre", acc: ["masque de pierre", "stone mask"], x: ["La Flèche", "La Pierre Rouge d'Aja", "Le Requiem"] },
+
+  // --- Pro (20) ---
+  { id: "jojo-p1", d: 4, t: "Quel est le Stand de Bruno Bucciarati, qui crée des fermetures éclair ?", a: "Sticky Fingers", x: ["Gold Experience", "Sex Pistols", "Moody Blues"] },
+  { id: "jojo-p2", d: 4, t: "Quel est le Stand de Guido Mista, aux six balles vivantes ?", a: "Sex Pistols", x: ["Aerosmith", "Purple Haze", "Silver Chariot"] },
+  { id: "jojo-p3", d: 4, t: "Quel est le Stand de Narancia, un petit avion de combat ?", a: "Aerosmith", x: ["Sex Pistols", "Moody Blues", "Spice Girl"] },
+  { id: "jojo-p4", d: 4, t: "Quel est le Stand de Polnareff, l'épéiste ?", a: "Silver Chariot", x: ["Magician's Red", "Hierophant Green", "The Fool"] },
+  { id: "jojo-p5", d: 4, t: "Quel est le Stand d'Avdol, qui manie le feu ?", a: "Magician's Red", x: ["Hermit Purple", "Silver Chariot", "The Fool"] },
+  { id: "jojo-p6", d: 4, t: "Quelle forme ultime du Stand de Giorno annule toute action ennemie ?", a: "Gold Experience Requiem", acc: ["gold experience requiem", "ger"], x: ["King Crimson Requiem", "Chariot Requiem", "Made in Heaven"] },
+  { id: "jojo-p7", d: 4, t: "Quelle est la réplique fétiche blasée de Jotaro ?", a: "Yare Yare Daze", acc: ["yare yare daze", "yare yare"], x: ["Muda Muda", "Wryyy", "Arrivederci"] },
+  { id: "jojo-p8", d: 4, t: "Qui est le prêtre antagoniste de la partie 6 ?", a: "Enrico Pucci", acc: ["pucci", "enrico pucci"], x: ["Diavolo", "Yoshikage Kira", "Funny Valentine"] },
+  { id: "jojo-p9", d: 4, t: "Quel Stand final de Pucci accélère le temps jusqu'à recréer l'univers ?", a: "Made in Heaven", x: ["The World", "King Crimson", "Gold Experience Requiem"] },
+  { id: "jojo-p10", d: 4, t: "Qui est l'antagoniste principal de Steel Ball Run, président des États-Unis ?", a: "Funny Valentine", acc: ["funny valentine", "valentine"], x: ["Diego Brando", "Enrico Pucci", "Diavolo"] },
+  { id: "jojo-p11", d: 4, t: "Qui est l'auteur de JoJo's Bizarre Adventure ?", a: "Hirohiko Araki", acc: ["araki", "hirohiko araki"], x: ["Eiichiro Oda", "Akira Toriyama", "Tite Kubo"] },
+  { id: "jojo-p12", d: 4, t: "Quel Stand du mangaka Rohan Kishibe lit les gens comme un livre ?", a: "Heaven's Door", acc: ["heaven's door", "heavens door"], x: ["Killer Queen", "Echoes", "Crazy Diamond"] },
+  { id: "jojo-p13", d: 4, t: "Quel est le Stand de Koichi, qui évolue en plusieurs actes ?", a: "Echoes", x: ["Heaven's Door", "The Hand", "Crazy Diamond"] },
+  { id: "jojo-p14", d: 4, t: "Quel est le Stand d'Okuyasu, qui efface l'espace ?", a: "The Hand", x: ["Echoes", "Killer Queen", "Crazy Diamond"] },
+  { id: "jojo-p15", d: 4, t: "Quelle capacité de Killer Queen remonte le temps pour protéger Kira ?", a: "Bites the Dust", acc: ["bites the dust"], x: ["Sheer Heart Attack", "Made in Heaven", "King Crimson"] },
+  { id: "jojo-p16", d: 4, t: "Quel objet en forme de flèche octroie des Stands dans les parties 4 et 5 ?", a: "La Flèche", acc: ["la fleche", "stand arrow"], x: ["Le Masque de Pierre", "La Pierre Rouge d'Aja", "Le Requiem"] },
+  { id: "jojo-p17", d: 4, t: "Quel rival de Johnny est une version alternative de Dio dans la partie 7 ?", a: "Diego Brando", acc: ["diego", "diego brando"], x: ["Funny Valentine", "Enrico Pucci", "Kars"] },
+  { id: "jojo-p18", d: 4, t: "Quel est le Stand de Hol Horse, en forme de pistolet ?", a: "Emperor", x: ["Hanged Man", "The Fool", "Justice"] },
+  { id: "jojo-p19", d: 4, t: "Quelle fondation aide les Joestar au fil des générations ?", a: "La Fondation Speedwagon", acc: ["fondation speedwagon", "speedwagon foundation"], x: ["Passione", "La Camorra", "Les Hommes du Pilier"] },
+  { id: "jojo-p20", d: 4, t: "Dans quel pays se déroule principalement Steel Ball Run ?", a: "Les États-Unis", acc: ["etats-unis", "usa", "amerique"], x: ["L'Italie", "Le Japon", "L'Égypte"] },
+]);
