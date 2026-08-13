@@ -32,6 +32,9 @@ export interface DuelUltimeState {
   wrongById: Record<string, number>;
   /** Nombre de questions déjà répondues par chaque joueur. */
   answeredById: Record<string, number>;
+  /** Journal des réponses : sert à émettre les événements « answer » pour que
+   * les questions du duel comptent comme « déjà vues » (comme le quiz). */
+  log: { playerId: string; questionId: string; correct: boolean }[];
   phase: DuelUltimePhase;
   lastCorrect: boolean | null;
   seed: number;
@@ -111,6 +114,7 @@ export function createDuelUltimeState(args: {
     correctById: {},
     wrongById: {},
     answeredById: {},
+    log: [],
     phase: 'question',
     lastCorrect: null,
     seed: args.seed >>> 0,
@@ -126,10 +130,12 @@ export function duelUltimeReducer(state: DuelUltimeState, action: DuelUltimeActi
     case 'ANSWER': {
       if (state.phase !== 'question' || !state.activeId) return state;
       const active = state.activeId;
+      const q = state.current;
       return {
         ...state,
         phase: 'reveal',
         lastCorrect: action.correct,
+        log: q ? [...state.log, { playerId: active, questionId: q.id, correct: action.correct }] : state.log,
         answeredById: { ...state.answeredById, [active]: (state.answeredById[active] ?? 0) + 1 },
         correctById: action.correct
           ? { ...state.correctById, [active]: (state.correctById[active] ?? 0) + 1 }
@@ -194,6 +200,13 @@ export function duelUltimeToSessionResult(
       },
     };
   });
-  const events: GameEvent[] = [];
+  // Un événement « answer » par question posée : croisé avec les participants,
+  // il fait compter la question comme « déjà vue » (même mécanisme que le quiz).
+  const events: GameEvent[] = state.log.map((e) => ({
+    type: 'answer',
+    playerId: e.playerId,
+    at: endedAt,
+    payload: { questionId: e.questionId, correct: e.correct },
+  }));
   return { gameId: 'duelultime', mode: 'ultime', config: { ...state.config }, startedAt, endedAt, players, events };
 }

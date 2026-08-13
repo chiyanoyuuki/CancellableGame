@@ -58,4 +58,16 @@ export const bleach = universe("manga", "Bleach", [
   { id: "bleach-p18", d: 4, t: "Quelle capitaine guérisseuse de la 4e division cache un passé terrifiant ?", a: "Retsu Unohana", acc: ["unohana", "retsu"], x: ["Nanao", "Isane", "Nemu"] },
   { id: "bleach-p19", d: 4, t: "Comment appelle-t-on le passage qui mène à Hueco Mundo ?", a: "Le Garganta", acc: ["garganta"], x: ["Le Senkaimon", "Le Dangai", "Le Precipice"] },
   { id: "bleach-p20", d: 4, t: "Comment appelle-t-on la porte reliant la Soul Society au monde des vivants ?", a: "Le Senkaimon", acc: ["senkaimon"], x: ["Le Garganta", "Le Dangai", "Las Noches"] },
+
+  // --- Hardcore (10 pro de plus) ---
+  { id: "bleach-p21", d: 4, t: "Comment s'appelle le bankai d'Ichigo ?", a: "Tensa Zangetsu", acc: ["tensa zangetsu"], x: ["Hihio Zabimaru", "Daiguren Hyorinmaru", "Senbonzakura Kageyoshi"] },
+  { id: "bleach-p22", d: 4, t: "Comment s'appelle l'attaque d'onde d'énergie noire lancée avec Zangetsu ?", a: "Getsuga Tensho", acc: ["getsuga tensho", "getsuga"], x: ["Cero", "Shunpo", "Hado"] },
+  { id: "bleach-p23", d: 4, t: "Comment s'appelle la mère d'Ichigo ?", a: "Masaki Kurosaki", acc: ["masaki"], x: ["Rukia Kuchiki", "Orihime Inoue", "Yoruichi Shihoin"] },
+  { id: "bleach-p24", d: 4, t: "Comment s'appelle le zanpakuto de Rukia ?", a: "Sode no Shirayuki", acc: ["sode no shirayuki"], x: ["Senbonzakura", "Hyorinmaru", "Zabimaru"] },
+  { id: "bleach-p25", d: 4, t: "Comment s'appelle le bankai de Renji ?", a: "Hihio Zabimaru", acc: ["hihio zabimaru"], x: ["Tensa Zangetsu", "Daiguren Hyorinmaru", "Senbonzakura Kageyoshi"] },
+  { id: "bleach-p26", d: 4, t: "Comment appelle-t-on l'élite des Quincy de Yhwach, désignés par une lettre ?", a: "Les Sternritter", acc: ["sternritter"], x: ["Les Espada", "Les Vizards", "Les Fullbringers"] },
+  { id: "bleach-p27", d: 4, t: "Comment s'appelle le pouvoir suprême de Yhwach, qui voit et réécrit l'avenir ?", a: "The Almighty", acc: ["the almighty", "almighty"], x: ["The Heat", "The Explode", "The Iron"] },
+  { id: "bleach-p28", d: 4, t: "Comment s'appelle le Getsuga Tensho final qu'Ichigo utilise pour vaincre Aizen ?", a: "Mugetsu", acc: ["mugetsu"], x: ["Getsuga Tensho", "Cero", "Shunko"] },
+  { id: "bleach-p29", d: 4, t: "Comment s'appelle le fils d'Ichigo et Orihime dans l'épilogue ?", a: "Kazui Kurosaki", acc: ["kazui"], x: ["Ichika Abarai", "Kaien Shiba", "Sora Inoue"] },
+  { id: "bleach-p30", d: 4, t: "Comment appelle-t-on la garde royale qui protège le Roi des Âmes ?", a: "La Division Zéro", acc: ["division zero", "escadron zero", "garde royale"], x: ["Le Gotei 13", "La Wandenreich", "Les Espada"] },
 ]);

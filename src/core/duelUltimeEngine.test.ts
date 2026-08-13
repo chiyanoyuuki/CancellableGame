@@ -218,4 +218,18 @@ describe('duelUltimeToSessionResult', () => {
     const res = duelUltimeToSessionResult(s, 0, 1);
     expect(res.players.every((p) => p.rank === 1)).toBe(true);
   });
+
+  test('émet un événement « answer » par question (comptées comme déjà vues)', () => {
+    let s = start({ questionsPerPlayer: 5 });
+    const ids: string[] = [];
+    while (s.phase === 'question' && s.current) {
+      ids.push(s.current.id);
+      s = turn(s, true);
+    }
+    const res = duelUltimeToSessionResult(s, 0, 1000);
+    const answers = (res.events ?? []).filter((e) => e.type === 'answer');
+    expect(answers).toHaveLength(ids.length); // 5 p1 + 5 p2
+    expect(answers.map((e) => e.payload.questionId).sort()).toEqual([...ids].sort());
+    expect(answers.every((e) => e.at === 1000)).toBe(true);
+  });
 });
