@@ -28,7 +28,7 @@ for (const [theme, uni] of [
 }
 
 function config(over: Partial<DuelUltimeConfig> = {}): DuelUltimeConfig {
-  return { universesByPlayer: { p1: ['Naruto'], p2: ['Marvel'] }, questionsPerPlayer: 10, drinksEnabled: false, drinkIntensity: 'normal', ...over };
+  return { universesByPlayer: { p1: ['Naruto'], p2: ['Marvel'] }, questionsPerPlayer: 10, drinksEnabled: false, drinkIntensity: 'normal', questionTimerSec: 0, ...over };
 }
 
 const start = (over: Partial<DuelUltimeConfig> = {}, order?: string[]) =>
@@ -60,7 +60,7 @@ describe('univers multiples et questions inédites', () => {
       twoUni.push({ id: `B-4-${i}`, theme: 'films' as Theme, universe: 'B', difficulty: 4, text: `b${i}`, answer: 'bon', distractors: ['a', 'b', 'c'] });
     }
     let s = createDuelUltimeState({
-      config: { universesByPlayer: { p1: ['A', 'B'] }, questionsPerPlayer: 10, drinksEnabled: false, drinkIntensity: 'normal' },
+      config: { universesByPlayer: { p1: ['A', 'B'] }, questionsPerPlayer: 10, drinksEnabled: false, drinkIntensity: 'normal', questionTimerSec: 0 },
       players: [players[0] as Player],
       pool: twoUni,
       seed: 7,
@@ -82,7 +82,7 @@ describe('univers multiples et questions inédites', () => {
     const seen: QuestionHistory = {};
     for (let i = 0; i < 15; i++) seen[`Naruto-4-${i}`] = { timesUsed: 1, lastUsedAt: 0 };
     let s = createDuelUltimeState({
-      config: { universesByPlayer: { p1: ['Naruto'] }, questionsPerPlayer: 5, drinksEnabled: false, drinkIntensity: 'normal' },
+      config: { universesByPlayer: { p1: ['Naruto'] }, questionsPerPlayer: 5, drinksEnabled: false, drinkIntensity: 'normal', questionTimerSec: 0 },
       players: [players[0] as Player],
       pool,
       seed: 9,
@@ -101,7 +101,7 @@ describe('univers multiples et questions inédites', () => {
 
 describe('déroulé séquentiel', () => {
   test('chaque joueur reçoit N questions pro sur SON univers, dans l’ordre', () => {
-    let s = start({ questionsPerPlayer: 10, drinksEnabled: false, drinkIntensity: 'normal' });
+    let s = start({ questionsPerPlayer: 10, drinksEnabled: false, drinkIntensity: 'normal', questionTimerSec: 0 });
     const seen: { id: string; uni: string; d: number }[] = [];
     for (let i = 0; i < 20; i++) {
       if (s.phase !== 'question' || !s.current || !s.activeId) break;
@@ -118,7 +118,7 @@ describe('déroulé séquentiel', () => {
   });
 
   test('les identifiants de questions ne se répètent pas pour un joueur', () => {
-    let s = start({ questionsPerPlayer: 10, drinksEnabled: false, drinkIntensity: 'normal' });
+    let s = start({ questionsPerPlayer: 10, drinksEnabled: false, drinkIntensity: 'normal', questionTimerSec: 0 });
     const ids: string[] = [];
     while (s.phase === 'question' && s.current) {
       ids.push(s.current.id);
@@ -130,7 +130,7 @@ describe('déroulé séquentiel', () => {
 
 describe('score et vainqueur', () => {
   test('le meilleur score gagne', () => {
-    let s = start({ questionsPerPlayer: 5, drinksEnabled: false, drinkIntensity: 'normal' });
+    let s = start({ questionsPerPlayer: 5, drinksEnabled: false, drinkIntensity: 'normal', questionTimerSec: 0 });
     // p1 : 4 bonnes / 1 fausse
     for (const c of [true, true, true, true, false]) s = turn(s, c);
     // p2 : 2 bonnes / 3 fausses
@@ -156,7 +156,7 @@ describe('mode solo (1 joueur)', () => {
   test('un seul joueur : N questions, score enregistré, pas de vainqueur', () => {
     const solo: Player[] = [players[0] as Player];
     let s = createDuelUltimeState({
-      config: { universesByPlayer: { p1: ['Naruto'] }, questionsPerPlayer: 10, drinksEnabled: false, drinkIntensity: 'normal' },
+      config: { universesByPlayer: { p1: ['Naruto'] }, questionsPerPlayer: 10, drinksEnabled: false, drinkIntensity: 'normal', questionTimerSec: 0 },
       players: solo,
       pool,
       seed: 3,
@@ -179,7 +179,7 @@ describe('robustesse', () => {
       small.push({ id: `Solo-4-${i}`, theme: 'manga' as Theme, universe: 'Petit', difficulty: 4, text: `q${i}`, answer: 'bon', distractors: ['a', 'b', 'c'] });
     }
     let s = createDuelUltimeState({
-      config: { universesByPlayer: { p1: ['Petit'] }, questionsPerPlayer: 10, drinksEnabled: false, drinkIntensity: 'normal' },
+      config: { universesByPlayer: { p1: ['Petit'] }, questionsPerPlayer: 10, drinksEnabled: false, drinkIntensity: 'normal', questionTimerSec: 0 },
       players: [players[0] as Player],
       pool: small,
       seed: 5,
@@ -196,7 +196,7 @@ describe('robustesse', () => {
 
 describe('duelUltimeToSessionResult', () => {
   test('résultat générique : gameId, mode, rangs et détails', () => {
-    let s = start({ questionsPerPlayer: 5, drinksEnabled: false, drinkIntensity: 'normal' });
+    let s = start({ questionsPerPlayer: 5, drinksEnabled: false, drinkIntensity: 'normal', questionTimerSec: 0 });
     for (const c of [true, true, true, false, false]) s = turn(s, c); // p1 : 3
     for (const c of [true, false, false, false, false]) s = turn(s, c); // p2 : 1
     const res = duelUltimeToSessionResult(s, 1000, 2000);
@@ -220,7 +220,7 @@ describe('duelUltimeToSessionResult', () => {
   });
 
   test('émet un événement « answer » par question (comptées comme déjà vues)', () => {
-    let s = start({ questionsPerPlayer: 5, drinksEnabled: false, drinkIntensity: 'normal' });
+    let s = start({ questionsPerPlayer: 5, drinksEnabled: false, drinkIntensity: 'normal', questionTimerSec: 0 });
     const ids: string[] = [];
     while (s.phase === 'question' && s.current) {
       ids.push(s.current.id);

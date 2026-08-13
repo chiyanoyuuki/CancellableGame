@@ -36,6 +36,8 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
   const [game, setGame] = useState<DuelUltimeState | null>(null);
   // Réponse révélée (l'invité se juge : trouvé / raté) — pas de propositions.
   const [revealed, setRevealed] = useState(false);
+  // Chrono par question (0 = désactivé) : à 0, la réponse est révélée d'office.
+  const [remaining, setRemaining] = useState<number | null>(null);
   // Écran « passe le téléphone » affiché au début du bloc de chaque joueur.
   const [handoff, setHandoff] = useState<Player | null>(null);
 
@@ -68,6 +70,23 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
   }, []);
 
   const dispatch = (a: DuelUltimeAction) => setGame((s) => (s ? duelUltimeReducer(s, a) : s));
+
+  // Chrono par question : (re)démarre à chaque nouvelle question, s'arrête à la
+  // révélation ; à 0, on révèle la réponse d'office.
+  useEffect(() => {
+    if (cfg.questionTimerSec <= 0 || game?.phase !== 'question' || revealed || handoff) {
+      setRemaining(null);
+      return;
+    }
+    setRemaining(cfg.questionTimerSec);
+    const id = setInterval(() => setRemaining((r) => (r !== null && r > 0 ? r - 1 : r)), 1000);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [game?.qNumber, game?.activeId, game?.phase, revealed, handoff, cfg.questionTimerSec]);
+
+  useEffect(() => {
+    if (remaining === 0 && game?.phase === 'question' && !revealed) setRevealed(true);
+  }, [remaining, game?.phase, revealed]);
 
   // Au début du bloc d'un nouveau joueur (hors tout premier), on passe le tel.
   useEffect(() => {
@@ -214,6 +233,11 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
 
         {!revealed ? (
           <View style={{ gap: spacing(1) }}>
+            {remaining !== null && (
+              <Txt center weight="900" size={fontSize.xxl} color={remaining <= 5 ? colors.danger : colors.accent}>
+                {remaining}s
+              </Txt>
+            )}
             <Txt faint size={fontSize.sm}>
               Réfléchis (ou dis ta réponse à voix haute), puis révèle la bonne réponse.
             </Txt>

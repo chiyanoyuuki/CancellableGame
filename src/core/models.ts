@@ -265,6 +265,8 @@ export interface DuelUltimeConfig {
   /** Mode alcool : gorgées sur les réponses (raté = tu bois, sans faute = tu distribues). */
   drinksEnabled: boolean;
   drinkIntensity: DrinkIntensity;
+  /** Secondes pour trouver avant révélation forcée (0 = pas de chrono). */
+  questionTimerSec: number;
 }
 
 // ---------------------------------------------------------------------------

@@ -19,6 +19,7 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
   const [n, setN] = useState(10);
   const [drinksEnabled, setDrinksEnabled] = useState(true);
   const [drinkIntensity, setDrinkIntensity] = useState<DrinkIntensity>('normal');
+  const [timerSec, setTimerSec] = useState(0);
   const [universesByPlayer, setUniversesByPlayer] = useState<Record<string, string[]>>({});
   const [editing, setEditing] = useState<string>(players[0]?.id ?? '');
 
@@ -79,7 +80,7 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
   const valid = players.length >= 1 && players.every((p) => (universesByPlayer[p.id]?.length ?? 0) > 0);
 
   const launch = () =>
-    onStart({ universesByPlayer, questionsPerPlayer: n, drinksEnabled, drinkIntensity } satisfies DuelUltimeConfig);
+    onStart({ universesByPlayer, questionsPerPlayer: n, drinksEnabled, drinkIntensity, questionTimerSec: timerSec } satisfies DuelUltimeConfig);
 
   const editingName = players.find((p) => p.id === editing)?.name ?? '';
   const editingUniverses = universesByPlayer[editing] ?? [];
@@ -119,6 +120,18 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
           ]}
         />
       )}
+
+      <SectionHeader title="Chrono par question" />
+      <Segmented<string>
+        value={String(timerSec)}
+        onChange={(v) => setTimerSec(Number(v))}
+        options={[
+          { label: 'Aucun', value: '0' },
+          { label: '15 s', value: '15' },
+          { label: '30 s', value: '30' },
+          { label: '45 s', value: '45' },
+        ]}
+      />
 
       <SectionHeader title="Univers de chaque joueur (un ou plusieurs)" />
       <View style={{ gap: spacing(1) }}>
