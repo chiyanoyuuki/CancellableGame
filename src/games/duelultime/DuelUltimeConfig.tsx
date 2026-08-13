@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Switch, View } from 'react-native';
 
-import { Button, Card, Chip, PlayerAvatar, Segmented, SectionHeader, Txt } from '../../components/ui';
+import { Button, Card, Chip, PlayerAvatar, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
 import { type DrinkIntensity, type DuelUltimeConfig, type Question, type Theme, THEME_META, THEMES } from '../../core/models';
+import { pickRandomUniverses } from '../../core/duelUltimeEngine';
 import { countUnseen, type QuestionHistory } from '../../core/questionSelection';
-import { getQuestionHistoryByPlayer } from '../../db';
+import { getPlayerUnwantedUniverses, getQuestionHistoryByPlayer } from '../../db';
 import { useStore } from '../../store/StoreProvider';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
@@ -19,6 +20,8 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
   const store = useStore();
   const [pool, setPool] = useState<Question[]>([]);
   const [historyByPlayer, setHistoryByPlayer] = useState<Record<string, QuestionHistory>>({});
+  const [unwantedMap, setUnwantedMap] = useState<Record<string, string[]>>({});
+  const [randomCount, setRandomCount] = useState(3);
   const [n, setN] = useState(10);
   const [drinksEnabled, setDrinksEnabled] = useState(true);
   const [drinkIntensity, setDrinkIntensity] = useState<DrinkIntensity>('normal');
@@ -29,10 +32,15 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const [p, hbp] = await Promise.all([getQuizPool(), getQuestionHistoryByPlayer()]);
+      const [p, hbp, un] = await Promise.all([
+        getQuizPool(),
+        getQuestionHistoryByPlayer(),
+        getPlayerUnwantedUniverses(),
+      ]);
       if (alive) {
         setPool(p);
         setHistoryByPlayer(hbp);
+        setUnwantedMap(un);
       }
     })();
     return () => {
@@ -101,6 +109,23 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
     });
   };
 
+  // Tous les univers jouables, à plat (déjà filtrés : questions pro + débloqués).
+  const allPlayableUniverses = useMemo(() => universesByTheme.flatMap((g) => g.universes), [universesByTheme]);
+
+  // Tire au sort, POUR CHAQUE joueur, `randomCount` univers parmi ceux qu'il
+  // n'évite pas dans son profil. Écrase la sélection courante ; on peut ensuite
+  // ajuster à la main. Repli : un profil qui a tout évité repart de tous les
+  // univers jouables, pour ne jamais laisser un joueur sans univers.
+  const assignRandom = () => {
+    setUniversesByPlayer((prev) => {
+      const next = { ...prev };
+      for (const p of players) {
+        next[p.id] = pickRandomUniverses(allPlayableUniverses, unwantedMap[p.id] ?? [], randomCount, Math.random);
+      }
+      return next;
+    });
+  };
+
   const valid = players.length >= 1 && players.every((p) => (universesByPlayer[p.id]?.length ?? 0) > 0);
 
   const launch = () =>
@@ -157,6 +182,27 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
           { label: '45 s', value: '45' },
         ]}
       />
+
+      <SectionHeader title="Univers au hasard" />
+      <Card>
+        <View style={styles.rowBetween}>
+          <View style={{ flex: 1, paddingRight: spacing(1) }}>
+            <Txt weight="700">🎲 Univers par joueur</Txt>
+            <Txt faint size={fontSize.xs}>
+              Tire au sort ce nombre d'univers pour chaque joueur, parmi ceux qu'il n'évite pas dans son profil.
+            </Txt>
+          </View>
+          <Stepper value={randomCount} min={1} max={10} onChange={setRandomCount} />
+        </View>
+        <Button
+          title={`Tirer ${randomCount} univers pour chaque joueur`}
+          emoji="🎲"
+          variant="secondary"
+          onPress={assignRandom}
+          disabled={players.length === 0 || allPlayableUniverses.length === 0}
+          style={{ marginTop: spacing(1.5) }}
+        />
+      </Card>
 
       <SectionHeader title="Univers de chaque joueur (un ou plusieurs)" />
       <View style={{ gap: spacing(1) }}>

@@ -11,7 +11,25 @@
 import type { GameEvent, Player, PlayerSessionResult, Question, SessionResult } from './models';
 import type { DuelUltimeConfig } from './models';
 import type { QuestionHistory } from './questionSelection';
-import { mulberry32, shuffle } from './rng';
+import { mulberry32, type Rng, shuffle } from './rng';
+
+/**
+ * Tire au sort jusqu'à `count` univers pour un joueur parmi `all`, en écartant
+ * ceux qu'il évite (`avoided`). Repli : si le joueur a tout évité, on repart de
+ * `all` pour ne jamais le laisser sans univers. Renvoie au plus `count` univers
+ * (moins s'il n'y en a pas assez de disponibles).
+ */
+export function pickRandomUniverses(
+  all: readonly string[],
+  avoided: readonly string[],
+  count: number,
+  rng: Rng,
+): string[] {
+  const avoid = new Set(avoided);
+  const wanted = all.filter((u) => !avoid.has(u));
+  const source = wanted.length > 0 ? wanted : all;
+  return shuffle(source, rng).slice(0, Math.max(0, count));
+}
 
 export type DuelUltimePhase = 'question' | 'reveal' | 'finished';
 

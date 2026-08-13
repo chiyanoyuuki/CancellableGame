@@ -5,9 +5,11 @@ import {
   duelUltimeReducer,
   duelUltimeToSessionResult,
   duelUltimeWinner,
+  pickRandomUniverses,
   type DuelUltimeState,
 } from './duelUltimeEngine';
 import type { QuestionHistory } from './questionSelection';
+import { mulberry32 } from './rng';
 
 const players: Player[] = [
   { id: 'p1', name: 'Alice', emoji: '🦊', color: '#f00' },
@@ -231,5 +233,41 @@ describe('duelUltimeToSessionResult', () => {
     expect(answers).toHaveLength(ids.length); // 5 p1 + 5 p2
     expect(answers.map((e) => e.payload.questionId).sort()).toEqual([...ids].sort());
     expect(answers.every((e) => e.at === 1000)).toBe(true);
+  });
+});
+
+describe('pickRandomUniverses (tirage au sort par joueur)', () => {
+  const all = ['Naruto', 'One Piece', 'Bleach', 'Zelda', 'Mario', 'Sonic'];
+
+  test('tire exactement `count` univers, tous issus du pool', () => {
+    const out = pickRandomUniverses(all, [], 3, mulberry32(1));
+    expect(out).toHaveLength(3);
+    expect(new Set(out).size).toBe(3); // pas de doublon
+    expect(out.every((u) => all.includes(u))).toBe(true);
+  });
+
+  test('écarte les univers évités par le joueur', () => {
+    const avoided = ['Naruto', 'Bleach', 'Zelda'];
+    for (let seed = 1; seed <= 30; seed++) {
+      const out = pickRandomUniverses(all, avoided, 3, mulberry32(seed));
+      expect(out.every((u) => !avoided.includes(u))).toBe(true);
+      // 3 restants après évitement → on doit tomber pile sur les 3.
+      expect(out.sort()).toEqual(['Mario', 'One Piece', 'Sonic']);
+    }
+  });
+
+  test('plafonne au nombre disponible quand il en reste moins que demandé', () => {
+    const out = pickRandomUniverses(all, ['Naruto', 'One Piece', 'Bleach', 'Zelda'], 5, mulberry32(3));
+    expect(out.sort()).toEqual(['Mario', 'Sonic']); // 2 dispo seulement
+  });
+
+  test('repli : un joueur qui a tout évité repart de tous les univers', () => {
+    const out = pickRandomUniverses(all, all, 3, mulberry32(7));
+    expect(out).toHaveLength(3);
+    expect(out.every((u) => all.includes(u))).toBe(true);
+  });
+
+  test('count 0 renvoie une liste vide', () => {
+    expect(pickRandomUniverses(all, [], 0, mulberry32(1))).toEqual([]);
   });
 });
