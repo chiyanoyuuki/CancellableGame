@@ -206,6 +206,8 @@ export interface BombeConfig {
   penaltyProps2Sec: number;
   /** Secondes retirées quand on passe la question. */
   penaltySkipSec: number;
+  /** Vies par joueur : nombre d'explosions encaissées avant d'être éliminé (défaut 1). */
+  lives?: number;
   drinksEnabled: boolean;
   drinkIntensity: DrinkIntensity;
 }
@@ -219,6 +221,7 @@ export const DEFAULT_BOMBE_CONFIG: BombeConfig = {
   penaltyProps4Sec: 5,
   penaltyProps2Sec: 8,
   penaltySkipSec: 7,
+  lives: 1,
   drinksEnabled: true,
   drinkIntensity: 'normal',
 };

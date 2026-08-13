@@ -59,6 +59,10 @@ export interface BombeState {
   wrongById: Record<string, number>;
   answers: BombeAnswer[];
   lastEliminatedId: string | null;
+  /** Dernier joueur sur qui la bombe a explosé (éliminé OU non, s'il a survécu grâce à une vie). */
+  lastExplodedId: string | null;
+  /** Vies restantes par joueur (mode plusieurs vies). */
+  livesById: Record<string, number>;
   winnerId: string | null;
 }
 
@@ -108,6 +112,8 @@ export function createBombeState(args: {
     wrongById: {},
     answers: [],
     lastEliminatedId: null,
+    lastExplodedId: null,
+    livesById: Object.fromEntries(order.map((id) => [id, Math.max(1, config.lives ?? 1)])),
     winnerId: null,
   };
 }
@@ -132,22 +138,33 @@ function drawQuestion(state: BombeState): { current: Question | null; qIndex: nu
 
 /** La mèche a atteint zéro : le porteur explose et est éliminé. */
 function explode(state: BombeState): BombeState {
-  const eliminated = state.activeId;
-  if (!eliminated) return { ...state, fuseMs: 0 };
-  const aliveIds = state.aliveIds.filter((id) => id !== eliminated);
-  const eliminationOrder = [...state.eliminationOrder, eliminated];
+  const exploded = state.activeId;
+  if (!exploded) return { ...state, fuseMs: 0 };
+  const livesLeft = (state.livesById[exploded] ?? 1) - 1;
+  const livesById = { ...state.livesById, [exploded]: Math.max(0, livesLeft) };
+
+  // Il lui reste une vie : il survit à l'explosion et reste en lice.
+  if (livesLeft > 0) {
+    return { ...state, fuseMs: 0, livesById, lastExplodedId: exploded, lastEliminatedId: null, phase: 'exploded' };
+  }
+
+  // Plus de vie : élimination.
+  const aliveIds = state.aliveIds.filter((id) => id !== exploded);
+  const eliminationOrder = [...state.eliminationOrder, exploded];
   if (aliveIds.length <= 1) {
     return {
       ...state,
       fuseMs: 0,
+      livesById,
       aliveIds,
       eliminationOrder,
-      lastEliminatedId: eliminated,
+      lastExplodedId: exploded,
+      lastEliminatedId: exploded,
       winnerId: aliveIds[0] ?? null,
       phase: 'finished',
     };
   }
-  return { ...state, fuseMs: 0, aliveIds, eliminationOrder, lastEliminatedId: eliminated, phase: 'exploded' };
+  return { ...state, fuseMs: 0, livesById, aliveIds, eliminationOrder, lastExplodedId: exploded, lastEliminatedId: exploded, phase: 'exploded' };
 }
 
 /** Retire du temps à la mèche ; si elle atteint zéro, la bombe explose. */
@@ -217,8 +234,8 @@ export function bombeReducer(state: BombeState, action: BombeAction): BombeState
     }
 
     case 'NEXT_ROUND': {
-      if (state.phase !== 'exploded' || !state.lastEliminatedId) return state;
-      const next = nextAliveAfter(state, state.lastEliminatedId);
+      if (state.phase !== 'exploded' || !state.lastExplodedId) return state;
+      const next = nextAliveAfter(state, state.lastExplodedId);
       const { current, qIndex } = drawQuestion(state);
       return {
         ...state,

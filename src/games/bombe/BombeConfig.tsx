@@ -161,6 +161,13 @@ export function BombeConfigComponent({ players, onStart }: MiniGameConfigProps) 
         <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
           ≈ {avgFuse} s de mèche à {players.length} joueur{players.length > 1 ? 's' : ''} au départ.
         </Txt>
+        <View style={[styles.row, { marginTop: spacing(1.5) }]}>
+          <View style={{ flex: 1 }}>
+            <Txt weight="700">Vies par joueur ❤️</Txt>
+            <Txt faint size={fontSize.xs}>Nombre d'explosions encaissées avant d'être éliminé.</Txt>
+          </View>
+          <Stepper value={cfg.lives ?? 1} min={1} max={5} onChange={(v) => set('lives', v)} />
+        </View>
       </Card>
 
       <SectionHeader title="Pénalités de temps" />

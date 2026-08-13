@@ -352,17 +352,26 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
   }
 
   function renderExploded() {
-    const gone = game!.lastEliminatedId ? byId[game!.lastEliminatedId] : undefined;
+    const eliminated = game!.lastEliminatedId ? byId[game!.lastEliminatedId] : undefined;
+    const survivorId = !game!.lastEliminatedId ? game!.lastExplodedId : null;
+    const survivor = survivorId ? byId[survivorId] : undefined;
+    const who = eliminated ?? survivor;
+    const livesLeft = survivorId ? game!.livesById[survivorId] ?? 0 : 0;
     return (
       <View style={{ gap: spacing(2), alignItems: 'center', paddingTop: spacing(2) }}>
         <Txt size={fontSize.huge}>💥</Txt>
         <Txt size={fontSize.xl} weight="800" center color={colors.danger}>
-          BOOM ! {gone?.name ?? 'Le joueur'} est éliminé
+          {eliminated ? `BOOM ! ${eliminated.name} est éliminé` : `BOOM ! ${survivor?.name ?? 'Le joueur'} explose`}
         </Txt>
-        {gone && <PlayerAvatar emoji={gone.emoji} color={gone.color} size={56} />}
+        {who && <PlayerAvatar emoji={who.emoji} color={who.color} size={56} />}
+        {survivor && (
+          <Txt weight="800" color={colors.accent}>
+            Il lui reste {livesLeft} vie{livesLeft > 1 ? 's' : ''} ❤️
+          </Txt>
+        )}
         {cfg.drinksEnabled && (
           <Txt weight="700" color={colors.sip}>
-            🍻 {gone?.name ?? 'Le joueur'} boit !
+            🍻 {who?.name ?? 'Le joueur'} boit !
           </Txt>
         )}
         <Txt faint center>

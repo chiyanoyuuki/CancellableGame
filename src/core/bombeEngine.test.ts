@@ -151,3 +151,29 @@ describe('bombeEngine', () => {
     expect(many).toBeGreaterThan(few);
   });
 });
+
+describe('mode plusieurs vies', () => {
+  test('on survit à la première explosion, on est éliminé à la seconde', () => {
+    const twoLives: BombeConfig = { ...config, lives: 2 };
+    let s = createBombeState({ config: twoLives, players, questions, order: ['p1', 'p2', 'p3'], startIndex: 0, firstFuseMs: 3000 });
+    // p1 laisse la bombe exploser une première fois.
+    s = bombeReducer(s, { type: 'TICK', deltaMs: 3000 });
+    expect(s.phase).toBe('exploded');
+    expect(s.lastEliminatedId).toBeNull(); // survit
+    expect(s.lastExplodedId).toBe('p1');
+    expect(s.livesById.p1).toBe(1);
+    expect(s.aliveIds).toContain('p1');
+    // Manche suivante : la patate passe au joueur suivant, personne n'est éliminé.
+    s = bombeReducer(s, { type: 'NEXT_ROUND', fuseMs: 3000 });
+    expect(s.activeId).toBe('p2');
+    expect(s.aliveIds).toHaveLength(3);
+  });
+
+  test('à une seule vie (défaut), la première explosion élimine', () => {
+    let s = createBombeState({ config, players, questions, order: ['p1', 'p2', 'p3'], startIndex: 0, firstFuseMs: 3000 });
+    s = bombeReducer(s, { type: 'TICK', deltaMs: 3000 });
+    expect(s.phase).toBe('exploded');
+    expect(s.lastEliminatedId).toBe('p1');
+    expect(s.aliveIds).not.toContain('p1');
+  });
+});
