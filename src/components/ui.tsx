@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import type { Player } from '../core/models';
 import { colors, fontSize, radius, spacing } from '../theme/theme';
 
 // ---------------------------------------------------------------------------
@@ -369,6 +370,49 @@ export function PlayerAvatar(props: {
     </View>
   );
 }
+
+// ---------------------------------------------------------------------------
+// Per-player unseen count (questions inédites par joueur)
+// ---------------------------------------------------------------------------
+
+/**
+ * Liste « inédites par joueur » : pour chaque joueur, combien de questions il
+ * n'a pas encore vues avec la sélection courante d'un mode de jeu. Purement
+ * présentationnel — chaque écran de config calcule les nombres et les passe ici.
+ */
+export function PlayerUnseenList(props: { rows: { player: Player; unseen: number }[] }) {
+  if (props.rows.length === 0) return null;
+  return (
+    <View style={{ gap: spacing(0.75) }}>
+      {props.rows.map(({ player, unseen }) => (
+        <View key={player.id} style={uiStyles.unseenRow}>
+          <PlayerAvatar emoji={player.emoji} color={player.color} photoUri={player.photoUri} size={30} />
+          <Txt weight="700" style={{ flex: 1 }} numberOfLines={1}>
+            {player.name}
+          </Txt>
+          <Txt weight="800" size={fontSize.md} color={unseen > 0 ? colors.success : colors.danger}>
+            {unseen}
+          </Txt>
+          <Txt faint size={fontSize.xs}>
+            inédite{unseen > 1 ? 's' : ''}
+          </Txt>
+        </View>
+      ))}
+    </View>
+  );
+}
+
+const uiStyles = StyleSheet.create({
+  unseenRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing(1),
+    backgroundColor: colors.card,
+    borderRadius: radius.md,
+    paddingVertical: spacing(0.75),
+    paddingHorizontal: spacing(1.25),
+  },
+});
 
 // ---------------------------------------------------------------------------
 // Empty state

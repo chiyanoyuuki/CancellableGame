@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Switch, View } from 'react-native';
 
-import { Button, Card, Chip, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
+import { Button, Card, Chip, PlayerUnseenList, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
 import {
   type BombeConfig,
   DEFAULT_BOMBE_CONFIG,
@@ -13,7 +13,8 @@ import {
   THEMES,
   type Theme,
 } from '../../core/models';
-import { kvGetJSON, kvSetJSON } from '../../db';
+import { countUnseenGroups, identityGroups, type QuestionHistory } from '../../core/questionSelection';
+import { getQuestionHistoryByPlayer, kvGetJSON, kvSetJSON } from '../../db';
 import { colors, fontSize, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
 import { getQuizPool } from '../quiz/pool';
@@ -23,6 +24,7 @@ const LAST_CONFIG_KEY = 'bombe:lastConfig';
 export function BombeConfigComponent({ players, onStart }: MiniGameConfigProps) {
   const [cfg, setCfg] = useState<BombeConfig>(DEFAULT_BOMBE_CONFIG);
   const [pool, setPool] = useState<Question[]>([]);
+  const [historyByPlayer, setHistoryByPlayer] = useState<Record<string, QuestionHistory>>({});
   const [showAdvanced, setShowAdvanced] = useState(false);
 
   useEffect(() => {
@@ -30,21 +32,37 @@ export function BombeConfigComponent({ players, onStart }: MiniGameConfigProps) 
     void kvGetJSON<Partial<BombeConfig>>(LAST_CONFIG_KEY, {}).then((saved) => {
       if (alive) setCfg((c) => ({ ...c, ...saved }));
     });
-    void getQuizPool().then((p) => alive && setPool(p));
+    void (async () => {
+      const [p, hbp] = await Promise.all([getQuizPool(), getQuestionHistoryByPlayer()]);
+      if (alive) {
+        setPool(p);
+        setHistoryByPlayer(hbp);
+      }
+    })();
     return () => {
       alive = false;
     };
   }, []);
 
-  const eligible = useMemo(
+  const eligibleQuestions = useMemo(
     () =>
       pool.filter(
         (q) =>
           cfg.themes.includes(q.theme) &&
           cfg.difficulties.includes(q.difficulty) &&
           !(q.universe !== undefined && cfg.excludedUniverses.includes(q.universe)),
-      ).length,
+      ),
     [pool, cfg.themes, cfg.difficulties, cfg.excludedUniverses],
+  );
+  const eligible = eligibleQuestions.length;
+
+  // Inédites PAR JOUEUR : la bombe est partagée (même pool pour tous), mais
+  // chaque joueur a son propre historique — le nombre de questions jamais vues
+  // diffère donc d'un joueur à l'autre.
+  const unseenGroups = useMemo(() => identityGroups(eligibleQuestions), [eligibleQuestions]);
+  const unseenByPlayer = useMemo(
+    () => players.map((p) => ({ player: p, unseen: countUnseenGroups(unseenGroups, historyByPlayer[p.id] ?? {}) })),
+    [players, unseenGroups, historyByPlayer],
   );
 
   const universesByTheme = useMemo(() => {
@@ -127,6 +145,16 @@ export function BombeConfigComponent({ players, onStart }: MiniGameConfigProps) 
       <Txt faint size={fontSize.xs}>
         {eligible} question{eligible > 1 ? 's' : ''} disponible{eligible > 1 ? 's' : ''} avec ces filtres.
       </Txt>
+
+      {players.length > 0 && (
+        <>
+          <SectionHeader title="Inédites par joueur" />
+          <PlayerUnseenList rows={unseenByPlayer} />
+          <Txt faint size={fontSize.xs}>
+            Questions jamais vues par chaque joueur avec les thèmes et univers choisis.
+          </Txt>
+        </>
+      )}
 
       {universesByTheme.length > 0 && (
         <>

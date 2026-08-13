@@ -3,6 +3,8 @@ import { Pressable, StyleSheet, Switch, View } from 'react-native';
 
 import { Button, Card, Chip, PlayerAvatar, Segmented, SectionHeader, Txt } from '../../components/ui';
 import { type DrinkIntensity, type DuelUltimeConfig, type Question, type Theme, THEME_META, THEMES } from '../../core/models';
+import { countUnseen, type QuestionHistory } from '../../core/questionSelection';
+import { getQuestionHistoryByPlayer } from '../../db';
 import { useStore } from '../../store/StoreProvider';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
@@ -16,6 +18,7 @@ const QUESTION_OPTIONS = [5, 10, 15];
 export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigProps) {
   const store = useStore();
   const [pool, setPool] = useState<Question[]>([]);
+  const [historyByPlayer, setHistoryByPlayer] = useState<Record<string, QuestionHistory>>({});
   const [n, setN] = useState(10);
   const [drinksEnabled, setDrinksEnabled] = useState(true);
   const [drinkIntensity, setDrinkIntensity] = useState<DrinkIntensity>('normal');
@@ -26,8 +29,11 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const p = await getQuizPool();
-      if (alive) setPool(p);
+      const [p, hbp] = await Promise.all([getQuizPool(), getQuestionHistoryByPlayer()]);
+      if (alive) {
+        setPool(p);
+        setHistoryByPlayer(hbp);
+      }
     })();
     return () => {
       alive = false;
@@ -43,6 +49,24 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
     }
     return m;
   }, [pool]);
+
+  // Pool des seules questions PRO jouables (le Duel Ultime ne pioche que dedans).
+  const proPool = useMemo(
+    () => pool.filter((q) => q.universe && q.difficulty === 4 && !EXCLUDED_THEMES.includes(q.theme)),
+    [pool],
+  );
+
+  // Inédites PAR JOUEUR : questions pro jamais vues par le joueur dans SES univers
+  // choisis (chaque joueur a sa propre sélection et son propre historique).
+  const unseenById = useMemo(() => {
+    const m: Record<string, number> = {};
+    for (const p of players) {
+      const sel = new Set(universesByPlayer[p.id] ?? []);
+      const mine = sel.size ? proPool.filter((q) => sel.has(q.universe as string)) : [];
+      m[p.id] = countUnseen(mine, historyByPlayer[p.id] ?? {});
+    }
+    return m;
+  }, [players, universesByPlayer, proPool, historyByPlayer]);
 
   // Univers jouables (au moins une question pro + débloqués), groupés par thème.
   // Multi-sélection : plusieurs petits univers se combinent pour atteindre N.
@@ -85,6 +109,7 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
   const editingName = players.find((p) => p.id === editing)?.name ?? '';
   const editingUniverses = universesByPlayer[editing] ?? [];
   const editingProTotal = editingUniverses.reduce((sum, u) => sum + (proCount.get(u) ?? 0), 0);
+  const editingUnseen = unseenById[editing] ?? 0;
 
   return (
     <View style={{ gap: spacing(1) }}>
@@ -138,6 +163,7 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
         {players.map((p) => {
           const chosen = universesByPlayer[p.id] ?? [];
           const isEditing = p.id === editing;
+          const unseen = unseenById[p.id] ?? 0;
           return (
             <Pressable
               key={p.id}
@@ -151,11 +177,23 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
                   {chosen.length ? `🎯 ${chosen.join(', ')}` : 'Univers à choisir…'}
                 </Txt>
               </View>
-              {isEditing && (
-                <Txt weight="800" size={fontSize.xs} color={colors.accent}>
-                  EN COURS
-                </Txt>
-              )}
+              <View style={{ alignItems: 'flex-end', gap: 2 }}>
+                {chosen.length > 0 && (
+                  <>
+                    <Txt weight="800" color={unseen > 0 ? colors.success : colors.danger}>
+                      {unseen}
+                    </Txt>
+                    <Txt faint size={fontSize.xs}>
+                      inédite{unseen > 1 ? 's' : ''}
+                    </Txt>
+                  </>
+                )}
+                {isEditing && (
+                  <Txt weight="800" size={fontSize.xs} color={colors.accent}>
+                    EN COURS
+                  </Txt>
+                )}
+              </View>
             </Pressable>
           );
         })}
@@ -163,7 +201,7 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
 
       <Txt faint size={fontSize.xs} center style={{ marginTop: spacing(0.5) }}>
         {editingUniverses.length
-          ? `${editingName} : ${editingUniverses.length} univers · ${editingProTotal} questions pro dispo${editingProTotal < n ? ` (moins que ${n})` : ''}. Touche pour ajouter/retirer.`
+          ? `${editingName} : ${editingUniverses.length} univers · ${editingProTotal} questions pro dispo · ${editingUnseen} inédite${editingUnseen > 1 ? 's' : ''}${editingProTotal < n ? ` (moins que ${n})` : ''}. Touche pour ajouter/retirer.`
           : `Choisis un ou plusieurs univers pour ${editingName}.`}
       </Txt>
 

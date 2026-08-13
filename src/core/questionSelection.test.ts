@@ -1,5 +1,5 @@
 import type { Difficulty, Question, Theme } from './models';
-import { recordUsage, selectQuestions } from './questionSelection';
+import { countUnseen, countUnseenGroups, identityGroups, recordUsage, selectQuestions } from './questionSelection';
 import { mulberry32 } from './rng';
 
 function q(id: string, theme: Theme, difficulty: Difficulty): Question {
@@ -352,6 +352,53 @@ describe('univers autorisés par joueur (mode équipe)', () => {
     expect(out).toHaveLength(20);
     expect(new Set(out.map((x) => x.id)).size).toBe(20);
     expect(out.every((q) => ['M0', 'M1', 'M2', 'M3', 'M4'].includes(q.universe!))).toBe(true);
+  });
+});
+
+describe('countUnseen (questions encore jamais vues)', () => {
+  test('tout est neuf quand l’historique est vide', () => {
+    expect(countUnseen(pool, {})).toBe(pool.length);
+  });
+
+  test('ne compte pas les questions déjà vues (timesUsed ≥ 1)', () => {
+    const history = {
+      m1: { timesUsed: 1, lastUsedAt: 1 },
+      m2: { timesUsed: 3, lastUsedAt: 2 },
+    };
+    // pool = 8 questions, 2 déjà vues → 6 non vues.
+    expect(countUnseen(pool, history)).toBe(6);
+  });
+
+  test('dédoublonne par identité (énoncé + réponse), comme la sélection', () => {
+    // Le marteau de Thor rangé dans deux thèmes = une seule question.
+    const dup: Question[] = [
+      { id: 'a1', theme: 'manga', difficulty: 1, universe: 'U1', text: 'Le marteau de Thor ?', answer: 'Mjöllnir', distractors: ['x', 'y', 'z'] },
+      { id: 'b1', theme: 'jeuxvideo', difficulty: 1, universe: 'U2', text: 'le  marteau de THOR ?', answer: 'Mjöllnir', distractors: ['x', 'y', 'z'] },
+      { id: 'c1', theme: 'culture', difficulty: 1, text: 'Autre question ?', answer: 'Autre', distractors: ['x', 'y', 'z'] },
+    ];
+    // 3 entrées mais 2 questions distinctes, aucune vue.
+    expect(countUnseen(dup, {})).toBe(2);
+    // Si l'un des deux doublons est vu, la question compte comme vue.
+    expect(countUnseen(dup, { a1: { timesUsed: 1, lastUsedAt: 1 } })).toBe(1);
+  });
+
+  test('un pool vide donne 0', () => {
+    expect(countUnseen([], {})).toBe(0);
+  });
+
+  test('identityGroups regroupe les doublons et countUnseenGroups compte par joueur', () => {
+    const dup: Question[] = [
+      { id: 'a1', theme: 'manga', difficulty: 1, universe: 'U1', text: 'Le marteau de Thor ?', answer: 'Mjöllnir', distractors: ['x', 'y', 'z'] },
+      { id: 'b1', theme: 'jeuxvideo', difficulty: 1, universe: 'U2', text: 'le  marteau de THOR ?', answer: 'Mjöllnir', distractors: ['x', 'y', 'z'] },
+      { id: 'c1', theme: 'culture', difficulty: 1, text: 'Autre question ?', answer: 'Autre', distractors: ['x', 'y', 'z'] },
+    ];
+    const groups = identityGroups(dup);
+    // 3 entrées → 2 groupes (a1+b1 fusionnés, c1 seul).
+    expect(groups).toHaveLength(2);
+    // Pré-calculé une fois, réutilisable pour plusieurs historiques.
+    expect(countUnseenGroups(groups, {})).toBe(2);
+    expect(countUnseenGroups(groups, { b1: { timesUsed: 2, lastUsedAt: 1 } })).toBe(1);
+    expect(countUnseenGroups(groups, { a1: { timesUsed: 1, lastUsedAt: 1 }, c1: { timesUsed: 1, lastUsedAt: 1 } })).toBe(0);
   });
 });
 

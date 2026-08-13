@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, Switch, View } from 'react-native';
 
-import { Button, Card, Chip, Segmented, SectionHeader, Txt } from '../../components/ui';
+import { Button, Card, Chip, PlayerUnseenList, Segmented, SectionHeader, Txt } from '../../components/ui';
 import { type DrinkIntensity, type DuelConfig, type DuelJoker, type Question, type Theme, THEME_META, THEMES } from '../../core/models';
+import { countUnseenGroups, identityGroups, type QuestionHistory } from '../../core/questionSelection';
 import { shuffle } from '../../core/rng';
-import { getPlayerUnwantedUniverses } from '../../db';
+import { getPlayerUnwantedUniverses, getQuestionHistoryByPlayer } from '../../db';
 import { useStore } from '../../store/StoreProvider';
 import { colors, fontSize, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
@@ -29,6 +30,7 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
   const [pool, setPool] = useState<Question[]>([]);
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [unwantedMap, setUnwantedMap] = useState<Record<string, string[]>>({});
+  const [historyByPlayer, setHistoryByPlayer] = useState<Record<string, QuestionHistory>>({});
   const [mode, setMode] = useState<UniverseMode>('manual');
   const [jokers, setJokers] = useState<Record<DuelJoker, boolean>>({
     props4: true,
@@ -42,10 +44,15 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const [p, u] = await Promise.all([getQuizPool(), getPlayerUnwantedUniverses()]);
+      const [p, u, hbp] = await Promise.all([
+        getQuizPool(),
+        getPlayerUnwantedUniverses(),
+        getQuestionHistoryByPlayer(),
+      ]);
       if (alive) {
         setPool(p);
         setUnwantedMap(u);
+        setHistoryByPlayer(hbp);
       }
     })();
     return () => {
@@ -113,6 +120,23 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
   const available =
     mode === 'manual' ? selected.size : mode === 'all' ? allUniverses.length : wantedUnion.size;
   const valid = players.length >= 2 && available >= 1;
+
+  // Univers effectivement en jeu selon le mode choisi.
+  const effectiveUniverses = useMemo(() => {
+    if (mode === 'all') return new Set(allUniverses);
+    if (mode === 'profiles') return wantedUnion;
+    return selected;
+  }, [mode, allUniverses, wantedUnion, selected]);
+
+  // Inédites PAR JOUEUR sur les univers effectivement en jeu (historique propre à chacun).
+  const unseenGroups = useMemo(
+    () => identityGroups(pool.filter((q) => q.universe !== undefined && effectiveUniverses.has(q.universe))),
+    [pool, effectiveUniverses],
+  );
+  const unseenByPlayer = useMemo(
+    () => players.map((p) => ({ player: p, unseen: countUnseenGroups(unseenGroups, historyByPlayer[p.id] ?? {}) })),
+    [players, unseenGroups, historyByPlayer],
+  );
   const launch = () => {
     // Tous les univers du mode choisi, sans limite : le duel puise dedans.
     const universes =
@@ -181,6 +205,16 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
           </View>
         );
       })}
+
+      {players.length > 0 && available >= 1 && (
+        <>
+          <SectionHeader title="Inédites par joueur" />
+          <PlayerUnseenList rows={unseenByPlayer} />
+          <Txt faint size={fontSize.xs}>
+            Questions jamais vues par chaque joueur avec les univers du duel.
+          </Txt>
+        </>
+      )}
 
       <SectionHeader title="Jokers — un de chaque par joueur" />
       {JOKER_META.map(({ key, label, desc }) => (

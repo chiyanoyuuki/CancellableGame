@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Switch, TextInput, View } from 'react-native';
 
-import { Button, Card, Chip, PlayerAvatar, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
+import { Button, Card, Chip, PlayerAvatar, PlayerUnseenList, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
 import {
   DEFAULT_QUIZ_CONFIG,
   type Difficulty,
@@ -15,8 +15,8 @@ import {
   type Theme,
   type TurnMode,
 } from '../../core/models';
-import type { QuestionHistory } from '../../core/questionSelection';
-import { getQuestionHistory, kvGetJSON, kvSetJSON } from '../../db';
+import { countUnseenGroups, identityGroups, type QuestionHistory } from '../../core/questionSelection';
+import { getQuestionHistory, getQuestionHistoryByPlayer, kvGetJSON, kvSetJSON } from '../../db';
 import { useStore } from '../../store/StoreProvider';
 import { colors, fontSize, PLAYER_COLORS, radius, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
@@ -32,6 +32,7 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
   const [cfg, setCfg] = useState<QuizConfig>(DEFAULT_QUIZ_CONFIG);
   const [pool, setPool] = useState<Question[]>([]);
   const [history, setHistory] = useState<QuestionHistory>({});
+  const [historyByPlayer, setHistoryByPlayer] = useState<Record<string, QuestionHistory>>({});
   const [showAdvanced, setShowAdvanced] = useState(false);
 
   // --- Team mode local state (turned into cfg.teams only at launch) ----------
@@ -76,10 +77,15 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
       if (alive) setCfg((c) => ({ ...c, ...saved }));
     });
     void (async () => {
-      const [p, h] = await Promise.all([getQuizPool(), getQuestionHistory()]);
+      const [p, h, hbp] = await Promise.all([
+        getQuizPool(),
+        getQuestionHistory(),
+        getQuestionHistoryByPlayer(),
+      ]);
       if (alive) {
         setPool(p);
         setHistory(h);
+        setHistoryByPlayer(hbp);
       }
     })();
     return () => {
@@ -120,6 +126,16 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
   const unseen = useMemo(
     () => eligible.filter((q) => !history[q.id]?.timesUsed).length,
     [eligible, history],
+  );
+
+  // Inédites PAR JOUEUR : combien de questions chaque joueur n'a pas encore vues
+  // avec la sélection courante (thèmes + difficultés + univers). Les groupes
+  // d'identité sont pré-calculés une fois, puis comptés pour l'historique de
+  // chaque joueur — pas cher même sur un gros pool.
+  const unseenGroups = useMemo(() => identityGroups(eligible), [eligible]);
+  const unseenByPlayer = useMemo(
+    () => players.map((p) => ({ player: p, unseen: countUnseenGroups(unseenGroups, historyByPlayer[p.id] ?? {}) })),
+    [players, unseenGroups, historyByPlayer],
   );
 
   // « Questions par joueur » × nombre de joueurs = total de la manche, plafonné
@@ -252,6 +268,16 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
           {totalQuestions > 1 ? 's' : ''} · {available} dispo · {unseen} jamais vue{unseen > 1 ? 's' : ''}
         </Txt>
       </Card>
+
+      {players.length > 0 && (
+        <>
+          <SectionHeader title="Inédites par joueur" />
+          <PlayerUnseenList rows={unseenByPlayer} />
+          <Txt faint size={fontSize.xs}>
+            Questions jamais vues par chaque joueur avec les thèmes, difficultés et univers choisis.
+          </Txt>
+        </>
+      )}
 
       <SectionHeader title="Mode de jeu" />
       <Segmented<TurnMode>
