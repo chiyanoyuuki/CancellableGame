@@ -24,6 +24,17 @@ export interface RemoteProfile {
   unwanted: string[];
 }
 
+/**
+ * Nettoie un emoji d'avatar scanné : retire le caractère de remplacement U+FFFD
+ * (symptôme d'un ancien QR corrompu, qui s'affichait en « ? ») et les caractères
+ * de contrôle. Si rien de valide ne reste, renvoie '' pour que l'appli applique
+ * un avatar par défaut plutôt qu'un carré « ? » illisible.
+ */
+function sanitizeEmoji(raw: string): string {
+  // eslint-disable-next-line no-control-regex
+  return raw.replace(/[\uFFFD\u0000-\u001F\u007F]/g, '').trim();
+}
+
 const MAGIC = 'CANCELLABLE-PROFILE';
 const VERSION = 1; // version écrite par encodeProfile (noms) ; v2 = encodeProfileCompact
 const VERSION_MAX = 2; // version la plus récente que decodeProfile sait lire
@@ -88,7 +99,7 @@ export function decodeProfile(raw: string, catalogue?: readonly string[]): Remot
   const name = typeof o.n === 'string' ? o.n.trim().slice(0, MAX_NAME) : '';
   if (!name) return null; // le nom est le minimum vital
 
-  const emoji = typeof o.e === 'string' ? o.e.slice(0, MAX_EMOJI) : '';
+  const emoji = typeof o.e === 'string' ? sanitizeEmoji(o.e).slice(0, MAX_EMOJI) : '';
   const color = typeof o.c === 'string' ? o.c.slice(0, MAX_COLOR) : '';
 
   let unwanted: string[];

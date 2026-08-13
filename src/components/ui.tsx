@@ -325,6 +325,11 @@ export function ProgressBar(props: { value: number; total: number; color?: strin
 
 export function PlayerAvatar(props: { emoji: string; color: string; size?: number; selected?: boolean }) {
   const size = props.size ?? 44;
+  // Garde-fou : un ancien profil importé via QR corrompu peut contenir le
+  // caractère de remplacement U+FFFD (affiché « ? »). On le retire et on
+  // retombe sur un avatar neutre plutôt qu'un carré illisible.
+  // eslint-disable-next-line no-control-regex
+  const emoji = (props.emoji || '').replace(/[\uFFFD\u0000-\u001F\u007F]/g, '').trim() || '🙂';
   return (
     <View
       style={{
@@ -338,7 +343,7 @@ export function PlayerAvatar(props: { emoji: string; color: string; size?: numbe
         borderColor: colors.white,
       }}
     >
-      <Text style={{ fontSize: size * 0.5 }}>{props.emoji}</Text>
+      <Text style={{ fontSize: size * 0.5 }}>{emoji}</Text>
     </View>
   );
 }

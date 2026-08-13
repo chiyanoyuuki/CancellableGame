@@ -42,6 +42,9 @@ export interface DuelState {
   helpUsed: boolean;
   correctById: Record<string, number>;
   wrongById: Record<string, number>;
+  /** Journal des réponses : émet les événements « answer » pour que les
+   * questions du duel comptent comme « déjà vues » (comme le quiz). */
+  log: { playerId: string; questionId: string; correct: boolean }[];
   phase: DuelPhase;
   lastCorrect: boolean | null;
   lastEliminatedId: string | null;
@@ -157,6 +160,7 @@ export function createDuelState(args: {
     helpUsed: false,
     correctById: {},
     wrongById: {},
+    log: [],
     phase: 'question',
     lastCorrect: null,
     lastEliminatedId: null,
@@ -219,11 +223,15 @@ export function duelReducer(state: DuelState, action: DuelAction): DuelState {
     case 'ANSWER': {
       if (state.phase !== 'question' || !state.activeId) return state;
       const active = state.activeId;
+      const answered = state.current;
       return {
         ...state,
         phase: 'reveal',
         lastCorrect: action.correct,
         lastEliminatedId: action.correct ? null : active,
+        log: answered
+          ? [...state.log, { playerId: active, questionId: answered.id, correct: action.correct }]
+          : state.log,
         correctById: action.correct
           ? { ...state.correctById, [active]: (state.correctById[active] ?? 0) + 1 }
           : state.correctById,
@@ -286,6 +294,13 @@ export function duelToSessionResult(state: DuelState, startedAt: number, endedAt
     sipsGiven: 0,
     details: { correct: state.correctById[id] ?? 0, wrong: state.wrongById[id] ?? 0 },
   }));
-  const events: GameEvent[] = [];
+  // Un événement « answer » par question posée : croisé avec les participants,
+  // il fait compter la question comme « déjà vue » (même mécanisme que le quiz).
+  const events: GameEvent[] = state.log.map((e) => ({
+    type: 'answer',
+    playerId: e.playerId,
+    at: endedAt,
+    payload: { questionId: e.questionId, correct: e.correct },
+  }));
   return { gameId: 'duel', mode: 'duel', config: { ...state.config }, startedAt, endedAt, players, events };
 }

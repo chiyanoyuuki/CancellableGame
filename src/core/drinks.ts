@@ -88,6 +88,22 @@ export const DRINK_CHALLENGES: DrinkChallenge[] = [
   { id: 'rime', text: 'Le meneur dit un mot, chacun doit enchaîner avec une rime. Le premier qui sèche boit.' },
   { id: 'santetout', text: 'Petite pause santé : tout le monde trinque et boit une gorgée ensemble 🥂.' },
   { id: 'chef', text: 'Élisez un Chef : jusqu\'au prochain défi, quand le Chef boit, tout le monde boit.' },
+  { id: 'statue', text: "Statue : au prochain « statue ! » du meneur, le premier qui bouge boit 2 gorgées." },
+  { id: 'motinterdit', text: "Mot interdit : le meneur bannit un mot jusqu'au prochain défi. Le prononcer coûte 1 gorgée à chaque fois." },
+  { id: 'accent', text: "Tout le monde parle avec l'accent choisi par le meneur jusqu'au prochain défi. Oubli = 1 gorgée." },
+  { id: 'vouvoiement', text: "On se vouvoie tous jusqu'au prochain défi. Un tutoiement qui échappe = 1 gorgée." },
+  { id: 'gorgeecadeau', text: "Gorgée cadeau : le meneur distribue 3 gorgées à qui il veut." },
+  { id: 'binome', text: "Choisis un binôme. Si l'un de vous deux se trompe à la prochaine question, vous buvez tous les deux." },
+  { id: 'chanson', text: "Le meneur impose un mot : chacun son tour cite une chanson qui le contient. Le premier qui sèche boit." },
+  { id: 'shifumi', text: "Pierre-feuille-ciseaux : deux joueurs au hasard s'affrontent, le perdant boit 2 gorgées." },
+  { id: 'grimace', text: "Concours de grimaces : celui qui fait craquer le meneur de rire gagne, tous les autres boivent." },
+  { id: 'silence', text: "Silence total jusqu'à la prochaine question : le premier qui parle boit 2 gorgées." },
+  { id: 'benjamin', text: "Le plus jeune et le plus âgé de la table distribuent chacun 2 gorgées." },
+  { id: 'prenoms', text: "Interdit d'appeler quelqu'un par son prénom jusqu'au prochain défi. Erreur = 1 gorgée." },
+  { id: 'echange', text: "Échange ta place avec la personne en face pour les deux prochaines questions." },
+  { id: 'petitpont', text: "Le meneur pose une question surprise à un joueur au hasard : hésitation ou blague ratée = 1 gorgée." },
+  { id: 'mainlevee', text: "Le meneur lève la main quand il veut d'ici la prochaine question : le dernier à lever la sienne boit." },
+  { id: 'regleperso', text: "Le meneur invente une règle pour toute la table jusqu'au prochain défi, et la fait respecter." },
 ];
 
 /** Maybe return a random challenge to play before the next question. */

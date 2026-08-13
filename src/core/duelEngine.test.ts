@@ -1,5 +1,5 @@
 import type { Difficulty, DuelConfig, Player, Question, Theme } from './models';
-import { createDuelState, duelDifficulty, duelReducer, type DuelState } from './duelEngine';
+import { createDuelState, duelDifficulty, duelReducer, duelToSessionResult, type DuelState } from './duelEngine';
 
 const players: Player[] = [
   { id: 'p1', name: 'Alice', emoji: '🦊', color: '#f00' },
@@ -144,5 +144,23 @@ describe('jokers (un de chaque par joueur, activables)', () => {
     s = duelReducer(s, { type: 'USE_JOKER', joker: 'playerHelp' }); // déjà consommé
     expect(s.helpUsed).toBe(false);
     expect(s.jokersUsed.p1).toEqual(['playerHelp']);
+  });
+});
+
+describe('questions déjà vues', () => {
+  test('émet un événement « answer » par question (comptées comme vues)', () => {
+    let s = start(['p1', 'p2']);
+    const ids: string[] = [];
+    let i = 0;
+    while (s.phase !== 'finished' && i < 100) {
+      if (s.current) ids.push(s.current.id);
+      s = turn(s, i % 4 !== 0); // de temps en temps une erreur -> élimination -> fin
+      i++;
+    }
+    const res = duelToSessionResult(s, 0, 100);
+    const answers = (res.events ?? []).filter((e) => e.type === 'answer');
+    expect(answers.length).toBe(ids.length);
+    expect(answers.length).toBeGreaterThan(0);
+    expect(answers.every((e) => typeof e.payload.questionId === 'string')).toBe(true);
   });
 });

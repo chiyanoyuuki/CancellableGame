@@ -46,6 +46,16 @@ describe('profileCodec', () => {
     expect(decoded).toEqual({ name: 'Tom', emoji: '', color: '', unwanted: [] });
   });
 
+  test('nettoie un emoji corrompu (caractère de remplacement) importé', () => {
+    const code = 'CANCELLABLE-PROFILE|1|{"n":"Zoé","e":"��","c":"#fff","u":[]}';
+    expect(decodeProfile(code)?.emoji).toBe('');
+  });
+
+  test('conserve un emoji valide', () => {
+    const code = 'CANCELLABLE-PROFILE|1|{"n":"Zoé","e":"🦊","c":"#fff","u":[]}';
+    expect(decodeProfile(code)?.emoji).toBe('🦊');
+  });
+
   test('filtre les entrées non-chaînes de la liste des univers', () => {
     const decoded = decodeProfile('CANCELLABLE-PROFILE|1|{"n":"Tom","u":["Naruto",42,null,"Bleach"]}');
     expect(decoded?.unwanted).toEqual(['Naruto', 'Bleach']);
