@@ -252,7 +252,7 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
     return (
       <View style={{ gap: spacing(2) }}>
         <View style={styles.activeBanner}>
-          <PlayerAvatar emoji={active.emoji} color={active.color} size={34} />
+          <PlayerAvatar emoji={active.emoji} color={active.color} photoUri={active.photoUri} size={34} />
           <Txt weight="800">À toi, {active.name} !</Txt>
         </View>
 
@@ -363,7 +363,7 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
         <Txt size={fontSize.xl} weight="800" center color={colors.danger}>
           {eliminated ? `BOOM ! ${eliminated.name} est éliminé` : `BOOM ! ${survivor?.name ?? 'Le joueur'} explose`}
         </Txt>
-        {who && <PlayerAvatar emoji={who.emoji} color={who.color} size={56} />}
+        {who && <PlayerAvatar emoji={who.emoji} color={who.color} photoUri={who.photoUri} size={56} />}
         {survivor && (
           <Txt weight="800" color={colors.accent}>
             Il lui reste {livesLeft} vie{livesLeft > 1 ? 's' : ''} ❤️
@@ -390,7 +390,7 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
         <Txt size={fontSize.xl} weight="800" center>
           {winner?.name ?? 'Le survivant'} survit et gagne !
         </Txt>
-        {winner && <PlayerAvatar emoji={winner.emoji} color={winner.color} size={64} />}
+        {winner && <PlayerAvatar emoji={winner.emoji} color={winner.color} photoUri={winner.photoUri} size={64} />}
         <Txt dim>Résultats…</Txt>
       </View>
     );

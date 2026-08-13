@@ -2,6 +2,8 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Alert, Modal, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
 
 import { Button, Card, Chip, PlayerAvatar, Screen, SectionHeader, Txt } from '../components/ui';
 import { THEME_META, THEMES } from '../core/models';
@@ -39,6 +41,34 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   const [emoji, setEmoji] = useState(PLAYER_EMOJIS[0] as string);
   const [color, setColor] = useState(PLAYER_COLORS[0] as string);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [photoUri, setPhotoUri] = useState<string | undefined>(undefined);
+
+  // Choisit une vraie photo depuis la galerie et la copie dans le dossier de
+  // l'app (pour qu'elle survive au redémarrage). En cas d'échec, on garde l'URI.
+  const pickPhoto = async () => {
+    const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!perm.granted) {
+      Alert.alert('Accès refusé', "Autorise l'accès aux photos dans les réglages pour choisir un avatar.");
+      return;
+    }
+    const res = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images'],
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.6,
+    });
+    const src = res.canceled ? null : res.assets[0]?.uri;
+    if (!src) return;
+    try {
+      const dir = `${FileSystem.documentDirectory}avatars`;
+      await FileSystem.makeDirectoryAsync(dir, { intermediates: true }).catch(() => undefined);
+      const dest = `${dir}/${Date.now()}.jpg`;
+      await FileSystem.copyAsync({ from: src, to: dest });
+      setPhotoUri(dest);
+    } catch {
+      setPhotoUri(src);
+    }
+  };
 
   // Per-player unwanted UNIVERSES (a question a ~2 % de chance d'en venir quand même).
   const [pool, setPool] = useState<Question[]>([]);
@@ -167,6 +197,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   const resetForm = () => {
     setName('');
     setEditingId(null);
+    setPhotoUri(undefined);
     setEmoji(PLAYER_EMOJIS[Math.floor(Math.random() * PLAYER_EMOJIS.length)] as string);
     setColor(PLAYER_COLORS[Math.floor(Math.random() * PLAYER_COLORS.length)] as string);
   };
@@ -185,14 +216,14 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
     const trimmed = name.trim();
     if (!trimmed) return;
     if (editingId) {
-      await updatePlayer({ id: editingId, name: trimmed, emoji, color });
+      await updatePlayer({ id: editingId, name: trimmed, emoji, color, photoUri });
     } else {
       const active = await listPlayers(false);
       if (!canAddProfile(active.length, store.ent)) {
         showProfileLimit();
         return;
       }
-      await createPlayer({ name: trimmed, emoji, color });
+      await createPlayer({ name: trimmed, emoji, color, photoUri });
     }
     resetForm();
     await refresh();
@@ -203,6 +234,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
     setName(p.name);
     setEmoji(p.emoji);
     setColor(p.color);
+    setPhotoUri(p.photoUri);
   };
 
   // Duplique un profil : même avatar et mêmes univers évités, nom suffixé « copie ».
@@ -315,7 +347,18 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
         </View>
 
         <View style={{ flexDirection: 'row', gap: spacing(1), marginTop: spacing(2), alignItems: 'center' }}>
-          <PlayerAvatar emoji={emoji} color={color} />
+          <Button
+            title={photoUri ? 'Changer la photo' : 'Photo de profil'}
+            emoji="📷"
+            variant="secondary"
+            onPress={() => void pickPhoto()}
+            style={{ flex: 1 }}
+          />
+          {photoUri && <Button title="Retirer" variant="ghost" onPress={() => setPhotoUri(undefined)} />}
+        </View>
+
+        <View style={{ flexDirection: 'row', gap: spacing(1), marginTop: spacing(1.5), alignItems: 'center' }}>
+          <PlayerAvatar emoji={emoji} color={color} photoUri={photoUri} />
           <Button title={editingId ? 'Enregistrer' : 'Ajouter'} onPress={submit} disabled={!name.trim()} style={{ flex: 1 }} />
           {editingId && <Button title="Annuler" variant="ghost" onPress={resetForm} />}
         </View>
@@ -350,7 +393,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
       ) : (
         players.map((p) => (
           <Card key={p.id} style={styles.playerRow} accent={p.color}>
-            <PlayerAvatar emoji={p.emoji} color={p.color} />
+            <PlayerAvatar emoji={p.emoji} color={p.color} photoUri={p.photoUri} />
             <View style={{ flex: 1 }}>
               <Txt weight="700">{p.name}</Txt>
               {(unwanted[p.id]?.length ?? 0) > 0 && (
@@ -428,7 +471,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
           {menuPlayer && (
             <>
               <View style={styles.menuHeader}>
-                <PlayerAvatar emoji={menuPlayer.emoji} color={menuPlayer.color} size={32} />
+                <PlayerAvatar emoji={menuPlayer.emoji} color={menuPlayer.color} photoUri={menuPlayer.photoUri} size={32} />
                 <Txt weight="800" size={fontSize.lg}>
                   {menuPlayer.name}
                 </Txt>

@@ -337,7 +337,7 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
           </Txt>
           {players.map((p) => (
             <Card key={p.id} style={[styles.row, { gap: spacing(1) }]}>
-              <PlayerAvatar emoji={p.emoji} color={p.color} size={32} />
+              <PlayerAvatar emoji={p.emoji} color={p.color} photoUri={p.photoUri} size={32} />
               <Txt weight="700" style={{ flex: 1 }} numberOfLines={1}>
                 {p.name}
               </Txt>

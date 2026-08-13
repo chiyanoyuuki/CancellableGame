@@ -253,7 +253,7 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
                 onPress={() => setQrPlayer(p)}
                 style={({ pressed }) => [styles.row, pressed && { opacity: 0.6 }]}
               >
-                <PlayerAvatar emoji={p.emoji} color={p.color} size={36} />
+                <PlayerAvatar emoji={p.emoji} color={p.color} photoUri={p.photoUri} size={36} />
                 <View style={{ flex: 1 }}>
                   <Txt weight="700">{p.name}</Txt>
                   <Txt faint size={fontSize.xs}>
@@ -315,7 +315,7 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
             {qrPlayer && (
               <>
                 <View style={styles.modalHead}>
-                  <PlayerAvatar emoji={qrPlayer.emoji} color={qrPlayer.color} size={40} />
+                  <PlayerAvatar emoji={qrPlayer.emoji} color={qrPlayer.color} photoUri={qrPlayer.photoUri} size={40} />
                   <Txt weight="800" size={fontSize.lg}>{qrPlayer.name}</Txt>
                 </View>
                 <View style={styles.qrBoxLg}>

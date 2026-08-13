@@ -30,37 +30,42 @@ interface PlayerRow {
   color: string;
   created_at: number;
   archived: number;
+  photo_uri: string | null;
 }
 
 function toPlayer(r: PlayerRow): Player {
-  return { id: r.id, name: r.name, emoji: r.emoji, color: r.color };
+  const p: Player = { id: r.id, name: r.name, emoji: r.emoji, color: r.color };
+  if (r.photo_uri) p.photoUri = r.photo_uri;
+  return p;
 }
 
 export async function listPlayers(includeArchived = false): Promise<Player[]> {
   const db = await getDb();
   const where = includeArchived ? '' : 'WHERE archived = 0';
   const rows = await db.getAllAsync<PlayerRow>(
-    `SELECT id, name, emoji, color, created_at, archived FROM players ${where} ORDER BY name COLLATE NOCASE`,
+    `SELECT id, name, emoji, color, created_at, archived, photo_uri FROM players ${where} ORDER BY name COLLATE NOCASE`,
   );
   return rows.map(toPlayer);
 }
 
-export async function createPlayer(input: { name: string; emoji: string; color: string }): Promise<Player> {
+export async function createPlayer(input: { name: string; emoji: string; color: string; photoUri?: string }): Promise<Player> {
   const db = await getDb();
   const player: Player = { id: uid(), name: input.name.trim(), emoji: input.emoji, color: input.color };
+  if (input.photoUri) player.photoUri = input.photoUri;
   await db.runAsync(
-    'INSERT INTO players (id, name, emoji, color, created_at, archived) VALUES (?, ?, ?, ?, ?, 0)',
-    [player.id, player.name, player.emoji, player.color, Date.now()],
+    'INSERT INTO players (id, name, emoji, color, created_at, archived, photo_uri) VALUES (?, ?, ?, ?, ?, 0, ?)',
+    [player.id, player.name, player.emoji, player.color, Date.now(), input.photoUri ?? null],
   );
   return player;
 }
 
 export async function updatePlayer(player: Player): Promise<void> {
   const db = await getDb();
-  await db.runAsync('UPDATE players SET name = ?, emoji = ?, color = ? WHERE id = ?', [
+  await db.runAsync('UPDATE players SET name = ?, emoji = ?, color = ?, photo_uri = ? WHERE id = ?', [
     player.name.trim(),
     player.emoji,
     player.color,
+    player.photoUri ?? null,
     player.id,
   ]);
 }

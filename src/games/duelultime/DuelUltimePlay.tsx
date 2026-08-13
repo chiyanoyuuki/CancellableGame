@@ -186,7 +186,7 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
     const unis = cfg.universesByPlayer[handoff.id] ?? [];
     return (
       <View style={{ gap: spacing(2), paddingTop: spacing(6), alignItems: 'center' }}>
-        <PlayerAvatar emoji={handoff.emoji} color={handoff.color} size={72} />
+        <PlayerAvatar emoji={handoff.emoji} color={handoff.color} photoUri={handoff.photoUri} size={72} />
         <Txt faint weight="800" size={fontSize.sm}>
           PASSE LE TÉLÉPHONE
         </Txt>
@@ -220,7 +220,7 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
 
         {active && (
           <View style={styles.activeBanner}>
-            <PlayerAvatar emoji={active.emoji} color={active.color} size={32} />
+            <PlayerAvatar emoji={active.emoji} color={active.color} photoUri={active.photoUri} size={32} />
             <Txt weight="800">
               {active.name} · question {Math.min(game!.qNumber, total)}/{total}
             </Txt>

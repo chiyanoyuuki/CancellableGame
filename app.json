@@ -35,6 +35,10 @@
       [
         "expo-camera",
         { "cameraPermission": "L'appareil photo sert à scanner les QR codes de profil des invités." }
+      ],
+      [
+        "expo-image-picker",
+        { "photosPermission": "Choisis une photo de ta galerie comme avatar de profil." }
       ]
     ],
     "extra": {

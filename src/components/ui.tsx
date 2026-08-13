@@ -1,6 +1,7 @@
 import { type ReactNode, useEffect, useRef } from 'react';
 import {
   ActivityIndicator,
+  Image,
   Pressable,
   ScrollView,
   type StyleProp,
@@ -323,13 +324,34 @@ export function ProgressBar(props: { value: number; total: number; color?: strin
 // Player avatar
 // ---------------------------------------------------------------------------
 
-export function PlayerAvatar(props: { emoji: string; color: string; size?: number; selected?: boolean }) {
+export function PlayerAvatar(props: {
+  emoji: string;
+  color: string;
+  size?: number;
+  selected?: boolean;
+  photoUri?: string;
+}) {
   const size = props.size ?? 44;
   // Garde-fou : un ancien profil importé via QR corrompu peut contenir le
   // caractère de remplacement U+FFFD (affiché « ? »). On le retire et on
   // retombe sur un avatar neutre plutôt qu'un carré illisible.
   // eslint-disable-next-line no-control-regex
   const emoji = (props.emoji || '').replace(/[\uFFFD\u0000-\u001F\u007F]/g, '').trim() || '🙂';
+  if (props.photoUri) {
+    return (
+      <Image
+        source={{ uri: props.photoUri }}
+        style={{
+          width: size,
+          height: size,
+          borderRadius: size / 2,
+          backgroundColor: props.color,
+          borderWidth: props.selected ? 3 : 0,
+          borderColor: colors.white,
+        }}
+      />
+    );
+  }
   return (
     <View
       style={{

@@ -14,6 +14,8 @@ export interface Player {
   name: string;
   emoji: string;
   color: string;
+  /** Photo de profil locale (chemin de fichier). Absente = on affiche l'emoji. */
+  photoUri?: string;
 }
 
 /**

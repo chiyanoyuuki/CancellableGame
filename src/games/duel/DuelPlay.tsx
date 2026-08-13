@@ -192,7 +192,7 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
 
         {active && (
           <View style={styles.activeBanner}>
-            <PlayerAvatar emoji={active.emoji} color={active.color} size={32} />
+            <PlayerAvatar emoji={active.emoji} color={active.color} photoUri={active.photoUri} size={32} />
             <Txt weight="800">À toi, {active.name} !</Txt>
           </View>
         )}
@@ -326,7 +326,7 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
               if (!pl) return null;
               return (
                 <View key={id} style={styles.aliveChip}>
-                  <PlayerAvatar emoji={pl.emoji} color={pl.color} size={24} />
+                  <PlayerAvatar emoji={pl.emoji} color={pl.color} photoUri={pl.photoUri} size={24} />
                   <Txt weight="700" size={fontSize.sm}>
                     {pl.name}
                   </Txt>

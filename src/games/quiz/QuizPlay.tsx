@@ -471,7 +471,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
                 const owedN = game.owed[p.id] ?? 0;
                 return (
                   <View key={p.id} style={styles.manageRow}>
-                    <PlayerAvatar emoji={p.emoji} color={p.color} size={32} />
+                    <PlayerAvatar emoji={p.emoji} color={p.color} photoUri={p.photoUri} size={32} />
                     <View style={{ flex: 1 }}>
                       <Txt weight="700">{p.name}</Txt>
                       {paused ? (
@@ -677,7 +677,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
       <View style={{ gap: spacing(1.5) }}>
         {active && (
           <View style={styles.activeBanner}>
-            <PlayerAvatar emoji={active.emoji} color={active.color} size={32} />
+            <PlayerAvatar emoji={active.emoji} color={active.color} photoUri={active.photoUri} size={32} />
             <Txt weight="800" style={{ flex: 1 }}>À toi, {active.name} !</Txt>
             {game!.activeCatchUp && (
               <Txt weight="800" size={fontSize.xs} color={colors.accent}>
@@ -706,7 +706,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
                 style={styles.buzzBtn}
                 onPress={() => setBuzzed({ playerId: p.id, timeMs: Date.now() - questionStartRef.current })}
               >
-                <PlayerAvatar emoji={p.emoji} color={p.color} size={36} />
+                <PlayerAvatar emoji={p.emoji} color={p.color} photoUri={p.photoUri} size={36} />
                 <Txt weight="700" numberOfLines={1}>
                   {p.name}
                 </Txt>
@@ -729,7 +729,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
     return (
       <View style={{ gap: spacing(1.5) }}>
         <View style={styles.activeBanner}>
-          {p && <PlayerAvatar emoji={p.emoji} color={p.color} size={32} />}
+          {p && <PlayerAvatar emoji={p.emoji} color={p.color} photoUri={p.photoUri} size={32} />}
           <Txt weight="800">{p?.name} a buzzé en {(buzzed.timeMs / 1000).toFixed(1)} s</Txt>
         </View>
         {renderAnswerControls(buzzed.playerId, buzzed.timeMs)}

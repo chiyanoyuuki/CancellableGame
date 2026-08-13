@@ -144,7 +144,7 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
               onPress={() => setEditing(p.id)}
               style={[styles.playerRow, isEditing && styles.playerRowActive]}
             >
-              <PlayerAvatar emoji={p.emoji} color={p.color} size={32} />
+              <PlayerAvatar emoji={p.emoji} color={p.color} photoUri={p.photoUri} size={32} />
               <View style={{ flex: 1 }}>
                 <Txt weight="800">{p.name}</Txt>
                 <Txt faint size={fontSize.xs} numberOfLines={1}>

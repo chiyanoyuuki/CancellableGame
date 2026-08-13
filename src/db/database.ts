@@ -109,6 +109,12 @@ async function migrate(db: SQLite.SQLiteDatabase): Promise<void> {
     await db.execAsync(SCHEMA_V2);
     version = 2;
   }
+  if (version < 3) {
+    // Photo de profil locale (facultative) : chemin d'un fichier image copié
+    // dans le dossier de l'app. Null = on affiche l'emoji.
+    await db.execAsync('ALTER TABLE players ADD COLUMN photo_uri TEXT');
+    version = 3;
+  }
 
   await db.execAsync(`PRAGMA user_version = ${version}`);
 }
