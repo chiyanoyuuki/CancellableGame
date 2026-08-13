@@ -79,19 +79,13 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   // Menu d'actions d'un joueur (Modal : Android n'affiche que 3 boutons d'Alert).
   const [menuPlayer, setMenuPlayer] = useState<Player | null>(null);
 
+  // Le pool de questions ne change pas en cours de session : chargé une fois.
+  // (Joueurs, univers évités et historique sont rechargés à chaque focus.)
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const [p, u, h] = await Promise.all([
-        getQuizPool(),
-        getPlayerUnwantedUniverses(),
-        getQuestionHistoryByPlayer(),
-      ]);
-      if (alive) {
-        setPool(p);
-        setUnwanted(u);
-        setHistoryByPlayer(h);
-      }
+      const p = await getQuizPool();
+      if (alive) setPool(p);
     })();
     return () => {
       alive = false;
@@ -184,8 +178,18 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
     await setPlayerUnwantedUniverses(next);
   };
 
+  // Rechargé à CHAQUE focus (retour depuis « Profil à distance » après un scan
+  // QR, etc.) : joueurs + univers évités + historique, pour que l'écran reflète
+  // tout de suite les imports, sans avoir à quitter et revenir.
   const refresh = useCallback(async () => {
-    setPlayers(await listPlayers(showArchived));
+    const [pl, u, h] = await Promise.all([
+      listPlayers(showArchived),
+      getPlayerUnwantedUniverses(),
+      getQuestionHistoryByPlayer(),
+    ]);
+    setPlayers(pl);
+    setUnwanted(u);
+    setHistoryByPlayer(h);
   }, [showArchived]);
 
   useFocusEffect(

@@ -126,7 +126,9 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
   const applyUpdate = async (existing: Player, profile: RemoteProfile) => {
     const emoji = profile.emoji || existing.emoji;
     const color = profile.color || existing.color;
-    await updatePlayer({ id: existing.id, name: profile.name, emoji, color });
+    // Si le joueur a déjà une VRAIE photo, on ne la remplace jamais par un emoji :
+    // un QR ne transporte pas de photo, on conserve donc l'existante.
+    await updatePlayer({ id: existing.id, name: profile.name, emoji, color, photoUri: existing.photoUri });
     const map = await getPlayerUnwantedUniverses();
     if (profile.unwanted.length > 0) map[existing.id] = profile.unwanted;
     else delete map[existing.id];
