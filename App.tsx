@@ -18,6 +18,7 @@ import { HomeScreen } from './src/screens/HomeScreen';
 import { ImageCheckScreen } from './src/screens/ImageCheckScreen';
 import { LobbyScreen } from './src/screens/LobbyScreen';
 import { OnboardingScreen } from './src/screens/OnboardingScreen';
+import { PlayerProfileScreen } from './src/screens/PlayerProfileScreen';
 import { PlayersScreen } from './src/screens/PlayersScreen';
 import { RemoteProfileScreen } from './src/screens/RemoteProfileScreen';
 import { ReportedQuestionsScreen } from './src/screens/ReportedQuestionsScreen';
@@ -114,6 +115,7 @@ function AppInner() {
         >
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Players" component={PlayersScreen} />
+          <Stack.Screen name="PlayerProfile" component={PlayerProfileScreen} />
           <Stack.Screen name="RemoteProfile" component={RemoteProfileScreen} />
           <Stack.Screen name="GameSelect" component={GameSelectScreen} />
           <Stack.Screen name="Soiree" component={SoireeScreen} />

@@ -480,6 +480,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
                   {menuPlayer.name}
                 </Txt>
               </View>
+              <Button title="🏅 Profil et hauts faits" onPress={() => { const p = menuPlayer; setMenuPlayer(null); navigation.navigate('PlayerProfile', { playerId: p.id }); }} />
               <Button title="Modifier" variant="secondary" onPress={() => { const p = menuPlayer; setMenuPlayer(null); startEdit(p); }} />
               <Button title="Dupliquer" variant="secondary" onPress={() => { const p = menuPlayer; setMenuPlayer(null); void duplicatePlayer(p); }} />
               <Button title="Univers et thèmes évités" variant="secondary" onPress={() => { const p = menuPlayer; setMenuPlayer(null); openUnwanted(p); }} />

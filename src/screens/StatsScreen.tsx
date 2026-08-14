@@ -1,9 +1,9 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-import { type AchievementProgress, achievementSummary, playerAchievements } from '../core/achievements';
+import { achievementScoresByPlayer } from '../core/achievements';
 import { Card, EmptyState, PlayerAvatar, Screen, SectionHeader, Segmented, Txt } from '../components/ui';
 import type { Player } from '../core/models';
 import { THEME_META, type Theme } from '../core/models';
@@ -45,7 +45,6 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
   const [period, setPeriod] = useState<Period>('all');
   const [gameId, setGameId] = useState<string>('all');
   const [expanded, setExpanded] = useState<string | null>(null);
-  const [badgePlayer, setBadgePlayer] = useState<string | null>(null);
 
   // Version gratuite : seules les stats du soir sont visibles.
   useEffect(() => {
@@ -112,20 +111,15 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
   );
   const themes = useMemo(() => themeAccuracy(data.answers, undefined, filter), [data.answers, filter]);
 
-  // Hauts faits : calculés sur TOUTE la vie du joueur (pas de filtre de période),
-  // un badge gagné reste acquis. On ne garde que les vrais joueurs (pas d'équipes).
-  const achByPlayer = useMemo(() => playerAchievements(data.results, data.answers), [data.results, data.answers]);
-  const badgePlayers = useMemo(
-    () => Object.keys(achByPlayer).filter((id) => byId[id]),
-    [achByPlayer, byId],
-  );
-  useEffect(() => {
-    if (badgePlayers.length === 0) {
-      if (badgePlayer !== null) setBadgePlayer(null);
-    } else if (!badgePlayer || !badgePlayers.includes(badgePlayer)) {
-      setBadgePlayer(badgePlayers[0] ?? null);
-    }
-  }, [badgePlayers, badgePlayer]);
+  // Classement par hauts faits : calculé sur TOUTE la vie du joueur (pas de
+  // filtre de période), chaque palier valant ses points. Vrais joueurs seulement.
+  const achLeaderboard = useMemo(() => {
+    const scores = achievementScoresByPlayer(data.results, data.answers);
+    return Object.entries(scores)
+      .filter(([id]) => byId[id])
+      .map(([id, s]) => ({ player: byId[id] as Player, points: s.points, tiers: s.tiers }))
+      .sort((a, b) => b.points - a.points);
+  }, [data.results, data.answers, byId]);
 
   const nameOf = (id: string) => byId[id]?.name ?? teamInfo.get(id)?.name ?? '???';
   const hasData = facts.totalGames > 0;
@@ -209,37 +203,34 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
             );
           })}
 
-          {badgePlayers.length > 0 && badgePlayer && (
+          {achLeaderboard.length > 0 && (
             <>
-              <SectionHeader title="Hauts faits" />
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ gap: spacing(1), paddingVertical: spacing(0.5) }}
-              >
-                {badgePlayers.map((id) => {
-                  const p = byId[id];
-                  if (!p) return null;
-                  const sum = achievementSummary(achByPlayer[id]);
-                  const on = id === badgePlayer;
-                  return (
-                    <Pressable key={id} onPress={() => setBadgePlayer(id)} style={{ alignItems: 'center', width: 64 }}>
-                      <PlayerAvatar emoji={p.emoji} color={p.color} photoUri={p.photoUri} size={44} selected={on} />
-                      <Txt size={fontSize.xs} weight={on ? '800' : '400'} numberOfLines={1} center>
-                        {p.name}
-                      </Txt>
-                      <Txt faint size={fontSize.xs}>
-                        {sum.earned}/{sum.total}
-                      </Txt>
-                    </Pressable>
-                  );
-                })}
-              </ScrollView>
-              <View style={styles.titlesWrap}>
-                {(achByPlayer[badgePlayer] ?? []).map((a) => (
-                  <BadgeCard key={a.def.id} a={a} />
-                ))}
-              </View>
+              <SectionHeader title="Classement par hauts faits" />
+              <Txt faint size={fontSize.xs} style={{ marginBottom: spacing(0.5) }}>
+                Chaque palier gagné rapporte des points. Touche un joueur pour voir tous ses badges.
+              </Txt>
+              {achLeaderboard.map((row, i) => (
+                <Card
+                  key={row.player.id}
+                  accent={i === 0 ? colors.warning : row.player.color}
+                  style={styles.rankRow}
+                  onPress={() => navigation.navigate('PlayerProfile', { playerId: row.player.id })}
+                >
+                  <Txt size={fontSize.lg} weight="900" style={{ width: 30 }}>
+                    {RANK_MEDALS[i] ?? `${i + 1}`}
+                  </Txt>
+                  <PlayerAvatar emoji={row.player.emoji} color={row.player.color} photoUri={row.player.photoUri} size={36} />
+                  <View style={{ flex: 1 }}>
+                    <Txt weight="800">{row.player.name}</Txt>
+                    <Txt faint size={fontSize.xs}>
+                      {row.tiers} palier{row.tiers > 1 ? 's' : ''} · appuie pour le profil
+                    </Txt>
+                  </View>
+                  <Txt size={fontSize.lg} weight="900" color={colors.accent}>
+                    {row.points}
+                  </Txt>
+                </Card>
+              ))}
             </>
           )}
 
@@ -291,23 +282,6 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
   );
 }
 
-function BadgeCard({ a }: { a: AchievementProgress }) {
-  return (
-    <Card style={[styles.badgeCard, !a.done && { opacity: 0.5 }]} accent={a.done ? colors.warning : undefined}>
-      <Txt size={fontSize.xl}>{a.done ? a.def.emoji : '🔒'}</Txt>
-      <Txt weight="800" size={fontSize.sm} numberOfLines={1}>
-        {a.def.title}
-      </Txt>
-      <Txt faint size={fontSize.xs} numberOfLines={2}>
-        {a.def.desc}
-      </Txt>
-      <Txt size={fontSize.xs} weight="800" color={a.done ? colors.success : colors.textFaint}>
-        {a.done ? '✓ obtenu' : `${a.current}/${a.target}`}
-      </Txt>
-    </Card>
-  );
-}
-
 function FactCard(props: { emoji: string; value: string; label: string }) {
   return (
     <Card style={styles.factCard}>
@@ -329,7 +303,6 @@ const styles = StyleSheet.create({
   membersCard: { marginTop: -spacing(0.5), marginBottom: spacing(1), marginLeft: spacing(3), paddingVertical: spacing(1) },
   titlesWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing(1) },
   titleCard: { width: '47.5%', gap: 2 },
-  badgeCard: { width: '47.5%', gap: 2, minHeight: 96 },
   themeLabel: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: spacing(0.5) },
   barTrack: { height: 12, backgroundColor: colors.card, borderRadius: radius.pill, overflow: 'hidden' },
   barFill: { height: '100%', backgroundColor: colors.success, borderRadius: radius.pill },

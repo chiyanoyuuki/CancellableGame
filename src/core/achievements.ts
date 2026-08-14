@@ -1,26 +1,43 @@
 import type { StatAnswer, StatResult } from './stats';
 
 /**
- * Hauts faits (badges) par joueur — logique pure et testable, calculée à partir
- * des mêmes données que les stats. Chaque haut fait est un seuil sur une mesure
- * cumulée (parties, victoires, bonnes réponses…). On additionne sur toute la vie
- * du joueur (pas de filtre de période) : un badge, une fois gagné, reste acquis.
+ * Hauts faits À PALIERS (Bronze → Légende), par joueur — logique pure et testable.
+ *
+ * Chaque « piste » (track) suit une mesure cumulée (parties, victoires, bonnes
+ * réponses…) et compte plusieurs paliers. Franchir un palier rapporte ses points ;
+ * le total sur toutes les pistes donne un SCORE de hauts faits, base d'un
+ * classement dédié. Tout se calcule sur la vie entière du joueur — un palier
+ * gagné reste acquis.
  */
 
-export interface AchievementDef {
+export type TierName = 'bronze' | 'argent' | 'or' | 'platine' | 'diamant' | 'legende';
+
+export const TIER_ORDER: TierName[] = ['bronze', 'argent', 'or', 'platine', 'diamant', 'legende'];
+
+export const TIER_META: Record<TierName, { label: string; emoji: string; points: number; color: string }> = {
+  bronze: { label: 'Bronze', emoji: '🥉', points: 5, color: '#cd7f32' },
+  argent: { label: 'Argent', emoji: '🥈', points: 15, color: '#b8c0c8' },
+  or: { label: 'Or', emoji: '🥇', points: 40, color: '#ffd447' },
+  platine: { label: 'Platine', emoji: '💠', points: 100, color: '#7fe3d4' },
+  diamant: { label: 'Diamant', emoji: '💎', points: 250, color: '#8ad3ff' },
+  legende: { label: 'Légende', emoji: '👑', points: 600, color: '#ff7ae0' },
+};
+
+export interface TrackTier {
+  tier: TierName;
+  target: number;
+  points: number;
+}
+
+export interface AchievementTrack {
   id: string;
   emoji: string;
   title: string;
+  /** Ce que la mesure compte, ex. « parties jouées ». */
   desc: string;
-  target: number;
-}
-
-export interface AchievementProgress {
-  def: AchievementDef;
-  /** Progression bornée à la cible (pour une barre) : min(mesure, cible). */
-  current: number;
-  target: number;
-  done: boolean;
+  /** Unité affichée dans la progression (« parties », « pts »…). */
+  unit: string;
+  tiers: TrackTier[];
 }
 
 interface PlayerAgg {
@@ -29,36 +46,72 @@ interface PlayerAgg {
   winsByGame: Record<string, number>;
   questions: number;
   correct: number;
+  hardCorrect: number;
+  proCorrect: number;
+  noHintCorrect: number;
+  fastCorrect: number;
   themes: Set<string>;
+  days: Set<number>;
   sipsDrunk: number;
   sipsGiven: number;
-  fastCorrect: number;
 }
 
 /** Une bonne réponse « éclair » : correcte en moins de 3 secondes. */
 const FAST_MS = 3000;
+const DAY_MS = 86_400_000;
 
 type Metric = (a: PlayerAgg) => number;
 
-const ACHIEVEMENTS: (AchievementDef & { metric: Metric })[] = [
-  { id: 'first-game', emoji: '🎉', title: 'Première soirée', desc: 'Jouer ta première partie', target: 1, metric: (a) => a.games },
-  { id: 'regular', emoji: '🔥', title: 'Habitué', desc: 'Jouer 10 parties', target: 10, metric: (a) => a.games },
-  { id: 'veteran', emoji: '🎖️', title: 'Vétéran', desc: 'Jouer 50 parties', target: 50, metric: (a) => a.games },
-  { id: 'first-win', emoji: '🏆', title: 'Première victoire', desc: 'Gagner une partie', target: 1, metric: (a) => a.wins },
-  { id: 'champion', emoji: '👑', title: 'Champion', desc: 'Gagner 10 parties', target: 10, metric: (a) => a.wins },
-  { id: 'curious', emoji: '🧠', title: 'Curieux', desc: 'Répondre à 50 questions', target: 50, metric: (a) => a.questions },
-  { id: 'scholar', emoji: '📚', title: 'Érudit', desc: 'Trouver 300 bonnes réponses', target: 300, metric: (a) => a.correct },
-  { id: 'polyglot', emoji: '🌍', title: 'Touche-à-tout', desc: 'Répondre dans 8 thèmes différents', target: 8, metric: (a) => a.themes.size },
-  { id: 'lightning', emoji: '⚡', title: 'Éclair', desc: 'Une bonne réponse en moins de 3 s', target: 1, metric: (a) => a.fastCorrect },
-  { id: 'bombe', emoji: '💣', title: 'Démineur', desc: 'Gagner une partie de Bombe', target: 1, metric: (a) => a.winsByGame.bombe ?? 0 },
-  { id: 'duel', emoji: '⚔️', title: 'Duelliste', desc: 'Gagner un Duel', target: 1, metric: (a) => a.winsByGame.duel ?? 0 },
-  { id: 'ultimate', emoji: '🥊', title: 'Maître ultime', desc: 'Gagner un Duel Ultime', target: 1, metric: (a) => a.winsByGame.duelultime ?? 0 },
-  { id: 'drinker', emoji: '🍺', title: 'Bonne descente', desc: 'Boire 30 gorgées en tout', target: 30, metric: (a) => a.sipsDrunk },
-  { id: 'generous', emoji: '🤙', title: 'Généreux', desc: 'Distribuer 20 gorgées', target: 20, metric: (a) => a.sipsGiven },
+/** Construit une piste : les cibles (croissantes) prennent les paliers dans l'ordre. */
+function track(id: string, emoji: string, title: string, desc: string, unit: string, metric: Metric, targets: number[]): AchievementTrack & { metric: Metric } {
+  const tiers: TrackTier[] = targets.slice(0, TIER_ORDER.length).map((target, i) => {
+    const tier = TIER_ORDER[i] as TierName;
+    return { tier, target, points: TIER_META[tier].points };
+  });
+  return { id, emoji, title, desc, unit, tiers, metric };
+}
+
+const TRACKS: (AchievementTrack & { metric: Metric })[] = [
+  track('games', '🎮', 'Fêtard', 'Parties jouées', 'parties', (a) => a.games, [1, 10, 50, 150, 400, 1000]),
+  track('wins', '🏆', 'Vainqueur', 'Parties gagnées', 'victoires', (a) => a.wins, [1, 10, 50, 150, 400, 1000]),
+  track('nights', '🌙', 'Habitué des soirées', 'Soirées différentes', 'soirées', (a) => a.days.size, [1, 5, 15, 40, 100]),
+  track('questions', '🧠', 'Curieux', 'Questions répondues', 'questions', (a) => a.questions, [10, 100, 500, 2000, 5000, 15000]),
+  track('correct', '✅', 'Érudit', 'Bonnes réponses', 'bonnes', (a) => a.correct, [5, 50, 300, 1000, 3000, 10000]),
+  track('hard', '🔥', 'Cerveau', 'Bonnes réponses difficiles', 'dures', (a) => a.hardCorrect, [5, 50, 250, 1000, 3000]),
+  track('pro', '🎓', 'Expert', 'Bonnes réponses pro', 'pro', (a) => a.proCorrect, [3, 25, 150, 600, 2000]),
+  track('nohint', '🎯', 'Puriste', 'Bonnes réponses sans indice', 'sans indice', (a) => a.noHintCorrect, [10, 100, 500, 2000, 6000]),
+  track('fast', '⚡', 'Éclair', 'Bonnes réponses en moins de 3 s', 'éclair', (a) => a.fastCorrect, [1, 20, 100, 500, 1500]),
+  track('themes', '🌍', 'Touche-à-tout', 'Thèmes explorés', 'thèmes', (a) => a.themes.size, [3, 6, 10, 14, 17]),
+  track('sips', '🍺', 'Bonne descente', 'Gorgées bues', 'gorgées', (a) => a.sipsDrunk, [5, 30, 150, 500, 1500]),
+  track('given', '🤙', 'Généreux', 'Gorgées offertes', 'offertes', (a) => a.sipsGiven, [5, 30, 150, 500]),
+  track('quiz', '❓', 'Roi du Quiz', 'Quiz gagnés', 'quiz', (a) => a.winsByGame.quiz ?? 0, [1, 10, 50, 150, 400]),
+  track('bombe', '💣', 'Démineur', 'Bombes gagnées', 'bombes', (a) => a.winsByGame.bombe ?? 0, [1, 10, 50, 150]),
+  track('duel', '⚔️', 'Duelliste', 'Duels gagnés', 'duels', (a) => a.winsByGame.duel ?? 0, [1, 10, 50, 150]),
+  track('ultimate', '🥊', 'Maître ultime', 'Duels Ultimes gagnés', 'ultimes', (a) => a.winsByGame.duelultime ?? 0, [1, 5, 25, 100]),
 ];
 
+/** Toutes les pistes (sans la fonction de mesure), pour l'affichage. */
+export const ACHIEVEMENT_TRACKS: AchievementTrack[] = TRACKS.map(({ metric: _m, ...t }) => t);
+
+export interface TrackProgress {
+  track: AchievementTrack;
+  /** Valeur brute de la mesure. */
+  value: number;
+  /** Palier le plus haut atteint (null = aucun). */
+  current: TierName | null;
+  /** Prochain palier à atteindre (null si tout est atteint). */
+  next: TrackTier | null;
+  /** Nombre de paliers franchis sur cette piste. */
+  tiersReached: number;
+  /** Points cumulés des paliers franchis (chaque palier rapporte les siens). */
+  points: number;
+}
+
 function emptyAgg(): PlayerAgg {
-  return { games: 0, wins: 0, winsByGame: {}, questions: 0, correct: 0, themes: new Set(), sipsDrunk: 0, sipsGiven: 0, fastCorrect: 0 };
+  return {
+    games: 0, wins: 0, winsByGame: {}, questions: 0, correct: 0, hardCorrect: 0, proCorrect: 0,
+    noHintCorrect: 0, fastCorrect: 0, themes: new Set(), days: new Set(), sipsDrunk: 0, sipsGiven: 0,
+  };
 }
 
 function aggregate(results: readonly StatResult[], answers: readonly StatAnswer[]): Map<string, PlayerAgg> {
@@ -73,13 +126,13 @@ function aggregate(results: readonly StatResult[], answers: readonly StatAnswer[
   };
 
   for (const r of results) {
-    // On ignore les lignes d'ÉQUIPE (playerId = id d'équipe) : les hauts faits
-    // sont personnels. Les vraies réponses (answers) restent comptées.
+    // On ignore les lignes d'ÉQUIPE : les hauts faits sont personnels.
     if ((r.details as { team?: boolean } | undefined)?.team) continue;
     const a = get(r.playerId);
     a.games += 1;
     a.sipsDrunk += r.sipsDrunk;
     a.sipsGiven += r.sipsGiven;
+    a.days.add(Math.floor(r.startedAt / DAY_MS));
     if (r.rank === 1) {
       a.wins += 1;
       a.winsByGame[r.gameId] = (a.winsByGame[r.gameId] ?? 0) + 1;
@@ -89,40 +142,74 @@ function aggregate(results: readonly StatResult[], answers: readonly StatAnswer[
   for (const ans of answers) {
     const a = get(ans.playerId);
     a.questions += 1;
+    a.themes.add(ans.theme);
     if (ans.correct) {
       a.correct += 1;
+      if (ans.difficulty >= 3) a.hardCorrect += 1;
+      if (ans.difficulty >= 4) a.proCorrect += 1;
+      if ((ans.hintsUsed ?? 0) === 0) a.noHintCorrect += 1;
       if (ans.timeMs != null && ans.timeMs < FAST_MS) a.fastCorrect += 1;
     }
-    a.themes.add(ans.theme);
   }
 
   return map;
 }
 
-/** Progression de tous les hauts faits, par joueur. */
+/** Progression d'une piste pour une valeur donnée (paliers franchis + points cumulés). */
+export function trackProgress(t: AchievementTrack, value: number): TrackProgress {
+  let current: TierName | null = null;
+  let next: TrackTier | null = null;
+  let points = 0;
+  let tiersReached = 0;
+  for (const tier of t.tiers) {
+    if (value >= tier.target) {
+      current = tier.tier;
+      points += tier.points;
+      tiersReached += 1;
+    } else {
+      next = tier;
+      break;
+    }
+  }
+  return { track: t, value, current, next, tiersReached, points };
+}
+
+/** Progression de toutes les pistes, par joueur. */
 export function playerAchievements(
   results: readonly StatResult[],
   answers: readonly StatAnswer[],
-): Record<string, AchievementProgress[]> {
+): Record<string, TrackProgress[]> {
   const agg = aggregate(results, answers);
-  const out: Record<string, AchievementProgress[]> = {};
+  const out: Record<string, TrackProgress[]> = {};
   for (const [pid, a] of agg) {
-    out[pid] = ACHIEVEMENTS.map((d) => {
-      const value = d.metric(a);
-      return {
-        def: { id: d.id, emoji: d.emoji, title: d.title, desc: d.desc, target: d.target },
-        current: Math.min(value, d.target),
-        target: d.target,
-        done: value >= d.target,
-      };
-    });
+    out[pid] = TRACKS.map((t) => trackProgress(t, t.metric(a)));
   }
   return out;
 }
 
-/** Résumé compact pour un joueur : nombre de badges gagnés / total. */
-export function achievementSummary(list: readonly AchievementProgress[] | undefined): { earned: number; total: number } {
-  const total = ACHIEVEMENTS.length;
-  if (!list) return { earned: 0, total };
-  return { earned: list.filter((a) => a.done).length, total };
+/** Somme des points de hauts faits pour une liste de pistes. */
+export function achievementScore(list: readonly TrackProgress[] | undefined): number {
+  return (list ?? []).reduce((s, p) => s + p.points, 0);
+}
+
+/** Résumé : paliers franchis, points, et points maximum atteignables. */
+export function achievementSummary(list: readonly TrackProgress[] | undefined): { tiers: number; points: number; maxPoints: number } {
+  const tiers = (list ?? []).reduce((s, p) => s + p.tiersReached, 0);
+  return { tiers, points: achievementScore(list), maxPoints: MAX_POINTS };
+}
+
+/** Points maximum possibles (tous paliers de toutes les pistes). */
+export const MAX_POINTS: number = TRACKS.reduce((s, t) => s + t.tiers.reduce((a, x) => a + x.points, 0), 0);
+
+/** Score de hauts faits par joueur (pour un classement). */
+export function achievementScoresByPlayer(
+  results: readonly StatResult[],
+  answers: readonly StatAnswer[],
+): Record<string, { points: number; tiers: number }> {
+  const per = playerAchievements(results, answers);
+  const out: Record<string, { points: number; tiers: number }> = {};
+  for (const [pid, list] of Object.entries(per)) {
+    out[pid] = { points: achievementScore(list), tiers: list.reduce((s, p) => s + p.tiersReached, 0) };
+  }
+  return out;
 }
