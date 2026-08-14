@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const sao = universe("manga", "Sword Art Online", [
+  // --- Faciles (5) ---
+  { id: "sao-f1", d: 1, t: "Comment s'appelle le héros de Sword Art Online ?", a: "Kirito", acc: ["kirito"], x: ["Klein", "Agil", "Eugeo"] },
+  { id: "sao-f2", d: 1, t: "De quel type de jeu SAO piège-t-il ses joueurs ?", a: "Un jeu de réalité virtuelle", acc: ["réalité virtuelle", "vr", "vrmmo", "mmorpg"], x: ["Un jeu de cartes", "Un jeu mobile", "Un jeu de plateau"] },
+  { id: "sao-f3", d: 1, t: "Que se passe-t-il dans la vraie vie si un joueur meurt dans SAO ?", a: "Il meurt pour de bon", acc: ["il meurt", "il meurt vraiment", "mort réelle"], x: ["Il recommence le jeu", "Il est expulsé", "Rien"] },
+  { id: "sao-f4", d: 1, t: "Comment s'appelle l'héroïne principale de SAO ?", a: "Asuna", acc: ["asuna"], x: ["Sinon", "Leafa", "Silica"] },
+  { id: "sao-f5", d: 1, t: "Comment s'appelle le château flottant du premier arc ?", a: "Aincrad", acc: ["aincrad"], x: ["Alfheim", "Underworld", "Gun Gale"] },
+
+  // --- Moyennes (10) ---
+  { id: "sao-m1", d: 2, t: "Quel casque de réalité virtuelle plonge les joueurs dans SAO ?", a: "Le NerveGear", acc: ["nervegear", "nerve gear"], x: ["L'Amusphere", "L'Oculus", "Le STL"] },
+  { id: "sao-m2", d: 2, t: "Qui a créé le jeu Sword Art Online ?", a: "Kayaba Akihiko", acc: ["kayaba", "akihiko kayaba"], x: ["Sugou Nobuyuki", "Reki Kawahara", "Nobuyuki"] },
+  { id: "sao-m3", d: 2, t: "Combien d'étages compte le château Aincrad ?", a: "Cent", acc: ["cent", "100"], x: ["Cinquante", "Dix", "Mille"] },
+  { id: "sao-m4", d: 2, t: "Quel est le vrai nom de Kirito dans la vie réelle ?", a: "Kazuto Kirigaya", acc: ["kazuto", "kazuto kirigaya", "kirigaya"], x: ["Kazuma", "Suguha", "Ryotaro"] },
+  { id: "sao-m5", d: 2, t: "Quel joueur au bandana rouge devient le premier ami de Kirito ?", a: "Klein", acc: ["klein"], x: ["Agil", "Egil", "Diavel"] },
+  { id: "sao-m6", d: 2, t: "Quel grand marchand chauve à la hache aide souvent Kirito ?", a: "Agil", acc: ["agil", "egil"], x: ["Klein", "Diavel", "Kibaou"] },
+  { id: "sao-m7", d: 2, t: "Quelle IA sous forme de petite fille Kirito et Asuna adoptent-ils ?", a: "Yui", acc: ["yui"], x: ["Alice", "Silica", "Strea"] },
+  { id: "sao-m8", d: 2, t: "Quelle compétence rare rend Kirito célèbre au combat ?", a: "Le maniement de deux épées", acc: ["deux épées", "double lame", "dual wielding", "double épée"], x: ["Le tir à l'arc", "La magie de feu", "Le bouclier"] },
+  { id: "sao-m9", d: 2, t: "Quel monde virtuel de fées ailées suit Aincrad ?", a: "ALfheim Online", acc: ["alfheim", "alo", "alfheim online"], x: ["Gun Gale Online", "Underworld", "Aincrad"] },
+  { id: "sao-m10", d: 2, t: "Combien de temps environ les joueurs restent-ils piégés dans SAO ?", a: "Environ deux ans", acc: ["deux ans", "2 ans", "environ 2 ans"], x: ["Six mois", "Cinq ans", "Dix ans"] },
+
+  // --- Dures (15) ---
+  { id: "sao-d1", d: 3, t: "Quel univers virtuel de fusillades est le décor de l'arc « Phantom Bullet » ?", a: "Gun Gale Online", acc: ["gun gale online", "ggo"], x: ["ALfheim", "Underworld", "Aincrad"] },
+  { id: "sao-d2", d: 3, t: "Quelle sniper devient une alliée de Kirito dans Gun Gale Online ?", a: "Sinon", acc: ["sinon"], x: ["Silica", "Lisbeth", "Leafa"] },
+  { id: "sao-d3", d: 3, t: "Quel est le vrai nom de Sinon dans la vie réelle ?", a: "Shino Asada", acc: ["shino", "shino asada", "asada"], x: ["Rika Shinozaki", "Keiko Ayano", "Suguha"] },
+  { id: "sao-d4", d: 3, t: "Qui se cache derrière le personnage de Leafa, proche de Kirito ?", a: "Suguha Kirigaya", acc: ["suguha", "suguha kirigaya"], x: ["Asuna", "Shino", "Keiko"] },
+  { id: "sao-d5", d: 3, t: "Quel homme retient Asuna prisonnière dans une cage dorée d'ALfheim ?", a: "Sugou Nobuyuki", acc: ["sugou", "nobuyuki sugou", "oberon"], x: ["Kayaba", "Heathcliff", "PoH"] },
+  { id: "sao-d6", d: 3, t: "Quelle guilde d'élite Asuna dirige-t-elle en second dans SAO ?", a: "Les Chevaliers du Sang", acc: ["chevaliers du sang", "knights of the blood", "kob"], x: ["Les Chats noirs", "Divine Dragons", "Aincrad Liberation"] },
+  { id: "sao-d7", d: 3, t: "Quelle petite guilde de Kirito est décimée, le marquant profondément ?", a: "Les Moonlit Black Cats", acc: ["moonlit black cats", "black cats", "chats noirs"], x: ["Les Chevaliers du Sang", "Fuurinkazan", "Laughing Coffin"] },
+  { id: "sao-d8", d: 3, t: "Comment s'appelle l'épée noire fétiche de Kirito ?", a: "Elucidator", acc: ["elucidator"], x: ["Dark Repulser", "Excalibur", "Night Sky"] },
+  { id: "sao-d9", d: 3, t: "Quelle épée claire, forgée par Lisbeth, complète le duo de Kirito ?", a: "Dark Repulser", acc: ["dark repulser"], x: ["Elucidator", "Excalibur", "Lambent Light"] },
+  { id: "sao-d10", d: 3, t: "Sous quel pseudo le chef de guilde Heathcliff cache-t-il son identité ?", a: "Kayaba Akihiko", acc: ["kayaba", "kayaba akihiko"], x: ["Sugou", "PoH", "Reki"] },
+  { id: "sao-d11", d: 3, t: "Quelle forgeronne au marteau rejoint le groupe et forge Dark Repulser ?", a: "Lisbeth", acc: ["lisbeth", "rika", "rika shinozaki"], x: ["Silica", "Sinon", "Leafa"] },
+  { id: "sao-d12", d: 3, t: "Quelle jeune dresseuse de dragon (Pina) rejoint Kirito ?", a: "Silica", acc: ["silica", "keiko"], x: ["Lisbeth", "Sinon", "Leafa"] },
+  { id: "sao-d13", d: 3, t: "Quel monde-simulation d'âmes artificielles est au cœur de l'arc « Alicization » ?", a: "Underworld", acc: ["underworld"], x: ["ALfheim", "Gun Gale", "Aincrad"] },
+  { id: "sao-d14", d: 3, t: "Comment s'appelle l'amie d'enfance IA au centre d'Alicization ?", a: "Alice", acc: ["alice", "alice zuberg"], x: ["Yui", "Asuna", "Quinella"] },
+  { id: "sao-d15", d: 3, t: "Qui est l'auteur du light novel Sword Art Online ?", a: "Reki Kawahara", acc: ["reki kawahara", "kawahara"], x: ["Kayaba Akihiko", "Abec", "Isin Nisio"] },
+
+  // --- Pro (20) ---
+  { id: "sao-p1", d: 4, t: "Quel illustrateur signe les light novels de SAO ?", a: "abec", acc: ["abec"], x: ["Redjuice", "Pako", "Kantoku"] },
+  { id: "sao-p2", d: 4, t: "Quel studio d'animation a produit l'anime SAO ?", a: "A-1 Pictures", acc: ["a-1 pictures", "a1 pictures", "a-1"], x: ["Ufotable", "MAPPA", "Madhouse"] },
+  { id: "sao-p3", d: 4, t: "Quel « système » IA de SAO régit Aincrad et réapparaît dans Alicization ?", a: "Cardinal", acc: ["cardinal", "le système cardinal"], x: ["Yggdrasil", "Seed", "Rath"] },
+  { id: "sao-p4", d: 4, t: "En quelle année, dans le récit, les joueurs sont-ils piégés dans SAO ?", a: "2022", acc: ["2022"], x: ["2020", "2025", "2018"] },
+  { id: "sao-p5", d: 4, t: "Quel programme diffusé permet à SAO de renaître sous forme d'autres jeux ?", a: "The Seed", acc: ["the seed", "seed"], x: ["Cardinal", "Medicuit", "Rath"] },
+  { id: "sao-p6", d: 4, t: "Quelle guilde de « joueurs tueurs » (PK) sème la terreur dans SAO ?", a: "Laughing Coffin", acc: ["laughing coffin"], x: ["Les Chats noirs", "Fuurinkazan", "Salamanders"] },
+  { id: "sao-p7", d: 4, t: "Quel chef sadique de Laughing Coffin réapparaît comme ennemi dans GGO ?", a: "PoH", acc: ["poh"], x: ["Death Gun", "XaXa", "Kibaou"] },
+  { id: "sao-p8", d: 4, t: "Quel tueur mystérieux « Death Gun » terrorise les joueurs de Gun Gale ?", a: "Sterben (Shoichi Shinkawa)", acc: ["death gun", "sterben", "shinkawa"], x: ["PoH", "Kibaou", "Kayaba"] },
+  { id: "sao-p9", d: 4, t: "Quelle bretteuse surdouée affronte Asuna dans « Mother's Rosario » ?", a: "Yuuki", acc: ["yuuki", "yuki", "konno yuuki"], x: ["Sinon", "Alice", "Leafa"] },
+  { id: "sao-p10", d: 4, t: "De quelle maladie souffre Yuuki, la « Flash Absolu » ?", a: "Le SIDA", acc: ["sida", "vih", "hiv"], x: ["Un cancer", "La leucémie", "Une maladie cardiaque"] },
+  { id: "sao-p11", d: 4, t: "Quel adolescent chevaleresque est le meilleur ami de Kirito dans Underworld ?", a: "Eugeo", acc: ["eugeo"], x: ["Klein", "Agil", "Bercouli"] },
+  { id: "sao-p12", d: 4, t: "Quelle « déesse » tyrannique dirige Underworld depuis la Cathédrale ?", a: "Administrator (Quinella)", acc: ["administrator", "quinella"], x: ["Alice", "Cardinal", "Yui"] },
+  { id: "sao-p13", d: 4, t: "Quel casque de VR complet, sans risque mortel, remplace le NerveGear après SAO ?", a: "L'AmuSphere", acc: ["amusphere", "amu sphere"], x: ["Le STL", "L'Oculus", "Le NerveGear II"] },
+  { id: "sao-p14", d: 4, t: "Quelle machine avancée permet de plonger dans Underworld en accéléré ?", a: "Le Soul Translator (STL)", acc: ["soul translator", "stl"], x: ["L'AmuSphere", "Le NerveGear", "Medicuboid"] },
+  { id: "sao-p15", d: 4, t: "Quelle entreprise développe le projet Underworld dans Alicization ?", a: "Rath", acc: ["rath"], x: ["Argus", "Rect Progress", "Ymir"] },
+  { id: "sao-p16", d: 4, t: "Quel vétéran, « Commandant » légendaire d'Underworld, protège Alice ?", a: "Bercouli", acc: ["bercouli"], x: ["Eugeo", "Vecta", "Gabriel"] },
+  { id: "sao-p17", d: 4, t: "Sous quel nom de « dieu des ténèbres » Gabriel Miller entre-t-il dans Underworld ?", a: "Vecta", acc: ["vecta", "vector"], x: ["Administrator", "Cardinal", "Sterben"] },
+  { id: "sao-p18", d: 4, t: "Quel premier étage-boss d'Aincrad tue le chevalier Diavel lors du raid initial ?", a: "Illfang le Seigneur Kobold", acc: ["illfang", "kobold lord", "illfang le kobold"], x: ["The Gleam Eyes", "The Skull Reaper", "Nicholas"] },
+  { id: "sao-p19", d: 4, t: "Combien de joueurs se retrouvent piégés dans SAO le jour du lancement ?", a: "Dix mille", acc: ["dix mille", "10000", "10 000"], x: ["Mille", "Cent mille", "Cinq mille"] },
+  { id: "sao-p20", d: 4, t: "Quel titre est donné à Kirito après avoir vaincu SAO, célèbre parmi les joueurs ?", a: "Le Chevalier noir (Black Swordsman)", acc: ["black swordsman", "chevalier noir", "épéiste noir"], x: ["Le Roi des fées", "Le Flash", "L'Éclair"] },
+]);

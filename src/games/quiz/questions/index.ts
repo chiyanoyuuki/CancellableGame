@@ -78,4 +78,6 @@ export const UNIVERSE_ADD_ORDER: string[] = [
   'Lupin', 'Kaamelott', 'Marvel', 'Disney', 'Michael Jackson',
   "JoJo's Bizarre Adventure", 'Fairy Tail', 'Dark Souls', 'God of War', 'Studio Ghibli',
   'James Bond', 'Le Parrain', 'How I Met Your Mother', 'Queen', 'Daft Punk',
+  'Vinland Saga', 'Sword Art Online', 'Red Dead Redemption', 'Overwatch', 'Better Call Saul',
+  'Black Mirror', 'Jurassic Park', 'Retour vers le futur', 'The Beatles', 'Eminem',
 ];

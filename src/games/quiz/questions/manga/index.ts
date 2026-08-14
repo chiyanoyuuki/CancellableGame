@@ -25,8 +25,10 @@ import { opm } from './opm';
 import { promisedneverland } from './promisedneverland';
 import { slime } from './slime';
 import { sololeveling } from './sololeveling';
+import { sao } from './sao';
 import { spyfamily } from './spyfamily';
 import { tokyoghoul } from './tokyoghoul';
+import { vinland } from './vinland';
 
 /**
  * Thème Manga, organisé par univers (un fichier par univers).
@@ -63,4 +65,6 @@ export const mangaQuestions: Question[] = [
   ...opm,
   ...jojo,
   ...fairytail,
+  ...vinland,
+  ...sao,
 ];

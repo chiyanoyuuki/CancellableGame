@@ -3,6 +3,8 @@ import { acreed } from './acreed';
 import { baldursgate } from './baldursgate';
 import { clairobscur } from './clairobscur';
 import { cod } from './cod';
+import { overwatch } from './overwatch';
+import { reddead } from './reddead';
 import { cyberpunk } from './cyberpunk';
 import { devilmaycry } from './devilmaycry';
 import { dofus } from './dofus';
@@ -74,4 +76,6 @@ export const jeuxvideoQuestions: Question[] = [
   ...genshin,
   ...darksouls,
   ...godofwar,
+  ...reddead,
+  ...overwatch,
 ];

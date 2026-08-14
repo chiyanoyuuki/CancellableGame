@@ -1,5 +1,7 @@
 import type { Question } from '../../../../core/models';
 import { arcane } from './arcane';
+import { bettercallsaul } from './bettercallsaul';
+import { blackmirror } from './blackmirror';
 import { breakingbad } from './breakingbad';
 import { casadepapel } from './casadepapel';
 import { familyguy } from './familyguy';
@@ -51,4 +53,6 @@ export const seriesQuestions: Question[] = [
   ...rickmorty,
   ...lupin,
   ...himym,
+  ...bettercallsaul,
+  ...blackmirror,
 ];

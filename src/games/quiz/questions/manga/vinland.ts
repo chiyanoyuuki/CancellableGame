@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const vinland = universe("manga", "Vinland Saga", [
+  // --- Faciles (5) ---
+  { id: "vinland-f1", d: 1, t: "Qui est le héros principal de Vinland Saga ?", a: "Thorfinn", acc: ["thorfinn"], x: ["Askeladd", "Canute", "Thorkell"] },
+  { id: "vinland-f2", d: 1, t: "À quel peuple guerrier appartient Thorfinn ?", a: "Les Vikings", acc: ["vikings", "les vikings"], x: ["Les Romains", "Les Samouraïs", "Les Mongols"] },
+  { id: "vinland-f3", d: 1, t: "Que cherche Thorfinn à faire au début de l'histoire ?", a: "Venger la mort de son père", acc: ["venger son père", "vengeance"], x: ["Devenir roi", "Trouver un trésor", "Retrouver sa mère"] },
+  { id: "vinland-f4", d: 1, t: "Comment s'appelle le père de Thorfinn, un guerrier légendaire ?", a: "Thors", acc: ["thors"], x: ["Sweyn", "Floki", "Bjorn"] },
+  { id: "vinland-f5", d: 1, t: "Quelle terre lointaine et paisible donne son titre à l'œuvre ?", a: "Vinland", acc: ["vinland"], x: ["Islande", "Groenland", "Angleterre"] },
+
+  // --- Moyennes (10) ---
+  { id: "vinland-m1", d: 2, t: "Qui tue Thors, le père de Thorfinn ?", a: "Askeladd", acc: ["askeladd"], x: ["Thorkell", "Canute", "Floki"] },
+  { id: "vinland-m2", d: 2, t: "Quel chef de bande mercenaire Thorfinn suit-il pour pouvoir le défier ?", a: "Askeladd", acc: ["askeladd"], x: ["Thorkell", "Sweyn", "Bjorn"] },
+  { id: "vinland-m3", d: 2, t: "Quel jeune prince d'apparence fragile devient un personnage central ?", a: "Canute", acc: ["canute", "knut"], x: ["Harald", "Sweyn", "Olaf"] },
+  { id: "vinland-m4", d: 2, t: "Quel guerrier colossal adore se battre plus que tout ?", a: "Thorkell", acc: ["thorkell"], x: ["Askeladd", "Thors", "Bjorn"] },
+  { id: "vinland-m5", d: 2, t: "Quelles armes de prédilection Thorfinn manie-t-il ?", a: "Deux dagues", acc: ["dagues", "couteaux", "poignards"], x: ["Une hache", "Une épée longue", "Un arc"] },
+  { id: "vinland-m6", d: 2, t: "Quelle nation les Vikings envahissent-ils dans l'arc de guerre ?", a: "L'Angleterre", acc: ["angleterre"], x: ["La France", "L'Irlande", "La Norvège"] },
+  { id: "vinland-m7", d: 2, t: "De quel royaume Sweyn est-il le roi ?", a: "Le Danemark", acc: ["danemark"], x: ["La Suède", "La Norvège", "L'Angleterre"] },
+  { id: "vinland-m8", d: 2, t: "Comment Thorfinn obtient-il souvent le droit de défier Askeladd ?", a: "En accomplissant un exploit au combat", acc: ["un exploit", "un duel", "un service"], x: ["En payant de l'or", "En gagnant aux dés", "En chantant"] },
+  { id: "vinland-m9", d: 2, t: "Après la mort d'Askeladd, dans quelle condition Thorfinn tombe-t-il ?", a: "Il devient esclave", acc: ["esclave", "esclavage"], x: ["Il devient roi", "Il devient marchand", "Il devient prêtre"] },
+  { id: "vinland-m10", d: 2, t: "Quel idéal Thorfinn adulte finit-il par embrasser ?", a: "Une vie sans guerre ni violence", acc: ["la paix", "sans guerre", "non-violence"], x: ["La conquête du monde", "La richesse", "La gloire militaire"] },
+
+  // --- Dures (15) ---
+  { id: "vinland-d1", d: 3, t: "De quelle île nordique Thors s'était-il exilé pour vivre en paix ?", a: "L'Islande", acc: ["islande"], x: ["Le Groenland", "Les Féroé", "Gotland"] },
+  { id: "vinland-d2", d: 3, t: "Quel corps de guerriers d'élite Thors avait-il déserté ?", a: "Les Jomsvikings", acc: ["jomsvikings", "jomsviking", "jomsborg"], x: ["La Garde varègue", "Les Berserkers", "Les Housecarls"] },
+  { id: "vinland-d3", d: 3, t: "Quel esclave devient l'ami et compagnon de labour de Thorfinn à la ferme ?", a: "Einar", acc: ["einar"], x: ["Snake", "Sverkel", "Thorgil"] },
+  { id: "vinland-d4", d: 3, t: "À qui appartient la grande ferme où Thorfinn est réduit en esclavage ?", a: "Ketil", acc: ["ketil"], x: ["Sverkel", "Sweyn", "Floki"] },
+  { id: "vinland-d5", d: 3, t: "Quel chef des gardes de la ferme est un épéiste redoutable ?", a: "Snake", acc: ["snake"], x: ["Thorgil", "Einar", "Olmar"] },
+  { id: "vinland-d6", d: 3, t: "Quel secret Askeladd cache-t-il sur ses origines ?", a: "Il est en partie gallois", acc: ["gallois", "pays de galles"], x: ["Il est franc", "Il est saxon", "Il est irlandais"] },
+  { id: "vinland-d7", d: 3, t: "De quel héros légendaire Askeladd se dit-il le descendant ?", a: "Artorius (le roi Arthur)", acc: ["artorius", "arthur", "roi arthur"], x: ["Beowulf", "Siegfried", "Rollon"] },
+  { id: "vinland-d8", d: 3, t: "Quelle tactique Askeladd privilégie-t-il face à des forces supérieures ?", a: "L'embuscade et la ruse", acc: ["embuscade", "ruse", "tromperie"], x: ["La charge frontale", "Le siège prolongé", "Le duel d'honneur"] },
+  { id: "vinland-d9", d: 3, t: "Qui Askeladd tue-t-il juste avant de mourir, pour protéger le Pays de Galles ?", a: "Le roi Sweyn", acc: ["sweyn", "le roi sweyn"], x: ["Canute", "Thorkell", "Thorfinn"] },
+  { id: "vinland-d10", d: 3, t: "Quel conseiller religieux influence le prince Canute ?", a: "Le père Willibald", acc: ["willibald"], x: ["Le père Ansgar", "Le moine Beda", "Le père Léon"] },
+  { id: "vinland-d11", d: 3, t: "Quel personnage énonce la fameuse idée « un vrai guerrier n'a pas besoin d'épée » ?", a: "Thors", acc: ["thors"], x: ["Askeladd", "Thorkell", "Canute"] },
+  { id: "vinland-d12", d: 3, t: "Quel fils de Ketil, arrogant, provoque des drames à la ferme ?", a: "Olmar", acc: ["olmar"], x: ["Thorgil", "Einar", "Snake"] },
+  { id: "vinland-d13", d: 3, t: "Comment s'appelle la sœur de Thorfinn restée en Islande ?", a: "Ylva", acc: ["ylva"], x: ["Helga", "Gudrid", "Sigrid"] },
+  { id: "vinland-d14", d: 3, t: "Quelle jeune femme veuve rejoint plus tard le projet d'expédition de Thorfinn ?", a: "Gudrid", acc: ["gudrid"], x: ["Ylva", "Helga", "Arnheid"] },
+  { id: "vinland-d15", d: 3, t: "Quelle esclave, dont le destin est tragique, marque Einar à la ferme ?", a: "Arnheid", acc: ["arnheid"], x: ["Gudrid", "Ylva", "Helga"] },
+
+  // --- Pro (20) ---
+  { id: "vinland-p1", d: 4, t: "Qui est l'auteur de Vinland Saga ?", a: "Makoto Yukimura", acc: ["makoto yukimura", "yukimura"], x: ["Kentaro Miura", "Hajime Isayama", "Naoki Urasawa"] },
+  { id: "vinland-p2", d: 4, t: "Quelle œuvre de SF spatiale Yukimura avait-il dessinée avant Vinland Saga ?", a: "Planetes", acc: ["planetes", "planètes"], x: ["Sidonia", "Blame!", "Vagabond"] },
+  { id: "vinland-p3", d: 4, t: "Dans quel magazine Vinland Saga est-il prépublié depuis 2005 ?", a: "Afternoon", acc: ["afternoon"], x: ["Weekly Shonen Jump", "Young Magazine", "Morning"] },
+  { id: "vinland-p4", d: 4, t: "Quel studio a produit la première saison de l'anime (2019) ?", a: "Wit Studio", acc: ["wit studio", "wit"], x: ["MAPPA", "Ufotable", "Madhouse"] },
+  { id: "vinland-p5", d: 4, t: "Quel studio a repris la deuxième saison de l'anime ?", a: "MAPPA", acc: ["mappa"], x: ["Wit Studio", "Bones", "Production I.G"] },
+  { id: "vinland-p6", d: 4, t: "Quel explorateur viking historique inspire l'arc final vers l'Amérique ?", a: "Leif Erikson", acc: ["leif erikson", "leif ericson", "leif"], x: ["Erik le Rouge", "Rollon", "Harald"] },
+  { id: "vinland-p7", d: 4, t: "Comment s'appelle le marin bienveillant et bavard qui a connu Vinland ?", a: "Leif Erikson", acc: ["leif erikson", "leif"], x: ["Sverkel", "Snake", "Bug-Eyes"] },
+  { id: "vinland-p8", d: 4, t: "Quel roi anglais est renversé par l'invasion danoise dans le récit ?", a: "Æthelred (Ethelred le Malavisé)", acc: ["ethelred", "aethelred", "æthelred"], x: ["Alfred le Grand", "Harold", "Edgar"] },
+  { id: "vinland-p9", d: 4, t: "Quel bras droit fidèle et rusé seconde Askeladd, borgne ?", a: "Bjorn", acc: ["bjorn", "björn"], x: ["Atli", "Torgrim", "Snake"] },
+  { id: "vinland-p10", d: 4, t: "Quelle substance Bjorn consomme-t-il pour devenir un berserker au combat ?", a: "Un champignon (amanite)", acc: ["champignon", "amanite", "champignons"], x: ["De l'hydromel", "Du sang", "Une herbe"] },
+  { id: "vinland-p11", d: 4, t: "Comment meurt Bjorn ?", a: "Achevé par Askeladd après un duel, à sa demande", acc: ["tué par askeladd", "askeladd", "duel avec askeladd"], x: ["Au combat contre Thorkell", "De maladie", "Noyé"] },
+  { id: "vinland-p12", d: 4, t: "Quel était le vrai nom d'Askeladd, hérité de sa mère galloise ?", a: "Lucius Artorius Castus", acc: ["lucius artorius castus", "lucius", "artorius"], x: ["Gawain", "Merlin", "Ambrosius"] },
+  { id: "vinland-p13", d: 4, t: "Comment s'appelle la mère esclave galloise d'Askeladd ?", a: "Lydia", acc: ["lydia"], x: ["Gwenllian", "Rhiannon", "Morgane"] },
+  { id: "vinland-p14", d: 4, t: "Quel fils aîné de Ketil, guerrier brutal, revient à la ferme et sème le chaos ?", a: "Thorgil", acc: ["thorgil"], x: ["Olmar", "Atli", "Snake"] },
+  { id: "vinland-p15", d: 4, t: "Quel personnage âgé, père de Ketil, vit reclus et cultive seul sa terre ?", a: "Sverkel", acc: ["sverkel"], x: ["Snake", "Willibald", "Floki"] },
+  { id: "vinland-p16", d: 4, t: "Qui manipule les événements pour éliminer Thors, en tant que chef des Jomsvikings ?", a: "Floki", acc: ["floki"], x: ["Sigvaldi", "Thorkell", "Askeladd"] },
+  { id: "vinland-p17", d: 4, t: "Quel titre Canute finit-il par obtenir sur l'Angleterre et le Danemark ?", a: "Roi (Knut le Grand)", acc: ["roi", "knut le grand", "canute le grand"], x: ["Empereur", "Duc", "Jarl"] },
+  { id: "vinland-p18", d: 4, t: "Comment s'appelle la mère de Thorfinn ?", a: "Helga", acc: ["helga"], x: ["Ylva", "Gudrid", "Arnheid"] },
+  { id: "vinland-p19", d: 4, t: "Quel guerrier gigantesque affronte Thorfinn en duel sur la glace pendant le siège de Londres ?", a: "Thorkell", acc: ["thorkell"], x: ["Bjorn", "Floki", "Snake"] },
+  { id: "vinland-p20", d: 4, t: "Quel proverbe résume la philosophie de Thors et du Thorfinn adulte ?", a: "« Tu n'as pas d'ennemis »", acc: ["tu n'as pas d'ennemis", "pas d'ennemis", "personne n'a d'ennemis"], x: ["« La force fait le droit »", "« Œil pour œil »", "« La fin justifie les moyens »"] },
+]);

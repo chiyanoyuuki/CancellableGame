@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const bettercallsaul = universe("series", "Better Call Saul", [
+  // --- Faciles (5) ---
+  { id: "bcs-f1", d: 1, t: "Better Call Saul est le préquel de quelle série culte ?", a: "Breaking Bad", acc: ["breaking bad"], x: ["The Wire", "Ozark", "Narcos"] },
+  { id: "bcs-f2", d: 1, t: "Quel métier exerce le héros de Better Call Saul ?", a: "Avocat", acc: ["avocat"], x: ["Médecin", "Policier", "Journaliste"] },
+  { id: "bcs-f3", d: 1, t: "Sous quel nom d'avocat le héros devient-il célèbre ?", a: "Saul Goodman", acc: ["saul goodman", "saul"], x: ["Jimmy McGill", "Walter White", "Gene"] },
+  { id: "bcs-f4", d: 1, t: "Quel est le vrai nom de Saul Goodman ?", a: "Jimmy McGill", acc: ["jimmy mcgill", "jimmy", "mcgill"], x: ["Gene Takavic", "Chuck", "Howard"] },
+  { id: "bcs-f5", d: 1, t: "Dans quelle ville du Nouveau-Mexique se déroule la série ?", a: "Albuquerque", acc: ["albuquerque"], x: ["Los Angeles", "El Paso", "Houston"] },
+
+  // --- Moyennes (10) ---
+  { id: "bcs-m1", d: 2, t: "Quel acteur incarne Jimmy McGill / Saul Goodman ?", a: "Bob Odenkirk", acc: ["bob odenkirk", "odenkirk"], x: ["Bryan Cranston", "Aaron Paul", "Giancarlo Esposito"] },
+  { id: "bcs-m2", d: 2, t: "Comment s'appelle l'avocate, amie et amour de Jimmy ?", a: "Kim Wexler", acc: ["kim", "kim wexler", "wexler"], x: ["Skyler", "Marie", "Lydia"] },
+  { id: "bcs-m3", d: 2, t: "Quel frère aîné de Jimmy, avocat brillant, souffre d'une étrange maladie ?", a: "Chuck McGill", acc: ["chuck", "chuck mcgill"], x: ["Howard", "Mike", "Nacho"] },
+  { id: "bcs-m4", d: 2, t: "Quel ex-policier taciturne devient homme à tout faire du crime ?", a: "Mike Ehrmantraut", acc: ["mike", "mike ehrmantraut", "ehrmantraut"], x: ["Hank", "Gus", "Victor"] },
+  { id: "bcs-m5", d: 2, t: "Quel patron de fast-food dissimule un empire de la drogue ?", a: "Gustavo Fring", acc: ["gus", "gustavo fring", "gus fring"], x: ["Hector", "Lalo", "Nacho"] },
+  { id: "bcs-m6", d: 2, t: "Quelle chaîne de poulet frit sert de façade à Gus Fring ?", a: "Los Pollos Hermanos", acc: ["los pollos hermanos", "pollos hermanos"], x: ["El Pollo Loco", "KFC", "Twisters"] },
+  { id: "bcs-m7", d: 2, t: "De quelle maladie Chuck prétend-il souffrir ?", a: "Une hypersensibilité à l'électricité", acc: ["électricité", "électro-hypersensibilité", "hypersensibilité"], x: ["Une allergie au soleil", "La claustrophobie", "L'insomnie"] },
+  { id: "bcs-m8", d: 2, t: "Quel surnom d'escroc Jimmy portait-il dans sa jeunesse ?", a: "Slippin' Jimmy", acc: ["slippin' jimmy", "slippin jimmy"], x: ["Saul", "Gene", "Lucky"] },
+  { id: "bcs-m9", d: 2, t: "Dans quel cabinet d'avocats prestigieux travaille Chuck ?", a: "HHM (Hamlin, Hamlin & McGill)", acc: ["hhm", "hamlin hamlin mcgill"], x: ["Davis & Main", "Schweikart & Cokely", "Wexler-McGill"] },
+  { id: "bcs-m10", d: 2, t: "Quel associé d'HHM, coiffé impeccablement, est le rival de Jimmy ?", a: "Howard Hamlin", acc: ["howard", "howard hamlin", "hamlin"], x: ["Chuck", "Kim", "Rich"] },
+
+  // --- Dures (15) ---
+  { id: "bcs-d1", d: 3, t: "Quel jeune trafiquant, coincé entre les Salamanca et Gus, cherche à protéger son père ?", a: "Nacho Varga", acc: ["nacho", "nacho varga", "ignacio"], x: ["Lalo", "Domingo", "Victor"] },
+  { id: "bcs-d2", d: 3, t: "Quel Salamanca charmeur et redoutable devient l'ennemi juré de Gus ?", a: "Lalo Salamanca", acc: ["lalo", "lalo salamanca", "eduardo"], x: ["Hector", "Tuco", "Nacho"] },
+  { id: "bcs-d3", d: 3, t: "Quel vieux baron muet, sonnant une clochette, dirige les Salamanca ?", a: "Hector Salamanca", acc: ["hector", "hector salamanca", "tio"], x: ["Lalo", "Tuco", "Don Eladio"] },
+  { id: "bcs-d4", d: 3, t: "Quel neveu violent d'Hector apparaît déjà, brutal et paranoïaque ?", a: "Tuco Salamanca", acc: ["tuco", "tuco salamanca"], x: ["Lalo", "Nacho", "Domingo"] },
+  { id: "bcs-d5", d: 3, t: "Sous quelle nouvelle identité Jimmy se cache-t-il après Breaking Bad ?", a: "Gene Takavic", acc: ["gene", "gene takavic", "takavic"], x: ["Saul Goodman", "Jimmy McGill", "Walt"] },
+  { id: "bcs-d6", d: 3, t: "Dans quelle ville, gérant un Cinnabon, Gene se cache-t-il ?", a: "Omaha", acc: ["omaha"], x: ["Albuquerque", "Denver", "Chicago"] },
+  { id: "bcs-d7", d: 3, t: "Dans quel commerce (glacier) Gene travaille-t-il sous couverture ?", a: "Un Cinnabon", acc: ["cinnabon", "un cinnabon"], x: ["Un Starbucks", "Un Dairy Queen", "Un Wendy's"] },
+  { id: "bcs-d8", d: 3, t: "Quel cartel dirige Don Eladio, allié puis rival de Gus ?", a: "Le cartel de Juárez", acc: ["cartel de juárez", "juárez", "juarez", "cartel"], x: ["Le cartel de Sinaloa", "Les Zetas", "Le cartel du Golfe"] },
+  { id: "bcs-d9", d: 3, t: "Quel « fixer » allemand Gus fait-il venir pour bâtir son laboratoire souterrain ?", a: "Werner Ziegler", acc: ["werner", "werner ziegler", "ziegler"], x: ["Gale", "Victor", "Tyrus"] },
+  { id: "bcs-d10", d: 3, t: "Quel nom porte le cabinet monté par Jimmy et Kim ensemble ?", a: "Wexler-McGill", acc: ["wexler-mcgill", "wexler mcgill"], x: ["HHM", "Davis & Main", "Schweikart & Cokely"] },
+  { id: "bcs-d11", d: 3, t: "Quel surnom Jimmy invente-t-il en vendant des téléphones jetables aux criminels ?", a: "Saul Goodman (« s'all good, man »)", acc: ["saul goodman", "s'all good man", "s'all good"], x: ["Slippin' Jimmy", "Gene", "Mr Mayhew"] },
+  { id: "bcs-d12", d: 3, t: "Quelle spécialité juridique, le droit des personnes âgées, Jimmy exploite-t-il un temps ?", a: "Le droit des seniors (elder law)", acc: ["droit des seniors", "elder law", "personnes âgées"], x: ["Le droit pénal", "Le droit des affaires", "Le droit de la famille"] },
+  { id: "bcs-d13", d: 3, t: "Comment Chuck McGill meurt-il ?", a: "Dans l'incendie de sa maison", acc: ["incendie", "dans l'incendie", "suicide par incendie"], x: ["D'une crise cardiaque", "Empoisonné", "Renversé"] },
+  { id: "bcs-d14", d: 3, t: "Quel calme homme de main de Gus, chauve, remplace peu à peu Victor ?", a: "Tyrus", acc: ["tyrus"], x: ["Victor", "Werner", "Nacho"] },
+  { id: "bcs-d15", d: 3, t: "Où travaille Mike quand il croise Jimmy pour la première fois ?", a: "À la guérite du parking du tribunal", acc: ["parking du tribunal", "guérite", "le parking"], x: ["Dans un bar", "Au cabinet HHM", "Chez Los Pollos Hermanos"] },
+
+  // --- Pro (20) ---
+  { id: "bcs-p1", d: 4, t: "Quels deux créateurs sont derrière Better Call Saul ?", a: "Vince Gilligan et Peter Gould", acc: ["vince gilligan et peter gould", "gilligan et gould", "vince gilligan"], x: ["David Chase", "David Simon", "Nic Pizzolatto"] },
+  { id: "bcs-p2", d: 4, t: "Quelle actrice incarne Kim Wexler ?", a: "Rhea Seehorn", acc: ["rhea seehorn", "seehorn"], x: ["Anna Gunn", "Betsy Brandt", "Laura Fraser"] },
+  { id: "bcs-p3", d: 4, t: "Quel acteur reprend le rôle glaçant de Gus Fring, déjà tenu dans Breaking Bad ?", a: "Giancarlo Esposito", acc: ["giancarlo esposito", "esposito"], x: ["Jonathan Banks", "Michael Mando", "Tony Dalton"] },
+  { id: "bcs-p4", d: 4, t: "Quel acteur incarne le charismatique Lalo Salamanca ?", a: "Tony Dalton", acc: ["tony dalton", "dalton"], x: ["Michael Mando", "Raymond Cruz", "Mark Margolis"] },
+  { id: "bcs-p5", d: 4, t: "Quel acteur, décédé depuis, jouait le muet Hector Salamanca à la clochette ?", a: "Mark Margolis", acc: ["mark margolis", "margolis"], x: ["Jonathan Banks", "Raymond Cruz", "Tony Dalton"] },
+  { id: "bcs-p6", d: 4, t: "Quel enquêteur privé, garde du corps costaud, travaille pour Saul (déjà dans Breaking Bad) ?", a: "Huell Babineaux", acc: ["huell", "huell babineaux"], x: ["Victor", "Tyrus", "Ed"] },
+  { id: "bcs-p7", d: 4, t: "Quel « nettoyeur » procure de nouvelles identités, surnommé « the Disappearer » ?", a: "Ed Galbraith", acc: ["ed", "ed galbraith", "the disappearer"], x: ["Mike", "Werner", "Saul"] },
+  { id: "bcs-p8", d: 4, t: "Combien de saisons compte Better Call Saul ?", a: "Six", acc: ["six", "6"], x: ["Cinq", "Sept", "Quatre"] },
+  { id: "bcs-p9", d: 4, t: "Quel chimiste blond, futur assistant de Walt, apparaît brièvement dans la série ?", a: "Gale Boetticher", acc: ["gale", "gale boetticher"], x: ["Jesse", "Werner", "Victor"] },
+  { id: "bcs-p10", d: 4, t: "Quel titre porte le tout dernier épisode de la série ?", a: "Saul Gone", acc: ["saul gone"], x: ["Felina", "Breaking Bad", "Marion"] },
+  { id: "bcs-p11", d: 4, t: "Quelle vieille dame perspicace démasque Gene grâce à sa ruse, dans le final ?", a: "Marion", acc: ["marion"], x: ["Kim", "Francesca", "Betsy"] },
+  { id: "bcs-p12", d: 4, t: "Quelle actrice célèbre (Carol Burnett) incarne cette Marion ?", a: "Carol Burnett", acc: ["carol burnett", "burnett"], x: ["Jane Fonda", "Betty White", "Rhea Seehorn"] },
+  { id: "bcs-p13", d: 4, t: "Quel filtre visuel signale les scènes « présent » de Gene à Omaha ?", a: "Le noir et blanc", acc: ["noir et blanc", "black and white"], x: ["Le sépia", "Le flou", "Le ralenti"] },
+  { id: "bcs-p14", d: 4, t: "Quel couple d'escrocs, Craig et Betsy, Jimmy et Kim arnaquent-ils au bar (Giselle et Viktor) ?", a: "Les Kettleman", acc: ["kettleman", "les kettleman"], x: ["Les Hamlin", "Les Wexler", "Les Ziegler"] },
+  { id: "bcs-p15", d: 4, t: "Quel dépôt secret Gus construit-il, futur super-laboratoire, sous une blanchisserie ?", a: "Le laboratoire souterrain (sous Lavanderia Brillante)", acc: ["laboratoire souterrain", "super labo", "blanchisserie", "lavanderia"], x: ["Un entrepôt", "Une casse", "Un bunker militaire"] },
+  { id: "bcs-p16", d: 4, t: "Quel avocat associé de Schweikart & Cokely recrute Kim un temps ?", a: "Rich Schweikart", acc: ["rich schweikart", "schweikart"], x: ["Howard Hamlin", "Clifford Main", "Erin Brill"] },
+  { id: "bcs-p17", d: 4, t: "Quelle secrétaire de Saul travaille déjà pour lui, agacée par tout ?", a: "Francesca", acc: ["francesca"], x: ["Kim", "Marion", "Stacey"] },
+  { id: "bcs-p18", d: 4, t: "Quelle belle-fille de Mike, veuve de son fils policier, l'inquiète beaucoup ?", a: "Stacey", acc: ["stacey"], x: ["Kim", "Francesca", "Marion"] },
+  { id: "bcs-p19", d: 4, t: "À combien d'années de prison Jimmy est-il finalement condamné après ses aveux ?", a: "86 ans", acc: ["86 ans", "86", "quatre-vingt-six ans"], x: ["7 ans", "20 ans", "Perpétuité"] },
+  { id: "bcs-p20", d: 4, t: "Que partagent Jimmy et Kim dans la toute dernière scène, en prison ?", a: "Une cigarette", acc: ["une cigarette", "cigarette"], x: ["Une lettre", "Un dernier verre", "Un dossier"] },
+]);

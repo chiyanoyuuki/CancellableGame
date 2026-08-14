@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const blackmirror = universe("series", "Black Mirror", [
+  // --- Faciles (5) ---
+  { id: "blackmirror-f1", d: 1, t: "Quel est le thème central de Black Mirror ?", a: "Les dérives de la technologie", acc: ["technologie", "dérives technologiques", "la tech"], x: ["La magie", "L'histoire médiévale", "Le sport"] },
+  { id: "blackmirror-f2", d: 1, t: "Quelle est la particularité de la structure de Black Mirror ?", a: "C'est une anthologie (épisodes indépendants)", acc: ["anthologie", "épisodes indépendants", "indépendants"], x: ["Une seule histoire continue", "Un documentaire", "Une sitcom"] },
+  { id: "blackmirror-f3", d: 1, t: "Que désigne le « miroir noir » du titre ?", a: "Un écran éteint", acc: ["écran éteint", "un écran", "écran"], x: ["Un vrai miroir", "Un trou noir", "Une âme sombre"] },
+  { id: "blackmirror-f4", d: 1, t: "De quel pays la série est-elle originaire ?", a: "Le Royaume-Uni", acc: ["royaume-uni", "angleterre", "uk", "grande-bretagne"], x: ["Les États-Unis", "Le Canada", "L'Australie"] },
+  { id: "blackmirror-f5", d: 1, t: "Sur quelle plateforme Black Mirror est-elle surtout diffusée depuis 2016 ?", a: "Netflix", acc: ["netflix"], x: ["HBO", "Amazon Prime", "Disney+"] },
+
+  // --- Moyennes (10) ---
+  { id: "blackmirror-m1", d: 2, t: "Qui est le créateur de Black Mirror ?", a: "Charlie Brooker", acc: ["charlie brooker", "brooker"], x: ["Chris Morris", "Russell T Davies", "Charlie Kaufman"] },
+  { id: "blackmirror-m2", d: 2, t: "Sur quelle chaîne britannique la série a-t-elle débuté en 2011 ?", a: "Channel 4", acc: ["channel 4", "channel four"], x: ["BBC", "ITV", "Sky"] },
+  { id: "blackmirror-m3", d: 2, t: "Quel épisode montre un Premier ministre contraint à un acte humiliant pour sauver une princesse ?", a: "L'Hymne national (The National Anthem)", acc: ["l'hymne national", "the national anthem", "hymne national"], x: ["Chute libre", "White Bear", "Metalhead"] },
+  { id: "blackmirror-m4", d: 2, t: "Quel épisode imagine une société où chacun note les autres de 1 à 5 étoiles ?", a: "Chute libre (Nosedive)", acc: ["chute libre", "nosedive"], x: ["San Junipero", "Bandersnatch", "USS Callister"] },
+  { id: "blackmirror-m5", d: 2, t: "Quel épisode-film interactif laisse le spectateur choisir l'histoire ?", a: "Bandersnatch", acc: ["bandersnatch"], x: ["San Junipero", "Playtest", "Metalhead"] },
+  { id: "blackmirror-m6", d: 2, t: "Quel épisode culte suit deux femmes dans un paradis virtuel des années 80 ?", a: "San Junipero", acc: ["san junipero"], x: ["Nosedive", "USS Callister", "Hang the DJ"] },
+  { id: "blackmirror-m7", d: 2, t: "Quel épisode parodie l'univers de Star Trek dans un jeu vidéo ?", a: "USS Callister", acc: ["uss callister"], x: ["Playtest", "Bandersnatch", "Metalhead"] },
+  { id: "blackmirror-m8", d: 2, t: "Quel épisode imagine un implant enregistrant tous nos souvenirs, revisionnables ?", a: "Retour sur image (The Entire History of You)", acc: ["the entire history of you", "retour sur image", "entire history"], x: ["Be Right Back", "White Christmas", "Arkangel"] },
+  { id: "blackmirror-m9", d: 2, t: "Quel épisode suit une femme réanimant son compagnon mort via ses données en ligne ?", a: "Bientôt de retour (Be Right Back)", acc: ["be right back", "bientôt de retour"], x: ["San Junipero", "Crocodile", "Arkangel"] },
+  { id: "blackmirror-m10", d: 2, t: "Quel objet du quotidien symbolise la peur véhiculée par la série ?", a: "Les écrans et smartphones", acc: ["écrans", "smartphones", "téléphones", "écran"], x: ["Les voitures", "Les livres", "Les horloges"] },
+
+  // --- Dures (15) ---
+  { id: "blackmirror-d1", d: 3, t: "Quel épisode d'anthologie relie plusieurs histoires via un « cookie » de conscience et Jon Hamm ?", a: "White Christmas", acc: ["white christmas"], x: ["White Bear", "Black Museum", "USS Callister"] },
+  { id: "blackmirror-d2", d: 3, t: "Quel acteur (Mad Men) tient le rôle principal de White Christmas ?", a: "Jon Hamm", acc: ["jon hamm", "hamm"], x: ["Bryce Dallas Howard", "Jesse Plemons", "Daniel Kaluuya"] },
+  { id: "blackmirror-d3", d: 3, t: "Quelle actrice incarne l'héroïne obsédée par sa note sociale dans « Chute libre » ?", a: "Bryce Dallas Howard", acc: ["bryce dallas howard", "bryce dallas", "howard"], x: ["Gugu Mbatha-Raw", "Hayley Atwell", "Miley Cyrus"] },
+  { id: "blackmirror-d4", d: 3, t: "Quel épisode enferme un capitaine tyrannique clonant ses collègues dans un jeu spatial ?", a: "USS Callister", acc: ["uss callister"], x: ["Playtest", "White Bear", "Metalhead"] },
+  { id: "blackmirror-d5", d: 3, t: "Quel acteur (Breaking Bad) joue le capitaine Robert Daly dans USS Callister ?", a: "Jesse Plemons", acc: ["jesse plemons", "plemons"], x: ["Jon Hamm", "Daniel Kaluuya", "Rory Kinnear"] },
+  { id: "blackmirror-d6", d: 3, t: "Quel épisode en noir et blanc oppose un survivant à des « chiens » robots tueurs ?", a: "Metalhead", acc: ["metalhead"], x: ["White Bear", "Crocodile", "Men Against Fire"] },
+  { id: "blackmirror-d7", d: 3, t: "Quel épisode voit une mère surveiller sa fille via un implant oculaire, « Arkangel » ?", a: "Arkangel", acc: ["arkangel"], x: ["Crocodile", "Shut Up and Dance", "Playtest"] },
+  { id: "blackmirror-d8", d: 3, t: "Quelle réalisatrice hollywoodienne signe l'épisode Arkangel ?", a: "Jodie Foster", acc: ["jodie foster", "foster"], x: ["Kathryn Bigelow", "Greta Gerwig", "Sofia Coppola"] },
+  { id: "blackmirror-d9", d: 3, t: "Quel épisode suit un homme testant un jeu de réalité augmentée terrifiant, « Playtest » ?", a: "Playtest", acc: ["playtest"], x: ["Bandersnatch", "USS Callister", "Metalhead"] },
+  { id: "blackmirror-d10", d: 3, t: "Quel épisode voit des abeilles-drones détournées pour tuer les personnes les plus détestées en ligne ?", a: "Haine virtuelle (Hated in the Nation)", acc: ["hated in the nation", "haine virtuelle"], x: ["Smithereens", "Crocodile", "Shut Up and Dance"] },
+  { id: "blackmirror-d11", d: 3, t: "Quel épisode « Hang the DJ » imagine une appli de rencontres qui impose la durée des couples ?", a: "Hang the DJ", acc: ["hang the dj"], x: ["San Junipero", "Nosedive", "Be Right Back"] },
+  { id: "blackmirror-d12", d: 3, t: "Quel épisode « Shut Up and Dance » suit un ado piégé par un chantage à la webcam ?", a: "Shut Up and Dance", acc: ["shut up and dance"], x: ["Crocodile", "White Bear", "Playtest"] },
+  { id: "blackmirror-d13", d: 3, t: "Quel épisode « White Bear » enferme une femme amnésique dans un parc-punition ?", a: "White Bear", acc: ["white bear"], x: ["White Christmas", "Metalhead", "Crocodile"] },
+  { id: "blackmirror-d14", d: 3, t: "Quel épisode met en scène un caricaturiste dont l'ours bleu grossier « Waldo » se présente aux élections ?", a: "Le Show de Waldo (The Waldo Moment)", acc: ["the waldo moment", "waldo", "le show de waldo"], x: ["Smithereens", "Nosedive", "Hated in the Nation"] },
+  { id: "blackmirror-d15", d: 3, t: "Quel épisode « Black Museum » présente un musée d'horreurs technologiques ?", a: "Black Museum", acc: ["black museum"], x: ["White Bear", "USS Callister", "Crocodile"] },
+
+  // --- Pro (20) ---
+  { id: "blackmirror-p1", d: 4, t: "Quel tout premier épisode de la série a fait scandale par son intrigue avec un cochon ?", a: "L'Hymne national (The National Anthem)", acc: ["the national anthem", "l'hymne national", "hymne national"], x: ["Fifteen Million Merits", "White Bear", "The Waldo Moment"] },
+  { id: "blackmirror-p2", d: 4, t: "Quel épisode montre un monde où l'on pédale pour gagner des « mérites » et où Bing rêve de gloire ?", a: "Fifteen Million Merits", acc: ["fifteen million merits", "15 million merits"], x: ["Nosedive", "Metalhead", "Playtest"] },
+  { id: "blackmirror-p3", d: 4, t: "Quel acteur (Get Out) joue Bing dans « Fifteen Million Merits » ?", a: "Daniel Kaluuya", acc: ["daniel kaluuya", "kaluuya"], x: ["John Boyega", "Jesse Plemons", "Rory Kinnear"] },
+  { id: "blackmirror-p4", d: 4, t: "Quel acteur incarne le Premier ministre dans « L'Hymne national » ?", a: "Rory Kinnear", acc: ["rory kinnear", "kinnear"], x: ["Jon Hamm", "Daniel Kaluuya", "Jesse Plemons"] },
+  { id: "blackmirror-p5", d: 4, t: "Quelle productrice a longtemps co-dirigé Black Mirror aux côtés de Charlie Brooker ?", a: "Annabel Jones", acc: ["annabel jones", "annabel"], x: ["Shonda Rhimes", "Jane Featherstone", "Sophie Turner"] },
+  { id: "blackmirror-p6", d: 4, t: "Dans quel épisode Miley Cyrus joue-t-elle une pop star et sa poupée connectée « Ashley Too » ?", a: "Rachel, Jack and Ashley Too", acc: ["rachel jack and ashley too", "ashley too", "rachel jack ashley too"], x: ["Smithereens", "Striking Vipers", "San Junipero"] },
+  { id: "blackmirror-p7", d: 4, t: "Quel épisode « Striking Vipers » explore une liaison entre amis via un jeu de combat en VR ?", a: "Striking Vipers", acc: ["striking vipers"], x: ["Playtest", "USS Callister", "Hang the DJ"] },
+  { id: "blackmirror-p8", d: 4, t: "Quel épisode « Smithereens » suit un chauffeur VTC prenant un employé d'un réseau social en otage ?", a: "Smithereens", acc: ["smithereens"], x: ["Hated in the Nation", "Shut Up and Dance", "The Waldo Moment"] },
+  { id: "blackmirror-p9", d: 4, t: "Quel acteur (Fleabag / Andrew Scott) tient le rôle du chauffeur dans « Smithereens » ?", a: "Andrew Scott", acc: ["andrew scott", "scott"], x: ["Jon Hamm", "Topher Grace", "Rory Kinnear"] },
+  { id: "blackmirror-p10", d: 4, t: "Dans quel jeu vidéo fictif se déroule Bandersnatch, en 1984 ?", a: "Un jeu d'aventure dont on est le héros", acc: ["dont on est le héros", "jeu dont vous êtes le héros", "livre-jeu"], x: ["Un jeu de course", "Un FPS", "Un jeu de foot"] },
+  { id: "blackmirror-p11", d: 4, t: "Quel jeune acteur incarne Stefan, le programmeur de Bandersnatch ?", a: "Fionn Whitehead", acc: ["fionn whitehead", "whitehead"], x: ["Will Poulter", "Asa Butterfield", "Daniel Kaluuya"] },
+  { id: "blackmirror-p12", d: 4, t: "Quel acteur (The Revenant) joue le développeur star Colin Ritman dans Bandersnatch ?", a: "Will Poulter", acc: ["will poulter", "poulter"], x: ["Fionn Whitehead", "Andrew Scott", "Jesse Plemons"] },
+  { id: "blackmirror-p13", d: 4, t: "Quelles deux actrices forment le couple de « San Junipero » ?", a: "Gugu Mbatha-Raw et Mackenzie Davis", acc: ["gugu mbatha-raw et mackenzie davis", "gugu mbatha-raw", "mackenzie davis"], x: ["Bryce Dallas Howard et Alice Eve", "Hayley Atwell et Domhnall Gleeson", "Miley Cyrus et Angourie Rice"] },
+  { id: "blackmirror-p14", d: 4, t: "Quelle chanson des années 80 accompagne la fin heureuse de « San Junipero » ?", a: "Heaven Is a Place on Earth (Belinda Carlisle)", acc: ["heaven is a place on earth", "belinda carlisle"], x: ["Take On Me", "Girls Just Want to Have Fun", "Africa"] },
+  { id: "blackmirror-p15", d: 4, t: "Quel épisode de la saison 6 imagine une femme découvrant sa vie diffusée en série sur « Streamberry » ?", a: "Joan Is Awful", acc: ["joan is awful"], x: ["Loch Henry", "Mazey Day", "Beyond the Sea"] },
+  { id: "blackmirror-p16", d: 4, t: "Quelle actrice (Salma Hayek) se joue elle-même dans « Joan Is Awful » ?", a: "Salma Hayek", acc: ["salma hayek", "hayek"], x: ["Annie Murphy", "Miley Cyrus", "Aaron Paul"] },
+  { id: "blackmirror-p17", d: 4, t: "Quel épisode « Be Right Back » met en vedette Hayley Atwell et Domhnall Gleeson ?", a: "Be Right Back (Bientôt de retour)", acc: ["be right back", "bientôt de retour"], x: ["Crocodile", "Arkangel", "Playtest"] },
+  { id: "blackmirror-p18", d: 4, t: "Quel épisode islandais « Crocodile » suit une femme couvrant un meurtre grâce à une machine à souvenirs ?", a: "Crocodile", acc: ["crocodile"], x: ["Shut Up and Dance", "White Bear", "Smithereens"] },
+  { id: "blackmirror-p19", d: 4, t: "Quel épisode « Men Against Fire » révèle que des implants font voir les ennemis comme des monstres ?", a: "Men Against Fire", acc: ["men against fire"], x: ["Metalhead", "Playtest", "White Bear"] },
+  { id: "blackmirror-p20", d: 4, t: "Sous quelle forme le compagnon décédé « revient » à la fin de « Be Right Back » ?", a: "Un androïde synthétique", acc: ["androïde", "un robot", "clone synthétique", "synthétique"], x: ["Un hologramme", "Une voix seulement", "Un avatar VR"] },
+]);

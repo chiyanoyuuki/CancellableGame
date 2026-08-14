@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const overwatch = universe("jeuxvideo", "Overwatch", [
+  // --- Faciles (5) ---
+  { id: "ow-f1", d: 1, t: "Quel studio a créé Overwatch ?", a: "Blizzard", acc: ["blizzard", "blizzard entertainment"], x: ["Riot Games", "Valve", "Epic Games"] },
+  { id: "ow-f2", d: 1, t: "De quel genre de jeu Overwatch fait-il partie ?", a: "Un jeu de tir en équipe (hero shooter)", acc: ["hero shooter", "fps", "jeu de tir", "tir en équipe"], x: ["Un jeu de course", "Un jeu de cartes", "Un jeu de gestion"] },
+  { id: "ow-f3", d: 1, t: "Quelle héroïne anglaise rapide, aux lunettes, est la mascotte d'Overwatch ?", a: "Tracer", acc: ["tracer"], x: ["Widowmaker", "Mercy", "Sombra"] },
+  { id: "ow-f4", d: 1, t: "Combien de joueurs composent chaque équipe dans Overwatch premier du nom ?", a: "Six", acc: ["six", "6"], x: ["Cinq", "Dix", "Quatre"] },
+  { id: "ow-f5", d: 1, t: "Comment s'appelle chaque personnage jouable d'Overwatch ?", a: "Un héros", acc: ["héros", "un héros", "hero"], x: ["Un agent", "Un champion", "Une légende"] },
+
+  // --- Moyennes (10) ---
+  { id: "ow-m1", d: 2, t: "Quel colosse allemand en armure porte un immense marteau et un bouclier ?", a: "Reinhardt", acc: ["reinhardt"], x: ["Roadhog", "Winston", "Doomfist"] },
+  { id: "ow-m2", d: 2, t: "Quel gorille scientifique à lunettes combat avec un canon Tesla ?", a: "Winston", acc: ["winston"], x: ["Reinhardt", "Wrecking Ball", "Roadhog"] },
+  { id: "ow-m3", d: 2, t: "Quel cyborg ninja vert lance des shurikens et manie un katana ?", a: "Genji", acc: ["genji"], x: ["Hanzo", "Reaper", "Sombra"] },
+  { id: "ow-m4", d: 2, t: "Quel archer, frère de Genji, invoque un dragon d'énergie ?", a: "Hanzo", acc: ["hanzo"], x: ["Genji", "Widowmaker", "Ana"] },
+  { id: "ow-m5", d: 2, t: "Quelle soigneuse suisse ailée ressuscite ses alliés ?", a: "Mercy", acc: ["mercy", "ange"], x: ["Ana", "Moira", "Brigitte"] },
+  { id: "ow-m6", d: 2, t: "Quel personnage encapuchonné, aux deux fusils à pompe, crie « Die, die, die ! » ?", a: "Reaper", acc: ["reaper", "faucheur"], x: ["Soldier: 76", "Sombra", "McCree"] },
+  { id: "ow-m7", d: 2, t: "Quelle tireuse d'élite à la peau bleue est une assassin de Talon ?", a: "Widowmaker", acc: ["widowmaker", "fatale"], x: ["Sombra", "Ashe", "Sojourn"] },
+  { id: "ow-m8", d: 2, t: "Quelle pilote coréenne combat dans un méca et joue au jeu vidéo ?", a: "D.Va", acc: ["d.va", "dva"], x: ["Sombra", "Mei", "Kiriko"] },
+  { id: "ow-m9", d: 2, t: "Quelle scientifique chinoise gèle ses ennemis avec un pistolet à glace ?", a: "Mei", acc: ["mei"], x: ["D.Va", "Symmetra", "Zarya"] },
+  { id: "ow-m10", d: 2, t: "En quelle année le premier Overwatch est-il sorti ?", a: "2016", acc: ["2016"], x: ["2014", "2018", "2012"] },
+
+  // --- Dures (15) ---
+  { id: "ow-d1", d: 3, t: "Comment s'appelle l'organisation terroriste ennemie d'Overwatch ?", a: "Talon", acc: ["talon"], x: ["Vishkar", "Null Sector", "Helix"] },
+  { id: "ow-d2", d: 3, t: "Quels sont les trois rôles de héros dans Overwatch ?", a: "Tank, Dégâts, Soutien", acc: ["tank dégâts soutien", "tank damage support", "tank dps support"], x: ["Attaque, Défense, Magie", "Force, Agilité, Intelligence", "Assassin, Mage, Guerrier"] },
+  { id: "ow-d3", d: 3, t: "Quel ancien commandant d'Overwatch se cache sous le masque de « Soldat : 76 » ?", a: "Jack Morrison", acc: ["jack morrison", "morrison", "soldat 76", "soldier 76"], x: ["Gabriel Reyes", "Reinhardt", "Ana"] },
+  { id: "ow-d4", d: 3, t: "Quel ancien d'Overwatch, présumé mort, est en réalité devenu Reaper ?", a: "Gabriel Reyes", acc: ["gabriel reyes", "reyes"], x: ["Jack Morrison", "Doomfist", "Sigma"] },
+  { id: "ow-d5", d: 3, t: "Quelle hackeuse mexicaine de Talon pirate ses ennemis et devient invisible ?", a: "Sombra", acc: ["sombra"], x: ["Widowmaker", "Ashe", "Symmetra"] },
+  { id: "ow-d6", d: 3, t: "Quel poing puissant Talon a-t-il libéré, chef à gantelet destructeur ?", a: "Doomfist", acc: ["doomfist"], x: ["Reaper", "Sigma", "Reinhardt"] },
+  { id: "ow-d7", d: 3, t: "Quelle mère et sniper égyptienne, ancienne d'Overwatch, est la mère de Pharah ?", a: "Ana", acc: ["ana", "ana amari"], x: ["Mercy", "Moira", "Brigitte"] },
+  { id: "ow-d8", d: 3, t: "Quelle soldate à réacteur, fille d'Ana, tire des roquettes ?", a: "Pharah", acc: ["pharah", "fareeha", "fareeha amari"], x: ["Ana", "Mercy", "Sojourn"] },
+  { id: "ow-d9", d: 3, t: "Comment s'appelle le petit robot oméniaque curieux, ami de Bastion ?", a: "Ganymède (l'oiseau)", acc: ["ganymède", "ganymede"], x: ["Snowball", "Wrecking Ball", "Efi"] },
+  { id: "ow-d10", d: 3, t: "Quel DJ robotique aux platines soigne son équipe au son de la musique ?", a: "Lúcio", acc: ["lúcio", "lucio"], x: ["Zenyatta", "Baptiste", "Sigma"] },
+  { id: "ow-d11", d: 3, t: "Quel moine oméniaque en lévitation lance des orbes d'harmonie et de discorde ?", a: "Zenyatta", acc: ["zenyatta"], x: ["Lúcio", "Sigma", "Ramattra"] },
+  { id: "ow-d12", d: 3, t: "Quelle costaude russe à canon à particules a une barrière et un rayon ?", a: "Zarya", acc: ["zarya"], x: ["Mei", "D.Va", "Brigitte"] },
+  { id: "ow-d13", d: 3, t: "Quelle jeune ingénieure et écuyère, petite-fille spirituelle de Reinhardt, soigne au corps à corps ?", a: "Brigitte", acc: ["brigitte", "brigitte lindholm"], x: ["Mercy", "Ana", "Moira"] },
+  { id: "ow-d14", d: 3, t: "Quel ingénieur suédois nain construit tourelles et armures ?", a: "Torbjörn", acc: ["torbjörn", "torbjorn"], x: ["Bastion", "Junkrat", "Sigma"] },
+  { id: "ow-d15", d: 3, t: "Quel duo d'Australiens déjantés vient des Fatras (Junkertown) ?", a: "Junkrat et Roadhog", acc: ["junkrat et roadhog", "junkrat", "roadhog"], x: ["Ashe et Bob", "Cassidy et Ashe", "Mauga et Baptiste"] },
+
+  // --- Pro (20) ---
+  { id: "ow-p1", d: 4, t: "Comment s'appelle la suite sortie en 2022, en free-to-play ?", a: "Overwatch 2", acc: ["overwatch 2", "ow2"], x: ["Overwatch Reborn", "Overwatch Legends", "Overwatch X"] },
+  { id: "ow-p2", d: 4, t: "À combien de joueurs par équipe Overwatch 2 réduit-il les affrontements ?", a: "Cinq", acc: ["cinq", "5"], x: ["Six", "Quatre", "Sept"] },
+  { id: "ow-p3", d: 4, t: "Comment s'appelait le cow-boy au « High Noon », rebaptisé Cole Cassidy ?", a: "McCree", acc: ["mccree", "jesse mccree", "cassidy"], x: ["Ashe", "Soldier: 76", "Reaper"] },
+  { id: "ow-p4", d: 4, t: "Quelle hors-la-loi rousse commande le robot majordome B.O.B. ?", a: "Ashe", acc: ["ashe"], x: ["Sombra", "Widowmaker", "Sojourn"] },
+  { id: "ow-p5", d: 4, t: "Quelle loi a officiellement dissous l'organisation Overwatch dans le lore ?", a: "Le Petras Act", acc: ["petras act", "loi petras"], x: ["Le Traité de Numbani", "Le Pacte de Gibraltar", "L'Accord de Zurich"] },
+  { id: "ow-p6", d: 4, t: "Quelle ville futuriste, harmonie humains-oméniaques, abrite le poing de Doomfist au musée ?", a: "Numbani", acc: ["numbani"], x: ["Hanamura", "King's Row", "Dorado"] },
+  { id: "ow-p7", d: 4, t: "Quel astrophysicien néerlandais, patient de Talon, manipule la gravité ?", a: "Sigma", acc: ["sigma", "siebren de kuiper"], x: ["Doomfist", "Ramattra", "Zenyatta"] },
+  { id: "ow-p8", d: 4, t: "Quelle jeune inventrice nigériane a construit le robot Orisa ?", a: "Efi Oladele", acc: ["efi", "efi oladele"], x: ["Sojourn", "Kiriko", "Brigitte"] },
+  { id: "ow-p9", d: 4, t: "Quel héros-robot centaure protecteur Efi a-t-elle assemblé ?", a: "Orisa", acc: ["orisa"], x: ["Bastion", "Wrecking Ball", "Ramattra"] },
+  { id: "ow-p10", d: 4, t: "Quel hamster pilote une boule-méca improvisée, alias « Wrecking Ball » ?", a: "Hammond", acc: ["hammond", "wrecking ball"], x: ["Ganymède", "Snowball", "Efi"] },
+  { id: "ow-p11", d: 4, t: "Quelle guérisseuse renard japonaise d'Overwatch 2 grimpe aux murs et téléporte ses alliés ?", a: "Kiriko", acc: ["kiriko"], x: ["Symmetra", "Mei", "Ana"] },
+  { id: "ow-p12", d: 4, t: "Quelle scientifique irlandaise de Talon soigne et draine la vie avec Moira ?", a: "Moira", acc: ["moira", "moira o'deorain"], x: ["Mercy", "Ana", "Baptiste"] },
+  { id: "ow-p13", d: 4, t: "Quel medic-combattant haïtien, ex-Talon, pose une « fenêtre d'invulnérabilité » ?", a: "Baptiste", acc: ["baptiste"], x: ["Lúcio", "Zenyatta", "Sigma"] },
+  { id: "ow-p14", d: 4, t: "Quelle capitaine canadienne cybernétique fut la première héroïne révélée d'Overwatch 2 ?", a: "Sojourn", acc: ["sojourn"], x: ["Sombra", "Ashe", "Pharah"] },
+  { id: "ow-p15", d: 4, t: "Quel chef oméniaque de Null Sector veut la guerre entre robots et humains dans OW2 ?", a: "Ramattra", acc: ["ramattra"], x: ["Doomfist", "Sigma", "Zenyatta"] },
+  { id: "ow-p16", d: 4, t: "Quelle carte londonienne, dans le métro et les rues pavées, oppose humains et oméniaques ?", a: "King's Row", acc: ["king's row", "kings row"], x: ["Numbani", "Dorado", "Route 66"] },
+  { id: "ow-p17", d: 4, t: "Quel robot sentinelle solitaire, réveillé dans la forêt, se transforme en tourelle ?", a: "Bastion", acc: ["bastion"], x: ["Orisa", "Wrecking Ball", "Torbjörn"] },
+  { id: "ow-p18", d: 4, t: "Quel événement saisonnier hivernal revient chaque année dans Overwatch ?", a: "Les Bombes de Noël (Winter Wonderland)", acc: ["winter wonderland", "bombes de noël", "noël"], x: ["Terreur d'Halloween", "Overwatch Anniversary", "Année du Coq"] },
+  { id: "ow-p19", d: 4, t: "Comment s'appelle la championne du monde e-sport devenue D.Va avant l'armée ?", a: "Hana Song", acc: ["hana song", "hana"], x: ["Kiriko", "Sojourn", "Mei"] },
+  { id: "ow-p20", d: 4, t: "Quel gros tank samoan aux deux mitrailleuses, ancien de Talon, arrive dans OW2 ?", a: "Mauga", acc: ["mauga"], x: ["Roadhog", "Doomfist", "Ramattra"] },
+]);

@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const reddead = universe("jeuxvideo", "Red Dead Redemption", [
+  // --- Faciles (5) ---
+  { id: "rdr-f1", d: 1, t: "Dans quelle époque se déroule la série Red Dead Redemption ?", a: "Le Far West", acc: ["far west", "l'ouest américain", "western"], x: ["Le Moyen Âge", "L'Antiquité", "Le futur"] },
+  { id: "rdr-f2", d: 1, t: "Quel studio développe Red Dead Redemption ?", a: "Rockstar", acc: ["rockstar", "rockstar games"], x: ["Ubisoft", "Naughty Dog", "Bethesda"] },
+  { id: "rdr-f3", d: 1, t: "Quel est le héros principal de Red Dead Redemption 2 ?", a: "Arthur Morgan", acc: ["arthur morgan", "arthur"], x: ["John Marston", "Dutch", "Micah"] },
+  { id: "rdr-f4", d: 1, t: "Quel animal sert principalement de monture dans le jeu ?", a: "Le cheval", acc: ["cheval", "le cheval"], x: ["Le chameau", "Le mulet", "L'âne"] },
+  { id: "rdr-f5", d: 1, t: "À quelle bande de hors-la-loi Arthur appartient-il ?", a: "Le gang Van der Linde", acc: ["van der linde", "gang van der linde", "dutch"], x: ["Le gang O'Driscoll", "Les Pinkerton", "Les Del Lobo"] },
+
+  // --- Moyennes (10) ---
+  { id: "rdr-m1", d: 2, t: "Qui est le chef charismatique du gang dans Red Dead Redemption 2 ?", a: "Dutch van der Linde", acc: ["dutch", "dutch van der linde"], x: ["Hosea", "Micah", "Bill"] },
+  { id: "rdr-m2", d: 2, t: "Quel héros du premier Red Dead Redemption est aussi jouable dans le 2 ?", a: "John Marston", acc: ["john marston", "john", "marston"], x: ["Arthur Morgan", "Jack", "Bill Williamson"] },
+  { id: "rdr-m3", d: 2, t: "Quelle maladie Arthur Morgan contracte-t-il au fil de l'histoire ?", a: "La tuberculose", acc: ["tuberculose", "la tuberculose"], x: ["La peste", "Le choléra", "La variole"] },
+  { id: "rdr-m4", d: 2, t: "Quel membre traître et sournois du gang trahit ses compagnons ?", a: "Micah Bell", acc: ["micah", "micah bell"], x: ["Hosea", "Charles", "Lenny"] },
+  { id: "rdr-m5", d: 2, t: "Quel système de jeu ralentit le temps pour viser plusieurs cibles ?", a: "Le Dead Eye", acc: ["dead eye", "dead-eye", "œil de lynx"], x: ["Le Bullet Time", "Le Focus", "Le V.A.T.S."] },
+  { id: "rdr-m6", d: 2, t: "Quel indicateur mesure les bonnes ou mauvaises actions du héros ?", a: "L'honneur", acc: ["honneur", "l'honneur", "jauge d'honneur"], x: ["La réputation d'or", "Le karma", "La gloire"] },
+  { id: "rdr-m7", d: 2, t: "Comment s'appelle la femme de John Marston ?", a: "Abigail", acc: ["abigail", "abigail marston"], x: ["Sadie", "Mary", "Molly"] },
+  { id: "rdr-m8", d: 2, t: "Comment s'appelle le fils de John Marston ?", a: "Jack", acc: ["jack", "jack marston"], x: ["Arthur", "Charles", "Lenny"] },
+  { id: "rdr-m9", d: 2, t: "Quel sage cofondateur du gang est le bras droit de Dutch, aux côtés d'Arthur ?", a: "Hosea Matthews", acc: ["hosea", "hosea matthews"], x: ["Micah", "Bill", "Javier"] },
+  { id: "rdr-m10", d: 2, t: "Quelle veuve au fort caractère rejoint le gang et devient une alliée d'Arthur ?", a: "Sadie Adler", acc: ["sadie", "sadie adler"], x: ["Mary-Beth", "Abigail", "Molly"] },
+
+  // --- Dures (15) ---
+  { id: "rdr-d1", d: 3, t: "En quelle année se déroule Red Dead Redemption 2 ?", a: "1899", acc: ["1899"], x: ["1911", "1876", "1920"] },
+  { id: "rdr-d2", d: 3, t: "En quelle année se déroule le premier Red Dead Redemption ?", a: "1911", acc: ["1911"], x: ["1899", "1885", "1923"] },
+  { id: "rdr-d3", d: 3, t: "Quel désastre à Blackwater force le gang à fuir au début de RDR2 ?", a: "Un braquage de ferry qui tourne mal", acc: ["braquage raté", "ferry", "blackwater"], x: ["Un incendie", "Une inondation", "Une épidémie"] },
+  { id: "rdr-d4", d: 3, t: "Quelle agence de détectives privés traque sans relâche le gang ?", a: "Les Pinkerton", acc: ["pinkerton", "les pinkerton"], x: ["Le FBI", "Les Texas Rangers", "Les U.S. Marshals"] },
+  { id: "rdr-d5", d: 3, t: "Quel agent Pinkerton mène la traque contre Dutch et Arthur ?", a: "Agent Milton", acc: ["milton", "agent milton", "andrew milton"], x: ["Agent Ross", "Agent Fordham", "Agent Bell"] },
+  { id: "rdr-d6", d: 3, t: "Quel ami noir stoïque et chasseur hors pair épaule Arthur ?", a: "Charles Smith", acc: ["charles", "charles smith"], x: ["Lenny", "Javier", "Bill"] },
+  { id: "rdr-d7", d: 3, t: "Quel jeune membre du gang, attachant, meurt dans un saloon à Valentine ?", a: "Lenny Summers", acc: ["lenny", "lenny summers"], x: ["Sean", "Kieran", "Charles"] },
+  { id: "rdr-d8", d: 3, t: "Sur quelle île tropicale une partie du gang échoue-t-elle après un naufrage ?", a: "Guarma", acc: ["guarma"], x: ["Cuba", "Tahiti", "Sisika"] },
+  { id: "rdr-d9", d: 3, t: "Quel ancien amour d'Arthur réapparaît et lui demande de l'aide ?", a: "Mary Linton", acc: ["mary", "mary linton", "mary gillis"], x: ["Sadie", "Abigail", "Molly"] },
+  { id: "rdr-d10", d: 3, t: "Quel gang rival, mené par Colm, est l'ennemi juré des Van der Linde ?", a: "Les O'Driscoll", acc: ["o'driscoll", "les o'driscoll", "odriscoll"], x: ["Les Del Lobo", "Les Lemoyne Raiders", "Les Laramie"] },
+  { id: "rdr-d11", d: 3, t: "Comment s'appelle le camp-refuge marécageux du gang, près de Saint Denis ?", a: "Shady Belle", acc: ["shady belle"], x: ["Horseshoe Overlook", "Clemens Point", "Beaver Hollow"] },
+  { id: "rdr-d12", d: 3, t: "Quelle grande ville inspirée de la Nouvelle-Orléans visite-t-on dans RDR2 ?", a: "Saint Denis", acc: ["saint denis", "saint-denis"], x: ["Blackwater", "Valentine", "Armadillo"] },
+  { id: "rdr-d13", d: 3, t: "Quel membre irlandais et blagueur du gang est apprécié de tous ?", a: "Sean MacGuire", acc: ["sean", "sean macguire"], x: ["Lenny", "Kieran", "Uncle"] },
+  { id: "rdr-d14", d: 3, t: "Quel ancien O'Driscoll capturé rejoint peu à peu le gang par affection pour les chevaux ?", a: "Kieran Duffy", acc: ["kieran", "kieran duffy"], x: ["Sean", "Lenny", "Bill"] },
+  { id: "rdr-d15", d: 3, t: "Quel duo de personnages meurt en héros lors du grand braquage de la banque de Saint Denis ?", a: "Hosea et Lenny", acc: ["hosea et lenny", "hosea", "lenny"], x: ["Sean et Kieran", "Bill et Javier", "Charles et Sadie"] },
+
+  // --- Pro (20) ---
+  { id: "rdr-p1", d: 4, t: "Sur quelles consoles Red Dead Redemption 2 est-il sorti en 2018 ?", a: "PS4 et Xbox One", acc: ["ps4 et xbox one", "ps4", "xbox one"], x: ["PS5 et Xbox Series", "PS3 et Xbox 360", "Switch"] },
+  { id: "rdr-p2", d: 4, t: "Quel personnage prononce la réplique culte « We're thieves in a world that don't want us no more » ?", a: "Arthur Morgan", acc: ["arthur", "arthur morgan"], x: ["Dutch", "John", "Hosea"] },
+  { id: "rdr-p3", d: 4, t: "Quelle phrase-mantra Dutch répète-t-il sans cesse pour rassurer le gang ?", a: "« I have a plan »", acc: ["i have a plan", "j'ai un plan", "un plan"], x: ["« Have faith »", "« Stay strong »", "« We ride »"] },
+  { id: "rdr-p4", d: 4, t: "Comment s'appelle le mode multijoueur en ligne de RDR2 ?", a: "Red Dead Online", acc: ["red dead online", "rdo"], x: ["Red Dead Multiplayer", "Outlaws Online", "Wild West Online"] },
+  { id: "rdr-p5", d: 4, t: "Quel homme abattu par John clôt le premier Red Dead Redemption... en le trahissant ?", a: "Edgar Ross", acc: ["edgar ross", "ross"], x: ["Milton", "Bill Williamson", "Dutch"] },
+  { id: "rdr-p6", d: 4, t: "Comment meurt John Marston à la fin du premier RDR ?", a: "Fusillé par les hommes de la loi dans sa grange", acc: ["fusillé", "abattu", "criblé de balles"], x: ["De maladie", "Noyé", "Dans un duel"] },
+  { id: "rdr-p7", d: 4, t: "Quel personnage devient jouable pour venger John à la fin du premier RDR ?", a: "Jack Marston", acc: ["jack", "jack marston"], x: ["Arthur", "Charles", "Bill"] },
+  { id: "rdr-p8", d: 4, t: "Comment s'appelle l'oncle paresseux et alcoolique qui traîne au camp ?", a: "Uncle", acc: ["uncle", "oncle"], x: ["Pearson", "Strauss", "Swanson"] },
+  { id: "rdr-p9", d: 4, t: "Quel usurier autrichien du camp pousse Arthur à recouvrer des dettes ?", a: "Leopold Strauss", acc: ["strauss", "leopold strauss"], x: ["Pearson", "Trelawny", "Uncle"] },
+  { id: "rdr-p10", d: 4, t: "Quel cuisinier et ancien marin gère les provisions du camp ?", a: "Pearson", acc: ["pearson", "simon pearson"], x: ["Strauss", "Uncle", "Swanson"] },
+  { id: "rdr-p11", d: 4, t: "Quel révolutionnaire mexicain le gang aide-t-il dans le chapitre de Guarma ?", a: "Hercule Fontaine", acc: ["hercule", "hercule fontaine"], x: ["Allende", "Reyes", "Escuella"] },
+  { id: "rdr-p12", d: 4, t: "Quel membre latino du gang, guitariste, apparaît aussi dans le premier RDR ?", a: "Javier Escuella", acc: ["javier", "javier escuella", "escuella"], x: ["Bill Williamson", "Charles", "Micah"] },
+  { id: "rdr-p13", d: 4, t: "Quel gros bras du gang, ex-soldat, devient un ennemi dans le premier RDR ?", a: "Bill Williamson", acc: ["bill", "bill williamson"], x: ["Javier", "Micah", "Dutch"] },
+  { id: "rdr-p14", d: 4, t: "Quelle bourgade minière poussiéreuse sert de décor à l'ouverture enneigée de RDR2 ?", a: "Colter", acc: ["colter"], x: ["Valentine", "Strawberry", "Annesburg"] },
+  { id: "rdr-p15", d: 4, t: "Quel escroc élégant et prestidigitateur, allié intermittent du gang, disparaît souvent ?", a: "Josiah Trelawny", acc: ["trelawny", "josiah trelawny"], x: ["Micah", "Strauss", "Pearson"] },
+  { id: "rdr-p16", d: 4, t: "Qui fait régner la discipline parmi les femmes du camp ?", a: "Susan Grimshaw", acc: ["grimshaw", "susan grimshaw", "miss grimshaw"], x: ["Abigail", "Sadie", "Molly"] },
+  { id: "rdr-p17", d: 4, t: "Quelle compagne jalouse de Dutch connaît une fin tragique au camp ?", a: "Molly O'Shea", acc: ["molly", "molly o'shea"], x: ["Mary-Beth", "Karen", "Tilly"] },
+  { id: "rdr-p18", d: 4, t: "Où Arthur affronte-t-il Micah une dernière fois, dans un final selon l'honneur ?", a: "À Beaver Hollow (sur la montagne)", acc: ["beaver hollow", "la montagne", "montagne"], x: ["À Blackwater", "À Guarma", "À Saint Denis"] },
+  { id: "rdr-p19", d: 4, t: "Des années plus tard, qui tue enfin Micah avec l'aide de Dutch ?", a: "John Marston", acc: ["john", "john marston"], x: ["Jack", "Charles", "Sadie"] },
+  { id: "rdr-p20", d: 4, t: "Quel compositeur a signé la musique originale de RDR2, dont « That's the Way It Is » de Daniel Lanois ?", a: "Woody Jackson", acc: ["woody jackson", "jackson"], x: ["Hans Zimmer", "Ennio Morricone", "Trent Reznor"] },
+]);
