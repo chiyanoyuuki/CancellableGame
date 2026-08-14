@@ -89,7 +89,7 @@ const UNWANTED_UNIVERSE_CHANCE = 0.02;
  * ponctuation. Deux textes qui ne diffèrent que par la casse ou un accent sont
  * alors considérés identiques.
  */
-function normalizeForIdentity(s: string): string {
+export function normalizeForIdentity(s: string): string {
   return s
     .toLowerCase()
     .normalize('NFD')
@@ -99,7 +99,7 @@ function normalizeForIdentity(s: string): string {
 }
 
 /** Identité d'une question pour l'anti-doublon : énoncé + réponse normalisés. */
-function identityKey(q: Question): string {
+export function identityKey(q: Pick<Question, 'text' | 'answer'>): string {
   return `${normalizeForIdentity(q.text)} ${normalizeForIdentity(q.answer)}`;
 }
 
