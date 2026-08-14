@@ -1,5 +1,5 @@
-import { DRINK_CHALLENGES, maybeChallenge, rollAnswerDrink } from './drinks';
-import type { Rng } from './rng';
+import { DRINK_CHALLENGES, maybeChallenge, resolveChallenge, rollAnswerDrink } from './drinks';
+import { mulberry32, type Rng } from './rng';
 
 const always = (v: number): Rng => () => v;
 
@@ -69,5 +69,60 @@ describe('maybeChallenge', () => {
 
   test('returns null when the challenge list is empty', () => {
     expect(maybeChallenge(always(0), 'normal', [])).toBeNull();
+  });
+});
+
+describe('resolveChallenge (tirage auto des joueurs + minuteur)', () => {
+  const players = [
+    { id: 'p1', name: 'Alice' },
+    { id: 'p2', name: 'Bob' },
+    { id: 'p3', name: 'Chloé' },
+  ];
+
+  test('remplace {0} et {1} par des joueurs distincts et renvoie leurs ids', () => {
+    const ch = { id: 'duel', text: '{0} et {1} se fixent.', picks: 2, timerSec: 30 };
+    const r = resolveChallenge(ch, players, mulberry32(1));
+    expect(r.pickedIds).toHaveLength(2);
+    expect(r.pickedIds[0]).not.toBe(r.pickedIds[1]); // deux joueurs différents
+    const names = r.pickedIds.map((id) => players.find((p) => p.id === id)!.name);
+    expect(r.text).toBe(`${names[0]} et ${names[1]} se fixent.`);
+    expect(r.text).not.toContain('{'); // plus aucun marqueur
+    expect(r.timerSec).toBe(30); // le minuteur passe tel quel
+  });
+
+  test('un défi sans picks est renvoyé tel quel, sans avatars', () => {
+    const ch = { id: 'x', text: 'Tout le monde trinque.' };
+    const r = resolveChallenge(ch, players, mulberry32(2));
+    expect(r.text).toBe('Tout le monde trinque.');
+    expect(r.pickedIds).toEqual([]);
+    expect(r.timerSec).toBeUndefined();
+  });
+
+  test('moins de joueurs que demandé : les marqueurs restants deviennent « un joueur »', () => {
+    const ch = { id: 'duel', text: '{0} affronte {1}.', picks: 2 };
+    const r = resolveChallenge(ch, [{ id: 'p1', name: 'Alice' }], mulberry32(3));
+    expect(r.pickedIds).toEqual(['p1']);
+    expect(r.text).toBe('Alice affronte un joueur.');
+  });
+
+  test('sans joueur du tout, aucun marqueur ne subsiste', () => {
+    const ch = { id: 'duel', text: '{0} et {1} !', picks: 2 };
+    const r = resolveChallenge(ch, [], mulberry32(4));
+    expect(r.text).toBe('un joueur et un joueur !');
+    expect(r.pickedIds).toEqual([]);
+  });
+
+  test('le même marqueur répété est remplacé partout (ex. le Chef)', () => {
+    const ch = { id: 'chef', text: 'Chef {0} : quand {0} boit, tous boivent.', picks: 1 };
+    const r = resolveChallenge(ch, players, mulberry32(5));
+    const name = players.find((p) => p.id === r.pickedIds[0])!.name;
+    expect(r.text).toBe(`Chef ${name} : quand ${name} boit, tous boivent.`);
+  });
+
+  test('tous les défis « picks » ont assez de marqueurs {i} pour leur nombre', () => {
+    for (const c of DRINK_CHALLENGES) {
+      if (!c.picks) continue;
+      for (let i = 0; i < c.picks; i++) expect(c.text).toContain(`{${i}}`);
+    }
   });
 });

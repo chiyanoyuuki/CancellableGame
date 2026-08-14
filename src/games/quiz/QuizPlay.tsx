@@ -5,7 +5,7 @@ import { setAudioModeAsync, useAudioPlayer, useAudioPlayerStatus } from 'expo-au
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button, Card, PlayerAvatar, ProgressBar, Txt } from '../../components/ui';
-import { DRINK_CHALLENGES } from '../../core/drinks';
+import { DRINK_CHALLENGES, resolveChallenge } from '../../core/drinks';
 import { DIFFICULTY_LABELS, type Player, type QuizConfig, type SessionResult, THEME_META } from '../../core/models';
 import {
   createQuizState,
@@ -56,6 +56,11 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
   const [buzzed, setBuzzed] = useState<{ playerId: string; timeMs: number } | null>(null);
   const [imgError, setImgError] = useState(false);
   const [remaining, setRemaining] = useState<number | null>(null);
+  // Défi en cours : graine du tirage au sort des joueurs (le bouton « retirer au
+  // sort » l'incrémente) et compte à rebours du minuteur (réinitialisable).
+  const [challengeSeed, setChallengeSeed] = useState(1);
+  const [challengeTimer, setChallengeTimer] = useState<number | null>(null);
+  const [challengeTimerKey, setChallengeTimerKey] = useState(0);
   // Univers non souhaités par joueur — sert à signaler, sous l'univers, quand
   // une question sort d'un univers que le joueur actif avait écarté.
   const [unwantedByPlayer, setUnwantedByPlayer] = useState<Record<string, string[]>>({});
@@ -345,6 +350,34 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
     }, 1000);
     return () => clearInterval(iv);
   }, [game?.index, game?.phase, cfg.questionTimerSec]);
+
+  // Chaque nouveau défi retire au sort les joueurs concernés (graine fraîche).
+  useEffect(() => {
+    if (game?.phase === 'challenge' && game.pendingChallenge?.picks) {
+      setChallengeSeed(randomSeed());
+    }
+  }, [game?.phase, game?.pendingChallenge?.id]);
+
+  // Minuteur du défi (compte à rebours), réinitialisable via challengeTimerKey.
+  useEffect(() => {
+    const c = game?.phase === 'challenge' ? game.pendingChallenge : null;
+    if (!c?.timerSec) {
+      setChallengeTimer(null);
+      return;
+    }
+    setChallengeTimer(c.timerSec);
+    const iv = setInterval(() => {
+      setChallengeTimer((t) => (t != null && t > 0 ? t - 1 : 0));
+    }, 1000);
+    return () => clearInterval(iv);
+  }, [game?.phase, game?.pendingChallenge?.id, challengeTimerKey]);
+
+  // Défi prêt à afficher : noms tirés au sort insérés dans le texte.
+  const resolvedChallenge = useMemo(() => {
+    const c = game?.phase === 'challenge' ? game.pendingChallenge : null;
+    if (!c) return null;
+    return resolveChallenge(c, players, mulberry32(challengeSeed));
+  }, [game?.phase, game?.pendingChallenge, players, challengeSeed]);
 
   // Stop the audio whenever we leave the question phase (reveal, challenge…).
   useEffect(() => {
@@ -885,6 +918,9 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
   function renderChallenge() {
     const c = game!.pendingChallenge;
     if (!c) return null;
+    const resolved = resolvedChallenge ?? { text: c.text, pickedIds: [], timerSec: c.timerSec };
+    const picked = resolved.pickedIds.map((id) => realById[id]).filter((p): p is Player => !!p);
+    const timerDone = challengeTimer === 0;
     return (
       <View style={{ gap: spacing(2), paddingTop: spacing(4) }}>
         <Txt size={fontSize.huge} center>
@@ -895,9 +931,47 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
         </Txt>
         <Card accent={colors.sip}>
           <Txt size={fontSize.lg} weight="600">
-            {c.text}
+            {resolved.text}
           </Txt>
         </Card>
+
+        {/* Joueurs tirés au sort automatiquement : avatars + noms. */}
+        {picked.length > 0 && (
+          <View style={{ gap: spacing(1) }}>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: spacing(2) }}>
+              {picked.map((p) => (
+                <View key={p.id} style={{ alignItems: 'center', gap: spacing(0.5) }}>
+                  <PlayerAvatar emoji={p.emoji} color={p.color} photoUri={p.photoUri} size={52} />
+                  <Txt weight="800">{p.name}</Txt>
+                </View>
+              ))}
+            </View>
+            <Button
+              title="🎲 Retirer au sort"
+              variant="secondary"
+              size="sm"
+              onPress={() => setChallengeSeed(randomSeed())}
+              style={{ alignSelf: 'center' }}
+            />
+          </View>
+        )}
+
+        {/* Minuteur du défi : compte à rebours réinitialisable. */}
+        {resolved.timerSec != null && (
+          <Card accent={timerDone ? colors.danger : colors.primary}>
+            <Txt center size={fontSize.xxl} weight="800" color={timerDone ? colors.danger : colors.text}>
+              ⏱ {timerDone ? 'Temps écoulé !' : `${challengeTimer ?? resolved.timerSec} s`}
+            </Txt>
+            <Button
+              title="↻ Réinitialiser le minuteur"
+              variant="ghost"
+              size="sm"
+              onPress={() => setChallengeTimerKey((k) => k + 1)}
+              style={{ marginTop: spacing(1) }}
+            />
+          </Card>
+        )}
+
         <Button title="C'est fait, on continue !" size="lg" variant="accent" onPress={() => dispatch({ type: 'CONTINUE' })} />
       </View>
     );

@@ -1,5 +1,5 @@
 import type { Difficulty, DrinkIntensity, TurnMode } from './models';
-import { chance, pick, type Rng, rngInt } from './rng';
+import { chance, pick, type Rng, rngInt, shuffle } from './rng';
 
 /**
  * The "à boire" layer. Gorgées are handed out on wrong answers, won (and
@@ -74,6 +74,47 @@ export function rollAnswerDrink(params: {
 export interface DrinkChallenge {
   id: string;
   text: string;
+  /**
+   * Nombre de joueurs à tirer au sort pour ce défi. Leurs noms remplacent les
+   * marqueurs {0}, {1}… dans `text` (résolu à l'affichage par `resolveChallenge`).
+   */
+  picks?: number;
+  /** Minuteur en secondes : le défi affiche un compte à rebours réinitialisable. */
+  timerSec?: number;
+}
+
+/** Un défi prêt à afficher : texte avec les noms tirés au sort déjà insérés. */
+export interface ResolvedChallenge {
+  id: string;
+  text: string;
+  /** Identifiants des joueurs tirés au sort (pour afficher leurs avatars). */
+  pickedIds: string[];
+  timerSec?: number;
+}
+
+/**
+ * Résout un défi pour l'affichage : tire au sort `picks` joueurs DISTINCTS et
+ * remplace {0}, {1}… par leurs noms. S'il manque des joueurs, les marqueurs
+ * restants deviennent « un joueur ». Un défi sans `picks` est renvoyé tel quel.
+ */
+export function resolveChallenge(
+  challenge: DrinkChallenge,
+  players: readonly { id: string; name: string }[],
+  rng: Rng,
+): ResolvedChallenge {
+  const n = challenge.picks ?? 0;
+  const base = { id: challenge.id, timerSec: challenge.timerSec };
+  if (n <= 0 || players.length === 0) {
+    return { ...base, text: challenge.text.replace(/\{\d+\}/g, 'un joueur'), pickedIds: [] };
+  }
+  const chosen = shuffle([...players], rng).slice(0, Math.min(n, players.length));
+  let text = challenge.text;
+  chosen.forEach((p, i) => {
+    text = text.split(`{${i}}`).join(p.name);
+  });
+  // Marqueurs restants (moins de joueurs que demandé) : repli lisible.
+  text = text.replace(/\{\d+\}/g, 'un joueur');
+  return { ...base, text, pickedIds: chosen.map((p) => p.id) };
 }
 
 /** Random group challenges fired between questions. */
@@ -82,26 +123,26 @@ export const DRINK_CHALLENGES: DrinkChallenge[] = [
   { id: 'gaucher', text: 'Tout le monde boit de la main gauche jusqu\'au prochain défi. Oubli = 1 gorgée.' },
   { id: 'categories', text: 'Catégories : le meneur lance un thème (ex: persos de manga), chacun en cite un à tour de rôle. Le premier qui bloque boit 2 gorgées.' },
   { id: 'jamaisjamais', text: 'Je n\'ai jamais… : chacun son tour une affirmation, ceux qui l\'ont déjà fait boivent une gorgée.' },
-  { id: 'duel', text: 'Duel de regard : deux joueurs au hasard se fixent, le premier qui rit ou cligne boit 2 gorgées.' },
+  { id: 'duel', text: 'Duel de regard : {0} et {1} se fixent dans les yeux. Le premier qui rit ou cligne boit 2 gorgées.', picks: 2, timerSec: 30 },
   { id: 'minorite', text: 'Vote secret : tout le monde montre pouce haut/bas en même temps. La minorité boit.' },
   { id: 'pouce', text: 'Le dernier à poser son pouce sur la table boit. (Le meneur peut le déclencher quand il veut d\'ici la prochaine question.)' },
   { id: 'rime', text: 'Le meneur dit un mot, chacun doit enchaîner avec une rime. Le premier qui sèche boit.' },
   { id: 'santetout', text: 'Petite pause santé : tout le monde trinque et boit une gorgée ensemble 🥂.' },
-  { id: 'chef', text: 'Élisez un Chef : jusqu\'au prochain défi, quand le Chef boit, tout le monde boit.' },
+  { id: 'chef', text: 'Chef élu : {0}. Jusqu\'au prochain défi, quand {0} boit, tout le monde boit.', picks: 1 },
   { id: 'statue', text: "Statue : au prochain « statue ! » du meneur, le premier qui bouge boit 2 gorgées." },
   { id: 'motinterdit', text: "Mot interdit : le meneur bannit un mot jusqu'au prochain défi. Le prononcer coûte 1 gorgée à chaque fois." },
   { id: 'accent', text: "Tout le monde parle avec l'accent choisi par le meneur jusqu'au prochain défi. Oubli = 1 gorgée." },
   { id: 'vouvoiement', text: "On se vouvoie tous jusqu'au prochain défi. Un tutoiement qui échappe = 1 gorgée." },
-  { id: 'gorgeecadeau', text: "Gorgée cadeau : le meneur distribue 3 gorgées à qui il veut." },
-  { id: 'binome', text: "Choisis un binôme. Si l'un de vous deux se trompe à la prochaine question, vous buvez tous les deux." },
+  { id: 'gorgeecadeau', text: 'Gorgée cadeau 🎁 : {0} récolte 3 gorgées, à boire ou à distribuer.', picks: 1 },
+  { id: 'binome', text: '{0} et {1} sont binômes : si l\'un des deux se trompe à la prochaine question, vous buvez tous les deux.', picks: 2 },
   { id: 'chanson', text: "Le meneur impose un mot : chacun son tour cite une chanson qui le contient. Le premier qui sèche boit." },
-  { id: 'shifumi', text: "Pierre-feuille-ciseaux : deux joueurs au hasard s'affrontent, le perdant boit 2 gorgées." },
+  { id: 'shifumi', text: 'Pierre-feuille-ciseaux : {0} affronte {1}, le perdant boit 2 gorgées.', picks: 2 },
   { id: 'grimace', text: "Concours de grimaces : celui qui fait craquer le meneur de rire gagne, tous les autres boivent." },
-  { id: 'silence', text: "Silence total jusqu'à la prochaine question : le premier qui parle boit 2 gorgées." },
+  { id: 'silence', text: 'Silence total : le premier qui parle avant la fin du minuteur boit 2 gorgées.', timerSec: 30 },
   { id: 'benjamin', text: "Le plus jeune et le plus âgé de la table distribuent chacun 2 gorgées." },
   { id: 'prenoms', text: "Interdit d'appeler quelqu'un par son prénom jusqu'au prochain défi. Erreur = 1 gorgée." },
-  { id: 'echange', text: "Échange ta place avec la personne en face pour les deux prochaines questions." },
-  { id: 'petitpont', text: "Le meneur pose une question surprise à un joueur au hasard : hésitation ou blague ratée = 1 gorgée." },
+  { id: 'echange', text: '{0} et {1} échangent leur place pour les deux prochaines questions.', picks: 2 },
+  { id: 'petitpont', text: '{0} : le meneur te pose une question surprise. Hésitation ou blague ratée = 1 gorgée.', picks: 1 },
   { id: 'mainlevee', text: "Le meneur lève la main quand il veut d'ici la prochaine question : le dernier à lever la sienne boit." },
   { id: 'regleperso', text: "Le meneur invente une règle pour toute la table jusqu'au prochain défi, et la fait respecter." },
 ];
