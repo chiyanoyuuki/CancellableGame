@@ -224,6 +224,22 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
           />
         ))}
       </View>
+      <Card>
+        <View style={styles.row}>
+          <View style={{ flex: 1 }}>
+            <Txt weight="700">Difficulté adaptative 🎯</Txt>
+            <Txt faint size={fontSize.xs}>
+              Chacun reçoit, à son tour, des questions à sa mesure selon ses réussites passées (mode « Chacun son tour »).
+            </Txt>
+          </View>
+          <Switch
+            value={cfg.adaptiveDifficulty ?? false}
+            onValueChange={(v) => setCfg((c) => ({ ...c, adaptiveDifficulty: v }))}
+            trackColor={{ true: colors.primary, false: colors.border }}
+            thumbColor={colors.white}
+          />
+        </View>
+      </Card>
 
       {universesByTheme.length > 0 && (
         <>

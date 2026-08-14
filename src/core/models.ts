@@ -167,6 +167,11 @@ export interface QuizConfig {
   teams: Team[];
   /** Informative per-question countdown in seconds (0 = disabled). */
   questionTimerSec: number;
+  /**
+   * Difficulté adaptative : chaque joueur reçoit, à son tour, des questions
+   * calibrées sur son taux de réussite passé (mode « tour » solo uniquement).
+   */
+  adaptiveDifficulty?: boolean;
 }
 
 export const DEFAULT_QUIZ_CONFIG: QuizConfig = {
@@ -185,6 +190,7 @@ export const DEFAULT_QUIZ_CONFIG: QuizConfig = {
   teamMode: false,
   teams: [],
   questionTimerSec: 0,
+  adaptiveDifficulty: false,
 };
 
 // ---------------------------------------------------------------------------

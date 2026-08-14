@@ -6,7 +6,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Card, PlayerAvatar, ProgressBar, Txt } from '../../components/ui';
 import { haptics } from '../../lib/haptics';
 import { DRINK_CHALLENGES, resolveChallenge } from '../../core/drinks';
-import { DIFFICULTY_LABELS, type Player, type QuizConfig, type SessionResult, THEME_META } from '../../core/models';
+import { accuracyRatio, adaptiveDifficulties } from '../../core/adaptiveDifficulty';
+import { DIFFICULTY_LABELS, type Difficulty, type Player, type QuizConfig, type SessionResult, THEME_META } from '../../core/models';
 import {
   createQuizState,
   currentQuestion,
@@ -26,6 +27,7 @@ import {
   getPlayerUnwantedUniverses,
   getQuestionHistory,
   getQuestionHistoryByPlayer,
+  getAccuracyByPlayer,
   getSavedGame,
   listCustomChallenges,
   newSlotId,
@@ -188,12 +190,15 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
         // Nothing valid to resume → fall through and start a fresh game.
       }
 
-      const [history, historyByPlayer, fullPool, customChallenges, unwantedUniverses] = await Promise.all([
+      const [history, historyByPlayer, fullPool, customChallenges, unwantedUniverses, accuracy] = await Promise.all([
         getQuestionHistory(),
         getQuestionHistoryByPlayer(),
         getQuizPool(),
         listCustomChallenges(),
         getPlayerUnwantedUniverses(),
+        cfg.adaptiveDifficulty && !teamMode && cfg.turnMode === 'turn'
+          ? getAccuracyByPlayer()
+          : Promise.resolve({} as Record<string, { correct: number; total: number }>),
       ]);
       // Version gratuite : ne tire que dans les univers débloqués du joueur.
       const pool = store.ent.allThemes
@@ -219,6 +224,18 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
           );
         }
       }
+      // Difficulté adaptative (mode « tour » solo) : chaque joueur ne reçoit que
+      // les paliers calibrés sur son taux de réussite, en restant dans les
+      // difficultés choisies pour la partie. Un tableau vide = aucune contrainte.
+      let difficultiesByPlayer: Record<string, Difficulty[]> | undefined;
+      if (cfg.adaptiveDifficulty && !teamMode && cfg.turnMode === 'turn') {
+        difficultiesByPlayer = {};
+        for (const p of players) {
+          const adaptive = adaptiveDifficulties(accuracyRatio(accuracy[p.id]));
+          difficultiesByPlayer[p.id] = adaptive.filter((d) => cfg.difficulties.includes(d));
+        }
+      }
+
       // Pick a few extra questions as a reserve, used to swap in a replacement
       // whenever a question's image fails to load (so the round keeps its length
       // and the same player stays up).
@@ -238,6 +255,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
           turnMode: cfg.turnMode,
           unwantedUniversesByPlayer,
           allowedUniversesByPlayer,
+          difficultiesByPlayer,
           // Per-player fresh questions only make sense outside team mode.
           historyByPlayer: teamMode ? undefined : historyByPlayer,
         },

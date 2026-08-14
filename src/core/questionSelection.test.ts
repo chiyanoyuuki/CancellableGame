@@ -402,6 +402,56 @@ describe('countUnseen (questions encore jamais vues)', () => {
   });
 });
 
+describe('difficulté adaptative par joueur (difficultiesByPlayer)', () => {
+  // 4 univers × 4 difficultés (une question chacune) → 16 questions.
+  const p: Question[] = [];
+  for (let u = 0; u < 4; u++) {
+    for (const d of [1, 2, 3, 4] as Difficulty[]) {
+      p.push({ id: `U${u}-d${d}`, theme: 'manga', difficulty: d, universe: `U${u}`, text: `U${u}-d${d}`, answer: 'a', distractors: ['b', 'c', 'd'] });
+    }
+  }
+  const allDiff = { themes: ['manga'] as Theme[], difficulties: [1, 2, 3, 4] as Difficulty[], count: 8 };
+
+  test('un joueur restreint ne reçoit que les difficultés autorisées', () => {
+    for (let seed = 1; seed <= 40; seed++) {
+      const out = selectQuestions(p, allDiff, {}, mulberry32(seed), {
+        order: ['p1', 'p2'],
+        turnMode: 'turn',
+        difficultiesByPlayer: { p1: [1, 2] },
+      });
+      out.forEach((q, i) => {
+        if (i % 2 === 0) expect([1, 2]).toContain(q.difficulty); // slots de p1
+      });
+    }
+  });
+
+  test("l'autre joueur n'est pas contraint", () => {
+    let p2Hard = 0;
+    for (let seed = 1; seed <= 40; seed++) {
+      const out = selectQuestions(p, allDiff, {}, mulberry32(seed), {
+        order: ['p1', 'p2'],
+        turnMode: 'turn',
+        difficultiesByPlayer: { p1: [1] },
+      });
+      out.forEach((q, i) => {
+        if (i % 2 === 1 && q.difficulty >= 3) p2Hard++;
+      });
+    }
+    expect(p2Hard).toBeGreaterThan(0);
+  });
+
+  test('repli : si aucune question dans les paliers autorisés, le joueur joue quand même', () => {
+    // p1 restreint à une difficulté absente du pool filtré → repli.
+    const easyOnly = p.filter((q) => q.difficulty === 1);
+    const out = selectQuestions(easyOnly, { themes: ['manga'], difficulties: [1], count: 4 }, {}, mulberry32(1), {
+      order: ['p1'],
+      turnMode: 'turn',
+      difficultiesByPlayer: { p1: [4] }, // aucune pro disponible
+    });
+    expect(out).toHaveLength(4);
+  });
+});
+
 describe('lot personnalisé par joueur (historique par joueur)', () => {
   const p: Question[] = [
     ...Array.from({ length: 10 }, (_, i) => uq(`A${i}`, 'A')),

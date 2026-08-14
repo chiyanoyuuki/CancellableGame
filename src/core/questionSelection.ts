@@ -68,6 +68,13 @@ export interface SelectionOptions {
    * bloquer la partie. Une liste absente ou vide n'impose aucune restriction.
    */
   allowedUniversesByPlayer?: Record<string, string[]>;
+  /**
+   * Per-player ALLOWED difficulties (mode « tour » uniquement) — difficulté
+   * adaptative. Même logique que `allowedUniversesByPlayer` mais sur les paliers :
+   * le slot du joueur ne tire que dans ces difficultés, avec repli de sûreté si
+   * plus aucune question autorisée n'est disponible. Absente/vide = aucune contrainte.
+   */
+  difficultiesByPlayer?: Record<string, Difficulty[]>;
 }
 
 /** Reused for players with no personal history yet (everything is fresh). */
@@ -146,6 +153,12 @@ export function selectQuestions(
     if (arr.length > 0) allowedSets[pid] = new Set(arr);
   }
 
+  // Difficultés autorisées par joueur (difficulté adaptative, mode « tour »).
+  const diffSets: Record<string, Set<Difficulty>> = {};
+  for (const [pid, arr] of Object.entries(opts?.difficultiesByPlayer ?? {})) {
+    if (arr.length > 0) diffSets[pid] = new Set(arr);
+  }
+
   // Pre-shuffle so that, among questions of equal weight, the pick is random.
   const shuffled = shuffle(eligible, rng);
 
@@ -198,13 +211,22 @@ export function selectQuestions(
     const passesAllowed = (q: Question): boolean =>
       !allowedActive || (q.universe !== undefined && allowed!.has(q.universe));
 
+    // Difficultés adaptatives pour CE slot : actif seulement s'il reste au moins
+    // une question autorisée (difficulté ∈ paliers ET univers autorisé) ; sinon
+    // repli sur le tirage normal pour ne jamais bloquer la partie.
+    const allowedDiffs = turnMode === 'turn' && slotPlayer ? diffSets[slotPlayer] : undefined;
+    const diffActive =
+      !!allowedDiffs && remaining.some((q) => allowedDiffs.has(q.difficulty) && passesAllowed(q));
+    const passesDifficulty = (q: Question): boolean => !diffActive || allowedDiffs!.has(q.difficulty);
+    const passes = (q: Question): boolean => passesAllowed(q) && passesDifficulty(q);
+
     // 98 % univers souhaités, 2 % univers non souhaité — sans jamais tirer dans
     // un sous-ensemble vide.
     let pickUnwanted = (unwanted?.size ?? 0) > 0 && rng() < UNWANTED_UNIVERSE_CHANCE;
     let hasWanted = false;
     let hasUnwanted = false;
     for (const q of remaining) {
-      if (!passesAllowed(q)) continue;
+      if (!passes(q)) continue;
       if (isUnwanted(q)) hasUnwanted = true;
       else hasWanted = true;
       if (hasWanted && hasUnwanted) break;
@@ -216,7 +238,7 @@ export function selectQuestions(
     // plus bas encore disponible, dans le sous-ensemble choisi.
     let minUsage = Infinity;
     for (const q of remaining) {
-      if (!passesAllowed(q)) continue;
+      if (!passes(q)) continue;
       if (isUnwanted(q) !== pickUnwanted) continue;
       const u = slotHistory[q.id]?.timesUsed ?? 0;
       if (u < minUsage) minUsage = u;
@@ -225,7 +247,7 @@ export function selectQuestions(
     let bestSum = 0;
     const weighted: { q: Question; w: number; idx: number }[] = [];
     remaining.forEach((q, idx) => {
-      if (!passesAllowed(q)) return;
+      if (!passes(q)) return;
       if (isUnwanted(q) !== pickUnwanted) return;
       if ((slotHistory[q.id]?.timesUsed ?? 0) !== minUsage) return;
       const w = Math.pow(UNIVERSE_REPEAT_DECAY, seenCount(slotPlayer, diversityKey(q)));

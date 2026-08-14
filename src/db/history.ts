@@ -15,6 +15,32 @@ export async function getQuestionHistory(): Promise<QuestionHistory> {
 }
 
 /**
+ * Taux de réussite par joueur (bonnes / total), à partir des événements « answer ».
+ * Sert à la difficulté adaptative : calibrer les questions sur le niveau de chacun.
+ */
+export async function getAccuracyByPlayer(): Promise<Record<string, { correct: number; total: number }>> {
+  const db = await getDb();
+  const rows = await db.getAllAsync<{ payload: string }>("SELECT payload FROM events WHERE type = 'answer'");
+  const out: Record<string, { correct: number; total: number }> = {};
+  for (const r of rows) {
+    let pid: unknown;
+    let correct: unknown;
+    try {
+      const p = JSON.parse(r.payload) as { playerId?: unknown; correct?: unknown };
+      pid = p.playerId;
+      correct = p.correct;
+    } catch {
+      continue;
+    }
+    if (typeof pid !== 'string') continue;
+    const acc = out[pid] ?? (out[pid] = { correct: 0, total: 0 });
+    acc.total += 1;
+    if (correct === true) acc.correct += 1;
+  }
+  return out;
+}
+
+/**
  * Load the question history split PER PLAYER. Une question est comptée comme
  * « vue » par un joueur dès qu'il a PARTICIPÉ à une partie qui la contenait —
  * même si c'est quelqu'un d'autre qui y a répondu. On croise donc les parties
