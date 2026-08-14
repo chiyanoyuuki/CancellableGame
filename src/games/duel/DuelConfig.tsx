@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, Switch, View } from 'react-native';
 
-import { Button, Card, Chip, PlayerUnseenList, Segmented, SectionHeader, Txt } from '../../components/ui';
+import { Button, Card, Chip, HowToPlay, PlayerUnseenList, Segmented, SectionHeader, Txt } from '../../components/ui';
 import { type DrinkIntensity, type DuelConfig, type DuelJoker, type Question, type Theme, THEME_META, THEMES } from '../../core/models';
 import { countUnseenGroups, identityGroups, type QuestionHistory } from '../../core/questionSelection';
 import { shuffle } from '../../core/rng';
@@ -157,6 +157,15 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
           3 moyennes, 2 dures, puis tout le reste en pro. Une mauvaise réponse élimine. Dernier debout gagne !
         </Txt>
       </Card>
+
+      <HowToPlay
+        lines={[
+          'Chacun son tour, sur les univers choisis pour le duel.',
+          'La difficulté monte : 3 faciles, 3 moyennes, 2 dures, puis tout le reste en pro.',
+          'Une mauvaise réponse élimine le joueur. Utilise tes jokers au bon moment.',
+          'Le dernier joueur encore en lice remporte le duel.',
+        ]}
+      />
 
       <SectionHeader title="Univers du duel" />
       <Segmented<UniverseMode>

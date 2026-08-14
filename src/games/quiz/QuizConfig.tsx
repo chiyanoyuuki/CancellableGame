@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Switch, TextInput, View } from 'react-native';
 
-import { Button, Card, Chip, PlayerAvatar, PlayerUnseenList, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
+import { Button, Card, Chip, HowToPlay, PlayerAvatar, PlayerUnseenList, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
 import {
   DEFAULT_QUIZ_CONFIG,
   type Difficulty,
@@ -194,6 +194,14 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
 
   return (
     <View style={{ gap: spacing(1) }}>
+      <HowToPlay
+        lines={[
+          'Chaque joueur répond à sa propre question, à tour de rôle — ou tout le monde court sur la même en « au plus rapide ».',
+          'Sans proposition = points pleins. Demander des propositions ou un indice coûte des points.',
+          'Les questions déjà vues par un joueur ne reviennent qu\'en dernier recours.',
+          'Active les gorgées et les défis pour pimenter la soirée ; règle un chrono si besoin.',
+        ]}
+      />
       <SectionHeader title="Thèmes" />
       <View style={styles.wrap}>
         {THEMES.map((t) => (

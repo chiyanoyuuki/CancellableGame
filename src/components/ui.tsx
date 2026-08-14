@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect, useRef } from 'react';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -413,6 +413,37 @@ const uiStyles = StyleSheet.create({
     paddingHorizontal: spacing(1.25),
   },
 });
+
+// ---------------------------------------------------------------------------
+// How to play (collapsible rules)
+// ---------------------------------------------------------------------------
+
+/** Carte « Comment jouer » repliable, une puce par règle. Fermée par défaut. */
+export function HowToPlay(props: { lines: string[]; defaultOpen?: boolean }) {
+  const [open, setOpen] = useState(props.defaultOpen ?? false);
+  return (
+    <Card>
+      <Pressable
+        onPress={() => setOpen((o) => !o)}
+        style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
+      >
+        <Txt weight="800">❓ Comment jouer</Txt>
+        <Txt weight="800" color={colors.textDim}>
+          {open ? '▾' : '▸'}
+        </Txt>
+      </Pressable>
+      {open && (
+        <View style={{ marginTop: spacing(1), gap: spacing(0.75) }}>
+          {props.lines.map((l, i) => (
+            <Txt key={i} faint size={fontSize.xs}>
+              • {l}
+            </Txt>
+          ))}
+        </View>
+      )}
+    </Card>
+  );
+}
 
 // ---------------------------------------------------------------------------
 // Empty state

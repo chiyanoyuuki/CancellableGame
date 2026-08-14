@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Switch, View } from 'react-native';
 
-import { Button, Card, Chip, PlayerUnseenList, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
+import { Button, Card, Chip, HowToPlay, PlayerUnseenList, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
 import {
   type BombeConfig,
   DEFAULT_BOMBE_CONFIG,
@@ -122,6 +122,15 @@ export function BombeConfigComponent({ players, onStart }: MiniGameConfigProps) 
           Dernier survivant gagne !
         </Txt>
       </Card>
+
+      <HowToPlay
+        lines={[
+          'Un joueur au hasard démarre avec la bombe.',
+          'Bonne réponse : tu passes la bombe à ton voisin. Erreur, propositions ou « passer » raccourcissent la mèche.',
+          'Quand la mèche explose, celui qui tient la bombe perd une vie (ou est éliminé s\'il n\'en a plus).',
+          'Le dernier survivant remporte la partie.',
+        ]}
+      />
 
       <SectionHeader title="Thèmes" />
       <View style={styles.wrap}>

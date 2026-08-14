@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Switch, View } from 'react-native';
 
-import { Button, Card, Chip, PlayerAvatar, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
+import { Button, Card, Chip, HowToPlay, PlayerAvatar, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
 import { type DrinkIntensity, type DuelUltimeConfig, type Question, type Theme, THEME_META, THEMES } from '../../core/models';
 import { pickRandomUniverses } from '../../core/duelUltimeEngine';
 import { countUnseen, type QuestionHistory } from '../../core/questionSelection';
@@ -146,6 +146,15 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
           si tu l'avais. Priorité aux questions jamais vues. Le meilleur score gagne — jouable en solo.
         </Txt>
       </Card>
+
+      <HowToPlay
+        lines={[
+          'Chaque joueur choisit un ou plusieurs univers et affronte N questions pro dessus.',
+          'Aucune proposition : on révèle la réponse, tu dis honnêtement si tu l\'avais.',
+          'Priorité aux questions jamais vues par le joueur.',
+          'Le meilleur score l\'emporte — parfait aussi en solo pour se tester.',
+        ]}
+      />
 
       <SectionHeader title="Questions par joueur" />
       <Segmented<string>
