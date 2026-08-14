@@ -76,10 +76,15 @@ export function encodeProfileCompact(p: RemoteProfile, catalogue: readonly strin
  */
 export function decodeProfile(raw: string, catalogue?: readonly string[]): RemoteProfile | null {
   if (typeof raw !== 'string') return null;
-  const trimmed = raw.trim();
+  // On repère le préfixe où qu'il soit et on repart de là : un scanner peut
+  // préfixer un octet parasite (BOM U+FEFF, caractère de remplacement U+FFFD
+  // d'un ancien QR corrompu…) que `trim()` ne retire pas forcément.
+  const magicAt = raw.indexOf(MAGIC);
+  if (magicAt < 0) return null;
+  const trimmed = raw.slice(magicAt).trim();
 
-  const sep1 = trimmed.indexOf('|');
-  if (sep1 < 0 || trimmed.slice(0, sep1) !== MAGIC) return null;
+  const sep1 = trimmed.indexOf('|'); // MAGIC ne contient pas de « | »
+  if (sep1 < 0) return null;
   const sep2 = trimmed.indexOf('|', sep1 + 1);
   if (sep2 < 0) return null;
 
@@ -127,7 +132,8 @@ export function decodeProfile(raw: string, catalogue?: readonly string[]): Remot
   return { name, emoji, color, unwanted };
 }
 
-/** Vrai si la chaîne ressemble à un profil Cancellable (préfixe reconnu). */
+/** Vrai si la chaîne ressemble à un profil Cancellable (préfixe reconnu, même
+ * précédé d'un octet parasite de scan). */
 export function isProfileCode(raw: string): boolean {
-  return typeof raw === 'string' && raw.trim().startsWith(`${MAGIC}|`);
+  return typeof raw === 'string' && raw.indexOf(`${MAGIC}|`) >= 0;
 }

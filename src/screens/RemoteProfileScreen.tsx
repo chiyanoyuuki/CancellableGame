@@ -232,6 +232,21 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
         </Txt>
       </View>
 
+      {/* --- Scanner le QR retour d'un invité (à portée de main, sous le QR) --- */}
+      <View style={{ height: spacing(1.5) }} />
+      <Button title="Scanner un profil" emoji="📷" size="lg" variant="accent" onPress={() => void openScanner()} />
+      <Txt faint size={fontSize.xs} center style={{ marginTop: spacing(1) }}>
+        Quand un invité a fini, scanne le QR qu'il affiche (création ou mise à jour).
+      </Txt>
+      {feedback && (
+        <Card accent={feedback.ok ? colors.success : colors.danger} style={{ marginTop: spacing(1.5) }}>
+          <Txt weight="700" color={feedback.ok ? colors.success : colors.danger}>
+            {feedback.ok ? '✅ ' : '⚠️ '}
+            {feedback.text}
+          </Txt>
+        </Card>
+      )}
+
       {/* --- Mettre à jour un profil existant --- */}
       <Txt weight="800" size={fontSize.xs} faint style={styles.section}>
         ✏️ METTRE À JOUR UN JOUEUR
@@ -267,22 +282,6 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
             );
           })}
         </>
-      )}
-
-      {/* --- Scanner les QR retour --- */}
-      <View style={{ height: spacing(2) }} />
-      <Button title="Scanner un profil" emoji="📷" size="lg" variant="accent" onPress={() => void openScanner()} />
-      <Txt faint size={fontSize.xs} center style={{ marginTop: spacing(1) }}>
-        Quand un invité a fini, scanne le QR qu'il affiche (création ou mise à jour).
-      </Txt>
-
-      {feedback && (
-        <Card accent={feedback.ok ? colors.success : colors.danger} style={{ marginTop: spacing(2) }}>
-          <Txt weight="700" color={feedback.ok ? colors.success : colors.danger}>
-            {feedback.ok ? '✅ ' : '⚠️ '}
-            {feedback.text}
-          </Txt>
-        </Card>
       )}
 
       {imported.length > 0 && (

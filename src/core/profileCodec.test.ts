@@ -101,4 +101,38 @@ describe('profileCodec', () => {
       expect(decodeProfile(code, catalogue)?.unwanted).toEqual(['Naruto', 'Bleach']);
     });
   });
+
+  describe('robustesse du scan (QR reels)', () => {
+    // Reproduit l'echappement ASCII du formulaire web : le QR ne contient QUE de
+    // l'ASCII, pour ne jamais declencher l'encodeur UTF-8 fragile de la biblio QR.
+    // JSON.parse reconstitue emojis et accents a l'identique.
+    const asciiEscape = (str: string) =>
+      str.replace(/[\u0080-\uffff]/g, (ch) => '\\u' + ('0000' + ch.charCodeAt(0).toString(16)).slice(-4));
+
+    test('un corps echappe (formulaire web) reste 100 pourcent ASCII et se decode a l identique', () => {
+      const catalogue = ['Naruto', 'La gauche', "Assassin's Creed"];
+      const escaped = asciiEscape(encodeProfileCompact(sample, catalogue));
+      expect([...escaped].every((c) => c.charCodeAt(0) < 128)).toBe(true);
+      expect(decodeProfile(escaped, catalogue)).toEqual(sample);
+    });
+
+    test('emoji hors BMP echappe (paire de substitution) restitue intact', () => {
+      const dragon: RemoteProfile = { name: 'Lea', emoji: '\ud83d\udc32', color: '#ff5c8a', unwanted: [] };
+      const escaped = asciiEscape(encodeProfile(dragon));
+      expect(escaped).toContain('\\ud83d\\udc32'); // dragon hors BMP, ecrit en ASCII
+      expect(decodeProfile(escaped)).toEqual(dragon);
+    });
+
+    test('tolere un BOM (U+FEFF) en tete, comme certains scanners', () => {
+      expect(decodeProfile('\uFEFF' + encodeProfile(sample))).toEqual(sample);
+    });
+
+    test('tolere un caractere parasite U+FFFD colle avant le prefixe', () => {
+      expect(decodeProfile('\uFFFD' + encodeProfile(sample))).toEqual(sample);
+    });
+
+    test('isProfileCode reconnait un code precede d un BOM', () => {
+      expect(isProfileCode('\uFEFF' + encodeProfile(sample))).toBe(true);
+    });
+  });
 });
