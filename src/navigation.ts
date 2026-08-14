@@ -14,5 +14,6 @@ export type RootStackParamList = {
   Settings: undefined;
   CustomContent: undefined;
   ImageCheck: undefined;
+  ReportedQuestions: undefined;
   Store: undefined;
 };

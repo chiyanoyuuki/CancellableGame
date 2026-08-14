@@ -115,6 +115,23 @@ async function migrate(db: SQLite.SQLiteDatabase): Promise<void> {
     await db.execAsync('ALTER TABLE players ADD COLUMN photo_uri TEXT');
     version = 3;
   }
+  if (version < 4) {
+    // Questions signalées par l'utilisateur en jeu (réponse fausse, faute…),
+    // pour relecture/correction. On stocke un instantané du texte au cas où la
+    // banque évolue.
+    await db.execAsync(`
+      CREATE TABLE IF NOT EXISTS reported_questions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        question_id TEXT NOT NULL,
+        question_text TEXT NOT NULL,
+        answer TEXT NOT NULL,
+        universe TEXT,
+        reason TEXT,
+        at INTEGER NOT NULL
+      );
+    `);
+    version = 4;
+  }
 
   await db.execAsync(`PRAGMA user_version = ${version}`);
 }
@@ -148,5 +165,6 @@ export async function resetDb(): Promise<void> {
     DELETE FROM kv;
     DELETE FROM custom_questions;
     DELETE FROM custom_challenges;
+    DELETE FROM reported_questions;
   `);
 }

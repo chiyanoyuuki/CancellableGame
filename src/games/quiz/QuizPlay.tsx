@@ -29,6 +29,7 @@ import {
   getSavedGame,
   listCustomChallenges,
   newSlotId,
+  reportQuestion,
   saveGame,
 } from '../../db';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
@@ -61,6 +62,8 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
   const [challengeSeed, setChallengeSeed] = useState(1);
   const [challengeTimer, setChallengeTimer] = useState<number | null>(null);
   const [challengeTimerKey, setChallengeTimerKey] = useState(0);
+  // Questions signalées cette partie (pour éviter le double-signalement et changer le libellé).
+  const [reportedIds, setReportedIds] = useState<Set<string>>(new Set());
   // Univers non souhaités par joueur — sert à signaler, sous l'univers, quand
   // une question sort d'un univers que le joueur actif avait écarté.
   const [unwantedByPlayer, setUnwantedByPlayer] = useState<Record<string, string[]>>({});
@@ -821,11 +824,29 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
     );
   }
 
+  // Signaler la question en cours (réponse fausse, faute…) pour relecture ultérieure.
+  const reportCurrent = () => {
+    const q = currentQuestion(game!);
+    if (!q || reportedIds.has(q.id)) return;
+    const send = (reason: string) => {
+      void reportQuestion({ id: q.id, text: q.text, answer: q.answer, universe: q.universe }, reason);
+      setReportedIds((prev) => new Set(prev).add(q.id));
+    };
+    Alert.alert('Signaler cette question', 'Qu’est-ce qui ne va pas ?', [
+      { text: 'Réponse fausse', onPress: () => send('reponse') },
+      { text: 'Faute / orthographe', onPress: () => send('faute') },
+      { text: 'Ambiguë ou obsolète', onPress: () => send('ambigu') },
+      { text: 'Annuler', style: 'cancel' },
+    ]);
+  };
+
   function renderReveal() {
     const o = game!.lastOutcome;
     if (!o) return null;
     const who = game!.activePlayerId ? byId[game!.activePlayerId] : undefined;
     const ranking = getRanking(game!);
+    const curId = currentQuestion(game!)?.id;
+    const alreadyReported = !!curId && reportedIds.has(curId);
 
     return (
       <View style={{ gap: spacing(2) }}>
@@ -893,6 +914,15 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
         <Button title={prog.current >= prog.total ? 'Voir les résultats' : 'Question suivante'} size="lg" onPress={() => dispatch({ type: 'CONTINUE' })} />
         {canGoBack && (
           <Button title="↩︎ Corriger" variant="ghost" onPress={goBack} />
+        )}
+        {curId && (
+          <Button
+            title={alreadyReported ? '✓ Question signalée' : '⚠️ Signaler cette question'}
+            variant="ghost"
+            size="sm"
+            disabled={alreadyReported}
+            onPress={reportCurrent}
+          />
         )}
       </View>
     );

@@ -18,6 +18,7 @@ import { LobbyScreen } from './src/screens/LobbyScreen';
 import { OnboardingScreen } from './src/screens/OnboardingScreen';
 import { PlayersScreen } from './src/screens/PlayersScreen';
 import { RemoteProfileScreen } from './src/screens/RemoteProfileScreen';
+import { ReportedQuestionsScreen } from './src/screens/ReportedQuestionsScreen';
 import { ResultsScreen } from './src/screens/ResultsScreen';
 import { SettingsScreen } from './src/screens/SettingsScreen';
 import { StatsScreen } from './src/screens/StatsScreen';
@@ -112,6 +113,7 @@ function AppInner() {
           <Stack.Screen name="Settings" component={SettingsScreen} />
           <Stack.Screen name="CustomContent" component={CustomContentScreen} />
           <Stack.Screen name="ImageCheck" component={ImageCheckScreen} />
+          <Stack.Screen name="ReportedQuestions" component={ReportedQuestionsScreen} />
           <Stack.Screen name="Store" component={StoreScreen} />
         </Stack.Navigator>
       </NavigationContainer>

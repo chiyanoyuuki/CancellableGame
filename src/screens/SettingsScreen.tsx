@@ -1,17 +1,25 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback, useState } from 'react';
 import { Alert, View } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 
 import { Button, Card, Screen, SectionHeader, Txt } from '../components/ui';
-import { type BackupData, exportAll, importAll, resetDb } from '../db';
+import { type BackupData, exportAll, getReportedCount, importAll, resetDb } from '../db';
 import type { RootStackParamList } from '../navigation';
 import { fontSize, spacing } from '../theme/theme';
 
 export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'Settings'>) {
   const [busy, setBusy] = useState(false);
+  const [reportCount, setReportCount] = useState(0);
+
+  useFocusEffect(
+    useCallback(() => {
+      void getReportedCount().then(setReportCount);
+    }, []),
+  );
 
   const exportData = async () => {
     try {
@@ -104,6 +112,13 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
           emoji="📸"
           variant="secondary"
           onPress={() => navigation.navigate('ImageCheck')}
+        />
+        <View style={{ height: spacing(1) }} />
+        <Button
+          title={reportCount > 0 ? `Questions signalées (${reportCount})` : 'Questions signalées'}
+          emoji="⚠️"
+          variant="secondary"
+          onPress={() => navigation.navigate('ReportedQuestions')}
         />
       </Card>
 
