@@ -14,6 +14,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { Player } from '../core/models';
+import { useTextScale } from '../lib/textScale';
 import { colors, fontSize, radius, spacing } from '../theme/theme';
 
 // ---------------------------------------------------------------------------
@@ -32,11 +33,12 @@ export function Txt(props: {
   style?: StyleProp<TextStyle>;
 }) {
   const color = props.color ?? (props.faint ? colors.textFaint : props.dim ? colors.textDim : colors.text);
+  const { scale } = useTextScale();
   return (
     <Text
       numberOfLines={props.numberOfLines}
       style={[
-        { color, fontSize: props.size ?? fontSize.md, fontWeight: props.weight ?? '500' },
+        { color, fontSize: (props.size ?? fontSize.md) * scale, fontWeight: props.weight ?? '500' },
         props.center && { textAlign: 'center' },
         props.style,
       ]}

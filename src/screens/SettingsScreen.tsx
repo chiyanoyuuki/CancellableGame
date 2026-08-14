@@ -1,19 +1,42 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useState } from 'react';
-import { Alert, View } from 'react-native';
+import { Alert, Switch, View } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 
-import { Button, Card, Screen, SectionHeader, Txt } from '../components/ui';
-import { type BackupData, exportAll, getReportedCount, importAll, resetDb } from '../db';
+import { Button, Card, Screen, SectionHeader, Segmented, Txt } from '../components/ui';
+import { type BackupData, exportAll, getReportedCount, importAll, kvSetJSON, resetDb } from '../db';
+import { areHapticsEnabled, setHapticsEnabled } from '../lib/haptics';
+import { useTextScale } from '../lib/textScale';
 import type { RootStackParamList } from '../navigation';
-import { fontSize, spacing } from '../theme/theme';
+import { colors, fontSize, spacing } from '../theme/theme';
+
+const TEXT_SIZES = [
+  { label: 'Petit', value: '0.85' },
+  { label: 'Normal', value: '1' },
+  { label: 'Grand', value: '1.15' },
+  { label: 'Très grand', value: '1.3' },
+];
 
 export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'Settings'>) {
   const [busy, setBusy] = useState(false);
   const [reportCount, setReportCount] = useState(0);
+  const { scale, setScale } = useTextScale();
+  const [haptics, setHaptics] = useState(areHapticsEnabled());
+
+  const toggleHaptics = (on: boolean) => {
+    setHaptics(on);
+    setHapticsEnabled(on);
+    void kvSetJSON('ui:haptics', on);
+  };
+
+  // Le sélecteur de taille compare des chaînes ; on prend la valeur exacte la plus proche.
+  const scaleValue = TEXT_SIZES.reduce(
+    (best, o) => (Math.abs(Number(o.value) - scale) < Math.abs(Number(best) - scale) ? o.value : best),
+    '1',
+  );
 
   useFocusEffect(
     useCallback(() => {
@@ -89,6 +112,27 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
 
   return (
     <Screen title="Réglages" onBack={() => navigation.goBack()} scroll>
+      <SectionHeader title="Accessibilité & confort" />
+      <Card>
+        <Txt weight="700">Taille du texte</Txt>
+        <View style={{ marginTop: spacing(1) }}>
+          <Segmented<string> value={scaleValue} onChange={(v) => setScale(Number(v))} options={TEXT_SIZES} />
+        </View>
+        <Txt style={{ marginTop: spacing(1.5) }}>Aperçu : tout le monde voit bien la question ? 👀</Txt>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing(1), marginTop: spacing(2) }}>
+          <View style={{ flex: 1 }}>
+            <Txt weight="700">Vibrations 📳</Txt>
+            <Txt faint size={fontSize.xs}>Retours haptiques (bonnes/mauvaises réponses, victoire…)</Txt>
+          </View>
+          <Switch
+            value={haptics}
+            onValueChange={toggleHaptics}
+            trackColor={{ true: colors.primary, false: colors.border }}
+            thumbColor={colors.white}
+          />
+        </View>
+      </Card>
+
       <SectionHeader title="Sauvegarde" />
       <Card>
         <Txt dim size={fontSize.sm} style={{ marginBottom: spacing(1.5) }}>

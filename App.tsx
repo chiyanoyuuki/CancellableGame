@@ -6,7 +6,9 @@ import { View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { AnimatedSplash } from './src/components/AnimatedSplash';
-import { initDatabase, mostRecentSavedGame } from './src/db';
+import { initDatabase, kvGetJSON, mostRecentSavedGame } from './src/db';
+import { setHapticsEnabled } from './src/lib/haptics';
+import { TextScaleProvider } from './src/lib/textScale';
 import type { RootStackParamList } from './src/navigation';
 import { GameConfigScreen } from './src/screens/GameConfigScreen';
 import { GamePlayScreen } from './src/screens/GamePlayScreen';
@@ -44,9 +46,11 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <StatusBar style="light" />
-      <StoreProvider>
-        <AppInner />
-      </StoreProvider>
+      <TextScaleProvider>
+        <StoreProvider>
+          <AppInner />
+        </StoreProvider>
+      </TextScaleProvider>
     </SafeAreaProvider>
   );
 }
@@ -62,6 +66,12 @@ function AppInner() {
   useEffect(() => {
     void (async () => {
       await initDatabase();
+      // Préférence de vibrations (Réglages) appliquée au module haptique.
+      try {
+        setHapticsEnabled(await kvGetJSON<boolean>('ui:haptics', true));
+      } catch {
+        // best-effort
+      }
       try {
         const saved = await mostRecentSavedGame();
         if (saved) {
