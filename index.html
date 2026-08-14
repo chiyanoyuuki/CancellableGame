@@ -182,13 +182,23 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   renderUniverses();
 
   var FLAT_INDEX = {}; FLAT.forEach(function(u,i){ FLAT_INDEX[u]=i; });
+  // Échappe tout caractère non-ASCII en \uXXXX. La bibliothèque QR embarquée a un
+  // encodeur UTF-8 fragile (les emojis hors BMP = paires de substitution donnent
+  // de l'UTF-8 invalide + un BOM parasite → QR corrompu, illisible par l'app).
+  // En ne mettant QUE de l'ASCII dans le QR, l'encodage est fiable, et JSON.parse
+  // côté app reconstitue emojis et accents à l'identique (\uXXXX est du JSON valide).
+  function asciiEscape(s){
+    return s.replace(/[\u0080-\uffff]/g, function(ch){
+      return '\\u' + ('0000' + ch.charCodeAt(0).toString(16)).slice(-4);
+    });
+  }
   function encodeProfile(p){
     // Format v2 (compact) : univers encodés par leur indice dans le catalogue.
     // Bien plus court que les noms → QR petit et scannable même avec beaucoup
     // d'univers évités. `v` = taille du catalogue (garde-fou anti-décalage).
     var u = [];
     p.unwanted.forEach(function(n){ var i = FLAT_INDEX[n]; if (i !== undefined) u.push(i); });
-    return 'CANCELLABLE-PROFILE|2|' + JSON.stringify({ n:p.name, e:p.emoji, c:p.color, v:FLAT.length, u:u });
+    return asciiEscape('CANCELLABLE-PROFILE|2|' + JSON.stringify({ n:p.name, e:p.emoji, c:p.color, v:FLAT.length, u:u }));
   }
 
   document.getElementById('gen').onclick = function(){
