@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, Image, Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import * as Haptics from 'expo-haptics';
 import { setAudioModeAsync, useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button, Card, PlayerAvatar, ProgressBar, Txt } from '../../components/ui';
+import { haptics } from '../../lib/haptics';
 import { DRINK_CHALLENGES, resolveChallenge } from '../../core/drinks';
 import { DIFFICULTY_LABELS, type Player, type QuizConfig, type SessionResult, THEME_META } from '../../core/models';
 import {
@@ -38,13 +38,8 @@ import type { MiniGamePlayProps } from '../types';
 import { getQuizPool } from './pool';
 
 function haptic(success: boolean) {
-  try {
-    void Haptics.notificationAsync(
-      success ? Haptics.NotificationFeedbackType.Success : Haptics.NotificationFeedbackType.Warning,
-    );
-  } catch {
-    // haptics are best-effort
-  }
+  if (success) haptics.correct();
+  else haptics.wrong();
 }
 
 export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, slotId: resumeSlotId }: MiniGamePlayProps) {

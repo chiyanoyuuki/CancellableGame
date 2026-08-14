@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import * as Haptics from 'expo-haptics';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button, Card, PlayerAvatar, Txt } from '../../components/ui';
+import { haptics } from '../../lib/haptics';
 import { DIFFICULTY_LABELS, type Difficulty, type DuelConfig, type DuelJoker, type Player, THEME_META } from '../../core/models';
 import { type DuelAction, type DuelState, createDuelState, duelReducer, duelToSessionResult } from '../../core/duelEngine';
 import { type DrinkOutcome, rollAnswerDrink } from '../../core/drinks';
@@ -14,13 +14,8 @@ import type { MiniGamePlayProps } from '../types';
 import { getQuizPool } from '../quiz/pool';
 
 function haptic(success: boolean) {
-  try {
-    void Haptics.notificationAsync(
-      success ? Haptics.NotificationFeedbackType.Success : Haptics.NotificationFeedbackType.Error,
-    );
-  } catch {
-    // best-effort
-  }
+  if (success) haptics.correct();
+  else haptics.fail();
 }
 
 export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGamePlayProps) {

@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Animated, Easing, Image, Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import * as Haptics from 'expo-haptics';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button, Card, PlayerAvatar, Txt } from '../../components/ui';
+import { haptics } from '../../lib/haptics';
 import { type BombeConfig, DIFFICULTY_LABELS, type Player, type SessionResult, THEME_META } from '../../core/models';
 import {
   type BombeAction,
@@ -22,13 +22,9 @@ import type { MiniGamePlayProps } from '../types';
 import { getQuizPool } from '../quiz/pool';
 
 function haptic(type: 'ok' | 'warn' | 'boom') {
-  try {
-    if (type === 'boom') void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-    else if (type === 'warn') void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    else void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-  } catch {
-    // best-effort
-  }
+  if (type === 'boom') haptics.fail();
+  else if (type === 'warn') haptics.warn();
+  else haptics.correct();
 }
 
 const TICK_MS = 100;

@@ -1,9 +1,10 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { View } from 'react-native';
 
 import { Button, Card, PlayerAvatar, Screen, Txt } from '../components/ui';
 import type { Player, PlayerSessionResult } from '../core/models';
+import { haptics } from '../lib/haptics';
 import type { RootStackParamList } from '../navigation';
 import { colors, fontSize, RANK_MEDALS, spacing } from '../theme/theme';
 
@@ -30,6 +31,11 @@ export function ResultsScreen({ route, navigation }: NativeStackScreenProps<Root
 
   const ranked = useMemo(() => [...result.players].sort((a, b) => a.rank - b.rank), [result.players]);
   const winner = ranked[0] ? disp(ranked[0]) : undefined;
+
+  // Petite salve de vibration festive à l'affichage des résultats.
+  useEffect(() => {
+    haptics.win();
+  }, []);
 
   return (
     <Screen

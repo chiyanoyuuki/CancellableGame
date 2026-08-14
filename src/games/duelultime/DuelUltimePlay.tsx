@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import * as Haptics from 'expo-haptics';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button, Card, PlayerAvatar, Txt } from '../../components/ui';
+import { haptics } from '../../lib/haptics';
 import { type DuelUltimeConfig, type Player, THEME_META } from '../../core/models';
 import {
   type DuelUltimeAction,
@@ -21,13 +21,8 @@ import type { MiniGamePlayProps } from '../types';
 import { getQuizPool } from '../quiz/pool';
 
 function haptic(success: boolean) {
-  try {
-    void Haptics.notificationAsync(
-      success ? Haptics.NotificationFeedbackType.Success : Haptics.NotificationFeedbackType.Error,
-    );
-  } catch {
-    // best-effort
-  }
+  if (success) haptics.correct();
+  else haptics.fail();
 }
 
 export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: MiniGamePlayProps) {
