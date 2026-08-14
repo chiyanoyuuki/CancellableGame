@@ -23,6 +23,7 @@ import { RemoteProfileScreen } from './src/screens/RemoteProfileScreen';
 import { ReportedQuestionsScreen } from './src/screens/ReportedQuestionsScreen';
 import { ResultsScreen } from './src/screens/ResultsScreen';
 import { SettingsScreen } from './src/screens/SettingsScreen';
+import { SoireeScreen } from './src/screens/SoireeScreen';
 import { StatsScreen } from './src/screens/StatsScreen';
 import { StoreScreen } from './src/screens/StoreScreen';
 import { StoreProvider, useStore } from './src/store/StoreProvider';
@@ -115,6 +116,7 @@ function AppInner() {
           <Stack.Screen name="Players" component={PlayersScreen} />
           <Stack.Screen name="RemoteProfile" component={RemoteProfileScreen} />
           <Stack.Screen name="GameSelect" component={GameSelectScreen} />
+          <Stack.Screen name="Soiree" component={SoireeScreen} />
           <Stack.Screen name="Lobby" component={LobbyScreen} />
           <Stack.Screen name="GameConfig" component={GameConfigScreen} />
           <Stack.Screen name="GamePlay" component={GamePlayScreen} options={{ gestureEnabled: false }} />

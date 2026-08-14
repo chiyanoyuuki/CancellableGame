@@ -7,7 +7,7 @@ import { useStore } from '../store/StoreProvider';
 
 /** Generic wrapper that renders the chosen mini-game's config component. */
 export function GameConfigScreen({ route, navigation }: NativeStackScreenProps<RootStackParamList, 'GameConfig'>) {
-  const { gameId, players } = route.params;
+  const { gameId, players, soiree } = route.params;
   const game = getGame(gameId);
   const { requestGameStart } = useStore();
 
@@ -32,7 +32,7 @@ export function GameConfigScreen({ route, navigation }: NativeStackScreenProps<R
         onCancel={() => navigation.goBack()}
         onStart={(config) =>
           // Pub avant chaque partie au-delà de la première de la session.
-          requestGameStart(() => navigation.navigate('GamePlay', { gameId, players, config }))
+          requestGameStart(() => navigation.navigate('GamePlay', { gameId, players, config, soiree }))
         }
       />
     </Screen>

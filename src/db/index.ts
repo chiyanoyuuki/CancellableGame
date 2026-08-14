@@ -9,3 +9,4 @@ export * from './backup';
 export * from './customQuestions';
 export * from './customChallenges';
 export * from './reports';
+export * from './soiree';

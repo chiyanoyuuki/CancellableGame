@@ -7,9 +7,10 @@ export type RootStackParamList = {
   RemoteProfile: undefined;
   GameSelect: undefined;
   Lobby: { gameId: string };
-  GameConfig: { gameId: string; players: Player[] };
-  GamePlay: { gameId: string; players: Player[]; config: unknown; resume?: boolean; slotId?: string };
+  GameConfig: { gameId: string; players: Player[]; soiree?: boolean };
+  GamePlay: { gameId: string; players: Player[]; config: unknown; resume?: boolean; slotId?: string; soiree?: boolean };
   Results: { result: SessionResult; players: Player[] };
+  Soiree: undefined;
   Stats: undefined;
   Settings: undefined;
   CustomContent: undefined;

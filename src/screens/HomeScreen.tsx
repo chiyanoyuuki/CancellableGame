@@ -80,6 +80,7 @@ export function HomeScreen({ navigation }: NativeStackScreenProps<RootStackParam
           </View>
         )}
         <Button title={saved.length > 0 ? 'Nouvelle partie' : 'Jouer'} emoji="🎮" variant={saved.length > 0 ? 'secondary' : 'primary'} size="lg" onPress={() => navigation.navigate('GameSelect')} />
+        <Button title="Mode Soirée" emoji="🎉" variant="secondary" size="lg" onPress={() => navigation.navigate('Soiree')} />
         <Button title="Joueurs" emoji="👥" variant="secondary" size="lg" onPress={() => navigation.navigate('Players')} />
         <Button title="Statistiques" emoji="📊" variant="secondary" size="lg" onPress={() => navigation.navigate('Stats')} />
         <Button title="Mon contenu" emoji="✏️" variant="secondary" size="lg" onPress={() => navigation.navigate('CustomContent')} />
