@@ -1,9 +1,10 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useEffect, useMemo } from 'react';
-import { View } from 'react-native';
+import { Share, View } from 'react-native';
 
 import { Button, Card, PlayerAvatar, Screen, Txt } from '../components/ui';
 import type { Player, PlayerSessionResult } from '../core/models';
+import { getGame } from '../games/registry';
 import { haptics } from '../lib/haptics';
 import type { RootStackParamList } from '../navigation';
 import { colors, fontSize, RANK_MEDALS, spacing } from '../theme/theme';
@@ -37,6 +38,28 @@ export function ResultsScreen({ route, navigation }: NativeStackScreenProps<Root
     haptics.win();
   }, []);
 
+  // Récap texte à partager (WhatsApp, etc.) via la feuille de partage native.
+  const shareRecap = async () => {
+    const title = getGame(result.gameId)?.title ?? 'Partie';
+    const lines = ranked.map((r, i) => `${RANK_MEDALS[i] ?? `${i + 1}.`} ${disp(r).name} — ${r.points} pts`);
+    const totalSips = result.players.reduce((s, p) => s + p.sipsDrunk, 0);
+    const msg = [
+      `🔒 Cancellable — ${title}`,
+      winner ? `🏆 ${winner.name} gagne !` : '',
+      '',
+      ...lines,
+      totalSips > 0 ? `\n🍺 ${totalSips} gorgées au total` : '',
+      'Le jeu de vos soirées entre amis 🎉',
+    ]
+      .filter((l) => l !== '')
+      .join('\n');
+    try {
+      await Share.share({ message: msg });
+    } catch {
+      // partage annulé — rien à faire
+    }
+  };
+
   return (
     <Screen
       title="Résultats"
@@ -49,6 +72,7 @@ export function ResultsScreen({ route, navigation }: NativeStackScreenProps<Root
             emoji="🔁"
             onPress={() => navigation.navigate('GameConfig', { gameId: result.gameId, players })}
           />
+          <Button title="Partager le résultat" emoji="📤" variant="secondary" onPress={() => void shareRecap()} />
           <View style={{ flexDirection: 'row', gap: spacing(1) }}>
             <Button title="Statistiques" variant="secondary" style={{ flex: 1 }} onPress={() => navigation.navigate('Stats')} />
             <Button title="Accueil" variant="ghost" style={{ flex: 1 }} onPress={() => navigation.navigate('Home')} />
