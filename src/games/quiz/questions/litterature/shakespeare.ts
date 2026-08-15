@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const shakespeare = universe("litterature", "Shakespeare", [
+  // --- Faciles (5) ---
+  { id: "shakespeare-f1", d: 1, t: "De quel pays était William Shakespeare ?", a: "L'Angleterre", acc: ["angleterre", "l'angleterre", "anglais"], x: ["La France", "L'Italie", "L'Écosse"] },
+  { id: "shakespeare-f2", d: 1, t: "Quelle tragédie de Shakespeare met en scène deux amants de Vérone ?", a: "Roméo et Juliette", acc: ["roméo et juliette", "romeo et juliette"], x: ["Hamlet", "Macbeth", "Othello"] },
+  { id: "shakespeare-f3", d: 1, t: "Quel prince danois est le héros d'une célèbre tragédie de Shakespeare ?", a: "Hamlet", acc: ["hamlet"], x: ["Macbeth", "Othello", "Lear"] },
+  { id: "shakespeare-f4", d: 1, t: "Quelle réplique célèbre de Hamlet commence par « Être ou… » ?", a: "…ne pas être", acc: ["ne pas être", "ne pas etre", "to be or not to be"], x: ["…exister", "…mourir", "…rêver"] },
+  { id: "shakespeare-f5", d: 1, t: "Shakespeare écrivait surtout pour quel art ?", a: "Le théâtre", acc: ["théâtre", "le théâtre", "theatre"], x: ["Le roman", "L'opéra", "La peinture"] },
+
+  // --- Moyennes (10) ---
+  { id: "shakespeare-m1", d: 2, t: "Quel général maure, manipulé par Iago, étouffe sa femme Desdémone ?", a: "Othello", acc: ["othello"], x: ["Macbeth", "Hamlet", "Lear"] },
+  { id: "shakespeare-m2", d: 2, t: "Quel guerrier écossais tue le roi Duncan pour prendre sa couronne ?", a: "Macbeth", acc: ["macbeth"], x: ["Othello", "Hamlet", "Richard III"] },
+  { id: "shakespeare-m3", d: 2, t: "Quel roi partage son royaume entre ses filles et sombre dans la folie ?", a: "Le Roi Lear", acc: ["le roi lear", "roi lear", "lear"], x: ["Macbeth", "Richard III", "Henry V"] },
+  { id: "shakespeare-m4", d: 2, t: "Quelle fiancée de Hamlet devient folle et se noie ?", a: "Ophélie", acc: ["ophélie", "ophelie", "ophelia"], x: ["Desdémone", "Cordélia", "Juliette"] },
+  { id: "shakespeare-m5", d: 2, t: "Quel conseiller perfide pousse Othello à la jalousie ?", a: "Iago", acc: ["iago"], x: ["Cassio", "Roderigo", "Brabantio"] },
+  { id: "shakespeare-m6", d: 2, t: "Dans quel célèbre théâtre londonien les pièces de Shakespeare étaient-elles jouées ?", a: "Le Globe", acc: ["le globe", "globe", "globe theatre"], x: ["Le Swan", "Le Rose", "Le Blackfriars"] },
+  { id: "shakespeare-m7", d: 2, t: "Dans quelle ville anglaise est né Shakespeare ?", a: "Stratford-upon-Avon", acc: ["stratford-upon-avon", "stratford", "stratford upon avon"], x: ["Londres", "Oxford", "Canterbury"] },
+  { id: "shakespeare-m8", d: 2, t: "Quelle comédie féérique met en scène le lutin Puck et des amants égarés ?", a: "Le Songe d'une nuit d'été", acc: ["le songe d'une nuit d'été", "songe d'une nuit d'été", "a midsummer night's dream"], x: ["La Tempête", "Beaucoup de bruit pour rien", "La Nuit des rois"] },
+  { id: "shakespeare-m9", d: 2, t: "Combien de sonnets Shakespeare a-t-il écrits (environ) ?", a: "154", acc: ["154", "cent cinquante-quatre"], x: ["100", "200", "50"] },
+  { id: "shakespeare-m10", d: 2, t: "Quel surnom donne-t-on à Shakespeare, « le barde de… » ?", a: "Le Barde d'Avon", acc: ["le barde d'avon", "barde d'avon", "the bard"], x: ["Le Barde de Londres", "Le Cygne de la Tamise", "Le Poète du Roi"] },
+
+  // --- Dures (15) ---
+  { id: "shakespeare-d1", d: 3, t: "Combien de sorcières prédisent l'avenir à Macbeth ?", a: "Trois", acc: ["trois", "3"], x: ["Une", "Deux", "Quatre"] },
+  { id: "shakespeare-d2", d: 3, t: "Quelle épouse ambitieuse pousse Macbeth au meurtre puis se lave les mains dans son sommeil ?", a: "Lady Macbeth", acc: ["lady macbeth"], x: ["Desdémone", "Gertrude", "Cordélia"] },
+  { id: "shakespeare-d3", d: 3, t: "Quel prêteur juif réclame « une livre de chair » dans « Le Marchand de Venise » ?", a: "Shylock", acc: ["shylock"], x: ["Antonio", "Bassanio", "Iago"] },
+  { id: "shakespeare-d4", d: 3, t: "Quel magicien exilé dirige les esprits d'une île dans « La Tempête » ?", a: "Prospero", acc: ["prospero", "prospéro"], x: ["Caliban", "Ariel", "Puck"] },
+  { id: "shakespeare-d5", d: 3, t: "Quel esprit de l'air sert Prospero dans « La Tempête » ?", a: "Ariel", acc: ["ariel"], x: ["Puck", "Caliban", "Obéron"] },
+  { id: "shakespeare-d6", d: 3, t: "Quel gros chevalier bravache et bon vivant apparaît dans plusieurs pièces (Henry IV) ?", a: "Falstaff", acc: ["falstaff", "sir john falstaff"], x: ["Iago", "Mercutio", "Puck"] },
+  { id: "shakespeare-d7", d: 3, t: "Qui Hamlet tue-t-il par erreur derrière une tenture ?", a: "Polonius", acc: ["polonius"], x: ["Claudius", "Laërte", "Horatio"] },
+  { id: "shakespeare-d8", d: 3, t: "Quel oncle de Hamlet a assassiné son père pour prendre le trône ?", a: "Claudius", acc: ["claudius"], x: ["Polonius", "Laërte", "Fortinbras"] },
+  { id: "shakespeare-d9", d: 3, t: "Devant quel crâne Hamlet médite-t-il « Hélas, pauvre Yorick » ?", a: "Yorick", acc: ["yorick"], x: ["Polonius", "Ophélie", "Le roi"] },
+  { id: "shakespeare-d10", d: 3, t: "Quel ami fougueux de Roméo meurt en lançant « La peste soit de vos deux maisons » ?", a: "Mercutio", acc: ["mercutio"], x: ["Tybalt", "Benvolio", "Pâris"] },
+  { id: "shakespeare-d11", d: 3, t: "Quel Romain conspirateur, ami de César, participe à son assassinat ?", a: "Brutus", acc: ["brutus"], x: ["Marc Antoine", "Cassius", "Octave"] },
+  { id: "shakespeare-d12", d: 3, t: "Quelle phrase latine César lance-t-il à Brutus en mourant ?", a: "Et tu, Brute ?", acc: ["et tu brute", "et tu, brute", "toi aussi brutus"], x: ["Alea jacta est", "Veni vidi vici", "Morituri te salutant"] },
+  { id: "shakespeare-d13", d: 3, t: "Quel roi bossu et machiavélique s'écrie « Mon royaume pour un cheval ! » ?", a: "Richard III", acc: ["richard iii", "richard 3"], x: ["Henry V", "Le Roi Lear", "Macbeth"] },
+  { id: "shakespeare-d14", d: 3, t: "Quelle comédie voit Béatrice et Bénédict se chamailler avant de s'aimer ?", a: "Beaucoup de bruit pour rien", acc: ["beaucoup de bruit pour rien", "much ado about nothing"], x: ["La Nuit des rois", "Comme il vous plaira", "La Mégère apprivoisée"] },
+  { id: "shakespeare-d15", d: 3, t: "Quelle comédie met en scène Viola déguisée en garçon nommé Cesario ?", a: "La Nuit des rois", acc: ["la nuit des rois", "twelfth night"], x: ["Comme il vous plaira", "Le Songe d'une nuit d'été", "La Mégère apprivoisée"] },
+
+  // --- Pro (20) ---
+  { id: "shakespeare-p1", d: 4, t: "En quelle année est né Shakespeare (baptisé) ?", a: "1564", acc: ["1564"], x: ["1550", "1572", "1588"] },
+  { id: "shakespeare-p2", d: 4, t: "En quelle année est mort Shakespeare ?", a: "1616", acc: ["1616"], x: ["1600", "1623", "1642"] },
+  { id: "shakespeare-p3", d: 4, t: "Comment s'appelle l'épouse de Shakespeare ?", a: "Anne Hathaway", acc: ["anne hathaway", "hathaway"], x: ["Mary Arden", "Judith Shakespeare", "Susanna Hall"] },
+  { id: "shakespeare-p4", d: 4, t: "Quel fils unique de Shakespeare mourut jeune, donnant peut-être son nom à « Hamlet » ?", a: "Hamnet", acc: ["hamnet"], x: ["Edmund", "Gilbert", "Richard"] },
+  { id: "shakespeare-p5", d: 4, t: "Comment appelle-t-on le premier recueil posthume des pièces de Shakespeare (1623) ?", a: "Le Premier Folio", acc: ["le premier folio", "premier folio", "first folio"], x: ["Le Quarto", "Le Livre du Globe", "Le Codex Avon"] },
+  { id: "shakespeare-p6", d: 4, t: "Quelle troupe de Shakespeare devint « The King's Men » sous Jacques Ier ?", a: "Les Lord Chamberlain's Men", acc: ["lord chamberlain's men", "chamberlain's men", "king's men"], x: ["Les Admiral's Men", "Les Queen's Men", "Les Children of the Chapel"] },
+  { id: "shakespeare-p7", d: 4, t: "Sur quel fleuve se dresse le théâtre du Globe, à Londres ?", a: "La Tamise", acc: ["la tamise", "tamise", "thames"], x: ["La Severn", "L'Avon", "La Mersey"] },
+  { id: "shakespeare-p8", d: 4, t: "En quelle année le Globe brûla-t-il pendant une représentation d'« Henry VIII » ?", a: "1613", acc: ["1613"], x: ["1599", "1605", "1642"] },
+  { id: "shakespeare-p9", d: 4, t: "Quelle forêt marche vers le château de Macbeth, accomplissant la prophétie ?", a: "La forêt de Birnam", acc: ["birnam", "la forêt de birnam", "foret de birnam"], x: ["La forêt d'Arden", "La forêt de Dunsinane", "La forêt de Sherwood"] },
+  { id: "shakespeare-p10", d: 4, t: "Quel personnage devait « ne craindre nul homme né d'une femme », or Macduff était né par… ?", a: "Césarienne", acc: ["césarienne", "cesarienne", "arraché du ventre"], x: ["Adoption", "Prématurément", "En mer"] },
+  { id: "shakespeare-p11", d: 4, t: "Dans « Le Marchand de Venise », quelle héroïne se déguise en avocat pour sauver Antonio ?", a: "Portia", acc: ["portia"], x: ["Jessica", "Nerissa", "Viola"] },
+  { id: "shakespeare-p12", d: 4, t: "Quel monstre difforme, esclave de Prospero, peuple « La Tempête » ?", a: "Caliban", acc: ["caliban"], x: ["Ariel", "Puck", "Sycorax"] },
+  { id: "shakespeare-p13", d: 4, t: "Quel roi galvanise ses troupes avant Azincourt (« We few, we happy few ») ?", a: "Henry V", acc: ["henry v", "henry 5", "henri v"], x: ["Richard III", "Henry IV", "Jean sans Terre"] },
+  { id: "shakespeare-p14", d: 4, t: "Quel philtre le frère Laurent donne-t-il à Juliette pour simuler la mort ?", a: "Une potion / un somnifère", acc: ["potion", "un somnifère", "philtre", "poison endormant"], x: ["Du poison mortel", "Un élixir d'amour", "De l'eau bénite"] },
+  { id: "shakespeare-p15", d: 4, t: "Dans quelle ville italienne se déroule « Othello » (en partie) et d'où vient le Maure ?", a: "Venise", acc: ["venise"], x: ["Vérone", "Rome", "Florence"] },
+  { id: "shakespeare-p16", d: 4, t: "Quel dramaturge contemporain et rival de Shakespeare mourut jeune dans une rixe ?", a: "Christopher Marlowe", acc: ["marlowe", "christopher marlowe"], x: ["Ben Jonson", "Thomas Kyd", "John Webster"] },
+  { id: "shakespeare-p17", d: 4, t: "À qui sont dédiés la plupart des sonnets d'amour de Shakespeare (le « Fair Youth ») ?", a: "Un jeune homme", acc: ["un jeune homme", "jeune homme", "fair youth"], x: ["La reine Élisabeth", "Anne Hathaway", "Une dame noble"] },
+  { id: "shakespeare-p18", d: 4, t: "Quelle « dame » énigmatique inspire une série de sonnets plus sombres ?", a: "La Dame noire (Dark Lady)", acc: ["la dame noire", "dark lady", "dame noire"], x: ["La Reine vierge", "La Dame blanche", "La Muse d'Avon"] },
+  { id: "shakespeare-p19", d: 4, t: "Quelle pièce, réputée porter malheur, est surnommée « la pièce écossaise » par les acteurs ?", a: "Macbeth", acc: ["macbeth", "la pièce écossaise"], x: ["Hamlet", "Le Roi Lear", "Othello"] },
+  { id: "shakespeare-p20", d: 4, t: "Quelle reine égyptienne se donne la mort par morsure de serpent dans une tragédie romaine ?", a: "Cléopâtre", acc: ["cléopâtre", "cleopatre", "cléopâtre"], x: ["Portia", "Calpurnia", "Tamora"] },
+]);

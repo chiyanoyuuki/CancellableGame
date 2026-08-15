@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const dahl = universe("litterature", "Roald Dahl", [
+  // --- Faciles (5) ---
+  { id: "dahl-f1", d: 1, t: "Quel roman de Roald Dahl se déroule dans une chocolaterie magique ?", a: "Charlie et la Chocolaterie", acc: ["charlie et la chocolaterie", "charlie et la chocolaterie", "charlie"], x: ["Matilda", "Le Bon Gros Géant", "James et la Grosse Pêche"] },
+  { id: "dahl-f2", d: 1, t: "Quel excentrique dirige la chocolaterie dans « Charlie et la Chocolaterie » ?", a: "Willy Wonka", acc: ["willy wonka", "wonka"], x: ["Charlie Bucket", "Mr Fox", "Le BGG"] },
+  { id: "dahl-f3", d: 1, t: "Quelle petite fille surdouée aux pouvoirs magiques donne son nom à un roman de Dahl ?", a: "Matilda", acc: ["matilda"], x: ["Sophie", "Sacrées Sorcières", "Véruca"] },
+  { id: "dahl-f4", d: 1, t: "Pour quel public Roald Dahl est-il surtout célèbre ?", a: "Les enfants", acc: ["les enfants", "enfants", "la jeunesse"], x: ["Les adultes", "Les universitaires", "Les poètes"] },
+  { id: "dahl-f5", d: 1, t: "Que faut-il trouver dans une tablette pour visiter la chocolaterie de Wonka ?", a: "Un ticket d'or", acc: ["un ticket d'or", "ticket d'or", "ticket doré", "golden ticket"], x: ["Une clé", "Une carte", "Une pièce d'or"] },
+
+  // --- Moyennes (10) ---
+  { id: "dahl-m1", d: 2, t: "Quel garçon pauvre et gentil trouve le dernier ticket d'or ?", a: "Charlie Bucket", acc: ["charlie bucket", "charlie"], x: ["Augustus Gloop", "Mike Teavee", "James"] },
+  { id: "dahl-m2", d: 2, t: "Comment s'appellent les petits ouvriers de la chocolaterie de Wonka ?", a: "Les Oompa-Loompas", acc: ["oompa-loompas", "oompa loompas", "les oompa-loompas"], x: ["Les Gnomes", "Les Schtroumpfs", "Les Minions"] },
+  { id: "dahl-m3", d: 2, t: "Dans « James et la Grosse Pêche », dans quel fruit géant voyage James ?", a: "Une pêche", acc: ["une pêche", "pêche", "peche"], x: ["Une pomme", "Une poire", "Une orange"] },
+  { id: "dahl-m4", d: 2, t: "Quel géant gentil devient l'ami de Sophie dans un roman de Dahl ?", a: "Le Bon Gros Géant (BGG)", acc: ["le bon gros géant", "bgg", "bon gros géant", "bfg"], x: ["Mr Fox", "Willy Wonka", "Le Grand Gentil"] },
+  { id: "dahl-m5", d: 2, t: "Quelle directrice tyrannique terrorise l'école de Matilda ?", a: "Mademoiselle Legourdin", acc: ["mademoiselle legourdin", "legourdin", "miss trunchbull", "trunchbull"], x: ["Mademoiselle Candy", "Miss Honey", "Mrs Wormwood"] },
+  { id: "dahl-m6", d: 2, t: "Quelle gentille institutrice s'occupe de Matilda ?", a: "Mademoiselle Candy", acc: ["mademoiselle candy", "candy", "miss honey", "melle candy"], x: ["Mademoiselle Legourdin", "Mrs Wormwood", "Miss Trunchbull"] },
+  { id: "dahl-m7", d: 2, t: "Quel rusé animal vole la nourriture de trois fermiers dans un conte de Dahl ?", a: "Maître Renard (Fantastic Mr Fox)", acc: ["maître renard", "mr fox", "fantastic mr fox", "maitre renard"], x: ["Le Gros Crocodile", "Le BGG", "Le Doigt magique"] },
+  { id: "dahl-m8", d: 2, t: "Quel illustrateur est indissociable des livres de Roald Dahl ?", a: "Quentin Blake", acc: ["quentin blake", "blake"], x: ["Tomi Ungerer", "Maurice Sendak", "Beatrix Potter"] },
+  { id: "dahl-m9", d: 2, t: "De quel pays d'origine (nationalité) était Roald Dahl ?", a: "Britannique (gallois)", acc: ["britannique", "gallois", "royaume-uni", "pays de galles"], x: ["Américain", "Norvégien", "Irlandais"] },
+  { id: "dahl-m10", d: 2, t: "Quel roman de Dahl met en scène des sorcières qui détestent les enfants ?", a: "Sacrées Sorcières", acc: ["sacrées sorcières", "sacrees sorcieres", "the witches"], x: ["Matilda", "Les Deux Gredins", "La Potion magique"] },
+
+  // --- Dures (15) ---
+  { id: "dahl-d1", d: 3, t: "Quel enfant glouton tombe dans la rivière de chocolat de Wonka ?", a: "Augustus Gloop", acc: ["augustus gloop", "augustus"], x: ["Mike Teavee", "Veruca Salt", "Violet Beauregarde"] },
+  { id: "dahl-d2", d: 3, t: "Quelle fillette capricieuse veut « tout, tout de suite » chez Wonka ?", a: "Veruca Salt", acc: ["veruca salt", "veruca", "véruca"], x: ["Violet Beauregarde", "Matilda", "Sophie"] },
+  { id: "dahl-d3", d: 3, t: "Quelle enfant se transforme en myrtille géante en mâchant un chewing-gum ?", a: "Violette Beauregard", acc: ["violette beauregard", "violet beauregarde", "violette"], x: ["Veruca Salt", "Matilda", "Sophie"] },
+  { id: "dahl-d4", d: 3, t: "Quel enfant obsédé par la télé est « téléporté » et rétréci chez Wonka ?", a: "Mike Teavee", acc: ["mike teavee", "mike"], x: ["Augustus Gloop", "Charlie", "Veruca"] },
+  { id: "dahl-d5", d: 3, t: "Quel pouvoir Matilda développe-t-elle contre Mademoiselle Legourdin ?", a: "La télékinésie", acc: ["la télékinésie", "télékinésie", "telekinesie"], x: ["L'invisibilité", "La télépathie", "Le vol"] },
+  { id: "dahl-d6", d: 3, t: "Comment s'appelle la petite orpheline amie du Bon Gros Géant ?", a: "Sophie", acc: ["sophie"], x: ["Matilda", "Lucy", "Alice"] },
+  { id: "dahl-d7", d: 3, t: "Que fabrique et souffle le BGG dans les chambres des enfants ?", a: "Des rêves", acc: ["des rêves", "rêves", "les rêves"], x: ["Des bulles", "Du sommeil", "Des étoiles"] },
+  { id: "dahl-d8", d: 3, t: "Quel légume répugnant le BGG est-il obligé de manger ?", a: "Le schnockombre", acc: ["schnockombre", "le schnockombre", "snozzcumber"], x: ["Le chou géant", "La courge amère", "Le navet noir"] },
+  { id: "dahl-d9", d: 3, t: "Quelle boisson pétillante fait « péter vers le bas » dans « Le BGG » ?", a: "Le frambouille (frobscottle)", acc: ["frambouille", "frobscottle", "le frambouille"], x: ["La cervoise", "Le sirop d'orgeat", "La limonade magique"] },
+  { id: "dahl-d10", d: 3, t: "Quels trois fermiers méchants traquent Maître Renard ?", a: "Boggis, Bunce et Bean", acc: ["boggis bunce et bean", "boggis, bunce et bean", "boggis bunce bean"], x: ["Boggis, Blunt et Bill", "Biggs, Bunce et Bean", "Bunce, Bean et Boggs"] },
+  { id: "dahl-d11", d: 3, t: "Quel couple de gredins sales et cruels se joue de mauvais tours dans un livre de Dahl ?", a: "Les Deux Gredins (The Twits)", acc: ["les deux gredins", "deux gredins", "the twits"], x: ["Les Wormwood", "Boggis et Bunce", "Les Bucket"] },
+  { id: "dahl-d12", d: 3, t: "Quel garçon prépare une potion explosive pour sa grand-mère acariâtre ?", a: "Georges Bouillon", acc: ["georges bouillon", "george bouillon", "george's marvellous medicine"], x: ["Charlie", "James", "Danny"] },
+  { id: "dahl-d13", d: 3, t: "Quelle cheffe des sorcières veut éliminer tous les enfants dans « Sacrées Sorcières » ?", a: "La Grandissime Sorcière", acc: ["la grandissime sorcière", "grandissime sorcière", "grand high witch"], x: ["Mlle Legourdin", "La Reine des Gredins", "Mrs Twit"] },
+  { id: "dahl-d14", d: 3, t: "En quel animal le héros de « Sacrées Sorcières » est-il transformé ?", a: "Une souris", acc: ["une souris", "souris"], x: ["Un crapaud", "Un rat", "Un oiseau"] },
+  { id: "dahl-d15", d: 3, t: "Quel roman de Dahl suit un garçon et son père braconniers de faisans ?", a: "Danny, champion du monde", acc: ["danny champion du monde", "danny", "danny the champion of the world"], x: ["James et la Grosse Pêche", "Le Doigt magique", "Fantastique Maître Renard"] },
+
+  // --- Pro (20) ---
+  { id: "dahl-p1", d: 4, t: "En quelle année est né Roald Dahl ?", a: "1916", acc: ["1916"], x: ["1902", "1925", "1935"] },
+  { id: "dahl-p2", d: 4, t: "Dans quelle ville du Pays de Galles est né Roald Dahl ?", a: "Cardiff (Llandaff)", acc: ["cardiff", "llandaff"], x: ["Swansea", "Oxford", "Londres"] },
+  { id: "dahl-p3", d: 4, t: "Quel métier héroïque Dahl exerça-t-il pendant la Seconde Guerre mondiale ?", a: "Pilote de chasse (RAF)", acc: ["pilote de chasse", "pilote", "raf", "aviateur"], x: ["Sous-marinier", "Espion de bureau", "Médecin militaire"] },
+  { id: "dahl-p4", d: 4, t: "Quel prénom d'origine norvégienne portait Dahl, dont les parents étaient norvégiens ?", a: "Roald", acc: ["roald"], x: ["Olaf", "Sven", "Harald"] },
+  { id: "dahl-p5", d: 4, t: "Quelle suite Dahl a-t-il donnée à « Charlie et la Chocolaterie » ?", a: "Charlie et le Grand Ascenseur de verre", acc: ["charlie et le grand ascenseur de verre", "grand ascenseur de verre", "great glass elevator"], x: ["Charlie et les Oompa-Loompas", "Le Retour de Wonka", "Charlie à New York"] },
+  { id: "dahl-p6", d: 4, t: "Quels recueils de nouvelles NOIRES pour adultes Dahl a-t-il écrits, adaptés à la télé ?", a: "Bizarre, bizarre / Kiss Kiss (Tales of the Unexpected)", acc: ["bizarre bizarre", "kiss kiss", "tales of the unexpected", "coup de gigot"], x: ["Contes de la crypte", "Histoires extraordinaires", "Nouvelles de l'étrange"] },
+  { id: "dahl-p7", d: 4, t: "Quelle nouvelle célèbre de Dahl voit une femme tuer son mari avec un gigot d'agneau… puis le faire manger à la police ?", a: "Coup de gigot (Lamb to the Slaughter)", acc: ["coup de gigot", "lamb to the slaughter", "gigot"], x: ["La Logeuse", "William et Mary", "Le Connaisseur"] },
+  { id: "dahl-p8", d: 4, t: "Pour quel film de James Bond Roald Dahl a-t-il écrit le scénario ?", a: "On ne vit que deux fois", acc: ["on ne vit que deux fois", "you only live twice"], x: ["Goldfinger", "Bons baisers de Russie", "Au service secret de Sa Majesté"] },
+  { id: "dahl-p9", d: 4, t: "Quel film musical sur une voiture volante Dahl a-t-il co-scénarisé ?", a: "Chitty Chitty Bang Bang", acc: ["chitty chitty bang bang", "chitty chitty"], x: ["Mary Poppins", "Le Magicien d'Oz", "Willy Wonka"] },
+  { id: "dahl-p10", d: 4, t: "Comment s'appelle le petit chapeau d'écriture de Dahl : la cabane où il travaillait ?", a: "Sa cabane d'écriture (writing hut)", acc: ["cabane d'écriture", "writing hut", "la cabane", "hut"], x: ["Le grenier", "La serre", "Le pavillon"] },
+  { id: "dahl-p11", d: 4, t: "Quelle actrice, star de « L'Impossible Monsieur Bébé », fut la première épouse de Dahl ?", a: "Patricia Neal", acc: ["patricia neal", "neal"], x: ["Katharine Hepburn", "Grace Kelly", "Audrey Hepburn"] },
+  { id: "dahl-p12", d: 4, t: "Quel autre nom porte « James et la Grosse Pêche » côté insectes : quels animaux accompagnent James ?", a: "Des insectes géants (mille-pattes, sauterelle…)", acc: ["des insectes géants", "insectes", "mille-pattes", "insectes géants"], x: ["Des oiseaux", "Des poissons", "Des souris"] },
+  { id: "dahl-p13", d: 4, t: "Quel roman de Dahl parle d'un garçon dont le doigt jette des sorts (« Le Doigt… ») ?", a: "Le Doigt magique", acc: ["le doigt magique", "doigt magique", "the magic finger"], x: ["La Potion magique", "Le Doigt d'or", "L'Énorme Crocodile"] },
+  { id: "dahl-p14", d: 4, t: "Quel crocodile rusé veut dévorer des enfants dans un album illustré de Dahl ?", a: "L'Énorme Crocodile", acc: ["l'énorme crocodile", "énorme crocodile", "the enormous crocodile"], x: ["Le Gros Crocodile", "Maître Renard", "Le BGG"] },
+  { id: "dahl-p15", d: 4, t: "Quel recueil autobiographique Dahl consacre-t-il à son enfance ?", a: "Moi, Boy (Boy)", acc: ["moi boy", "boy", "moi, boy"], x: ["Escadrille 80", "Le Cygne", "Tel est mon métier"] },
+  { id: "dahl-p16", d: 4, t: "Quelle suite autobiographique raconte les années de Dahl en Afrique et pilote ?", a: "Escadrille 80 (Going Solo)", acc: ["escadrille 80", "going solo"], x: ["Moi, Boy", "Vol de nuit", "Terre des hommes"] },
+  { id: "dahl-p17", d: 4, t: "Comment s'appellent les parents cruels et bêtes de Matilda ?", a: "Les Wormwood (Verdebois)", acc: ["wormwood", "les wormwood", "verdebois"], x: ["Les Bucket", "Les Twit", "Les Salt"] },
+  { id: "dahl-p18", d: 4, t: "Quel supplice « le trou » Mlle Legourdin inflige-t-elle aux élèves ?", a: "L'Étouffoir (the Chokey)", acc: ["l'étouffoir", "étouffoir", "the chokey", "l'essoreuse"], x: ["Le cachot", "Le placard", "La retenue"] },
+  { id: "dahl-p19", d: 4, t: "En quelle année est mort Roald Dahl ?", a: "1990", acc: ["1990"], x: ["1985", "1995", "2001"] },
+  { id: "dahl-p20", d: 4, t: "Quelle friandise géante, marque inventée, apparaît dans « Charlie » : la tablette « Wonka » à trouver ?", a: "Le chocolat Wonka", acc: ["chocolat wonka", "wonka", "tablette wonka"], x: ["Le chocolat Bucket", "Le caramel Loompa", "Le nougat d'or"] },
+]);

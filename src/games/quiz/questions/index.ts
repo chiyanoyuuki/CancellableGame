@@ -80,4 +80,6 @@ export const UNIVERSE_ADD_ORDER: string[] = [
   'James Bond', 'Le Parrain', 'How I Met Your Mother', 'Queen', 'Daft Punk',
   'Vinland Saga', 'Sword Art Online', 'Red Dead Redemption', 'Overwatch', 'Better Call Saul',
   'Black Mirror', 'Jurassic Park', 'Retour vers le futur', 'The Beatles', 'Eminem',
+  'Classiques de la littérature', 'Victor Hugo', 'Molière', 'Émile Zola', 'Shakespeare',
+  'Jules Verne', 'Alexandre Dumas', 'Stephen King', 'Fantasy', 'Roald Dahl',
 ];

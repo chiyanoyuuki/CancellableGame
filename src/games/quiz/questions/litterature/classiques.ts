@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const classiques = universe("litterature", "Classiques de la littérature", [
+  // --- Faciles (5) ---
+  { id: "litclass-f1", d: 1, t: "Qui a écrit « Les Misérables » ?", a: "Victor Hugo", acc: ["victor hugo", "hugo"], x: ["Émile Zola", "Balzac", "Flaubert"] },
+  { id: "litclass-f2", d: 1, t: "Quel chevalier de Cervantès prend des moulins à vent pour des géants ?", a: "Don Quichotte", acc: ["don quichotte", "don quixote"], x: ["Lancelot", "Roland", "Ivanhoé"] },
+  { id: "litclass-f3", d: 1, t: "Qui a écrit la tragédie « Roméo et Juliette » ?", a: "William Shakespeare", acc: ["shakespeare", "william shakespeare"], x: ["Molière", "Racine", "Corneille"] },
+  { id: "litclass-f4", d: 1, t: "Quelle fillette de Lewis Carroll suit un lapin blanc au pays des merveilles ?", a: "Alice", acc: ["alice"], x: ["Dorothy", "Wendy", "Matilda"] },
+  { id: "litclass-f5", d: 1, t: "Qui a écrit « Le Petit Prince » ?", a: "Antoine de Saint-Exupéry", acc: ["saint-exupéry", "saint exupery", "antoine de saint-exupéry"], x: ["Jules Verne", "Victor Hugo", "Marcel Pagnol"] },
+
+  // --- Moyennes (10) ---
+  { id: "litclass-m1", d: 2, t: "Quel roman de Flaubert raconte les désillusions d'Emma, épouse d'un médecin de province ?", a: "Madame Bovary", acc: ["madame bovary", "bovary"], x: ["Nana", "Eugénie Grandet", "Thérèse Raquin"] },
+  { id: "litclass-m2", d: 2, t: "Qui a écrit le roman fleuve « Guerre et Paix » ?", a: "Léon Tolstoï", acc: ["tolstoï", "tolstoi", "léon tolstoï"], x: ["Dostoïevski", "Tchekhov", "Gogol"] },
+  { id: "litclass-m3", d: 2, t: "Quel roman de Mary Shelley met en scène un savant et sa créature ?", a: "Frankenstein", acc: ["frankenstein"], x: ["Dracula", "Docteur Jekyll et Mister Hyde", "Le Portrait de Dorian Gray"] },
+  { id: "litclass-m4", d: 2, t: "Qui a écrit « Orgueil et Préjugés » ?", a: "Jane Austen", acc: ["jane austen", "austen"], x: ["Charlotte Brontë", "Emily Brontë", "Virginia Woolf"] },
+  { id: "litclass-m5", d: 2, t: "Quel roman de Melville suit la traque d'une baleine blanche par le capitaine Achab ?", a: "Moby Dick", acc: ["moby dick"], x: ["L'Île au trésor", "Vingt mille lieues sous les mers", "Le Vieil Homme et la Mer"] },
+  { id: "litclass-m6", d: 2, t: "Qui a écrit « Crime et Châtiment » ?", a: "Fiodor Dostoïevski", acc: ["dostoïevski", "dostoievski", "fiodor dostoïevski"], x: ["Tolstoï", "Tourgueniev", "Pouchkine"] },
+  { id: "litclass-m7", d: 2, t: "Quel roman d'anticipation de George Orwell met en scène Big Brother ?", a: "1984", acc: ["1984"], x: ["Le Meilleur des mondes", "Fahrenheit 451", "La Ferme des animaux"] },
+  { id: "litclass-m8", d: 2, t: "Qui a écrit l'épopée grecque « L'Odyssée » ?", a: "Homère", acc: ["homère", "homere"], x: ["Virgile", "Sophocle", "Ovide"] },
+  { id: "litclass-m9", d: 2, t: "Quel roman de Harper Lee aborde le racisme dans le sud des États-Unis ?", a: "Ne tirez pas sur l'oiseau moqueur", acc: ["ne tirez pas sur l'oiseau moqueur", "to kill a mockingbird", "oiseau moqueur"], x: ["Les Raisins de la colère", "Autant en emporte le vent", "Beloved"] },
+  { id: "litclass-m10", d: 2, t: "Quel personnage d'Oscar Wilde reste jeune tandis que son portrait vieillit ?", a: "Dorian Gray", acc: ["dorian gray", "dorian"], x: ["Frankenstein", "Docteur Jekyll", "Dracula"] },
+
+  // --- Dures (15) ---
+  { id: "litclass-d1", d: 3, t: "Quel roman de Tolstoï suit une aristocrate russe qui se jette sous un train ?", a: "Anna Karénine", acc: ["anna karénine", "anna karenine"], x: ["Guerre et Paix", "Madame Bovary", "Les Frères Karamazov"] },
+  { id: "litclass-d2", d: 3, t: "Quel roman de Gabriel García Márquez suit la famille Buendía à Macondo ?", a: "Cent ans de solitude", acc: ["cent ans de solitude"], x: ["L'Amour aux temps du choléra", "La Maison aux esprits", "Pedro Páramo"] },
+  { id: "litclass-d3", d: 3, t: "Qui a écrit « À la recherche du temps perdu » ?", a: "Marcel Proust", acc: ["proust", "marcel proust"], x: ["André Gide", "Albert Camus", "Louis-Ferdinand Céline"] },
+  { id: "litclass-d4", d: 3, t: "Quelle pâtisserie déclenche la mémoire du narrateur chez Proust ?", a: "La madeleine", acc: ["madeleine", "la madeleine"], x: ["Le macaron", "Le financier", "La brioche"] },
+  { id: "litclass-d5", d: 3, t: "Quel roman de Dostoïevski met en scène trois frères et le meurtre de leur père ?", a: "Les Frères Karamazov", acc: ["les frères karamazov", "frères karamazov", "karamazov"], x: ["L'Idiot", "Crime et Châtiment", "Les Démons"] },
+  { id: "litclass-d6", d: 3, t: "Quel roman de Charlotte Brontë suit une gouvernante et M. Rochester ?", a: "Jane Eyre", acc: ["jane eyre"], x: ["Les Hauts de Hurlevent", "Orgueil et Préjugés", "Middlemarch"] },
+  { id: "litclass-d7", d: 3, t: "Quel roman d'Emily Brontë se déroule dans les landes autour de Heathcliff et Catherine ?", a: "Les Hauts de Hurlevent", acc: ["les hauts de hurlevent", "hauts de hurlevent", "wuthering heights"], x: ["Jane Eyre", "Raison et Sentiments", "Rebecca"] },
+  { id: "litclass-d8", d: 3, t: "Quel court roman de Kafka voit Gregor Samsa se réveiller transformé en insecte ?", a: "La Métamorphose", acc: ["la métamorphose", "métamorphose", "die verwandlung"], x: ["Le Procès", "Le Château", "L'Amérique"] },
+  { id: "litclass-d9", d: 3, t: "Quel roman de James Joyce suit Leopold Bloom sur une journée à Dublin ?", a: "Ulysse", acc: ["ulysse", "ulysses"], x: ["Gens de Dublin", "Portrait de l'artiste", "Finnegans Wake"] },
+  { id: "litclass-d10", d: 3, t: "Qui a écrit « Don Quichotte » ?", a: "Miguel de Cervantès", acc: ["cervantès", "cervantes", "miguel de cervantès"], x: ["Lope de Vega", "Calderón", "Garcilaso"] },
+  { id: "litclass-d11", d: 3, t: "Quel roman de Stendhal suit l'ambitieux Julien Sorel ?", a: "Le Rouge et le Noir", acc: ["le rouge et le noir", "rouge et le noir"], x: ["La Chartreuse de Parme", "Illusions perdues", "Le Père Goriot"] },
+  { id: "litclass-d12", d: 3, t: "Quel dramaturge grec a écrit « Œdipe roi » ?", a: "Sophocle", acc: ["sophocle"], x: ["Euripide", "Eschyle", "Aristophane"] },
+  { id: "litclass-d13", d: 3, t: "Quel roman de Dumas suit quatre héros au cri « Un pour tous, tous pour un » ?", a: "Les Trois Mousquetaires", acc: ["les trois mousquetaires", "trois mousquetaires"], x: ["Le Comte de Monte-Cristo", "La Reine Margot", "Vingt ans après"] },
+  { id: "litclass-d14", d: 3, t: "Quel poète italien décrit un voyage aux Enfers dans « La Divine Comédie » ?", a: "Dante", acc: ["dante", "dante alighieri"], x: ["Pétrarque", "Boccace", "Virgile"] },
+  { id: "litclass-d15", d: 3, t: "Quel roman de Victor Hugo se déroule autour de la cathédrale et de Quasimodo ?", a: "Notre-Dame de Paris", acc: ["notre-dame de paris", "notre dame de paris"], x: ["Les Misérables", "Les Travailleurs de la mer", "Quatrevingt-treize"] },
+
+  // --- Pro (20) ---
+  { id: "litclass-p1", d: 4, t: "Par quelle phrase commence « Anna Karénine » ? « Toutes les familles heureuses… »", a: "…se ressemblent", acc: ["se ressemblent"], x: ["…sont différentes", "…sont tristes", "…s'ennuient"] },
+  { id: "litclass-p2", d: 4, t: "Quel écrivain français a refusé le prix Nobel de littérature en 1964 ?", a: "Jean-Paul Sartre", acc: ["sartre", "jean-paul sartre"], x: ["Albert Camus", "André Malraux", "Louis Aragon"] },
+  { id: "litclass-p3", d: 4, t: "Quel roman de Proust ouvre « À la recherche du temps perdu » ?", a: "Du côté de chez Swann", acc: ["du côté de chez swann", "du cote de chez swann", "swann"], x: ["Le Temps retrouvé", "À l'ombre des jeunes filles en fleurs", "Sodome et Gomorrhe"] },
+  { id: "litclass-p4", d: 4, t: "Quel personnage de Melville répond « I would prefer not to » (je préférerais ne pas) ?", a: "Bartleby", acc: ["bartleby"], x: ["Achab", "Ismaël", "Queequeg"] },
+  { id: "litclass-p5", d: 4, t: "Quelle romancière anglaise a écrit « Mrs Dalloway » et « La Promenade au phare » ?", a: "Virginia Woolf", acc: ["virginia woolf", "woolf"], x: ["Jane Austen", "George Eliot", "Katherine Mansfield"] },
+  { id: "litclass-p6", d: 4, t: "Sous quel vrai nom se cache George Eliot, autrice de « Middlemarch » ?", a: "Mary Ann Evans", acc: ["mary ann evans", "mary anne evans", "evans"], x: ["Charlotte Brontë", "Elizabeth Gaskell", "Mary Shelley"] },
+  { id: "litclass-p7", d: 4, t: "Quel roman de Dostoïevski met en scène le prince Mychkine ?", a: "L'Idiot", acc: ["l'idiot", "idiot"], x: ["Les Démons", "L'Adolescent", "Le Joueur"] },
+  { id: "litclass-p8", d: 4, t: "Quel poète américain a écrit « Le Corbeau » (The Raven) ?", a: "Edgar Allan Poe", acc: ["edgar allan poe", "poe", "edgar poe"], x: ["Walt Whitman", "Emily Dickinson", "Herman Melville"] },
+  { id: "litclass-p9", d: 4, t: "Quel roman-fleuve de Balzac forme « La Comédie humaine » ? Citez celui avec le père et ses filles.", a: "Le Père Goriot", acc: ["le père goriot", "père goriot", "goriot"], x: ["Eugénie Grandet", "Illusions perdues", "La Peau de chagrin"] },
+  { id: "litclass-p10", d: 4, t: "Quel personnage récurrent de Balzac, arriviste, apparaît dans « Le Père Goriot » ?", a: "Eugène de Rastignac", acc: ["rastignac", "eugène de rastignac"], x: ["Vautrin", "Lucien de Rubempré", "Julien Sorel"] },
+  { id: "litclass-p11", d: 4, t: "Quel écrivain colombien a reçu le Nobel en 1982 pour son œuvre « réaliste magique » ?", a: "Gabriel García Márquez", acc: ["garcía márquez", "garcia marquez", "gabriel garcía márquez"], x: ["Jorge Luis Borges", "Mario Vargas Llosa", "Pablo Neruda"] },
+  { id: "litclass-p12", d: 4, t: "Quel auteur argentin a écrit les nouvelles labyrinthiques de « Fictions » ?", a: "Jorge Luis Borges", acc: ["borges", "jorge luis borges"], x: ["Julio Cortázar", "Adolfo Bioy Casares", "Ernesto Sábato"] },
+  { id: "litclass-p13", d: 4, t: "Quel roman de Dostoïevski explore la culpabilité de l'étudiant Raskolnikov ?", a: "Crime et Châtiment", acc: ["crime et châtiment", "crime et chatiment"], x: ["Les Frères Karamazov", "L'Idiot", "Les Démons"] },
+  { id: "litclass-p14", d: 4, t: "Quel roman de Cervantès est souvent cité comme le premier roman moderne ?", a: "Don Quichotte", acc: ["don quichotte", "don quixote"], x: ["Gargantua", "La Princesse de Clèves", "Robinson Crusoé"] },
+  { id: "litclass-p15", d: 4, t: "Quel roman épistolaire de Choderlos de Laclos met en scène Valmont et Merteuil ?", a: "Les Liaisons dangereuses", acc: ["les liaisons dangereuses", "liaisons dangereuses"], x: ["La Nouvelle Héloïse", "Manon Lescaut", "Les Lettres persanes"] },
+  { id: "litclass-p16", d: 4, t: "Quelle poétesse américaine, recluse à Amherst, n'a presque rien publié de son vivant ?", a: "Emily Dickinson", acc: ["emily dickinson", "dickinson"], x: ["Sylvia Plath", "Elizabeth Bishop", "Anne Sexton"] },
+  { id: "litclass-p17", d: 4, t: "Quel roman de Dickens s'ouvre sur « C'était le meilleur des temps, c'était le pire des temps » ?", a: "Le Conte de deux cités", acc: ["le conte de deux cités", "a tale of two cities", "conte de deux cités"], x: ["Oliver Twist", "David Copperfield", "De grandes espérances"] },
+  { id: "litclass-p18", d: 4, t: "Quel roman de Camus s'ouvre sur « Aujourd'hui, maman est morte » ?", a: "L'Étranger", acc: ["l'étranger", "etranger"], x: ["La Peste", "La Chute", "Le Mythe de Sisyphe"] },
+  { id: "litclass-p19", d: 4, t: "Quel grand roman russe de Boulgakov met en scène le diable à Moscou ?", a: "Le Maître et Marguerite", acc: ["le maître et marguerite", "maître et marguerite", "le maitre et marguerite"], x: ["Le Docteur Jivago", "Nous autres", "La Garde blanche"] },
+  { id: "litclass-p20", d: 4, t: "Quel dramaturge norvégien a écrit « Une maison de poupée » ?", a: "Henrik Ibsen", acc: ["ibsen", "henrik ibsen"], x: ["August Strindberg", "Anton Tchekhov", "Knut Hamsun"] },
+]);

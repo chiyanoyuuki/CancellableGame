@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const zola = universe("litterature", "Émile Zola", [
+  // --- Faciles (5) ---
+  { id: "zola-f1", d: 1, t: "Quel roman de Zola raconte la grève des mineurs de charbon ?", a: "Germinal", acc: ["germinal"], x: ["L'Assommoir", "Nana", "La Bête humaine"] },
+  { id: "zola-f2", d: 1, t: "De quel mouvement littéraire Émile Zola est-il le chef de file ?", a: "Le naturalisme", acc: ["naturalisme", "le naturalisme"], x: ["Le romantisme", "Le symbolisme", "Le surréalisme"] },
+  { id: "zola-f3", d: 1, t: "Quel célèbre article de Zola défend le capitaine Dreyfus ?", a: "J'Accuse…!", acc: ["j'accuse", "j'accuse…!", "jaccuse"], x: ["Germinal", "Le Cri du peuple", "Au peuple"] },
+  { id: "zola-f4", d: 1, t: "Zola a surtout écrit durant quel siècle ?", a: "Le XIXe siècle", acc: ["xixe siècle", "19e siècle", "xixe"], x: ["Le XVIIe siècle", "Le XVIIIe siècle", "Le XXe siècle"] },
+  { id: "zola-f5", d: 1, t: "Quel vaste ensemble de romans Zola consacre-t-il à une même famille ?", a: "Les Rougon-Macquart", acc: ["les rougon-macquart", "rougon-macquart", "rougon macquart"], x: ["La Comédie humaine", "Les Thibault", "Les Misérables"] },
+
+  // --- Moyennes (10) ---
+  { id: "zola-m1", d: 2, t: "Combien de romans compte le cycle des Rougon-Macquart ?", a: "Vingt", acc: ["vingt", "20"], x: ["Dix", "Quinze", "Trente"] },
+  { id: "zola-m2", d: 2, t: "Quel jeune ouvrier meneur mène la grève dans « Germinal » ?", a: "Étienne Lantier", acc: ["étienne lantier", "etienne lantier", "étienne", "lantier"], x: ["Jacques Lantier", "Octave Mouret", "Claude Lantier"] },
+  { id: "zola-m3", d: 2, t: "Quel roman de Zola dénonce les ravages de l'alcool dans le milieu ouvrier ?", a: "L'Assommoir", acc: ["l'assommoir", "assommoir"], x: ["Germinal", "La Terre", "Nana"] },
+  { id: "zola-m4", d: 2, t: "Quelle blanchisseuse est l'héroïne déchue de « L'Assommoir » ?", a: "Gervaise", acc: ["gervaise", "gervaise macquart"], x: ["Nana", "Thérèse", "Renée"] },
+  { id: "zola-m5", d: 2, t: "Quelle courtisane, fille de Gervaise, séduit et ruine le Tout-Paris ?", a: "Nana", acc: ["nana"], x: ["Renée", "Thérèse", "Gervaise"] },
+  { id: "zola-m6", d: 2, t: "Quel roman de Zola se déroule dans un grand magasin parisien ?", a: "Au Bonheur des Dames", acc: ["au bonheur des dames", "bonheur des dames"], x: ["Le Ventre de Paris", "L'Argent", "La Curée"] },
+  { id: "zola-m7", d: 2, t: "Quel roman de Zola met en scène des trains et le cheminot Jacques Lantier ?", a: "La Bête humaine", acc: ["la bête humaine", "bête humaine", "bete humaine"], x: ["Germinal", "La Terre", "L'Œuvre"] },
+  { id: "zola-m8", d: 2, t: "Quelle affaire politique et judiciaire Zola défend-il avec « J'Accuse » ?", a: "L'affaire Dreyfus", acc: ["l'affaire dreyfus", "affaire dreyfus", "dreyfus"], x: ["L'affaire Calas", "La Commune", "L'affaire Stavisky"] },
+  { id: "zola-m9", d: 2, t: "Dans quel journal parut « J'Accuse…! » en 1898 ?", a: "L'Aurore", acc: ["l'aurore", "aurore"], x: ["Le Figaro", "Le Temps", "Le Petit Journal"] },
+  { id: "zola-m10", d: 2, t: "À qui est adressée la lettre ouverte « J'Accuse…! » ?", a: "Au président de la République", acc: ["au président de la république", "président de la république", "félix faure"], x: ["Au roi", "Au pape", "Au ministre de la Guerre"] },
+
+  // --- Dures (15) ---
+  { id: "zola-d1", d: 3, t: "Quel roman ouvre le cycle des Rougon-Macquart ?", a: "La Fortune des Rougon", acc: ["la fortune des rougon", "fortune des rougon"], x: ["La Curée", "Germinal", "Le Docteur Pascal"] },
+  { id: "zola-d2", d: 3, t: "Quel roman clôt le cycle des Rougon-Macquart ?", a: "Le Docteur Pascal", acc: ["le docteur pascal", "docteur pascal"], x: ["La Débâcle", "L'Argent", "Germinal"] },
+  { id: "zola-d3", d: 3, t: "Comment s'appelle le vieux cheval aveugle qui meurt dans la mine de « Germinal » ?", a: "Bataille", acc: ["bataille"], x: ["Trompette", "Pollux", "Grisou"] },
+  { id: "zola-d4", d: 3, t: "Comment s'appelle la mine au cœur de « Germinal » ?", a: "Le Voreux", acc: ["le voreux", "voreux"], x: ["La Gueule-Noire", "Le Tartaret", "Réquillart"] },
+  { id: "zola-d5", d: 3, t: "Quel peintre raté, ami de Zola dans « L'Œuvre », rappelle Cézanne ?", a: "Claude Lantier", acc: ["claude lantier", "claude"], x: ["Étienne Lantier", "Jacques Lantier", "Octave Mouret"] },
+  { id: "zola-d6", d: 3, t: "Quel peintre, ami d'enfance de Zola, se brouilla avec lui après « L'Œuvre » ?", a: "Paul Cézanne", acc: ["cézanne", "paul cézanne", "cezanne"], x: ["Édouard Manet", "Claude Monet", "Auguste Renoir"] },
+  { id: "zola-d7", d: 3, t: "Quel roman de Zola dépeint la paysannerie et la terre convoitée ?", a: "La Terre", acc: ["la terre"], x: ["Germinal", "La Débâcle", "Le Ventre de Paris"] },
+  { id: "zola-d8", d: 3, t: "Quel roman de Zola se déroule dans les Halles, « ventre » de Paris ?", a: "Le Ventre de Paris", acc: ["le ventre de paris", "ventre de paris"], x: ["Au Bonheur des Dames", "La Curée", "L'Argent"] },
+  { id: "zola-d9", d: 3, t: "Quel roman de Zola traite de la spéculation boursière ?", a: "L'Argent", acc: ["l'argent", "argent"], x: ["La Curée", "Au Bonheur des Dames", "Le Ventre de Paris"] },
+  { id: "zola-d10", d: 3, t: "Quel roman de Zola raconte la guerre de 1870 et la chute du Second Empire ?", a: "La Débâcle", acc: ["la débâcle", "débâcle", "la debacle"], x: ["La Terre", "Germinal", "La Fortune des Rougon"] },
+  { id: "zola-d11", d: 3, t: "Quel premier grand succès (hors cycle) de Zola met en scène un meurtre et le remords ?", a: "Thérèse Raquin", acc: ["thérèse raquin", "therese raquin", "thérèse"], x: ["Nana", "L'Assommoir", "Madeleine Férat"] },
+  { id: "zola-d12", d: 3, t: "Dans quelle ville du sud Zola a-t-il passé son enfance ?", a: "Aix-en-Provence", acc: ["aix-en-provence", "aix", "aix en provence"], x: ["Marseille", "Nice", "Montpellier"] },
+  { id: "zola-d13", d: 3, t: "Quel patron ambitieux dirige le grand magasin d'« Au Bonheur des Dames » ?", a: "Octave Mouret", acc: ["octave mouret", "mouret"], x: ["Aristide Saccard", "Étienne Lantier", "Claude Lantier"] },
+  { id: "zola-d14", d: 3, t: "Quel financier véreux, personnage récurrent, spécule dans « La Curée » et « L'Argent » ?", a: "Aristide Saccard", acc: ["aristide saccard", "saccard"], x: ["Octave Mouret", "Eugène Rougon", "Pascal Rougon"] },
+  { id: "zola-d15", d: 3, t: "Quel roman politique suit l'ascension d'un ministre sous le Second Empire ?", a: "Son Excellence Eugène Rougon", acc: ["son excellence eugène rougon", "eugène rougon", "son excellence"], x: ["La Curée", "L'Argent", "La Débâcle"] },
+
+  // --- Pro (20) ---
+  { id: "zola-p1", d: 4, t: "En quelle année Zola publie-t-il « J'Accuse…! » ?", a: "1898", acc: ["1898"], x: ["1885", "1894", "1902"] },
+  { id: "zola-p2", d: 4, t: "Comment Émile Zola est-il mort en 1902 ?", a: "Asphyxié par une cheminée bouchée", acc: ["asphyxie", "monoxyde de carbone", "cheminée bouchée", "asphyxié"], x: ["D'une pneumonie", "Dans un accident", "En prison"] },
+  { id: "zola-p3", d: 4, t: "En quelle année est né Émile Zola ?", a: "1840", acc: ["1840"], x: ["1828", "1850", "1865"] },
+  { id: "zola-p4", d: 4, t: "Dans quelle commune près de Paris Zola avait-il sa maison ?", a: "Médan", acc: ["médan", "medan"], x: ["Croisset", "Nohant", "Ferney"] },
+  { id: "zola-p5", d: 4, t: "Quel recueil collectif naturaliste, publié à Médan, réunit Zola et ses disciples ?", a: "Les Soirées de Médan", acc: ["les soirées de médan", "soirées de médan", "soirees de medan"], x: ["Le Parnasse contemporain", "Les Fleurs du mal", "Le Manifeste naturaliste"] },
+  { id: "zola-p6", d: 4, t: "Quel jeune écrivain signa dans « Les Soirées de Médan » la nouvelle « Boule de Suif » ?", a: "Guy de Maupassant", acc: ["maupassant", "guy de maupassant"], x: ["Joris-Karl Huysmans", "Alphonse Daudet", "Léon Hennique"] },
+  { id: "zola-p7", d: 4, t: "Quel essai théorique de Zola pose les bases du roman « scientifique » ?", a: "Le Roman expérimental", acc: ["le roman expérimental", "roman expérimental", "roman experimental"], x: ["Mes Haines", "La République et la littérature", "Le Naturalisme au théâtre"] },
+  { id: "zola-p8", d: 4, t: "De quel savant Zola s'inspire-t-il pour sa méthode « expérimentale » du roman ?", a: "Claude Bernard", acc: ["claude bernard", "bernard"], x: ["Louis Pasteur", "Charles Darwin", "Hippolyte Taine"] },
+  { id: "zola-p9", d: 4, t: "Quel officier fut le vrai coupable que « J'Accuse » désignait à la place de Dreyfus ?", a: "Le commandant Esterhazy", acc: ["esterhazy", "commandant esterhazy"], x: ["Le colonel Henry", "Le colonel Picquart", "Le général Mercier"] },
+  { id: "zola-p10", d: 4, t: "Dans quel pays Zola s'exila-t-il un an après sa condamnation dans l'affaire Dreyfus ?", a: "L'Angleterre", acc: ["angleterre", "l'angleterre", "royaume-uni"], x: ["La Belgique", "La Suisse", "L'Italie"] },
+  { id: "zola-p11", d: 4, t: "Où reposent aujourd'hui les cendres d'Émile Zola ?", a: "Au Panthéon", acc: ["au panthéon", "panthéon", "pantheon"], x: ["Au Père-Lachaise", "À Médan", "Aux Invalides"] },
+  { id: "zola-p12", d: 4, t: "Quelle tare héréditaire traverse toute la famille des Rougon-Macquart ?", a: "L'alcoolisme et la folie (l'hérédité)", acc: ["hérédité", "alcoolisme", "la folie", "tare héréditaire"], x: ["La tuberculose", "La pauvreté", "La religion"] },
+  { id: "zola-p13", d: 4, t: "Quel sous-titre accompagne « Les Rougon-Macquart » : histoire naturelle et sociale d'une famille sous… ?", a: "Le Second Empire", acc: ["le second empire", "second empire"], x: ["La Troisième République", "La Restauration", "La monarchie de Juillet"] },
+  { id: "zola-p14", d: 4, t: "Quel cri d'espoir clôt « Germinal », évoquant une future moisson d'hommes ?", a: "La germination / les hommes qui poussent", acc: ["germination", "les hommes poussaient", "une armée noire qui germait"], x: ["La révolution est finie", "Le charbon est mort", "Tout est perdu"] },
+  { id: "zola-p15", d: 4, t: "Quel patron de la mine, bourgeois, incarne le capital face aux mineurs dans « Germinal » ?", a: "Les Hennebeau / la Compagnie", acc: ["hennebeau", "la compagnie", "les hennebeau"], x: ["Les Maheu", "Les Grégoire", "Les Rasseneur"] },
+  { id: "zola-p16", d: 4, t: "Quelle famille de mineurs suit-on de près dans « Germinal » ?", a: "Les Maheu", acc: ["les maheu", "maheu"], x: ["Les Lantier", "Les Rougon", "Les Grégoire"] },
+  { id: "zola-p17", d: 4, t: "Quelle jeune herscheuse, aimée d'Étienne, meurt à la fin de « Germinal » ?", a: "Catherine", acc: ["catherine", "catherine maheu"], x: ["La Mouquette", "Cécile", "Alzire"] },
+  { id: "zola-p18", d: 4, t: "Quel roman de Zola, situé à Lourdes, appartient au cycle des « Trois Villes » ?", a: "Lourdes", acc: ["lourdes"], x: ["Rome", "Paris", "Fécondité"] },
+  { id: "zola-p19", d: 4, t: "Quel écrivain naturaliste, auteur d'« À rebours », fut proche puis s'éloigna de Zola ?", a: "Joris-Karl Huysmans", acc: ["huysmans", "joris-karl huysmans"], x: ["Maupassant", "Alphonse Daudet", "Edmond de Goncourt"] },
+  { id: "zola-p20", d: 4, t: "Quel métier de commis Zola exerça-t-il chez l'éditeur Hachette avant de percer ?", a: "Employé à la publicité / librairie", acc: ["publicité", "hachette", "commis de librairie", "employé"], x: ["Journaliste sportif", "Instituteur", "Notaire"] },
+]);

@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const hugo = universe("litterature", "Victor Hugo", [
+  // --- Faciles (5) ---
+  { id: "hugo-f1", d: 1, t: "Quel roman de Victor Hugo suit l'ancien forçat Jean Valjean ?", a: "Les Misérables", acc: ["les misérables", "les miserables", "misérables"], x: ["Notre-Dame de Paris", "Germinal", "Le Comte de Monte-Cristo"] },
+  { id: "hugo-f2", d: 1, t: "Quel sonneur de cloches bossu est un personnage de « Notre-Dame de Paris » ?", a: "Quasimodo", acc: ["quasimodo"], x: ["Gavroche", "Javert", "Frollo"] },
+  { id: "hugo-f3", d: 1, t: "Dans quel pays / monument se déroule « Notre-Dame de Paris » ?", a: "La cathédrale Notre-Dame de Paris", acc: ["notre-dame", "cathédrale notre-dame", "notre dame"], x: ["Le Louvre", "Versailles", "La Bastille"] },
+  { id: "hugo-f4", d: 1, t: "Quel gamin de Paris chante sur les barricades dans « Les Misérables » ?", a: "Gavroche", acc: ["gavroche"], x: ["Cosette", "Marius", "Quasimodo"] },
+  { id: "hugo-f5", d: 1, t: "Victor Hugo était surtout un écrivain de quel siècle ?", a: "Le XIXe siècle", acc: ["xixe siècle", "19e siècle", "xixe"], x: ["Le XVIIe siècle", "Le XVIIIe siècle", "Le XXe siècle"] },
+
+  // --- Moyennes (10) ---
+  { id: "hugo-m1", d: 2, t: "Quel policier obsédé traque Jean Valjean sans relâche ?", a: "Javert", acc: ["javert"], x: ["Thénardier", "Marius", "Frollo"] },
+  { id: "hugo-m2", d: 2, t: "Quelle petite fille Jean Valjean recueille-t-il après la mort de sa mère ?", a: "Cosette", acc: ["cosette"], x: ["Esmeralda", "Fantine", "Éponine"] },
+  { id: "hugo-m3", d: 2, t: "Comment s'appelle la mère de Cosette, ouvrière déchue ?", a: "Fantine", acc: ["fantine"], x: ["Cosette", "Éponine", "Esmeralda"] },
+  { id: "hugo-m4", d: 2, t: "Quel couple d'aubergistes cupides exploite la petite Cosette ?", a: "Les Thénardier", acc: ["les thénardier", "thénardier", "thenardier"], x: ["Les Frollo", "Les Gillenormand", "Les Myriel"] },
+  { id: "hugo-m5", d: 2, t: "Quel jeune étudiant amoureux de Cosette combat sur les barricades ?", a: "Marius", acc: ["marius", "marius pontmercy"], x: ["Enjolras", "Gavroche", "Javert"] },
+  { id: "hugo-m6", d: 2, t: "Quelle danseuse gitane est aimée de Quasimodo et de Frollo ?", a: "Esmeralda", acc: ["esmeralda", "esméralda"], x: ["Cosette", "Fantine", "Éponine"] },
+  { id: "hugo-m7", d: 2, t: "Quel archidiacre obsédé par Esmeralda est le méchant de « Notre-Dame de Paris » ?", a: "Claude Frollo", acc: ["frollo", "claude frollo"], x: ["Javert", "Thénardier", "Quasimodo"] },
+  { id: "hugo-m8", d: 2, t: "Sur quelle île anglo-normande Victor Hugo a-t-il vécu en exil ?", a: "Guernesey", acc: ["guernesey", "guernsey"], x: ["Jersey", "Wight", "Man"] },
+  { id: "hugo-m9", d: 2, t: "Contre quel empereur Victor Hugo s'est-il opposé, ce qui le poussa à l'exil ?", a: "Napoléon III", acc: ["napoléon iii", "napoleon iii", "napoléon 3"], x: ["Napoléon Ier", "Louis-Philippe", "Charles X"] },
+  { id: "hugo-m10", d: 2, t: "Où repose Victor Hugo depuis ses funérailles nationales en 1885 ?", a: "Au Panthéon", acc: ["panthéon", "au panthéon", "pantheon"], x: ["Aux Invalides", "Au Père-Lachaise", "À Notre-Dame"] },
+
+  // --- Dures (15) ---
+  { id: "hugo-d1", d: 3, t: "Quel évêque bienveillant offre ses chandeliers à Jean Valjean ?", a: "Monseigneur Myriel", acc: ["myriel", "monseigneur myriel", "monseigneur bienvenu"], x: ["Frollo", "L'abbé Faria", "Le curé Chas"] },
+  { id: "hugo-d2", d: 3, t: "Quelle fille des Thénardier, amoureuse de Marius, meurt sur la barricade ?", a: "Éponine", acc: ["éponine", "eponine"], x: ["Cosette", "Azelma", "Fantine"] },
+  { id: "hugo-d3", d: 3, t: "Quel jeune chef idéaliste dirige les insurgés de la barricade dans « Les Misérables » ?", a: "Enjolras", acc: ["enjolras"], x: ["Marius", "Gavroche", "Combeferre"] },
+  { id: "hugo-d4", d: 3, t: "Sous quel faux nom Jean Valjean devient-il maire et industriel prospère ?", a: "Monsieur Madeleine", acc: ["madeleine", "monsieur madeleine", "m. madeleine"], x: ["Fauchelevent", "Champmathieu", "Leblanc"] },
+  { id: "hugo-d5", d: 3, t: "Quel recueil de poèmes Hugo écrit-il en partie après la mort de sa fille Léopoldine ?", a: "Les Contemplations", acc: ["les contemplations", "contemplations"], x: ["Les Châtiments", "La Légende des siècles", "Les Orientales"] },
+  { id: "hugo-d6", d: 3, t: "Comment est morte Léopoldine, la fille de Victor Hugo ?", a: "Noyée à Villequier", acc: ["noyée", "noyée à villequier", "noyade"], x: ["De maladie", "Dans un incendie", "En couches"] },
+  { id: "hugo-d7", d: 3, t: "Quel poème des « Contemplations » commence par « Demain, dès l'aube… » ?", a: "Demain, dès l'aube", acc: ["demain dès l'aube", "demain des l'aube", "demain dès l aube"], x: ["Melancholia", "Booz endormi", "Ô souvenirs"] },
+  { id: "hugo-d8", d: 3, t: "Quel recueil satirique Hugo dirige-t-il contre Napoléon III ?", a: "Les Châtiments", acc: ["les châtiments", "châtiments", "chatiments"], x: ["Les Contemplations", "Les Feuilles d'automne", "Odes et Ballades"] },
+  { id: "hugo-d9", d: 3, t: "Quel drame romantique de Hugo provoqua une « bataille » célèbre lors de sa création en 1830 ?", a: "Hernani", acc: ["hernani"], x: ["Ruy Blas", "Cromwell", "Lucrèce Borgia"] },
+  { id: "hugo-d10", d: 3, t: "Dans quel texte Hugo pose-t-il les principes du drame romantique (mélange sublime/grotesque) ?", a: "La Préface de Cromwell", acc: ["préface de cromwell", "cromwell", "la préface de cromwell"], x: ["Hernani", "William Shakespeare", "Les Misérables"] },
+  { id: "hugo-d11", d: 3, t: "Quel roman de Hugo, écrit contre la peine de mort, prend la forme d'un journal de condamné ?", a: "Le Dernier Jour d'un condamné", acc: ["le dernier jour d'un condamné", "dernier jour d'un condamné"], x: ["Claude Gueux", "Bug-Jargal", "Les Misérables"] },
+  { id: "hugo-d12", d: 3, t: "Quel roman de Hugo se déroule sur l'île de Guernesey autour du pêcheur Gilliatt ?", a: "Les Travailleurs de la mer", acc: ["les travailleurs de la mer", "travailleurs de la mer"], x: ["Notre-Dame de Paris", "L'Homme qui rit", "Quatrevingt-treize"] },
+  { id: "hugo-d13", d: 3, t: "Quel roman de Hugo, dont le héros Gwynplaine a un rictus figé, a inspiré le Joker ?", a: "L'Homme qui rit", acc: ["l'homme qui rit", "homme qui rit"], x: ["Les Travailleurs de la mer", "Bug-Jargal", "Han d'Islande"] },
+  { id: "hugo-d14", d: 3, t: "Quel drame de Hugo met en scène un valet amoureux d'une reine d'Espagne ?", a: "Ruy Blas", acc: ["ruy blas"], x: ["Hernani", "Marion de Lorme", "Le Roi s'amuse"] },
+  { id: "hugo-d15", d: 3, t: "Quel drame de Hugo, censuré, a inspiré l'opéra « Rigoletto » de Verdi ?", a: "Le Roi s'amuse", acc: ["le roi s'amuse", "le roi s amuse"], x: ["Hernani", "Ruy Blas", "Lucrèce Borgia"] },
+
+  // --- Pro (20) ---
+  { id: "hugo-p1", d: 4, t: "En quelle année est né Victor Hugo ?", a: "1802", acc: ["1802"], x: ["1799", "1815", "1821"] },
+  { id: "hugo-p2", d: 4, t: "Dans quelle ville est né Victor Hugo ?", a: "Besançon", acc: ["besançon", "besancon"], x: ["Paris", "Nantes", "Lyon"] },
+  { id: "hugo-p3", d: 4, t: "En quelle année sont publiés « Les Misérables » ?", a: "1862", acc: ["1862"], x: ["1831", "1845", "1874"] },
+  { id: "hugo-p4", d: 4, t: "Quelle vaste fresque poétique de l'humanité Hugo publie-t-il à partir de 1859 ?", a: "La Légende des siècles", acc: ["la légende des siècles", "légende des siècles"], x: ["Les Contemplations", "Les Orientales", "Les Rayons et les Ombres"] },
+  { id: "hugo-p5", d: 4, t: "Quel roman historique de Hugo se déroule pendant la Révolution et la guerre de Vendée ?", a: "Quatrevingt-treize", acc: ["quatrevingt-treize", "quatre-vingt-treize", "93"], x: ["Notre-Dame de Paris", "L'Homme qui rit", "Bug-Jargal"] },
+  { id: "hugo-p6", d: 4, t: "Comment s'appelle le poulpe géant qu'affronte Gilliatt dans « Les Travailleurs de la mer » ?", a: "La pieuvre", acc: ["la pieuvre", "pieuvre", "pieuvre géante"], x: ["Le kraken", "Le requin", "La baleine"] },
+  { id: "hugo-p7", d: 4, t: "Quel premier roman exotique de Hugo, sur une révolte d'esclaves, paraît en 1826 ?", a: "Bug-Jargal", acc: ["bug-jargal", "bug jargal"], x: ["Han d'Islande", "Le Dernier Jour d'un condamné", "Claude Gueux"] },
+  { id: "hugo-p8", d: 4, t: "Quelle nouvelle de 1834 dénonce la misère à travers un condamné réel ?", a: "Claude Gueux", acc: ["claude gueux"], x: ["Le Dernier Jour d'un condamné", "Bug-Jargal", "Han d'Islande"] },
+  { id: "hugo-p9", d: 4, t: "Comment s'appelle l'épouse de Victor Hugo ?", a: "Adèle Foucher", acc: ["adèle foucher", "adèle", "adele"], x: ["Juliette Drouet", "Léopoldine", "Léonie"] },
+  { id: "hugo-p10", d: 4, t: "Quelle actrice fut la maîtresse et fidèle compagne de Hugo pendant un demi-siècle ?", a: "Juliette Drouet", acc: ["juliette drouet", "juliette"], x: ["Adèle Foucher", "Sarah Bernhardt", "George Sand"] },
+  { id: "hugo-p11", d: 4, t: "Quel numéro de forçat porte Jean Valjean au bagne ?", a: "24601", acc: ["24601"], x: ["9430", "10815", "24653"] },
+  { id: "hugo-p12", d: 4, t: "Sous quel régime Hugo est-il élu à l'Académie française (1841) ?", a: "La monarchie de Juillet", acc: ["monarchie de juillet", "louis-philippe"], x: ["La Restauration", "Le Second Empire", "La IIIe République"] },
+  { id: "hugo-p13", d: 4, t: "Quel essai Hugo consacre-t-il en 1864 au dramaturge anglais qu'il admire ?", a: "William Shakespeare", acc: ["william shakespeare", "shakespeare"], x: ["Cromwell", "Littérature et philosophie mêlées", "Choses vues"] },
+  { id: "hugo-p14", d: 4, t: "Combien de temps a duré l'exil de Victor Hugo (1851-1870) environ ?", a: "Près de vingt ans", acc: ["vingt ans", "près de vingt ans", "19 ans", "20 ans"], x: ["Cinq ans", "Dix ans", "Trente ans"] },
+  { id: "hugo-p15", d: 4, t: "Quel recueil intime, publié après sa mort, rassemble ses notes et observations ?", a: "Choses vues", acc: ["choses vues"], x: ["Les Misères", "Le Rhin", "Océan"] },
+  { id: "hugo-p16", d: 4, t: "Comment s'appelle la maison de Hugo à Guernesey, aujourd'hui musée ?", a: "Hauteville House", acc: ["hauteville house", "hauteville"], x: ["Marine Terrace", "La Falue", "Villa Montmorency"] },
+  { id: "hugo-p17", d: 4, t: "Quel titre premier « Les Misérables » devait-il porter avant sa publication ?", a: "Les Misères", acc: ["les misères", "les miseres", "misères"], x: ["Jean Valjean", "Fantine", "Les Damnés"] },
+  { id: "hugo-p18", d: 4, t: "Dans « Notre-Dame de Paris », quel mot grec gravé sur un mur obsède l'archidiacre Frollo ?", a: "Anankè (la fatalité)", acc: ["anankè", "ananke", "fatalité"], x: ["Alpha", "Logos", "Kairos"] },
+  { id: "hugo-p19", d: 4, t: "Quel comédien Hugo défend-il dans la préface de « Cromwell » en opposant le grotesque au… ?", a: "Sublime", acc: ["sublime", "le sublime"], x: ["Tragique", "Comique", "Pathétique"] },
+  { id: "hugo-p20", d: 4, t: "Combien de personnes ont suivi le cortège funèbre de Hugo jusqu'au Panthéon (estimation) ?", a: "Environ deux millions", acc: ["deux millions", "2 millions", "environ deux millions"], x: ["Cent mille", "Un demi-million", "Cinq millions"] },
+]);

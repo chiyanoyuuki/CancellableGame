@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const king = universe("litterature", "Stephen King", [
+  // --- Faciles (5) ---
+  { id: "king-f1", d: 1, t: "De quel genre Stephen King est-il le maître incontesté ?", a: "L'horreur", acc: ["horreur", "l'horreur", "épouvante"], x: ["La romance", "La science-fiction", "Le western"] },
+  { id: "king-f2", d: 1, t: "Quel clown tueur hante le roman « Ça » (It) ?", a: "Grippe-Sou (Pennywise)", acc: ["pennywise", "grippe-sou", "ça", "grippe sou"], x: ["Jason", "Freddy", "Michael Myers"] },
+  { id: "king-f3", d: 1, t: "Quel roman de King se déroule dans l'hôtel Overlook, où Jack devient fou ?", a: "Shining", acc: ["shining", "l'enfant lumière", "the shining"], x: ["Ça", "Misery", "Simetierre"] },
+  { id: "king-f4", d: 1, t: "De quel pays est Stephen King ?", a: "Les États-Unis", acc: ["états-unis", "usa", "américain", "amérique"], x: ["Le Royaume-Uni", "Le Canada", "L'Irlande"] },
+  { id: "king-f5", d: 1, t: "Quel roman de King a pour héroïne une adolescente télékinésiste couverte de sang au bal ?", a: "Carrie", acc: ["carrie"], x: ["Christine", "Misery", "Cujo"] },
+
+  // --- Moyennes (10) ---
+  { id: "king-m1", d: 2, t: "Quelle infirmière séquestre son écrivain préféré dans « Misery » ?", a: "Annie Wilkes", acc: ["annie wilkes", "annie"], x: ["Carrie", "Wendy", "Beverly"] },
+  { id: "king-m2", d: 2, t: "Quel roman de King suit une épidémie qui décime l'humanité ?", a: "Le Fléau", acc: ["le fléau", "fléau", "the stand"], x: ["Ça", "Dôme", "La Tour sombre"] },
+  { id: "king-m3", d: 2, t: "Quel roman de King voit des morts revenir après un enterrement près d'un cimetière indien ?", a: "Simetierre", acc: ["simetierre", "pet sematary", "cimetière des animaux"], x: ["Salem", "Shining", "Ça"] },
+  { id: "king-m4", d: 2, t: "Quelle voiture Plymouth Fury possédée sème la terreur dans un roman de King ?", a: "Christine", acc: ["christine"], x: ["Cujo", "Carrie", "Herbie"] },
+  { id: "king-m5", d: 2, t: "Quel gros chien enragé terrorise une mère et son fils dans un roman de King ?", a: "Cujo", acc: ["cujo"], x: ["Christine", "Pennywise", "Kojak"] },
+  { id: "king-m6", d: 2, t: "Quel roman de King se déroule dans le couloir de la mort avec le géant John Coffey ?", a: "La Ligne verte", acc: ["la ligne verte", "ligne verte", "the green mile"], x: ["Les Évadés", "Dôme", "Le Fléau"] },
+  { id: "king-m7", d: 2, t: "Sous quel pseudonyme Stephen King a-t-il publié plusieurs romans ?", a: "Richard Bachman", acc: ["richard bachman", "bachman"], x: ["John Swithen", "Joe Hill", "Peter Straub"] },
+  { id: "king-m8", d: 2, t: "Dans quel État américain, où vit King, se situent nombre de ses histoires ?", a: "Le Maine", acc: ["le maine", "maine"], x: ["Le Colorado", "Le Texas", "La Californie"] },
+  { id: "king-m9", d: 2, t: "Quelle ville fictive du Maine sert de décor à « Ça » ?", a: "Derry", acc: ["derry"], x: ["Castle Rock", "Salem", "Haven"] },
+  { id: "king-m10", d: 2, t: "Quel roman de King raconte une petite ville envahie par des vampires ?", a: "Salem", acc: ["salem", "salem's lot", "les vampires de salem"], x: ["Ça", "Dôme", "Shining"] },
+
+  // --- Dures (15) ---
+  { id: "king-d1", d: 3, t: "Comment s'appelle le groupe d'enfants qui affronte Ça à Derry ?", a: "Le Club des Ratés", acc: ["le club des ratés", "club des ratés", "the losers club", "les ratés"], x: ["Le Club des Cinq", "La Bande à Pennywise", "Les Gamins de Derry"] },
+  { id: "king-d2", d: 3, t: "Tous les combien d'années Ça se réveille-t-il pour se nourrir à Derry ?", a: "Tous les 27 ans", acc: ["27 ans", "tous les 27 ans", "27"], x: ["Tous les 10 ans", "Tous les 50 ans", "Tous les 100 ans"] },
+  { id: "king-d3", d: 3, t: "Quel petit garçon voit son bateau en papier disparaître dans une bouche d'égout au début de « Ça » ?", a: "Georgie", acc: ["georgie", "georgie denbrough"], x: ["Bill", "Ben", "Eddie"] },
+  { id: "king-d4", d: 3, t: "Quel écrivain séquestré doit ressusciter son héroïne dans « Misery » ?", a: "Paul Sheldon", acc: ["paul sheldon", "sheldon"], x: ["Jack Torrance", "Bill Denbrough", "Ben Mears"] },
+  { id: "king-d5", d: 3, t: "Quel personnage de « Misery » Annie oblige-t-elle Paul à ramener à la vie ?", a: "Misery Chastain", acc: ["misery chastain", "misery"], x: ["Carrie", "Wendy", "Beverly"] },
+  { id: "king-d6", d: 3, t: "Quel don possède le petit Danny dans « Shining » ?", a: "Le Don (shining, prémonition)", acc: ["le don", "shining", "prémonition", "télépathie"], x: ["La télékinésie", "L'invisibilité", "La force"] },
+  { id: "king-d7", d: 3, t: "Quelle phrase Jack tape-t-il en boucle à la machine dans « Shining » ?", a: "All work and no play makes Jack a dull boy", acc: ["all work and no play", "all work and no play makes jack a dull boy"], x: ["Redrum", "Here's Johnny", "Come play with us"] },
+  { id: "king-d8", d: 3, t: "Quel mot Danny écrit-il, qui est « murder » (meurtre) à l'envers ?", a: "Redrum", acc: ["redrum"], x: ["Murder", "Overlook", "Tony"] },
+  { id: "king-d9", d: 3, t: "Comment s'appelle le grand cycle fantastique de King, mêlant western et fantasy ?", a: "La Tour sombre", acc: ["la tour sombre", "tour sombre", "the dark tower"], x: ["Le Fléau", "Talisman", "Insomnie"] },
+  { id: "king-d10", d: 3, t: "Quel pistolero est le héros de « La Tour sombre » ?", a: "Roland de Gilead", acc: ["roland", "roland de gilead", "le pistolero"], x: ["Jake", "Randall Flagg", "Eddie Dean"] },
+  { id: "king-d11", d: 3, t: "Quel méchant récurrent, incarnation du mal, apparaît dans « Le Fléau » et « La Tour sombre » ?", a: "Randall Flagg", acc: ["randall flagg", "flagg"], x: ["Pennywise", "Cujo", "Leland Gaunt"] },
+  { id: "king-d12", d: 3, t: "Quel roman de King voit une petite ville coupée du monde sous une barrière invisible ?", a: "Dôme", acc: ["dôme", "dome", "under the dome"], x: ["Le Fléau", "Ça", "Salem"] },
+  { id: "king-d13", d: 3, t: "Quel roman de King voit une femme menottée à un lit après la mort de son mari ?", a: "Jessie (Le Jeu de Gerald)", acc: ["le jeu de gerald", "jessie", "gerald's game"], x: ["Misery", "Dolores Claiborne", "Rose Madder"] },
+  { id: "king-d14", d: 3, t: "Quelle fillette pyrokinésie est traquée par une agence dans « Charlie » ?", a: "Charlie McGee", acc: ["charlie", "charlie mcgee", "charlene"], x: ["Carrie", "Abra", "Beverly"] },
+  { id: "king-d15", d: 3, t: "Quelle boutique tenue par Leland Gaunt exauce les désirs à Castle Rock ?", a: "Bazaar (Needful Things)", acc: ["bazaar", "needful things", "le bazaar de l'épouvante"], x: ["Le Dôme", "L'Overlook", "La Ligne verte"] },
+
+  // --- Pro (20) ---
+  { id: "king-p1", d: 4, t: "En quelle année est né Stephen King ?", a: "1947", acc: ["1947"], x: ["1935", "1955", "1962"] },
+  { id: "king-p2", d: 4, t: "Dans quelle ville du Maine Stephen King habite-t-il, dans une maison à la grille en chauves-souris ?", a: "Bangor", acc: ["bangor"], x: ["Portland", "Augusta", "Derry"] },
+  { id: "king-p3", d: 4, t: "Quelle ville fictive récurrente du Maine sert de décor à « Cujo », « Bazaar »… ?", a: "Castle Rock", acc: ["castle rock"], x: ["Derry", "Salem's Lot", "Haven"] },
+  { id: "king-p4", d: 4, t: "De quelle nouvelle de King est tiré le film « Les Évadés » (The Shawshank Redemption) ?", a: "Rita Hayworth et la Rédemption de Shawshank", acc: ["rita hayworth et la rédemption de shawshank", "shawshank", "rita hayworth"], x: ["Le Corps", "La Ligne verte", "Différentes Saisons"] },
+  { id: "king-p5", d: 4, t: "De quelle nouvelle de King est tiré le film « Stand by Me » ?", a: "Le Corps (The Body)", acc: ["le corps", "the body"], x: ["Un élève doué", "Rita Hayworth", "Brume"] },
+  { id: "king-p6", d: 4, t: "Quel réalisateur a adapté « Shining » en 1980, au grand dam de King ?", a: "Stanley Kubrick", acc: ["stanley kubrick", "kubrick"], x: ["Brian De Palma", "David Cronenberg", "John Carpenter"] },
+  { id: "king-p7", d: 4, t: "Quel réalisateur a adapté « Carrie » en 1976 et « La Ligne verte »… non, qui a adapté « Carrie » ?", a: "Brian De Palma", acc: ["brian de palma", "de palma"], x: ["Stanley Kubrick", "Frank Darabont", "Rob Reiner"] },
+  { id: "king-p8", d: 4, t: "Quel réalisateur a adapté « La Ligne verte » et « Les Évadés » ?", a: "Frank Darabont", acc: ["frank darabont", "darabont"], x: ["Brian De Palma", "Kubrick", "Mike Flanagan"] },
+  { id: "king-p9", d: 4, t: "Quel accident faillit tuer King en 1999 près de chez lui ?", a: "Il fut renversé par une camionnette", acc: ["renversé par une camionnette", "accident de voiture", "renversé", "fourgonnette"], x: ["Une chute", "Une noyade", "Un incendie"] },
+  { id: "king-p10", d: 4, t: "Quel essai autobiographique King consacre-t-il à son métier ?", a: "Écriture (On Writing)", acc: ["écriture", "on writing", "ecriture, mémoires d'un métier"], x: ["Anatomie de l'horreur", "Danse macabre", "Chantier"] },
+  { id: "king-p11", d: 4, t: "Quel roman de King, sur un voyage dans le temps, vise à empêcher l'assassinat de JFK ?", a: "22/11/63", acc: ["22/11/63", "11/22/63", "22 11 63"], x: ["Dôme", "Insomnie", "Le Fléau"] },
+  { id: "king-p12", d: 4, t: "Quelle suite de « Shining » suit Danny adulte, publiée en 2013 ?", a: "Docteur Sleep", acc: ["docteur sleep", "doctor sleep"], x: ["Shining 2", "Retour à l'Overlook", "L'Enfant lumière"] },
+  { id: "king-p13", d: 4, t: "Quel écrivain, ami et collaborateur de King, a coécrit « Le Talisman » ?", a: "Peter Straub", acc: ["peter straub", "straub"], x: ["Dean Koontz", "Clive Barker", "Richard Matheson"] },
+  { id: "king-p14", d: 4, t: "Sous le pseudo Bachman, quel roman de King anticipe une télé-réalité mortelle (« Running Man ») ?", a: "Marche ou crève / Running Man", acc: ["running man", "marche ou crève", "the running man"], x: ["Rage", "Chantier", "La Peau sur les os"] },
+  { id: "king-p15", d: 4, t: "Quel écrivain, fils de Stephen King, publie aussi de l'horreur sous un autre nom ?", a: "Joe Hill", acc: ["joe hill", "joseph hillström king"], x: ["Owen King", "Richard Bachman", "Peter Straub"] },
+  { id: "king-p16", d: 4, t: "Quelle nouvelle de King a inspiré le film « Brume » (The Mist) au final terrible ?", a: "Brume (The Mist)", acc: ["brume", "the mist", "the fog"], x: ["1408", "Le Chat", "Poids lourds"] },
+  { id: "king-p17", d: 4, t: "Quel professeur devient devin après un coma dans « Dead Zone » ?", a: "Johnny Smith", acc: ["johnny smith", "john smith", "johnny"], x: ["Ben Mears", "Jack Torrance", "Paul Edgecombe"] },
+  { id: "king-p18", d: 4, t: "Quel prisonnier noir géant guérit par le toucher dans « La Ligne verte » ?", a: "John Coffey", acc: ["john coffey", "coffey"], x: ["Paul Edgecombe", "Eduard Delacroix", "Percy"] },
+  { id: "king-p19", d: 4, t: "Quel objet magique (une boule) apparaît dans plusieurs œuvres liées à « La Tour sombre » ?", a: "Le Grand Arcane / la boule de cristal (Maerlyn)", acc: ["boule de cristal", "maerlyn", "grand arcane", "la boule"], x: ["Le Talisman", "L'Anneau", "Le Sceptre"] },
+  { id: "king-p20", d: 4, t: "Combien de romans Stephen King a-t-il publié environ (des dizaines) ?", a: "Plus de soixante", acc: ["plus de soixante", "soixante", "une soixantaine", "60"], x: ["Une dizaine", "Une vingtaine", "Plus de deux cents"] },
+]);

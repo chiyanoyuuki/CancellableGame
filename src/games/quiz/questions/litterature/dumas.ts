@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const dumas = universe("litterature", "Alexandre Dumas", [
+  // --- Faciles (5) ---
+  { id: "dumas-f1", d: 1, t: "Quel roman de Dumas suit quatre héros et leur devise « Un pour tous… » ?", a: "Les Trois Mousquetaires", acc: ["les trois mousquetaires", "trois mousquetaires"], x: ["Le Comte de Monte-Cristo", "La Reine Margot", "Vingt ans après"] },
+  { id: "dumas-f2", d: 1, t: "Complétez la devise des mousquetaires : « Un pour tous… »", a: "…tous pour un", acc: ["tous pour un"], x: ["…un pour la gloire", "…tous au combat", "…tous pour le roi"] },
+  { id: "dumas-f3", d: 1, t: "Quel jeune Gascon monte à Paris pour devenir mousquetaire ?", a: "D'Artagnan", acc: ["d'artagnan", "dartagnan"], x: ["Athos", "Porthos", "Aramis"] },
+  { id: "dumas-f4", d: 1, t: "Quel roman de Dumas raconte la vengeance d'Edmond Dantès ?", a: "Le Comte de Monte-Cristo", acc: ["le comte de monte-cristo", "monte-cristo", "comte de monte cristo"], x: ["Les Trois Mousquetaires", "La Reine Margot", "Le Vicomte de Bragelonne"] },
+  { id: "dumas-f5", d: 1, t: "Dumas est un grand auteur de romans de quel genre ?", a: "Le roman de cape et d'épée / historique", acc: ["cape et d'épée", "roman historique", "cape et épée", "historique"], x: ["La science-fiction", "Le roman policier", "La poésie"] },
+
+  // --- Moyennes (10) ---
+  { id: "dumas-m1", d: 2, t: "Comment s'appellent les trois amis mousquetaires que rejoint d'Artagnan ?", a: "Athos, Porthos et Aramis", acc: ["athos porthos aramis", "athos, porthos et aramis", "athos porthos et aramis"], x: ["Rochefort, Tréville et Planchet", "Bragelonne, Raoul et Grimaud", "Danglars, Fernand et Caderousse"] },
+  { id: "dumas-m2", d: 2, t: "Quelle espionne machiavélique, marquée d'une fleur de lys, sert le cardinal ?", a: "Milady de Winter", acc: ["milady", "milady de winter"], x: ["Constance", "Anne d'Autriche", "Mercédès"] },
+  { id: "dumas-m3", d: 2, t: "Quel cardinal est le grand adversaire des mousquetaires ?", a: "Richelieu", acc: ["richelieu", "le cardinal de richelieu"], x: ["Mazarin", "Retz", "Rochefort"] },
+  { id: "dumas-m4", d: 2, t: "Quel roi règne dans « Les Trois Mousquetaires » ?", a: "Louis XIII", acc: ["louis xiii", "louis 13"], x: ["Louis XIV", "Henri IV", "Louis XV"] },
+  { id: "dumas-m5", d: 2, t: "Quel est le vrai nom du comte de Monte-Cristo ?", a: "Edmond Dantès", acc: ["edmond dantès", "edmond dantes", "dantès"], x: ["Fernand Mondego", "Danglars", "Villefort"] },
+  { id: "dumas-m6", d: 2, t: "Dans quelle prison-forteresse Edmond Dantès est-il enfermé ?", a: "Le château d'If", acc: ["le château d'if", "château d'if", "chateau d'if", "if"], x: ["La Bastille", "Le fort Boyard", "La Conciergerie"] },
+  { id: "dumas-m7", d: 2, t: "Quel vieux prisonnier savant instruit Dantès et lui révèle un trésor ?", a: "L'abbé Faria", acc: ["l'abbé faria", "abbé faria", "faria"], x: ["L'abbé Busoni", "Le comte de Morcerf", "Noirtier"] },
+  { id: "dumas-m8", d: 2, t: "Sur quelle île se trouve le trésor qui donne son nom au comte ?", a: "Monte-Cristo", acc: ["monte-cristo", "l'île de monte-cristo", "monte cristo"], x: ["If", "Elbe", "Corse"] },
+  { id: "dumas-m9", d: 2, t: "Quel objet volé (des diamants de la reine) lance l'intrigue des « Trois Mousquetaires » ?", a: "Les ferrets de la reine", acc: ["les ferrets", "ferrets", "les ferrets de diamants", "ferrets de la reine"], x: ["La couronne", "Le collier", "L'épée du roi"] },
+  { id: "dumas-m10", d: 2, t: "Quel fils de Dumas a écrit « La Dame aux camélias » ?", a: "Alexandre Dumas fils", acc: ["dumas fils", "alexandre dumas fils"], x: ["Alexandre Dumas père", "Victor Hugo", "Eugène Sue"] },
+
+  // --- Dures (15) ---
+  { id: "dumas-d1", d: 3, t: "Comment s'appelle la reine de France, espagnole, protégée par d'Artagnan ?", a: "Anne d'Autriche", acc: ["anne d'autriche", "anne d autriche"], x: ["Marie de Médicis", "Catherine de Médicis", "Marguerite de Valois"] },
+  { id: "dumas-d2", d: 3, t: "Quel duc anglais, amant de la reine, reçoit les ferrets ?", a: "Le duc de Buckingham", acc: ["buckingham", "duc de buckingham"], x: ["Le duc d'York", "Lord Winter", "Le comte de Wardes"] },
+  { id: "dumas-d3", d: 3, t: "Quelle lingère, aimée de d'Artagnan, est empoisonnée par Milady ?", a: "Constance Bonacieux", acc: ["constance", "constance bonacieux"], x: ["Milady", "Kitty", "Mercédès"] },
+  { id: "dumas-d4", d: 3, t: "Quel valet fidèle et flegmatique sert d'Artagnan ?", a: "Planchet", acc: ["planchet"], x: ["Grimaud", "Mousqueton", "Bazin"] },
+  { id: "dumas-d5", d: 3, t: "Quel capitaine des mousquetaires accueille d'Artagnan à Paris ?", a: "Monsieur de Tréville", acc: ["tréville", "monsieur de tréville", "de treville"], x: ["Rochefort", "Athos", "Richelieu"] },
+  { id: "dumas-d6", d: 3, t: "Quel passé cache Athos, lié à Milady ?", a: "Il fut son mari (le comte de la Fère)", acc: ["son mari", "le comte de la fère", "la fère", "il l'a épousée"], x: ["Son frère", "Son geôlier", "Son bourreau"] },
+  { id: "dumas-d7", d: 3, t: "Quelle suite Dumas donne-t-il aux « Trois Mousquetaires » sous la Fronde ?", a: "Vingt ans après", acc: ["vingt ans après", "20 ans après"], x: ["Le Vicomte de Bragelonne", "La Reine Margot", "Le Collier de la reine"] },
+  { id: "dumas-d8", d: 3, t: "Quel roman-fleuve clôt la trilogie des mousquetaires et contient « L'Homme au masque de fer » ?", a: "Le Vicomte de Bragelonne", acc: ["le vicomte de bragelonne", "vicomte de bragelonne", "bragelonne"], x: ["Vingt ans après", "La Reine Margot", "Les Trois Mousquetaires"] },
+  { id: "dumas-d9", d: 3, t: "Qui serait, selon Dumas, le mystérieux « Homme au masque de fer » ?", a: "Le frère jumeau de Louis XIV", acc: ["frère jumeau de louis xiv", "jumeau de louis xiv", "frère du roi", "jumeau du roi"], x: ["Le cardinal Mazarin", "Fouquet", "Le vrai roi d'Angleterre"] },
+  { id: "dumas-d10", d: 3, t: "Quel amant de Mercédès trahit Dantès et devient le comte de Morcerf ?", a: "Fernand Mondego", acc: ["fernand", "fernand mondego", "mondego"], x: ["Danglars", "Villefort", "Caderousse"] },
+  { id: "dumas-d11", d: 3, t: "Quel armateur jaloux dénonce Dantès par écrit ?", a: "Danglars", acc: ["danglars"], x: ["Fernand", "Villefort", "Caderousse"] },
+  { id: "dumas-d12", d: 3, t: "Quel procureur ambitieux fait emprisonner Dantès pour se protéger ?", a: "Villefort", acc: ["villefort", "gérard de villefort"], x: ["Danglars", "Fernand", "Morrel"] },
+  { id: "dumas-d13", d: 3, t: "Comment s'appelle la fiancée d'Edmond Dantès, qu'il perd pendant sa détention ?", a: "Mercédès", acc: ["mercédès", "mercedes"], x: ["Haydée", "Valentine", "Constance"] },
+  { id: "dumas-d14", d: 3, t: "Quel roman de Dumas se déroule pendant le massacre de la Saint-Barthélemy ?", a: "La Reine Margot", acc: ["la reine margot", "reine margot"], x: ["Les Trois Mousquetaires", "Le Comte de Monte-Cristo", "La Dame de Monsoreau"] },
+  { id: "dumas-d15", d: 3, t: "Quelle formule résume la philosophie du comte de Monte-Cristo sur l'espoir ?", a: "Attendre et espérer", acc: ["attendre et espérer", "attendre et esperer"], x: ["Vaincre ou mourir", "Tout ou rien", "Œil pour œil"] },
+
+  // --- Pro (20) ---
+  { id: "dumas-p1", d: 4, t: "Quel collaborateur a aidé Dumas à écrire ses grands romans ?", a: "Auguste Maquet", acc: ["auguste maquet", "maquet"], x: ["Gérard de Nerval", "Eugène Sue", "Paul Lacroix"] },
+  { id: "dumas-p2", d: 4, t: "Dans quelle ville est né Alexandre Dumas (père) ?", a: "Villers-Cotterêts", acc: ["villers-cotterêts", "villers-cotterets", "villers cotterets"], x: ["Paris", "Marseille", "Nantes"] },
+  { id: "dumas-p3", d: 4, t: "Quelle était l'origine de la grand-mère de Dumas, esclave à Saint-Domingue ?", a: "Afro-caribéenne (haïtienne)", acc: ["haïtienne", "afro-caribéenne", "saint-domingue", "esclave noire"], x: ["Espagnole", "Italienne", "Créole de Louisiane"] },
+  { id: "dumas-p4", d: 4, t: "Quel général de la Révolution, père de l'écrivain, était surnommé « le Diable noir » ?", a: "Thomas-Alexandre Dumas", acc: ["thomas-alexandre dumas", "général dumas", "thomas alexandre dumas"], x: ["Alexandre Dumas fils", "Auguste Maquet", "Le général Foy"] },
+  { id: "dumas-p5", d: 4, t: "En quelle année les cendres de Dumas ont-elles été transférées au Panthéon ?", a: "2002", acc: ["2002"], x: ["1885", "1970", "1995"] },
+  { id: "dumas-p6", d: 4, t: "Quel véritable mousquetaire du roman « Mémoires de d'Artagnan » a inspiré Dumas ?", a: "Charles de Batz (le vrai d'Artagnan)", acc: ["charles de batz", "le vrai d'artagnan", "batz", "d'artagnan historique"], x: ["Cyrano de Bergerac", "Le maréchal de Turenne", "Bussy d'Amboise"] },
+  { id: "dumas-p7", d: 4, t: "Quel château fastueux Dumas se fit-il construire près de Paris ?", a: "Le château de Monte-Cristo", acc: ["château de monte-cristo", "monte-cristo", "chateau de monte cristo"], x: ["Le château d'If", "Le château de Villers", "Le château de la Fère"] },
+  { id: "dumas-p8", d: 4, t: "Quelle jeune esclave grecque le comte de Monte-Cristo a-t-il rachetée ?", a: "Haydée", acc: ["haydée", "haydee"], x: ["Mercédès", "Valentine", "Eugénie"] },
+  { id: "dumas-p9", d: 4, t: "Sous quels multiples déguisements Dantès se venge-t-il (abbé, banquier anglais…) ?", a: "L'abbé Busoni et Lord Wilmore", acc: ["abbé busoni", "lord wilmore", "busoni", "wilmore"], x: ["Le comte de la Fère", "Sinbad le marin uniquement", "Le prince Cavalcanti"] },
+  { id: "dumas-p10", d: 4, t: "Quel drame historique de Dumas fut un immense succès au théâtre en 1831 ?", a: "Antony", acc: ["antony"], x: ["Henri III et sa cour", "Kean", "La Tour de Nesle"] },
+  { id: "dumas-p11", d: 4, t: "Quel roman ouvre le cycle des Valois, avant « La Reine Margot » ?", a: "La Reine Margot (premier du cycle)", acc: ["la reine margot", "reine margot"], x: ["La Dame de Monsoreau", "Les Quarante-Cinq", "Le Collier de la reine"] },
+  { id: "dumas-p12", d: 4, t: "Quel cardinal, successeur de Richelieu, est l'adversaire dans « Vingt ans après » ?", a: "Mazarin", acc: ["mazarin", "le cardinal mazarin"], x: ["Richelieu", "Retz", "Fleury"] },
+  { id: "dumas-p13", d: 4, t: "Quel fils d'Athos, jeune vicomte, donne son titre au dernier roman de la trilogie ?", a: "Raoul de Bragelonne", acc: ["raoul", "raoul de bragelonne", "bragelonne"], x: ["Mordaunt", "Philippe", "Louis"] },
+  { id: "dumas-p14", d: 4, t: "Quel fils vengeur de Milady réapparaît dans « Vingt ans après » ?", a: "Mordaunt", acc: ["mordaunt"], x: ["Rochefort", "Raoul", "Planchet"] },
+  { id: "dumas-p15", d: 4, t: "Quel monarque anglais Athos et ses amis tentent-ils en vain de sauver dans « Vingt ans après » ?", a: "Charles Ier d'Angleterre", acc: ["charles ier", "charles i", "charles premier d'angleterre"], x: ["Jacques II", "Cromwell", "Charles II"] },
+  { id: "dumas-p16", d: 4, t: "Quel récit de voyage et de cuisine Dumas laisse-t-il, publié après sa mort ?", a: "Le Grand Dictionnaire de cuisine", acc: ["grand dictionnaire de cuisine", "dictionnaire de cuisine"], x: ["Mes Mémoires", "Impressions de voyage", "Le Journal des gourmets"] },
+  { id: "dumas-p17", d: 4, t: "Quel roman de Dumas se déroule pendant la conjuration de Cellamare et la Régence ?", a: "Le Chevalier d'Harmental", acc: ["le chevalier d'harmental", "chevalier d'harmental", "harmental"], x: ["Le Bâtard de Mauléon", "La Tulipe noire", "Les Compagnons de Jéhu"] },
+  { id: "dumas-p18", d: 4, t: "Quel roman de Dumas se déroule aux Pays-Bas autour d'une fleur rare ?", a: "La Tulipe noire", acc: ["la tulipe noire", "tulipe noire"], x: ["La Reine Margot", "Le Collier de la reine", "Georges"] },
+  { id: "dumas-p19", d: 4, t: "Quel unique roman de Dumas aborde frontalement le racisme, sur l'île Maurice ?", a: "Georges", acc: ["georges"], x: ["La Tulipe noire", "Le Capitaine Pamphile", "Amaury"] },
+  { id: "dumas-p20", d: 4, t: "Combien de romans et pièces Dumas aurait-il produits (avec ses collaborateurs) : des dizaines ou des centaines ?", a: "Des centaines", acc: ["des centaines", "centaines", "plus de 250"], x: ["Une dizaine", "Une vingtaine", "Environ cinquante"] },
+]);

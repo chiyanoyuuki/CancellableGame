@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const fantasy = universe("litterature", "Fantasy", [
+  // --- Faciles (5) ---
+  { id: "fantasy-f1", d: 1, t: "Quelle créature ailée cracheuse de feu est emblématique de la fantasy ?", a: "Le dragon", acc: ["dragon", "le dragon", "les dragons"], x: ["Le kraken", "Le griffon", "La licorne"] },
+  { id: "fantasy-f2", d: 1, t: "Quel magicien à barbe grise guide la Communauté de l'Anneau ?", a: "Gandalf", acc: ["gandalf"], x: ["Merlin", "Dumbledore", "Saroumane"] },
+  { id: "fantasy-f3", d: 1, t: "Quel jeune sorcier à lunettes étudie à l'école de Poudlard ?", a: "Harry Potter", acc: ["harry potter", "harry"], x: ["Frodon", "Geralt", "Percy Jackson"] },
+  { id: "fantasy-f4", d: 1, t: "Quel peuple aux oreilles pointues, archers élégants, peuple la fantasy ?", a: "Les elfes", acc: ["les elfes", "elfes", "elfe"], x: ["Les nains", "Les orcs", "Les hobbits"] },
+  { id: "fantasy-f5", d: 1, t: "Dans « Le Seigneur des Anneaux », que faut-il détruire pour vaincre le mal ?", a: "L'Anneau unique", acc: ["l'anneau", "l'anneau unique", "anneau unique", "anneau"], x: ["Une épée", "Une couronne", "Un grimoire"] },
+
+  // --- Moyennes (10) ---
+  { id: "fantasy-m1", d: 2, t: "Qui a écrit « Le Seigneur des Anneaux » ?", a: "J.R.R. Tolkien", acc: ["tolkien", "j.r.r. tolkien", "jrr tolkien"], x: ["C.S. Lewis", "George R.R. Martin", "Terry Pratchett"] },
+  { id: "fantasy-m2", d: 2, t: "Quel hobbit doit porter l'Anneau jusqu'au Mordor ?", a: "Frodon", acc: ["frodon", "frodo", "frodon sacquet"], x: ["Bilbo", "Sam", "Pippin"] },
+  { id: "fantasy-m3", d: 2, t: "Quel seigneur ténébreux, réduit à un œil, veut récupérer l'Anneau ?", a: "Sauron", acc: ["sauron"], x: ["Saroumane", "Morgoth", "le Roi-Sorcier"] },
+  { id: "fantasy-m4", d: 2, t: "Comment s'appelle le monde imaginé par Tolkien ?", a: "La Terre du Milieu", acc: ["la terre du milieu", "terre du milieu", "middle-earth"], x: ["Westeros", "Narnia", "Alagaësia"] },
+  { id: "fantasy-m5", d: 2, t: "Quel dragon garde un trésor dans « Le Hobbit » ?", a: "Smaug", acc: ["smaug"], x: ["Glaurung", "Ancalagon", "Drogon"] },
+  { id: "fantasy-m6", d: 2, t: "Qui a écrit la saga « Le Trône de fer » (A Song of Ice and Fire) ?", a: "George R.R. Martin", acc: ["george r.r. martin", "george martin", "grrm", "martin"], x: ["Tolkien", "Robert Jordan", "Brandon Sanderson"] },
+  { id: "fantasy-m7", d: 2, t: "Sur quel continent se déroule l'essentiel du « Trône de fer » ?", a: "Westeros", acc: ["westeros"], x: ["Essos", "La Terre du Milieu", "Alagaësia"] },
+  { id: "fantasy-m8", d: 2, t: "Quel lion sacrifié puis ressuscité règne sur le monde de Narnia ?", a: "Aslan", acc: ["aslan"], x: ["Simba", "Mufasa", "Smaug"] },
+  { id: "fantasy-m9", d: 2, t: "Quel mage noir, ennemi de Harry Potter, ne doit pas être nommé ?", a: "Voldemort", acc: ["voldemort", "tu-sais-qui"], x: ["Sauron", "Saroumane", "Le Roi de la Nuit"] },
+  { id: "fantasy-m10", d: 2, t: "Qui a écrit les « Chroniques de Narnia » ?", a: "C.S. Lewis", acc: ["c.s. lewis", "cs lewis", "lewis"], x: ["Tolkien", "Philip Pullman", "Lewis Carroll"] },
+
+  // --- Dures (15) ---
+  { id: "fantasy-d1", d: 3, t: "Quel sorceleur chasseur de monstres est le héros des romans d'Andrzej Sapkowski ?", a: "Geralt de Riv", acc: ["geralt", "geralt de riv", "the witcher", "le sorceleur"], x: ["Elric", "Conan", "Kvothe"] },
+  { id: "fantasy-d2", d: 3, t: "Quel auteur polonais a créé « The Witcher » (Le Sorceleur) ?", a: "Andrzej Sapkowski", acc: ["sapkowski", "andrzej sapkowski"], x: ["Stanislas Lem", "Terry Pratchett", "Robert Jordan"] },
+  { id: "fantasy-d3", d: 3, t: "Quel monde plat porté par quatre éléphants et une tortue est imaginé par Terry Pratchett ?", a: "Le Disque-Monde", acc: ["le disque-monde", "disque-monde", "discworld"], x: ["La Terre du Milieu", "Terremer", "Alagaësia"] },
+  { id: "fantasy-d4", d: 3, t: "Quel cycle d'Ursula K. Le Guin suit le mage Ged sur un archipel ?", a: "Terremer", acc: ["terremer", "earthsea", "le cycle de terremer"], x: ["Narnia", "Le Disque-Monde", "La Roue du Temps"] },
+  { id: "fantasy-d5", d: 3, t: "Quel vaste cycle de Robert Jordan compte quatorze tomes autour du Dragon Réincarné ?", a: "La Roue du Temps", acc: ["la roue du temps", "roue du temps", "the wheel of time"], x: ["Le Trône de fer", "L'Assassin royal", "Les Annales du Disque-Monde"] },
+  { id: "fantasy-d6", d: 3, t: "Quel auteur américain, très prolifique, a créé Mistborn et les Archives de Roshar ?", a: "Brandon Sanderson", acc: ["brandon sanderson", "sanderson"], x: ["Robert Jordan", "Patrick Rothfuss", "Joe Abercrombie"] },
+  { id: "fantasy-d7", d: 3, t: "Dans « Fils-des-brumes » (Mistborn), quel pouvoir consiste à « brûler » des métaux ?", a: "L'allomancie", acc: ["allomancie", "l'allomancie"], x: ["La féramancie", "La géomancie", "L'aéromancie"] },
+  { id: "fantasy-d8", d: 3, t: "Quel guerrier cimmérien barbare a été créé par Robert E. Howard ?", a: "Conan le Barbare", acc: ["conan", "conan le barbare"], x: ["Elric", "Geralt", "Drizzt"] },
+  { id: "fantasy-d9", d: 3, t: "Quel empereur-sorcier albinos à l'épée Stormbringer est créé par Michael Moorcock ?", a: "Elric de Melniboné", acc: ["elric", "elric de melniboné"], x: ["Conan", "Geralt", "Kvothe"] },
+  { id: "fantasy-d10", d: 3, t: "Quel trio d'enfants entre dans Narnia par une armoire ?", a: "Les enfants Pevensie", acc: ["les pevensie", "pevensie", "les enfants pevensie"], x: ["Les Baudelaire", "Les Weasley", "Les Stark"] },
+  { id: "fantasy-d11", d: 3, t: "Quelle trilogie de Philip Pullman met en scène Lyra et son dæmon ?", a: "À la croisée des mondes", acc: ["à la croisée des mondes", "a la croisee des mondes", "his dark materials"], x: ["Les Chroniques de Narnia", "Le Trône de fer", "L'Assassin royal"] },
+  { id: "fantasy-d12", d: 3, t: "Chez Pullman, qu'est-ce qu'un « dæmon » ?", a: "L'âme incarnée en animal", acc: ["une âme animale", "l'âme incarnée en animal", "un animal compagnon de l'âme", "âme animale"], x: ["Un démon maléfique", "Un sortilège", "Une arme"] },
+  { id: "fantasy-d13", d: 3, t: "Quel adolescent découvre un œuf de dragon dans la saga « Eragon » ?", a: "Eragon", acc: ["eragon"], x: ["Percy", "Geralt", "Rand"] },
+  { id: "fantasy-d14", d: 3, t: "Quel demi-dieu, fils de Poséidon, est le héros de Rick Riordan ?", a: "Percy Jackson", acc: ["percy jackson", "percy"], x: ["Harry Potter", "Eragon", "Frodon"] },
+  { id: "fantasy-d15", d: 3, t: "Quel cycle de Robin Hobb suit l'assassin royal FitzChevalerie ?", a: "L'Assassin royal", acc: ["l'assassin royal", "assassin royal", "farseer"], x: ["La Roue du Temps", "Le Trône de fer", "Terremer"] },
+
+  // --- Pro (20) ---
+  { id: "fantasy-p1", d: 4, t: "Quel langage inventé Tolkien, linguiste, a-t-il créé pour ses elfes ?", a: "Le quenya (elfique)", acc: ["quenya", "le quenya", "elfique", "sindarin"], x: ["Le dothraki", "Le klingon", "Le na'vi"] },
+  { id: "fantasy-p2", d: 4, t: "Quel recueil posthume de Tolkien raconte la création d'Arda et les Silmarils ?", a: "Le Silmarillion", acc: ["le silmarillion", "silmarillion"], x: ["Les Contes perdus", "Le Hobbit", "Les Enfants de Húrin"] },
+  { id: "fantasy-p3", d: 4, t: "Quelle créature autrefois hobbit est corrompue par l'Anneau et le nomme « mon précieux » ?", a: "Gollum", acc: ["gollum", "sméagol", "smeagol"], x: ["Saroumane", "Le Roi-Sorcier", "Grima"] },
+  { id: "fantasy-p4", d: 4, t: "Quelle famille du Nord de Westeros a pour devise « L'hiver vient » ?", a: "Les Stark", acc: ["les stark", "stark"], x: ["Les Lannister", "Les Targaryen", "Les Baratheon"] },
+  { id: "fantasy-p5", d: 4, t: "Quelle reine du « Trône de fer » est surnommée « mère des dragons » ?", a: "Daenerys Targaryen", acc: ["daenerys", "daenerys targaryen", "khaleesi"], x: ["Cersei", "Sansa", "Arya"] },
+  { id: "fantasy-p6", d: 4, t: "Quel héros roublard de « Le Nom du vent » raconte sa propre légende ?", a: "Kvothe", acc: ["kvothe"], x: ["Geralt", "Locke Lamora", "Rand al'Thor"] },
+  { id: "fantasy-p7", d: 4, t: "Quel auteur a écrit « Le Nom du vent » (Chronique du tueur de roi) ?", a: "Patrick Rothfuss", acc: ["patrick rothfuss", "rothfuss"], x: ["Brandon Sanderson", "Joe Abercrombie", "Scott Lynch"] },
+  { id: "fantasy-p8", d: 4, t: "Quel escroc mène « Les Salauds gentilshommes » de Scott Lynch ?", a: "Locke Lamora", acc: ["locke lamora", "locke"], x: ["Kvothe", "Geralt", "Vin"] },
+  { id: "fantasy-p9", d: 4, t: "Quel drow ranger aux deux cimeterres est créé par R.A. Salvatore ?", a: "Drizzt Do'Urden", acc: ["drizzt", "drizzt do'urden"], x: ["Elric", "Geralt", "Raistlin"] },
+  { id: "fantasy-p10", d: 4, t: "Quel univers partagé de Donjons & Dragons a pour héros Raistlin et Tass ?", a: "Lancedragon (Dragonlance)", acc: ["lancedragon", "dragonlance"], x: ["Les Royaumes oubliés", "Krynn seul", "Ravenloft"] },
+  { id: "fantasy-p11", d: 4, t: "Quelle autrice a imaginé les dragons télépathes de la planète Pern ?", a: "Anne McCaffrey", acc: ["anne mccaffrey", "mccaffrey"], x: ["Ursula K. Le Guin", "Robin Hobb", "Marion Zimmer Bradley"] },
+  { id: "fantasy-p12", d: 4, t: "Quel roman de Marion Zimmer Bradley relit la légende arthurienne côté femmes ?", a: "Les Dames du Lac", acc: ["les dames du lac", "the mists of avalon", "dames du lac"], x: ["Excalibur", "Le Cycle de Pendragon", "Merlin"] },
+  { id: "fantasy-p13", d: 4, t: "Quel cycle sombre et cynique de Joe Abercrombie s'ouvre avec « La Voix des couteaux » ?", a: "La Première Loi", acc: ["la première loi", "première loi", "the first law"], x: ["La Roue du Temps", "Le Trône de fer", "L'Assassin royal"] },
+  { id: "fantasy-p14", d: 4, t: "Quelle épée maléfique et vampirique accompagne Elric de Melniboné ?", a: "Stormbringer", acc: ["stormbringer", "l'invocateur de tempête"], x: ["Andúril", "Glamdring", "Dard"] },
+  { id: "fantasy-p15", d: 4, t: "Comment s'appelle l'épée de Frodon qui brille près des orcs ?", a: "Dard", acc: ["dard", "sting"], x: ["Andúril", "Glamdring", "Orcrist"] },
+  { id: "fantasy-p16", d: 4, t: "Quel mentor de Terremer apprend à Ged que le vrai nom donne pouvoir sur les choses ?", a: "Ogion", acc: ["ogion"], x: ["Gandalf", "Merlin", "Aslan"] },
+  { id: "fantasy-p17", d: 4, t: "Quel cycle de Guy Gavriel Kay ou… quel auteur a écrit « La Tapisserie de Fionavar » ?", a: "Guy Gavriel Kay", acc: ["guy gavriel kay", "kay"], x: ["Tad Williams", "Terry Brooks", "David Eddings"] },
+  { id: "fantasy-p18", d: 4, t: "Quel cycle de David Eddings suit Garion et la quête de l'Orbe dans « La Belgariade » ?", a: "La Belgariade", acc: ["la belgariade", "belgariade"], x: ["La Roue du Temps", "Shannara", "La Malerune"] },
+  { id: "fantasy-p19", d: 4, t: "Quel monde de Terry Brooks, après une apocalypse, mêle magie et technologie déchue ?", a: "Shannara", acc: ["shannara", "le glaive de shannara"], x: ["Krynn", "Roshar", "Terremer"] },
+  { id: "fantasy-p20", d: 4, t: "Sur quelle planète balayée par des tempêtes se déroulent « Les Archives de Roshar » de Sanderson ?", a: "Roshar", acc: ["roshar"], x: ["Scadrial", "Krynn", "Pern"] },
+]);

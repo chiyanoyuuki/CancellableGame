@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const moliere = universe("litterature", "Molière", [
+  // --- Faciles (5) ---
+  { id: "moliere-f1", d: 1, t: "Dans quel genre de théâtre Molière est-il le maître ?", a: "La comédie", acc: ["comédie", "la comédie", "comedie"], x: ["La tragédie", "Le drame", "Le vaudeville"] },
+  { id: "moliere-f2", d: 1, t: "Quelle pièce de Molière met en scène l'avare Harpagon ?", a: "L'Avare", acc: ["l'avare", "avare"], x: ["Tartuffe", "Le Misanthrope", "Dom Juan"] },
+  { id: "moliere-f3", d: 1, t: "Quel personnage hypocrite et faux dévot donne son nom à une pièce de Molière ?", a: "Tartuffe", acc: ["tartuffe"], x: ["Harpagon", "Argan", "Alceste"] },
+  { id: "moliere-f4", d: 1, t: "Pendant la représentation de quelle pièce Molière fut-il pris de malaise avant de mourir ?", a: "Le Malade imaginaire", acc: ["le malade imaginaire", "malade imaginaire"], x: ["Le Misanthrope", "Tartuffe", "L'Avare"] },
+  { id: "moliere-f5", d: 1, t: "Sous quel roi Molière a-t-il connu la gloire à la cour ?", a: "Louis XIV", acc: ["louis xiv", "louis 14"], x: ["Louis XIII", "Louis XV", "Henri IV"] },
+
+  // --- Moyennes (10) ---
+  { id: "moliere-m1", d: 2, t: "Quel est le vrai nom de Molière ?", a: "Jean-Baptiste Poquelin", acc: ["jean-baptiste poquelin", "poquelin", "jean baptiste poquelin"], x: ["Jean Racine", "Pierre Corneille", "Jean de La Fontaine"] },
+  { id: "moliere-m2", d: 2, t: "Quel bourgeois veut singer les manières des nobles dans une comédie-ballet ?", a: "Monsieur Jourdain", acc: ["monsieur jourdain", "jourdain", "m. jourdain"], x: ["Harpagon", "Argan", "Orgon"] },
+  { id: "moliere-m3", d: 2, t: "Dans quelle pièce Monsieur Jourdain découvre-t-il qu'il fait « de la prose » ?", a: "Le Bourgeois gentilhomme", acc: ["le bourgeois gentilhomme", "bourgeois gentilhomme"], x: ["L'Avare", "Le Malade imaginaire", "Tartuffe"] },
+  { id: "moliere-m4", d: 2, t: "Quel grand séducteur libertin défie le Ciel dans une pièce de Molière ?", a: "Dom Juan", acc: ["dom juan", "don juan"], x: ["Alceste", "Tartuffe", "Sganarelle"] },
+  { id: "moliere-m5", d: 2, t: "Quel misanthrope déteste l'hypocrisie de la société dans « Le Misanthrope » ?", a: "Alceste", acc: ["alceste"], x: ["Philinte", "Oronte", "Dom Juan"] },
+  { id: "moliere-m6", d: 2, t: "Quel malade imaginaire, obsédé par sa santé, est le héros de la dernière pièce de Molière ?", a: "Argan", acc: ["argan"], x: ["Harpagon", "Orgon", "Jourdain"] },
+  { id: "moliere-m7", d: 2, t: "Quel valet rusé multiplie les ruses dans « Les Fourberies de Scapin » ?", a: "Scapin", acc: ["scapin"], x: ["Sganarelle", "Sosie", "Mascarille"] },
+  { id: "moliere-m8", d: 2, t: "Quel bûcheron se fait passer pour médecin dans « Le Médecin malgré lui » ?", a: "Sganarelle", acc: ["sganarelle"], x: ["Scapin", "Argan", "Géronte"] },
+  { id: "moliere-m9", d: 2, t: "Quelle pièce de Molière se moque des jeunes femmes obsédées par le beau langage ?", a: "Les Précieuses ridicules", acc: ["les précieuses ridicules", "précieuses ridicules", "precieuses ridicules"], x: ["Les Femmes savantes", "L'École des femmes", "Le Misanthrope"] },
+  { id: "moliere-m10", d: 2, t: "Comment surnomme-t-on souvent la Comédie-Française, en hommage à Molière ?", a: "La maison de Molière", acc: ["la maison de molière", "maison de molière"], x: ["Le théâtre du Roi", "La maison de Racine", "Le grand théâtre"] },
+
+  // --- Dures (15) ---
+  { id: "moliere-d1", d: 3, t: "Quelle réplique culte Harpagon hurle-t-il après le vol de son argent ?", a: "Ma cassette !", acc: ["ma cassette", "au voleur ma cassette", "ma cassette !"], x: ["Mon or !", "Mes écus !", "Mon trésor !"] },
+  { id: "moliere-d2", d: 3, t: "Dans « Tartuffe », quel bourgeois crédule héberge l'imposteur et veut lui donner sa fille ?", a: "Orgon", acc: ["orgon"], x: ["Cléante", "Damis", "Valère"] },
+  { id: "moliere-d3", d: 3, t: "Quelle servante au franc-parler démasque Tartuffe et conseille sa maîtresse ?", a: "Dorine", acc: ["dorine"], x: ["Toinette", "Nicole", "Martine"] },
+  { id: "moliere-d4", d: 3, t: "Quelle servante espiègle mène la danse dans « Le Malade imaginaire » ?", a: "Toinette", acc: ["toinette"], x: ["Dorine", "Nicole", "Martine"] },
+  { id: "moliere-d5", d: 3, t: "Quel valet de Dom Juan commente les frasques de son maître ?", a: "Sganarelle", acc: ["sganarelle"], x: ["Scapin", "Gusman", "Pierrot"] },
+  { id: "moliere-d6", d: 3, t: "Quelle statue vient châtier Dom Juan à la fin de la pièce ?", a: "La statue du Commandeur", acc: ["le commandeur", "la statue du commandeur", "commandeur"], x: ["La statue du Roi", "La statue de pierre", "Le spectre"] },
+  { id: "moliere-d7", d: 3, t: "Quelle pièce raille les femmes qui délaissent le foyer pour la science et la philosophie ?", a: "Les Femmes savantes", acc: ["les femmes savantes", "femmes savantes"], x: ["Les Précieuses ridicules", "L'École des femmes", "Le Misanthrope"] },
+  { id: "moliere-d8", d: 3, t: "Dans « L'École des femmes », quel barbon élève une jeune fille pour l'épouser naïve ?", a: "Arnolphe", acc: ["arnolphe"], x: ["Orgon", "Harpagon", "Géronte"] },
+  { id: "moliere-d9", d: 3, t: "Quelle jeune femme sincère mais coquette est aimée d'Alceste dans « Le Misanthrope » ?", a: "Célimène", acc: ["célimène", "celimene"], x: ["Elmire", "Agnès", "Elvire"] },
+  { id: "moliere-d10", d: 3, t: "Comment s'appelle la troupe et le protecteur royal de Molière : la troupe de… ?", a: "Le Roi (troupe du Roi)", acc: ["le roi", "troupe du roi", "monsieur"], x: ["Le cardinal", "La reine", "Le dauphin"] },
+  { id: "moliere-d11", d: 3, t: "Quelle comédie-ballet Molière crée-t-il souvent avec le compositeur Lully ?", a: "Le Bourgeois gentilhomme", acc: ["le bourgeois gentilhomme", "bourgeois gentilhomme"], x: ["Tartuffe", "Le Misanthrope", "L'Avare"] },
+  { id: "moliere-d12", d: 3, t: "Quel mari jaloux et humilié répète « Vous l'avez voulu, George Dandin ! » ?", a: "George Dandin", acc: ["george dandin", "dandin"], x: ["Arnolphe", "Sganarelle", "Orgon"] },
+  { id: "moliere-d13", d: 3, t: "Pour quelle raison l'Église refusa-t-elle d'abord une sépulture chrétienne à Molière ?", a: "Il était comédien", acc: ["comédien", "il était comédien", "métier de comédien"], x: ["Il était protestant", "Il était athée déclaré", "Il était endetté"] },
+  { id: "moliere-d14", d: 3, t: "Quelle pièce fut interdite plusieurs années sous la pression des dévots ?", a: "Tartuffe", acc: ["tartuffe"], x: ["Dom Juan", "Le Misanthrope", "L'Avare"] },
+  { id: "moliere-d15", d: 3, t: "De quelle maladie Molière souffrait-il, aggravée le soir de sa mort sur scène ?", a: "La tuberculose", acc: ["tuberculose", "la tuberculose", "phtisie"], x: ["La peste", "La goutte", "La variole"] },
+
+  // --- Pro (20) ---
+  { id: "moliere-p1", d: 4, t: "En quelle année est mort Molière ?", a: "1673", acc: ["1673"], x: ["1665", "1680", "1699"] },
+  { id: "moliere-p2", d: 4, t: "En quelle année est né Molière ?", a: "1622", acc: ["1622"], x: ["1606", "1636", "1650"] },
+  { id: "moliere-p3", d: 4, t: "Quel compositeur italien collabora aux comédies-ballets de Molière ?", a: "Jean-Baptiste Lully", acc: ["lully", "jean-baptiste lully"], x: ["Marc-Antoine Charpentier", "Rameau", "Couperin"] },
+  { id: "moliere-p4", d: 4, t: "Quel compositeur remplaça Lully pour « Le Malade imaginaire » après leur brouille ?", a: "Marc-Antoine Charpentier", acc: ["charpentier", "marc-antoine charpentier"], x: ["Lully", "Rameau", "Delalande"] },
+  { id: "moliere-p5", d: 4, t: "Comment s'appelle la première troupe de Molière, qui fit faillite à Paris ?", a: "L'Illustre-Théâtre", acc: ["l'illustre-théâtre", "illustre-théâtre", "illustre theatre"], x: ["Le Théâtre du Marais", "L'Hôtel de Bourgogne", "La Comédie-Italienne"] },
+  { id: "moliere-p6", d: 4, t: "Dans quelle famille de comédiens Molière s'est-il marié (Armande) ?", a: "Les Béjart", acc: ["béjart", "les béjart", "bejart"], x: ["Les Champmeslé", "Les Baron", "Les Poisson"] },
+  { id: "moliere-p7", d: 4, t: "Quelle pièce en un acte moque les médecins latinistes autour d'un faux mariage ?", a: "Le Médecin malgré lui", acc: ["le médecin malgré lui", "médecin malgré lui"], x: ["L'Amour médecin", "Le Malade imaginaire", "Monsieur de Pourceaugnac"] },
+  { id: "moliere-p8", d: 4, t: "Quelle couleur porte, selon la légende tenace, Molière lorsqu'il s'effondre sur scène ?", a: "Le vert", acc: ["vert", "le vert"], x: ["Le rouge", "Le noir", "Le jaune"] },
+  { id: "moliere-p9", d: 4, t: "Quel jeune homme naïf Arnolphe veut-il empêcher d'épouser Agnès dans « L'École des femmes » ?", a: "Horace", acc: ["horace"], x: ["Valère", "Cléante", "Damis"] },
+  { id: "moliere-p10", d: 4, t: "Quelle querelle littéraire suivit le triomphe de « L'École des femmes » ?", a: "La querelle de L'École des femmes", acc: ["la querelle de l'école des femmes", "querelle de l'école des femmes", "querelle"], x: ["La querelle des Anciens et des Modernes", "La querelle du Cid", "La cabale des dévots"] },
+  { id: "moliere-p11", d: 4, t: "Comment se nomment les deux fils dupés dans « Les Fourberies de Scapin » ?", a: "Octave et Léandre", acc: ["octave et léandre", "octave", "léandre"], x: ["Cléante et Valère", "Damis et Horace", "Éraste et Lélie"] },
+  { id: "moliere-p12", d: 4, t: "Quelle réplique répétée ponctue une ruse dans « Les Fourberies de Scapin » à propos d'une galère ?", a: "Que diable allait-il faire dans cette galère ?", acc: ["que diable allait-il faire dans cette galère", "dans cette galère", "cette galère"], x: ["Sans dot !", "Le pauvre homme !", "Vous l'avez voulu !"] },
+  { id: "moliere-p13", d: 4, t: "Quelle exclamation d'Orgon, indifférent à sa famille, revient dans « Tartuffe » ?", a: "Le pauvre homme !", acc: ["le pauvre homme", "le pauvre homme !"], x: ["Ma cassette !", "Sans dot !", "Ô rage !"] },
+  { id: "moliere-p14", d: 4, t: "Quel argument de radinerie Harpagon oppose-t-il sans cesse à un mariage dans « L'Avare » ?", a: "Sans dot !", acc: ["sans dot", "sans dot !"], x: ["Ma cassette !", "Le pauvre homme !", "Point d'argent !"] },
+  { id: "moliere-p15", d: 4, t: "De quelle pièce antique de Plaute Molière s'inspire-t-il pour « L'Avare » ?", a: "L'Aulularia (La Marmite)", acc: ["aulularia", "la marmite", "l'aulularia"], x: ["Amphitryon", "Les Ménechmes", "Le Soldat fanfaron"] },
+  { id: "moliere-p16", d: 4, t: "Quelle comédie de Molière met en scène les jumeaux et le dieu Jupiter séducteur ?", a: "Amphitryon", acc: ["amphitryon"], x: ["Psyché", "Les Amants magnifiques", "Sganarelle"] },
+  { id: "moliere-p17", d: 4, t: "Dans quel théâtre parisien la troupe de Molière s'installa-t-elle durablement ?", a: "Le Palais-Royal", acc: ["le palais-royal", "palais-royal", "palais royal"], x: ["L'Hôtel de Bourgogne", "Le Théâtre du Marais", "Le Petit-Bourbon"] },
+  { id: "moliere-p18", d: 4, t: "Quel médecin-charabia latin conclut la cérémonie finale du « Malade imaginaire » ?", a: "La cérémonie d'intronisation (en faux latin)", acc: ["cérémonie d'intronisation", "faux latin", "intermède en latin"], x: ["Un procès", "Un mariage", "Un duel"] },
+  { id: "moliere-p19", d: 4, t: "Quel dramaturge, rival, écrivit des tragédies pendant que Molière régnait sur la comédie ?", a: "Jean Racine", acc: ["racine", "jean racine"], x: ["Pierre Corneille", "Beaumarchais", "Marivaux"] },
+  { id: "moliere-p20", d: 4, t: "Quelle pièce de Molière porte le sous-titre « ou le Festin de pierre » ?", a: "Dom Juan", acc: ["dom juan", "don juan"], x: ["Tartuffe", "Le Misanthrope", "Amphitryon"] },
+]);

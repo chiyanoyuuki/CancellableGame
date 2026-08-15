@@ -1,0 +1,61 @@
+import { universe } from "../_build";
+
+export const verne = universe("litterature", "Jules Verne", [
+  // --- Faciles (5) ---
+  { id: "verne-f1", d: 1, t: "Quel roman de Jules Verne suit un tour du monde en un temps record ?", a: "Le Tour du monde en 80 jours", acc: ["le tour du monde en 80 jours", "tour du monde en 80 jours", "80 jours"], x: ["Voyage au centre de la Terre", "L'Île mystérieuse", "Michel Strogoff"] },
+  { id: "verne-f2", d: 1, t: "En combien de jours Phileas Fogg tente-t-il de faire le tour du monde ?", a: "Quatre-vingts jours", acc: ["80 jours", "quatre-vingts jours", "80"], x: ["100 jours", "60 jours", "40 jours"] },
+  { id: "verne-f3", d: 1, t: "Quel sous-marin est commandé par le capitaine Nemo ?", a: "Le Nautilus", acc: ["le nautilus", "nautilus"], x: ["Le Terror", "L'Abraham Lincoln", "Le Duncan"] },
+  { id: "verne-f4", d: 1, t: "Quel roman de Verne emmène ses héros sous les océans ?", a: "Vingt mille lieues sous les mers", acc: ["vingt mille lieues sous les mers", "20000 lieues sous les mers", "vingt mille lieues"], x: ["Le Tour du monde en 80 jours", "Voyage au centre de la Terre", "De la Terre à la Lune"] },
+  { id: "verne-f5", d: 1, t: "À quel type de récits appartiennent les romans de Jules Verne ?", a: "Les Voyages extraordinaires", acc: ["voyages extraordinaires", "les voyages extraordinaires"], x: ["Les romans policiers", "Les contes de fées", "Les romans historiques"] },
+
+  // --- Moyennes (10) ---
+  { id: "verne-m1", d: 2, t: "Quel gentleman anglais parie qu'il fera le tour du monde en 80 jours ?", a: "Phileas Fogg", acc: ["phileas fogg", "fogg", "philéas fogg"], x: ["Passepartout", "Nemo", "Lidenbrock"] },
+  { id: "verne-m2", d: 2, t: "Comment s'appelle le domestique français de Phileas Fogg ?", a: "Passepartout", acc: ["passepartout"], x: ["Conseil", "Ned Land", "Axel"] },
+  { id: "verne-m3", d: 2, t: "Par où les héros entrent-ils dans « Voyage au centre de la Terre » ?", a: "Un volcan d'Islande", acc: ["un volcan", "volcan d'islande", "islande", "snæfellsjökull"], x: ["Une grotte marine", "Un puits de mine", "Un tremblement de terre"] },
+  { id: "verne-m4", d: 2, t: "Quel professeur entraîne son neveu Axel au centre de la Terre ?", a: "Le professeur Lidenbrock", acc: ["lidenbrock", "professeur lidenbrock", "otto lidenbrock"], x: ["Aronnax", "Nemo", "Fogg"] },
+  { id: "verne-m5", d: 2, t: "Quel harponneur canadien accompagne le professeur Aronnax à bord du Nautilus ?", a: "Ned Land", acc: ["ned land", "ned"], x: ["Passepartout", "Conseil", "Axel"] },
+  { id: "verne-m6", d: 2, t: "Quel roman de Verne envoie un obus habité vers la Lune ?", a: "De la Terre à la Lune", acc: ["de la terre à la lune", "de la terre a la lune"], x: ["Autour de la Lune", "L'Île mystérieuse", "Robur le Conquérant"] },
+  { id: "verne-m7", d: 2, t: "Quel roman de Verne raconte des naufragés bâtissant une colonie sur une île déserte ?", a: "L'Île mystérieuse", acc: ["l'île mystérieuse", "île mystérieuse", "ile mysterieuse"], x: ["Deux ans de vacances", "Les Enfants du capitaine Grant", "Le Tour du monde en 80 jours"] },
+  { id: "verne-m8", d: 2, t: "Quel héros porte un message du tsar à travers la Sibérie dans un roman de Verne ?", a: "Michel Strogoff", acc: ["michel strogoff", "strogoff"], x: ["Phileas Fogg", "Robur", "Axel"] },
+  { id: "verne-m9", d: 2, t: "Dans quelle ville est né Jules Verne ?", a: "Nantes", acc: ["nantes"], x: ["Amiens", "Paris", "Brest"] },
+  { id: "verne-m10", d: 2, t: "Quel tout premier roman à succès de Verne raconte une traversée de l'Afrique en ballon ?", a: "Cinq semaines en ballon", acc: ["cinq semaines en ballon", "5 semaines en ballon"], x: ["De la Terre à la Lune", "Voyage au centre de la Terre", "Le Tour du monde en 80 jours"] },
+
+  // --- Dures (15) ---
+  { id: "verne-d1", d: 3, t: "Quelle devise latine figure sur le Nautilus du capitaine Nemo ?", a: "Mobilis in Mobili", acc: ["mobilis in mobili", "mobilis in mobile"], x: ["Nec pluribus impar", "Fluctuat nec mergitur", "Per aspera ad astra"] },
+  { id: "verne-d2", d: 3, t: "Quel est le vrai passé du capitaine Nemo, révélé dans « L'Île mystérieuse » ?", a: "Un prince indien (le prince Dakkar)", acc: ["prince dakkar", "prince indien", "dakkar", "indien"], x: ["Un pirate anglais", "Un savant polonais", "Un déserteur français"] },
+  { id: "verne-d3", d: 3, t: "Quel professeur, naturaliste, narre « Vingt mille lieues sous les mers » ?", a: "Pierre Aronnax", acc: ["aronnax", "pierre aronnax"], x: ["Lidenbrock", "Nemo", "Fabian"] },
+  { id: "verne-d4", d: 3, t: "Comment s'appelle le fidèle domestique classificateur d'Aronnax ?", a: "Conseil", acc: ["conseil"], x: ["Passepartout", "Ned Land", "Axel"] },
+  { id: "verne-d5", d: 3, t: "Quelle jeune femme Phileas Fogg sauve-t-il d'un bûcher en Inde ?", a: "Mrs Aouda", acc: ["aouda", "mrs aouda", "madame aouda"], x: ["Nadia", "Helena", "Grant"] },
+  { id: "verne-d6", d: 3, t: "Quel inspecteur poursuit Fogg, le croyant voleur de banque ?", a: "L'inspecteur Fix", acc: ["fix", "inspecteur fix"], x: ["Passepartout", "Conseil", "Nemo"] },
+  { id: "verne-d7", d: 3, t: "Grâce à quoi Fogg gagne-t-il un jour et remporte finalement son pari ?", a: "Le décalage horaire (passage des fuseaux)", acc: ["décalage horaire", "fuseaux horaires", "un jour gagné", "ligne de changement de date"], x: ["Un raccourci", "Un train plus rapide", "Une erreur de calendrier"] },
+  { id: "verne-d8", d: 3, t: "Quel roman de Verne suit les enfants cherchant leur père naufragé, le capitaine Grant ?", a: "Les Enfants du capitaine Grant", acc: ["les enfants du capitaine grant", "enfants du capitaine grant"], x: ["Deux ans de vacances", "L'Île mystérieuse", "Michel Strogoff"] },
+  { id: "verne-d9", d: 3, t: "Quel yacht part à la recherche du capitaine Grant ?", a: "Le Duncan", acc: ["le duncan", "duncan"], x: ["Le Nautilus", "L'Albatros", "Le Great Eastern"] },
+  { id: "verne-d10", d: 3, t: "Quel roman de Verne suit une colonie d'enfants livrés à eux-mêmes sur une île ?", a: "Deux ans de vacances", acc: ["deux ans de vacances", "2 ans de vacances"], x: ["L'Île mystérieuse", "Les Enfants du capitaine Grant", "Le Chancellor"] },
+  { id: "verne-d11", d: 3, t: "Quel inventeur au-dessus des nuages pilote l'« Albatros » dans « Robur le Conquérant » ?", a: "Robur", acc: ["robur"], x: ["Nemo", "Fogg", "Lidenbrock"] },
+  { id: "verne-d12", d: 3, t: "De quelle ville de Floride part l'obus lunaire dans « De la Terre à la Lune » ?", a: "Tampa (en Floride)", acc: ["tampa", "floride", "tampa town"], x: ["Cap Canaveral", "Houston", "Baltimore"] },
+  { id: "verne-d13", d: 3, t: "Quel club d'artilleurs organise le tir vers la Lune ?", a: "Le Gun Club", acc: ["le gun club", "gun club"], x: ["Le Reform Club", "Le Baltimore Club", "Le Cannon Club"] },
+  { id: "verne-d14", d: 3, t: "Dans quel club londonien Phileas Fogg engage-t-il son pari ?", a: "Le Reform Club", acc: ["le reform club", "reform club"], x: ["Le Gun Club", "Le Traveller's Club", "Le Diogenes Club"] },
+  { id: "verne-d15", d: 3, t: "Combien parie Phileas Fogg qu'il réussira son tour du monde ?", a: "20 000 livres", acc: ["20000 livres", "20 000 livres", "vingt mille livres"], x: ["10 000 livres", "50 000 livres", "1 000 livres"] },
+
+  // --- Pro (20) ---
+  { id: "verne-p1", d: 4, t: "Quel éditeur publia la plupart des « Voyages extraordinaires » de Verne ?", a: "Pierre-Jules Hetzel", acc: ["hetzel", "pierre-jules hetzel", "jules hetzel"], x: ["Louis Hachette", "Gaston Gallimard", "Michel Lévy"] },
+  { id: "verne-p2", d: 4, t: "Dans quelle ville Jules Verne est-il mort en 1905 ?", a: "Amiens", acc: ["amiens"], x: ["Nantes", "Paris", "Le Crotoy"] },
+  { id: "verne-p3", d: 4, t: "En quelle année est né Jules Verne ?", a: "1828", acc: ["1828"], x: ["1815", "1840", "1852"] },
+  { id: "verne-p4", d: 4, t: "Que signifie « vingt mille lieues » dans le titre : une profondeur ou une distance parcourue ?", a: "La distance parcourue sous les mers", acc: ["la distance", "distance parcourue", "distance"], x: ["La profondeur atteinte", "La longueur du Nautilus", "Le temps du voyage"] },
+  { id: "verne-p5", d: 4, t: "Quel message runique lance l'aventure dans « Voyage au centre de la Terre » ?", a: "Le cryptogramme de Saknussemm", acc: ["saknussemm", "cryptogramme de saknussemm", "arne saknussemm"], x: ["La carte de Nemo", "Le journal de Grant", "Le testament d'Hetzel"] },
+  { id: "verne-p6", d: 4, t: "Quel savant islandais du XVIe siècle aurait déjà fait le voyage au centre de la Terre ?", a: "Arne Saknussemm", acc: ["arne saknussemm", "saknussemm"], x: ["Otto Lidenbrock", "Hans Bjelke", "Axel"] },
+  { id: "verne-p7", d: 4, t: "Par quel volcan italien les explorateurs ressortent-ils dans « Voyage au centre de la Terre » ?", a: "Le Stromboli", acc: ["stromboli", "le stromboli"], x: ["L'Etna", "Le Vésuve", "Le Snæfellsjökull"] },
+  { id: "verne-p8", d: 4, t: "Quel guide islandais taciturne accompagne Lidenbrock et Axel ?", a: "Hans", acc: ["hans", "hans bjelke"], x: ["Ned", "Conseil", "Passepartout"] },
+  { id: "verne-p9", d: 4, t: "Quel roman sombre de Verne, sans happy end, raconte un naufrage et le cannibalisme ?", a: "Le Chancellor", acc: ["le chancellor", "chancellor"], x: ["L'Île mystérieuse", "Deux ans de vacances", "Le Sphinx des glaces"] },
+  { id: "verne-p10", d: 4, t: "Quelle suite Verne donne-t-il au « Sphinx des glaces », en hommage à un auteur américain ?", a: "À Edgar Allan Poe (Gordon Pym)", acc: ["edgar allan poe", "poe", "gordon pym"], x: ["À Jules Michelet", "À Fenimore Cooper", "À Walter Scott"] },
+  { id: "verne-p11", d: 4, t: "Quel illustrateur est célèbre pour les gravures des éditions Hetzel de Verne ?", a: "Édouard Riou (et Léon Benett)", acc: ["riou", "édouard riou", "léon benett", "benett"], x: ["Gustave Doré", "Grandville", "Honoré Daumier"] },
+  { id: "verne-p12", d: 4, t: "Quel roman posthume de Verne décrit un « Paris » futuriste et déshumanisé ?", a: "Paris au XXe siècle", acc: ["paris au xxe siècle", "paris au 20e siècle", "paris au xxe"], x: ["L'Île à hélice", "Les 500 millions de la Bégum", "Sans dessus dessous"] },
+  { id: "verne-p13", d: 4, t: "Quelle ville flottante artificielle apparaît dans « L'Île à hélice » ?", a: "Standard Island (Milliard City)", acc: ["standard island", "milliard city", "île à hélice"], x: ["Atlantis", "Franceville", "Stahlstadt"] },
+  { id: "verne-p14", d: 4, t: "Quel héros du tsar traverse la Sibérie assiégée par les Tartares ?", a: "Michel Strogoff", acc: ["michel strogoff", "strogoff"], x: ["Robur", "Fogg", "Aronnax"] },
+  { id: "verne-p15", d: 4, t: "Comment Strogoff échappe-t-il à la cécité annoncée après le supplice du sabre chauffé ?", a: "Ses larmes protègent ses yeux", acc: ["ses larmes", "les larmes", "il pleure"], x: ["Un bandeau", "Une ruse du bourreau", "Un remède tartare"] },
+  { id: "verne-p16", d: 4, t: "Quelle œuvre théâtrale à grand spectacle Verne tira-t-il du « Tour du monde en 80 jours » ?", a: "Une pièce à grand spectacle (adaptation théâtrale)", acc: ["une pièce de théâtre", "adaptation théâtrale", "pièce à grand spectacle"], x: ["Un opéra", "Un ballet", "Un poème"] },
+  { id: "verne-p17", d: 4, t: "Quel neveu de Nemo… non, quel animal marin géant attaque le Nautilus ?", a: "Un calmar / poulpe géant", acc: ["calmar géant", "poulpe géant", "calmar", "poulpe"], x: ["Une baleine", "Un requin blanc", "Un kraken de glace"] },
+  { id: "verne-p18", d: 4, t: "Quel continent englouti Nemo et Aronnax visitent-ils sous les mers ?", a: "L'Atlantide", acc: ["l'atlantide", "atlantide"], x: ["La Lémurie", "Mu", "Thulé"] },
+  { id: "verne-p19", d: 4, t: "Quel roman de Verne oppose une cité idéale (Franceville) à une cité de l'acier (Stahlstadt) ?", a: "Les Cinq Cents Millions de la Bégum", acc: ["les cinq cents millions de la bégum", "cinq cents millions de la bégum", "500 millions de la bégum"], x: ["L'Île mystérieuse", "Robur le Conquérant", "Mathias Sandorf"] },
+  { id: "verne-p20", d: 4, t: "Combien de romans compte environ le cycle des « Voyages extraordinaires » ?", a: "Une soixantaine", acc: ["soixante", "une soixantaine", "62", "environ 60"], x: ["Une vingtaine", "Une centaine", "Une dizaine"] },
+]);
