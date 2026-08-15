@@ -212,16 +212,32 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
       const unwantedUniversesByPlayer: Record<string, string[]> = {};
       if (!teamMode) for (const p of players) unwantedUniversesByPlayer[p.id] = unwantedUniverses[p.id] ?? [];
       // Mode équipe : les questions d'une équipe viennent des univers voulus par
-      // au moins un de ses membres. Aucun « favoris » : le voulu est le complément
-      // du non souhaité — un univers n'est écarté que si TOUS les membres l'ont exclu.
+      // au moins un de ses membres (un univers n'est écarté que si TOUS l'ont
+      // exclu). On FAVORISE en plus les univers voulus par plusieurs membres :
+      // chaque membre supplémentaire qui le veut multiplie sa probabilité, si bien
+      // qu'un univers « à deux » sort le plus souvent, tandis que les univers d'un
+      // seul membre, à poids égal, alternent naturellement entre les joueurs.
       const allowedUniversesByPlayer: Record<string, string[]> = {};
+      const universeWeightByPlayer: Record<string, Record<string, number>> = {};
       if (teamMode) {
+        const TEAM_SHARED_BOOST = 4;
         const allUniverses = new Set<string>();
         for (const q of pool) if (q.universe) allUniverses.add(q.universe);
         for (const t of cfg.teams) {
-          allowedUniversesByPlayer[t.id] = [...allUniverses].filter((u) =>
-            t.memberIds.some((mid) => !(unwantedUniverses[mid] ?? []).includes(u)),
-          );
+          const allowed: string[] = [];
+          const weights: Record<string, number> = {};
+          for (const u of allUniverses) {
+            const wantCount = t.memberIds.reduce(
+              (n, mid) => n + (!(unwantedUniverses[mid] ?? []).includes(u) ? 1 : 0),
+              0,
+            );
+            if (wantCount > 0) {
+              allowed.push(u);
+              weights[u] = Math.pow(TEAM_SHARED_BOOST, wantCount - 1);
+            }
+          }
+          allowedUniversesByPlayer[t.id] = allowed;
+          universeWeightByPlayer[t.id] = weights;
         }
       }
       // Difficulté adaptative (mode « tour » solo) : chaque joueur ne reçoit que
@@ -255,6 +271,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
           turnMode: cfg.turnMode,
           unwantedUniversesByPlayer,
           allowedUniversesByPlayer,
+          universeWeightByPlayer,
           difficultiesByPlayer,
           // Per-player fresh questions only make sense outside team mode.
           historyByPlayer: teamMode ? undefined : historyByPlayer,

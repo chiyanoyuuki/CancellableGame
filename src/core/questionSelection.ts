@@ -75,6 +75,14 @@ export interface SelectionOptions {
    * plus aucune question autorisée n'est disponible. Absente/vide = aucune contrainte.
    */
   difficultiesByPlayer?: Record<string, Difficulty[]>;
+  /**
+   * Per-player MULTIPLICATEUR de poids par univers (mode « tour »). Un univers
+   * au poids plus élevé est tiré plus souvent pour ce joueur. Sert au mode équipe :
+   * on favorise les univers voulus par PLUSIEURS membres tout en gardant les
+   * univers d'un seul membre à poids égal entre eux (pour alterner). Poids par
+   * défaut = 1 ; se combine (multiplication) avec la diversité d'univers.
+   */
+  universeWeightByPlayer?: Record<string, Record<string, number>>;
 }
 
 /** Reused for players with no personal history yet (everything is fresh). */
@@ -244,13 +252,18 @@ export function selectQuestions(
       if (u < minUsage) minUsage = u;
     }
 
+    // Multiplicateurs de poids par univers pour ce slot (mode équipe : favoriser
+    // les univers voulus par plusieurs membres).
+    const univWeights = turnMode === 'turn' && slotPlayer ? opts?.universeWeightByPlayer?.[slotPlayer] : undefined;
+
     let bestSum = 0;
     const weighted: { q: Question; w: number; idx: number }[] = [];
     remaining.forEach((q, idx) => {
       if (!passes(q)) return;
       if (isUnwanted(q) !== pickUnwanted) return;
       if ((slotHistory[q.id]?.timesUsed ?? 0) !== minUsage) return;
-      const w = Math.pow(UNIVERSE_REPEAT_DECAY, seenCount(slotPlayer, diversityKey(q)));
+      const pref = univWeights && q.universe !== undefined ? (univWeights[q.universe] ?? 1) : 1;
+      const w = Math.pow(UNIVERSE_REPEAT_DECAY, seenCount(slotPlayer, diversityKey(q))) * pref;
       bestSum += w;
       weighted.push({ q, w, idx });
     });

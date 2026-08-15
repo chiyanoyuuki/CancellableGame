@@ -452,6 +452,47 @@ describe('difficulté adaptative par joueur (difficultiesByPlayer)', () => {
   });
 });
 
+describe('poids d’univers par joueur (mode équipe)', () => {
+  const p = multiUniversePool(3, 5); // Univers0, Univers1, Univers2 × 5
+  const filter = { themes: ['manga'] as Theme[], difficulties: [1] as Difficulty[], count: 1 };
+
+  test('un univers au poids élevé est tiré bien plus souvent', () => {
+    let a = 0;
+    const N = 200;
+    for (let seed = 1; seed <= N; seed++) {
+      const out = selectQuestions(p, filter, {}, mulberry32(seed), {
+        order: ['p1'],
+        turnMode: 'turn',
+        universeWeightByPlayer: { p1: { Univers0: 10 } },
+      });
+      if (out[0]?.universe === 'Univers0') a += 1;
+    }
+    // Sans poids, ~1/3 (~67/200). Avec un poids 10, largement majoritaire.
+    expect(a).toBeGreaterThan(N * 0.6);
+  });
+
+  test('deux univers à poids égal se partagent équitablement (alternance)', () => {
+    let u1 = 0;
+    let u2 = 0;
+    const N = 300;
+    for (let seed = 1; seed <= N; seed++) {
+      const out = selectQuestions(p, filter, {}, mulberry32(seed), {
+        order: ['p1'],
+        turnMode: 'turn',
+        // Univers1 et Univers2 très favorisés à poids ÉGAL, Univers0 quasi écarté.
+        universeWeightByPlayer: { p1: { Univers0: 0.001, Univers1: 5, Univers2: 5 } },
+      });
+      if (out[0]?.universe === 'Univers1') u1 += 1;
+      else if (out[0]?.universe === 'Univers2') u2 += 1;
+    }
+    expect(u1 + u2).toBeGreaterThan(N * 0.9); // Univers0 presque jamais
+    // Poids égaux → répartition ~50/50 entre les deux (tolérance large).
+    const ratio = u1 / (u1 + u2);
+    expect(ratio).toBeGreaterThan(0.35);
+    expect(ratio).toBeLessThan(0.65);
+  });
+});
+
 describe('lot personnalisé par joueur (historique par joueur)', () => {
   const p: Question[] = [
     ...Array.from({ length: 10 }, (_, i) => uq(`A${i}`, 'A')),
