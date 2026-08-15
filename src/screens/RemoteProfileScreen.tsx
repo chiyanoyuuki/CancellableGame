@@ -9,6 +9,7 @@ import { Button, Card, PlayerAvatar, Screen, Txt } from '../components/ui';
 import { REMOTE_FORM_VERSION, REMOTE_PROFILE_CONFIGURED, REMOTE_PROFILE_URL } from '../config';
 import type { Player } from '../core/models';
 import { decodeProfile, type RemoteProfile } from '../core/profileCodec';
+import { keptUniverses } from '../core/profilePrefs';
 import {
   createPlayer,
   getPlayerUnwantedUniverses,
@@ -263,7 +264,7 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
             Touche un joueur pour afficher SON QR : son profil s'ouvrira déjà rempli.
           </Txt>
           {players.map((p) => {
-            const n = unwanted[p.id]?.length ?? 0;
+            const kept = keptUniverses(CATALOGUE.length, unwanted[p.id] ?? []);
             return (
               <Pressable
                 key={p.id}
@@ -274,7 +275,7 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
                 <View style={{ flex: 1 }}>
                   <Txt weight="700">{p.name}</Txt>
                   <Txt faint size={fontSize.xs}>
-                    {n > 0 ? `${n} univers évité${n > 1 ? 's' : ''}` : 'Aucun univers évité'}
+                    📚 {kept}/{CATALOGUE.length} univers
                   </Txt>
                 </View>
                 <Txt weight="800" color={colors.accent}>QR ▸</Txt>

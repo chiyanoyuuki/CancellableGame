@@ -8,6 +8,7 @@ import * as FileSystem from 'expo-file-system';
 import { Button, Card, Chip, PlayerAvatar, Screen, SectionHeader, Txt } from '../components/ui';
 import { THEME_META, THEMES } from '../core/models';
 import type { Player, Question, Theme } from '../core/models';
+import { keepsEnoughUniverses, keptUniverses, MIN_KEPT_UNIVERSES } from '../core/profilePrefs';
 import type { QuestionHistory } from '../core/questionSelection';
 import {
   archivePlayer,
@@ -135,6 +136,12 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
     [categoriesByTheme],
   );
 
+  // Nombre total d'univers du catalogue (les thèmes « #… » sans univers ne comptent pas).
+  const totalUniverses = useMemo(
+    () => categoriesByTheme.reduce((n, g) => n + g.items.filter((it) => !it.key.startsWith('#')).length, 0),
+    [categoriesByTheme],
+  );
+
   // Sous le seuil d'exclusions, on garde le tri par thème ; au-delà, on bascule
   // sur le tri par date d'ajout pour repérer vite les derniers univers ajoutés.
   const sortUnwantedByDate =
@@ -171,6 +178,8 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   const saveUnwanted = async () => {
     if (!unwantedPlayer) return;
     const list = [...unwantedDraft];
+    // Garde-fou : on garde toujours au moins MIN_KEPT_UNIVERSES univers non exclus.
+    if (!keepsEnoughUniverses(totalUniverses, list)) return;
     const next = { ...unwanted, [unwantedPlayer.id]: list };
     if (list.length === 0) delete next[unwantedPlayer.id];
     setUnwanted(next);
@@ -400,9 +409,9 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
             <PlayerAvatar emoji={p.emoji} color={p.color} photoUri={p.photoUri} />
             <View style={{ flex: 1 }}>
               <Txt weight="700">{p.name}</Txt>
-              {(unwanted[p.id]?.length ?? 0) > 0 && (
+              {totalUniverses > 0 && (
                 <Txt faint size={fontSize.xs}>
-                  🚫 évite {unwanted[p.id]!.length} catégorie{unwanted[p.id]!.length > 1 ? 's' : ''}
+                  📚 {keptUniverses(totalUniverses, unwanted[p.id] ?? [])}/{totalUniverses} univers
                 </Txt>
               )}
             </View>
@@ -442,6 +451,16 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
               question{unseenRemaining > 1 ? 's' : ''} inédite{unseenRemaining > 1 ? 's' : ''} restante{unseenRemaining > 1 ? 's' : ''} pour {unwantedPlayer?.name} avec ce choix
             </Txt>
           </View>
+          {(() => {
+            const kept = keptUniverses(totalUniverses, [...unwantedDraft]);
+            const ok = kept >= MIN_KEPT_UNIVERSES;
+            return (
+              <Txt size={fontSize.sm} weight="700" color={ok ? colors.text : colors.danger} style={{ marginTop: spacing(0.5) }}>
+                📚 {kept}/{totalUniverses} univers gardés
+                {!ok ? ` — minimum ${MIN_KEPT_UNIVERSES}` : ''}
+              </Txt>
+            );
+          })()}
           {sortUnwantedByDate && (
             <Txt faint size={fontSize.xs} style={{ marginTop: spacing(1) }}>
               🆕 Triés par ajout : les univers les plus récents en premier.
@@ -463,7 +482,12 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
           </ScrollView>
           <View style={{ flexDirection: 'row', gap: spacing(1), marginTop: spacing(1) }}>
             <Button title="Annuler" variant="ghost" onPress={() => setUnwantedPlayer(null)} style={{ flex: 1 }} />
-            <Button title="Enregistrer" onPress={saveUnwanted} style={{ flex: 1 }} />
+            <Button
+              title="Enregistrer"
+              onPress={saveUnwanted}
+              disabled={!keepsEnoughUniverses(totalUniverses, [...unwantedDraft])}
+              style={{ flex: 1 }}
+            />
           </View>
         </View>
       </View>
