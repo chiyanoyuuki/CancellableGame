@@ -64,7 +64,8 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
 
   <details id="univDetails">
     <summary>Univers que je ne veux pas voir (optionnel)</summary>
-    <p class="hint">Touche un univers pour l'exclure : tu n'auras quasiment jamais de questions dessus. Par défaut, tout est gardé.</p>
+    <p class="hint">Touche un univers pour l'exclure : tu n'auras quasiment jamais de questions dessus. Par défaut, tout est gardé. Il faut en garder au moins 10.</p>
+    <p id="keptcount" style="font-weight:700"></p>
     <p id="sorthint">🆕 Triés par ajout : les univers les plus récents en premier.</p>
     <div id="universes"></div>
   </details>
@@ -121,11 +122,22 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   function highlightColor(){ [].forEach.call(cBox.children,function(x,i){ x.className='swatch'+(COLORS[i]===state.color?' sel':''); }); }
   highlightColor();
 
+  // Minimum d'univers à garder non exclus (même règle que l'app).
+  var MIN_KEPT = 10;
+  function keptCount(){ return FLAT.length - Object.keys(state.unwanted).length; }
+  function updateKept(){
+    var kept = keptCount();
+    var el = document.getElementById('keptcount');
+    if (!el) return;
+    el.textContent = '📚 ' + kept + '/' + FLAT.length + ' univers gardés' + (kept < MIN_KEPT ? ' — minimum ' + MIN_KEPT : '');
+    el.style.color = kept < MIN_KEPT ? '#ff5c5c' : '';
+  }
+
   function chip(u){
     var c = document.createElement('div');
     c.className = 'chip' + (state.unwanted[u] ? ' off' : '');
     c.textContent = u;
-    c.onclick = function(){ if(state.unwanted[u]){ delete state.unwanted[u]; c.className='chip'; } else { state.unwanted[u]=1; c.className='chip off'; } };
+    c.onclick = function(){ if(state.unwanted[u]){ delete state.unwanted[u]; c.className='chip'; } else { state.unwanted[u]=1; c.className='chip off'; } updateKept(); };
     return c;
   }
 
@@ -146,6 +158,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
         box.appendChild(row);
       });
     }
+    updateKept();
   }
 
   function selectProfile(item){
@@ -205,8 +218,12 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
     var name = document.getElementById('name').value.trim();
     var err = document.getElementById('formerr');
     if(!name){ err.textContent = 'Indique ton prénom.'; return; }
-    err.textContent = '';
     var unwanted = Object.keys(state.unwanted);
+    if (FLAT.length - unwanted.length < MIN_KEPT) {
+      err.textContent = 'Garde au moins ' + MIN_KEPT + ' univers non exclus (il t\'en reste ' + (FLAT.length - unwanted.length) + ').';
+      return;
+    }
+    err.textContent = '';
     var code = encodeProfile({ name:name, emoji:state.emoji, color:state.color, unwanted:unwanted });
     var qr = document.getElementById('qr'); qr.innerHTML = '';
     var qerr = document.getElementById('qrerr'); qerr.textContent='';
@@ -220,7 +237,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
       return;
     }
     document.getElementById('who').textContent = state.emoji + ' ' + name;
-    document.getElementById('cnt').textContent = unwanted.length ? (unwanted.length + ' univers exclus') : 'Tous les univers gardés';
+    document.getElementById('cnt').textContent = (FLAT.length - unwanted.length) + '/' + FLAT.length + ' univers gardés';
     document.getElementById('form').style.display='none';
     document.getElementById('result').style.display='block';
     window.scrollTo(0,0);
