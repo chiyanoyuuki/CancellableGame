@@ -460,6 +460,25 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
     dispatch({ type: 'SUBMIT', playerId, correct, timeMs });
   };
 
+  // Réponse fausse automatique quand le chrono atteint 0 (option activée).
+  // En « chacun son tour » : le joueur actif rate ; en « au plus rapide » :
+  // personne n'a trouvé — sauf si quelqu'un a déjà buzzé (l'hôte juge alors).
+  const autoTimeoutRef = useRef<number | null>(null);
+  useEffect(() => {
+    if (!cfg.autoWrongOnTimeout || cfg.questionTimerSec <= 0) return;
+    if (!game || game.phase !== 'question' || milestone || remaining !== 0) return;
+    if (autoTimeoutRef.current === game.index) return;
+    if (cfg.turnMode === 'fastest' && buzzed) return; // laisse l'hôte juger le buzz
+    autoTimeoutRef.current = game.index;
+    if (cfg.turnMode === 'turn' && game.activePlayerId) {
+      answer(game.activePlayerId, false, null);
+    } else {
+      snapshot();
+      dispatch({ type: 'SKIP' });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [remaining, game?.phase, game?.index, game?.activePlayerId, milestone, buzzed, cfg.autoWrongOnTimeout, cfg.questionTimerSec, cfg.turnMode]);
+
   if (!game) {
     return (
       <SafeAreaView style={styles.screen}>

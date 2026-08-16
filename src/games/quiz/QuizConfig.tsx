@@ -442,6 +442,26 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
         </Txt>
       </Card>
 
+      {cfg.questionTimerSec > 0 && (
+        <Card>
+          <View style={styles.row}>
+            <View style={{ flex: 1 }}>
+              <Txt weight="700">Réponse fausse au temps écoulé ❌</Txt>
+              <Txt faint size={fontSize.xs}>
+                À la fin du chrono, une réponse fausse est enregistrée automatiquement (le joueur
+                du tour ; « personne n'a trouvé » en mode au plus rapide).
+              </Txt>
+            </View>
+            <Switch
+              value={cfg.autoWrongOnTimeout ?? false}
+              onValueChange={(v) => setCfg((c) => ({ ...c, autoWrongOnTimeout: v }))}
+              trackColor={{ true: colors.danger, false: colors.border }}
+              thumbColor={colors.white}
+            />
+          </View>
+        </Card>
+      )}
+
       <SectionHeader title="Options" />
       <Card>
         <View style={styles.row}>

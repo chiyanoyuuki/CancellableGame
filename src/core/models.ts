@@ -172,6 +172,12 @@ export interface QuizConfig {
    * calibrées sur son taux de réussite passé (mode « tour » solo uniquement).
    */
   adaptiveDifficulty?: boolean;
+  /**
+   * Si vrai ET qu'un chrono par question est réglé (> 0), une réponse fausse est
+   * enregistrée automatiquement quand le compte à rebours atteint 0 (le joueur
+   * dont c'est le tour ; en « au plus rapide » : personne n'a trouvé).
+   */
+  autoWrongOnTimeout?: boolean;
 }
 
 export const DEFAULT_QUIZ_CONFIG: QuizConfig = {
@@ -191,6 +197,7 @@ export const DEFAULT_QUIZ_CONFIG: QuizConfig = {
   teams: [],
   questionTimerSec: 0,
   adaptiveDifficulty: false,
+  autoWrongOnTimeout: false,
 };
 
 // ---------------------------------------------------------------------------
