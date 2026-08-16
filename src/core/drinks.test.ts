@@ -70,6 +70,19 @@ describe('maybeChallenge', () => {
   test('returns null when the challenge list is empty', () => {
     expect(maybeChallenge(always(0), 'normal', [])).toBeNull();
   });
+
+  test('evite les defis recemment tombes (exclude)', () => {
+    const first = DRINK_CHALLENGES[0]!.id;
+    const c = maybeChallenge(always(0), 'normal', DRINK_CHALLENGES, [first]);
+    expect(c?.id).not.toBe(first);
+    expect(c?.id).toBe(DRINK_CHALLENGES[1]!.id);
+  });
+
+  test('si tout est exclu, on repart de la liste complete', () => {
+    const allIds = DRINK_CHALLENGES.map((c) => c.id);
+    const c = maybeChallenge(always(0), 'normal', DRINK_CHALLENGES, allIds);
+    expect(c?.id).toBe(DRINK_CHALLENGES[0]!.id);
+  });
 });
 
 describe('resolveChallenge (tirage auto des joueurs + minuteur)', () => {
@@ -124,5 +137,20 @@ describe('resolveChallenge (tirage auto des joueurs + minuteur)', () => {
       if (!c.picks) continue;
       for (let i = 0; i < c.picks; i++) expect(c.text).toContain(`{${i}}`);
     }
+  });
+
+  test('avoid : tire en priorite les joueurs pas choisis recemment', () => {
+    const ch = { id: 'chef', text: 'Chef {0}.', picks: 1 };
+    // p1 et p2 recemment choisis -> seul p3 est frais -> force sur p3.
+    const r = resolveChallenge(ch, players, mulberry32(1), ['p1', 'p2']);
+    expect(r.pickedIds).toEqual(['p3']);
+  });
+
+  test('avoid : complete avec les recents quand il manque des frais', () => {
+    const ch = { id: 'duel', text: '{0} et {1}.', picks: 2 };
+    const r = resolveChallenge(ch, players, mulberry32(1), ['p1', 'p2']);
+    expect(r.pickedIds[0]).toBe('p3'); // le seul frais d'abord
+    expect(r.pickedIds).toHaveLength(2);
+    expect(['p1', 'p2']).toContain(r.pickedIds[1]); // complete avec un recent
   });
 });

@@ -101,13 +101,20 @@ export function resolveChallenge(
   challenge: DrinkChallenge,
   players: readonly { id: string; name: string }[],
   rng: Rng,
+  avoid: readonly string[] = [],
 ): ResolvedChallenge {
   const n = challenge.picks ?? 0;
   const base = { id: challenge.id, timerSec: challenge.timerSec };
   if (n <= 0 || players.length === 0) {
     return { ...base, text: challenge.text.replace(/\{\d+\}/g, 'un joueur'), pickedIds: [] };
   }
-  const chosen = shuffle([...players], rng).slice(0, Math.min(n, players.length));
+  // Rotation : on pioche d'abord parmi ceux pas choisis récemment (`avoid`), puis
+  // on complète avec les autres — chacun revient à tour de rôle plutôt qu'au
+  // hasard pur qui retombe souvent sur les mêmes.
+  const recent = new Set(avoid);
+  const fresh = shuffle(players.filter((p) => !recent.has(p.id)), rng);
+  const rest = shuffle(players.filter((p) => recent.has(p.id)), rng);
+  const chosen = [...fresh, ...rest].slice(0, Math.min(n, players.length));
   let text = challenge.text;
   chosen.forEach((p, i) => {
     text = text.split(`{${i}}`).join(p.name);
@@ -147,13 +154,21 @@ export const DRINK_CHALLENGES: DrinkChallenge[] = [
   { id: 'regleperso', text: "Le meneur invente une règle pour toute la table jusqu'au prochain défi, et la fait respecter." },
 ];
 
-/** Maybe return a random challenge to play before the next question. */
+/**
+ * Maybe return a random challenge to play before the next question.
+ *
+ * `exclude` = ids des défis récemment tombés : on les évite pour ne pas radoter.
+ * Si tout est exclu (petite liste), on repart de la liste complète.
+ */
 export function maybeChallenge(
   rng: Rng,
   intensity: DrinkIntensity,
   challenges: DrinkChallenge[] = DRINK_CHALLENGES,
+  exclude: readonly string[] = [],
 ): DrinkChallenge | null {
   if (challenges.length === 0) return null;
   if (!chance(rng, CHALLENGE_PROBABILITY[intensity])) return null;
-  return pick(challenges, rng);
+  const excl = new Set(exclude);
+  const fresh = challenges.filter((c) => !excl.has(c.id));
+  return pick(fresh.length > 0 ? fresh : challenges, rng);
 }

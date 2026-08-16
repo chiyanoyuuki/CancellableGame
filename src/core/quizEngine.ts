@@ -90,6 +90,8 @@ export interface QuizState {
   answers: QuizAnswerPayload[];
   /** Pool of drink challenges (built-in + custom). */
   challenges: DrinkChallenge[];
+  /** Ids des défis récemment tombés, pour ne pas radoter (anti-répétition). */
+  recentChallengeIds?: string[];
 }
 
 export type QuizAction =
@@ -242,6 +244,7 @@ export function createQuizState(args: {
     scores,
     answers: [],
     challenges: args.challenges && args.challenges.length > 0 ? args.challenges : DRINK_CHALLENGES,
+    recentChallengeIds: [],
   };
 
   if (args.questions.length === 0) return { ...base, phase: 'finished' };
@@ -424,10 +427,16 @@ export function quizReducer(state: QuizState, action: QuizAction): QuizState {
     case 'CONTINUE': {
       if (state.phase === 'reveal') {
         const { rng, step } = stepRng(state);
+        const recent = state.recentChallengeIds ?? [];
         const challenge = (state.config.challengesEnabled ?? true)
-          ? maybeChallenge(rng, state.config.drinkIntensity, state.challenges)
+          ? maybeChallenge(rng, state.config.drinkIntensity, state.challenges, recent)
           : null;
-        if (challenge) return { ...state, step, phase: 'challenge', pendingChallenge: challenge };
+        if (challenge) {
+          // On garde en mémoire les derniers défis pour les éviter un moment.
+          const window = Math.min(12, Math.max(0, state.challenges.length - 1));
+          const recentChallengeIds = [challenge.id, ...recent.filter((id) => id !== challenge.id)].slice(0, window);
+          return { ...state, step, phase: 'challenge', pendingChallenge: challenge, recentChallengeIds };
+        }
         return advance({ ...state, step });
       }
       if (state.phase === 'challenge') return advance(state);

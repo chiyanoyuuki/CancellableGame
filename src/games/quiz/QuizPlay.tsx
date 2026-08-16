@@ -59,6 +59,9 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
   const [challengeSeed, setChallengeSeed] = useState(1);
   const [challengeTimer, setChallengeTimer] = useState<number | null>(null);
   const [challengeTimerKey, setChallengeTimerKey] = useState(0);
+  // Rotation des joueurs tirés au sort pour les défis : on retient les derniers
+  // choisis afin de ne pas retomber toujours sur les mêmes.
+  const recentPicksRef = useRef<string[]>([]);
   // Questions signalées cette partie (pour éviter le double-signalement et changer le libellé).
   const [reportedIds, setReportedIds] = useState<Set<string>>(new Set());
   // Univers non souhaités par joueur — sert à signaler, sous l'univers, quand
@@ -409,8 +412,17 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
   const resolvedChallenge = useMemo(() => {
     const c = game?.phase === 'challenge' ? game.pendingChallenge : null;
     if (!c) return null;
-    return resolveChallenge(c, players, mulberry32(challengeSeed));
+    return resolveChallenge(c, players, mulberry32(challengeSeed), recentPicksRef.current);
   }, [game?.phase, game?.pendingChallenge, players, challengeSeed]);
+
+  // Mémorise les joueurs tout juste tirés au sort, pour que le prochain tirage
+  // (ou le « retirer au sort ») évite de retomber sur eux tant que possible.
+  useEffect(() => {
+    const ids = resolvedChallenge?.pickedIds;
+    if (!ids || ids.length === 0) return;
+    const cap = Math.max(1, players.length - 1);
+    recentPicksRef.current = [...ids, ...recentPicksRef.current.filter((x) => !ids.includes(x))].slice(0, cap);
+  }, [resolvedChallenge, players.length]);
 
   // Stop the audio whenever we leave the question phase (reveal, challenge…).
   useEffect(() => {
