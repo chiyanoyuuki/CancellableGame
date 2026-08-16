@@ -45,8 +45,8 @@ describe('trackProgress (paliers)', () => {
   });
 
   test('tout franchi = plus de palier suivant', () => {
-    const p = trackProgress(games, 100000);
-    expect(p.current).toBe('legende');
+    const p = trackProgress(games, 10_000_000);
+    expect(p.current).toBe('infini');
     expect(p.next).toBeNull();
     expect(p.tiersReached).toBe(games.tiers.length);
   });

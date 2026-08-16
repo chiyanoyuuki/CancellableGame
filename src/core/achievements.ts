@@ -1,18 +1,38 @@
 import type { StatAnswer, StatResult } from './stats';
 
 /**
- * Hauts faits À PALIERS (Bronze → Légende), par joueur — logique pure et testable.
+ * Hauts faits À PALIERS (Bronze → Infini), par joueur — logique pure et testable.
  *
  * Chaque « piste » (track) suit une mesure cumulée (parties, victoires, bonnes
  * réponses…) et compte plusieurs paliers. Franchir un palier rapporte ses points ;
  * le total sur toutes les pistes donne un SCORE de hauts faits, base d'un
  * classement dédié. Tout se calcule sur la vie entière du joueur — un palier
- * gagné reste acquis.
+ * gagné reste acquis. Les paliers les plus hauts sont volontairement énormes :
+ * tout débloquer revient à « finir le jeu ».
  */
 
-export type TierName = 'bronze' | 'argent' | 'or' | 'platine' | 'diamant' | 'legende';
+export type TierName =
+  | 'bronze'
+  | 'argent'
+  | 'or'
+  | 'platine'
+  | 'diamant'
+  | 'legende'
+  | 'mythe'
+  | 'cosmique'
+  | 'infini';
 
-export const TIER_ORDER: TierName[] = ['bronze', 'argent', 'or', 'platine', 'diamant', 'legende'];
+export const TIER_ORDER: TierName[] = [
+  'bronze',
+  'argent',
+  'or',
+  'platine',
+  'diamant',
+  'legende',
+  'mythe',
+  'cosmique',
+  'infini',
+];
 
 export const TIER_META: Record<TierName, { label: string; emoji: string; points: number; color: string }> = {
   bronze: { label: 'Bronze', emoji: '🥉', points: 5, color: '#cd7f32' },
@@ -21,6 +41,9 @@ export const TIER_META: Record<TierName, { label: string; emoji: string; points:
   platine: { label: 'Platine', emoji: '💠', points: 100, color: '#7fe3d4' },
   diamant: { label: 'Diamant', emoji: '💎', points: 250, color: '#8ad3ff' },
   legende: { label: 'Légende', emoji: '👑', points: 600, color: '#ff7ae0' },
+  mythe: { label: 'Mythe', emoji: '🔱', points: 1400, color: '#b07cff' },
+  cosmique: { label: 'Cosmique', emoji: '🌌', points: 3200, color: '#5ac8ff' },
+  infini: { label: 'Infini', emoji: '♾️', points: 7000, color: '#ff9f45' },
 };
 
 export interface TrackTier {
@@ -72,22 +95,22 @@ function track(id: string, emoji: string, title: string, desc: string, unit: str
 }
 
 const TRACKS: (AchievementTrack & { metric: Metric })[] = [
-  track('games', '🎮', 'Fêtard', 'Parties jouées', 'parties', (a) => a.games, [1, 10, 50, 150, 400, 1000]),
-  track('wins', '🏆', 'Vainqueur', 'Parties gagnées', 'victoires', (a) => a.wins, [1, 10, 50, 150, 400, 1000]),
-  track('nights', '🌙', 'Habitué des soirées', 'Soirées différentes', 'soirées', (a) => a.days.size, [1, 5, 15, 40, 100]),
-  track('questions', '🧠', 'Curieux', 'Questions répondues', 'questions', (a) => a.questions, [10, 100, 500, 2000, 5000, 15000]),
-  track('correct', '✅', 'Érudit', 'Bonnes réponses', 'bonnes', (a) => a.correct, [5, 50, 300, 1000, 3000, 10000]),
-  track('hard', '🔥', 'Cerveau', 'Bonnes réponses difficiles', 'dures', (a) => a.hardCorrect, [5, 50, 250, 1000, 3000]),
-  track('pro', '🎓', 'Expert', 'Bonnes réponses pro', 'pro', (a) => a.proCorrect, [3, 25, 150, 600, 2000]),
-  track('nohint', '🎯', 'Puriste', 'Bonnes réponses sans indice', 'sans indice', (a) => a.noHintCorrect, [10, 100, 500, 2000, 6000]),
-  track('fast', '⚡', 'Éclair', 'Bonnes réponses en moins de 3 s', 'éclair', (a) => a.fastCorrect, [1, 20, 100, 500, 1500]),
+  track('games', '🎮', 'Fêtard', 'Parties jouées', 'parties', (a) => a.games, [1, 10, 50, 150, 400, 1000, 2500, 6000, 15000]),
+  track('wins', '🏆', 'Vainqueur', 'Parties gagnées', 'victoires', (a) => a.wins, [1, 10, 50, 150, 400, 1000, 2500, 6000, 15000]),
+  track('nights', '🌙', 'Habitué des soirées', 'Soirées différentes', 'soirées', (a) => a.days.size, [1, 5, 15, 40, 100, 250, 600]),
+  track('questions', '🧠', 'Curieux', 'Questions répondues', 'questions', (a) => a.questions, [10, 100, 500, 2000, 5000, 15000, 40000, 100000, 250000]),
+  track('correct', '✅', 'Érudit', 'Bonnes réponses', 'bonnes', (a) => a.correct, [5, 50, 300, 1000, 3000, 10000, 30000, 80000, 200000]),
+  track('hard', '🔥', 'Cerveau', 'Bonnes réponses difficiles', 'dures', (a) => a.hardCorrect, [5, 50, 250, 1000, 3000, 10000, 30000, 80000]),
+  track('pro', '🎓', 'Expert', 'Bonnes réponses pro', 'pro', (a) => a.proCorrect, [3, 25, 150, 600, 2000, 7000, 20000, 60000]),
+  track('nohint', '🎯', 'Puriste', 'Bonnes réponses sans indice', 'sans indice', (a) => a.noHintCorrect, [10, 100, 500, 2000, 6000, 20000, 60000, 150000]),
+  track('fast', '⚡', 'Éclair', 'Bonnes réponses en moins de 3 s', 'éclair', (a) => a.fastCorrect, [1, 20, 100, 500, 1500, 5000, 15000, 40000]),
   track('themes', '🌍', 'Touche-à-tout', 'Thèmes explorés', 'thèmes', (a) => a.themes.size, [3, 6, 10, 14, 17]),
-  track('sips', '🍺', 'Bonne descente', 'Gorgées bues', 'gorgées', (a) => a.sipsDrunk, [5, 30, 150, 500, 1500]),
-  track('given', '🤙', 'Généreux', 'Gorgées offertes', 'offertes', (a) => a.sipsGiven, [5, 30, 150, 500]),
-  track('quiz', '❓', 'Roi du Quiz', 'Quiz gagnés', 'quiz', (a) => a.winsByGame.quiz ?? 0, [1, 10, 50, 150, 400]),
-  track('bombe', '💣', 'Démineur', 'Bombes gagnées', 'bombes', (a) => a.winsByGame.bombe ?? 0, [1, 10, 50, 150]),
-  track('duel', '⚔️', 'Duelliste', 'Duels gagnés', 'duels', (a) => a.winsByGame.duel ?? 0, [1, 10, 50, 150]),
-  track('ultimate', '🥊', 'Maître ultime', 'Duels Ultimes gagnés', 'ultimes', (a) => a.winsByGame.duelultime ?? 0, [1, 5, 25, 100]),
+  track('sips', '🍺', 'Bonne descente', 'Gorgées bues', 'gorgées', (a) => a.sipsDrunk, [5, 30, 150, 500, 1500, 5000, 15000, 40000]),
+  track('given', '🤙', 'Généreux', 'Gorgées offertes', 'offertes', (a) => a.sipsGiven, [5, 30, 150, 500, 1500, 5000, 15000]),
+  track('quiz', '❓', 'Roi du Quiz', 'Quiz gagnés', 'quiz', (a) => a.winsByGame.quiz ?? 0, [1, 10, 50, 150, 400, 1000, 2500, 6000]),
+  track('bombe', '💣', 'Démineur', 'Bombes gagnées', 'bombes', (a) => a.winsByGame.bombe ?? 0, [1, 10, 50, 150, 400, 1000, 2500]),
+  track('duel', '⚔️', 'Duelliste', 'Duels gagnés', 'duels', (a) => a.winsByGame.duel ?? 0, [1, 10, 50, 150, 400, 1000, 2500]),
+  track('ultimate', '🥊', 'Maître ultime', 'Duels Ultimes gagnés', 'ultimes', (a) => a.winsByGame.duelultime ?? 0, [1, 5, 25, 100, 300, 800, 2000]),
 ];
 
 /** Toutes les pistes (sans la fonction de mesure), pour l'affichage. */
