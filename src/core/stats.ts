@@ -349,6 +349,34 @@ export function superlatives(
   const cheater = [...ans.entries()].filter(([, g]) => g.hints > 0).sort((a, b) => b[1].hints - a[1].hints)[0];
   if (cheater) award('hints', "L'assisté", '👀', 'A utilisé le plus d\'indices', cheater[0], `${cheater[1].hints} indices`);
 
+  // Most games played
+  const pillar = totals.filter((t) => t.games > 0).sort((a, b) => b.games - a.games)[0];
+  if (pillar) award('pilier', 'Le pilier', '🏛️', 'A joué le plus de parties', pillar.playerId, `${pillar.games} parties`);
+
+  // Best single-game score
+  const comet = totals.filter((t) => t.bestPoints > 0).sort((a, b) => b.bestPoints - a.bestPoints)[0];
+  if (comet) award('comete', 'La comète', '☄️', 'Meilleur score en une partie', comet.playerId, `${comet.bestPoints} pts`);
+
+  // Best average rank (min 3 games)
+  const strat = totals.filter((t) => t.games >= 3).sort((a, b) => a.avgRank - b.avgRank)[0];
+  if (strat) award('stratege', 'Le stratège', '♟️', 'Meilleur classement moyen', strat.playerId, `rang moyen ${strat.avgRank.toFixed(1)}`);
+
+  // Most answers overall
+  const marathon = [...ans.entries()].filter(([, g]) => g.answers > 0).sort((a, b) => b[1].answers - a[1].answers)[0];
+  if (marathon) award('marathonien', 'Le marathonien', '🏃', 'A répondu au plus de questions', marathon[0], `${marathon[1].answers} questions`);
+
+  // Most correct answers overall
+  const encyclo = [...ans.entries()].filter(([, g]) => g.correct > 0).sort((a, b) => b[1].correct - a[1].correct)[0];
+  if (encyclo) award('encyclopedie', "L'encyclopédie", '📚', 'Le plus de bonnes réponses', encyclo[0], `${encyclo[1].correct} bonnes`);
+
+  // Most podium finishes (top 3)
+  const podium = totals.filter((t) => t.podiums > 0).sort((a, b) => b.podiums - a.podiums)[0];
+  if (podium) award('podium', 'Le podium ambulant', '🏅', 'Le plus de podiums (top 3)', podium.playerId, `${podium.podiums} podiums`);
+
+  // Fewest sips among regulars (min 3 games)
+  const sober = totals.filter((t) => t.games >= 3).sort((a, b) => a.sipsDrunk - b.sipsDrunk)[0];
+  if (sober) award('sobre', 'Le sobre', '🚱', 'A le moins bu (parmi les habitués)', sober.playerId, `${sober.sipsDrunk} gorgées`);
+
   // Resolve names for display convenience downstream (kept in description).
   for (const s of out) {
     if (s.playerId && nameOf.has(s.playerId)) {
@@ -405,4 +433,40 @@ export function funFacts(
   }
 
   return { totalGames, totalSips, totalQuestions, totalPoints, favouriteTheme };
+}
+
+// ---------------------------------------------------------------------------
+// Titres détenus par joueur (pour l'affichage sous le pseudo)
+// ---------------------------------------------------------------------------
+
+/** Ordre de prestige : le premier titre détenu par un joueur est mis en avant. */
+const TITLE_PRIORITY: string[] = [
+  'boss', 'brain', 'comete', 'stratege', 'pilier', 'encyclopedie', 'marathonien',
+  'flash', 'podium', 'sponge', 'barman', 'sobre', 'clown', 'hints',
+];
+
+/**
+ * Regroupe les titres (superlatifs) par joueur qui les détient, triés du plus
+ * prestigieux au moins. Sert à afficher un titre sous le pseudo d'un joueur.
+ */
+export function titlesByPlayer(
+  players: readonly Player[],
+  results: readonly StatResult[],
+  answers: readonly StatAnswer[],
+  filter: StatFilter = {},
+): Record<string, Superlative[]> {
+  const list = superlatives(players, results, answers, filter);
+  const rank = (id: string) => {
+    const i = TITLE_PRIORITY.indexOf(id);
+    return i < 0 ? TITLE_PRIORITY.length : i;
+  };
+  const out: Record<string, Superlative[]> = {};
+  for (const s of list) {
+    if (!s.playerId) continue;
+    (out[s.playerId] ??= []).push(s);
+  }
+  for (const id of Object.keys(out)) {
+    out[id]!.sort((a, b) => rank(a.id) - rank(b.id));
+  }
+  return out;
 }

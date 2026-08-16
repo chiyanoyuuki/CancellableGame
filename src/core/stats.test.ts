@@ -10,6 +10,7 @@ import {
   superlatives,
   themeAccuracy,
   timeSeries,
+  titlesByPlayer,
 } from './stats';
 
 const players: Player[] = [
@@ -135,6 +136,27 @@ describe('superlatives', () => {
   test('descriptions include the player name', () => {
     const sup = superlatives(players, results, answers);
     expect(sup.find((s) => s.id === 'sponge')?.description).toContain('Bob');
+  });
+
+  test('awards the newer titles', () => {
+    const sup = superlatives(players, results, answers);
+    const byId = new Map(sup.map((s) => [s.id, s]));
+    expect(byId.get('comete')?.playerId).toBe('p1'); // best single game (300)
+    expect(byId.get('marathonien')?.playerId).toBe('p1'); // most answers (5)
+    expect(byId.get('encyclopedie')?.playerId).toBe('p1'); // most correct (4)
+    // Pas assez de parties (min 3) pour ces titres avec ce jeu de données.
+    expect(byId.get('stratege')).toBeUndefined();
+    expect(byId.get('sobre')).toBeUndefined();
+  });
+});
+
+describe('titlesByPlayer', () => {
+  test('groups held titles by player, most prestigious first', () => {
+    const map = titlesByPlayer(players, results, answers);
+    expect(map['p1']?.[0]?.id).toBe('boss'); // p1 tête de classement
+    expect(map['p2']?.[0]?.id).toBe('sponge'); // p2 a le plus bu
+    // Chaque entrée ne contient que des titres du joueur.
+    expect(map['p1']?.every((s) => s.playerId === 'p1')).toBe(true);
   });
 });
 

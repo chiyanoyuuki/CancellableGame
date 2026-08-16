@@ -1,10 +1,10 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { achievementScoresByPlayer } from '../core/achievements';
-import { Card, EmptyState, PlayerAvatar, Screen, SectionHeader, Segmented, Txt } from '../components/ui';
+import { Card, Chip, EmptyState, PlayerAvatar, Screen, Segmented, Txt } from '../components/ui';
 import type { Player } from '../core/models';
 import { THEME_META, type Theme } from '../core/models';
 import {
@@ -39,11 +39,20 @@ const PERIODS: { label: string; value: Period }[] = [
   { label: 'Total', value: 'all' },
 ];
 
+type Tab = 'classement' | 'titres' | 'hautsfaits' | 'themes';
+const TABS: { label: string; emoji: string; value: Tab }[] = [
+  { label: 'Classement', emoji: '🏆', value: 'classement' },
+  { label: 'Titres', emoji: '⭐', value: 'titres' },
+  { label: 'Hauts faits', emoji: '🎖️', value: 'hautsfaits' },
+  { label: 'Thèmes', emoji: '🎯', value: 'themes' },
+];
+
 export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'Stats'>) {
   const { ent } = useStore();
   const [data, setData] = useState<Data>(EMPTY);
   const [period, setPeriod] = useState<Period>('all');
   const [gameId, setGameId] = useState<string>('all');
+  const [tab, setTab] = useState<Tab>('classement');
   const [expanded, setExpanded] = useState<string | null>(null);
 
   // Version gratuite : seules les stats du soir sont visibles.
@@ -124,6 +133,137 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
   const nameOf = (id: string) => byId[id]?.name ?? teamInfo.get(id)?.name ?? '???';
   const hasData = facts.totalGames > 0;
 
+  // --- Tab renderers -------------------------------------------------------
+
+  const renderClassement = () => {
+    if (totals.length === 0) return <TabEmpty text="Aucune partie sur cette période." />;
+    return (
+      <>
+        {totals.map((t, i) => {
+          const p = byId[t.playerId];
+          const team = teamInfo.get(t.playerId);
+          const emoji = p?.emoji ?? team?.emoji ?? '🏳️';
+          const color = p?.color ?? team?.color;
+          const open = expanded === t.playerId;
+          return (
+            <View key={t.playerId}>
+              <Card
+                accent={i === 0 ? colors.warning : color}
+                style={styles.rankRow}
+                onPress={team ? () => setExpanded(open ? null : t.playerId) : undefined}
+              >
+                <Txt size={fontSize.lg} weight="900" style={{ width: 30 }}>
+                  {RANK_MEDALS[i] ?? `${i + 1}`}
+                </Txt>
+                {(p || team) && <PlayerAvatar emoji={emoji} color={color ?? colors.primary} size={36} />}
+                <View style={{ flex: 1 }}>
+                  <Txt weight="800">
+                    {nameOf(t.playerId)}
+                    {team ? '  👥' : ''}
+                  </Txt>
+                  <Txt faint size={fontSize.xs}>
+                    {t.games} partie{t.games > 1 ? 's' : ''} · {t.wins} 🏆 · 🍺 {t.sipsDrunk}
+                    {team ? ' · appuie pour les membres' : ''}
+                  </Txt>
+                </View>
+                <Txt size={fontSize.lg} weight="900" color={colors.primary}>
+                  {t.points}
+                </Txt>
+              </Card>
+              {team && open && (
+                <Card style={styles.membersCard}>
+                  <Txt faint size={fontSize.xs}>
+                    {team.members.length > 0
+                      ? team.members.map((m) => `${m.emoji} ${m.name}`).join('   ·   ')
+                      : 'Composition inconnue'}
+                  </Txt>
+                </Card>
+              )}
+            </View>
+          );
+        })}
+      </>
+    );
+  };
+
+  const renderTitres = () => {
+    if (titles.length === 0) return <TabEmpty text="Pas encore de titres sur cette période." />;
+    return (
+      <View style={styles.titlesWrap}>
+        {titles.map((s) => (
+          <Card key={s.id} style={styles.titleCard}>
+            <Txt size={fontSize.xl}>{s.emoji}</Txt>
+            <Txt weight="800" size={fontSize.sm}>
+              {s.title}
+            </Txt>
+            <Txt color={colors.accent} weight="800" size={fontSize.sm} numberOfLines={1}>
+              {s.playerId ? nameOf(s.playerId) : '—'}
+            </Txt>
+            <Txt faint size={fontSize.xs}>
+              {s.value}
+            </Txt>
+          </Card>
+        ))}
+      </View>
+    );
+  };
+
+  const renderHautsFaits = () => {
+    if (achLeaderboard.length === 0) return <TabEmpty text="Pas encore de hauts faits débloqués." />;
+    return (
+      <>
+        <Txt faint size={fontSize.xs} style={{ marginBottom: spacing(1) }}>
+          Classement à vie (toutes périodes). Chaque palier rapporte des points ; touche un joueur pour ses badges.
+        </Txt>
+        {achLeaderboard.map((row, i) => (
+          <Card
+            key={row.player.id}
+            accent={i === 0 ? colors.warning : row.player.color}
+            style={styles.rankRow}
+            onPress={() => navigation.navigate('PlayerProfile', { playerId: row.player.id })}
+          >
+            <Txt size={fontSize.lg} weight="900" style={{ width: 30 }}>
+              {RANK_MEDALS[i] ?? `${i + 1}`}
+            </Txt>
+            <PlayerAvatar emoji={row.player.emoji} color={row.player.color} photoUri={row.player.photoUri} size={36} />
+            <View style={{ flex: 1 }}>
+              <Txt weight="800">{row.player.name}</Txt>
+              <Txt faint size={fontSize.xs}>
+                {row.tiers} palier{row.tiers > 1 ? 's' : ''} · appuie pour le profil
+              </Txt>
+            </View>
+            <Txt size={fontSize.lg} weight="900" color={colors.accent}>
+              {row.points}
+            </Txt>
+          </Card>
+        ))}
+      </>
+    );
+  };
+
+  const renderThemes = () => {
+    if (themes.length === 0) return <TabEmpty text="Pas de réponses sur cette période." />;
+    return (
+      <>
+        {themes.map((t) => (
+          <View key={t.theme} style={{ marginBottom: spacing(1) }}>
+            <View style={styles.themeLabel}>
+              <Txt size={fontSize.sm} weight="700">
+                {THEME_META[t.theme as Theme]?.emoji ?? '•'} {THEME_META[t.theme as Theme]?.label ?? t.theme}
+              </Txt>
+              <Txt faint size={fontSize.xs}>
+                {Math.round(t.accuracy * 100)}% · {t.correct}/{t.total}
+              </Txt>
+            </View>
+            <View style={styles.barTrack}>
+              <View style={[styles.barFill, { width: `${Math.round(t.accuracy * 100)}%` }]} />
+            </View>
+          </View>
+        ))}
+      </>
+    );
+  };
+
   return (
     <Screen title="Statistiques" subtitle="Le palmarès de vos soirées" onBack={() => navigation.goBack()} scroll>
       <Segmented<Period> value={period} onChange={changePeriod} options={PERIODS} />
@@ -158,124 +298,23 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
             </Txt>
           )}
 
-          <SectionHeader title="Classement" />
-          {totals.map((t, i) => {
-            const p = byId[t.playerId];
-            const team = teamInfo.get(t.playerId);
-            const emoji = p?.emoji ?? team?.emoji ?? '🏳️';
-            const color = p?.color ?? team?.color;
-            const open = expanded === t.playerId;
-            return (
-              <View key={t.playerId}>
-                <Card
-                  accent={i === 0 ? colors.warning : color}
-                  style={styles.rankRow}
-                  onPress={team ? () => setExpanded(open ? null : t.playerId) : undefined}
-                >
-                  <Txt size={fontSize.lg} weight="900" style={{ width: 30 }}>
-                    {RANK_MEDALS[i] ?? `${i + 1}`}
-                  </Txt>
-                  {(p || team) && <PlayerAvatar emoji={emoji} color={color ?? colors.primary} size={36} />}
-                  <View style={{ flex: 1 }}>
-                    <Txt weight="800">
-                      {nameOf(t.playerId)}
-                      {team ? '  👥' : ''}
-                    </Txt>
-                    <Txt faint size={fontSize.xs}>
-                      {t.games} partie{t.games > 1 ? 's' : ''} · {t.wins} 🏆 · 🍺 {t.sipsDrunk}
-                      {team ? ' · appuie pour voir les membres' : ''}
-                    </Txt>
-                  </View>
-                  <Txt size={fontSize.lg} weight="900" color={colors.primary}>
-                    {t.points}
-                  </Txt>
-                </Card>
-                {team && open && (
-                  <Card style={styles.membersCard}>
-                    <Txt faint size={fontSize.xs}>
-                      {team.members.length > 0
-                        ? team.members.map((m) => `${m.emoji} ${m.name}`).join('   ·   ')
-                        : 'Composition inconnue'}
-                    </Txt>
-                  </Card>
-                )}
-              </View>
-            );
-          })}
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={{ marginTop: spacing(1.5) }}
+            contentContainerStyle={{ gap: spacing(1), paddingRight: spacing(2) }}
+          >
+            {TABS.map((t) => (
+              <Chip key={t.value} label={t.label} emoji={t.emoji} selected={tab === t.value} onPress={() => setTab(t.value)} />
+            ))}
+          </ScrollView>
 
-          {achLeaderboard.length > 0 && (
-            <>
-              <SectionHeader title="Classement par hauts faits" />
-              <Txt faint size={fontSize.xs} style={{ marginBottom: spacing(0.5) }}>
-                Chaque palier gagné rapporte des points. Touche un joueur pour voir tous ses badges.
-              </Txt>
-              {achLeaderboard.map((row, i) => (
-                <Card
-                  key={row.player.id}
-                  accent={i === 0 ? colors.warning : row.player.color}
-                  style={styles.rankRow}
-                  onPress={() => navigation.navigate('PlayerProfile', { playerId: row.player.id })}
-                >
-                  <Txt size={fontSize.lg} weight="900" style={{ width: 30 }}>
-                    {RANK_MEDALS[i] ?? `${i + 1}`}
-                  </Txt>
-                  <PlayerAvatar emoji={row.player.emoji} color={row.player.color} photoUri={row.player.photoUri} size={36} />
-                  <View style={{ flex: 1 }}>
-                    <Txt weight="800">{row.player.name}</Txt>
-                    <Txt faint size={fontSize.xs}>
-                      {row.tiers} palier{row.tiers > 1 ? 's' : ''} · appuie pour le profil
-                    </Txt>
-                  </View>
-                  <Txt size={fontSize.lg} weight="900" color={colors.accent}>
-                    {row.points}
-                  </Txt>
-                </Card>
-              ))}
-            </>
-          )}
-
-          {titles.length > 0 && (
-            <>
-              <SectionHeader title="Les titres de la soirée" />
-              <View style={styles.titlesWrap}>
-                {titles.map((s) => (
-                  <Card key={s.id} style={styles.titleCard}>
-                    <Txt size={fontSize.xl}>{s.emoji}</Txt>
-                    <Txt weight="800" size={fontSize.sm}>
-                      {s.title}
-                    </Txt>
-                    <Txt color={colors.accent} weight="800" size={fontSize.sm} numberOfLines={1}>
-                      {s.playerId ? nameOf(s.playerId) : '—'}
-                    </Txt>
-                    <Txt faint size={fontSize.xs}>
-                      {s.value}
-                    </Txt>
-                  </Card>
-                ))}
-              </View>
-            </>
-          )}
-
-          {themes.length > 0 && (
-            <>
-              <SectionHeader title="Réussite par thème (groupe)" />
-              {themes.map((t) => (
-                <View key={t.theme} style={{ marginBottom: spacing(1) }}>
-                  <View style={styles.themeLabel}>
-                    <Txt size={fontSize.sm} weight="700">
-                      {THEME_META[t.theme as Theme]?.emoji ?? '•'} {THEME_META[t.theme as Theme]?.label ?? t.theme}
-                    </Txt>
-                    <Txt faint size={fontSize.xs}>
-                      {Math.round(t.accuracy * 100)}% · {t.correct}/{t.total}
-                    </Txt>
-                  </View>
-                  <View style={styles.barTrack}>
-                    <View style={[styles.barFill, { width: `${Math.round(t.accuracy * 100)}%` }]} />
-                  </View>
-                </View>
-              ))}
-            </>
-          )}
+          <View style={{ marginTop: spacing(1.5) }}>
+            {tab === 'classement' && renderClassement()}
+            {tab === 'titres' && renderTitres()}
+            {tab === 'hautsfaits' && renderHautsFaits()}
+            {tab === 'themes' && renderThemes()}
+          </View>
         </>
       )}
     </Screen>
@@ -293,6 +332,14 @@ function FactCard(props: { emoji: string; value: string; label: string }) {
         {props.label}
       </Txt>
     </Card>
+  );
+}
+
+function TabEmpty({ text }: { text: string }) {
+  return (
+    <Txt dim center style={{ paddingVertical: spacing(3) }}>
+      {text}
+    </Txt>
   );
 }
 

@@ -10,6 +10,7 @@ import { THEME_META, THEMES } from '../core/models';
 import type { Player, Question, Theme } from '../core/models';
 import { keepsEnoughUniverses, keptUniverses, MIN_KEPT_UNIVERSES } from '../core/profilePrefs';
 import type { QuestionHistory } from '../core/questionSelection';
+import { type StatAnswer, type StatResult, titlesByPlayer } from '../core/stats';
 import {
   archivePlayer,
   createPlayer,
@@ -17,6 +18,8 @@ import {
   getPlayerUnwantedUniverses,
   getQuestionHistoryByPlayer,
   listPlayers,
+  loadStatAnswers,
+  loadStatResults,
   restorePlayer,
   setPlayerUnwantedUniverses,
   updatePlayer,
@@ -79,6 +82,9 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   const [unwantedDraft, setUnwantedDraft] = useState<Set<string>>(new Set());
   // Menu d'actions d'un joueur (Modal : Android n'affiche que 3 boutons d'Alert).
   const [menuPlayer, setMenuPlayer] = useState<Player | null>(null);
+  // Stats (tous modes / total) pour afficher le titre détenu sous chaque pseudo.
+  const [statResults, setStatResults] = useState<StatResult[]>([]);
+  const [statAnswers, setStatAnswers] = useState<StatAnswer[]>([]);
 
   // Le pool de questions ne change pas en cours de session : chargé une fois.
   // (Joueurs, univers évités et historique sont rechargés à chaque focus.)
@@ -191,15 +197,26 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   // QR, etc.) : joueurs + univers évités + historique, pour que l'écran reflète
   // tout de suite les imports, sans avoir à quitter et revenir.
   const refresh = useCallback(async () => {
-    const [pl, u, h] = await Promise.all([
+    const [pl, u, h, sr, sa] = await Promise.all([
       listPlayers(showArchived),
       getPlayerUnwantedUniverses(),
       getQuestionHistoryByPlayer(),
+      loadStatResults(),
+      loadStatAnswers(),
     ]);
     setPlayers(pl);
     setUnwanted(u);
     setHistoryByPlayer(h);
+    setStatResults(sr);
+    setStatAnswers(sa);
   }, [showArchived]);
+
+  // Titre le plus prestigieux détenu par chaque joueur, sur tous les modes et
+  // depuis toujours (affiché en tout petit sous le pseudo, hors partie).
+  const titlesByP = useMemo(
+    () => titlesByPlayer(players, statResults, statAnswers, { period: 'all' }),
+    [players, statResults, statAnswers],
+  );
 
   useFocusEffect(
     useCallback(() => {
@@ -409,6 +426,11 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
             <PlayerAvatar emoji={p.emoji} color={p.color} photoUri={p.photoUri} />
             <View style={{ flex: 1 }}>
               <Txt weight="700">{p.name}</Txt>
+              {titlesByP[p.id]?.[0] && (
+                <Txt size={fontSize.xs} weight="800" color={colors.accent} numberOfLines={1}>
+                  {titlesByP[p.id]![0]!.emoji} {titlesByP[p.id]![0]!.title}
+                </Txt>
+              )}
               {totalUniverses > 0 && (
                 <Txt faint size={fontSize.xs}>
                   📚 {keptUniverses(totalUniverses, unwanted[p.id] ?? [])}/{totalUniverses} univers
