@@ -236,3 +236,29 @@ export function achievementScoresByPlayer(
   }
   return out;
 }
+
+/**
+ * Palier « général » d'un profil : un niveau de compte global déduit du TOTAL
+ * de points de hauts faits (toutes pistes confondues). Sert de cadre coloré
+ * autour de l'avatar. `null` tant qu'aucun seuil n'est atteint.
+ */
+const GENERAL_TIER_MIN: Record<TierName, number> = {
+  bronze: 20,
+  argent: 80,
+  or: 250,
+  platine: 700,
+  diamant: 1800,
+  legende: 4500,
+  mythe: 11000,
+  cosmique: 28000,
+  infini: 70000,
+};
+
+export function generalTier(points: number): TierName | null {
+  let out: TierName | null = null;
+  for (const t of TIER_ORDER) {
+    if (points >= GENERAL_TIER_MIN[t]) out = t;
+    else break;
+  }
+  return out;
+}

@@ -8,6 +8,7 @@ import * as Sharing from 'expo-sharing';
 
 import { Button, Card, Screen, SectionHeader, Segmented, Txt } from '../components/ui';
 import { type BackupData, exportAll, getReportedCount, importAll, kvSetJSON, resetDb } from '../db';
+import { useAvatarFrames } from '../lib/avatarFrames';
 import { areHapticsEnabled, setHapticsEnabled } from '../lib/haptics';
 import { useTextScale } from '../lib/textScale';
 import type { RootStackParamList } from '../navigation';
@@ -25,6 +26,7 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
   const [reportCount, setReportCount] = useState(0);
   const { scale, setScale } = useTextScale();
   const [haptics, setHaptics] = useState(areHapticsEnabled());
+  const frames = useAvatarFrames();
 
   const toggleHaptics = (on: boolean) => {
     setHaptics(on);
@@ -127,6 +129,18 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
           <Switch
             value={haptics}
             onValueChange={toggleHaptics}
+            trackColor={{ true: colors.primary, false: colors.border }}
+            thumbColor={colors.white}
+          />
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing(1), marginTop: spacing(2) }}>
+          <View style={{ flex: 1 }}>
+            <Txt weight="700">Cadre de palier sur les avatars 🖼️</Txt>
+            <Txt faint size={fontSize.xs}>Un anneau coloré autour de l'avatar selon le palier général du profil (nécessite le pack Hauts faits).</Txt>
+          </View>
+          <Switch
+            value={frames.enabled}
+            onValueChange={frames.setEnabled}
             trackColor={{ true: colors.primary, false: colors.border }}
             thumbColor={colors.white}
           />

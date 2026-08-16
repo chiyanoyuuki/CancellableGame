@@ -51,7 +51,7 @@ export function PlayerProfileScreen({ route, navigation }: NativeStackScreenProp
       ) : (
         <>
           <View style={{ alignItems: 'center', gap: spacing(1), marginBottom: spacing(1) }}>
-            <PlayerAvatar emoji={player.emoji} color={player.color} photoUri={player.photoUri} size={84} />
+            <PlayerAvatar emoji={player.emoji} color={player.color} photoUri={player.photoUri} size={84} playerId={player.id} />
             <Txt size={fontSize.xxl} weight="900">{player.name}</Txt>
             <Txt dim size={fontSize.sm}>
               {games} partie{games > 1 ? 's' : ''} · {wins} 🏆

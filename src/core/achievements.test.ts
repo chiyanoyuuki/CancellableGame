@@ -3,6 +3,7 @@ import {
   achievementScoresByPlayer,
   achievementSummary,
   ACHIEVEMENT_TRACKS,
+  generalTier,
   MAX_POINTS,
   playerAchievements,
   TIER_META,
@@ -128,5 +129,15 @@ describe('score et classement', () => {
     const manual = ACHIEVEMENT_TRACKS.reduce((s, t) => s + t.tiers.reduce((a, x) => a + x.points, 0), 0);
     expect(MAX_POINTS).toBe(manual);
     expect(MAX_POINTS).toBeGreaterThan(1000);
+  });
+});
+
+describe('generalTier (palier général du profil)', () => {
+  test('null sous le premier seuil, puis monte avec les points', () => {
+    expect(generalTier(0)).toBeNull();
+    expect(generalTier(19)).toBeNull();
+    expect(generalTier(20)).toBe('bronze');
+    expect(generalTier(300)).toBe('or');
+    expect(generalTier(10_000_000)).toBe('infini');
   });
 });

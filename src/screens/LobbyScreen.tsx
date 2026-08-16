@@ -77,7 +77,7 @@ export function LobbyScreen({ route, navigation }: NativeStackScreenProps<RootSt
                   accent={on ? p.color : colors.border}
                   style={[styles.row, { opacity: on ? 1 : 0.5 }]}
                 >
-                  <PlayerAvatar emoji={p.emoji} color={p.color} photoUri={p.photoUri} selected={on} />
+                  <PlayerAvatar emoji={p.emoji} color={p.color} photoUri={p.photoUri} selected={on} playerId={p.id} />
                   <Txt weight="700" style={{ flex: 1 }}>
                     {p.name}
                   </Txt>

@@ -155,7 +155,7 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
                 <Txt size={fontSize.lg} weight="900" style={{ width: 30 }}>
                   {RANK_MEDALS[i] ?? `${i + 1}`}
                 </Txt>
-                {(p || team) && <PlayerAvatar emoji={emoji} color={color ?? colors.primary} size={36} />}
+                {(p || team) && <PlayerAvatar emoji={emoji} color={color ?? colors.primary} size={36} playerId={t.playerId} />}
                 <View style={{ flex: 1 }}>
                   <Txt weight="800">
                     {nameOf(t.playerId)}
@@ -235,7 +235,7 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
             <Txt size={fontSize.lg} weight="900" style={{ width: 30 }}>
               {RANK_MEDALS[i] ?? `${i + 1}`}
             </Txt>
-            <PlayerAvatar emoji={row.player.emoji} color={row.player.color} photoUri={row.player.photoUri} size={36} />
+            <PlayerAvatar emoji={row.player.emoji} color={row.player.color} photoUri={row.player.photoUri} size={36} playerId={row.player.id} />
             <View style={{ flex: 1 }}>
               <Txt weight="800">{row.player.name}</Txt>
               <Txt faint size={fontSize.xs}>

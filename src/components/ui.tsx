@@ -14,6 +14,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { Player } from '../core/models';
+import { useAvatarFrames } from '../lib/avatarFrames';
 import { useTextScale } from '../lib/textScale';
 import { colors, fontSize, radius, spacing } from '../theme/theme';
 
@@ -333,8 +334,15 @@ export function PlayerAvatar(props: {
   size?: number;
   selected?: boolean;
   photoUri?: string;
+  /** Joueur associé : sert à afficher automatiquement son cadre de palier. */
+  playerId?: string;
+  /** Cadre forcé (couleur) — sinon déduit du palier général du joueur. */
+  frameColor?: string;
 }) {
   const size = props.size ?? 44;
+  // Cadre de palier : couleur explicite, sinon celle du palier général du joueur.
+  const autoFrame = useAvatarFrames().frameColorFor(props.playerId);
+  const frame = props.frameColor ?? autoFrame;
   // Garde-fou : un ancien profil importé via QR corrompu peut contenir le
   // caractère de remplacement U+FFFD (affiché « ? »). On le retire et on
   // retombe sur un avatar neutre plutôt qu'un carré illisible.
@@ -349,8 +357,8 @@ export function PlayerAvatar(props: {
           height: size,
           borderRadius: size / 2,
           backgroundColor: props.color,
-          borderWidth: props.selected ? 3 : 0,
-          borderColor: colors.white,
+          borderWidth: frame || props.selected ? 3 : 0,
+          borderColor: frame ?? colors.white,
         }}
       />
     );
@@ -364,8 +372,8 @@ export function PlayerAvatar(props: {
         backgroundColor: props.color,
         alignItems: 'center',
         justifyContent: 'center',
-        borderWidth: props.selected ? 3 : 0,
-        borderColor: colors.white,
+        borderWidth: frame || props.selected ? 3 : 0,
+        borderColor: frame ?? colors.white,
       }}
     >
       <Text style={{ fontSize: size * 0.5 }}>{emoji}</Text>

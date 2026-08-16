@@ -110,7 +110,7 @@ export function ResultsScreen({ route, navigation }: NativeStackScreenProps<Root
         {winner && (
           <View style={{ alignItems: 'center', gap: spacing(1), marginBottom: spacing(2) }}>
             <Txt size={fontSize.huge}>🏆</Txt>
-            <PlayerAvatar emoji={winner.emoji} color={winner.color} size={72} />
+            <PlayerAvatar emoji={winner.emoji} color={winner.color} size={72} playerId={ranked[0]?.playerId} />
             <Txt size={fontSize.xl} weight="900">
               {winner.name}
             </Txt>
@@ -136,7 +136,7 @@ export function ResultsScreen({ route, navigation }: NativeStackScreenProps<Root
                 <Txt size={fontSize.lg} weight="900" style={{ width: 34 }}>
                   {RANK_MEDALS[i] ?? `${i + 1}.`}
                 </Txt>
-                <PlayerAvatar emoji={d.emoji} color={d.color} />
+                <PlayerAvatar emoji={d.emoji} color={d.color} playerId={r.playerId} />
                 <View style={{ flex: 1 }}>
                   <Txt weight="800">{d.name}</Txt>
                   {d.members ? (
@@ -165,7 +165,7 @@ export function ResultsScreen({ route, navigation }: NativeStackScreenProps<Root
             {selected && sd && (
               <>
                 <View style={styles.sheetHeader}>
-                  <PlayerAvatar emoji={sd.emoji} color={sd.color} size={48} />
+                  <PlayerAvatar emoji={sd.emoji} color={sd.color} size={48} playerId={selected.playerId} />
                   <View style={{ flex: 1 }}>
                     <Txt weight="900" size={fontSize.lg} numberOfLines={1}>
                       {sd.name}

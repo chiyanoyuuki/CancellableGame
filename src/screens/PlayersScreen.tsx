@@ -426,7 +426,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
       ) : (
         players.map((p) => (
           <Card key={p.id} style={styles.playerRow} accent={p.color}>
-            <PlayerAvatar emoji={p.emoji} color={p.color} photoUri={p.photoUri} />
+            <PlayerAvatar emoji={p.emoji} color={p.color} photoUri={p.photoUri} playerId={p.id} />
             <View style={{ flex: 1 }}>
               <Txt weight="700">{p.name}</Txt>
               {titlesByP[p.id]?.[0] && (
