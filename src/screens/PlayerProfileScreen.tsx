@@ -4,16 +4,18 @@ import { useCallback, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { AchievementTrackCard } from '../components/AchievementTrackCard';
-import { Card, EmptyState, PlayerAvatar, ProgressBar, Screen, SectionHeader, Txt } from '../components/ui';
+import { Button, Card, EmptyState, PlayerAvatar, ProgressBar, Screen, SectionHeader, Txt } from '../components/ui';
 import { achievementScore, achievementSummary, MAX_POINTS, playerAchievements } from '../core/achievements';
 import type { Player } from '../core/models';
 import type { StatAnswer, StatResult } from '../core/stats';
 import { listPlayers, loadStatAnswers, loadStatResults } from '../db';
 import type { RootStackParamList } from '../navigation';
+import { useStore } from '../store/StoreProvider';
 import { colors, fontSize, spacing } from '../theme/theme';
 
 export function PlayerProfileScreen({ route, navigation }: NativeStackScreenProps<RootStackParamList, 'PlayerProfile'>) {
   const { playerId } = route.params;
+  const { ent } = useStore();
   const [player, setPlayer] = useState<Player | null>(null);
   const [results, setResults] = useState<StatResult[]>([]);
   const [answers, setAnswers] = useState<StatAnswer[]>([]);
@@ -40,6 +42,8 @@ export function PlayerProfileScreen({ route, navigation }: NativeStackScreenProp
     [tracks],
   );
 
+  const locked = !ent.allAchievements;
+
   return (
     <Screen title={player?.name ?? 'Profil'} onBack={() => navigation.goBack()} scroll>
       {!player ? (
@@ -50,29 +54,44 @@ export function PlayerProfileScreen({ route, navigation }: NativeStackScreenProp
             <PlayerAvatar emoji={player.emoji} color={player.color} photoUri={player.photoUri} size={84} />
             <Txt size={fontSize.xxl} weight="900">{player.name}</Txt>
             <Txt dim size={fontSize.sm}>
-              {games} partie{games > 1 ? 's' : ''} · {wins} 🏆 · {summary.tiers} palier{summary.tiers > 1 ? 's' : ''}
+              {games} partie{games > 1 ? 's' : ''} · {wins} 🏆
+              {locked ? '' : ` · ${summary.tiers} palier${summary.tiers > 1 ? 's' : ''}`}
             </Txt>
           </View>
 
-          <Card accent={colors.accent}>
-            <View style={styles.row}>
-              <Txt weight="800">⭐ Points de hauts faits</Txt>
-              <Txt weight="900" size={fontSize.lg} color={colors.accent}>
-                {achievementScore(tracks)}
+          {locked ? (
+            <Card accent={colors.accent} onPress={() => navigation.navigate('Store')}>
+              <Txt weight="800">🔒 Hauts faits verrouillés</Txt>
+              <Txt faint size={fontSize.sm} style={{ marginTop: spacing(0.5) }}>
+                Débloque tous les hauts faits, leurs paliers et le classement dans la Boutique — 1,99 €.
               </Txt>
-            </View>
-            <View style={{ marginTop: spacing(1) }}>
-              <ProgressBar value={achievementScore(tracks)} total={MAX_POINTS} color={colors.accent} />
-            </View>
-            <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-              {achievementScore(tracks)} / {MAX_POINTS} points possibles
-            </Txt>
-          </Card>
+              <View style={{ marginTop: spacing(1.5) }}>
+                <Button title="Voir la Boutique" emoji="🎖️" onPress={() => navigation.navigate('Store')} />
+              </View>
+            </Card>
+          ) : (
+            <>
+              <Card accent={colors.accent}>
+                <View style={styles.row}>
+                  <Txt weight="800">⭐ Points de hauts faits</Txt>
+                  <Txt weight="900" size={fontSize.lg} color={colors.accent}>
+                    {achievementScore(tracks)}
+                  </Txt>
+                </View>
+                <View style={{ marginTop: spacing(1) }}>
+                  <ProgressBar value={achievementScore(tracks)} total={MAX_POINTS} color={colors.accent} />
+                </View>
+                <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
+                  {achievementScore(tracks)} / {MAX_POINTS} points possibles
+                </Txt>
+              </Card>
 
-          <SectionHeader title="Hauts faits" />
-          {sorted.map((t) => (
-            <AchievementTrackCard key={t.track.id} t={t} />
-          ))}
+              <SectionHeader title="Hauts faits" />
+              {sorted.map((t) => (
+                <AchievementTrackCard key={t.track.id} t={t} />
+              ))}
+            </>
+          )}
         </>
       )}
     </Screen>

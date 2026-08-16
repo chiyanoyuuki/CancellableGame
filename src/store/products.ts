@@ -8,6 +8,7 @@
  *  - 20 univers gratuits choisis au 1er lancement ; le reste exige `all_themes`.
  *  - 10 profils max ; au-delà il faut `unlimited_profiles`.
  *  - Stats du soir seulement ; le reste exige `all_stats`.
+ *  - Hauts faits verrouillés tant que `all_achievements` n'est pas acheté.
  *  - Publicité avant chaque partie après la première ; `no_ads` la retire.
  *  - `unlock_all` (pack) débloque tout ce qui précède, publicité comprise.
  */
@@ -17,6 +18,7 @@ export type ProductId =
   | 'all_modes'
   | 'unlimited_profiles'
   | 'all_stats'
+  | 'all_achievements'
   | 'no_ads'
   | 'unlock_all';
 
@@ -34,6 +36,7 @@ export const PRODUCTS: Product[] = [
   { id: 'all_modes', title: 'Tous les modes de jeu', description: 'Débloque La Bombe, le Duel et les modes futurs.', price: '1,99 €', emoji: '🎮' },
   { id: 'unlimited_profiles', title: 'Profils illimités', description: 'Crée autant de joueurs que tu veux, au-delà de 10.', price: '1,99 €', emoji: '👥' },
   { id: 'all_stats', title: 'Toutes les statistiques', description: 'Mois, année, total et tous les palmarès.', price: '1,99 €', emoji: '📊' },
+  { id: 'all_achievements', title: 'Hauts faits', description: 'Débloque tous les hauts faits, leurs paliers et le classement.', price: '1,99 €', emoji: '🎖️' },
   { id: 'no_ads', title: 'Sans publicité', description: 'Retire les publicités pour toujours.', price: '0,99 €', emoji: '🚫' },
   { id: 'unlock_all', title: 'Tout débloquer', description: 'Profils, modes, thèmes, stats — et sans publicité.', price: '4,99 €', emoji: '✨' },
 ];
@@ -44,6 +47,7 @@ export const UNLOCK_ALL_GRANTS: ProductId[] = [
   'all_themes',
   'all_modes',
   'all_stats',
+  'all_achievements',
   'no_ads',
 ];
 
@@ -52,6 +56,7 @@ export interface Entitlements {
   allThemes: boolean;
   allModes: boolean;
   allStats: boolean;
+  allAchievements: boolean;
   noAds: boolean;
 }
 
@@ -70,6 +75,7 @@ export function deriveEntitlements(owned: Iterable<string>): Entitlements {
     allThemes: isProductOwned('all_themes', set),
     allModes: isProductOwned('all_modes', set),
     allStats: isProductOwned('all_stats', set),
+    allAchievements: isProductOwned('all_achievements', set),
     noAds: isProductOwned('no_ads', set),
   };
 }

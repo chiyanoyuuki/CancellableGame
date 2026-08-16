@@ -10,10 +10,12 @@ import { loadStatAnswers, loadStatResults } from '../db';
 import { getGame } from '../games/registry';
 import { haptics } from '../lib/haptics';
 import type { RootStackParamList } from '../navigation';
+import { useStore } from '../store/StoreProvider';
 import { colors, fontSize, radius, RANK_MEDALS, spacing } from '../theme/theme';
 
 export function ResultsScreen({ route, navigation }: NativeStackScreenProps<RootStackParamList, 'Results'>) {
   const { result, players } = route.params;
+  const { ent } = useStore();
 
   const byId = useMemo(() => {
     const m: Record<string, Player> = {};
@@ -196,7 +198,14 @@ export function ResultsScreen({ route, navigation }: NativeStackScreenProps<Root
                     )}
                   </Card>
 
-                  {detail && detail.tracks.length > 0 && (
+                  {!ent.allAchievements && (
+                    <Card accent={colors.accent} onPress={() => { setSelected(null); navigation.navigate('Store'); }}>
+                      <Txt weight="800" size={fontSize.sm}>🔒 Progression des hauts faits</Txt>
+                      <Txt faint size={fontSize.xs}>Débloque les hauts faits dans la Boutique — 1,99 €.</Txt>
+                    </Card>
+                  )}
+
+                  {ent.allAchievements && detail && detail.tracks.length > 0 && (
                     <>
                       <View style={styles.deltaRow}>
                         <Txt weight="800">⭐ Progression des hauts faits</Txt>

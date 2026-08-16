@@ -209,6 +209,16 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
   };
 
   const renderHautsFaits = () => {
+    if (!ent.allAchievements) {
+      return (
+        <Card accent={colors.accent} onPress={() => navigation.navigate('Store')}>
+          <Txt weight="800">🔒 Hauts faits verrouillés</Txt>
+          <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
+            Le classement et les paliers sont dans la Boutique — 1,99 €. Touche pour débloquer.
+          </Txt>
+        </Card>
+      );
+    }
     if (achLeaderboard.length === 0) return <TabEmpty text="Pas encore de hauts faits débloqués." />;
     return (
       <>

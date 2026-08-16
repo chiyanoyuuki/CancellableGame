@@ -15,6 +15,7 @@ describe('deriveEntitlements', () => {
       allThemes: false,
       allModes: false,
       allStats: false,
+      allAchievements: false,
       noAds: false,
     });
   });
@@ -31,8 +32,15 @@ describe('deriveEntitlements', () => {
       allThemes: true,
       allModes: true,
       allStats: true,
+      allAchievements: true,
       noAds: true,
     });
+  });
+
+  test('les hauts faits se débloquent à l\'achat direct ou via le pack', () => {
+    expect(deriveEntitlements([]).allAchievements).toBe(false);
+    expect(deriveEntitlements(['all_achievements']).allAchievements).toBe(true);
+    expect(deriveEntitlements(['unlock_all']).allAchievements).toBe(true);
   });
 });
 
