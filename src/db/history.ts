@@ -87,5 +87,44 @@ export async function getQuestionHistoryByPlayer(): Promise<Record<string, Quest
       h[qid] = { timesUsed: (prev?.timesUsed ?? 0) + 1, lastUsedAt: Math.max(prev?.lastUsedAt ?? 0, at) };
     }
   }
+
+  // Fusionne les questions « déjà vues » importées avec un profil transféré.
+  const seenRows = await db.getAllAsync<{ player_id: string; question_id: string; last_used_at: number }>(
+    'SELECT player_id, question_id, last_used_at FROM player_seen_questions',
+  );
+  for (const r of seenRows) {
+    let h = byPlayer[r.player_id];
+    if (!h) {
+      h = {};
+      byPlayer[r.player_id] = h;
+    }
+    const prev = h[r.question_id];
+    h[r.question_id] = {
+      timesUsed: (prev?.timesUsed ?? 0) + 1,
+      lastUsedAt: Math.max(prev?.lastUsedAt ?? 0, r.last_used_at),
+    };
+  }
+
   return byPlayer;
+}
+
+/**
+ * Enregistre des questions « déjà vues » pour un joueur (import d'un profil
+ * transféré). Table dédiée pour ne pas fausser les statistiques.
+ */
+export async function addSeenQuestionsForPlayer(
+  playerId: string,
+  seen: readonly { id: string; at: number }[],
+): Promise<void> {
+  if (seen.length === 0) return;
+  const db = await getDb();
+  await db.withTransactionAsync(async () => {
+    for (const s of seen) {
+      await db.runAsync(
+        `INSERT INTO player_seen_questions (player_id, question_id, last_used_at) VALUES (?, ?, ?)
+         ON CONFLICT(player_id, question_id) DO UPDATE SET last_used_at = MAX(last_used_at, excluded.last_used_at)`,
+        [playerId, s.id, s.at],
+      );
+    }
+  });
 }

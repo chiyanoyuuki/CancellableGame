@@ -12,6 +12,7 @@ import { keepsEnoughUniverses, keptUniverses, MIN_KEPT_UNIVERSES } from '../core
 import type { QuestionHistory } from '../core/questionSelection';
 import { type StatAnswer, type StatResult, titlesByPlayer } from '../core/stats';
 import { haptics } from '../lib/haptics';
+import { exportProfile, importProfile } from '../lib/profileTransfer';
 import {
   archivePlayer,
   createPlayer,
@@ -309,6 +310,38 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
     await refresh();
   };
 
+  const doExportProfile = async (p: Player) => {
+    try {
+      await exportProfile(p.id);
+    } catch (e) {
+      Alert.alert('Erreur', String(e));
+    }
+  };
+
+  const doImportProfile = async () => {
+    if (!canAddProfile(players.length, store.ent)) {
+      Alert.alert(
+        'Limite atteinte',
+        `Version gratuite limitée à ${FREE_PROFILE_LIMIT} profils. Débloque les profils illimités dans la Boutique.`,
+        [
+          { text: 'Plus tard', style: 'cancel' },
+          { text: 'Boutique', onPress: () => navigation.navigate('Store') },
+        ],
+      );
+      return;
+    }
+    try {
+      const imported = await importProfile();
+      if (imported) {
+        haptics.select();
+        await refresh();
+        Alert.alert('Profil importé', `${imported.name} a été ajouté, avec ses univers évités et ses questions déjà vues.`);
+      }
+    } catch (e) {
+      Alert.alert('Erreur', String(e));
+    }
+  };
+
   // Puce d'une catégorie dans le sélecteur d'univers évités. Les univers non
   // débloqués (version gratuite) sont grisés et renvoient vers la Boutique.
   const catChip = (it: { key: string; label: string; theme?: Theme }) => {
@@ -407,6 +440,16 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
       <Txt faint size={fontSize.xs} center style={{ marginTop: spacing(0.5) }}>
         Chaque invité remplit son profil sur son téléphone, tu scannes son QR.
       </Txt>
+
+      {!showArchived && (
+        <Button
+          title="Importer un profil (fichier)"
+          emoji="📥"
+          variant="secondary"
+          onPress={() => void doImportProfile()}
+          style={{ marginTop: spacing(1) }}
+        />
+      )}
 
       <SectionHeader
         title={showArchived ? 'Archivés' : 'Roster'}
@@ -533,6 +576,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
               <Button title="🏅 Profil et hauts faits" onPress={() => { const p = menuPlayer; setMenuPlayer(null); navigation.navigate('PlayerProfile', { playerId: p.id }); }} />
               <Button title="Modifier" variant="secondary" onPress={() => { const p = menuPlayer; setMenuPlayer(null); startEdit(p); }} />
               <Button title="Dupliquer" variant="secondary" onPress={() => { const p = menuPlayer; setMenuPlayer(null); void duplicatePlayer(p); }} />
+              <Button title="📤 Exporter ce profil (complet)" variant="secondary" onPress={() => { const p = menuPlayer; setMenuPlayer(null); void doExportProfile(p); }} />
               <Button title="Univers et thèmes évités" variant="secondary" onPress={() => { const p = menuPlayer; setMenuPlayer(null); openUnwanted(p); }} />
               <Button title={showArchived ? 'Restaurer' : 'Archiver'} variant="secondary" onPress={() => { const p = menuPlayer; setMenuPlayer(null); void archiveToggle(p); }} />
               <Button title="Supprimer (efface les stats)" variant="danger" onPress={() => { const p = menuPlayer; setMenuPlayer(null); confirmDelete(p); }} />

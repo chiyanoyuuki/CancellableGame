@@ -48,6 +48,16 @@ export async function listPlayers(includeArchived = false): Promise<Player[]> {
   return rows.map(toPlayer);
 }
 
+/** A single player by id (or null). */
+export async function getPlayer(id: string): Promise<Player | null> {
+  const db = await getDb();
+  const r = await db.getFirstAsync<PlayerRow>(
+    'SELECT id, name, emoji, color, created_at, archived, photo_uri FROM players WHERE id = ?',
+    [id],
+  );
+  return r ? toPlayer(r) : null;
+}
+
 /** Only the archived players (for the "Archivés" view). */
 export async function listArchivedPlayers(): Promise<Player[]> {
   const db = await getDb();

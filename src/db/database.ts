@@ -132,6 +132,21 @@ async function migrate(db: SQLite.SQLiteDatabase): Promise<void> {
     `);
     version = 4;
   }
+  if (version < 5) {
+    // Questions « déjà vues » importées avec un profil transféré depuis un autre
+    // téléphone. On les garde à part des événements de partie pour NE PAS
+    // polluer les statistiques : getQuestionHistoryByPlayer fusionne cette table
+    // avec l'historique dérivé des parties.
+    await db.execAsync(`
+      CREATE TABLE IF NOT EXISTS player_seen_questions (
+        player_id TEXT NOT NULL,
+        question_id TEXT NOT NULL,
+        last_used_at INTEGER NOT NULL,
+        PRIMARY KEY (player_id, question_id)
+      );
+    `);
+    version = 5;
+  }
 
   await db.execAsync(`PRAGMA user_version = ${version}`);
 }
