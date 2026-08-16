@@ -111,6 +111,7 @@ const TRACKS: (AchievementTrack & { metric: Metric })[] = [
   track('bombe', '💣', 'Démineur', 'Bombes gagnées', 'bombes', (a) => a.winsByGame.bombe ?? 0, [1, 10, 50, 150, 400, 1000, 2500]),
   track('duel', '⚔️', 'Duelliste', 'Duels gagnés', 'duels', (a) => a.winsByGame.duel ?? 0, [1, 10, 50, 150, 400, 1000, 2500]),
   track('ultimate', '🥊', 'Maître ultime', 'Duels Ultimes gagnés', 'ultimes', (a) => a.winsByGame.duelultime ?? 0, [1, 5, 25, 100, 300, 800, 2000]),
+  track('imposteur', '🕵️', 'Maître du bluff', 'Parties Imposteur gagnées', 'imposteur', (a) => a.winsByGame.imposteur ?? 0, [1, 10, 50, 150, 400]),
 ];
 
 /** Toutes les pistes (sans la fonction de mesure), pour l'affichage. */
