@@ -48,6 +48,15 @@ export async function listPlayers(includeArchived = false): Promise<Player[]> {
   return rows.map(toPlayer);
 }
 
+/** Only the archived players (for the "Archivés" view). */
+export async function listArchivedPlayers(): Promise<Player[]> {
+  const db = await getDb();
+  const rows = await db.getAllAsync<PlayerRow>(
+    'SELECT id, name, emoji, color, created_at, archived, photo_uri FROM players WHERE archived = 1 ORDER BY name COLLATE NOCASE',
+  );
+  return rows.map(toPlayer);
+}
+
 export async function createPlayer(input: { name: string; emoji: string; color: string; photoUri?: string }): Promise<Player> {
   const db = await getDb();
   const player: Player = { id: uid(), name: input.name.trim(), emoji: input.emoji, color: input.color };

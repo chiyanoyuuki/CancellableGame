@@ -11,12 +11,14 @@ import type { Player, Question, Theme } from '../core/models';
 import { keepsEnoughUniverses, keptUniverses, MIN_KEPT_UNIVERSES } from '../core/profilePrefs';
 import type { QuestionHistory } from '../core/questionSelection';
 import { type StatAnswer, type StatResult, titlesByPlayer } from '../core/stats';
+import { haptics } from '../lib/haptics';
 import {
   archivePlayer,
   createPlayer,
   deletePlayerForever,
   getPlayerUnwantedUniverses,
   getQuestionHistoryByPlayer,
+  listArchivedPlayers,
   listPlayers,
   loadStatAnswers,
   loadStatResults,
@@ -198,7 +200,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   // tout de suite les imports, sans avoir à quitter et revenir.
   const refresh = useCallback(async () => {
     const [pl, u, h, sr, sa] = await Promise.all([
-      listPlayers(showArchived),
+      showArchived ? listArchivedPlayers() : listPlayers(false),
       getPlayerUnwantedUniverses(),
       getQuestionHistoryByPlayer(),
       loadStatResults(),
@@ -303,6 +305,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   const archiveToggle = async (p: Player) => {
     if (showArchived) await restorePlayer(p.id);
     else await archivePlayer(p.id);
+    haptics.select();
     await refresh();
   };
 
@@ -444,6 +447,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
                 variant="secondary"
                 onPress={async () => {
                   await restorePlayer(p.id);
+                  haptics.select();
                   await refresh();
                 }}
               />
