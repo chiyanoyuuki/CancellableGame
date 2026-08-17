@@ -614,4 +614,121 @@ export const EN: Record<string, string> = {
   '{name} reste en jeu !': '{name} stays in!',
   '{name} est éliminé !': '{name} is eliminated!',
   'ENCORE EN LICE ({n})': 'STILL IN ({n})',
+
+  // --- Duel Ultime (DuelUltimeConfig / DuelUltimePlay) --------------------
+  '🥊 Duel Ultime': '🥊 Ultimate Duel',
+  'Chaque joueur choisit un ou plusieurs univers et affronte {n} questions pro dessus,':
+    'Each player picks one or more universes and faces {n} pro questions on them,',
+  ' sans propositions': ' no options',
+  " : on révèle la réponse, tu dis si tu l'avais. Priorité aux questions jamais vues. Le meilleur score gagne — jouable en solo.":
+    ': the answer is revealed, you say if you had it. Priority to never-seen questions. Best score wins — playable solo.',
+  'Chaque joueur choisit un ou plusieurs univers et affronte N questions pro dessus.':
+    'Each player picks one or more universes and faces N pro questions on them.',
+  "Aucune proposition : on révèle la réponse, tu dis honnêtement si tu l'avais.":
+    'No options: the answer is revealed, you honestly say if you had it.',
+  'Priorité aux questions jamais vues par le joueur.': "Priority to questions the player has never seen.",
+  "Le meilleur score l'emporte — parfait aussi en solo pour se tester.":
+    'Best score wins — also perfect solo to test yourself.',
+  Aucun: 'None',
+  'Univers au hasard': 'Random universes',
+  '🎲 Univers par joueur': '🎲 Universes per player',
+  "Tire au sort ce nombre d'univers pour chaque joueur, parmi ceux qu'il n'évite pas dans son profil.":
+    "Randomly draw this many universes for each player, from those they don't avoid in their profile.",
+  'Tirer {n} univers pour chaque joueur': 'Draw {n} universes for each player',
+  'Univers de chaque joueur (un ou plusieurs)': "Each player's universes (one or more)",
+  '🎯 {list}': '🎯 {list}',
+  'Univers à choisir…': 'Universe(s) to choose…',
+  'EN COURS': 'EDITING',
+  '{name} : {u} univers · {pro} questions pro dispo': '{name}: {u} universes · {pro} pro questions available',
+  '{n} inédite': '{n} unseen',
+  '{n} inédites': '{n} unseen',
+  ' (moins que {n})': ' (fewer than {n})',
+  'Touche pour ajouter/retirer.': 'Tap to add/remove.',
+  'Choisis un ou plusieurs univers pour {name}.': 'Choose one or more universes for {name}.',
+  'Lancer le Duel Ultime': 'Start the Ultimate Duel',
+  'Chaque joueur doit choisir au moins un univers.': 'Each player must choose at least one universe.',
+  'PASSE LE TÉLÉPHONE': 'PASS THE PHONE',
+  '🎯 {total} questions pro sur {list}': '🎯 {total} pro questions on {list}',
+  "C'est parti": "Let's go",
+  'Réfléchis (ou dis ta réponse à voix haute), puis révèle la bonne réponse.':
+    'Think (or say your answer out loud), then reveal the correct answer.',
+  'Voir la réponse': 'See the answer',
+  "Tu l'avais ?": 'Did you have it?',
+  '✅ Trouvé': '✅ Got it',
+  '{name} : {score} bonne sur {done}': '{name}: {score} right out of {done}',
+  '{name} : {score} bonnes sur {done}': '{name}: {score} right out of {done}',
+  Tu: 'You',
+  '{name} bois {n} gorgée': '{name}, drink {n} sip',
+  '{name} bois {n} gorgées': '{name}, drink {n} sips',
+
+  // --- L'Imposteur (ImposteurConfig / ImposteurPlay) ----------------------
+  "🕵️ L'Imposteur": '🕵️ The Impostor',
+  "Un mot secret est tiré d'un univers et montré à tous… sauf à l'imposteur, qui ne voit que la catégorie. Chacun donne un indice, l'imposteur bluffe, puis on vote.":
+    'A secret word is drawn from a universe and shown to everyone… except the impostor, who only sees the category. Each gives a clue, the impostor bluffs, then everyone votes.',
+  "On se passe le téléphone : chacun découvre le mot secret — sauf l'imposteur.":
+    'Pass the phone around: everyone discovers the secret word — except the impostor.',
+  'À tour de rôle, chacun dit UN indice sur le mot, ni trop clair ni trop vague.':
+    'In turn, each says ONE clue about the word, neither too clear nor too vague.',
+  "L'imposteur ne connaît que l'univers : il doit bluffer un indice crédible.":
+    'The impostor only knows the universe: they must bluff a believable clue.',
+  "On vote pour le suspect. Démasqué, l'imposteur peut voler la manche en devinant le mot.":
+    'Vote for the suspect. If unmasked, the impostor can steal the round by guessing the word.',
+  "Équipage gagnant : l'imposteur boit. Imposteur gagnant : tout le monde boit.":
+    'Crew wins: the impostor drinks. Impostor wins: everyone drinks.',
+  'Univers des mots secrets': 'Secret-word universes',
+  'Gardés par tous': 'Kept by all',
+  'Je choisis': 'I choose',
+  "Seuls les univers qu'AUCUN joueur n'a écartés dans son profil peuvent tomber.":
+    'Only universes that NO player has excluded in their profile can come up.',
+  '{n} univers': '{n} universes',
+  '{n} mot': '{n} word',
+  '{n} mots': '{n} words',
+  " Personne n'a d'univers commun : passe en « Je choisis ».": ' No one has a common universe: switch to “I choose”.',
+  'Touche les univers qui pourront tomber.': 'Tap the universes that can come up.',
+  '{n} sélectionné': '{n} selected',
+  '{n} sélectionnés': '{n} selected',
+  Manches: 'Rounds',
+  'Imposteurs par manche': 'Impostors per round',
+  '1 imposteur': '1 impostor',
+  '2 imposteurs': '2 impostors',
+  'Minuteur de discussion': 'Discussion timer',
+  "Lancer L'Imposteur": 'Start The Impostor',
+  'Il faut au moins 3 joueurs.': 'You need at least 3 players.',
+  'Aucun univers disponible avec ce choix.': 'No universes available with this choice.',
+  'Préparation de la partie…': 'Preparing the game…',
+  '🕵️ Manche {n}/{total}': '🕵️ Round {n}/{total}',
+  '{name}, à toi': '{name}, your turn',
+  "Toi seul(e) regardes l'écran, puis tu passes au suivant.":
+    'Only you look at the screen, then pass to the next person.',
+  'Voir mon rôle': 'See my role',
+  UNIVERS: 'UNIVERSE',
+  "🤫 Tu es l'imposteur": "🤫 You're the impostor",
+  "Tu ne connais pas le mot. Écoute, adapte-toi et donne un indice crédible pour ne pas te faire griller !":
+    "You don't know the word. Listen, adapt and give a believable clue so you don't get caught!",
+  'MOT SECRET': 'SECRET WORD',
+  "Donne un indice à voix haute : assez précis pour prouver que tu sais, assez vague pour ne pas aider l'imposteur.":
+    "Give a clue out loud: precise enough to prove you know, vague enough not to help the impostor.",
+  "J'ai vu 👍": 'Seen it 👍',
+  'Chacun son tour, donnez un indice sur le mot. Repérez celui qui bluffe…':
+    "In turn, give a clue about the word. Spot the one who's bluffing…",
+  'Passer au vote': 'Move to the vote',
+  "Qui est l'imposteur ?": "Who's the impostor?",
+  'Débattez, puis touchez le joueur désigné par le groupe.': 'Debate, then tap the player the group points to.',
+  'Le suspect': 'The suspect',
+  "{name} était bien l'imposteur !": '{name} really was the impostor!',
+  "Dernière chance : l'imposteur annonce le mot à voix haute. A-t-il trouvé ?":
+    'Last chance: the impostor says the word out loud. Did they get it?',
+  'LE MOT ÉTAIT': 'THE WORD WAS',
+  '❌ Non — équipage gagne': '❌ No — crew wins',
+  '✅ Oui — il vole tout': '✅ Yes — they steal it all',
+  "L'équipage gagne !": 'The crew wins!',
+  "L'imposteur s'en sort !": 'The impostor gets away!',
+  Imposteur: 'Impostor',
+  Imposteurs: 'Impostors',
+  'Le mot était « {word} » · {universe}': 'The word was “{word}” · {universe}',
+  'Démasqué mais il a deviné le mot : il rafle la mise.':
+    'Unmasked but guessed the word: they take it all.',
+  '🍺 {names} : {n} gorgée': '🍺 {names}: {n} sip',
+  '🍺 {names} : {n} gorgées': '🍺 {names}: {n} sips',
+  'Manche suivante': 'Next round',
 };

@@ -6,6 +6,7 @@ import { type DrinkIntensity, type DuelUltimeConfig, type Question, type Theme, 
 import { pickRandomUniverses } from '../../core/duelUltimeEngine';
 import { countUnseen, type QuestionHistory } from '../../core/questionSelection';
 import { getPlayerUnwantedUniverses, getQuestionHistoryByPlayer } from '../../db';
+import { useT } from '../../lib/i18nProvider';
 import { useStore } from '../../store/StoreProvider';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
@@ -17,6 +18,7 @@ const EXCLUDED_THEMES: Theme[] = ['images'];
 const QUESTION_OPTIONS = [5, 10, 15];
 
 export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigProps) {
+  const t = useT();
   const store = useStore();
   const [pool, setPool] = useState<Question[]>([]);
   const [historyByPlayer, setHistoryByPlayer] = useState<Record<string, QuestionHistory>>({});
@@ -139,33 +141,33 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
   return (
     <View style={{ gap: spacing(1) }}>
       <Card accent={colors.accent}>
-        <Txt weight="800">🥊 Duel Ultime</Txt>
+        <Txt weight="800">{t('🥊 Duel Ultime')}</Txt>
         <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-          Chaque joueur choisit un ou plusieurs univers et affronte {n} questions pro dessus,
-          <Txt weight="800" size={fontSize.xs}> sans propositions</Txt> : on révèle la réponse, tu dis
-          si tu l'avais. Priorité aux questions jamais vues. Le meilleur score gagne — jouable en solo.
+          {t('Chaque joueur choisit un ou plusieurs univers et affronte {n} questions pro dessus,', { n })}
+          <Txt weight="800" size={fontSize.xs}>{t(' sans propositions')}</Txt>
+          {t(" : on révèle la réponse, tu dis si tu l'avais. Priorité aux questions jamais vues. Le meilleur score gagne — jouable en solo.")}
         </Txt>
       </Card>
 
       <HowToPlay
         lines={[
-          'Chaque joueur choisit un ou plusieurs univers et affronte N questions pro dessus.',
-          'Aucune proposition : on révèle la réponse, tu dis honnêtement si tu l\'avais.',
-          'Priorité aux questions jamais vues par le joueur.',
-          'Le meilleur score l\'emporte — parfait aussi en solo pour se tester.',
+          t('Chaque joueur choisit un ou plusieurs univers et affronte N questions pro dessus.'),
+          t("Aucune proposition : on révèle la réponse, tu dis honnêtement si tu l'avais."),
+          t('Priorité aux questions jamais vues par le joueur.'),
+          t("Le meilleur score l'emporte — parfait aussi en solo pour se tester."),
         ]}
       />
 
-      <SectionHeader title="Questions par joueur" />
+      <SectionHeader title={t('Questions par joueur')} />
       <Segmented<string>
         value={String(n)}
         onChange={(v) => setN(Number(v))}
         options={QUESTION_OPTIONS.map((q) => ({ label: `${q}`, value: String(q) }))}
       />
 
-      <SectionHeader title="Mode alcool" />
+      <SectionHeader title={t('Mode alcool')} />
       <View style={styles.rowBetween}>
-        <Txt weight="700">🍺 Gorgées</Txt>
+        <Txt weight="700">{t('🍺 Gorgées')}</Txt>
         <Switch value={drinksEnabled} onValueChange={setDrinksEnabled} />
       </View>
       {drinksEnabled && (
@@ -180,31 +182,31 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
         />
       )}
 
-      <SectionHeader title="Chrono par question" />
+      <SectionHeader title={t('Chrono par question')} />
       <Segmented<string>
         value={String(timerSec)}
         onChange={(v) => setTimerSec(Number(v))}
         options={[
-          { label: 'Aucun', value: '0' },
+          { label: t('Aucun'), value: '0' },
           { label: '15 s', value: '15' },
           { label: '30 s', value: '30' },
           { label: '45 s', value: '45' },
         ]}
       />
 
-      <SectionHeader title="Univers au hasard" />
+      <SectionHeader title={t('Univers au hasard')} />
       <Card>
         <View style={styles.rowBetween}>
           <View style={{ flex: 1, paddingRight: spacing(1) }}>
-            <Txt weight="700">🎲 Univers par joueur</Txt>
+            <Txt weight="700">{t('🎲 Univers par joueur')}</Txt>
             <Txt faint size={fontSize.xs}>
-              Tire au sort ce nombre d'univers pour chaque joueur, parmi ceux qu'il n'évite pas dans son profil.
+              {t("Tire au sort ce nombre d'univers pour chaque joueur, parmi ceux qu'il n'évite pas dans son profil.")}
             </Txt>
           </View>
           <Stepper value={randomCount} min={1} max={10} onChange={setRandomCount} />
         </View>
         <Button
-          title={`Tirer ${randomCount} univers pour chaque joueur`}
+          title={t('Tirer {n} univers pour chaque joueur', { n: randomCount })}
           emoji="🎲"
           variant="secondary"
           onPress={assignRandom}
@@ -213,7 +215,7 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
         />
       </Card>
 
-      <SectionHeader title="Univers de chaque joueur (un ou plusieurs)" />
+      <SectionHeader title={t('Univers de chaque joueur (un ou plusieurs)')} />
       <View style={{ gap: spacing(1) }}>
         {players.map((p) => {
           const chosen = universesByPlayer[p.id] ?? [];
@@ -229,7 +231,7 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
               <View style={{ flex: 1 }}>
                 <Txt weight="800">{p.name}</Txt>
                 <Txt faint size={fontSize.xs} numberOfLines={1}>
-                  {chosen.length ? `🎯 ${chosen.join(', ')}` : 'Univers à choisir…'}
+                  {chosen.length ? t('🎯 {list}', { list: chosen.join(', ') }) : t('Univers à choisir…')}
                 </Txt>
               </View>
               <View style={{ alignItems: 'flex-end', gap: 2 }}>
@@ -239,13 +241,13 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
                       {unseen}
                     </Txt>
                     <Txt faint size={fontSize.xs}>
-                      inédite{unseen > 1 ? 's' : ''}
+                      {t(unseen > 1 ? 'inédites' : 'inédite')}
                     </Txt>
                   </>
                 )}
                 {isEditing && (
                   <Txt weight="800" size={fontSize.xs} color={colors.accent}>
-                    EN COURS
+                    {t('EN COURS')}
                   </Txt>
                 )}
               </View>
@@ -256,14 +258,14 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
 
       <Txt faint size={fontSize.xs} center style={{ marginTop: spacing(0.5) }}>
         {editingUniverses.length
-          ? `${editingName} : ${editingUniverses.length} univers · ${editingProTotal} questions pro dispo · ${editingUnseen} inédite${editingUnseen > 1 ? 's' : ''}${editingProTotal < n ? ` (moins que ${n})` : ''}. Touche pour ajouter/retirer.`
-          : `Choisis un ou plusieurs univers pour ${editingName}.`}
+          ? `${t('{name} : {u} univers · {pro} questions pro dispo', { name: editingName, u: editingUniverses.length, pro: editingProTotal })} · ${t(editingUnseen > 1 ? '{n} inédites' : '{n} inédite', { n: editingUnseen })}${editingProTotal < n ? t(' (moins que {n})', { n }) : ''}. ${t('Touche pour ajouter/retirer.')}`
+          : t('Choisis un ou plusieurs univers pour {name}.', { name: editingName })}
       </Txt>
 
       {universesByTheme.map(({ theme, universes }) => (
         <View key={theme} style={{ marginBottom: spacing(0.5) }}>
           <Txt weight="800" size={fontSize.xs} faint style={{ marginBottom: spacing(0.75) }}>
-            {THEME_META[theme].emoji} {THEME_META[theme].label.toUpperCase()}
+            {THEME_META[theme].emoji} {t(THEME_META[theme].label).toUpperCase()}
           </Txt>
           <View style={styles.wrap}>
             {universes.map((u) => (
@@ -274,10 +276,10 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
       ))}
 
       <View style={{ height: spacing(1) }} />
-      <Button title="Lancer le Duel Ultime" emoji="🥊" size="lg" variant="accent" onPress={launch} disabled={!valid} />
+      <Button title={t('Lancer le Duel Ultime')} emoji="🥊" size="lg" variant="accent" onPress={launch} disabled={!valid} />
       {!valid && (
         <Txt faint size={fontSize.xs} center>
-          Chaque joueur doit choisir au moins un univers.
+          {t('Chaque joueur doit choisir au moins un univers.')}
         </Txt>
       )}
     </View>

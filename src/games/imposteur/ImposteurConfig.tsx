@@ -5,6 +5,7 @@ import { Button, Card, Chip, HowToPlay, Segmented, SectionHeader, Txt } from '..
 import { type DrinkIntensity, type Question, type Theme, THEME_META, THEMES } from '../../core/models';
 import { type ImposteurConfig, isGoodImposteurWord } from '../../core/imposteurEngine';
 import { getPlayerUnwantedUniverses } from '../../db';
+import { useT } from '../../lib/i18nProvider';
 import { useStore } from '../../store/StoreProvider';
 import { colors, fontSize, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
@@ -13,6 +14,7 @@ import { getQuizPool } from '../quiz/pool';
 const ROUND_OPTIONS = [3, 5, 7];
 
 export function ImposteurConfigComponent({ players, onStart }: MiniGameConfigProps) {
+  const t = useT();
   const store = useStore();
   const [pool, setPool] = useState<Question[]>([]);
   const [unwantedMap, setUnwantedMap] = useState<Record<string, string[]>>({});
@@ -111,50 +113,49 @@ export function ImposteurConfigComponent({ players, onStart }: MiniGameConfigPro
   return (
     <View style={{ gap: spacing(1) }}>
       <Card accent={colors.accent}>
-        <Txt weight="800">🕵️ L'Imposteur</Txt>
+        <Txt weight="800">{t("🕵️ L'Imposteur")}</Txt>
         <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-          Un mot secret est tiré d'un univers et montré à tous… sauf à l'imposteur, qui ne voit que la
-          catégorie. Chacun donne un indice, l'imposteur bluffe, puis on vote.
+          {t("Un mot secret est tiré d'un univers et montré à tous… sauf à l'imposteur, qui ne voit que la catégorie. Chacun donne un indice, l'imposteur bluffe, puis on vote.")}
         </Txt>
       </Card>
 
       <HowToPlay
         lines={[
-          'On se passe le téléphone : chacun découvre le mot secret — sauf l\'imposteur.',
-          'À tour de rôle, chacun dit UN indice sur le mot, ni trop clair ni trop vague.',
-          'L\'imposteur ne connaît que l\'univers : il doit bluffer un indice crédible.',
-          'On vote pour le suspect. Démasqué, l\'imposteur peut voler la manche en devinant le mot.',
-          'Équipage gagnant : l\'imposteur boit. Imposteur gagnant : tout le monde boit.',
+          t("On se passe le téléphone : chacun découvre le mot secret — sauf l'imposteur."),
+          t('À tour de rôle, chacun dit UN indice sur le mot, ni trop clair ni trop vague.'),
+          t("L'imposteur ne connaît que l'univers : il doit bluffer un indice crédible."),
+          t("On vote pour le suspect. Démasqué, l'imposteur peut voler la manche en devinant le mot."),
+          t("Équipage gagnant : l'imposteur boit. Imposteur gagnant : tout le monde boit."),
         ]}
       />
 
-      <SectionHeader title="Univers des mots secrets" />
+      <SectionHeader title={t('Univers des mots secrets')} />
       <Segmented<'auto' | 'manual'>
         value={mode}
         onChange={setMode}
         options={[
-          { label: 'Gardés par tous', value: 'auto' },
-          { label: 'Je choisis', value: 'manual' },
+          { label: t('Gardés par tous'), value: 'auto' },
+          { label: t('Je choisis'), value: 'manual' },
         ]}
       />
       {mode === 'auto' ? (
         <Txt faint size={fontSize.xs}>
-          Seuls les univers qu'AUCUN joueur n'a écartés dans son profil peuvent tomber.
+          {t("Seuls les univers qu'AUCUN joueur n'a écartés dans son profil peuvent tomber.")}
           {' '}
-          {keptByAll.length} univers · {wordCount} mot{wordCount > 1 ? 's' : ''}.
-          {keptByAll.length === 0 ? ' Personne n\'a d\'univers commun : passe en « Je choisis ».' : ''}
+          {t('{n} univers', { n: keptByAll.length })} · {t(wordCount > 1 ? '{n} mots' : '{n} mot', { n: wordCount })}.
+          {keptByAll.length === 0 ? t(" Personne n'a d'univers commun : passe en « Je choisis ».") : ''}
         </Txt>
       ) : (
         <>
           <Txt faint size={fontSize.xs}>
-            Touche les univers qui pourront tomber. {resolved.length} sélectionné{resolved.length > 1 ? 's' : ''} ·
+            {t('Touche les univers qui pourront tomber.')} {t(resolved.length > 1 ? '{n} sélectionnés' : '{n} sélectionné', { n: resolved.length })} ·
             {' '}
-            {wordCount} mot{wordCount > 1 ? 's' : ''}.
+            {t(wordCount > 1 ? '{n} mots' : '{n} mot', { n: wordCount })}.
           </Txt>
           {byTheme.map(({ theme, universes }) => (
             <View key={theme} style={{ marginBottom: spacing(0.5) }}>
               <Txt weight="800" size={fontSize.xs} faint style={{ marginBottom: spacing(0.75) }}>
-                {THEME_META[theme].emoji} {THEME_META[theme].label.toUpperCase()}
+                {THEME_META[theme].emoji} {t(THEME_META[theme].label).toUpperCase()}
               </Txt>
               <View style={styles.wrap}>
                 {universes.map((u) => (
@@ -166,7 +167,7 @@ export function ImposteurConfigComponent({ players, onStart }: MiniGameConfigPro
         </>
       )}
 
-      <SectionHeader title="Manches" />
+      <SectionHeader title={t('Manches')} />
       <Segmented<string>
         value={String(rounds)}
         onChange={(v) => setRounds(Number(v))}
@@ -175,33 +176,33 @@ export function ImposteurConfigComponent({ players, onStart }: MiniGameConfigPro
 
       {canTwoImposters && (
         <>
-          <SectionHeader title="Imposteurs par manche" />
+          <SectionHeader title={t('Imposteurs par manche')} />
           <Segmented<string>
             value={String(imposterCount)}
             onChange={(v) => setImposterCount(Number(v))}
             options={[
-              { label: '1 imposteur', value: '1' },
-              { label: '2 imposteurs', value: '2' },
+              { label: t('1 imposteur'), value: '1' },
+              { label: t('2 imposteurs'), value: '2' },
             ]}
           />
         </>
       )}
 
-      <SectionHeader title="Minuteur de discussion" />
+      <SectionHeader title={t('Minuteur de discussion')} />
       <Segmented<string>
         value={String(discussionSec)}
         onChange={(v) => setDiscussionSec(Number(v))}
         options={[
-          { label: 'Aucun', value: '0' },
+          { label: t('Aucun'), value: '0' },
           { label: '60 s', value: '60' },
           { label: '90 s', value: '90' },
           { label: '2 min', value: '120' },
         ]}
       />
 
-      <SectionHeader title="Mode alcool" />
+      <SectionHeader title={t('Mode alcool')} />
       <View style={styles.rowBetween}>
-        <Txt weight="700">🍺 Gorgées</Txt>
+        <Txt weight="700">{t('🍺 Gorgées')}</Txt>
         <Switch value={drinksEnabled} onValueChange={setDrinksEnabled} trackColor={{ true: colors.sip, false: colors.border }} thumbColor={colors.white} />
       </View>
       {drinksEnabled && (
@@ -217,10 +218,10 @@ export function ImposteurConfigComponent({ players, onStart }: MiniGameConfigPro
       )}
 
       <View style={{ height: spacing(1) }} />
-      <Button title="Lancer L'Imposteur" emoji="🕵️" size="lg" variant="accent" onPress={launch} disabled={!valid} />
+      <Button title={t("Lancer L'Imposteur")} emoji="🕵️" size="lg" variant="accent" onPress={launch} disabled={!valid} />
       {!valid && (
         <Txt faint size={fontSize.xs} center>
-          {players.length < 3 ? 'Il faut au moins 3 joueurs.' : 'Aucun univers disponible avec ce choix.'}
+          {players.length < 3 ? t('Il faut au moins 3 joueurs.') : t('Aucun univers disponible avec ce choix.')}
         </Txt>
       )}
     </View>

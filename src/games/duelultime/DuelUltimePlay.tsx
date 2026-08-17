@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button, Card, PlayerAvatar, Txt } from '../../components/ui';
 import { haptics } from '../../lib/haptics';
+import { useT } from '../../lib/i18nProvider';
 import { type DuelUltimeConfig, type Player, THEME_META } from '../../core/models';
 import {
   type DuelUltimeAction,
@@ -26,6 +27,7 @@ function haptic(success: boolean) {
 }
 
 export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: MiniGamePlayProps) {
+  const t = useT();
   const store = useStore();
   const cfg = config as DuelUltimeConfig;
   const [game, setGame] = useState<DuelUltimeState | null>(null);
@@ -100,9 +102,9 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
   }, [game, onFinish]);
 
   const confirmQuit = () =>
-    Alert.alert('Quitter le duel ?', 'La partie en cours sera perdue.', [
-      { text: 'Continuer', style: 'cancel' },
-      { text: 'Quitter', style: 'destructive', onPress: onQuit },
+    Alert.alert(t('Quitter le duel ?'), t('La partie en cours sera perdue.'), [
+      { text: t('Continuer'), style: 'cancel' },
+      { text: t('Quitter'), style: 'destructive', onPress: onQuit },
     ]);
 
   // Gorgées (mode alcool) : calculées à la réponse, affichées à la révélation.
@@ -138,7 +140,7 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
         <View style={styles.center}>
           <ActivityIndicator color={colors.primary} size="large" />
           <Txt dim style={{ marginTop: spacing(2) }}>
-            Préparation du duel…
+            {t('Préparation du duel…')}
           </Txt>
         </View>
       </SafeAreaView>
@@ -154,7 +156,7 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
       <View style={styles.topBar}>
         <Pressable onPress={confirmQuit} hitSlop={12}>
           <Txt color={colors.textDim} weight="700">
-            ✕ Quitter
+            {t('✕ Quitter')}
           </Txt>
         </Pressable>
         {active && game.phase !== 'finished' && (
@@ -183,18 +185,18 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
       <View style={{ gap: spacing(2), paddingTop: spacing(6), alignItems: 'center' }}>
         <PlayerAvatar emoji={handoff.emoji} color={handoff.color} photoUri={handoff.photoUri} size={72} />
         <Txt faint weight="800" size={fontSize.sm}>
-          PASSE LE TÉLÉPHONE
+          {t('PASSE LE TÉLÉPHONE')}
         </Txt>
         <Txt size={fontSize.xxl} weight="900" center>
-          À toi, {handoff.name} !
+          {t('À toi, {name} !', { name: handoff.name })}
         </Txt>
         {unis.length > 0 && (
           <Txt dim center>
-            🎯 {total} questions pro sur {unis.join(', ')}
+            {t('🎯 {total} questions pro sur {list}', { total, list: unis.join(', ') })}
           </Txt>
         )}
         <View style={{ height: spacing(2) }} />
-        <Button title="C'est parti" size="lg" variant="accent" onPress={() => setHandoff(null)} style={{ alignSelf: 'stretch' }} />
+        <Button title={t("C'est parti")} size="lg" variant="accent" onPress={() => setHandoff(null)} style={{ alignSelf: 'stretch' }} />
       </View>
     );
   }
@@ -206,7 +208,7 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
       <View style={{ gap: spacing(2) }}>
         <View style={styles.metaRow}>
           <Txt weight="800" color={colors.accent}>
-            {theme.emoji} {q.universe ?? theme.label}
+            {theme.emoji} {q.universe ?? t(theme.label)}
           </Txt>
           <Txt faint weight="700" size={fontSize.xs}>
             PRO
@@ -217,7 +219,7 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
           <View style={styles.activeBanner}>
             <PlayerAvatar emoji={active.emoji} color={active.color} photoUri={active.photoUri} size={32} />
             <Txt weight="800">
-              {active.name} · question {Math.min(game!.qNumber, total)}/{total}
+              {active.name} · {t('question {n}/{total}', { n: Math.min(game!.qNumber, total), total })}
             </Txt>
           </View>
         )}
@@ -234,32 +236,32 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
               </Txt>
             )}
             <Txt faint size={fontSize.sm}>
-              Réfléchis (ou dis ta réponse à voix haute), puis révèle la bonne réponse.
+              {t('Réfléchis (ou dis ta réponse à voix haute), puis révèle la bonne réponse.')}
             </Txt>
-            <Button title="Voir la réponse" emoji="👀" size="lg" onPress={() => setRevealed(true)} />
+            <Button title={t('Voir la réponse')} emoji="👀" size="lg" onPress={() => setRevealed(true)} />
           </View>
         ) : (
           <View style={{ gap: spacing(1.5) }}>
             <Card accent={colors.success}>
               <Txt faint size={fontSize.xs}>
-                RÉPONSE
+                {t('RÉPONSE')}
               </Txt>
               <Txt size={fontSize.lg} weight="800">
                 {q.answer}
               </Txt>
             </Card>
             <Txt center weight="800">
-              Tu l'avais ?
+              {t("Tu l'avais ?")}
             </Txt>
             <View style={styles.judgeRow}>
               <Pressable style={[styles.judge, styles.judgeWrong]} onPress={() => judge(false)}>
                 <Txt weight="800" size={fontSize.lg} color={colors.white}>
-                  ❌ Raté
+                  {t('❌ Raté')}
                 </Txt>
               </Pressable>
               <Pressable style={[styles.judge, styles.judgeRight]} onPress={() => judge(true)}>
                 <Txt weight="800" size={fontSize.lg} color={colors.white}>
-                  ✅ Trouvé
+                  {t('✅ Trouvé')}
                 </Txt>
               </Pressable>
             </View>
@@ -279,13 +281,13 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
         <View style={{ alignItems: 'center', gap: spacing(1) }}>
           <Txt size={fontSize.huge}>{correct ? '✅' : '❌'}</Txt>
           <Txt size={fontSize.lg} weight="800" center>
-            {correct ? 'Bonne réponse !' : 'Raté !'}
+            {correct ? t('Bonne réponse !') : t('Raté !')}
           </Txt>
         </View>
 
         <Card accent={colors.success}>
           <Txt faint size={fontSize.xs}>
-            RÉPONSE
+            {t('RÉPONSE')}
           </Txt>
           <Txt size={fontSize.lg} weight="800">
             {correctAnswer}
@@ -294,7 +296,7 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
 
         {active && (
           <Txt center faint weight="700">
-            {active.name} : {score} bonne{score > 1 ? 's' : ''} sur {done}
+            {t(score > 1 ? '{name} : {score} bonnes sur {done}' : '{name} : {score} bonne sur {done}', { name: active.name, score, done })}
           </Txt>
         )}
 
@@ -303,18 +305,18 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
             <Txt weight="800" color={colors.warning}>🍺 {lastDrink.reason}</Txt>
             {lastDrink.sipsDrunk > 0 && (
               <Txt weight="700" style={{ marginTop: spacing(0.5) }}>
-                {active?.name ?? 'Tu'} bois {lastDrink.sipsDrunk} gorgée{lastDrink.sipsDrunk > 1 ? 's' : ''}.
+                {t(lastDrink.sipsDrunk > 1 ? '{name} bois {n} gorgées' : '{name} bois {n} gorgée', { name: active?.name ?? t('Tu'), n: lastDrink.sipsDrunk })}.
               </Txt>
             )}
             {lastDrink.sipsGiven > 0 && (
               <Txt weight="700" style={{ marginTop: spacing(0.5) }}>
-                {active?.name ?? 'Tu'} distribue {lastDrink.sipsGiven} gorgée{lastDrink.sipsGiven > 1 ? 's' : ''}.
+                {t(lastDrink.sipsGiven > 1 ? '{name} distribue {n} gorgées' : '{name} distribue {n} gorgée', { name: active?.name ?? t('Tu'), n: lastDrink.sipsGiven })}.
               </Txt>
             )}
           </Card>
         )}
 
-        <Button title="Continuer" size="lg" onPress={next} />
+        <Button title={t('Continuer')} size="lg" onPress={next} />
       </View>
     );
   }

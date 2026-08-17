@@ -17,11 +17,13 @@ import {
 } from '../../core/imposteurEngine';
 import { randomSeed } from '../../core/rng';
 import { haptics } from '../../lib/haptics';
+import { useT } from '../../lib/i18nProvider';
 import { getQuizPool } from '../quiz/pool';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import type { MiniGamePlayProps } from '../types';
 
 export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: MiniGamePlayProps) {
+  const t = useT();
   const cfg = config as ImposteurConfig;
   const [game, setGame] = useState<ImposteurState | null>(null);
   const [showRole, setShowRole] = useState(false);
@@ -86,9 +88,9 @@ export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: Mi
   }, [game, onFinish]);
 
   const confirmQuit = () =>
-    Alert.alert('Quitter la partie ?', 'La partie en cours sera perdue.', [
-      { text: 'Continuer', style: 'cancel' },
-      { text: 'Quitter', style: 'destructive', onPress: onQuit },
+    Alert.alert(t('Quitter la partie ?'), t('La partie en cours sera perdue.'), [
+      { text: t('Continuer'), style: 'cancel' },
+      { text: t('Quitter'), style: 'destructive', onPress: onQuit },
     ]);
 
   if (!game) {
@@ -97,7 +99,7 @@ export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: Mi
         <View style={styles.center}>
           <ActivityIndicator color={colors.primary} size="large" />
           <Txt dim style={{ marginTop: spacing(2) }}>
-            Préparation de la partie…
+            {t('Préparation de la partie…')}
           </Txt>
         </View>
       </SafeAreaView>
@@ -109,12 +111,12 @@ export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: Mi
       <View style={styles.topBar}>
         <Pressable onPress={confirmQuit} hitSlop={12}>
           <Txt color={colors.textDim} weight="700">
-            ✕ Quitter
+            {t('✕ Quitter')}
           </Txt>
         </Pressable>
         {game.phase !== 'finished' && (
           <Txt faint size={fontSize.sm} weight="700">
-            🕵️ Manche {game.round}/{game.totalRounds}
+            {t('🕵️ Manche {n}/{total}', { n: game.round, total: game.totalRounds })}
           </Txt>
         )}
       </View>
@@ -145,23 +147,23 @@ export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: Mi
         <View style={{ gap: spacing(2), paddingTop: spacing(5), alignItems: 'center' }}>
           <PlayerAvatar emoji={p.emoji} color={p.color} photoUri={p.photoUri} size={72} playerId={p.id} />
           <Txt faint weight="800" size={fontSize.sm}>
-            PASSE LE TÉLÉPHONE
+            {t('PASSE LE TÉLÉPHONE')}
           </Txt>
           <Txt size={fontSize.xxl} weight="900" center>
-            {p.name}, à toi
+            {t('{name}, à toi', { name: p.name })}
           </Txt>
           <Txt dim center>
-            Toi seul(e) regardes l'écran, puis tu passes au suivant.
+            {t("Toi seul(e) regardes l'écran, puis tu passes au suivant.")}
           </Txt>
           <View style={{ height: spacing(1) }} />
-          <Button title="Voir mon rôle" emoji="🎭" size="lg" variant="accent" onPress={() => setShowRole(true)} style={{ alignSelf: 'stretch' }} />
+          <Button title={t('Voir mon rôle')} emoji="🎭" size="lg" variant="accent" onPress={() => setShowRole(true)} style={{ alignSelf: 'stretch' }} />
         </View>
       );
     }
     return (
       <View style={{ gap: spacing(2), paddingTop: spacing(3) }}>
         <Txt faint weight="800" size={fontSize.sm} center>
-          UNIVERS
+          {t('UNIVERS')}
         </Txt>
         <Txt size={fontSize.xl} weight="900" center color={colors.accent}>
           {game!.universe}
@@ -169,30 +171,28 @@ export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: Mi
         {isImposter ? (
           <Card accent={colors.danger}>
             <Txt size={fontSize.xxl} weight="900" center>
-              🤫 Tu es l'imposteur
+              {t("🤫 Tu es l'imposteur")}
             </Txt>
             <Txt dim center style={{ marginTop: spacing(1) }}>
-              Tu ne connais pas le mot. Écoute, adapte-toi et donne un indice crédible pour ne pas te faire
-              griller !
+              {t("Tu ne connais pas le mot. Écoute, adapte-toi et donne un indice crédible pour ne pas te faire griller !")}
             </Txt>
           </Card>
         ) : (
           <Card accent={colors.success}>
             <Txt faint size={fontSize.xs} center>
-              MOT SECRET
+              {t('MOT SECRET')}
             </Txt>
             <Txt size={fontSize.xxl} weight="900" center>
               {game!.word}
             </Txt>
             <Txt dim center style={{ marginTop: spacing(1) }}>
-              Donne un indice à voix haute : assez précis pour prouver que tu sais, assez vague pour ne pas
-              aider l'imposteur.
+              {t("Donne un indice à voix haute : assez précis pour prouver que tu sais, assez vague pour ne pas aider l'imposteur.")}
             </Txt>
           </Card>
         )}
         <View style={{ height: spacing(1) }} />
         <Button
-          title="J'ai vu 👍"
+          title={t("J'ai vu 👍")}
           size="lg"
           onPress={() => {
             haptics.select();
@@ -209,21 +209,21 @@ export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: Mi
       <View style={{ gap: spacing(2), paddingTop: spacing(4), alignItems: 'center' }}>
         <Txt size={fontSize.huge}>💬</Txt>
         <Txt faint weight="800" size={fontSize.sm}>
-          UNIVERS
+          {t('UNIVERS')}
         </Txt>
         <Txt size={fontSize.xl} weight="900" center color={colors.accent}>
           {game!.universe}
         </Txt>
         <Txt dim center>
-          Chacun son tour, donnez un indice sur le mot. Repérez celui qui bluffe…
+          {t('Chacun son tour, donnez un indice sur le mot. Repérez celui qui bluffe…')}
         </Txt>
         {discussLeft !== null && (
           <Txt weight="900" size={fontSize.huge} color={discussLeft <= 10 ? colors.danger : colors.text}>
-            {discussLeft === 0 ? 'Temps écoulé !' : `${discussLeft}s`}
+            {discussLeft === 0 ? t('Temps écoulé !') : `${discussLeft}s`}
           </Txt>
         )}
         <View style={{ height: spacing(1) }} />
-        <Button title="Passer au vote" emoji="🗳️" size="lg" variant="accent" onPress={() => dispatch({ type: 'START_VOTE' })} style={{ alignSelf: 'stretch' }} />
+        <Button title={t('Passer au vote')} emoji="🗳️" size="lg" variant="accent" onPress={() => dispatch({ type: 'START_VOTE' })} style={{ alignSelf: 'stretch' }} />
       </View>
     );
   }
@@ -232,10 +232,10 @@ export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: Mi
     return (
       <View style={{ gap: spacing(2), paddingTop: spacing(2) }}>
         <Txt size={fontSize.xl} weight="900" center>
-          Qui est l'imposteur ?
+          {t("Qui est l'imposteur ?")}
         </Txt>
         <Txt dim center>
-          Débattez, puis touchez le joueur désigné par le groupe.
+          {t('Débattez, puis touchez le joueur désigné par le groupe.')}
         </Txt>
         <View style={styles.voteGrid}>
           {game!.order.map((id) => {
@@ -268,14 +268,14 @@ export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: Mi
       <View style={{ gap: spacing(2), paddingTop: spacing(3), alignItems: 'center' }}>
         <Txt size={fontSize.huge}>🎯</Txt>
         <Txt size={fontSize.xl} weight="900" center>
-          {accused?.name ?? 'Le suspect'} était bien l'imposteur !
+          {t("{name} était bien l'imposteur !", { name: accused?.name ?? t('Le suspect') })}
         </Txt>
         <Txt dim center>
-          Dernière chance : l'imposteur annonce le mot à voix haute. A-t-il trouvé ?
+          {t("Dernière chance : l'imposteur annonce le mot à voix haute. A-t-il trouvé ?")}
         </Txt>
         <Card accent={colors.success} style={{ alignSelf: 'stretch' }}>
           <Txt faint size={fontSize.xs} center>
-            LE MOT ÉTAIT
+            {t('LE MOT ÉTAIT')}
           </Txt>
           <Txt size={fontSize.xxl} weight="900" center>
             {game!.word}
@@ -284,12 +284,12 @@ export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: Mi
         <View style={styles.judgeRow}>
           <Pressable style={[styles.judge, { backgroundColor: colors.success }]} onPress={() => dispatch({ type: 'GUESS', correct: false })}>
             <Txt weight="800" size={fontSize.lg} color={colors.white}>
-              ❌ Non — équipage gagne
+              {t('❌ Non — équipage gagne')}
             </Txt>
           </Pressable>
           <Pressable style={[styles.judge, { backgroundColor: colors.danger }]} onPress={() => dispatch({ type: 'GUESS', correct: true })}>
             <Txt weight="800" size={fontSize.lg} color={colors.white}>
-              ✅ Oui — il vole tout
+              {t('✅ Oui — il vole tout')}
             </Txt>
           </Pressable>
         </View>
@@ -309,20 +309,20 @@ export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: Mi
         <View style={{ alignItems: 'center', gap: spacing(1) }}>
           <Txt size={fontSize.huge}>{o.crewWon ? '🎉' : '🕵️'}</Txt>
           <Txt size={fontSize.xl} weight="900" center>
-            {o.crewWon ? "L'équipage gagne !" : "L'imposteur s'en sort !"}
+            {o.crewWon ? t("L'équipage gagne !") : t("L'imposteur s'en sort !")}
           </Txt>
         </View>
 
         <Card accent={o.crewWon ? colors.success : colors.danger}>
           <Txt weight="800">
-            {o.imposterIds.length > 1 ? 'Imposteurs' : 'Imposteur'} : {imposterNames}
+            {t(o.imposterIds.length > 1 ? 'Imposteurs' : 'Imposteur')} : {imposterNames}
           </Txt>
           <Txt faint size={fontSize.sm} style={{ marginTop: spacing(0.5) }}>
-            Le mot était « {o.word} » · {o.universe}
+            {t('Le mot était « {word} » · {universe}', { word: o.word, universe: o.universe })}
           </Txt>
           {!o.crewWon && o.accusedWasImposter && o.imposterGuessed && (
             <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-              Démasqué mais il a deviné le mot : il rafle la mise.
+              {t('Démasqué mais il a deviné le mot : il rafle la mise.')}
             </Txt>
           )}
         </Card>
@@ -330,14 +330,14 @@ export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: Mi
         {o.sips > 0 && o.drinkers.length > 0 && (
           <Card accent={colors.sip}>
             <Txt weight="800" color={colors.sip}>
-              🍺 {drinkerNames} : {o.sips} gorgée{o.sips > 1 ? 's' : ''}
+              {t(o.sips > 1 ? '🍺 {names} : {n} gorgées' : '🍺 {names} : {n} gorgée', { names: drinkerNames, n: o.sips })}
             </Txt>
           </Card>
         )}
 
         <View>
           <Txt faint weight="800" size={fontSize.xs} style={{ marginBottom: spacing(0.5) }}>
-            CLASSEMENT
+            {t('CLASSEMENT')}
           </Txt>
           {ranked.map((id, i) => {
             const p = byId[id];
@@ -359,7 +359,7 @@ export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: Mi
         </View>
 
         <Button
-          title={last ? 'Voir les résultats' : 'Manche suivante'}
+          title={last ? t('Voir les résultats') : t('Manche suivante')}
           emoji={last ? '🏁' : '➡️'}
           size="lg"
           onPress={() => dispatch({ type: 'NEXT' })}
