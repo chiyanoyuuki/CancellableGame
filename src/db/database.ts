@@ -10,7 +10,8 @@ import * as SQLite from 'expo-sqlite';
  */
 
 const DB_NAME = 'soiree.db';
-export const SCHEMA_VERSION = 2;
+// Doit refléter le plus haut numéro de migration ci-dessous (bloc `if (version < N)`).
+export const SCHEMA_VERSION = 5;
 
 let dbPromise: Promise<SQLite.SQLiteDatabase> | null = null;
 
