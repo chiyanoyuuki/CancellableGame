@@ -128,6 +128,15 @@ export interface Question {
   explanation?: string;
   /** Optional image / emoji rebus shown above the question. */
   media?: QuestionMedia;
+  // --- Traductions anglaises (facultatives) --------------------------------
+  // Chaque champ retombe sur le français s'il n'est pas (encore) traduit, via
+  // localizeQuestion(). Le contenu français reste la source canonique.
+  text_en?: string;
+  answer_en?: string;
+  distractors_en?: string[];
+  acceptable_en?: string[];
+  hints_en?: string[];
+  explanation_en?: string;
 }
 
 // ---------------------------------------------------------------------------

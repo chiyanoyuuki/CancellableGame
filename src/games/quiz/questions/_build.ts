@@ -26,6 +26,13 @@ export interface QItem {
   m?: QuestionMedia;
   /** e = explication courte de la reponse (affichee a la revelation). */
   e?: string;
+  // --- Traductions anglaises (facultatives) : mêmes champs, suffixe _en ------
+  t_en?: string;
+  a_en?: string;
+  x_en?: string[];
+  acc_en?: string[];
+  h_en?: string[];
+  e_en?: string;
 }
 
 export function universe(theme: Theme, universeName: string, items: QItem[]): Question[] {
@@ -43,6 +50,12 @@ export function universe(theme: Theme, universeName: string, items: QItem[]): Qu
     if (i.h) q.hints = i.h;
     if (i.m) q.media = i.m;
     if (i.e) q.explanation = i.e;
+    if (i.t_en) q.text_en = i.t_en;
+    if (i.a_en) q.answer_en = i.a_en;
+    if (i.x_en) q.distractors_en = i.x_en;
+    if (i.acc_en) q.acceptable_en = i.acc_en;
+    if (i.h_en) q.hints_en = i.h_en;
+    if (i.e_en) q.explanation_en = i.e_en;
     return q;
   });
 }

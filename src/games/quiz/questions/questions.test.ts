@@ -28,6 +28,29 @@ describe('banque de questions', () => {
     expect(problems).toEqual([]);
   });
 
+  test('les traductions anglaises sont complètes et cohérentes', () => {
+    // Une question traduite doit l'être au moins pour le trio texte + réponse +
+    // distracteurs (sinon l'affichage anglais mélangerait les deux langues).
+    // L'explication et les indices anglais restent, eux, facultatifs.
+    const problems: string[] = [];
+    for (const q of QUESTIONS) {
+      const touched =
+        q.text_en !== undefined || q.answer_en !== undefined || q.distractors_en !== undefined;
+      if (!touched) continue;
+      if (!q.text_en) problems.push(`${q.id}: text_en manquant`);
+      if (!q.answer_en) problems.push(`${q.id}: answer_en manquant`);
+      if (!q.distractors_en) {
+        problems.push(`${q.id}: distractors_en manquant`);
+      } else {
+        if (q.distractors_en.length !== q.distractors.length)
+          problems.push(`${q.id}: distractors_en de longueur différente (${q.distractors_en.length}/${q.distractors.length})`);
+        if (q.answer_en && q.distractors_en.includes(q.answer_en))
+          problems.push(`${q.id}: answer_en figure dans distractors_en`);
+      }
+    }
+    expect(problems).toEqual([]);
+  });
+
   test('les médias sont cohérents', () => {
     const problems: string[] = [];
     for (const q of QUESTIONS) {
