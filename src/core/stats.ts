@@ -6,6 +6,7 @@
  * layer loads rows, these functions crunch them, and the UI renders them.
  */
 
+import { t } from '../lib/i18n';
 import type { Player } from './models';
 
 export type Period = 'today' | 'month' | 'year' | 'all';
@@ -306,6 +307,8 @@ export function superlatives(
   const nameOf = new Map(players.map((p) => [p.id, p.name]));
   const out: Superlative[] = [];
 
+  // Les titres, descriptions et valeurs sont traduits à l'exécution (via t()) :
+  // la fonction est appelée au rendu, donc réactive au changement de langue.
   const award = (
     id: string,
     title: string,
@@ -313,69 +316,69 @@ export function superlatives(
     description: string,
     playerId: string | null,
     value: string,
-  ) => out.push({ id, title, emoji, description, playerId, value });
+  ) => out.push({ id, title: t(title), emoji, description: t(description), playerId, value });
 
   // Sips drunk
   const sponge = [...totalsById.values()].filter((t) => t.sipsDrunk > 0).sort((a, b) => b.sipsDrunk - a.sipsDrunk)[0];
-  if (sponge) award('sponge', "L'éponge", '🧽', 'A bu le plus de gorgées', sponge.playerId, `${sponge.sipsDrunk} gorgées`);
+  if (sponge) award('sponge', "L'éponge", '🧽', 'A bu le plus de gorgées', sponge.playerId, t('{n} gorgées', { n: sponge.sipsDrunk }));
 
   // Sips given
   const barman = [...totalsById.values()].filter((t) => t.sipsGiven > 0).sort((a, b) => b.sipsGiven - a.sipsGiven)[0];
-  if (barman) award('barman', 'Le barman', '🍷', 'A distribué le plus de gorgées', barman.playerId, `${barman.sipsGiven} gorgées`);
+  if (barman) award('barman', 'Le barman', '🍷', 'A distribué le plus de gorgées', barman.playerId, t('{n} gorgées', { n: barman.sipsGiven }));
 
   // Most wins
   const boss = totals.filter((t) => t.wins > 0).sort((a, b) => b.wins - a.wins)[0];
-  if (boss) award('boss', 'Le boss', '🏆', 'A gagné le plus de parties', boss.playerId, `${boss.wins} victoires`);
+  if (boss) award('boss', 'Le boss', '🏆', 'A gagné le plus de parties', boss.playerId, t('{n} victoires', { n: boss.wins }));
 
   // Best accuracy (min 5 answers)
   const brain = [...ans.entries()]
     .filter(([, g]) => g.answers >= 5)
     .map(([id, g]) => ({ id, acc: g.correct / g.answers }))
     .sort((a, b) => b.acc - a.acc)[0];
-  if (brain) award('brain', 'Le cerveau', '🧠', 'Meilleur taux de bonnes réponses', brain.id, `${Math.round(brain.acc * 100)} %`);
+  if (brain) award('brain', 'Le cerveau', '🧠', 'Meilleur taux de bonnes réponses', brain.id, t('{n} %', { n: Math.round(brain.acc * 100) }));
 
   // Most wrong answers
   const clown = [...ans.entries()].filter(([, g]) => g.wrong > 0).sort((a, b) => b[1].wrong - a[1].wrong)[0];
-  if (clown) award('clown', 'Le boulet', '🤡', 'A donné le plus de mauvaises réponses', clown[0], `${clown[1].wrong} ratés`);
+  if (clown) award('clown', 'Le boulet', '🤡', 'A donné le plus de mauvaises réponses', clown[0], t('{n} ratés', { n: clown[1].wrong }));
 
   // Fastest average (min 3 timed answers)
   const flash = [...ans.entries()]
     .filter(([, g]) => g.timeCount >= 3)
     .map(([id, g]) => ({ id, avg: g.timeSum / g.timeCount }))
     .sort((a, b) => a.avg - b.avg)[0];
-  if (flash) award('flash', "L'éclair", '⚡', 'Réponse la plus rapide en moyenne', flash.id, `${(flash.avg / 1000).toFixed(1)} s`);
+  if (flash) award('flash', "L'éclair", '⚡', 'Réponse la plus rapide en moyenne', flash.id, t('{n} s', { n: (flash.avg / 1000).toFixed(1) }));
 
   // Most hints used
   const cheater = [...ans.entries()].filter(([, g]) => g.hints > 0).sort((a, b) => b[1].hints - a[1].hints)[0];
-  if (cheater) award('hints', "L'assisté", '👀', 'A utilisé le plus d\'indices', cheater[0], `${cheater[1].hints} indices`);
+  if (cheater) award('hints', "L'assisté", '👀', "A utilisé le plus d'indices", cheater[0], t('{n} indices', { n: cheater[1].hints }));
 
   // Most games played
   const pillar = totals.filter((t) => t.games > 0).sort((a, b) => b.games - a.games)[0];
-  if (pillar) award('pilier', 'Le pilier', '🏛️', 'A joué le plus de parties', pillar.playerId, `${pillar.games} parties`);
+  if (pillar) award('pilier', 'Le pilier', '🏛️', 'A joué le plus de parties', pillar.playerId, t('{n} parties', { n: pillar.games }));
 
   // Best single-game score
   const comet = totals.filter((t) => t.bestPoints > 0).sort((a, b) => b.bestPoints - a.bestPoints)[0];
-  if (comet) award('comete', 'La comète', '☄️', 'Meilleur score en une partie', comet.playerId, `${comet.bestPoints} pts`);
+  if (comet) award('comete', 'La comète', '☄️', 'Meilleur score en une partie', comet.playerId, t('{n} pts', { n: comet.bestPoints }));
 
   // Best average rank (min 3 games)
   const strat = totals.filter((t) => t.games >= 3).sort((a, b) => a.avgRank - b.avgRank)[0];
-  if (strat) award('stratege', 'Le stratège', '♟️', 'Meilleur classement moyen', strat.playerId, `rang moyen ${strat.avgRank.toFixed(1)}`);
+  if (strat) award('stratege', 'Le stratège', '♟️', 'Meilleur classement moyen', strat.playerId, t('rang moyen {n}', { n: strat.avgRank.toFixed(1) }));
 
   // Most answers overall
   const marathon = [...ans.entries()].filter(([, g]) => g.answers > 0).sort((a, b) => b[1].answers - a[1].answers)[0];
-  if (marathon) award('marathonien', 'Le marathonien', '🏃', 'A répondu au plus de questions', marathon[0], `${marathon[1].answers} questions`);
+  if (marathon) award('marathonien', 'Le marathonien', '🏃', 'A répondu au plus de questions', marathon[0], t('{n} questions', { n: marathon[1].answers }));
 
   // Most correct answers overall
   const encyclo = [...ans.entries()].filter(([, g]) => g.correct > 0).sort((a, b) => b[1].correct - a[1].correct)[0];
-  if (encyclo) award('encyclopedie', "L'encyclopédie", '📚', 'Le plus de bonnes réponses', encyclo[0], `${encyclo[1].correct} bonnes`);
+  if (encyclo) award('encyclopedie', "L'encyclopédie", '📚', 'Le plus de bonnes réponses', encyclo[0], t('{n} bonnes', { n: encyclo[1].correct }));
 
   // Most podium finishes (top 3)
   const podium = totals.filter((t) => t.podiums > 0).sort((a, b) => b.podiums - a.podiums)[0];
-  if (podium) award('podium', 'Le podium ambulant', '🏅', 'Le plus de podiums (top 3)', podium.playerId, `${podium.podiums} podiums`);
+  if (podium) award('podium', 'Le podium ambulant', '🏅', 'Le plus de podiums (top 3)', podium.playerId, t('{n} podiums', { n: podium.podiums }));
 
   // Fewest sips among regulars (min 3 games)
   const sober = totals.filter((t) => t.games >= 3).sort((a, b) => a.sipsDrunk - b.sipsDrunk)[0];
-  if (sober) award('sobre', 'Le sobre', '🚱', 'A le moins bu (parmi les habitués)', sober.playerId, `${sober.sipsDrunk} gorgées`);
+  if (sober) award('sobre', 'Le sobre', '🚱', 'A le moins bu (parmi les habitués)', sober.playerId, t('{n} gorgées', { n: sober.sipsDrunk }));
 
   // Resolve names for display convenience downstream (kept in description).
   for (const s of out) {

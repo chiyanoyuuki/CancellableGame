@@ -1,6 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 
 import { TIER_META, type TrackProgress } from '../core/achievements';
+import { useT } from '../lib/i18nProvider';
 import { colors, fontSize, spacing } from '../theme/theme';
 import { Card, ProgressBar, Txt } from './ui';
 
@@ -14,6 +15,7 @@ import { Card, ProgressBar, Txt } from './ui';
  * avec un bandeau « nouveau palier ! ».
  */
 export function AchievementTrackCard({ t, justEarned = 0 }: { t: TrackProgress; justEarned?: number }) {
+  const tr = useT();
   const tier = t.current ? TIER_META[t.current] : null;
   const prevTarget = t.tiersReached > 0 ? t.track.tiers[t.tiersReached - 1]!.target : 0;
   const nextTarget = t.next?.target ?? t.value;
@@ -26,26 +28,26 @@ export function AchievementTrackCard({ t, justEarned = 0 }: { t: TrackProgress; 
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing(1), flex: 1 }}>
           <Txt size={fontSize.lg}>{t.track.emoji}</Txt>
           <View style={{ flex: 1 }}>
-            <Txt weight="800">{t.track.title}</Txt>
-            <Txt faint size={fontSize.xs}>{t.track.desc}</Txt>
+            <Txt weight="800">{tr(t.track.title)}</Txt>
+            <Txt faint size={fontSize.xs}>{tr(t.track.desc)}</Txt>
           </View>
         </View>
         {tier ? (
           <View style={[styles.tierPill, { borderColor: tier.color }]}>
             <Txt size={fontSize.xs} weight="800" color={tier.color}>
-              {tier.emoji} {tier.label}
+              {tier.emoji} {tr(tier.label)}
             </Txt>
           </View>
         ) : (
           <Txt faint size={fontSize.xs} weight="800">
-            🔒 à débloquer
+            {tr('🔒 à débloquer')}
           </Txt>
         )}
       </View>
       {fresh && (
         <View style={[styles.freshBadge, { borderColor: tier?.color ?? colors.accent }]}>
           <Txt size={fontSize.xs} weight="900" color={tier?.color ?? colors.accent}>
-            ✨ Nouveau palier{justEarned > 1 ? `s ×${justEarned}` : ''} cette partie !
+            {justEarned > 1 ? tr('✨ Nouveaux paliers ×{n} cette partie !', { n: justEarned }) : tr('✨ Nouveau palier cette partie !')}
           </Txt>
         </View>
       )}
@@ -54,8 +56,8 @@ export function AchievementTrackCard({ t, justEarned = 0 }: { t: TrackProgress; 
       </View>
       <View style={[styles.row, { marginTop: spacing(0.5) }]}>
         <Txt faint size={fontSize.xs}>
-          {t.value} {t.track.unit}
-          {t.next ? ` · prochain palier à ${t.next.target}` : ' · palier max atteint 👑'}
+          {t.value} {tr(t.track.unit)}
+          {t.next ? tr(' · prochain palier à {n}', { n: t.next.target }) : tr(' · palier max atteint 👑')}
         </Txt>
         <Txt faint size={fontSize.xs} weight="800">
           {t.points} pts
