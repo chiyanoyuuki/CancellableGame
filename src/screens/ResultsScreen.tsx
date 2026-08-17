@@ -9,11 +9,13 @@ import type { Player, PlayerSessionResult } from '../core/models';
 import { loadStatAnswers, loadStatResults } from '../db';
 import { getGame } from '../games/registry';
 import { haptics } from '../lib/haptics';
+import { useT } from '../lib/i18nProvider';
 import type { RootStackParamList } from '../navigation';
 import { useStore } from '../store/StoreProvider';
 import { colors, fontSize, radius, RANK_MEDALS, spacing } from '../theme/theme';
 
 export function ResultsScreen({ route, navigation }: NativeStackScreenProps<RootStackParamList, 'Results'>) {
+  const t = useT();
   const { result, players } = route.params;
   const { ent } = useStore();
 
@@ -89,20 +91,20 @@ export function ResultsScreen({ route, navigation }: NativeStackScreenProps<Root
   return (
     <>
       <Screen
-        title="Résultats"
+        title={t('Résultats')}
         onBack={() => navigation.navigate('Home')}
         scroll
         footer={
           <>
             <Button
-              title="Rejouer"
+              title={t('Rejouer')}
               emoji="🔁"
               onPress={() => navigation.navigate('GameConfig', { gameId: result.gameId, players })}
             />
-            <Button title="Partager le résultat" emoji="📤" variant="secondary" onPress={() => void shareRecap()} />
+            <Button title={t('Partager le résultat')} emoji="📤" variant="secondary" onPress={() => void shareRecap()} />
             <View style={{ flexDirection: 'row', gap: spacing(1) }}>
-              <Button title="Statistiques" variant="secondary" style={{ flex: 1 }} onPress={() => navigation.navigate('Stats')} />
-              <Button title="Accueil" variant="ghost" style={{ flex: 1 }} onPress={() => navigation.navigate('Home')} />
+              <Button title={t('Statistiques')} variant="secondary" style={{ flex: 1 }} onPress={() => navigation.navigate('Stats')} />
+              <Button title={t('Accueil')} variant="ghost" style={{ flex: 1 }} onPress={() => navigation.navigate('Home')} />
             </View>
           </>
         }
@@ -114,12 +116,12 @@ export function ResultsScreen({ route, navigation }: NativeStackScreenProps<Root
             <Txt size={fontSize.xl} weight="900">
               {winner.name}
             </Txt>
-            <Txt dim>gagne la partie !</Txt>
+            <Txt dim>{t('gagne la partie !')}</Txt>
           </View>
         )}
 
         <Txt faint size={fontSize.xs} center style={{ marginBottom: spacing(1) }}>
-          Touche un joueur pour voir son résumé et sa progression 👇
+          {t('Touche un joueur pour voir son résumé et sa progression 👇')}
         </Txt>
 
         {ranked.map((r, i) => {
@@ -145,7 +147,8 @@ export function ResultsScreen({ route, navigation }: NativeStackScreenProps<Root
                     </Txt>
                   ) : (
                     <Txt faint size={fontSize.xs}>
-                      {details.correct ?? 0} ✓ · {details.wrong ?? 0} ✗ · 🍺 {r.sipsDrunk} bu{r.sipsGiven > 0 ? ` · 🤙 ${r.sipsGiven} donné` : ''}
+                      {t('{c} ✓ · {w} ✗ · 🍺 {drunk} bu', { c: details.correct ?? 0, w: details.wrong ?? 0, drunk: r.sipsDrunk })}
+                      {r.sipsGiven > 0 ? t(' · 🤙 {given} donné', { given: r.sipsGiven }) : ''}
                     </Txt>
                   )}
                 </View>
@@ -171,7 +174,7 @@ export function ResultsScreen({ route, navigation }: NativeStackScreenProps<Root
                       {sd.name}
                     </Txt>
                     <Txt dim size={fontSize.sm}>
-                      {selMedal} · {selected.points} pts cette partie
+                      {t('{medal} · {pts} pts cette partie', { medal: selMedal, pts: selected.points })}
                     </Txt>
                   </View>
                   <Pressable onPress={() => setSelected(null)} hitSlop={12}>
@@ -184,12 +187,12 @@ export function ResultsScreen({ route, navigation }: NativeStackScreenProps<Root
                 <ScrollView style={{ maxHeight: '72%' }} showsVerticalScrollIndicator={false}>
                   <Card style={{ marginBottom: spacing(1) }}>
                     <View style={styles.statGrid}>
-                      <StatCell label="Rang" value={selMedal} />
-                      <StatCell label="Points" value={String(selected.points)} />
-                      {hasQA && <StatCell label="Bonnes" value={`${selDetails.correct ?? 0} ✅`} />}
-                      {hasQA && <StatCell label="Ratées" value={`${selDetails.wrong ?? 0} ❌`} />}
-                      {selected.sipsDrunk > 0 && <StatCell label="Bu" value={`${selected.sipsDrunk} 🍺`} />}
-                      {selected.sipsGiven > 0 && <StatCell label="Donné" value={`${selected.sipsGiven} 🤙`} />}
+                      <StatCell label={t('Rang')} value={selMedal} />
+                      <StatCell label={t('Points')} value={String(selected.points)} />
+                      {hasQA && <StatCell label={t('Bonnes')} value={`${selDetails.correct ?? 0} ✅`} />}
+                      {hasQA && <StatCell label={t('Ratées')} value={`${selDetails.wrong ?? 0} ❌`} />}
+                      {selected.sipsDrunk > 0 && <StatCell label={t('Bu')} value={`${selected.sipsDrunk} 🍺`} />}
+                      {selected.sipsGiven > 0 && <StatCell label={t('Donné')} value={`${selected.sipsGiven} 🤙`} />}
                     </View>
                     {sd.members && (
                       <Txt faint size={fontSize.xs} style={{ marginTop: spacing(1) }}>
@@ -200,22 +203,27 @@ export function ResultsScreen({ route, navigation }: NativeStackScreenProps<Root
 
                   {!ent.allAchievements && (
                     <Card accent={colors.accent} onPress={() => { setSelected(null); navigation.navigate('Store'); }}>
-                      <Txt weight="800" size={fontSize.sm}>🔒 Progression des hauts faits</Txt>
-                      <Txt faint size={fontSize.xs}>Débloque les hauts faits dans la Boutique — 1,99 €.</Txt>
+                      <Txt weight="800" size={fontSize.sm}>{t('🔒 Progression des hauts faits')}</Txt>
+                      <Txt faint size={fontSize.xs}>{t('Débloque les hauts faits dans la Boutique — 1,99 €.')}</Txt>
                     </Card>
                   )}
 
                   {ent.allAchievements && detail && detail.tracks.length > 0 && (
                     <>
                       <View style={styles.deltaRow}>
-                        <Txt weight="800">⭐ Progression des hauts faits</Txt>
+                        <Txt weight="800">{t('⭐ Progression des hauts faits')}</Txt>
                         <Txt weight="900" color={detail.pointsGained > 0 ? colors.success : colors.textFaint}>
                           {detail.pointsGained > 0 ? `+${detail.pointsGained} pts` : '—'}
                         </Txt>
                       </View>
                       {detail.newTiers > 0 && (
                         <Txt size={fontSize.sm} weight="800" color={colors.success} style={{ marginBottom: spacing(1) }}>
-                          🎉 {detail.newTiers} nouveau{detail.newTiers > 1 ? 'x' : ''} palier{detail.newTiers > 1 ? 's' : ''} débloqué{detail.newTiers > 1 ? 's' : ''} cette partie !
+                          {t(
+                            detail.newTiers > 1
+                              ? '🎉 {n} nouveaux paliers débloqués cette partie !'
+                              : '🎉 {n} nouveau palier débloqué cette partie !',
+                            { n: detail.newTiers },
+                          )}
                         </Txt>
                       )}
                       {detail.tracks.map(({ t, justEarned }) => (
@@ -227,7 +235,7 @@ export function ResultsScreen({ route, navigation }: NativeStackScreenProps<Root
 
                 {byId[selected.playerId] && (
                   <Button
-                    title="Voir le profil complet"
+                    title={t('Voir le profil complet')}
                     emoji="🏅"
                     variant="secondary"
                     style={{ marginTop: spacing(1.5) }}
@@ -248,16 +256,16 @@ export function ResultsScreen({ route, navigation }: NativeStackScreenProps<Root
 
   // Récap texte à partager (WhatsApp, etc.) via la feuille de partage native.
   async function shareRecap() {
-    const title = getGame(result.gameId)?.title ?? 'Partie';
+    const title = getGame(result.gameId) ? t(getGame(result.gameId)!.title) : t('Partie');
     const lines = ranked.map((r, i) => `${RANK_MEDALS[i] ?? `${i + 1}.`} ${disp(r).name} — ${r.points} pts`);
     const totalSips = result.players.reduce((s, p) => s + p.sipsDrunk, 0);
     const msg = [
       `🔒 Cancellable — ${title}`,
-      winner ? `🏆 ${winner.name} gagne !` : '',
+      winner ? t('🏆 {name} gagne !', { name: winner.name }) : '',
       '',
       ...lines,
-      totalSips > 0 ? `\n🍺 ${totalSips} gorgées au total` : '',
-      'Le jeu de vos soirées entre amis 🎉',
+      totalSips > 0 ? `\n${t('🍺 {n} gorgées au total', { n: totalSips })}` : '',
+      t('Le jeu de vos soirées entre amis 🎉'),
     ]
       .filter((l) => l !== '')
       .join('\n');

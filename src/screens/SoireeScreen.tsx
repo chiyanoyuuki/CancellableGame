@@ -8,12 +8,14 @@ import type { Player } from '../core/models';
 import { createSoiree, type SoireeState, soireeChampion, soireeStandings } from '../core/soiree';
 import { clearActiveSoiree, getActiveSoiree, listPlayers, saveActiveSoiree } from '../db';
 import { getGame, MINI_GAMES } from '../games/registry';
+import { useT } from '../lib/i18nProvider';
 import type { RootStackParamList } from '../navigation';
 import { useStore } from '../store/StoreProvider';
 import { isModeUnlocked } from '../store/products';
 import { colors, fontSize, RANK_MEDALS, spacing } from '../theme/theme';
 
 export function SoireeScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'Soiree'>) {
+  const t = useT();
   const { ent } = useStore();
   const [soiree, setSoiree] = useState<SoireeState | null | undefined>(undefined);
   const [players, setPlayers] = useState<Player[]>([]);
@@ -47,9 +49,9 @@ export function SoireeScreen({ navigation }: NativeStackScreenProps<RootStackPar
   };
 
   const endSoiree = () =>
-    Alert.alert('Terminer la soirée ?', 'Le classement final sera affiché.', [
-      { text: 'Annuler', style: 'cancel' },
-      { text: 'Terminer', onPress: () => setFinished(true) },
+    Alert.alert(t('Terminer la soirée ?'), t('Le classement final sera affiché.'), [
+      { text: t('Annuler'), style: 'cancel' },
+      { text: t('Terminer'), onPress: () => setFinished(true) },
     ]);
 
   const newSoiree = async () => {
@@ -72,7 +74,7 @@ export function SoireeScreen({ navigation }: NativeStackScreenProps<RootStackPar
 
   // --- Chargement ---
   if (soiree === undefined) {
-    return <Screen title="Mode Soirée" onBack={() => navigation.goBack()} scroll><View /></Screen>;
+    return <Screen title={t('Mode Soirée')} onBack={() => navigation.goBack()} scroll><View /></Screen>;
   }
 
   // --- Classement final ---
@@ -81,13 +83,13 @@ export function SoireeScreen({ navigation }: NativeStackScreenProps<RootStackPar
     const champ = soireeChampion(soiree);
     return (
       <Screen
-        title="Fin de la soirée"
+        title={t('Fin de la soirée')}
         onBack={() => navigation.navigate('Home')}
         scroll
         footer={
           <>
-            <Button title="Nouvelle soirée" emoji="🎉" onPress={() => void newSoiree()} />
-            <Button title="Accueil" variant="ghost" onPress={() => navigation.navigate('Home')} />
+            <Button title={t('Nouvelle soirée')} emoji="🎉" onPress={() => void newSoiree()} />
+            <Button title={t('Accueil')} variant="ghost" onPress={() => navigation.navigate('Home')} />
           </>
         }
       >
@@ -97,17 +99,17 @@ export function SoireeScreen({ navigation }: NativeStackScreenProps<RootStackPar
             <>
               <PlayerAvatar emoji={champ.emoji} color={champ.color} photoUri={champ.photoUri} size={72} />
               <Txt size={fontSize.xl} weight="900">{champ.name}</Txt>
-              <Txt dim>champion de la soirée !</Txt>
+              <Txt dim>{t('champion de la soirée !')}</Txt>
             </>
           ) : (
-            <Txt weight="800">Égalité en tête, pas de champion unique !</Txt>
+            <Txt weight="800">{t('Égalité en tête, pas de champion unique !')}</Txt>
           )}
         </View>
         {standings.map((s, i) => (
           <StandingRow key={s.player.id} rank={i} standing={s} />
         ))}
         <Txt faint center size={fontSize.xs} style={{ marginTop: spacing(2) }}>
-          {soiree.rounds.length} manche{soiree.rounds.length > 1 ? 's' : ''} jouée{soiree.rounds.length > 1 ? 's' : ''}
+          {t(soiree.rounds.length > 1 ? '{n} manches jouées' : '{n} manche jouée', { n: soiree.rounds.length })}
         </Txt>
       </Screen>
     );
@@ -118,13 +120,13 @@ export function SoireeScreen({ navigation }: NativeStackScreenProps<RootStackPar
     const chosenCount = players.filter((p) => selected.has(p.id)).length;
     return (
       <Screen
-        title="Mode Soirée"
-        subtitle="Un fil rouge pour toute la soirée"
+        title={t('Mode Soirée')}
+        subtitle={t('Un fil rouge pour toute la soirée')}
         onBack={() => navigation.goBack()}
         scroll
         footer={
           <Button
-            title={`Démarrer la soirée${chosenCount >= 2 ? ` (${chosenCount})` : ''}`}
+            title={`${t('Démarrer la soirée')}${chosenCount >= 2 ? ` (${chosenCount})` : ''}`}
             emoji="🎉"
             size="lg"
             disabled={chosenCount < 2}
@@ -133,18 +135,19 @@ export function SoireeScreen({ navigation }: NativeStackScreenProps<RootStackPar
         }
       >
         <Card accent={colors.accent}>
-          <Txt weight="800">🎉 Enchaînez les mini-jeux, un seul classement</Txt>
+          <Txt weight="800">{t('🎉 Enchaînez les mini-jeux, un seul classement')}</Txt>
           <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-            Jouez plusieurs manches (Quiz, Bombe, Duel…) : chaque manche rapporte des points selon le classement.
-            À la fin, un champion de la soirée est couronné.
+            {t(
+              'Jouez plusieurs manches (Quiz, Bombe, Duel…) : chaque manche rapporte des points selon le classement. À la fin, un champion de la soirée est couronné.',
+            )}
           </Txt>
         </Card>
 
         {players.length < 2 ? (
-          <EmptyState emoji="👥" title="Pas assez de joueurs" subtitle="Ajoute au moins 2 joueurs dans l'écran Joueurs." />
+          <EmptyState emoji="👥" title={t('Pas assez de joueurs')} subtitle={t("Ajoute au moins 2 joueurs dans l'écran Joueurs.")} />
         ) : (
           <>
-            <SectionHeader title="Qui participe ?" />
+            <SectionHeader title={t('Qui participe ?')} />
             {players.map((p) => {
               const on = selected.has(p.id);
               return (
@@ -170,20 +173,20 @@ export function SoireeScreen({ navigation }: NativeStackScreenProps<RootStackPar
   const standings = soireeStandings(soiree);
   return (
     <Screen
-      title="Mode Soirée"
-      subtitle={`${soiree.players.length} joueurs · ${soiree.rounds.length} manche${soiree.rounds.length > 1 ? 's' : ''}`}
+      title={t('Mode Soirée')}
+      subtitle={`${t('{n} joueurs', { n: soiree.players.length })} · ${t(soiree.rounds.length > 1 ? '{n} manches' : '{n} manche', { n: soiree.rounds.length })}`}
       onBack={() => navigation.navigate('Home')}
       scroll
       footer={
         <>
-          <Button title="Jouer une manche" emoji="🎮" size="lg" onPress={() => setPicking((v) => !v)} />
-          <Button title="Terminer la soirée" variant="ghost" onPress={endSoiree} />
+          <Button title={t('Jouer une manche')} emoji="🎮" size="lg" onPress={() => setPicking((v) => !v)} />
+          <Button title={t('Terminer la soirée')} variant="ghost" onPress={endSoiree} />
         </>
       }
     >
       {picking && (
         <Card style={{ marginBottom: spacing(1) }}>
-          <Txt weight="800" style={{ marginBottom: spacing(1) }}>Choisis un mini-jeu</Txt>
+          <Txt weight="800" style={{ marginBottom: spacing(1) }}>{t('Choisis un mini-jeu')}</Txt>
           <View style={{ gap: spacing(1) }}>
             {MINI_GAMES.filter((g) => g.available).map((g) => {
               const locked = !isModeUnlocked(g.id, ent);
@@ -192,8 +195,8 @@ export function SoireeScreen({ navigation }: NativeStackScreenProps<RootStackPar
                   <Card accent={locked ? colors.border : colors.primary} style={{ flexDirection: 'row', alignItems: 'center', gap: spacing(1.5) }}>
                     <Txt size={fontSize.xl}>{locked ? '🔒' : g.emoji}</Txt>
                     <View style={{ flex: 1 }}>
-                      <Txt weight="800">{g.title}</Txt>
-                      <Txt faint size={fontSize.xs} numberOfLines={1}>{g.description}</Txt>
+                      <Txt weight="800">{t(g.title)}</Txt>
+                      <Txt faint size={fontSize.xs} numberOfLines={1}>{t(g.description)}</Txt>
                     </View>
                   </Card>
                 </Pressable>
@@ -203,21 +206,21 @@ export function SoireeScreen({ navigation }: NativeStackScreenProps<RootStackPar
         </Card>
       )}
 
-      <SectionHeader title="Classement de la soirée" />
+      <SectionHeader title={t('Classement de la soirée')} />
       {standings.map((s, i) => (
         <StandingRow key={s.player.id} rank={i} standing={s} />
       ))}
 
       {soiree.rounds.length > 0 && (
         <>
-          <SectionHeader title="Manches jouées" />
+          <SectionHeader title={t('Manches jouées')} />
           {soiree.rounds.map((r, i) => {
             const g = getGame(r.gameId);
             const winner = soiree.players.find((p) => p.id === r.winnerId);
             return (
               <View key={i} style={{ flexDirection: 'row', alignItems: 'center', gap: spacing(1), paddingVertical: spacing(0.5) }}>
                 <Txt>{g?.emoji ?? '🎲'}</Txt>
-                <Txt weight="700" style={{ flex: 1 }}>{g?.title ?? r.gameId}</Txt>
+                <Txt weight="700" style={{ flex: 1 }}>{g ? t(g.title) : r.gameId}</Txt>
                 <Txt faint size={fontSize.xs}>{winner ? `🏆 ${winner.name}` : '—'}</Txt>
               </View>
             );

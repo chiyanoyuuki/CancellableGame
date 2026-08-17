@@ -3,12 +3,14 @@ import { useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 
 import { Button, Card, Screen, Txt } from '../components/ui';
+import { useT } from '../lib/i18nProvider';
 import type { RootStackParamList } from '../navigation';
 import { useStore } from '../store/StoreProvider';
 import { isProductOwned, PRODUCTS, type ProductId } from '../store/products';
 import { colors, fontSize, spacing } from '../theme/theme';
 
 export function StoreScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'Store'>) {
+  const t = useT();
   const store = useStore();
   const [busy, setBusy] = useState<ProductId | null>(null);
   const [restoring, setRestoring] = useState(false);
@@ -17,10 +19,10 @@ export function StoreScreen({ navigation }: NativeStackScreenProps<RootStackPara
     setBusy(id);
     try {
       const ok = await store.purchase(id);
-      if (ok) Alert.alert('Merci ! 🎉', 'Ton achat est activé.');
-      else Alert.alert('Achat annulé', "L'achat n'a pas abouti.");
+      if (ok) Alert.alert(t('Merci ! 🎉'), t('Ton achat est activé.'));
+      else Alert.alert(t('Achat annulé'), t("L'achat n'a pas abouti."));
     } catch {
-      Alert.alert('Erreur', "L'achat a échoué, réessaie plus tard.");
+      Alert.alert(t('Erreur'), t("L'achat a échoué, réessaie plus tard."));
     } finally {
       setBusy(null);
     }
@@ -30,16 +32,16 @@ export function StoreScreen({ navigation }: NativeStackScreenProps<RootStackPara
     setRestoring(true);
     try {
       await store.restore();
-      Alert.alert('Achats restaurés', 'Tes achats précédents ont été réappliqués.');
+      Alert.alert(t('Achats restaurés'), t('Tes achats précédents ont été réappliqués.'));
     } finally {
       setRestoring(false);
     }
   };
 
   return (
-    <Screen title="Boutique" subtitle="Soutiens le jeu et débloque tout" onBack={() => navigation.goBack()} scroll>
+    <Screen title={t('Boutique')} subtitle={t('Soutiens le jeu et débloque tout')} onBack={() => navigation.goBack()} scroll>
       <Txt faint size={fontSize.xs} style={{ marginBottom: spacing(1) }}>
-        Achats uniques, définitifs et sans abonnement. Le pack « Tout débloquer » est le plus avantageux.
+        {t('Achats uniques, définitifs et sans abonnement. Le pack « Tout débloquer » est le plus avantageux.')}
       </Txt>
 
       {PRODUCTS.map((p) => {
@@ -50,17 +52,17 @@ export function StoreScreen({ navigation }: NativeStackScreenProps<RootStackPara
             <View style={styles.row}>
               <Txt size={fontSize.xxl}>{p.emoji}</Txt>
               <View style={{ flex: 1 }}>
-                <Txt weight="800">{p.title}</Txt>
-                <Txt faint size={fontSize.xs}>{p.description}</Txt>
+                <Txt weight="800">{t(p.title)}</Txt>
+                <Txt faint size={fontSize.xs}>{t(p.description)}</Txt>
               </View>
             </View>
             <View style={[styles.row, { marginTop: spacing(1), justifyContent: 'space-between' }]}>
-              <Txt weight="800" color={colors.primary}>{p.price}</Txt>
+              <Txt weight="800" color={colors.primary}>{t(p.price)}</Txt>
               {owned ? (
-                <Txt weight="800" color={colors.success}>✓ Débloqué</Txt>
+                <Txt weight="800" color={colors.success}>{t('✓ Débloqué')}</Txt>
               ) : (
                 <Button
-                  title="Acheter"
+                  title={t('Acheter')}
                   size="sm"
                   variant={isBundle ? 'accent' : 'primary'}
                   loading={busy === p.id}
@@ -74,11 +76,10 @@ export function StoreScreen({ navigation }: NativeStackScreenProps<RootStackPara
       })}
 
       <View style={{ height: spacing(1) }} />
-      <Button title="Restaurer mes achats" variant="ghost" loading={restoring} onPress={() => void restore()} />
+      <Button title={t('Restaurer mes achats')} variant="ghost" loading={restoring} onPress={() => void restore()} />
 
       <Txt faint size={fontSize.xs} center style={{ marginTop: spacing(2) }}>
-        Version de démonstration : les achats sont simulés localement. En production, ils passeront par
-        Google Play.
+        {t('Version de démonstration : les achats sont simulés localement. En production, ils passeront par Google Play.')}
       </Txt>
     </Screen>
   );
