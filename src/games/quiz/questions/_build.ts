@@ -24,6 +24,8 @@ export interface QItem {
   acc?: string[];
   h?: string[];
   m?: QuestionMedia;
+  /** e = explication courte de la reponse (affichee a la revelation). */
+  e?: string;
 }
 
 export function universe(theme: Theme, universeName: string, items: QItem[]): Question[] {
@@ -40,6 +42,7 @@ export function universe(theme: Theme, universeName: string, items: QItem[]): Qu
     if (i.acc) q.acceptable = i.acc;
     if (i.h) q.hints = i.h;
     if (i.m) q.media = i.m;
+    if (i.e) q.explanation = i.e;
     return q;
   });
 }

@@ -908,6 +908,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
     const ranking = getRanking(game!);
     const curId = currentQuestion(game!)?.id;
     const alreadyReported = !!curId && reportedIds.has(curId);
+    const rq = currentQuestion(game!);
 
     return (
       <View style={{ gap: spacing(2) }}>
@@ -925,6 +926,19 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
             </Txt>
           </Card>
         </View>
+
+        {rq?.explanation ? (
+          <Card accent={colors.accent}>
+            <Txt weight="800" size={fontSize.sm}>
+              💡 Le sais-tu ?
+            </Txt>
+            <Txt style={{ marginTop: spacing(0.5) }}>{rq.explanation}</Txt>
+          </Card>
+        ) : rq?.universe ? (
+          <Txt faint size={fontSize.xs} center>
+            💡 {rq.answer} — univers « {rq.universe} »
+          </Txt>
+        ) : null}
 
         {o.score.total > 0 && who && (
           <Card accent={colors.primary}>

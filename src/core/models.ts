@@ -124,6 +124,8 @@ export interface Question {
   distractors: string[];
   /** Progressive hints; revealing one costs points. */
   hints?: string[];
+  /** Short explanation of the answer, shown on reveal (optional). */
+  explanation?: string;
   /** Optional image / emoji rebus shown above the question. */
   media?: QuestionMedia;
 }

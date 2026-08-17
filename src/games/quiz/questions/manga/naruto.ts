@@ -2,11 +2,11 @@ import { universe } from "../_build";
 
 export const naruto = universe("manga", "Naruto", [
   // --- Faciles (5) ---
-  { id: "naruto-f1", d: 1, t: "Comment s'appelle le héros de Naruto ?", a: "Naruto Uzumaki", x: ["Sasuke Uchiha", "Sakura Haruno", "Kakashi Hatake"] },
-  { id: "naruto-f2", d: 1, t: "Quel est le rêve de Naruto ?", a: "Devenir Hokage", x: ["Devenir Kazekage", "Diriger l'Akatsuki", "Devenir Roi des Pirates"] },
-  { id: "naruto-f3", d: 1, t: "Quel démon-renard est scellé en Naruto ?", a: "Kurama", acc: ["kurama", "kyubi", "neuf queues"], x: ["Shukaku", "Gyuki", "Son Goku"] },
-  { id: "naruto-f4", d: 1, t: "De quelle couleur est la tenue emblématique du jeune Naruto ?", a: "Orange", x: ["Bleue", "Verte", "Rouge"] },
-  { id: "naruto-f5", d: 1, t: "Dans quel village vit Naruto ?", a: "Konoha", acc: ["konoha", "feuille"], x: ["Suna", "Kiri", "Iwa"] },
+  { id: "naruto-f1", d: 1, t: "Comment s'appelle le héros de Naruto ?", a: "Naruto Uzumaki", x: ["Sasuke Uchiha", "Sakura Haruno", "Kakashi Hatake"], e: "Ninja hyperactif de Konoha, il porte le renard \u00e0 neuf queues Kurama scell\u00e9 en lui." },
+  { id: "naruto-f2", d: 1, t: "Quel est le rêve de Naruto ?", a: "Devenir Hokage", x: ["Devenir Kazekage", "Diriger l'Akatsuki", "Devenir Roi des Pirates"], e: "Le Hokage est le chef du village de Konoha : Naruto en r\u00eave pour \u00eatre enfin reconnu de tous." },
+  { id: "naruto-f3", d: 1, t: "Quel démon-renard est scellé en Naruto ?", a: "Kurama", acc: ["kurama", "kyubi", "neuf queues"], x: ["Shukaku", "Gyuki", "Son Goku"], e: "Kurama, le renard \u00e0 neuf queues (Ky\u00fbi), a \u00e9t\u00e9 scell\u00e9 en Naruto le jour de sa naissance." },
+  { id: "naruto-f4", d: 1, t: "De quelle couleur est la tenue emblématique du jeune Naruto ?", a: "Orange", x: ["Bleue", "Verte", "Rouge"], e: "Sa combinaison orange et bleue est tr\u00e8s voyante \u2014 peu discr\u00e8te pour un ninja !" },
+  { id: "naruto-f5", d: 1, t: "Dans quel village vit Naruto ?", a: "Konoha", acc: ["konoha", "feuille"], x: ["Suna", "Kiri", "Iwa"], e: "Konoha, le Village Cach\u00e9 de la Feuille, est le village natal de Naruto." },
 
   // --- Moyennes (10) ---
   { id: "naruto-m1", d: 2, t: "Qui est le sensei de l'équipe 7 ?", a: "Kakashi Hatake", acc: ["kakashi"], x: ["Jiraiya", "Asuma", "Maito Gai"] },
