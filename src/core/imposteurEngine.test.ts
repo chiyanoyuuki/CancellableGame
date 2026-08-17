@@ -24,7 +24,7 @@ const pool: WordCard[] = [
 ];
 
 const cfg = (over: Partial<ImposteurConfig> = {}): ImposteurConfig => ({
-  themes: ['manga', 'jeuxvideo'],
+  universes: ['One Piece', 'Dragon Ball', 'Mario'],
   rounds: 2,
   imposterCount: 1,
   discussionSec: 0,

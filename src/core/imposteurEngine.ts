@@ -12,8 +12,9 @@ import type { DrinkIntensity, Player, PlayerSessionResult, SessionResult } from 
 import { mulberry32, type Rng, shuffle } from './rng';
 
 export interface ImposteurConfig {
-  /** Thèmes d'où proviennent les mots secrets. */
-  themes: string[];
+  /** Univers d'où proviennent les mots secrets (résolus par l'écran de config :
+   * soit ceux gardés par tous les profils, soit un choix manuel). */
+  universes: string[];
   /** Nombre de manches. */
   rounds: number;
   /** Nombre d'imposteurs par manche (1 ou 2). */

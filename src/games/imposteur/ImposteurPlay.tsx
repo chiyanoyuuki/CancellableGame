@@ -18,12 +18,10 @@ import {
 import { randomSeed } from '../../core/rng';
 import { haptics } from '../../lib/haptics';
 import { getQuizPool } from '../quiz/pool';
-import { useStore } from '../../store/StoreProvider';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import type { MiniGamePlayProps } from '../types';
 
 export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: MiniGamePlayProps) {
-  const store = useStore();
   const cfg = config as ImposteurConfig;
   const [game, setGame] = useState<ImposteurState | null>(null);
   const [showRole, setShowRole] = useState(false);
@@ -42,13 +40,11 @@ export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: Mi
     let alive = true;
     void (async () => {
       const full = await getQuizPool();
-      const themes = new Set(cfg.themes);
+      const universes = new Set(cfg.universes);
       const seen = new Map<string, WordCard>();
       for (const q of full) {
-        if (q.theme === 'images' || !q.universe) continue;
-        if (!themes.has(q.theme)) continue;
+        if (!q.universe || !universes.has(q.universe)) continue;
         if (!isGoodImposteurWord(q.answer)) continue;
-        if (!store.isUniverseUnlocked(q.universe)) continue;
         if (!seen.has(q.answer)) seen.set(q.answer, { word: q.answer, universe: q.universe, theme: q.theme });
       }
       if (!alive) return;
