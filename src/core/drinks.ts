@@ -1,3 +1,4 @@
+import { t } from '../lib/i18n';
 import type { Difficulty, DrinkIntensity, TurnMode } from './models';
 import { chance, pick, type Rng, rngInt, shuffle } from './rng';
 
@@ -50,7 +51,7 @@ export function rollAnswerDrink(params: {
     return {
       sipsDrunk: scale(rngInt(rng, 1, 2), intensity),
       sipsGiven: 0,
-      reason: 'Mauvaise réponse 😬 tu bois !',
+      reason: t('Mauvaise réponse 😬 tu bois !'),
     };
   }
 
@@ -59,13 +60,13 @@ export function rollAnswerDrink(params: {
     return {
       sipsDrunk: 0,
       sipsGiven: scale(rngInt(rng, 1, 2), intensity),
-      reason: 'Sans faute sur une difficile 🔥 distribue les gorgées !',
+      reason: t('Sans faute sur une difficile 🔥 distribue les gorgées !'),
     };
   }
 
   // Correct, but only after leaning on the hints: a small sip.
   if (hintsUsed >= 2 && chance(rng, 0.4)) {
-    return { sipsDrunk: scale(1, intensity), sipsGiven: 0, reason: 'Trouvé… mais avec les indices 👀' };
+    return { sipsDrunk: scale(1, intensity), sipsGiven: 0, reason: t('Trouvé… mais avec les indices 👀') };
   }
 
   return NOTHING;
@@ -105,8 +106,11 @@ export function resolveChallenge(
 ): ResolvedChallenge {
   const n = challenge.picks ?? 0;
   const base = { id: challenge.id, timerSec: challenge.timerSec };
+  // On traduit le gabarit (les marqueurs {0}, {1}… sont conservés) avant d'y
+  // insérer les noms tirés au sort.
+  const template = t(challenge.text);
   if (n <= 0 || players.length === 0) {
-    return { ...base, text: challenge.text.replace(/\{\d+\}/g, 'un joueur'), pickedIds: [] };
+    return { ...base, text: template.replace(/\{\d+\}/g, t('un joueur')), pickedIds: [] };
   }
   // Rotation : on pioche d'abord parmi ceux pas choisis récemment (`avoid`), puis
   // on complète avec les autres — chacun revient à tour de rôle plutôt qu'au
@@ -115,12 +119,12 @@ export function resolveChallenge(
   const fresh = shuffle(players.filter((p) => !recent.has(p.id)), rng);
   const rest = shuffle(players.filter((p) => recent.has(p.id)), rng);
   const chosen = [...fresh, ...rest].slice(0, Math.min(n, players.length));
-  let text = challenge.text;
+  let text = template;
   chosen.forEach((p, i) => {
     text = text.split(`{${i}}`).join(p.name);
   });
   // Marqueurs restants (moins de joueurs que demandé) : repli lisible.
-  text = text.replace(/\{\d+\}/g, 'un joueur');
+  text = text.replace(/\{\d+\}/g, t('un joueur'));
   return { ...base, text, pickedIds: chosen.map((p) => p.id) };
 }
 

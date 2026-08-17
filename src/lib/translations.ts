@@ -267,4 +267,157 @@ export const EN: Record<string, string> = {
   'Choisis un mini-jeu': 'Choose a mini-game',
   'Classement de la soirée': 'Party standings',
   'Manches jouées': 'Rounds played',
+
+  // --- Thèmes (THEME_META) & difficultés (DIFFICULTY_LABELS), models.ts ----
+  'Manga / Anime': 'Manga / Anime',
+  'Jeux vidéo': 'Video games',
+  Séries: 'Series',
+  Films: 'Movies',
+  Musique: 'Music',
+  Littérature: 'Literature',
+  Japon: 'Japan',
+  France: 'France',
+  'République tchèque': 'Czech Republic',
+  Mode: 'Fashion',
+  'Culture générale': 'General knowledge',
+  'Sciences & Nature': 'Science & Nature',
+  'Société & lifestyle': 'Society & lifestyle',
+  'Politique & Histoire': 'Politics & History',
+  'Références Internet': 'Internet references',
+  Mythologie: 'Mythology',
+  Religions: 'Religions',
+  Énigmes: 'Riddles',
+  'Rébus emoji': 'Emoji rebus',
+  'Image mystère': 'Mystery image',
+  Facile: 'Easy',
+  Moyen: 'Medium',
+  Difficile: 'Hard',
+  Pro: 'Pro',
+
+  // --- Gorgées & défis (drinks.ts, affichés en partie) --------------------
+  'Mauvaise réponse 😬 tu bois !': 'Wrong answer 😬 drink up!',
+  'Sans faute sur une difficile 🔥 distribue les gorgées !':
+    'Nailed a hard one 🔥 hand out the sips!',
+  'Trouvé… mais avec les indices 👀': 'Got it… but with hints 👀',
+  'un joueur': 'a player',
+  "Cascade ! Le dernier qui a marqué lance, chacun arrête de boire quand son voisin de droite s'arrête.":
+    'Waterfall! The last to score starts; each person stops drinking only when the one to their right stops.',
+  "Tout le monde boit de la main gauche jusqu'au prochain défi. Oubli = 1 gorgée.":
+    'Everyone drinks with their left hand until the next challenge. Forget = 1 sip.',
+  'Catégories : le meneur lance un thème (ex: persos de manga), chacun en cite un à tour de rôle. Le premier qui bloque boit 2 gorgées.':
+    'Categories: the host names a theme (e.g. manga characters), each names one in turn. First to get stuck drinks 2 sips.',
+  "Je n'ai jamais… : chacun son tour une affirmation, ceux qui l'ont déjà fait boivent une gorgée.":
+    'Never have I ever…: each in turn makes a statement; those who have done it drink a sip.',
+  'Duel de regard : {0} et {1} se fixent dans les yeux. Le premier qui rit ou cligne boit 2 gorgées.':
+    'Staring duel: {0} and {1} lock eyes. First to laugh or blink drinks 2 sips.',
+  'Vote secret : tout le monde montre pouce haut/bas en même temps. La minorité boit.':
+    'Secret vote: everyone shows thumbs up/down at once. The minority drinks.',
+  "Le dernier à poser son pouce sur la table boit. (Le meneur peut le déclencher quand il veut d'ici la prochaine question.)":
+    'Last to put a thumb on the table drinks. (The host can trigger it any time before the next question.)',
+  'Le meneur dit un mot, chacun doit enchaîner avec une rime. Le premier qui sèche boit.':
+    'The host says a word, everyone must follow with a rhyme. First to blank drinks.',
+  'Petite pause santé : tout le monde trinque et boit une gorgée ensemble 🥂.':
+    'Little health break: everyone clinks and drinks a sip together 🥂.',
+  "Chef élu : {0}. Jusqu'au prochain défi, quand {0} boit, tout le monde boit.":
+    'Elected chief: {0}. Until the next challenge, when {0} drinks, everyone drinks.',
+  'Statue : au prochain « statue ! » du meneur, le premier qui bouge boit 2 gorgées.':
+    'Statue: on the host’s next “freeze!”, the first to move drinks 2 sips.',
+  "Mot interdit : le meneur bannit un mot jusqu'au prochain défi. Le prononcer coûte 1 gorgée à chaque fois.":
+    'Forbidden word: the host bans a word until the next challenge. Saying it costs 1 sip each time.',
+  "Tout le monde parle avec l'accent choisi par le meneur jusqu'au prochain défi. Oubli = 1 gorgée.":
+    'Everyone speaks in the accent chosen by the host until the next challenge. Forget = 1 sip.',
+  "On se vouvoie tous jusqu'au prochain défi. Un tutoiement qui échappe = 1 gorgée.":
+    'Everyone stays formal until the next challenge. A slip into first names = 1 sip.',
+  'Gorgée cadeau 🎁 : {0} récolte 3 gorgées, à boire ou à distribuer.':
+    'Gift sips 🎁: {0} collects 3 sips, to drink or hand out.',
+  "{0} et {1} sont binômes : si l'un des deux se trompe à la prochaine question, vous buvez tous les deux.":
+    '{0} and {1} are partners: if either misses the next question, you both drink.',
+  "Le meneur impose un mot : chacun son tour cite une chanson qui le contient. Le premier qui sèche boit.":
+    'The host sets a word: each in turn names a song containing it. First to blank drinks.',
+  'Pierre-feuille-ciseaux : {0} affronte {1}, le perdant boit 2 gorgées.':
+    'Rock-paper-scissors: {0} faces {1}, the loser drinks 2 sips.',
+  "Concours de grimaces : celui qui fait craquer le meneur de rire gagne, tous les autres boivent.":
+    'Funny-face contest: whoever makes the host laugh wins, everyone else drinks.',
+  'Silence total : le premier qui parle avant la fin du minuteur boit 2 gorgées.':
+    'Total silence: the first to speak before the timer ends drinks 2 sips.',
+  "Le plus jeune et le plus âgé de la table distribuent chacun 2 gorgées.":
+    'The youngest and the oldest at the table each hand out 2 sips.',
+  "Interdit d'appeler quelqu'un par son prénom jusqu'au prochain défi. Erreur = 1 gorgée.":
+    'No calling anyone by their first name until the next challenge. Mistake = 1 sip.',
+  '{0} et {1} échangent leur place pour les deux prochaines questions.':
+    '{0} and {1} swap seats for the next two questions.',
+  '{0} : le meneur te pose une question surprise. Hésitation ou blague ratée = 1 gorgée.':
+    '{0}: the host asks you a surprise question. Hesitation or a flat joke = 1 sip.',
+  "Le meneur lève la main quand il veut d'ici la prochaine question : le dernier à lever la sienne boit.":
+    'The host raises a hand any time before the next question: the last to raise theirs drinks.',
+  "Le meneur invente une règle pour toute la table jusqu'au prochain défi, et la fait respecter.":
+    'The host invents a rule for the whole table until the next challenge, and enforces it.',
+
+  // --- Config du Quiz (QuizConfig) ----------------------------------------
+  'Chaque joueur répond à sa propre question, à tour de rôle — ou tout le monde court sur la même en « au plus rapide ».':
+    'Each player answers their own question in turn — or everyone races on the same one in “fastest finger”.',
+  'Sans proposition = points pleins. Demander des propositions ou un indice coûte des points.':
+    'No options = full points. Asking for options or a hint costs points.',
+  "Les questions déjà vues par un joueur ne reviennent qu'en dernier recours.":
+    'Questions a player has already seen only come back as a last resort.',
+  'Active les gorgées et les défis pour pimenter la soirée ; règle un chrono si besoin.':
+    'Turn on sips and challenges to spice up the night; set a timer if needed.',
+  Thèmes: 'Themes',
+  "Astuce : chaque partie pioche des questions inédites et un maximum d'univers différents. Chaque joueur peut désactiver des univers ou des thèmes entiers dans l'écran Joueurs : il n'a alors qu'environ 2 % de chance par question d'en croiser un.":
+    'Tip: each game draws unseen questions and as many different universes as possible. Each player can disable universes or whole themes in the Players screen: they then have only about a 2% chance per question of hitting one.',
+  Difficulté: 'Difficulty',
+  'Difficulté adaptative 🎯': 'Adaptive difficulty 🎯',
+  'Chacun reçoit, à son tour, des questions à sa mesure selon ses réussites passées (mode « Chacun son tour »).':
+    'Everyone gets, on their turn, questions tuned to them based on past success (“Take turns” mode).',
+  'Options avancées — univers': 'Advanced options — universes',
+  'Questions par joueur': 'Questions per player',
+  'Par joueur': 'Per player',
+  '{n} question': '{n} question',
+  '{n} questions': '{n} questions',
+  '{n} dispo': '{n} available',
+  '{n} jamais vue': '{n} never seen',
+  '{n} jamais vues': '{n} never seen',
+  'Inédites par joueur': 'Unseen per player',
+  'Questions jamais vues par chaque joueur avec les thèmes, difficultés et univers choisis.':
+    'Questions never seen by each player with the chosen themes, difficulties and universes.',
+  'Mode de jeu': 'Game mode',
+  'Chacun son tour': 'Take turns',
+  'Au plus rapide': 'Fastest finger',
+  'Chaque joueur répond à sa propre question, à tour de rôle.':
+    'Each player answers their own question, in turn.',
+  'Tout le monde court sur la même question : le plus rapide marque (avec bonus de vitesse).':
+    'Everyone races on the same question: the fastest scores (with a speed bonus).',
+  'Temps par question': 'Time per question',
+  "secondes — plus c'est rapide, plus le bonus est gros": 'seconds — the faster, the bigger the bonus',
+  Équipes: 'Teams',
+  'Mode équipe 👥': 'Team mode 👥',
+  'Le tour passe à une équipe, pas à un joueur. Les univers évités par les joueurs sont ignorés.':
+    'Turns pass to a team, not a player. Universes avoided by players are ignored.',
+  "Nombre d'équipes": 'Number of teams',
+  'Équipe {n}': 'Team {n}',
+  'RÉPARTITION DES JOUEURS': 'PLAYER ASSIGNMENT',
+  'Réponses & aide': 'Answers & help',
+  'Réponse libre par défaut': 'Free answer by default',
+  "Chaque question démarre sans proposition (points pleins). Pendant la question, des boutons permettent de demander de l'aide — au prix de points :":
+    'Each question starts with no options (full points). During the question, buttons let you ask for help — at the cost of points:',
+  '• 4 propositions → points ÷ 2\n• 2 propositions → points ÷ 4\n• un indice → points ÷ 1,5 (cumulable)':
+    '• 4 options → points ÷ 2\n• 2 options → points ÷ 4\n• a hint → points ÷ 1.5 (stackable)',
+  'Chrono par question': 'Per-question timer',
+  'Chrono informatif ⏱': 'Informative timer ⏱',
+  'Compte à rebours affiché, sans pénalité (0 = désactivé)':
+    'Countdown shown, no penalty (0 = disabled)',
+  '{n} s par question': '{n} s per question',
+  Désactivé: 'Disabled',
+  'Réponse fausse au temps écoulé ❌': 'Wrong answer on timeout ❌',
+  "À la fin du chrono, une réponse fausse est enregistrée automatiquement (le joueur du tour ; « personne n'a trouvé » en mode au plus rapide).":
+    'When the timer ends, a wrong answer is recorded automatically (the player on turn; “nobody got it” in fastest mode).',
+  Options: 'Options',
+  'Gorgées 🍻': 'Sips 🍻',
+  'Gorgées à boire / distribuer selon les réponses': 'Sips to drink / hand out based on answers',
+  'Défis 🎲': 'Challenges 🎲',
+  'Cartes « Défi ! » proposées entre les questions': 'Challenge cards offered between questions',
+  "Afficher l'univers": 'Show the universe',
+  "Montrer l'univers pendant la partie (ex. « Naruto »)": 'Show the universe during the game (e.g. “Naruto”)',
+  'Lancer la partie': 'Start the game',
+  'Choisis au moins un thème et une difficulté.': 'Choose at least one theme and one difficulty.',
 };

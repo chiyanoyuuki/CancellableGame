@@ -17,6 +17,7 @@ import {
 } from '../../core/models';
 import { countUnseenGroups, identityGroups, type QuestionHistory } from '../../core/questionSelection';
 import { getQuestionHistory, getQuestionHistoryByPlayer, kvGetJSON, kvSetJSON } from '../../db';
+import { useT } from '../../lib/i18nProvider';
 import { useStore } from '../../store/StoreProvider';
 import { colors, fontSize, PLAYER_COLORS, radius, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
@@ -28,6 +29,7 @@ const teamKey = (name: string, i: number) => `team:${(name.trim() || `equipe-${i
 const LAST_CONFIG_KEY = 'quiz:lastConfig';
 
 export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
+  const t = useT();
   const store = useStore();
   const [cfg, setCfg] = useState<QuizConfig>(DEFAULT_QUIZ_CONFIG);
   const [pool, setPool] = useState<Question[]>([]);
@@ -50,7 +52,7 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
   // Concaténation des 3 premières lettres du pseudo de chaque membre de l'équipe.
   const autoTeamName = (i: number): string => {
     const members = players.filter((p) => (assign[p.id] ?? 0) === i);
-    if (members.length === 0) return `Équipe ${i + 1}`;
+    if (members.length === 0) return t('Équipe {n}', { n: i + 1 });
     return members.map((m) => m.name.trim().slice(0, 3)).join('');
   };
 
@@ -196,37 +198,37 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
     <View style={{ gap: spacing(1) }}>
       <HowToPlay
         lines={[
-          'Chaque joueur répond à sa propre question, à tour de rôle — ou tout le monde court sur la même en « au plus rapide ».',
-          'Sans proposition = points pleins. Demander des propositions ou un indice coûte des points.',
-          'Les questions déjà vues par un joueur ne reviennent qu\'en dernier recours.',
-          'Active les gorgées et les défis pour pimenter la soirée ; règle un chrono si besoin.',
+          t('Chaque joueur répond à sa propre question, à tour de rôle — ou tout le monde court sur la même en « au plus rapide ».'),
+          t('Sans proposition = points pleins. Demander des propositions ou un indice coûte des points.'),
+          t("Les questions déjà vues par un joueur ne reviennent qu'en dernier recours."),
+          t('Active les gorgées et les défis pour pimenter la soirée ; règle un chrono si besoin.'),
         ]}
       />
-      <SectionHeader title="Thèmes" />
+      <SectionHeader title={t('Thèmes')} />
       <View style={styles.wrap}>
-        {THEMES.map((t) => (
+        {THEMES.map((th) => (
           <Chip
-            key={t}
-            label={THEME_META[t].label}
-            emoji={THEME_META[t].emoji}
-            selected={cfg.themes.includes(t)}
-            onPress={() => toggleTheme(t)}
+            key={th}
+            label={t(THEME_META[th].label)}
+            emoji={THEME_META[th].emoji}
+            selected={cfg.themes.includes(th)}
+            onPress={() => toggleTheme(th)}
           />
         ))}
       </View>
 
       <Txt faint size={fontSize.xs}>
-        Astuce : chaque partie pioche des questions inédites et un maximum d'univers différents.
-        Chaque joueur peut désactiver des univers ou des thèmes entiers dans l'écran Joueurs : il
-        n'a alors qu'environ 2 % de chance par question d'en croiser un.
+        {t(
+          "Astuce : chaque partie pioche des questions inédites et un maximum d'univers différents. Chaque joueur peut désactiver des univers ou des thèmes entiers dans l'écran Joueurs : il n'a alors qu'environ 2 % de chance par question d'en croiser un.",
+        )}
       </Txt>
 
-      <SectionHeader title="Difficulté" />
+      <SectionHeader title={t('Difficulté')} />
       <View style={styles.wrap}>
         {([1, 2, 3, 4] as Difficulty[]).map((d) => (
           <Chip
             key={d}
-            label={DIFFICULTY_LABELS[d]}
+            label={t(DIFFICULTY_LABELS[d])}
             selected={cfg.difficulties.includes(d)}
             onPress={() => toggleDifficulty(d)}
           />
@@ -235,9 +237,9 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
       <Card>
         <View style={styles.row}>
           <View style={{ flex: 1 }}>
-            <Txt weight="700">Difficulté adaptative 🎯</Txt>
+            <Txt weight="700">{t('Difficulté adaptative 🎯')}</Txt>
             <Txt faint size={fontSize.xs}>
-              Chacun reçoit, à son tour, des questions à sa mesure selon ses réussites passées (mode « Chacun son tour »).
+              {t('Chacun reçoit, à son tour, des questions à sa mesure selon ses réussites passées (mode « Chacun son tour »).')}
             </Txt>
           </View>
           <Switch
@@ -252,13 +254,13 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
       {universesByTheme.length > 0 && (
         <>
           <Pressable onPress={() => setShowAdvanced((v) => !v)}>
-            <SectionHeader title={`Options avancées — univers ${showAdvanced ? '▾' : '▸'}`} />
+            <SectionHeader title={`${t('Options avancées — univers')} ${showAdvanced ? '▾' : '▸'}`} />
           </Pressable>
           {showAdvanced &&
             universesByTheme.map(({ theme, universes }) => (
               <View key={theme} style={{ marginBottom: spacing(1.5) }}>
                 <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.5) }}>
-                  {THEME_META[theme].emoji} {THEME_META[theme].label.toUpperCase()}
+                  {THEME_META[theme].emoji} {t(THEME_META[theme].label).toUpperCase()}
                 </Txt>
                 <View style={styles.wrap}>
                   {universes.map((u) =>
@@ -276,10 +278,10 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
         </>
       )}
 
-      <SectionHeader title="Questions par joueur" />
+      <SectionHeader title={t('Questions par joueur')} />
       <Card>
         <View style={styles.row}>
-          <Txt weight="700">Par joueur</Txt>
+          <Txt weight="700">{t('Par joueur')}</Txt>
           <Stepper
             value={cfg.questionsPerPlayer}
             min={1}
@@ -288,40 +290,41 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
           />
         </View>
         <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-          {cfg.questionsPerPlayer} × {nPlayers} joueur{nPlayers > 1 ? 's' : ''} = {totalQuestions} question
-          {totalQuestions > 1 ? 's' : ''} · {available} dispo · {unseen} jamais vue{unseen > 1 ? 's' : ''}
+          {cfg.questionsPerPlayer} × {t(nPlayers > 1 ? '{n} joueurs' : '{n} joueur', { n: nPlayers })} ={' '}
+          {t(totalQuestions > 1 ? '{n} questions' : '{n} question', { n: totalQuestions })} ·{' '}
+          {t('{n} dispo', { n: available })} · {t(unseen > 1 ? '{n} jamais vues' : '{n} jamais vue', { n: unseen })}
         </Txt>
       </Card>
 
       {players.length > 0 && (
         <>
-          <SectionHeader title="Inédites par joueur" />
+          <SectionHeader title={t('Inédites par joueur')} />
           <PlayerUnseenList rows={unseenByPlayer} />
           <Txt faint size={fontSize.xs}>
-            Questions jamais vues par chaque joueur avec les thèmes, difficultés et univers choisis.
+            {t('Questions jamais vues par chaque joueur avec les thèmes, difficultés et univers choisis.')}
           </Txt>
         </>
       )}
 
-      <SectionHeader title="Mode de jeu" />
+      <SectionHeader title={t('Mode de jeu')} />
       <Segmented<TurnMode>
         value={cfg.turnMode}
         onChange={(v) => setCfg((c) => ({ ...c, turnMode: v }))}
         options={[
-          { label: 'Chacun son tour', value: 'turn' },
-          { label: 'Au plus rapide', value: 'fastest' },
+          { label: t('Chacun son tour'), value: 'turn' },
+          { label: t('Au plus rapide'), value: 'fastest' },
         ]}
       />
       <Txt faint size={fontSize.xs}>
         {cfg.turnMode === 'turn'
-          ? 'Chaque joueur répond à sa propre question, à tour de rôle.'
-          : 'Tout le monde court sur la même question : le plus rapide marque (avec bonus de vitesse).'}
+          ? t('Chaque joueur répond à sa propre question, à tour de rôle.')
+          : t('Tout le monde court sur la même question : le plus rapide marque (avec bonus de vitesse).')}
       </Txt>
 
       {cfg.turnMode === 'fastest' && (
         <Card>
           <View style={styles.row}>
-            <Txt weight="700">Temps par question</Txt>
+            <Txt weight="700">{t('Temps par question')}</Txt>
             <Stepper
               value={Math.round(cfg.fastestTimeLimitMs / 1000)}
               min={5}
@@ -331,17 +334,17 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
             />
           </View>
           <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-            secondes — plus c'est rapide, plus le bonus est gros
+            {t("secondes — plus c'est rapide, plus le bonus est gros")}
           </Txt>
         </Card>
       )}
 
-      <SectionHeader title="Équipes" />
+      <SectionHeader title={t('Équipes')} />
       <Card>
         <View style={styles.row}>
           <View style={{ flex: 1 }}>
-            <Txt weight="700">Mode équipe 👥</Txt>
-            <Txt faint size={fontSize.xs}>Le tour passe à une équipe, pas à un joueur. Les univers évités par les joueurs sont ignorés.</Txt>
+            <Txt weight="700">{t('Mode équipe 👥')}</Txt>
+            <Txt faint size={fontSize.xs}>{t('Le tour passe à une équipe, pas à un joueur. Les univers évités par les joueurs sont ignorés.')}</Txt>
           </View>
           <Switch
             value={cfg.teamMode}
@@ -356,7 +359,7 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
         <>
           <Card>
             <View style={styles.row}>
-              <Txt weight="700">Nombre d'équipes</Txt>
+              <Txt weight="700">{t("Nombre d'équipes")}</Txt>
               <Stepper value={teamCount} min={1} max={Math.max(1, players.length)} onChange={changeTeamCount} />
             </View>
           </Card>
@@ -376,14 +379,14 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
                   />
                 </View>
                 <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-                  {members.length > 0 ? members.map((m) => `${m.emoji} ${m.name}`).join('  ·  ') : 'Aucun joueur'}
+                  {members.length > 0 ? members.map((m) => `${m.emoji} ${m.name}`).join('  ·  ') : t('Aucun joueur')}
                 </Txt>
               </Card>
             );
           })}
 
           <Txt faint size={fontSize.xs} weight="800" style={{ marginTop: spacing(0.5) }}>
-            RÉPARTITION DES JOUEURS
+            {t('RÉPARTITION DES JOUEURS')}
           </Txt>
           {players.map((p) => (
             <Card key={p.id} style={[styles.row, { gap: spacing(1) }]}>
@@ -410,24 +413,25 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
         </>
       )}
 
-      <SectionHeader title="Réponses & aide" />
+      <SectionHeader title={t('Réponses & aide')} />
       <Card>
-        <Txt weight="700">Réponse libre par défaut</Txt>
+        <Txt weight="700">{t('Réponse libre par défaut')}</Txt>
         <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-          Chaque question démarre sans proposition (points pleins). Pendant la question, des
-          boutons permettent de demander de l'aide — au prix de points :
+          {t(
+            "Chaque question démarre sans proposition (points pleins). Pendant la question, des boutons permettent de demander de l'aide — au prix de points :",
+          )}
         </Txt>
         <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-          • 4 propositions → points ÷ 2{'\n'}• 2 propositions → points ÷ 4{'\n'}• un indice → points ÷ 1,5 (cumulable)
+          {t('• 4 propositions → points ÷ 2\n• 2 propositions → points ÷ 4\n• un indice → points ÷ 1,5 (cumulable)')}
         </Txt>
       </Card>
 
-      <SectionHeader title="Chrono par question" />
+      <SectionHeader title={t('Chrono par question')} />
       <Card>
         <View style={styles.row}>
           <View style={{ flex: 1 }}>
-            <Txt weight="700">Chrono informatif ⏱</Txt>
-            <Txt faint size={fontSize.xs}>Compte à rebours affiché, sans pénalité (0 = désactivé)</Txt>
+            <Txt weight="700">{t('Chrono informatif ⏱')}</Txt>
+            <Txt faint size={fontSize.xs}>{t('Compte à rebours affiché, sans pénalité (0 = désactivé)')}</Txt>
           </View>
           <Stepper
             value={cfg.questionTimerSec}
@@ -438,7 +442,7 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
           />
         </View>
         <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-          {cfg.questionTimerSec > 0 ? `${cfg.questionTimerSec} s par question` : 'Désactivé'}
+          {cfg.questionTimerSec > 0 ? t('{n} s par question', { n: cfg.questionTimerSec }) : t('Désactivé')}
         </Txt>
       </Card>
 
@@ -446,10 +450,11 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
         <Card>
           <View style={styles.row}>
             <View style={{ flex: 1 }}>
-              <Txt weight="700">Réponse fausse au temps écoulé ❌</Txt>
+              <Txt weight="700">{t('Réponse fausse au temps écoulé ❌')}</Txt>
               <Txt faint size={fontSize.xs}>
-                À la fin du chrono, une réponse fausse est enregistrée automatiquement (le joueur
-                du tour ; « personne n'a trouvé » en mode au plus rapide).
+                {t(
+                  "À la fin du chrono, une réponse fausse est enregistrée automatiquement (le joueur du tour ; « personne n'a trouvé » en mode au plus rapide).",
+                )}
               </Txt>
             </View>
             <Switch
@@ -462,12 +467,12 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
         </Card>
       )}
 
-      <SectionHeader title="Options" />
+      <SectionHeader title={t('Options')} />
       <Card>
         <View style={styles.row}>
           <View style={{ flex: 1 }}>
-            <Txt weight="700">Gorgées 🍻</Txt>
-            <Txt faint size={fontSize.xs}>Gorgées à boire / distribuer selon les réponses</Txt>
+            <Txt weight="700">{t('Gorgées 🍻')}</Txt>
+            <Txt faint size={fontSize.xs}>{t('Gorgées à boire / distribuer selon les réponses')}</Txt>
           </View>
           <Switch
             value={cfg.drinksEnabled}
@@ -478,8 +483,8 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
         </View>
         <View style={[styles.row, { marginTop: spacing(1.5) }]}>
           <View style={{ flex: 1 }}>
-            <Txt weight="700">Défis 🎲</Txt>
-            <Txt faint size={fontSize.xs}>Cartes « Défi ! » proposées entre les questions</Txt>
+            <Txt weight="700">{t('Défis 🎲')}</Txt>
+            <Txt faint size={fontSize.xs}>{t('Cartes « Défi ! » proposées entre les questions')}</Txt>
           </View>
           <Switch
             value={cfg.challengesEnabled ?? true}
@@ -490,8 +495,8 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
         </View>
         <View style={[styles.row, { marginTop: spacing(1.5) }]}>
           <View style={{ flex: 1 }}>
-            <Txt weight="700">Afficher l'univers</Txt>
-            <Txt faint size={fontSize.xs}>Montrer l'univers pendant la partie (ex. « Naruto »)</Txt>
+            <Txt weight="700">{t("Afficher l'univers")}</Txt>
+            <Txt faint size={fontSize.xs}>{t("Montrer l'univers pendant la partie (ex. « Naruto »)")}</Txt>
           </View>
           <Switch
             value={cfg.showUniverse}
@@ -515,10 +520,10 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
       )}
 
       <View style={{ height: spacing(1) }} />
-      <Button title="Lancer la partie" emoji="🚀" size="lg" onPress={launch} disabled={!valid} />
+      <Button title={t('Lancer la partie')} emoji="🚀" size="lg" onPress={launch} disabled={!valid} />
       {!valid && (
         <Txt faint size={fontSize.xs} center>
-          Choisis au moins un thème et une difficulté.
+          {t('Choisis au moins un thème et une difficulté.')}
         </Txt>
       )}
     </View>
