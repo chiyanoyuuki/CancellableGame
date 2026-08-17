@@ -19,6 +19,7 @@ import {
 } from '../core/stats';
 import { listPlayers, loadStatAnswers, loadStatResults, loadStatSessions } from '../db';
 import { MINI_GAMES } from '../games/registry';
+import { useT } from '../lib/i18nProvider';
 import type { RootStackParamList } from '../navigation';
 import { useStore } from '../store/StoreProvider';
 import { colors, fontSize, RANK_MEDALS, radius, spacing } from '../theme/theme';
@@ -48,6 +49,7 @@ const TABS: { label: string; emoji: string; value: Tab }[] = [
 ];
 
 export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'Stats'>) {
+  const tr = useT();
   const { ent } = useStore();
   const [data, setData] = useState<Data>(EMPTY);
   const [period, setPeriod] = useState<Period>('all');
@@ -70,8 +72,8 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
   };
 
   const gameOptions = useMemo(
-    () => [{ label: 'Tous', value: 'all' }, ...MINI_GAMES.map((g) => ({ label: g.title, value: g.id }))],
-    [],
+    () => [{ label: tr('Tous'), value: 'all' }, ...MINI_GAMES.map((g) => ({ label: tr(g.title), value: g.id }))],
+    [tr],
   );
 
   useFocusEffect(
@@ -136,7 +138,7 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
   // --- Tab renderers -------------------------------------------------------
 
   const renderClassement = () => {
-    if (totals.length === 0) return <TabEmpty text="Aucune partie sur cette période." />;
+    if (totals.length === 0) return <TabEmpty text={tr('Aucune partie sur cette période.')} />;
     return (
       <>
         {totals.map((t, i) => {
@@ -162,8 +164,8 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
                     {team ? '  👥' : ''}
                   </Txt>
                   <Txt faint size={fontSize.xs}>
-                    {t.games} partie{t.games > 1 ? 's' : ''} · {t.wins} 🏆 · 🍺 {t.sipsDrunk}
-                    {team ? ' · appuie pour les membres' : ''}
+                    {tr(t.games > 1 ? '{n} parties' : '{n} partie', { n: t.games })} · {t.wins} 🏆 · 🍺 {t.sipsDrunk}
+                    {team ? tr(' · appuie pour les membres') : ''}
                   </Txt>
                 </View>
                 <Txt size={fontSize.lg} weight="900" color={colors.primary}>
@@ -175,7 +177,7 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
                   <Txt faint size={fontSize.xs}>
                     {team.members.length > 0
                       ? team.members.map((m) => `${m.emoji} ${m.name}`).join('   ·   ')
-                      : 'Composition inconnue'}
+                      : tr('Composition inconnue')}
                   </Txt>
                 </Card>
               )}
@@ -187,7 +189,7 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
   };
 
   const renderTitres = () => {
-    if (titles.length === 0) return <TabEmpty text="Pas encore de titres sur cette période." />;
+    if (titles.length === 0) return <TabEmpty text={tr('Pas encore de titres sur cette période.')} />;
     return (
       <View style={styles.titlesWrap}>
         {titles.map((s) => (
@@ -212,18 +214,18 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
     if (!ent.allAchievements) {
       return (
         <Card accent={colors.accent} onPress={() => navigation.navigate('Store')}>
-          <Txt weight="800">🔒 Hauts faits verrouillés</Txt>
+          <Txt weight="800">{tr('🔒 Hauts faits verrouillés')}</Txt>
           <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-            Le classement et les paliers sont dans la Boutique — 1,99 €. Touche pour débloquer.
+            {tr('Le classement et les paliers sont dans la Boutique — 1,99 €. Touche pour débloquer.')}
           </Txt>
         </Card>
       );
     }
-    if (achLeaderboard.length === 0) return <TabEmpty text="Pas encore de hauts faits débloqués." />;
+    if (achLeaderboard.length === 0) return <TabEmpty text={tr('Pas encore de hauts faits débloqués.')} />;
     return (
       <>
         <Txt faint size={fontSize.xs} style={{ marginBottom: spacing(1) }}>
-          Classement à vie (toutes périodes). Chaque palier rapporte des points ; touche un joueur pour ses badges.
+          {tr('Classement à vie (toutes périodes). Chaque palier rapporte des points ; touche un joueur pour ses badges.')}
         </Txt>
         {achLeaderboard.map((row, i) => (
           <Card
@@ -239,7 +241,7 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
             <View style={{ flex: 1 }}>
               <Txt weight="800">{row.player.name}</Txt>
               <Txt faint size={fontSize.xs}>
-                {row.tiers} palier{row.tiers > 1 ? 's' : ''} · appuie pour le profil
+                {tr(row.tiers > 1 ? '{n} paliers' : '{n} palier', { n: row.tiers })} · {tr('appuie pour le profil')}
               </Txt>
             </View>
             <Txt size={fontSize.lg} weight="900" color={colors.accent}>
@@ -252,14 +254,14 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
   };
 
   const renderThemes = () => {
-    if (themes.length === 0) return <TabEmpty text="Pas de réponses sur cette période." />;
+    if (themes.length === 0) return <TabEmpty text={tr('Pas de réponses sur cette période.')} />;
     return (
       <>
         {themes.map((t) => (
           <View key={t.theme} style={{ marginBottom: spacing(1) }}>
             <View style={styles.themeLabel}>
               <Txt size={fontSize.sm} weight="700">
-                {THEME_META[t.theme as Theme]?.emoji ?? '•'} {THEME_META[t.theme as Theme]?.label ?? t.theme}
+                {THEME_META[t.theme as Theme]?.emoji ?? '•'} {THEME_META[t.theme as Theme] ? tr(THEME_META[t.theme as Theme].label) : t.theme}
               </Txt>
               <Txt faint size={fontSize.xs}>
                 {Math.round(t.accuracy * 100)}% · {t.correct}/{t.total}
@@ -275,15 +277,15 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
   };
 
   return (
-    <Screen title="Statistiques" subtitle="Le palmarès de vos soirées" onBack={() => navigation.goBack()} scroll>
-      <Segmented<Period> value={period} onChange={changePeriod} options={PERIODS} />
+    <Screen title={tr('Statistiques')} subtitle={tr('Le palmarès de vos soirées')} onBack={() => navigation.goBack()} scroll>
+      <Segmented<Period> value={period} onChange={changePeriod} options={PERIODS.map((o) => ({ label: tr(o.label), value: o.value }))} />
       {!ent.allStats && (
         <Card accent={colors.accent} onPress={() => navigation.navigate('Store')} style={{ marginTop: spacing(1) }}>
           <Txt weight="800" size={fontSize.sm}>
-            🔒 Stats du soir uniquement
+            {tr('🔒 Stats du soir uniquement')}
           </Txt>
           <Txt faint size={fontSize.xs}>
-            Débloque le mois, l'année et le total dans la Boutique — 1,99 €.
+            {tr("Débloque le mois, l'année et le total dans la Boutique — 1,99 €.")}
           </Txt>
         </Card>
       )}
@@ -294,17 +296,17 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
       )}
 
       {!hasData ? (
-        <EmptyState emoji="📊" title="Pas encore de stats" subtitle="Jouez une partie et revenez admirer le palmarès !" />
+        <EmptyState emoji="📊" title={tr('Pas encore de stats')} subtitle={tr('Jouez une partie et revenez admirer le palmarès !')} />
       ) : (
         <>
           <View style={styles.factsRow}>
-            <FactCard emoji="🎮" value={String(facts.totalGames)} label="parties" />
-            <FactCard emoji="🍺" value={String(facts.totalSips)} label="gorgées" />
-            <FactCard emoji="❓" value={String(facts.totalQuestions)} label="questions" />
+            <FactCard emoji="🎮" value={String(facts.totalGames)} label={tr('parties')} />
+            <FactCard emoji="🍺" value={String(facts.totalSips)} label={tr('gorgées')} />
+            <FactCard emoji="❓" value={String(facts.totalQuestions)} label={tr('questions')} />
           </View>
           {facts.favouriteTheme && (
             <Txt faint center size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-              Thème favori : {THEME_META[facts.favouriteTheme as Theme]?.label ?? facts.favouriteTheme}
+              {tr('Thème favori : {theme}', { theme: THEME_META[facts.favouriteTheme as Theme] ? tr(THEME_META[facts.favouriteTheme as Theme].label) : facts.favouriteTheme })}
             </Txt>
           )}
 
@@ -315,7 +317,7 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
             contentContainerStyle={{ gap: spacing(1), paddingRight: spacing(2) }}
           >
             {TABS.map((t) => (
-              <Chip key={t.value} label={t.label} emoji={t.emoji} selected={tab === t.value} onPress={() => setTab(t.value)} />
+              <Chip key={t.value} label={tr(t.label)} emoji={t.emoji} selected={tab === t.value} onPress={() => setTab(t.value)} />
             ))}
           </ScrollView>
 

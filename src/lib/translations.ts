@@ -835,4 +835,43 @@ export const EN: Record<string, string> = {
   '✨ Nouveaux paliers ×{n} cette partie !': '✨ New tiers ×{n} this game!',
   ' · prochain palier à {n}': ' · next tier at {n}',
   ' · palier max atteint 👑': ' · max tier reached 👑',
+
+  // --- Profil du joueur (PlayerProfileScreen) -----------------------------
+  Profil: 'Profile',
+  'Joueur introuvable': 'Player not found',
+  '{n} partie': '{n} game',
+  '{n} palier': '{n} tier',
+  '{n} paliers': '{n} tiers',
+  '🔒 Hauts faits verrouillés': '🔒 Achievements locked',
+  'Débloque tous les hauts faits, leurs paliers et le classement dans la Boutique — 1,99 €.':
+    'Unlock all achievements, their tiers and the leaderboard in the Shop — €1.99.',
+  'Voir la Boutique': 'See the Shop',
+  '⭐ Points de hauts faits': '⭐ Achievement points',
+  '{score} / {max} points possibles': '{score} / {max} possible points',
+
+  // --- Statistiques (StatsScreen) -----------------------------------------
+  Soir: 'Tonight',
+  Mois: 'Month',
+  Année: 'Year',
+  Total: 'Total',
+  Classement: 'Ranking',
+  Titres: 'Titles',
+  'Aucune partie sur cette période.': 'No games in this period.',
+  ' · appuie pour les membres': ' · tap for members',
+  'Composition inconnue': 'Unknown lineup',
+  'Pas encore de titres sur cette période.': 'No titles yet in this period.',
+  'Le classement et les paliers sont dans la Boutique — 1,99 €. Touche pour débloquer.':
+    'The leaderboard and tiers are in the Shop — €1.99. Tap to unlock.',
+  'Pas encore de hauts faits débloqués.': 'No achievements unlocked yet.',
+  'Classement à vie (toutes périodes). Chaque palier rapporte des points ; touche un joueur pour ses badges.':
+    'Lifetime ranking (all periods). Each tier earns points; tap a player for their badges.',
+  'appuie pour le profil': 'tap for the profile',
+  'Pas de réponses sur cette période.': 'No answers in this period.',
+  'Le palmarès de vos soirées': 'Your party hall of fame',
+  '🔒 Stats du soir uniquement': "🔒 Tonight's stats only",
+  "Débloque le mois, l'année et le total dans la Boutique — 1,99 €.":
+    'Unlock month, year and total in the Shop — €1.99.',
+  'Pas encore de stats': 'No stats yet',
+  'Jouez une partie et revenez admirer le palmarès !': 'Play a game and come back to admire the hall of fame!',
+  'Thème favori : {theme}': 'Favorite theme: {theme}',
 };

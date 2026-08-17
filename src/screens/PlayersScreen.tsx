@@ -355,17 +355,19 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   // débloqués (version gratuite) sont grisés et renvoient vers la Boutique.
   const catChip = (it: { key: string; label: string; theme?: Theme }) => {
     const emoji = it.theme ? THEME_META[it.theme].emoji : undefined;
+    // Un univers garde son nom (contenu) ; un thème « #… » est traduit.
+    const label = it.key.startsWith('#') ? t(it.label) : it.label;
     if (!store.isUniverseUnlocked(it.key)) {
       return (
         <View key={it.key} style={{ opacity: 0.45 }}>
-          <Chip label={`🔒 ${it.label}`} emoji={emoji} selected={false} onPress={() => navigation.navigate('Store')} />
+          <Chip label={`🔒 ${label}`} emoji={emoji} selected={false} onPress={() => navigation.navigate('Store')} />
         </View>
       );
     }
     return (
       <Chip
         key={it.key}
-        label={it.label}
+        label={label}
         emoji={emoji}
         selected={!unwantedDraft.has(it.key)}
         onPress={() => toggleUnwanted(it.key)}
@@ -561,7 +563,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
               categoriesByTheme.map(({ theme, items }) => (
                 <View key={theme} style={{ marginBottom: spacing(1.5) }}>
                   <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.75) }}>
-                    {THEME_META[theme].emoji} {THEME_META[theme].label.toUpperCase()}
+                    {THEME_META[theme].emoji} {t(THEME_META[theme].label).toUpperCase()}
                   </Txt>
                   <View style={styles.chipWrap}>{items.map((it) => catChip({ ...it }))}</View>
                 </View>

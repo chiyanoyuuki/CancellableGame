@@ -9,11 +9,13 @@ import { achievementScore, achievementSummary, MAX_POINTS, playerAchievements } 
 import type { Player } from '../core/models';
 import type { StatAnswer, StatResult } from '../core/stats';
 import { listPlayers, loadStatAnswers, loadStatResults } from '../db';
+import { useT } from '../lib/i18nProvider';
 import type { RootStackParamList } from '../navigation';
 import { useStore } from '../store/StoreProvider';
 import { colors, fontSize, spacing } from '../theme/theme';
 
 export function PlayerProfileScreen({ route, navigation }: NativeStackScreenProps<RootStackParamList, 'PlayerProfile'>) {
+  const t = useT();
   const { playerId } = route.params;
   const { ent } = useStore();
   const [player, setPlayer] = useState<Player | null>(null);
@@ -45,35 +47,35 @@ export function PlayerProfileScreen({ route, navigation }: NativeStackScreenProp
   const locked = !ent.allAchievements;
 
   return (
-    <Screen title={player?.name ?? 'Profil'} onBack={() => navigation.goBack()} scroll>
+    <Screen title={player?.name ?? t('Profil')} onBack={() => navigation.goBack()} scroll>
       {!player ? (
-        <EmptyState emoji="👤" title="Joueur introuvable" />
+        <EmptyState emoji="👤" title={t('Joueur introuvable')} />
       ) : (
         <>
           <View style={{ alignItems: 'center', gap: spacing(1), marginBottom: spacing(1) }}>
             <PlayerAvatar emoji={player.emoji} color={player.color} photoUri={player.photoUri} size={84} playerId={player.id} />
             <Txt size={fontSize.xxl} weight="900">{player.name}</Txt>
             <Txt dim size={fontSize.sm}>
-              {games} partie{games > 1 ? 's' : ''} · {wins} 🏆
-              {locked ? '' : ` · ${summary.tiers} palier${summary.tiers > 1 ? 's' : ''}`}
+              {t(games > 1 ? '{n} parties' : '{n} partie', { n: games })} · {wins} 🏆
+              {locked ? '' : ` · ${t(summary.tiers > 1 ? '{n} paliers' : '{n} palier', { n: summary.tiers })}`}
             </Txt>
           </View>
 
           {locked ? (
             <Card accent={colors.accent} onPress={() => navigation.navigate('Store')}>
-              <Txt weight="800">🔒 Hauts faits verrouillés</Txt>
+              <Txt weight="800">{t('🔒 Hauts faits verrouillés')}</Txt>
               <Txt faint size={fontSize.sm} style={{ marginTop: spacing(0.5) }}>
-                Débloque tous les hauts faits, leurs paliers et le classement dans la Boutique — 1,99 €.
+                {t('Débloque tous les hauts faits, leurs paliers et le classement dans la Boutique — 1,99 €.')}
               </Txt>
               <View style={{ marginTop: spacing(1.5) }}>
-                <Button title="Voir la Boutique" emoji="🎖️" onPress={() => navigation.navigate('Store')} />
+                <Button title={t('Voir la Boutique')} emoji="🎖️" onPress={() => navigation.navigate('Store')} />
               </View>
             </Card>
           ) : (
             <>
               <Card accent={colors.accent}>
                 <View style={styles.row}>
-                  <Txt weight="800">⭐ Points de hauts faits</Txt>
+                  <Txt weight="800">{t('⭐ Points de hauts faits')}</Txt>
                   <Txt weight="900" size={fontSize.lg} color={colors.accent}>
                     {achievementScore(tracks)}
                   </Txt>
@@ -82,11 +84,11 @@ export function PlayerProfileScreen({ route, navigation }: NativeStackScreenProp
                   <ProgressBar value={achievementScore(tracks)} total={MAX_POINTS} color={colors.accent} />
                 </View>
                 <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-                  {achievementScore(tracks)} / {MAX_POINTS} points possibles
+                  {t('{score} / {max} points possibles', { score: achievementScore(tracks), max: MAX_POINTS })}
                 </Txt>
               </Card>
 
-              <SectionHeader title="Hauts faits" />
+              <SectionHeader title={t('Hauts faits')} />
               {sorted.map((t) => (
                 <AchievementTrackCard key={t.track.id} t={t} />
               ))}

@@ -108,12 +108,14 @@ export function OnboardingScreen({ onDone }: { onDone: (universes: string[]) => 
         {categoriesByTheme.map(({ theme, items }) => (
           <View key={theme} style={{ marginBottom: spacing(1.5) }}>
             <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.75) }}>
-              {THEME_META[theme].emoji} {THEME_META[theme].label.toUpperCase()}
+              {THEME_META[theme].emoji} {t(THEME_META[theme].label).toUpperCase()}
             </Txt>
             <View style={styles.wrap}>
               {items.map((it) => {
                 const on = sel.has(it.key);
-                return <Chip key={it.key} label={it.label} selected={on} onPress={() => toggle(it.key)} />;
+                // Un univers garde son nom (contenu) ; un thème « #… » est traduit.
+                const label = it.key.startsWith('#') ? t(it.label) : it.label;
+                return <Chip key={it.key} label={label} selected={on} onPress={() => toggle(it.key)} />;
               })}
             </View>
           </View>
