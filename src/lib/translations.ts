@@ -874,4 +874,102 @@ export const EN: Record<string, string> = {
   'Pas encore de stats': 'No stats yet',
   'Jouez une partie et revenez admirer le palmarès !': 'Play a game and come back to admire the hall of fame!',
   'Thème favori : {theme}': 'Favorite theme: {theme}',
+
+  // --- Questions signalées (ReportedQuestionsScreen) ----------------------
+  Autre: 'Other',
+  'Supprimer tous les signalements ?': 'Delete all reports?',
+  Effacer: 'Erase',
+  'À relire et corriger dans la banque': 'To review and fix in the bank',
+  'Aucun signalement': 'No reports',
+  'Les questions signalées en jeu apparaîtront ici.': 'Questions reported in-game will appear here.',
+  'Réponse : {answer}': 'Answer: {answer}',
+
+  // --- Vérifier les images (ImageCheckScreen) -----------------------------
+  '{n} questions à image': '{n} image questions',
+  Chargées: 'Loaded',
+  Cassées: 'Broken',
+  'En cours': 'Loading',
+  "Laisse l'écran ouvert quelques secondes le temps que tout se charge. Une connexion est requise.":
+    'Leave the screen open a few seconds while everything loads. A connection is required.',
+  Tout: 'All',
+  'Cassées ({n})': 'Broken ({n})',
+  'Partager la liste des cassées': 'Share the broken list',
+  'Images cassées': 'Broken images',
+  'Toutes les images': 'All images',
+  'Aucune image cassée détectée 🎉': 'No broken image detected 🎉',
+  'Aucune question à image.': 'No image questions.',
+  'ne charge pas': 'not loading',
+  'chargement…': 'loading…',
+  'Images cassées ({n}) :': 'Broken images ({n}):',
+
+  // --- Profil à distance (RemoteProfileScreen) ----------------------------
+  "Accès à l'appareil photo refusé. Autorise-le dans les réglages.":
+    'Camera access denied. Allow it in settings.',
+  '{name} mis à jour !': '{name} updated!',
+  '{name} ajouté !': '{name} added!',
+  'Limite de {n} profils atteinte. Débloque les profils illimités dans la Boutique.':
+    'Profile limit of {n} reached. Unlock unlimited profiles in the Shop.',
+  'QR non reconnu. Assure-toi que c’est bien un profil Cancellable.':
+    "QR not recognized. Make sure it's really a Cancellable profile.",
+  '{n} univers évité': '{n} avoided universe',
+  '{n} univers évités': '{n} avoided universes',
+  'Aucun univers évité': 'No avoided universe',
+  'Profil existant': 'Existing profile',
+  'Un profil du même nom existe déjà.': 'A profile with the same name already exists.',
+  'Créer un nouveau': 'Create a new one',
+  'Mettre à jour': 'Update',
+  'Ajouter ce joueur ?': 'Add this player?',
+  "Vise le QR code du profil de l'invité": "Aim at the guest's profile QR code",
+  'Profil à distance': 'Remote profile',
+  'URL du formulaire non configurée': 'Form URL not configured',
+  "Hébergez le dossier `webform/` puis renseignez son adresse dans `REMOTE_PROFILE_URL` (src/config.ts) pour afficher les QR d'accès.":
+    'Host the `webform/` folder then set its address in `REMOTE_PROFILE_URL` (src/config.ts) to show the access QR codes.',
+  '📲 Chacun édite son profil, sans se passer le tel': '📲 Everyone edits their profile, no phone-passing',
+  'Deux sortes de QR : un pour ': 'Two kinds of QR: one to ',
+  créer: 'create',
+  ' un nouveau profil, et un ': ' a new profile, and one ',
+  'par joueur': 'per player',
+  " pour mettre à jour le sien (avatar et univers évités déjà pré-cochés). L'invité scanne, ajuste dans son navigateur, puis te montre son QR retour que tu scannes ici. Rien ne passe par Internet.":
+    ' to update theirs (avatar and avoided universes already pre-checked). The guest scans, adjusts in their browser, then shows you their return QR which you scan here. Nothing goes through the Internet.',
+  '➕ CRÉER UN NOUVEAU PROFIL': '➕ CREATE A NEW PROFILE',
+  'Un invité scanne ce QR pour créer son profil de zéro.':
+    'A guest scans this QR to create their profile from scratch.',
+  'Scanner un profil': 'Scan a profile',
+  "Quand un invité a fini, scanne le QR qu'il affiche (création ou mise à jour).":
+    'When a guest is done, scan the QR they show (create or update).',
+  '✏️ METTRE À JOUR UN JOUEUR': '✏️ UPDATE A PLAYER',
+  "Aucun joueur pour l'instant. Crée-en d'abord (QR ci-dessus, ou écran Joueurs).":
+    'No players yet. Create one first (QR above, or Players screen).',
+  "Touche un joueur pour afficher SON QR : son profil s'ouvrira déjà rempli.":
+    'Tap a player to show THEIR QR: their profile will open pre-filled.',
+  'REÇUS CETTE SESSION ({n})': 'RECEIVED THIS SESSION ({n})',
+  '{n} univers exclus': '{n} excluded universes',
+  'Tous les univers gardés': 'All universes kept',
+  ' · mis à jour': ' · updated',
+  ' · nouveau': ' · new',
+  "{name} scanne ce QR : son profil s'ouvre déjà rempli. Il ajuste puis te montre son QR retour, que tu scannes ici. (Tu peux aussi lui envoyer une capture.)":
+    '{name} scans this QR: their profile opens pre-filled. They adjust then show you their return QR, which you scan here. (You can also send them a screenshot.)',
+
+  // --- Mon contenu (CustomContentScreen) ----------------------------------
+  'Ajoute tes propres questions et défis': 'Add your own questions and challenges',
+  'Nouvelle question': 'New question',
+  THÈME: 'THEME',
+  'Univers (optionnel, ex. Naruto)': 'Universe (optional, e.g. Naruto)',
+  'Bonne réponse': 'Correct answer',
+  'MAUVAISES RÉPONSES (pour le QCM)': 'WRONG ANSWERS (for multiple choice)',
+  'Proposition 1': 'Option 1',
+  'Proposition 2': 'Option 2',
+  'Proposition 3': 'Option 3',
+  'Indice (optionnel)': 'Hint (optional)',
+  'Ajouter la question': 'Add the question',
+  'Mes questions ({n})': 'My questions ({n})',
+  "Aucune question perso pour l'instant.": 'No custom questions yet.',
+  'Supprimer cette question ?': 'Delete this question?',
+  'Nouveau défi 🍻': 'New challenge 🍻',
+  "Ex. : Tout le monde boit de la main gauche jusqu'au prochain défi.":
+    'E.g.: Everyone drinks with their left hand until the next challenge.',
+  'Ajouter le défi': 'Add the challenge',
+  'Mes défis ({n})': 'My challenges ({n})',
+  "Aucun défi perso pour l'instant.": 'No custom challenges yet.',
+  'Supprimer ce défi ?': 'Delete this challenge?',
 };

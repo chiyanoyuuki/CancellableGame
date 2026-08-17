@@ -5,6 +5,7 @@ import { Image, Share, StyleSheet, View } from 'react-native';
 import { Button, Card, Chip, Screen, SectionHeader, Txt } from '../components/ui';
 import type { Question } from '../core/models';
 import { QUESTIONS } from '../games/quiz/questions';
+import { useT } from '../lib/i18nProvider';
 import type { RootStackParamList } from '../navigation';
 import { colors, fontSize, radius, spacing } from '../theme/theme';
 
@@ -19,6 +20,7 @@ type Status = 'loading' | 'ok' | 'error';
  * succès du chargement.
  */
 export function ImageCheckScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'ImageCheck'>) {
+  const t = useT();
   const imageQuestions = useMemo(
     () => QUESTIONS.filter((q): q is Question & { media: { type: 'image'; uri: string } } =>
       q.media?.type === 'image' && typeof q.media.uri === 'string',
@@ -40,34 +42,34 @@ export function ImageCheckScreen({ navigation }: NativeStackScreenProps<RootStac
   const shareBroken = () => {
     if (broken.length === 0) return;
     const body = broken.map((q) => `${q.id} — ${q.answer}\n${q.media.uri}`).join('\n\n');
-    Share.share({ message: `Images cassées (${broken.length}) :\n\n${body}` });
+    Share.share({ message: `${t('Images cassées ({n}) :', { n: broken.length })}\n\n${body}` });
   };
 
   const shown = onlyBroken ? broken : imageQuestions;
 
   return (
     <Screen
-      title="Vérifier les images"
-      subtitle={`${imageQuestions.length} questions à image`}
+      title={t('Vérifier les images')}
+      subtitle={t('{n} questions à image', { n: imageQuestions.length })}
       onBack={() => navigation.goBack()}
       scroll
     >
       <Card>
         <View style={styles.countsRow}>
-          <Count emoji="✅" label="Chargées" value={okCount} color={colors.success} />
-          <Count emoji="❌" label="Cassées" value={errCount} color={colors.danger} />
-          <Count emoji="⏳" label="En cours" value={loadingCount} color={colors.textDim} />
+          <Count emoji="✅" label={t('Chargées')} value={okCount} color={colors.success} />
+          <Count emoji="❌" label={t('Cassées')} value={errCount} color={colors.danger} />
+          <Count emoji="⏳" label={t('En cours')} value={loadingCount} color={colors.textDim} />
         </View>
         <Txt faint size={fontSize.xs} style={{ marginTop: spacing(1) }}>
-          Laisse l'écran ouvert quelques secondes le temps que tout se charge. Une connexion est requise.
+          {t("Laisse l'écran ouvert quelques secondes le temps que tout se charge. Une connexion est requise.")}
         </Txt>
         <View style={{ flexDirection: 'row', gap: spacing(1), marginTop: spacing(1.5), flexWrap: 'wrap' }}>
-          <Chip label="Tout" selected={!onlyBroken} onPress={() => setOnlyBroken(false)} />
-          <Chip label={`Cassées (${errCount})`} selected={onlyBroken} onPress={() => setOnlyBroken(true)} color={colors.danger} />
+          <Chip label={t('Tout')} selected={!onlyBroken} onPress={() => setOnlyBroken(false)} />
+          <Chip label={t('Cassées ({n})', { n: errCount })} selected={onlyBroken} onPress={() => setOnlyBroken(true)} color={colors.danger} />
         </View>
         {errCount > 0 && (
           <Button
-            title="Partager la liste des cassées"
+            title={t('Partager la liste des cassées')}
             emoji="📤"
             variant="secondary"
             size="sm"
@@ -77,11 +79,11 @@ export function ImageCheckScreen({ navigation }: NativeStackScreenProps<RootStac
         )}
       </Card>
 
-      <SectionHeader title={onlyBroken ? 'Images cassées' : 'Toutes les images'} />
+      <SectionHeader title={onlyBroken ? t('Images cassées') : t('Toutes les images')} />
       {shown.length === 0 ? (
         <Card>
           <Txt dim center>
-            {onlyBroken ? 'Aucune image cassée détectée 🎉' : 'Aucune question à image.'}
+            {onlyBroken ? t('Aucune image cassée détectée 🎉') : t('Aucune question à image.')}
           </Txt>
         </Card>
       ) : (
@@ -105,7 +107,7 @@ export function ImageCheckScreen({ navigation }: NativeStackScreenProps<RootStac
                     {q.answer}
                   </Txt>
                   <Txt faint size={fontSize.xs} numberOfLines={1}>
-                    {q.id} · {s === 'ok' ? 'OK' : s === 'error' ? 'ne charge pas' : 'chargement…'}
+                    {q.id} · {s === 'ok' ? 'OK' : s === 'error' ? t('ne charge pas') : t('chargement…')}
                   </Txt>
                   <Txt faint size={fontSize.xs} numberOfLines={1}>
                     {q.media.uri.replace('https://', '')}

@@ -15,6 +15,7 @@ import {
   listCustomChallenges,
   listCustomQuestions,
 } from '../db';
+import { useT } from '../lib/i18nProvider';
 import type { RootStackParamList } from '../navigation';
 import { colors, fontSize, radius, spacing } from '../theme/theme';
 
@@ -26,6 +27,7 @@ const DIFFS: { label: string; value: string }[] = [
 ];
 
 export function CustomContentScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'CustomContent'>) {
+  const tr = useT();
   const [questions, setQuestions] = useState<CustomQuestion[]>([]);
   const [challenges, setChallenges] = useState<DrinkChallenge[]>([]);
 
@@ -80,10 +82,10 @@ export function CustomContentScreen({ navigation }: NativeStackScreenProps<RootS
   };
 
   const removeQuestion = (q: CustomQuestion) =>
-    Alert.alert('Supprimer cette question ?', q.text, [
-      { text: 'Annuler', style: 'cancel' },
+    Alert.alert(tr('Supprimer cette question ?'), q.text, [
+      { text: tr('Annuler'), style: 'cancel' },
       {
-        text: 'Supprimer',
+        text: tr('Supprimer'),
         style: 'destructive',
         onPress: async () => {
           await deleteCustomQuestion(q.id);
@@ -100,10 +102,10 @@ export function CustomContentScreen({ navigation }: NativeStackScreenProps<RootS
   };
 
   const removeChallenge = (c: DrinkChallenge) =>
-    Alert.alert('Supprimer ce défi ?', c.text, [
-      { text: 'Annuler', style: 'cancel' },
+    Alert.alert(tr('Supprimer ce défi ?'), c.text, [
+      { text: tr('Annuler'), style: 'cancel' },
       {
-        text: 'Supprimer',
+        text: tr('Supprimer'),
         style: 'destructive',
         onPress: async () => {
           await deleteCustomChallenge(c.id);
@@ -113,16 +115,16 @@ export function CustomContentScreen({ navigation }: NativeStackScreenProps<RootS
     ]);
 
   return (
-    <Screen title="Mon contenu" subtitle="Ajoute tes propres questions et défis" onBack={() => navigation.goBack()} scroll>
-      <SectionHeader title="Nouvelle question" />
+    <Screen title={tr('Mon contenu')} subtitle={tr('Ajoute tes propres questions et défis')} onBack={() => navigation.goBack()} scroll>
+      <SectionHeader title={tr('Nouvelle question')} />
       <Card>
         <Txt faint size={fontSize.xs} weight="800">
-          THÈME
+          {tr('THÈME')}
         </Txt>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginVertical: spacing(0.75) }}>
           <View style={{ flexDirection: 'row', gap: spacing(1) }}>
-            {THEMES.map((t) => (
-              <Chip key={t} label={THEME_META[t].label} emoji={THEME_META[t].emoji} selected={theme === t} onPress={() => setTheme(t)} />
+            {THEMES.map((th) => (
+              <Chip key={th} label={tr(THEME_META[th].label)} emoji={THEME_META[th].emoji} selected={theme === th} onPress={() => setTheme(th)} />
             ))}
           </View>
         </ScrollView>
@@ -130,20 +132,20 @@ export function CustomContentScreen({ navigation }: NativeStackScreenProps<RootS
         <TextInput
           value={universe}
           onChangeText={setUniverse}
-          placeholder="Univers (optionnel, ex. Naruto)"
+          placeholder={tr('Univers (optionnel, ex. Naruto)')}
           placeholderTextColor={colors.textFaint}
           style={styles.input}
           maxLength={40}
         />
 
         <View style={{ marginTop: spacing(1) }}>
-          <Segmented value={difficulty} onChange={setDifficulty} options={DIFFS} />
+          <Segmented value={difficulty} onChange={setDifficulty} options={DIFFS.map((o) => ({ label: tr(o.label), value: o.value }))} />
         </View>
 
         <TextInput
           value={text}
           onChangeText={setText}
-          placeholder="Question"
+          placeholder={tr('Question')}
           placeholderTextColor={colors.textFaint}
           style={[styles.input, styles.multiline, { marginTop: spacing(1) }]}
           multiline
@@ -151,32 +153,32 @@ export function CustomContentScreen({ navigation }: NativeStackScreenProps<RootS
         <TextInput
           value={answer}
           onChangeText={setAnswer}
-          placeholder="Bonne réponse"
+          placeholder={tr('Bonne réponse')}
           placeholderTextColor={colors.textFaint}
           style={[styles.input, { marginTop: spacing(1) }]}
         />
         <Txt faint size={fontSize.xs} weight="800" style={{ marginTop: spacing(1.5) }}>
-          MAUVAISES RÉPONSES (pour le QCM)
+          {tr('MAUVAISES RÉPONSES (pour le QCM)')}
         </Txt>
-        <TextInput value={d1} onChangeText={setD1} placeholder="Proposition 1" placeholderTextColor={colors.textFaint} style={[styles.input, { marginTop: spacing(0.75) }]} />
-        <TextInput value={d2} onChangeText={setD2} placeholder="Proposition 2" placeholderTextColor={colors.textFaint} style={[styles.input, { marginTop: spacing(0.75) }]} />
-        <TextInput value={d3} onChangeText={setD3} placeholder="Proposition 3" placeholderTextColor={colors.textFaint} style={[styles.input, { marginTop: spacing(0.75) }]} />
-        <TextInput value={hint} onChangeText={setHint} placeholder="Indice (optionnel)" placeholderTextColor={colors.textFaint} style={[styles.input, { marginTop: spacing(1) }]} />
+        <TextInput value={d1} onChangeText={setD1} placeholder={tr('Proposition 1')} placeholderTextColor={colors.textFaint} style={[styles.input, { marginTop: spacing(0.75) }]} />
+        <TextInput value={d2} onChangeText={setD2} placeholder={tr('Proposition 2')} placeholderTextColor={colors.textFaint} style={[styles.input, { marginTop: spacing(0.75) }]} />
+        <TextInput value={d3} onChangeText={setD3} placeholder={tr('Proposition 3')} placeholderTextColor={colors.textFaint} style={[styles.input, { marginTop: spacing(0.75) }]} />
+        <TextInput value={hint} onChangeText={setHint} placeholder={tr('Indice (optionnel)')} placeholderTextColor={colors.textFaint} style={[styles.input, { marginTop: spacing(1) }]} />
 
-        <Button title="Ajouter la question" emoji="➕" style={{ marginTop: spacing(1.5) }} onPress={saveQuestion} disabled={!text.trim() || !answer.trim()} />
+        <Button title={tr('Ajouter la question')} emoji="➕" style={{ marginTop: spacing(1.5) }} onPress={saveQuestion} disabled={!text.trim() || !answer.trim()} />
       </Card>
 
-      <SectionHeader title={`Mes questions (${questions.length})`} />
+      <SectionHeader title={tr('Mes questions ({n})', { n: questions.length })} />
       {questions.length === 0 ? (
         <Txt dim center style={{ paddingVertical: spacing(2) }}>
-          Aucune question perso pour l'instant.
+          {tr("Aucune question perso pour l'instant.")}
         </Txt>
       ) : (
         questions.map((q) => (
           <Card key={q.id} style={styles.itemRow}>
             <View style={{ flex: 1 }}>
               <Txt faint size={fontSize.xs}>
-                {THEME_META[q.theme]?.emoji ?? '•'} {q.universe ?? THEME_META[q.theme]?.label} · {DIFFICULTY_LABELS[q.difficulty]}
+                {THEME_META[q.theme]?.emoji ?? '•'} {q.universe ?? (THEME_META[q.theme] ? tr(THEME_META[q.theme].label) : '')} · {tr(DIFFICULTY_LABELS[q.difficulty])}
               </Txt>
               <Txt weight="700" numberOfLines={2}>
                 {q.text}
@@ -190,23 +192,23 @@ export function CustomContentScreen({ navigation }: NativeStackScreenProps<RootS
         ))
       )}
 
-      <SectionHeader title="Nouveau défi 🍻" />
+      <SectionHeader title={tr('Nouveau défi 🍻')} />
       <Card>
         <TextInput
           value={challengeText}
           onChangeText={setChallengeText}
-          placeholder="Ex. : Tout le monde boit de la main gauche jusqu'au prochain défi."
+          placeholder={tr("Ex. : Tout le monde boit de la main gauche jusqu'au prochain défi.")}
           placeholderTextColor={colors.textFaint}
           style={[styles.input, styles.multiline]}
           multiline
         />
-        <Button title="Ajouter le défi" emoji="➕" style={{ marginTop: spacing(1.5) }} onPress={saveChallenge} disabled={!challengeText.trim()} />
+        <Button title={tr('Ajouter le défi')} emoji="➕" style={{ marginTop: spacing(1.5) }} onPress={saveChallenge} disabled={!challengeText.trim()} />
       </Card>
 
-      <SectionHeader title={`Mes défis (${challenges.length})`} />
+      <SectionHeader title={tr('Mes défis ({n})', { n: challenges.length })} />
       {challenges.length === 0 ? (
         <Txt dim center style={{ paddingVertical: spacing(2) }}>
-          Aucun défi perso pour l'instant.
+          {tr("Aucun défi perso pour l'instant.")}
         </Txt>
       ) : (
         challenges.map((c) => (

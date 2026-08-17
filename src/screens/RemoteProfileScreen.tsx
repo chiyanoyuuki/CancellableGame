@@ -18,6 +18,7 @@ import {
   updatePlayer,
 } from '../db';
 import { getUniverseCatalogue } from '../games/quiz/questions/catalogue';
+import { useT } from '../lib/i18nProvider';
 import type { RootStackParamList } from '../navigation';
 import { useStore } from '../store/StoreProvider';
 import { canAddProfile } from '../store/products';
@@ -58,6 +59,7 @@ function updateUrl(p: Player, unwantedNames: string[]): string {
 }
 
 export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'RemoteProfile'>) {
+  const t = useT();
   const store = useStore();
   const [permission, requestPermission] = useCameraPermissions();
   const [scanning, setScanning] = useState(false);
@@ -88,7 +90,7 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
     if (!permission?.granted) {
       const res = await requestPermission();
       if (!res.granted) {
-        setFeedback({ ok: false, text: "Accès à l'appareil photo refusé. Autorise-le dans les réglages." });
+        setFeedback({ ok: false, text: t("Accès à l'appareil photo refusé. Autorise-le dans les réglages.") });
         return;
       }
     }
@@ -99,7 +101,7 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
 
   const recordImported = (p: { name: string; emoji: string; color: string }, count: number, updated: boolean) => {
     setImported((prev) => [{ name: p.name, emoji: p.emoji, color: p.color, unwanted: count, updated }, ...prev]);
-    setFeedback({ ok: true, text: updated ? `${p.name} mis à jour !` : `${p.name} ajouté !` });
+    setFeedback({ ok: true, text: updated ? t('{name} mis à jour !', { name: p.name }) : t('{name} ajouté !', { name: p.name }) });
     // La liste des joueurs (et donc les QR de mise à jour) doit refléter l'import.
     void refresh();
   };
@@ -107,7 +109,7 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
   // Crée un nouveau joueur (en respectant la limite de la version gratuite).
   const applyCreate = async (profile: RemoteProfile, activeCount: number) => {
     if (!canAddProfile(activeCount, store.ent)) {
-      setFeedback({ ok: false, text: `Limite de ${activeCount} profils atteinte. Débloque les profils illimités dans la Boutique.` });
+      setFeedback({ ok: false, text: t('Limite de {n} profils atteinte. Débloque les profils illimités dans la Boutique.', { n: activeCount }) });
       return;
     }
     const player = await createPlayer({
@@ -143,7 +145,7 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
 
     const profile = decodeProfile(raw, CATALOGUE);
     if (!profile) {
-      setFeedback({ ok: false, text: 'QR non reconnu. Assure-toi que c’est bien un profil Cancellable.' });
+      setFeedback({ ok: false, text: t('QR non reconnu. Assure-toi que c’est bien un profil Cancellable.') });
       setScanning(false);
       return;
     }
@@ -151,23 +153,24 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
 
     // Pop-up de validation : on montre le nom et le nombre d'univers évités.
     const count = profile.unwanted.length;
-    const summary = `${profile.emoji || '🙂'}  ${profile.name}\n${count > 0 ? `${count} univers évité${count > 1 ? 's' : ''}` : 'Aucun univers évité'}`;
+    const evited = count > 0 ? t(count > 1 ? '{n} univers évités' : '{n} univers évité', { n: count }) : t('Aucun univers évité');
+    const summary = `${profile.emoji || '🙂'}  ${profile.name}\n${evited}`;
 
     const active = await listPlayers(false);
     const existing = active.find(
       (p) => p.name.trim().toLowerCase() === profile.name.trim().toLowerCase(),
     );
     if (existing) {
-      Alert.alert('Profil existant', `${summary}\n\nUn profil du même nom existe déjà.`, [
-        { text: 'Annuler', style: 'cancel' },
-        { text: 'Créer un nouveau', onPress: () => void applyCreate(profile, active.length) },
-        { text: 'Mettre à jour', onPress: () => void applyUpdate(existing, profile) },
+      Alert.alert(t('Profil existant'), `${summary}\n\n${t('Un profil du même nom existe déjà.')}`, [
+        { text: t('Annuler'), style: 'cancel' },
+        { text: t('Créer un nouveau'), onPress: () => void applyCreate(profile, active.length) },
+        { text: t('Mettre à jour'), onPress: () => void applyUpdate(existing, profile) },
       ]);
       return;
     }
-    Alert.alert('Ajouter ce joueur ?', summary, [
-      { text: 'Annuler', style: 'cancel' },
-      { text: 'Ajouter', onPress: () => void applyCreate(profile, active.length) },
+    Alert.alert(t('Ajouter ce joueur ?'), summary, [
+      { text: t('Annuler'), style: 'cancel' },
+      { text: t('Ajouter'), onPress: () => void applyCreate(profile, active.length) },
     ]);
   };
 
@@ -186,9 +189,9 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
         <View style={styles.scanOverlay} pointerEvents="box-none">
           <View style={styles.reticle} />
           <Txt center weight="800" color={colors.white} style={styles.scanHint}>
-            Vise le QR code du profil de l'invité
+            {t("Vise le QR code du profil de l'invité")}
           </Txt>
-          <Button title="Annuler" variant="secondary" onPress={() => setScanning(false)} style={{ alignSelf: 'stretch' }} />
+          <Button title={t('Annuler')} variant="secondary" onPress={() => setScanning(false)} style={{ alignSelf: 'stretch' }} />
         </View>
       </View>
     );
@@ -196,12 +199,11 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
 
   if (!REMOTE_PROFILE_CONFIGURED) {
     return (
-      <Screen title="Profil à distance" onBack={() => navigation.goBack()} scroll>
+      <Screen title={t('Profil à distance')} onBack={() => navigation.goBack()} scroll>
         <Card>
-          <Txt weight="700" color={colors.warning}>URL du formulaire non configurée</Txt>
+          <Txt weight="700" color={colors.warning}>{t('URL du formulaire non configurée')}</Txt>
           <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-            Hébergez le dossier `webform/` puis renseignez son adresse dans `REMOTE_PROFILE_URL`
-            (src/config.ts) pour afficher les QR d'accès.
+            {t("Hébergez le dossier `webform/` puis renseignez son adresse dans `REMOTE_PROFILE_URL` (src/config.ts) pour afficher les QR d'accès.")}
           </Txt>
         </Card>
       </Screen>
@@ -209,35 +211,32 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
   }
 
   return (
-    <Screen title="Profil à distance" onBack={() => navigation.goBack()} scroll>
+    <Screen title={t('Profil à distance')} onBack={() => navigation.goBack()} scroll>
       <Card accent={colors.accent}>
-        <Txt weight="800">📲 Chacun édite son profil, sans se passer le tel</Txt>
+        <Txt weight="800">{t('📲 Chacun édite son profil, sans se passer le tel')}</Txt>
         <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-          Deux sortes de QR : un pour <Txt weight="800" size={fontSize.xs}>créer</Txt> un nouveau profil,
-          et un <Txt weight="800" size={fontSize.xs}>par joueur</Txt> pour mettre à jour le sien
-          (avatar et univers évités déjà pré-cochés). L'invité scanne, ajuste dans son navigateur,
-          puis te montre son QR retour que tu scannes ici. Rien ne passe par Internet.
+          {t('Deux sortes de QR : un pour ')}<Txt weight="800" size={fontSize.xs}>{t('créer')}</Txt>{t(' un nouveau profil, et un ')}<Txt weight="800" size={fontSize.xs}>{t('par joueur')}</Txt>{t(" pour mettre à jour le sien (avatar et univers évités déjà pré-cochés). L'invité scanne, ajuste dans son navigateur, puis te montre son QR retour que tu scannes ici. Rien ne passe par Internet.")}
         </Txt>
       </Card>
 
       {/* --- Créer un profil --- */}
       <Txt weight="800" size={fontSize.xs} faint style={styles.section}>
-        ➕ CRÉER UN NOUVEAU PROFIL
+        {t('➕ CRÉER UN NOUVEAU PROFIL')}
       </Txt>
       <View style={styles.qrWrap}>
         <View style={styles.qrBox}>
           <QRCode value={createUrl()} size={180} ecl="L" />
         </View>
         <Txt faint size={fontSize.xs} center style={{ marginTop: spacing(1) }}>
-          Un invité scanne ce QR pour créer son profil de zéro.
+          {t('Un invité scanne ce QR pour créer son profil de zéro.')}
         </Txt>
       </View>
 
       {/* --- Scanner le QR retour d'un invité (à portée de main, sous le QR) --- */}
       <View style={{ height: spacing(1.5) }} />
-      <Button title="Scanner un profil" emoji="📷" size="lg" variant="accent" onPress={() => void openScanner()} />
+      <Button title={t('Scanner un profil')} emoji="📷" size="lg" variant="accent" onPress={() => void openScanner()} />
       <Txt faint size={fontSize.xs} center style={{ marginTop: spacing(1) }}>
-        Quand un invité a fini, scanne le QR qu'il affiche (création ou mise à jour).
+        {t("Quand un invité a fini, scanne le QR qu'il affiche (création ou mise à jour).")}
       </Txt>
       {feedback && (
         <Card accent={feedback.ok ? colors.success : colors.danger} style={{ marginTop: spacing(1.5) }}>
@@ -250,18 +249,18 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
 
       {/* --- Mettre à jour un profil existant --- */}
       <Txt weight="800" size={fontSize.xs} faint style={styles.section}>
-        ✏️ METTRE À JOUR UN JOUEUR
+        {t('✏️ METTRE À JOUR UN JOUEUR')}
       </Txt>
       {players.length === 0 ? (
         <Card>
           <Txt faint size={fontSize.xs}>
-            Aucun joueur pour l'instant. Crée-en d'abord (QR ci-dessus, ou écran Joueurs).
+            {t("Aucun joueur pour l'instant. Crée-en d'abord (QR ci-dessus, ou écran Joueurs).")}
           </Txt>
         </Card>
       ) : (
         <>
           <Txt faint size={fontSize.xs} style={{ marginBottom: spacing(1) }}>
-            Touche un joueur pour afficher SON QR : son profil s'ouvrira déjà rempli.
+            {t("Touche un joueur pour afficher SON QR : son profil s'ouvrira déjà rempli.")}
           </Txt>
           {players.map((p) => {
             const kept = keptUniverses(CATALOGUE.length, unwanted[p.id] ?? []);
@@ -275,7 +274,7 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
                 <View style={{ flex: 1 }}>
                   <Txt weight="700">{p.name}</Txt>
                   <Txt faint size={fontSize.xs}>
-                    📚 {kept}/{CATALOGUE.length} univers
+                    {t('📚 {kept}/{total} univers', { kept, total: CATALOGUE.length })}
                   </Txt>
                 </View>
                 <Txt weight="800" color={colors.accent}>QR ▸</Txt>
@@ -288,7 +287,7 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
       {imported.length > 0 && (
         <View style={{ marginTop: spacing(2) }}>
           <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(1) }}>
-            REÇUS CETTE SESSION ({imported.length})
+            {t('REÇUS CETTE SESSION ({n})', { n: imported.length })}
           </Txt>
           {imported.map((p, i) => (
             <View key={`${p.name}-${i}`} style={styles.row}>
@@ -296,8 +295,8 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
               <View style={{ flex: 1 }}>
                 <Txt weight="700">{p.name}</Txt>
                 <Txt faint size={fontSize.xs}>
-                  {(p.unwanted > 0 ? `${p.unwanted} univers exclus` : 'Tous les univers gardés') +
-                    (p.updated ? ' · mis à jour' : ' · nouveau')}
+                  {(p.unwanted > 0 ? t('{n} univers exclus', { n: p.unwanted }) : t('Tous les univers gardés')) +
+                    (p.updated ? t(' · mis à jour') : t(' · nouveau'))}
                 </Txt>
               </View>
             </View>
@@ -324,11 +323,10 @@ export function RemoteProfileScreen({ navigation }: NativeStackScreenProps<RootS
                   <QRCode value={updateUrl(qrPlayer, unwanted[qrPlayer.id] ?? [])} size={240} ecl="L" />
                 </View>
                 <Txt faint size={fontSize.xs} center style={{ marginTop: spacing(1.5) }}>
-                  {qrPlayer.name} scanne ce QR : son profil s'ouvre déjà rempli. Il ajuste puis te
-                  montre son QR retour, que tu scannes ici. (Tu peux aussi lui envoyer une capture.)
+                  {t("{name} scanne ce QR : son profil s'ouvre déjà rempli. Il ajuste puis te montre son QR retour, que tu scannes ici. (Tu peux aussi lui envoyer une capture.)", { name: qrPlayer.name })}
                 </Txt>
                 <Button
-                  title="Fermer"
+                  title={t('Fermer')}
                   variant="secondary"
                   onPress={() => setQrPlayer(null)}
                   style={{ alignSelf: 'stretch', marginTop: spacing(2) }}

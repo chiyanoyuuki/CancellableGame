@@ -10,6 +10,7 @@ import {
   listReportedQuestions,
   type ReportedQuestion,
 } from '../db';
+import { useT } from '../lib/i18nProvider';
 import type { RootStackParamList } from '../navigation';
 import { colors, fontSize, spacing } from '../theme/theme';
 
@@ -20,6 +21,7 @@ const REASON_LABEL: Record<string, string> = {
 };
 
 export function ReportedQuestionsScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'ReportedQuestions'>) {
+  const t = useT();
   const [items, setItems] = useState<ReportedQuestion[]>([]);
 
   const refresh = useCallback(() => {
@@ -33,10 +35,10 @@ export function ReportedQuestionsScreen({ navigation }: NativeStackScreenProps<R
   };
 
   const clearAll = () =>
-    Alert.alert('Tout effacer ?', 'Supprimer tous les signalements ?', [
-      { text: 'Annuler', style: 'cancel' },
+    Alert.alert(t('Tout effacer ?'), t('Supprimer tous les signalements ?'), [
+      { text: t('Annuler'), style: 'cancel' },
       {
-        text: 'Effacer',
+        text: t('Effacer'),
         style: 'destructive',
         onPress: async () => {
           await clearReportedQuestions();
@@ -47,24 +49,24 @@ export function ReportedQuestionsScreen({ navigation }: NativeStackScreenProps<R
 
   return (
     <Screen
-      title="Questions signalées"
-      subtitle="À relire et corriger dans la banque"
+      title={t('Questions signalées')}
+      subtitle={t('À relire et corriger dans la banque')}
       onBack={() => navigation.goBack()}
       scroll
-      footer={items.length > 0 ? <Button title="Tout effacer" variant="danger" onPress={clearAll} /> : undefined}
+      footer={items.length > 0 ? <Button title={t('Tout effacer')} variant="danger" onPress={clearAll} /> : undefined}
     >
       {items.length === 0 ? (
-        <EmptyState emoji="✅" title="Aucun signalement" subtitle="Les questions signalées en jeu apparaîtront ici." />
+        <EmptyState emoji="✅" title={t('Aucun signalement')} subtitle={t('Les questions signalées en jeu apparaîtront ici.')} />
       ) : (
         items.map((r) => (
           <Card key={r.id} style={{ marginBottom: spacing(1) }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: spacing(1) }}>
               <Txt faint size={fontSize.xs} weight="800">
-                {r.universe ?? r.questionId} · {REASON_LABEL[r.reason ?? ''] ?? 'Autre'}
+                {r.universe ?? r.questionId} · {t(REASON_LABEL[r.reason ?? ''] ?? 'Autre')}
               </Txt>
               <Pressable onPress={() => void remove(r.id)} hitSlop={8}>
                 <Txt size={fontSize.xs} weight="700" color={colors.danger}>
-                  Supprimer
+                  {t('Supprimer')}
                 </Txt>
               </Pressable>
             </View>
@@ -72,7 +74,7 @@ export function ReportedQuestionsScreen({ navigation }: NativeStackScreenProps<R
               {r.questionText}
             </Txt>
             <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.25) }}>
-              Réponse : {r.answer}
+              {t('Réponse : {answer}', { answer: r.answer })}
             </Txt>
           </Card>
         ))
