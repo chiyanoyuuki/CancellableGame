@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button, Card, PlayerAvatar, ProgressBar, Txt } from '../../components/ui';
 import { haptics } from '../../lib/haptics';
+import { useT } from '../../lib/i18nProvider';
 import { DRINK_CHALLENGES, resolveChallenge } from '../../core/drinks';
 import { accuracyRatio, adaptiveDifficulties } from '../../core/adaptiveDifficulty';
 import { DIFFICULTY_LABELS, type Difficulty, type Player, type QuizConfig, type SessionResult, THEME_META } from '../../core/models';
@@ -45,6 +46,7 @@ function haptic(success: boolean) {
 }
 
 export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, slotId: resumeSlotId }: MiniGamePlayProps) {
+  const t = useT();
   const store = useStore();
   const cfg = config as QuizConfig;
   // Slot de sauvegarde de CETTE partie : repris s'il est fourni, sinon nouveau.
@@ -363,9 +365,9 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
     const n = Math.max(1, roster.length);
     let m: { key: string; emoji: string; title: string; subtitle: string } | null = null;
     if (total > n && idx === total - n) {
-      m = { key: 'lastlap', emoji: '🏁', title: 'Dernier tour !', subtitle: n > 1 ? 'Il reste une question par personne.' : 'Dernière question !' };
+      m = { key: 'lastlap', emoji: '🏁', title: t('Dernier tour !'), subtitle: n > 1 ? t('Il reste une question par personne.') : t('Dernière question !') };
     } else if (total >= 4 && idx === Math.floor(total / 2)) {
-      m = { key: 'half', emoji: '⏳', title: 'On est à la moitié !', subtitle: `${idx} question${idx > 1 ? 's' : ''} déjà passée${idx > 1 ? 's' : ''}.` };
+      m = { key: 'half', emoji: '⏳', title: t('On est à la moitié !'), subtitle: t(idx > 1 ? '{n} questions déjà passées.' : '{n} question déjà passée.', { n: idx }) };
     }
     if (m && !shownMilestonesRef.current.has(m.key)) {
       shownMilestonesRef.current.add(m.key);
@@ -447,17 +449,17 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
 
   // Quitter = mettre en pause : la partie est gardée et reprendra plus tard.
   const confirmQuit = () =>
-    Alert.alert('Quitter la partie ?', 'La partie est gardée : tu pourras la reprendre plus tard.', [
-      { text: 'Continuer à jouer', style: 'cancel' },
-      { text: 'Quitter', onPress: onQuit },
+    Alert.alert(t('Quitter la partie ?'), t('La partie est gardée : tu pourras la reprendre plus tard.'), [
+      { text: t('Continuer à jouer'), style: 'cancel' },
+      { text: t('Quitter'), onPress: onQuit },
     ]);
 
   // Terminer = abandonner : on efface la partie, sans enregistrer les stats.
   const confirmTerminate = () =>
-    Alert.alert('Terminer la partie ?', 'La partie en cours sera perdue et les statistiques ne seront pas enregistrées.', [
-      { text: 'Annuler', style: 'cancel' },
+    Alert.alert(t('Terminer la partie ?'), t('La partie en cours sera perdue et les statistiques ne seront pas enregistrées.'), [
+      { text: t('Annuler'), style: 'cancel' },
       {
-        text: 'Terminer',
+        text: t('Terminer'),
         style: 'destructive',
         onPress: async () => {
           await deleteSavedGame(gameSlotId).catch(() => undefined);
@@ -497,7 +499,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
         <View style={styles.center}>
           <ActivityIndicator color={colors.primary} size="large" />
           <Txt dim style={{ marginTop: spacing(2) }}>
-            Préparation des questions…
+            {t('Préparation des questions…')}
           </Txt>
         </View>
       </SafeAreaView>
@@ -512,7 +514,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
       <View style={styles.topBar}>
         <Pressable onPress={confirmQuit} hitSlop={12}>
           <Txt color={colors.textDim} weight="700">
-            ✕ Quitter
+            {t('✕ Quitter')}
           </Txt>
         </Pressable>
         <Txt faint size={fontSize.sm} weight="700">
@@ -524,7 +526,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
           </Pressable>
           <Pressable onPress={confirmTerminate} hitSlop={12}>
             <Txt color={colors.danger} weight="700">
-              🏁 Terminer
+              {t('🏁 Terminer')}
             </Txt>
           </Pressable>
         </View>
@@ -535,7 +537,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
       {remaining != null && (
         <View style={{ alignItems: 'center', paddingTop: spacing(1) }}>
           <Txt weight="800" color={remaining === 0 ? colors.danger : colors.textDim}>
-            ⏱ {remaining === 0 ? 'Temps écoulé !' : `${remaining} s`}
+            ⏱ {remaining === 0 ? t('Temps écoulé !') : `${remaining} s`}
           </Txt>
         </View>
       )}
@@ -556,11 +558,10 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
         <View style={styles.modalBackdrop}>
           <View style={styles.modalSheet}>
             <Txt weight="800" size={fontSize.lg}>
-              Joueurs
+              {t('Joueurs')}
             </Txt>
             <Txt dim size={fontSize.sm} style={{ marginTop: spacing(0.5) }}>
-              Mets un joueur en pause s'il s'absente : la partie continue sans lui. À son retour, il rattrape
-              d'un coup toutes les questions manquées.
+              {t("Mets un joueur en pause s'il s'absente : la partie continue sans lui. À son retour, il rattrape d'un coup toutes les questions manquées.")}
             </Txt>
             <ScrollView style={{ marginTop: spacing(1.5) }} contentContainerStyle={{ paddingBottom: spacing(1) }}>
               {roster.map((p) => {
@@ -573,18 +574,18 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
                       <Txt weight="700">{p.name}</Txt>
                       {paused ? (
                         <Txt size={fontSize.xs} weight="700" color={colors.sip}>
-                          ⏸ en pause{owedN > 0 ? ` · ${owedN} à rattraper` : ''}
+                          {t('⏸ en pause')}{owedN > 0 ? t(' · {n} à rattraper', { n: owedN }) : ''}
                         </Txt>
                       ) : owedN > 0 ? (
                         <Txt size={fontSize.xs} weight="700" color={colors.accent}>
-                          🔥 rattrape {owedN} question{owedN > 1 ? 's' : ''}
+                          {t(owedN > 1 ? '🔥 rattrape {n} questions' : '🔥 rattrape {n} question', { n: owedN })}
                         </Txt>
                       ) : (
-                        <Txt faint size={fontSize.xs}>en jeu</Txt>
+                        <Txt faint size={fontSize.xs}>{t('en jeu')}</Txt>
                       )}
                     </View>
                     <Button
-                      title={paused ? '▶️ Revenir' : '⏸ Pause'}
+                      title={paused ? t('▶️ Revenir') : '⏸ Pause'}
                       size="sm"
                       variant={paused ? 'primary' : 'secondary'}
                       onPress={() => dispatch({ type: 'TOGGLE_STANDBY', playerId: p.id })}
@@ -593,7 +594,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
                 );
               })}
             </ScrollView>
-            <Button title="Fermer" onPress={() => setShowPlayers(false)} style={{ marginTop: spacing(1) }} />
+            <Button title={t('Fermer')} onPress={() => setShowPlayers(false)} style={{ marginTop: spacing(1) }} />
           </View>
         </View>
       </Modal>
@@ -635,17 +636,19 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
         <View style={{ gap: spacing(0.5) }}>
           <View style={styles.metaRow}>
             <Txt weight="800" color={colors.accent}>
-              {theme.emoji} {cfg.showUniverse && q.universe ? q.universe : theme.label}
+              {theme.emoji} {cfg.showUniverse && q.universe ? q.universe : t(theme.label)}
             </Txt>
             <Txt faint weight="700" size={fontSize.xs}>
-              {DIFFICULTY_LABELS[q.difficulty].toUpperCase()}
+              {t(DIFFICULTY_LABELS[q.difficulty]).toUpperCase()}
             </Txt>
           </View>
           {showSoloLine && (
             <Txt weight="700" size={fontSize.xs} color={categoryExcluded ? colors.danger : colors.textFaint}>
               {categoryExcluded
-                ? `🚫 ${categoryWord} non souhaité${activeName ? ` par ${activeName}` : ''}`
-                : `✓ ${categoryWord} activé`}
+                ? activeName
+                  ? t('🚫 {cat} non souhaité par {name}', { cat: t(categoryWord), name: activeName })
+                  : t('🚫 {cat} non souhaité', { cat: t(categoryWord) })
+                : t('✓ {cat} activé', { cat: t(categoryWord) })}
             </Txt>
           )}
           {activeTeam && q.universe && (
@@ -655,8 +658,8 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
               color={teamMembersWithUniverse.length > 0 ? colors.accent : colors.textFaint}
             >
               {teamMembersWithUniverse.length > 0
-                ? `⭐ Univers voulu par ${teamMembersWithUniverse.map((m) => m.name).join(', ')}`
-                : "Univers exclu par toute l'équipe"}
+                ? t('⭐ Univers voulu par {names}', { names: teamMembersWithUniverse.map((m) => m.name).join(', ') })
+                : t("Univers exclu par toute l'équipe")}
             </Txt>
           )}
         </View>
@@ -683,7 +686,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
             />
             {imgError && (
               <Txt faint size={fontSize.xs} center>
-                (image indisponible — question suivante…)
+                {t('(image indisponible — question suivante…)')}
               </Txt>
             )}
           </View>
@@ -694,8 +697,8 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
               🎧
             </Txt>
             <View style={{ flexDirection: 'row', gap: spacing(1), justifyContent: 'center' }}>
-              <Button title={audioPlaying ? '⏸  Pause' : '▶️  Écouter'} onPress={toggleAudio} />
-              <Button title="⟲  Rejouer" variant="secondary" onPress={replayAudio} />
+              <Button title={audioPlaying ? '⏸  Pause' : t('▶️  Écouter')} onPress={toggleAudio} />
+              <Button title={t('⟲  Rejouer')} variant="secondary" onPress={replayAudio} />
             </View>
           </View>
         )}
@@ -715,7 +718,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
         {cfg.turnMode === 'turn' ? renderTurn() : renderFastest()}
 
         {canGoBack && (
-          <Button title="↩︎ Question précédente" variant="ghost" size="sm" onPress={goBack} />
+          <Button title={t('↩︎ Question précédente')} variant="ghost" size="sm" onPress={goBack} />
         )}
       </View>
     );
@@ -729,7 +732,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
       <View style={styles.helpBox}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <Txt faint size={fontSize.xs} weight="800">
-            BESOIN D'UN COUP DE POUCE ?
+            {t("BESOIN D'UN COUP DE POUCE ?")}
           </Txt>
           <Txt weight="800" color={colors.primary}>
             {potentialPoints(game!)} pts
@@ -737,7 +740,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
         </View>
         <View style={styles.helpRow}>
           <Button
-            title="4 propositions"
+            title={t('4 propositions')}
             variant="secondary"
             size="sm"
             style={{ flex: 1 }}
@@ -745,7 +748,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
             onPress={() => dispatch({ type: 'REVEAL_PROPS', count: 4 })}
           />
           <Button
-            title="2 propositions"
+            title={t('2 propositions')}
             variant="secondary"
             size="sm"
             style={{ flex: 1 }}
@@ -755,14 +758,14 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
         </View>
         {hintsLeft > 0 && (
           <Button
-            title={`💡 Indice ÷1,5${(q.hints?.length ?? 0) > 1 ? ` (${hintsLeft} restant${hintsLeft > 1 ? 's' : ''})` : ''}`}
+            title={`${t('💡 Indice ÷1,5')}${(q.hints?.length ?? 0) > 1 ? t(hintsLeft > 1 ? ' ({n} restants)' : ' ({n} restant)', { n: hintsLeft }) : ''}`}
             variant="ghost"
             size="sm"
             onPress={() => dispatch({ type: 'REVEAL_HINT' })}
           />
         )}
         <Txt faint size={fontSize.xs}>
-          Réponse libre = points pleins · 4 props = ½ · 2 props = ¼ · indice = ÷1,5 (cumulables)
+          {t('Réponse libre = points pleins · 4 props = ½ · 2 props = ¼ · indice = ÷1,5 (cumulables)')}
         </Txt>
       </View>
     );
@@ -775,10 +778,10 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
         {active && (
           <View style={styles.activeBanner}>
             <PlayerAvatar emoji={active.emoji} color={active.color} photoUri={active.photoUri} size={32} />
-            <Txt weight="800" style={{ flex: 1 }}>À toi, {active.name} !</Txt>
+            <Txt weight="800" style={{ flex: 1 }}>{t('À toi, {name} !', { name: active.name })}</Txt>
             {game!.activeCatchUp && (
               <Txt weight="800" size={fontSize.xs} color={colors.accent}>
-                🔥 RATTRAPAGE
+                {t('🔥 RATTRAPAGE')}
               </Txt>
             )}
           </View>
@@ -793,7 +796,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
       return (
         <View style={{ gap: spacing(1.5) }}>
           <Txt dim weight="700" center>
-            Le plus rapide ! Qui a trouvé ?
+            {t('Le plus rapide ! Qui a trouvé ?')}
           </Txt>
           {renderOptions(null, null, false)}
           <View style={styles.playerGrid}>
@@ -811,7 +814,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
             ))}
           </View>
           <Button
-            title="Personne n'a trouvé"
+            title={t("Personne n'a trouvé")}
             variant="ghost"
             size="sm"
             onPress={() => {
@@ -827,10 +830,10 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
       <View style={{ gap: spacing(1.5) }}>
         <View style={styles.activeBanner}>
           {p && <PlayerAvatar emoji={p.emoji} color={p.color} photoUri={p.photoUri} size={32} />}
-          <Txt weight="800">{p?.name} a buzzé en {(buzzed.timeMs / 1000).toFixed(1)} s</Txt>
+          <Txt weight="800">{t('{name} a buzzé en {s} s', { name: p?.name ?? '', s: (buzzed.timeMs / 1000).toFixed(1) })}</Txt>
         </View>
         {renderAnswerControls(buzzed.playerId, buzzed.timeMs)}
-        <Button title="Annuler le buzz" variant="ghost" size="sm" onPress={() => setBuzzed(null)} />
+        <Button title={t('Annuler le buzz')} variant="ghost" size="sm" onPress={() => setBuzzed(null)} />
       </View>
     );
   }
@@ -865,21 +868,21 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
 
     // Free answer: reveal, then the host judges.
     if (!revealedAnswer) {
-      return <Button title="Révéler la réponse" onPress={() => setRevealedAnswer(true)} />;
+      return <Button title={t('Révéler la réponse')} onPress={() => setRevealedAnswer(true)} />;
     }
     return (
       <View style={{ gap: spacing(1) }}>
         <Card accent={colors.success}>
           <Txt faint size={fontSize.xs}>
-            RÉPONSE
+            {t('RÉPONSE')}
           </Txt>
           <Txt size={fontSize.lg} weight="800">
             {q.answer}
           </Txt>
         </Card>
         <View style={{ flexDirection: 'row', gap: spacing(1) }}>
-          <Button title="✅ Réussi" variant="primary" style={{ flex: 1 }} onPress={() => answer(playerId, true, timeMs)} />
-          <Button title="❌ Raté" variant="danger" style={{ flex: 1 }} onPress={() => answer(playerId, false, timeMs)} />
+          <Button title={t('✅ Réussi')} variant="primary" style={{ flex: 1 }} onPress={() => answer(playerId, true, timeMs)} />
+          <Button title={t('❌ Raté')} variant="danger" style={{ flex: 1 }} onPress={() => answer(playerId, false, timeMs)} />
         </View>
       </View>
     );
@@ -893,11 +896,11 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
       void reportQuestion({ id: q.id, text: q.text, answer: q.answer, universe: q.universe }, reason);
       setReportedIds((prev) => new Set(prev).add(q.id));
     };
-    Alert.alert('Signaler cette question', 'Qu’est-ce qui ne va pas ?', [
-      { text: 'Réponse fausse', onPress: () => send('reponse') },
-      { text: 'Faute / orthographe', onPress: () => send('faute') },
-      { text: 'Ambiguë ou obsolète', onPress: () => send('ambigu') },
-      { text: 'Annuler', style: 'cancel' },
+    Alert.alert(t('Signaler cette question'), t('Qu’est-ce qui ne va pas ?'), [
+      { text: t('Réponse fausse'), onPress: () => send('reponse') },
+      { text: t('Faute / orthographe'), onPress: () => send('faute') },
+      { text: t('Ambiguë ou obsolète'), onPress: () => send('ambigu') },
+      { text: t('Annuler'), style: 'cancel' },
     ]);
   };
 
@@ -915,11 +918,11 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
         <View style={{ alignItems: 'center', gap: spacing(1) }}>
           <Txt size={fontSize.huge}>{o.correct ? '✅' : who ? '❌' : '🤷'}</Txt>
           <Txt size={fontSize.lg} weight="800" center>
-            {o.correct ? 'Bonne réponse !' : who ? 'Raté !' : "Personne n'a trouvé"}
+            {o.correct ? t('Bonne réponse !') : who ? t('Raté !') : t("Personne n'a trouvé")}
           </Txt>
           <Card accent={colors.success} style={{ alignSelf: 'stretch' }}>
             <Txt faint size={fontSize.xs}>
-              RÉPONSE
+              {t('RÉPONSE')}
             </Txt>
             <Txt size={fontSize.lg} weight="800">
               {o.correctAnswer}
@@ -930,24 +933,24 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
         {rq?.explanation ? (
           <Card accent={colors.accent}>
             <Txt weight="800" size={fontSize.sm}>
-              💡 Le sais-tu ?
+              {t('💡 Le sais-tu ?')}
             </Txt>
             <Txt style={{ marginTop: spacing(0.5) }}>{rq.explanation}</Txt>
           </Card>
         ) : rq?.universe ? (
           <Txt faint size={fontSize.xs} center>
-            💡 {rq.answer} — univers « {rq.universe} »
+            {t('💡 {answer} — univers « {universe} »', { answer: rq.answer, universe: rq.universe })}
           </Txt>
         ) : null}
 
         {o.score.total > 0 && who && (
           <Card accent={colors.primary}>
             <Txt weight="800" color={colors.primary} size={fontSize.lg}>
-              +{o.score.total} pts pour {who.name}
+              {t('+{pts} pts pour {name}', { pts: o.score.total, name: who.name })}
             </Txt>
             <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-              base {o.score.afterHints}
-              {o.score.speedBonus > 0 ? ` + ${o.score.speedBonus} vitesse` : ''}
+              {t('base {n}', { n: o.score.afterHints })}
+              {o.score.speedBonus > 0 ? t(' + {n} vitesse', { n: o.score.speedBonus }) : ''}
             </Txt>
           </Card>
         )}
@@ -958,11 +961,13 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
               🍻 {o.drink.reason}
             </Txt>
             {o.drink.sipsDrunk > 0 && (
-              <Txt weight="700">{who?.name ?? 'Le joueur'} boit {o.drink.sipsDrunk} gorgée{o.drink.sipsDrunk > 1 ? 's' : ''}</Txt>
+              <Txt weight="700">
+                {t(o.drink.sipsDrunk > 1 ? '{name} boit {n} gorgées' : '{name} boit {n} gorgée', { name: who?.name ?? t('Le joueur'), n: o.drink.sipsDrunk })}
+              </Txt>
             )}
             {o.drink.sipsGiven > 0 && (
               <Txt weight="700">
-                {who?.name ?? 'Le joueur'} distribue {o.drink.sipsGiven} gorgée{o.drink.sipsGiven > 1 ? 's' : ''}
+                {t(o.drink.sipsGiven > 1 ? '{name} distribue {n} gorgées' : '{name} distribue {n} gorgée', { name: who?.name ?? t('Le joueur'), n: o.drink.sipsGiven })}
               </Txt>
             )}
           </Card>
@@ -970,7 +975,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
 
         <View>
           <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.5) }}>
-            CLASSEMENT
+            {t('CLASSEMENT')}
           </Txt>
           {ranking.slice(0, 5).map((s, i) => {
             const pl = byId[s.playerId];
@@ -986,13 +991,13 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
           })}
         </View>
 
-        <Button title={prog.current >= prog.total ? 'Voir les résultats' : 'Question suivante'} size="lg" onPress={() => dispatch({ type: 'CONTINUE' })} />
+        <Button title={prog.current >= prog.total ? t('Voir les résultats') : t('Question suivante')} size="lg" onPress={() => dispatch({ type: 'CONTINUE' })} />
         {canGoBack && (
-          <Button title="↩︎ Corriger" variant="ghost" onPress={goBack} />
+          <Button title={t('↩︎ Corriger')} variant="ghost" onPress={goBack} />
         )}
         {curId && (
           <Button
-            title={alreadyReported ? '✓ Question signalée' : '⚠️ Signaler cette question'}
+            title={alreadyReported ? t('✓ Question signalée') : t('⚠️ Signaler cette question')}
             variant="ghost"
             size="sm"
             disabled={alreadyReported}
@@ -1015,7 +1020,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
           {milestone.subtitle}
         </Txt>
         <View style={{ height: spacing(2) }} />
-        <Button title="Continuer" size="lg" onPress={() => setMilestone(null)} style={{ alignSelf: 'stretch' }} />
+        <Button title={t('Continuer')} size="lg" onPress={() => setMilestone(null)} style={{ alignSelf: 'stretch' }} />
       </View>
     );
   }
@@ -1032,7 +1037,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
           🍻
         </Txt>
         <Txt size={fontSize.xl} weight="800" center color={colors.sip}>
-          Défi !
+          {t('Défi !')}
         </Txt>
         <Card accent={colors.sip}>
           <Txt size={fontSize.lg} weight="600">
@@ -1052,7 +1057,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
               ))}
             </View>
             <Button
-              title="🎲 Retirer au sort"
+              title={t('🎲 Retirer au sort')}
               variant="secondary"
               size="sm"
               onPress={() => setChallengeSeed(randomSeed())}
@@ -1065,10 +1070,10 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
         {resolved.timerSec != null && (
           <Card accent={timerDone ? colors.danger : colors.primary}>
             <Txt center size={fontSize.xxl} weight="800" color={timerDone ? colors.danger : colors.text}>
-              ⏱ {timerDone ? 'Temps écoulé !' : `${challengeTimer ?? resolved.timerSec} s`}
+              ⏱ {timerDone ? t('Temps écoulé !') : `${challengeTimer ?? resolved.timerSec} s`}
             </Txt>
             <Button
-              title="↻ Réinitialiser le minuteur"
+              title={t('↻ Réinitialiser le minuteur')}
               variant="ghost"
               size="sm"
               onPress={() => setChallengeTimerKey((k) => k + 1)}
@@ -1077,7 +1082,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
           </Card>
         )}
 
-        <Button title="C'est fait, on continue !" size="lg" variant="accent" onPress={() => dispatch({ type: 'CONTINUE' })} />
+        <Button title={t("C'est fait, on continue !")} size="lg" variant="accent" onPress={() => dispatch({ type: 'CONTINUE' })} />
       </View>
     );
   }
