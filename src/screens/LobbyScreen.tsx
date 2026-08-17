@@ -7,10 +7,12 @@ import { Button, Card, EmptyState, PlayerAvatar, Screen, Txt } from '../componen
 import type { Player } from '../core/models';
 import { getGame } from '../games/registry';
 import { listPlayers } from '../db';
+import { useT } from '../lib/i18nProvider';
 import type { RootStackParamList } from '../navigation';
 import { colors, fontSize, radius, spacing } from '../theme/theme';
 
 export function LobbyScreen({ route, navigation }: NativeStackScreenProps<RootStackParamList, 'Lobby'>) {
+  const t = useT();
   const { gameId } = route.params;
   const game = getGame(gameId);
   const [roster, setRoster] = useState<Player[]>([]);
@@ -44,13 +46,16 @@ export function LobbyScreen({ route, navigation }: NativeStackScreenProps<RootSt
 
   return (
     <Screen
-      title="Qui joue ?"
-      subtitle={game ? game.title : undefined}
+      title={t('Qui joue ?')}
+      subtitle={game ? t(game.title) : undefined}
       onBack={() => navigation.goBack()}
       scroll
       footer={
         <Button
-          title={`Configurer (${activePlayers.length} joueur${activePlayers.length > 1 ? 's' : ''})`}
+          title={t(
+            activePlayers.length > 1 ? 'Configurer ({n} joueurs)' : 'Configurer ({n} joueur)',
+            { n: activePlayers.length },
+          )}
           size="lg"
           disabled={!enough}
           onPress={() => navigation.navigate('GameConfig', { gameId, players: activePlayers })}
@@ -59,14 +64,17 @@ export function LobbyScreen({ route, navigation }: NativeStackScreenProps<RootSt
     >
       {roster.length === 0 ? (
         <View>
-          <EmptyState emoji="👥" title="Aucun joueur" subtitle="Ajoute des joueurs avant de lancer une partie." />
-          <Button title="Gérer les joueurs" onPress={() => navigation.navigate('Players')} />
+          <EmptyState emoji="👥" title={t('Aucun joueur')} subtitle={t('Ajoute des joueurs avant de lancer une partie.')} />
+          <Button title={t('Gérer les joueurs')} onPress={() => navigation.navigate('Players')} />
         </View>
       ) : (
         <View style={{ gap: spacing(1) }}>
           {!enough && (
             <Txt faint size={fontSize.xs} center>
-              Sélectionne au moins {minPlayers} joueur{minPlayers > 1 ? 's' : ''}.
+              {t(
+                minPlayers > 1 ? 'Sélectionne au moins {n} joueurs.' : 'Sélectionne au moins {n} joueur.',
+                { n: minPlayers },
+              )}
             </Txt>
           )}
           {roster.map((p) => {

@@ -12,6 +12,7 @@ import { keepsEnoughUniverses, keptUniverses, MIN_KEPT_UNIVERSES } from '../core
 import type { QuestionHistory } from '../core/questionSelection';
 import { type StatAnswer, type StatResult, titlesByPlayer } from '../core/stats';
 import { haptics } from '../lib/haptics';
+import { useT } from '../lib/i18nProvider';
 import { exportProfile, importProfile } from '../lib/profileTransfer';
 import {
   archivePlayer,
@@ -40,6 +41,7 @@ const ADD_RANK = new Map(UNIVERSE_ADD_ORDER.map((key, i) => [key, i] as const));
 const UNWANTED_DATE_SORT_THRESHOLD = 20;
 
 export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'Players'>) {
+  const t = useT();
   const store = useStore();
   const [players, setPlayers] = useState<Player[]>([]);
   const [showArchived, setShowArchived] = useState(false);
@@ -55,7 +57,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   const pickPhoto = async () => {
     const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!perm.granted) {
-      Alert.alert('Accès refusé', "Autorise l'accès aux photos dans les réglages pour choisir un avatar.");
+      Alert.alert(t('Accès refusé'), t("Autorise l'accès aux photos dans les réglages pour choisir un avatar."));
       return;
     }
     const res = await ImagePicker.launchImageLibraryAsync({
@@ -237,11 +239,13 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
 
   const showProfileLimit = () =>
     Alert.alert(
-      'Limite de profils atteinte',
-      `La version gratuite est limitée à ${FREE_PROFILE_LIMIT} profils. Débloque les profils illimités dans la Boutique.`,
+      t('Limite de profils atteinte'),
+      t('La version gratuite est limitée à {n} profils. Débloque les profils illimités dans la Boutique.', {
+        n: FREE_PROFILE_LIMIT,
+      }),
       [
-        { text: 'Plus tard', style: 'cancel' },
-        { text: 'Boutique', onPress: () => navigation.navigate('Store') },
+        { text: t('Plus tard'), style: 'cancel' },
+        { text: t('Boutique'), onPress: () => navigation.navigate('Store') },
       ],
     );
 
@@ -277,7 +281,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
       showProfileLimit();
       return;
     }
-    const copy = await createPlayer({ name: `${p.name} copie`, emoji: p.emoji, color: p.color });
+    const copy = await createPlayer({ name: t('{name} copie', { name: p.name }), emoji: p.emoji, color: p.color });
     const src = unwanted[p.id] ?? [];
     if (src.length > 0) {
       const next = { ...unwanted, [copy.id]: [...src] };
@@ -291,10 +295,10 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   const manage = (p: Player) => setMenuPlayer(p);
 
   const confirmDelete = (p: Player) =>
-    Alert.alert('Supprimer définitivement ?', `Les statistiques de ${p.name} seront effacées.`, [
-      { text: 'Annuler', style: 'cancel' },
+    Alert.alert(t('Supprimer définitivement ?'), t('Les statistiques de {name} seront effacées.', { name: p.name }), [
+      { text: t('Annuler'), style: 'cancel' },
       {
-        text: 'Supprimer',
+        text: t('Supprimer'),
         style: 'destructive',
         onPress: async () => {
           await deletePlayerForever(p.id);
@@ -314,18 +318,20 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
     try {
       await exportProfile(p.id);
     } catch (e) {
-      Alert.alert('Erreur', String(e));
+      Alert.alert(t('Erreur'), String(e));
     }
   };
 
   const doImportProfile = async () => {
     if (!canAddProfile(players.length, store.ent)) {
       Alert.alert(
-        'Limite atteinte',
-        `Version gratuite limitée à ${FREE_PROFILE_LIMIT} profils. Débloque les profils illimités dans la Boutique.`,
+        t('Limite atteinte'),
+        t('Version gratuite limitée à {n} profils. Débloque les profils illimités dans la Boutique.', {
+          n: FREE_PROFILE_LIMIT,
+        }),
         [
-          { text: 'Plus tard', style: 'cancel' },
-          { text: 'Boutique', onPress: () => navigation.navigate('Store') },
+          { text: t('Plus tard'), style: 'cancel' },
+          { text: t('Boutique'), onPress: () => navigation.navigate('Store') },
         ],
       );
       return;
@@ -335,10 +341,13 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
       if (imported) {
         haptics.select();
         await refresh();
-        Alert.alert('Profil importé', `${imported.name} a été ajouté, avec ses univers évités et ses questions déjà vues.`);
+        Alert.alert(
+          t('Profil importé'),
+          t('{name} a été ajouté, avec ses univers évités et ses questions déjà vues.', { name: imported.name }),
+        );
       }
     } catch (e) {
-      Alert.alert('Erreur', String(e));
+      Alert.alert(t('Erreur'), String(e));
     }
   };
 
@@ -366,15 +375,15 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
 
   return (
     <>
-    <Screen title="Joueurs" onBack={() => navigation.goBack()} scroll>
+    <Screen title={t('Joueurs')} onBack={() => navigation.goBack()} scroll>
       <Card>
         <Txt weight="800" size={fontSize.md} style={{ marginBottom: spacing(1) }}>
-          {editingId ? 'Modifier le joueur' : 'Nouveau joueur'}
+          {editingId ? t('Modifier le joueur') : t('Nouveau joueur')}
         </Txt>
         <TextInput
           value={name}
           onChangeText={setName}
-          placeholder="Prénom / pseudo"
+          placeholder={t('Prénom / pseudo')}
           placeholderTextColor={colors.textFaint}
           style={styles.input}
           maxLength={20}
@@ -400,7 +409,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
         </ScrollView>
 
         <Txt faint size={fontSize.xs} weight="800" style={{ marginTop: spacing(1.5) }}>
-          COULEUR
+          {t('COULEUR')}
         </Txt>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing(1), marginTop: spacing(0.5) }}>
           {PLAYER_COLORS.map((c) => (
@@ -414,36 +423,36 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
 
         <View style={{ flexDirection: 'row', gap: spacing(1), marginTop: spacing(2), alignItems: 'center' }}>
           <Button
-            title={photoUri ? 'Changer la photo' : 'Photo de profil'}
+            title={photoUri ? t('Changer la photo') : t('Photo de profil')}
             emoji="📷"
             variant="secondary"
             onPress={() => void pickPhoto()}
             style={{ flex: 1 }}
           />
-          {photoUri && <Button title="Retirer" variant="ghost" onPress={() => setPhotoUri(undefined)} />}
+          {photoUri && <Button title={t('Retirer')} variant="ghost" onPress={() => setPhotoUri(undefined)} />}
         </View>
 
         <View style={{ flexDirection: 'row', gap: spacing(1), marginTop: spacing(1.5), alignItems: 'center' }}>
           <PlayerAvatar emoji={emoji} color={color} photoUri={photoUri} />
-          <Button title={editingId ? 'Enregistrer' : 'Ajouter'} onPress={submit} disabled={!name.trim()} style={{ flex: 1 }} />
-          {editingId && <Button title="Annuler" variant="ghost" onPress={resetForm} />}
+          <Button title={editingId ? t('Enregistrer') : t('Ajouter')} onPress={submit} disabled={!name.trim()} style={{ flex: 1 }} />
+          {editingId && <Button title={t('Annuler')} variant="ghost" onPress={resetForm} />}
         </View>
       </Card>
 
       <Button
-        title="Profil à distance (QR)"
+        title={t('Profil à distance (QR)')}
         emoji="📲"
         variant="secondary"
         onPress={() => navigation.navigate('RemoteProfile')}
         style={{ marginTop: spacing(1) }}
       />
       <Txt faint size={fontSize.xs} center style={{ marginTop: spacing(0.5) }}>
-        Chaque invité remplit son profil sur son téléphone, tu scannes son QR.
+        {t('Chaque invité remplit son profil sur son téléphone, tu scannes son QR.')}
       </Txt>
 
       {!showArchived && (
         <Button
-          title="Importer un profil (fichier)"
+          title={t('Importer un profil (fichier)')}
           emoji="📥"
           variant="secondary"
           onPress={() => void doImportProfile()}
@@ -452,10 +461,10 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
       )}
 
       <SectionHeader
-        title={showArchived ? 'Archivés' : 'Roster'}
+        title={showArchived ? t('Archivés') : 'Roster'}
         right={
           <Chip
-            label={showArchived ? 'Voir actifs' : 'Voir archivés'}
+            label={showArchived ? t('Voir actifs') : t('Voir archivés')}
             selected={showArchived}
             onPress={() => setShowArchived((v) => !v)}
           />
@@ -464,7 +473,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
 
       {players.length === 0 ? (
         <Txt dim center style={{ paddingVertical: spacing(3) }}>
-          {showArchived ? 'Aucun joueur archivé.' : 'Ajoute des joueurs pour commencer 👆'}
+          {showArchived ? t('Aucun joueur archivé.') : t('Ajoute des joueurs pour commencer 👆')}
         </Txt>
       ) : (
         players.map((p) => (
@@ -479,13 +488,16 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
               )}
               {totalUniverses > 0 && (
                 <Txt faint size={fontSize.xs}>
-                  📚 {keptUniverses(totalUniverses, unwanted[p.id] ?? [])}/{totalUniverses} univers
+                  {t('📚 {kept}/{total} univers', {
+                    kept: keptUniverses(totalUniverses, unwanted[p.id] ?? []),
+                    total: totalUniverses,
+                  })}
                 </Txt>
               )}
             </View>
             {showArchived ? (
               <Button
-                title="Restaurer"
+                title={t('Restaurer')}
                 size="sm"
                 variant="secondary"
                 onPress={async () => {
@@ -506,18 +518,25 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
       <View style={styles.modalBackdrop}>
         <View style={styles.modalSheet}>
           <Txt weight="800" size={fontSize.lg}>
-            Univers et thèmes
+            {t('Univers et thèmes')}
           </Txt>
           <Txt dim size={fontSize.sm} style={{ marginTop: spacing(0.5) }}>
-            Tout est activé par défaut. Touche une catégorie pour la désactiver : {unwantedPlayer?.name} n'aura
-            alors qu'environ 2 % de chance de tomber dessus, juste pour la surprise.
+            {t(
+              "Tout est activé par défaut. Touche une catégorie pour la désactiver : {name} n'aura alors qu'environ 2 % de chance de tomber dessus, juste pour la surprise.",
+              { name: unwantedPlayer?.name ?? '' },
+            )}
           </Txt>
           <View style={styles.counter}>
             <Txt weight="800" size={fontSize.lg} color={unseenRemaining > 0 ? colors.success : colors.danger}>
               {unseenRemaining}
             </Txt>
             <Txt dim size={fontSize.sm} style={{ flex: 1 }}>
-              question{unseenRemaining > 1 ? 's' : ''} inédite{unseenRemaining > 1 ? 's' : ''} restante{unseenRemaining > 1 ? 's' : ''} pour {unwantedPlayer?.name} avec ce choix
+              {t(
+                unseenRemaining > 1
+                  ? 'questions inédites restantes pour {name} avec ce choix'
+                  : 'question inédite restante pour {name} avec ce choix',
+                { name: unwantedPlayer?.name ?? '' },
+              )}
             </Txt>
           </View>
           {(() => {
@@ -525,14 +544,14 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
             const ok = kept >= MIN_KEPT_UNIVERSES;
             return (
               <Txt size={fontSize.sm} weight="700" color={ok ? colors.text : colors.danger} style={{ marginTop: spacing(0.5) }}>
-                📚 {kept}/{totalUniverses} univers gardés
+                {t('📚 {kept}/{total} univers gardés', { kept, total: totalUniverses })}
                 {!ok ? ` — minimum ${MIN_KEPT_UNIVERSES}` : ''}
               </Txt>
             );
           })()}
           {sortUnwantedByDate && (
             <Txt faint size={fontSize.xs} style={{ marginTop: spacing(1) }}>
-              🆕 Triés par ajout : les univers les plus récents en premier.
+              {t('🆕 Triés par ajout : les univers les plus récents en premier.')}
             </Txt>
           )}
           <ScrollView style={{ marginTop: spacing(1.5) }} contentContainerStyle={{ paddingBottom: spacing(1) }}>
@@ -550,9 +569,9 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
             )}
           </ScrollView>
           <View style={{ flexDirection: 'row', gap: spacing(1), marginTop: spacing(1) }}>
-            <Button title="Annuler" variant="ghost" onPress={() => setUnwantedPlayer(null)} style={{ flex: 1 }} />
+            <Button title={t('Annuler')} variant="ghost" onPress={() => setUnwantedPlayer(null)} style={{ flex: 1 }} />
             <Button
-              title="Enregistrer"
+              title={t('Enregistrer')}
               onPress={saveUnwanted}
               disabled={!keepsEnoughUniverses(totalUniverses, [...unwantedDraft])}
               style={{ flex: 1 }}
@@ -573,14 +592,14 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
                   {menuPlayer.name}
                 </Txt>
               </View>
-              <Button title="🏅 Profil et hauts faits" onPress={() => { const p = menuPlayer; setMenuPlayer(null); navigation.navigate('PlayerProfile', { playerId: p.id }); }} />
-              <Button title="Modifier" variant="secondary" onPress={() => { const p = menuPlayer; setMenuPlayer(null); startEdit(p); }} />
-              <Button title="Dupliquer" variant="secondary" onPress={() => { const p = menuPlayer; setMenuPlayer(null); void duplicatePlayer(p); }} />
-              <Button title="📤 Exporter ce profil (complet)" variant="secondary" onPress={() => { const p = menuPlayer; setMenuPlayer(null); void doExportProfile(p); }} />
-              <Button title="Univers et thèmes évités" variant="secondary" onPress={() => { const p = menuPlayer; setMenuPlayer(null); openUnwanted(p); }} />
-              <Button title={showArchived ? 'Restaurer' : 'Archiver'} variant="secondary" onPress={() => { const p = menuPlayer; setMenuPlayer(null); void archiveToggle(p); }} />
-              <Button title="Supprimer (efface les stats)" variant="danger" onPress={() => { const p = menuPlayer; setMenuPlayer(null); confirmDelete(p); }} />
-              <Button title="Annuler" variant="ghost" onPress={() => setMenuPlayer(null)} />
+              <Button title={t('🏅 Profil et hauts faits')} onPress={() => { const p = menuPlayer; setMenuPlayer(null); navigation.navigate('PlayerProfile', { playerId: p.id }); }} />
+              <Button title={t('Modifier')} variant="secondary" onPress={() => { const p = menuPlayer; setMenuPlayer(null); startEdit(p); }} />
+              <Button title={t('Dupliquer')} variant="secondary" onPress={() => { const p = menuPlayer; setMenuPlayer(null); void duplicatePlayer(p); }} />
+              <Button title={t('📤 Exporter ce profil (complet)')} variant="secondary" onPress={() => { const p = menuPlayer; setMenuPlayer(null); void doExportProfile(p); }} />
+              <Button title={t('Univers et thèmes évités')} variant="secondary" onPress={() => { const p = menuPlayer; setMenuPlayer(null); openUnwanted(p); }} />
+              <Button title={showArchived ? t('Restaurer') : t('Archiver')} variant="secondary" onPress={() => { const p = menuPlayer; setMenuPlayer(null); void archiveToggle(p); }} />
+              <Button title={t('Supprimer (efface les stats)')} variant="danger" onPress={() => { const p = menuPlayer; setMenuPlayer(null); confirmDelete(p); }} />
+              <Button title={t('Annuler')} variant="ghost" onPress={() => setMenuPlayer(null)} />
             </>
           )}
         </Pressable>

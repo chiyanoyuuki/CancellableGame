@@ -2,19 +2,21 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import { Screen, Txt } from '../components/ui';
 import { getGame } from '../games/registry';
+import { useT } from '../lib/i18nProvider';
 import type { RootStackParamList } from '../navigation';
 import { useStore } from '../store/StoreProvider';
 
 /** Generic wrapper that renders the chosen mini-game's config component. */
 export function GameConfigScreen({ route, navigation }: NativeStackScreenProps<RootStackParamList, 'GameConfig'>) {
+  const t = useT();
   const { gameId, players, soiree } = route.params;
   const game = getGame(gameId);
   const { requestGameStart } = useStore();
 
   if (!game) {
     return (
-      <Screen title="Erreur" onBack={() => navigation.goBack()}>
-        <Txt>Jeu introuvable.</Txt>
+      <Screen title={t('Erreur')} onBack={() => navigation.goBack()}>
+        <Txt>{t('Jeu introuvable.')}</Txt>
       </Screen>
     );
   }
@@ -22,8 +24,8 @@ export function GameConfigScreen({ route, navigation }: NativeStackScreenProps<R
   const Config = game.ConfigComponent;
   return (
     <Screen
-      title={`${game.emoji} ${game.title}`}
-      subtitle={`${players.length} joueur${players.length > 1 ? 's' : ''}`}
+      title={`${game.emoji} ${t(game.title)}`}
+      subtitle={t(players.length > 1 ? '{n} joueurs' : '{n} joueur', { n: players.length })}
       onBack={() => navigation.goBack()}
       scroll
     >

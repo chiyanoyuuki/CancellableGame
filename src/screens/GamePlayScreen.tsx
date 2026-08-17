@@ -6,10 +6,12 @@ import type { SessionResult } from '../core/models';
 import { applyRound } from '../core/soiree';
 import { getActiveSoiree, saveActiveSoiree, saveSessionResult } from '../db';
 import { getGame } from '../games/registry';
+import { useT } from '../lib/i18nProvider';
 import type { RootStackParamList } from '../navigation';
 
 /** Generic wrapper that renders the chosen mini-game's play component. */
 export function GamePlayScreen({ route, navigation }: NativeStackScreenProps<RootStackParamList, 'GamePlay'>) {
+  const t = useT();
   const { gameId, players, config, resume, slotId, soiree } = route.params;
   const game = getGame(gameId);
 
@@ -43,8 +45,8 @@ export function GamePlayScreen({ route, navigation }: NativeStackScreenProps<Roo
 
   if (!game) {
     return (
-      <Screen title="Erreur" onBack={() => navigation.goBack()}>
-        <Txt>Jeu introuvable.</Txt>
+      <Screen title={t('Erreur')} onBack={() => navigation.goBack()}>
+        <Txt>{t('Jeu introuvable.')}</Txt>
       </Screen>
     );
   }
