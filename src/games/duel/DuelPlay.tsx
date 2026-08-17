@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button, Card, PlayerAvatar, Txt } from '../../components/ui';
 import { haptics } from '../../lib/haptics';
+import { useT } from '../../lib/i18nProvider';
 import { DIFFICULTY_LABELS, type Difficulty, type DuelConfig, type DuelJoker, type Player, THEME_META } from '../../core/models';
 import { type DuelAction, type DuelState, createDuelState, duelReducer, duelToSessionResult } from '../../core/duelEngine';
 import { type DrinkOutcome, rollAnswerDrink } from '../../core/drinks';
@@ -19,6 +20,7 @@ function haptic(success: boolean) {
 }
 
 export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGamePlayProps) {
+  const t = useT();
   const store = useStore();
   const cfg = config as DuelConfig;
   const [game, setGame] = useState<DuelState | null>(null);
@@ -83,9 +85,9 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
   }, [game, onFinish]);
 
   const confirmQuit = () =>
-    Alert.alert('Quitter le duel ?', 'La partie en cours sera perdue.', [
-      { text: 'Continuer', style: 'cancel' },
-      { text: 'Quitter', style: 'destructive', onPress: onQuit },
+    Alert.alert(t('Quitter le duel ?'), t('La partie en cours sera perdue.'), [
+      { text: t('Continuer'), style: 'cancel' },
+      { text: t('Quitter'), style: 'destructive', onPress: onQuit },
     ]);
 
   const [lastDrink, setLastDrink] = useState<DrinkOutcome | null>(null);
@@ -113,7 +115,7 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
         <View style={styles.center}>
           <ActivityIndicator color={colors.primary} size="large" />
           <Txt dim style={{ marginTop: spacing(2) }}>
-            Préparation du duel…
+            {t('Préparation du duel…')}
           </Txt>
         </View>
       </SafeAreaView>
@@ -128,11 +130,11 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
       <View style={styles.topBar}>
         <Pressable onPress={confirmQuit} hitSlop={12}>
           <Txt color={colors.textDim} weight="700">
-            ✕ Quitter
+            {t('✕ Quitter')}
           </Txt>
         </Pressable>
         <Txt faint size={fontSize.sm} weight="700">
-          ⚔️ {game.alive.length} en jeu
+          {t('⚔️ {n} en jeu', { n: game.alive.length })}
         </Txt>
       </View>
 
@@ -155,18 +157,18 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
       <View style={{ gap: spacing(2), paddingTop: spacing(6), alignItems: 'center' }}>
         <Txt style={{ fontSize: 72 }}>{diffEmoji[diffTransition]}</Txt>
         <Txt faint weight="800" size={fontSize.sm}>
-          CHANGEMENT DE DIFFICULTÉ
+          {t('CHANGEMENT DE DIFFICULTÉ')}
         </Txt>
         <Txt size={fontSize.xxl} weight="900" center color={colors.accent}>
-          {DIFFICULTY_LABELS[diffTransition].toUpperCase()}
+          {t(DIFFICULTY_LABELS[diffTransition]).toUpperCase()}
         </Txt>
         {active && (
           <Txt dim center>
-            À toi, {active.name} !
+            {t('À toi, {name} !', { name: active.name })}
           </Txt>
         )}
         <View style={{ height: spacing(2) }} />
-        <Button title="Continuer" size="lg" variant="accent" onPress={() => setDiffTransition(null)} style={{ alignSelf: 'stretch' }} />
+        <Button title={t('Continuer')} size="lg" variant="accent" onPress={() => setDiffTransition(null)} style={{ alignSelf: 'stretch' }} />
       </View>
     );
   }
@@ -178,17 +180,17 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
       <View style={{ gap: spacing(2) }}>
         <View style={styles.metaRow}>
           <Txt weight="800" color={colors.accent}>
-            {theme.emoji} {q.universe ?? theme.label}
+            {theme.emoji} {q.universe ?? t(theme.label)}
           </Txt>
           <Txt faint weight="700" size={fontSize.xs}>
-            {DIFFICULTY_LABELS[q.difficulty].toUpperCase()}
+            {t(DIFFICULTY_LABELS[q.difficulty]).toUpperCase()}
           </Txt>
         </View>
 
         {active && (
           <View style={styles.activeBanner}>
             <PlayerAvatar emoji={active.emoji} color={active.color} photoUri={active.photoUri} size={32} />
-            <Txt weight="800">À toi, {active.name} !</Txt>
+            <Txt weight="800">{t('À toi, {name} !', { name: active.name })}</Txt>
           </View>
         )}
 
@@ -215,16 +217,16 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
     const jk = cfg.jokers;
     const canOther = cfg.universes.length > 1;
     const buttons: { joker: DuelJoker; label: string; disabled: boolean }[] = [];
-    if (jk.props4) buttons.push({ joker: 'props4', label: '🔎 4 props', disabled: used.includes('props4') || game!.propsShown !== 0 });
-    if (jk.props2) buttons.push({ joker: 'props2', label: '🔍 2 props', disabled: used.includes('props2') || game!.propsShown === 2 });
-    if (jk.playerHelp) buttons.push({ joker: 'playerHelp', label: '🆘 Aide joueur', disabled: used.includes('playerHelp') });
-    if (jk.otherUniverse && canOther) buttons.push({ joker: 'otherUniverse', label: '🔄 Autre univers', disabled: used.includes('otherUniverse') });
+    if (jk.props4) buttons.push({ joker: 'props4', label: t('🔎 4 props'), disabled: used.includes('props4') || game!.propsShown !== 0 });
+    if (jk.props2) buttons.push({ joker: 'props2', label: t('🔍 2 props'), disabled: used.includes('props2') || game!.propsShown === 2 });
+    if (jk.playerHelp) buttons.push({ joker: 'playerHelp', label: t('🆘 Aide joueur'), disabled: used.includes('playerHelp') });
+    if (jk.otherUniverse && canOther) buttons.push({ joker: 'otherUniverse', label: t('🔄 Autre univers'), disabled: used.includes('otherUniverse') });
     if (buttons.length === 0) return null;
 
     return (
       <View style={styles.jokerBox}>
         <Txt faint size={fontSize.xs} weight="800">
-          JOKERS DE {active?.name?.toUpperCase() ?? ''}
+          {t('JOKERS DE {name}', { name: active?.name?.toUpperCase() ?? '' })}
         </Txt>
         <View style={styles.jokerRow}>
           {buttons.map((b) => (
@@ -241,7 +243,7 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
         </View>
         {game!.helpUsed && (
           <Txt weight="700" size={fontSize.xs} color={colors.accent}>
-            🆘 {active?.name} a demandé l'aide d'un autre joueur !
+            {t("🆘 {name} a demandé l'aide d'un autre joueur !", { name: active?.name ?? '' })}
           </Txt>
         )}
       </View>
@@ -267,21 +269,21 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
     if (game!.propsShown > 0) return renderOptions();
 
     if (!revealedAnswer) {
-      return <Button title="Révéler la réponse" onPress={() => setRevealedAnswer(true)} />;
+      return <Button title={t('Révéler la réponse')} onPress={() => setRevealedAnswer(true)} />;
     }
     return (
       <View style={{ gap: spacing(1) }}>
         <Card accent={colors.success}>
           <Txt faint size={fontSize.xs}>
-            RÉPONSE
+            {t('RÉPONSE')}
           </Txt>
           <Txt size={fontSize.lg} weight="800">
             {q.answer}
           </Txt>
         </Card>
         <View style={{ flexDirection: 'row', gap: spacing(1) }}>
-          <Button title="✅ Réussi" variant="primary" style={{ flex: 1 }} onPress={() => answer(true)} />
-          <Button title="❌ Raté" variant="danger" style={{ flex: 1 }} onPress={() => answer(false)} />
+          <Button title={t('✅ Réussi')} variant="primary" style={{ flex: 1 }} onPress={() => answer(true)} />
+          <Button title={t('❌ Raté')} variant="danger" style={{ flex: 1 }} onPress={() => answer(false)} />
         </View>
       </View>
     );
@@ -296,14 +298,16 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
         <View style={{ alignItems: 'center', gap: spacing(1) }}>
           <Txt size={fontSize.huge}>{survived ? '✅' : '💥'}</Txt>
           <Txt size={fontSize.lg} weight="800" center>
-            {survived ? `${active?.name ?? 'Le joueur'} reste en jeu !` : `${elim?.name ?? 'Le joueur'} est éliminé !`}
+            {survived
+              ? t('{name} reste en jeu !', { name: active?.name ?? t('Le joueur') })
+              : t('{name} est éliminé !', { name: elim?.name ?? t('Le joueur') })}
           </Txt>
         </View>
 
         {q && (
           <Card accent={colors.success}>
             <Txt faint size={fontSize.xs}>
-              RÉPONSE
+              {t('RÉPONSE')}
             </Txt>
             <Txt size={fontSize.lg} weight="800">
               {q.answer}
@@ -313,7 +317,7 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
 
         <View>
           <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.5) }}>
-            ENCORE EN LICE ({stillIn.length})
+            {t('ENCORE EN LICE ({n})', { n: stillIn.length })}
           </Txt>
           <View style={styles.aliveWrap}>
             {stillIn.map((id) => {
@@ -336,20 +340,18 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
             <Txt weight="800" color={colors.warning}>🍺 {lastDrink.reason}</Txt>
             {lastDrink.sipsDrunk > 0 && (
               <Txt weight="700" style={{ marginTop: spacing(0.5) }}>
-                {(survived ? active?.name : elim?.name) ?? 'Le joueur'} boit {lastDrink.sipsDrunk} gorgée
-                {lastDrink.sipsDrunk > 1 ? 's' : ''}.
+                {t(lastDrink.sipsDrunk > 1 ? '{name} boit {n} gorgées' : '{name} boit {n} gorgée', { name: (survived ? active?.name : elim?.name) ?? t('Le joueur'), n: lastDrink.sipsDrunk })}.
               </Txt>
             )}
             {lastDrink.sipsGiven > 0 && (
               <Txt weight="700" style={{ marginTop: spacing(0.5) }}>
-                {active?.name ?? 'Le joueur'} distribue {lastDrink.sipsGiven} gorgée
-                {lastDrink.sipsGiven > 1 ? 's' : ''}.
+                {t(lastDrink.sipsGiven > 1 ? '{name} distribue {n} gorgées' : '{name} distribue {n} gorgée', { name: active?.name ?? t('Le joueur'), n: lastDrink.sipsGiven })}.
               </Txt>
             )}
           </Card>
         )}
 
-        <Button title="Continuer" size="lg" onPress={() => { setLastDrink(null); dispatch({ type: 'CONTINUE' }); }} />
+        <Button title={t('Continuer')} size="lg" onPress={() => { setLastDrink(null); dispatch({ type: 'CONTINUE' }); }} />
       </View>
     );
   }

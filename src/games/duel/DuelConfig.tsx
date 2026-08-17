@@ -6,6 +6,7 @@ import { type DrinkIntensity, type DuelConfig, type DuelJoker, type Question, ty
 import { countUnseenGroups, identityGroups, type QuestionHistory } from '../../core/questionSelection';
 import { shuffle } from '../../core/rng';
 import { getPlayerUnwantedUniverses, getQuestionHistoryByPlayer } from '../../db';
+import { useT } from '../../lib/i18nProvider';
 import { useStore } from '../../store/StoreProvider';
 import { colors, fontSize, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
@@ -26,6 +27,7 @@ const JOKER_META: { key: DuelJoker; label: string; desc: string }[] = [
 ];
 
 export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
+  const t = useT();
   const store = useStore();
   const [pool, setPool] = useState<Question[]>([]);
   const [selected, setSelected] = useState<Set<string>>(new Set());
@@ -151,47 +153,48 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
   return (
     <View style={{ gap: spacing(1) }}>
       <Card accent={colors.accent}>
-        <Txt weight="800">⚔️ Duel — élimination</Txt>
+        <Txt weight="800">{t('⚔️ Duel — élimination')}</Txt>
         <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-          Chacun son tour, sur les univers choisis. La difficulté monte pour chaque joueur : 3 faciles,
-          3 moyennes, 2 dures, puis tout le reste en pro. Une mauvaise réponse élimine. Dernier debout gagne !
+          {t(
+            'Chacun son tour, sur les univers choisis. La difficulté monte pour chaque joueur : 3 faciles, 3 moyennes, 2 dures, puis tout le reste en pro. Une mauvaise réponse élimine. Dernier debout gagne !',
+          )}
         </Txt>
       </Card>
 
       <HowToPlay
         lines={[
-          'Chacun son tour, sur les univers choisis pour le duel.',
-          'La difficulté monte : 3 faciles, 3 moyennes, 2 dures, puis tout le reste en pro.',
-          'Une mauvaise réponse élimine le joueur. Utilise tes jokers au bon moment.',
-          'Le dernier joueur encore en lice remporte le duel.',
+          t('Chacun son tour, sur les univers choisis pour le duel.'),
+          t('La difficulté monte : 3 faciles, 3 moyennes, 2 dures, puis tout le reste en pro.'),
+          t('Une mauvaise réponse élimine le joueur. Utilise tes jokers au bon moment.'),
+          t('Le dernier joueur encore en lice remporte le duel.'),
         ]}
       />
 
-      <SectionHeader title="Univers du duel" />
+      <SectionHeader title={t('Univers du duel')} />
       <Segmented<UniverseMode>
         value={mode}
         onChange={setMode}
         options={[
-          { label: 'Manuel', value: 'manual' },
-          { label: 'Tous', value: 'all' },
-          { label: 'Profils', value: 'profiles' },
+          { label: t('Manuel'), value: 'manual' },
+          { label: t('Tous'), value: 'all' },
+          { label: t('Profils'), value: 'profiles' },
         ]}
       />
 
       {mode === 'all' ? (
         <Txt faint size={fontSize.xs}>
-          🎲 Tous les univers du jeu — {allUniverses.length} au total. Le duel puise ses questions dans l'ensemble.
+          {t("🎲 Tous les univers du jeu — {n} au total. Le duel puise ses questions dans l'ensemble.", { n: allUniverses.length })}
         </Txt>
       ) : mode === 'profiles' ? (
         <Txt faint size={fontSize.xs}>
           {wantedUnion.size > 0
-            ? `🎲 ${wantedUnion.size} univers — tous ceux qu'au moins un joueur n'a pas exclus dans son profil.`
-            : "Aucun univers disponible : les joueurs ont tout exclu dans leur profil."}
+            ? t("🎲 {n} univers — tous ceux qu'au moins un joueur n'a pas exclus dans son profil.", { n: wantedUnion.size })
+            : t('Aucun univers disponible : les joueurs ont tout exclu dans leur profil.')}
         </Txt>
       ) : (
         <Txt faint size={fontSize.xs}>
-          {selected.size} univers choisi{selected.size > 1 ? 's' : ''} · {eligibleCount} question
-          {eligibleCount > 1 ? 's' : ''}
+          {t(selected.size > 1 ? '{n} univers choisis' : '{n} univers choisi', { n: selected.size })} ·{' '}
+          {t(eligibleCount > 1 ? '{n} questions' : '{n} question', { n: eligibleCount })}
         </Txt>
       )}
 
@@ -201,7 +204,7 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
           return (
             <View key={theme} style={{ marginBottom: spacing(1) }}>
               <Chip
-                label={`${allIn ? '✓ ' : ''}${THEME_META[theme].label.toUpperCase()}`}
+                label={`${allIn ? '✓ ' : ''}${t(THEME_META[theme].label).toUpperCase()}`}
                 emoji={THEME_META[theme].emoji}
                 selected={allIn}
                 onPress={() => toggleTheme(universes)}
@@ -217,21 +220,21 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
 
       {players.length > 0 && available >= 1 && (
         <>
-          <SectionHeader title="Inédites par joueur" />
+          <SectionHeader title={t('Inédites par joueur')} />
           <PlayerUnseenList rows={unseenByPlayer} />
           <Txt faint size={fontSize.xs}>
-            Questions jamais vues par chaque joueur avec les univers du duel.
+            {t('Questions jamais vues par chaque joueur avec les univers du duel.')}
           </Txt>
         </>
       )}
 
-      <SectionHeader title="Jokers — un de chaque par joueur" />
+      <SectionHeader title={t('Jokers — un de chaque par joueur')} />
       {JOKER_META.map(({ key, label, desc }) => (
         <Card key={key}>
           <View style={styles.row}>
             <View style={{ flex: 1 }}>
-              <Txt weight="700">{label}</Txt>
-              <Txt faint size={fontSize.xs}>{desc}</Txt>
+              <Txt weight="700">{t(label)}</Txt>
+              <Txt faint size={fontSize.xs}>{t(desc)}</Txt>
             </View>
             <Switch
               value={jokers[key]}
@@ -243,12 +246,12 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
         </Card>
       ))}
 
-      <SectionHeader title="Mode alcool" />
+      <SectionHeader title={t('Mode alcool')} />
       <Card>
         <View style={styles.row}>
           <View style={{ flex: 1 }}>
-            <Txt weight="700">🍺 Gorgées</Txt>
-            <Txt faint size={fontSize.xs}>Le joueur éliminé boit ; sans-faute sur une dure, tu distribues.</Txt>
+            <Txt weight="700">{t('🍺 Gorgées')}</Txt>
+            <Txt faint size={fontSize.xs}>{t('Le joueur éliminé boit ; sans-faute sur une dure, tu distribues.')}</Txt>
           </View>
           <Switch
             value={drinksEnabled}
@@ -273,10 +276,10 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
       </Card>
 
       <View style={{ height: spacing(1) }} />
-      <Button title="Lancer le duel" emoji="⚔️" size="lg" variant="accent" onPress={launch} disabled={!valid} />
+      <Button title={t('Lancer le duel')} emoji="⚔️" size="lg" variant="accent" onPress={launch} disabled={!valid} />
       {!valid && (
         <Txt faint size={fontSize.xs} center>
-          {players.length < 2 ? 'Il faut au moins 2 joueurs pour un duel.' : 'Choisis au moins un univers.'}
+          {players.length < 2 ? t('Il faut au moins 2 joueurs pour un duel.') : t('Choisis au moins un univers.')}
         </Txt>
       )}
     </View>

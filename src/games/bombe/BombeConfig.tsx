@@ -15,6 +15,7 @@ import {
 } from '../../core/models';
 import { countUnseenGroups, identityGroups, type QuestionHistory } from '../../core/questionSelection';
 import { getQuestionHistoryByPlayer, kvGetJSON, kvSetJSON } from '../../db';
+import { useT } from '../../lib/i18nProvider';
 import { colors, fontSize, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
 import { getQuizPool } from '../quiz/pool';
@@ -22,6 +23,7 @@ import { getQuizPool } from '../quiz/pool';
 const LAST_CONFIG_KEY = 'bombe:lastConfig';
 
 export function BombeConfigComponent({ players, onStart }: MiniGameConfigProps) {
+  const t = useT();
   const [cfg, setCfg] = useState<BombeConfig>(DEFAULT_BOMBE_CONFIG);
   const [pool, setPool] = useState<Question[]>([]);
   const [historyByPlayer, setHistoryByPlayer] = useState<Record<string, QuestionHistory>>({});
@@ -115,52 +117,52 @@ export function BombeConfigComponent({ players, onStart }: MiniGameConfigProps) 
   return (
     <View style={{ gap: spacing(1) }}>
       <Card accent={colors.accent}>
-        <Txt weight="800">💣 La Bombe — élimination</Txt>
+        <Txt weight="800">{t('💣 La Bombe — élimination')}</Txt>
         <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-          Un joueur au hasard commence. Réponds juste pour refiler la bombe au voisin de gauche. Erreur,
-          propositions ou « passer » : la mèche raccourcit. Celui qui la tient quand elle explose est éliminé.
-          Dernier survivant gagne !
+          {t(
+            'Un joueur au hasard commence. Réponds juste pour refiler la bombe au voisin de gauche. Erreur, propositions ou « passer » : la mèche raccourcit. Celui qui la tient quand elle explose est éliminé. Dernier survivant gagne !',
+          )}
         </Txt>
       </Card>
 
       <HowToPlay
         lines={[
-          'Un joueur au hasard démarre avec la bombe.',
-          'Bonne réponse : tu passes la bombe à ton voisin. Erreur, propositions ou « passer » raccourcissent la mèche.',
-          'Quand la mèche explose, celui qui tient la bombe perd une vie (ou est éliminé s\'il n\'en a plus).',
-          'Le dernier survivant remporte la partie.',
+          t('Un joueur au hasard démarre avec la bombe.'),
+          t('Bonne réponse : tu passes la bombe à ton voisin. Erreur, propositions ou « passer » raccourcissent la mèche.'),
+          t("Quand la mèche explose, celui qui tient la bombe perd une vie (ou est éliminé s'il n'en a plus)."),
+          t('Le dernier survivant remporte la partie.'),
         ]}
       />
 
-      <SectionHeader title="Thèmes" />
+      <SectionHeader title={t('Thèmes')} />
       <View style={styles.wrap}>
-        {THEMES.map((t) => (
+        {THEMES.map((th) => (
           <Chip
-            key={t}
-            label={THEME_META[t].label}
-            emoji={THEME_META[t].emoji}
-            selected={cfg.themes.includes(t)}
-            onPress={() => toggleTheme(t)}
+            key={th}
+            label={t(THEME_META[th].label)}
+            emoji={THEME_META[th].emoji}
+            selected={cfg.themes.includes(th)}
+            onPress={() => toggleTheme(th)}
           />
         ))}
       </View>
 
-      <SectionHeader title="Difficulté" />
+      <SectionHeader title={t('Difficulté')} />
       <View style={styles.wrap}>
         {([1, 2, 3, 4] as Difficulty[]).map((d) => (
-          <Chip key={d} label={DIFFICULTY_LABELS[d]} selected={cfg.difficulties.includes(d)} onPress={() => toggleDifficulty(d)} />
+          <Chip key={d} label={t(DIFFICULTY_LABELS[d])} selected={cfg.difficulties.includes(d)} onPress={() => toggleDifficulty(d)} />
         ))}
       </View>
       <Txt faint size={fontSize.xs}>
-        {eligible} question{eligible > 1 ? 's' : ''} disponible{eligible > 1 ? 's' : ''} avec ces filtres.
+        {t(eligible > 1 ? '{n} questions disponibles avec ces filtres.' : '{n} question disponible avec ces filtres.', { n: eligible })}
       </Txt>
 
       {players.length > 0 && (
         <>
-          <SectionHeader title="Inédites par joueur" />
+          <SectionHeader title={t('Inédites par joueur')} />
           <PlayerUnseenList rows={unseenByPlayer} />
           <Txt faint size={fontSize.xs}>
-            Questions jamais vues par chaque joueur avec les thèmes et univers choisis.
+            {t('Questions jamais vues par chaque joueur avec les thèmes et univers choisis.')}
           </Txt>
         </>
       )}
@@ -168,13 +170,13 @@ export function BombeConfigComponent({ players, onStart }: MiniGameConfigProps) 
       {universesByTheme.length > 0 && (
         <>
           <Pressable onPress={() => setShowAdvanced((v) => !v)}>
-            <SectionHeader title={`Options avancées — univers ${showAdvanced ? '▾' : '▸'}`} />
+            <SectionHeader title={`${t('Options avancées — univers')} ${showAdvanced ? '▾' : '▸'}`} />
           </Pressable>
           {showAdvanced &&
             universesByTheme.map(({ theme, universes }) => (
               <View key={theme} style={{ marginBottom: spacing(1.5) }}>
                 <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.5) }}>
-                  {THEME_META[theme].emoji} {THEME_META[theme].label.toUpperCase()}
+                  {THEME_META[theme].emoji} {t(THEME_META[theme].label).toUpperCase()}
                 </Txt>
                 <View style={styles.wrap}>
                   {universes.map((u) => (
@@ -186,41 +188,41 @@ export function BombeConfigComponent({ players, onStart }: MiniGameConfigProps) 
         </>
       )}
 
-      <SectionHeader title="La bombe" />
+      <SectionHeader title={t('La bombe')} />
       <Card>
         <View style={styles.row}>
           <View style={{ flex: 1 }}>
-            <Txt weight="700">Secondes par joueur ⏱</Txt>
-            <Txt faint size={fontSize.xs}>La mèche est tirée au hasard autour de cette valeur × le nombre de joueurs.</Txt>
+            <Txt weight="700">{t('Secondes par joueur ⏱')}</Txt>
+            <Txt faint size={fontSize.xs}>{t('La mèche est tirée au hasard autour de cette valeur × le nombre de joueurs.')}</Txt>
           </View>
           <Stepper value={cfg.secondsPerPlayer} min={4} max={30} onChange={(v) => set('secondsPerPlayer', v)} />
         </View>
         <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-          ≈ {avgFuse} s de mèche à {players.length} joueur{players.length > 1 ? 's' : ''} au départ.
+          {t(players.length > 1 ? '≈ {sec} s de mèche à {n} joueurs au départ.' : '≈ {sec} s de mèche à {n} joueur au départ.', { sec: avgFuse, n: players.length })}
         </Txt>
         <View style={[styles.row, { marginTop: spacing(1.5) }]}>
           <View style={{ flex: 1 }}>
-            <Txt weight="700">Vies par joueur ❤️</Txt>
-            <Txt faint size={fontSize.xs}>Nombre d'explosions encaissées avant d'être éliminé.</Txt>
+            <Txt weight="700">{t('Vies par joueur ❤️')}</Txt>
+            <Txt faint size={fontSize.xs}>{t("Nombre d'explosions encaissées avant d'être éliminé.")}</Txt>
           </View>
           <Stepper value={cfg.lives ?? 1} min={1} max={5} onChange={(v) => set('lives', v)} />
         </View>
       </Card>
 
-      <SectionHeader title="Pénalités de temps" />
+      <SectionHeader title={t('Pénalités de temps')} />
       <Card>
-        <PenaltyRow label="Mauvaise réponse ❌" value={cfg.penaltyWrongSec} onChange={(v) => set('penaltyWrongSec', v)} />
-        <PenaltyRow label="4 propositions 🔎" value={cfg.penaltyProps4Sec} onChange={(v) => set('penaltyProps4Sec', v)} />
-        <PenaltyRow label="2 propositions 🔍" value={cfg.penaltyProps2Sec} onChange={(v) => set('penaltyProps2Sec', v)} />
-        <PenaltyRow label="Passer la question ⏭️" value={cfg.penaltySkipSec} onChange={(v) => set('penaltySkipSec', v)} />
+        <PenaltyRow label={t('Mauvaise réponse ❌')} value={cfg.penaltyWrongSec} onChange={(v) => set('penaltyWrongSec', v)} />
+        <PenaltyRow label={t('4 propositions 🔎')} value={cfg.penaltyProps4Sec} onChange={(v) => set('penaltyProps4Sec', v)} />
+        <PenaltyRow label={t('2 propositions 🔍')} value={cfg.penaltyProps2Sec} onChange={(v) => set('penaltyProps2Sec', v)} />
+        <PenaltyRow label={t('Passer la question ⏭️')} value={cfg.penaltySkipSec} onChange={(v) => set('penaltySkipSec', v)} />
       </Card>
 
-      <SectionHeader title="Gorgées" />
+      <SectionHeader title={t('Gorgées')} />
       <Card>
         <View style={styles.row}>
           <View style={{ flex: 1 }}>
-            <Txt weight="700">Gorgées 🍻</Txt>
-            <Txt faint size={fontSize.xs}>Chaque joueur éliminé boit une gorgée ou plus.</Txt>
+            <Txt weight="700">{t('Gorgées 🍻')}</Txt>
+            <Txt faint size={fontSize.xs}>{t('Chaque joueur éliminé boit une gorgée ou plus.')}</Txt>
           </View>
           <Switch
             value={cfg.drinksEnabled}
@@ -243,10 +245,10 @@ export function BombeConfigComponent({ players, onStart }: MiniGameConfigProps) 
       )}
 
       <View style={{ height: spacing(1) }} />
-      <Button title="Allumer la mèche" emoji="💣" size="lg" variant="accent" onPress={launch} disabled={!valid} />
+      <Button title={t('Allumer la mèche')} emoji="💣" size="lg" variant="accent" onPress={launch} disabled={!valid} />
       {!valid && (
         <Txt faint size={fontSize.xs} center>
-          Choisis au moins un thème et une difficulté avec des questions disponibles.
+          {t('Choisis au moins un thème et une difficulté avec des questions disponibles.')}
         </Txt>
       )}
     </View>

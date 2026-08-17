@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button, Card, PlayerAvatar, Txt } from '../../components/ui';
 import { haptics } from '../../lib/haptics';
+import { useT } from '../../lib/i18nProvider';
 import { type BombeConfig, DIFFICULTY_LABELS, type Player, type SessionResult, THEME_META } from '../../core/models';
 import {
   type BombeAction,
@@ -38,6 +39,7 @@ function seedFromId(id: string): number {
 }
 
 export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGamePlayProps) {
+  const t = useT();
   const store = useStore();
   const cfg = config as BombeConfig;
   const [game, setGame] = useState<BombeState | null>(null);
@@ -179,8 +181,8 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
     if (game?.phase === 'finished' && !finishedRef.current) {
       finishedRef.current = true;
       const result: SessionResult = bombeToSessionResult(game, startedAtRef.current, Date.now());
-      const t = setTimeout(() => onFinish(result), 1400); // laisser jouer l'explosion finale
-      return () => clearTimeout(t);
+      const timer = setTimeout(() => onFinish(result), 1400); // laisser jouer l'explosion finale
+      return () => clearTimeout(timer);
     }
   }, [game, onFinish]);
 
@@ -190,7 +192,7 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
         <View style={styles.center}>
           <ActivityIndicator color={colors.accent} size="large" />
           <Txt dim style={{ marginTop: spacing(2) }}>
-            On amorce la bombe…
+            {t('On amorce la bombe…')}
           </Txt>
         </View>
       </SafeAreaView>
@@ -211,11 +213,11 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
       <View style={styles.topBar}>
         <Pressable onPress={onQuit} hitSlop={12}>
           <Txt color={colors.textDim} weight="700">
-            ✕ Quitter
+            {t('✕ Quitter')}
           </Txt>
         </Pressable>
         <Txt faint size={fontSize.sm} weight="700">
-          💣 {game.aliveIds.length} en lice
+          {t('💣 {n} en lice', { n: game.aliveIds.length })}
         </Txt>
       </View>
 
@@ -229,7 +231,7 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
           <View style={[styles.fuseFill, { width: `${pct * 100}%`, backgroundColor: fuseColor }]} />
         </View>
         <Txt faint size={fontSize.xs} center>
-          {pct < 0.2 ? '⚠️ Ça va péter !' : 'La mèche brûle…'}
+          {pct < 0.2 ? t('⚠️ Ça va péter !') : t('La mèche brûle…')}
         </Txt>
       </View>
 
@@ -249,15 +251,15 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
       <View style={{ gap: spacing(2) }}>
         <View style={styles.activeBanner}>
           <PlayerAvatar emoji={active.emoji} color={active.color} photoUri={active.photoUri} size={34} />
-          <Txt weight="800">À toi, {active.name} !</Txt>
+          <Txt weight="800">{t('À toi, {name} !', { name: active.name })}</Txt>
         </View>
 
         <View style={styles.metaRow}>
           <Txt weight="800" color={colors.accent}>
-            {theme.emoji} {q.universe ?? theme.label}
+            {theme.emoji} {q.universe ?? t(theme.label)}
           </Txt>
           <Txt faint weight="700" size={fontSize.xs}>
-            {DIFFICULTY_LABELS[q.difficulty].toUpperCase()}
+            {t(DIFFICULTY_LABELS[q.difficulty]).toUpperCase()}
           </Txt>
         </View>
 
@@ -279,7 +281,7 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
           <Card>
             <Txt center style={{ fontSize: 40 }}>🎧</Txt>
             <Txt faint size={fontSize.xs} center>
-              Blind test — le meneur lance l'extrait.
+              {t("Blind test — le meneur lance l'extrait.")}
             </Txt>
           </Card>
         )}
@@ -290,7 +292,7 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
 
         {renderControls(q)}
 
-        <Button title={`⏭️ Passer  (−${cfg.penaltySkipSec} s)`} variant="ghost" size="sm" onPress={onSkip} />
+        <Button title={t('⏭️ Passer  (−{n} s)', { n: cfg.penaltySkipSec })} variant="ghost" size="sm" onPress={onSkip} />
       </View>
     );
   }
@@ -311,17 +313,17 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
     if (!revealed) {
       return (
         <View style={{ gap: spacing(1) }}>
-          <Button title="Révéler la réponse" onPress={() => setRevealed(true)} />
+          <Button title={t('Révéler la réponse')} onPress={() => setRevealed(true)} />
           <View style={styles.helpRow}>
             <Button
-              title={`4 props  −${cfg.penaltyProps4Sec}s`}
+              title={t('4 props  −{n}s', { n: cfg.penaltyProps4Sec })}
               variant="secondary"
               size="sm"
               style={{ flex: 1 }}
               onPress={() => onProps(4)}
             />
             <Button
-              title={`2 props  −${cfg.penaltyProps2Sec}s`}
+              title={t('2 props  −{n}s', { n: cfg.penaltyProps2Sec })}
               variant="secondary"
               size="sm"
               style={{ flex: 1 }}
@@ -334,14 +336,14 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
     return (
       <View style={{ gap: spacing(1) }}>
         <Card accent={colors.success}>
-          <Txt faint size={fontSize.xs}>RÉPONSE</Txt>
+          <Txt faint size={fontSize.xs}>{t('RÉPONSE')}</Txt>
           <Txt size={fontSize.lg} weight="800">
             {q.answer}
           </Txt>
         </Card>
         <View style={{ flexDirection: 'row', gap: spacing(1) }}>
-          <Button title="✅ Réussi" variant="primary" style={{ flex: 1 }} onPress={() => answer(true)} />
-          <Button title={`❌ Raté  −${cfg.penaltyWrongSec}s`} variant="danger" style={{ flex: 1 }} onPress={() => answer(false)} />
+          <Button title={t('✅ Réussi')} variant="primary" style={{ flex: 1 }} onPress={() => answer(true)} />
+          <Button title={t('❌ Raté  −{n}s', { n: cfg.penaltyWrongSec })} variant="danger" style={{ flex: 1 }} onPress={() => answer(false)} />
         </View>
       </View>
     );
@@ -357,23 +359,25 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
       <View style={{ gap: spacing(2), alignItems: 'center', paddingTop: spacing(2) }}>
         <Txt size={fontSize.huge}>💥</Txt>
         <Txt size={fontSize.xl} weight="800" center color={colors.danger}>
-          {eliminated ? `BOOM ! ${eliminated.name} est éliminé` : `BOOM ! ${survivor?.name ?? 'Le joueur'} explose`}
+          {eliminated
+            ? t('BOOM ! {name} est éliminé', { name: eliminated.name })
+            : t('BOOM ! {name} explose', { name: survivor?.name ?? t('Le joueur') })}
         </Txt>
         {who && <PlayerAvatar emoji={who.emoji} color={who.color} photoUri={who.photoUri} size={56} />}
         {survivor && (
           <Txt weight="800" color={colors.accent}>
-            Il lui reste {livesLeft} vie{livesLeft > 1 ? 's' : ''} ❤️
+            {t(livesLeft > 1 ? 'Il lui reste {n} vies ❤️' : 'Il lui reste {n} vie ❤️', { n: livesLeft })}
           </Txt>
         )}
         {cfg.drinksEnabled && (
           <Txt weight="700" color={colors.sip}>
-            🍻 {who?.name ?? 'Le joueur'} boit !
+            {t('🍻 {name} boit !', { name: who?.name ?? t('Le joueur') })}
           </Txt>
         )}
         <Txt faint center>
-          Encore {game!.aliveIds.length} joueur{game!.aliveIds.length > 1 ? 's' : ''} en lice.
+          {t(game!.aliveIds.length > 1 ? 'Encore {n} joueurs en lice.' : 'Encore {n} joueur en lice.', { n: game!.aliveIds.length })}
         </Txt>
-        <Button title="Manche suivante 💣" size="lg" variant="accent" onPress={onNextRound} />
+        <Button title={t('Manche suivante 💣')} size="lg" variant="accent" onPress={onNextRound} />
       </View>
     );
   }
@@ -384,10 +388,10 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
       <View style={{ gap: spacing(2), alignItems: 'center', paddingTop: spacing(3) }}>
         <Txt size={fontSize.huge}>🏆</Txt>
         <Txt size={fontSize.xl} weight="800" center>
-          {winner?.name ?? 'Le survivant'} survit et gagne !
+          {t('{name} survit et gagne !', { name: winner?.name ?? t('Le survivant') })}
         </Txt>
         {winner && <PlayerAvatar emoji={winner.emoji} color={winner.color} photoUri={winner.photoUri} size={64} />}
-        <Txt dim>Résultats…</Txt>
+        <Txt dim>{t('Résultats…')}</Txt>
       </View>
     );
   }
