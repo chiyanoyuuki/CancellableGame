@@ -10,6 +10,7 @@ import { Button, Card, Screen, SectionHeader, Segmented, Txt } from '../componen
 import { type BackupData, exportAll, getReportedCount, importAll, kvSetJSON, resetDb } from '../db';
 import { useAvatarFrames } from '../lib/avatarFrames';
 import { areHapticsEnabled, setHapticsEnabled } from '../lib/haptics';
+import { useI18n, useT } from '../lib/i18nProvider';
 import { useTextScale } from '../lib/textScale';
 import type { RootStackParamList } from '../navigation';
 import { colors, fontSize, spacing } from '../theme/theme';
@@ -21,12 +22,20 @@ const TEXT_SIZES = [
   { label: 'Très grand', value: '1.3' },
 ];
 
+const LANGUAGES = [
+  { label: 'Français', value: 'fr' as const },
+  { label: 'English', value: 'en' as const },
+];
+
 export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'Settings'>) {
+  const t = useT();
+  const { lang, setLang } = useI18n();
   const [busy, setBusy] = useState(false);
   const [reportCount, setReportCount] = useState(0);
   const { scale, setScale } = useTextScale();
   const [haptics, setHaptics] = useState(areHapticsEnabled());
   const frames = useAvatarFrames();
+  const textSizeOptions = TEXT_SIZES.map((o) => ({ label: t(o.label), value: o.value }));
 
   const toggleHaptics = (on: boolean) => {
     setHaptics(on);
@@ -54,12 +63,12 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
       const uri = `${FileSystem.documentDirectory ?? FileSystem.cacheDirectory}soiree-backup-${Date.now()}.json`;
       await FileSystem.writeAsStringAsync(uri, json);
       if (await Sharing.isAvailableAsync()) {
-        await Sharing.shareAsync(uri, { mimeType: 'application/json', dialogTitle: 'Sauvegarde Cancellable' });
+        await Sharing.shareAsync(uri, { mimeType: 'application/json', dialogTitle: t('Sauvegarde Cancellable') });
       } else {
-        Alert.alert('Sauvegarde créée', uri);
+        Alert.alert(t('Sauvegarde créée'), uri);
       }
     } catch (e) {
-      Alert.alert('Erreur', String(e));
+      Alert.alert(t('Erreur'), String(e));
     } finally {
       setBusy(false);
     }
@@ -71,18 +80,18 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
       if (res.canceled || !res.assets?.[0]) return;
       const text = await FileSystem.readAsStringAsync(res.assets[0].uri);
       const data = JSON.parse(text) as BackupData;
-      Alert.alert('Importer la sauvegarde ?', 'Toutes les données actuelles seront remplacées.', [
-        { text: 'Annuler', style: 'cancel' },
+      Alert.alert(t('Importer la sauvegarde ?'), t('Toutes les données actuelles seront remplacées.'), [
+        { text: t('Annuler'), style: 'cancel' },
         {
-          text: 'Importer',
+          text: t('Importer'),
           style: 'destructive',
           onPress: async () => {
             setBusy(true);
             try {
               await importAll(data);
-              Alert.alert('Import terminé', 'Vos données ont été restaurées.');
+              Alert.alert(t('Import terminé'), t('Vos données ont été restaurées.'));
             } catch (e) {
-              Alert.alert('Erreur', String(e));
+              Alert.alert(t('Erreur'), String(e));
             } finally {
               setBusy(false);
             }
@@ -90,21 +99,21 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
         },
       ]);
     } catch (e) {
-      Alert.alert('Erreur', String(e));
+      Alert.alert(t('Erreur'), String(e));
     }
   };
 
   const reset = () =>
-    Alert.alert('Tout effacer ?', 'Joueurs, parties et statistiques seront définitivement supprimés.', [
-      { text: 'Annuler', style: 'cancel' },
+    Alert.alert(t('Tout effacer ?'), t('Joueurs, parties et statistiques seront définitivement supprimés.'), [
+      { text: t('Annuler'), style: 'cancel' },
       {
-        text: 'Tout effacer',
+        text: t('Tout effacer'),
         style: 'destructive',
         onPress: async () => {
           setBusy(true);
           try {
             await resetDb();
-            Alert.alert('Données effacées');
+            Alert.alert(t('Données effacées'));
           } finally {
             setBusy(false);
           }
@@ -113,18 +122,29 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
     ]);
 
   return (
-    <Screen title="Réglages" onBack={() => navigation.goBack()} scroll>
-      <SectionHeader title="Accessibilité & confort" />
+    <Screen title={t('Réglages')} onBack={() => navigation.goBack()} scroll>
+      <SectionHeader title={t('Langue')} />
       <Card>
-        <Txt weight="700">Taille du texte</Txt>
+        <Txt weight="700">{t("Langue de l'application")}</Txt>
         <View style={{ marginTop: spacing(1) }}>
-          <Segmented<string> value={scaleValue} onChange={(v) => setScale(Number(v))} options={TEXT_SIZES} />
+          <Segmented value={lang} onChange={setLang} options={LANGUAGES} />
         </View>
-        <Txt style={{ marginTop: spacing(1.5) }}>Aperçu : tout le monde voit bien la question ? 👀</Txt>
+        <Txt faint size={fontSize.xs} style={{ marginTop: spacing(1) }}>
+          {t('Les questions du quiz restent en français.')}
+        </Txt>
+      </Card>
+
+      <SectionHeader title={t('Accessibilité & confort')} />
+      <Card>
+        <Txt weight="700">{t('Taille du texte')}</Txt>
+        <View style={{ marginTop: spacing(1) }}>
+          <Segmented<string> value={scaleValue} onChange={(v) => setScale(Number(v))} options={textSizeOptions} />
+        </View>
+        <Txt style={{ marginTop: spacing(1.5) }}>{t('Aperçu : tout le monde voit bien la question ? 👀')}</Txt>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing(1), marginTop: spacing(2) }}>
           <View style={{ flex: 1 }}>
-            <Txt weight="700">Vibrations 📳</Txt>
-            <Txt faint size={fontSize.xs}>Retours haptiques (bonnes/mauvaises réponses, victoire…)</Txt>
+            <Txt weight="700">{t('Vibrations 📳')}</Txt>
+            <Txt faint size={fontSize.xs}>{t('Retours haptiques (bonnes/mauvaises réponses, victoire…)')}</Txt>
           </View>
           <Switch
             value={haptics}
@@ -135,8 +155,10 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing(1), marginTop: spacing(2) }}>
           <View style={{ flex: 1 }}>
-            <Txt weight="700">Cadre de palier sur les avatars 🖼️</Txt>
-            <Txt faint size={fontSize.xs}>Un anneau coloré autour de l'avatar selon le palier général du profil (nécessite le pack Hauts faits).</Txt>
+            <Txt weight="700">{t('Cadre de palier sur les avatars 🖼️')}</Txt>
+            <Txt faint size={fontSize.xs}>
+              {t("Un anneau coloré autour de l'avatar selon le palier général du profil (nécessite le pack Hauts faits).")}
+            </Txt>
           </View>
           <Switch
             value={frames.enabled}
@@ -147,53 +169,55 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
         </View>
       </Card>
 
-      <SectionHeader title="Sauvegarde" />
+      <SectionHeader title={t('Sauvegarde')} />
       <Card>
         <Txt dim size={fontSize.sm} style={{ marginBottom: spacing(1.5) }}>
-          Vos stats sont conservées localement et survivent aux mises à jour de l'APK. Exportez une sauvegarde
-          pour changer de téléphone ou vous prémunir d'une désinstallation.
+          {t(
+            "Vos stats sont conservées localement et survivent aux mises à jour de l'APK. Exportez une sauvegarde pour changer de téléphone ou vous prémunir d'une désinstallation.",
+          )}
         </Txt>
         <View style={{ gap: spacing(1) }}>
-          <Button title="Exporter une sauvegarde" emoji="📤" onPress={exportData} loading={busy} />
-          <Button title="Importer une sauvegarde" emoji="📥" variant="secondary" onPress={importData} disabled={busy} />
+          <Button title={t('Exporter une sauvegarde')} emoji="📤" onPress={exportData} loading={busy} />
+          <Button title={t('Importer une sauvegarde')} emoji="📥" variant="secondary" onPress={importData} disabled={busy} />
         </View>
       </Card>
 
-      <SectionHeader title="Contenu" />
+      <SectionHeader title={t('Contenu')} />
       <Card>
         <Txt dim size={fontSize.sm} style={{ marginBottom: spacing(1.5) }}>
-          Le thème « Image mystère » charge de vraies photos depuis internet. Vérifiez d'un coup d'œil
-          lesquelles ne s'affichent pas pour pouvoir les signaler.
+          {t(
+            "Le thème « Image mystère » charge de vraies photos depuis internet. Vérifiez d'un coup d'œil lesquelles ne s'affichent pas pour pouvoir les signaler.",
+          )}
         </Txt>
         <Button
-          title="Vérifier les images"
+          title={t('Vérifier les images')}
           emoji="📸"
           variant="secondary"
           onPress={() => navigation.navigate('ImageCheck')}
         />
         <View style={{ height: spacing(1) }} />
         <Button
-          title={reportCount > 0 ? `Questions signalées (${reportCount})` : 'Questions signalées'}
+          title={reportCount > 0 ? t('Questions signalées ({n})', { n: reportCount }) : t('Questions signalées')}
           emoji="⚠️"
           variant="secondary"
           onPress={() => navigation.navigate('ReportedQuestions')}
         />
       </Card>
 
-      <SectionHeader title="Zone de danger" />
+      <SectionHeader title={t('Zone de danger')} />
       <Card>
-        <Button title="Tout effacer" variant="danger" onPress={reset} disabled={busy} />
+        <Button title={t('Tout effacer')} variant="danger" onPress={reset} disabled={busy} />
       </Card>
 
-      <SectionHeader title="À propos" />
+      <SectionHeader title={t('À propos')} />
       <Card>
         <Txt weight="800">Cancellable 🔒</Txt>
-        <Txt faint size={fontSize.xs}>par Arma Cos</Txt>
+        <Txt faint size={fontSize.xs}>{t('par Arma Cos')}</Txt>
         <Txt dim size={fontSize.sm}>
-          Le jeu de vos soirées entre amis. D'autres mini-jeux arrivent — toutes les stats resteront connectées.
+          {t("Le jeu de vos soirées entre amis. D'autres mini-jeux arrivent — toutes les stats resteront connectées.")}
         </Txt>
         <Txt faint size={fontSize.xs} style={{ marginTop: spacing(1) }}>
-          Astuce : ne désinstallez pas l'app et ne changez pas son identifiant pour conserver l'historique.
+          {t("Astuce : ne désinstallez pas l'app et ne changez pas son identifiant pour conserver l'historique.")}
         </Txt>
       </Card>
     </Screen>

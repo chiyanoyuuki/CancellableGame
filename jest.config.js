@@ -6,7 +6,7 @@
  */
 module.exports = {
   testEnvironment: 'node',
-  roots: ['<rootDir>/src/core', '<rootDir>/src/games/quiz/questions', '<rootDir>/src/store'],
+  roots: ['<rootDir>/src/core', '<rootDir>/src/games/quiz/questions', '<rootDir>/src/store', '<rootDir>/src/lib'],
   testMatch: ['**/*.test.ts'],
   transform: {
     '^.+\\.tsx?$': ['ts-jest', { tsconfig: 'tsconfig.test.json' }],

@@ -5,10 +5,12 @@ import { Alert, View } from 'react-native';
 
 import { Button, Screen, Txt } from '../components/ui';
 import { deleteSavedGame, getSessionCount, listSavedGames, type SavedGame } from '../db';
+import { useT } from '../lib/i18nProvider';
 import type { RootStackParamList } from '../navigation';
 import { fontSize, spacing } from '../theme/theme';
 
 export function HomeScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'Home'>) {
+  const t = useT();
   const [games, setGames] = useState<number | null>(null);
   const [saved, setSaved] = useState<SavedGame[]>([]);
 
@@ -24,10 +26,10 @@ export function HomeScreen({ navigation }: NativeStackScreenProps<RootStackParam
   );
 
   const confirmDelete = (g: SavedGame) =>
-    Alert.alert('Supprimer cette partie ?', g.name, [
-      { text: 'Annuler', style: 'cancel' },
+    Alert.alert(t('Supprimer cette partie ?'), g.name, [
+      { text: t('Annuler'), style: 'cancel' },
       {
-        text: 'Supprimer',
+        text: t('Supprimer'),
         style: 'destructive',
         onPress: async () => {
           await deleteSavedGame(g.slotId);
@@ -45,17 +47,17 @@ export function HomeScreen({ navigation }: NativeStackScreenProps<RootStackParam
             Cancellable
           </Txt>
           <Txt dim center>
-            Le jeu de vos soirées entre amis
+            {t('Le jeu de vos soirées entre amis')}
           </Txt>
           <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
-            par Arma Cos
+            {t('par Arma Cos')}
           </Txt>
         </View>
 
         {saved.length > 0 && (
           <View style={{ gap: spacing(1) }}>
             <Txt faint size={fontSize.xs} weight="800">
-              PARTIES EN COURS
+              {t('PARTIES EN COURS')}
             </Txt>
             {saved.map((g) => (
               <View key={g.slotId} style={{ flexDirection: 'row', gap: spacing(1), alignItems: 'center' }}>
@@ -79,17 +81,17 @@ export function HomeScreen({ navigation }: NativeStackScreenProps<RootStackParam
             ))}
           </View>
         )}
-        <Button title={saved.length > 0 ? 'Nouvelle partie' : 'Jouer'} emoji="🎮" variant={saved.length > 0 ? 'secondary' : 'primary'} size="lg" onPress={() => navigation.navigate('GameSelect')} />
-        <Button title="Mode Soirée" emoji="🎉" variant="secondary" size="lg" onPress={() => navigation.navigate('Soiree')} />
-        <Button title="Joueurs" emoji="👥" variant="secondary" size="lg" onPress={() => navigation.navigate('Players')} />
-        <Button title="Statistiques" emoji="📊" variant="secondary" size="lg" onPress={() => navigation.navigate('Stats')} />
-        <Button title="Mon contenu" emoji="✏️" variant="secondary" size="lg" onPress={() => navigation.navigate('CustomContent')} />
-        <Button title="Boutique" emoji="🛍️" variant="secondary" size="lg" onPress={() => navigation.navigate('Store')} />
-        <Button title="Réglages" emoji="⚙️" variant="ghost" onPress={() => navigation.navigate('Settings')} />
+        <Button title={saved.length > 0 ? t('Nouvelle partie') : t('Jouer')} emoji="🎮" variant={saved.length > 0 ? 'secondary' : 'primary'} size="lg" onPress={() => navigation.navigate('GameSelect')} />
+        <Button title={t('Mode Soirée')} emoji="🎉" variant="secondary" size="lg" onPress={() => navigation.navigate('Soiree')} />
+        <Button title={t('Joueurs')} emoji="👥" variant="secondary" size="lg" onPress={() => navigation.navigate('Players')} />
+        <Button title={t('Statistiques')} emoji="📊" variant="secondary" size="lg" onPress={() => navigation.navigate('Stats')} />
+        <Button title={t('Mon contenu')} emoji="✏️" variant="secondary" size="lg" onPress={() => navigation.navigate('CustomContent')} />
+        <Button title={t('Boutique')} emoji="🛍️" variant="secondary" size="lg" onPress={() => navigation.navigate('Store')} />
+        <Button title={t('Réglages')} emoji="⚙️" variant="ghost" onPress={() => navigation.navigate('Settings')} />
 
         {games !== null && games > 0 && (
           <Txt faint center size={fontSize.xs} style={{ marginTop: spacing(2) }}>
-            {games} partie{games > 1 ? 's' : ''} jouée{games > 1 ? 's' : ''} jusqu'ici 🍻
+            {t(games > 1 ? "{n} parties jouées jusqu'ici 🍻" : "{n} partie jouée jusqu'ici 🍻", { n: games })}
           </Txt>
         )}
       </View>

@@ -15,6 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { Player } from '../core/models';
 import { useAvatarFrames } from '../lib/avatarFrames';
+import { useT } from '../lib/i18nProvider';
 import { useTextScale } from '../lib/textScale';
 import { colors, fontSize, radius, spacing } from '../theme/theme';
 
@@ -391,6 +392,7 @@ export function PlayerAvatar(props: {
  * présentationnel — chaque écran de config calcule les nombres et les passe ici.
  */
 export function PlayerUnseenList(props: { rows: { player: Player; unseen: number }[] }) {
+  const t = useT();
   if (props.rows.length === 0) return null;
   return (
     <View style={{ gap: spacing(0.75) }}>
@@ -404,7 +406,7 @@ export function PlayerUnseenList(props: { rows: { player: Player; unseen: number
             {unseen}
           </Txt>
           <Txt faint size={fontSize.xs}>
-            inédite{unseen > 1 ? 's' : ''}
+            {t(unseen > 1 ? 'inédites' : 'inédite')}
           </Txt>
         </View>
       ))}
@@ -430,6 +432,7 @@ const uiStyles = StyleSheet.create({
 
 /** Carte « Comment jouer » repliable, une puce par règle. Fermée par défaut. */
 export function HowToPlay(props: { lines: string[]; defaultOpen?: boolean }) {
+  const t = useT();
   const [open, setOpen] = useState(props.defaultOpen ?? false);
   return (
     <Card>
@@ -437,7 +440,7 @@ export function HowToPlay(props: { lines: string[]; defaultOpen?: boolean }) {
         onPress={() => setOpen((o) => !o)}
         style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
       >
-        <Txt weight="800">❓ Comment jouer</Txt>
+        <Txt weight="800">{t('❓ Comment jouer')}</Txt>
         <Txt weight="800" color={colors.textDim}>
           {open ? '▾' : '▸'}
         </Txt>

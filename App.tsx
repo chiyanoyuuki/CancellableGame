@@ -9,6 +9,7 @@ import { AnimatedSplash } from './src/components/AnimatedSplash';
 import { initDatabase, kvGetJSON, mostRecentSavedGame } from './src/db';
 import { AvatarFramesProvider } from './src/lib/avatarFrames';
 import { setHapticsEnabled } from './src/lib/haptics';
+import { I18nProvider } from './src/lib/i18nProvider';
 import { TextScaleProvider } from './src/lib/textScale';
 import type { RootStackParamList } from './src/navigation';
 import { GameConfigScreen } from './src/screens/GameConfigScreen';
@@ -49,11 +50,13 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <StatusBar style="light" />
-      <TextScaleProvider>
-        <StoreProvider>
-          <AppInner />
-        </StoreProvider>
-      </TextScaleProvider>
+      <I18nProvider>
+        <TextScaleProvider>
+          <StoreProvider>
+            <AppInner />
+          </StoreProvider>
+        </TextScaleProvider>
+      </I18nProvider>
     </SafeAreaProvider>
   );
 }

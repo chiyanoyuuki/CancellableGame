@@ -3,15 +3,17 @@ import { View } from 'react-native';
 
 import { Card, Screen, Txt } from '../components/ui';
 import { MINI_GAMES } from '../games/registry';
+import { useT } from '../lib/i18nProvider';
 import type { RootStackParamList } from '../navigation';
 import { useStore } from '../store/StoreProvider';
 import { isModeUnlocked } from '../store/products';
 import { colors, fontSize, spacing } from '../theme/theme';
 
 export function GameSelectScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'GameSelect'>) {
+  const t = useT();
   const { ent } = useStore();
   return (
-    <Screen title="Choisir un jeu" subtitle="Un mini-jeu à la fois (pour l'instant)" onBack={() => navigation.goBack()} scroll>
+    <Screen title={t('Choisir un jeu')} subtitle={t("Un mini-jeu à la fois (pour l'instant)")} onBack={() => navigation.goBack()} scroll>
       <View style={{ gap: spacing(1.5) }}>
         {MINI_GAMES.map((g) => {
           const locked = !isModeUnlocked(g.id, ent);
@@ -32,18 +34,18 @@ export function GameSelectScreen({ navigation }: NativeStackScreenProps<RootStac
                 <Txt size={fontSize.xxl}>{locked && g.available ? '🔒' : g.emoji}</Txt>
                 <View style={{ flex: 1 }}>
                   <Txt size={fontSize.lg} weight="800">
-                    {g.title}
+                    {t(g.title)}
                   </Txt>
                   <Txt dim size={fontSize.sm}>
-                    {g.description}
+                    {t(g.description)}
                   </Txt>
                   {!g.available ? (
                     <Txt faint size={fontSize.xs} weight="800" style={{ marginTop: spacing(0.5) }}>
-                      BIENTÔT
+                      {t('BIENTÔT')}
                     </Txt>
                   ) : locked ? (
                     <Txt weight="800" size={fontSize.xs} color={colors.accent} style={{ marginTop: spacing(0.5) }}>
-                      🔒 Débloquer dans la boutique — 1,99 €
+                      {t('🔒 Débloquer dans la boutique — 1,99 €')}
                     </Txt>
                   ) : null}
                 </View>

@@ -6,6 +6,7 @@ import { Button, Chip, Txt } from '../components/ui';
 import { type Question, type Theme, THEME_META, THEMES } from '../core/models';
 import { shuffle } from '../core/rng';
 import { getQuizPool } from '../games/quiz/pool';
+import { useT } from '../lib/i18nProvider';
 import { FREE_UNIVERSE_COUNT } from '../store/products';
 import { colors, fontSize, radius, spacing } from '../theme/theme';
 
@@ -14,6 +15,7 @@ import { colors, fontSize, radius, spacing } from '../theme/theme';
  * Les autres restent visibles mais verrouillés jusqu'à l'achat « Tous les thèmes ».
  */
 export function OnboardingScreen({ onDone }: { onDone: (universes: string[]) => void | Promise<void> }) {
+  const t = useT();
   const [pool, setPool] = useState<Question[]>([]);
   const [sel, setSel] = useState<Set<string>>(new Set());
   const [saving, setSaving] = useState(false);
@@ -83,20 +85,22 @@ export function OnboardingScreen({ onDone }: { onDone: (universes: string[]) => 
     <SafeAreaView style={styles.screen} edges={['top', 'left', 'right', 'bottom']}>
       <View style={styles.header}>
         <Txt size={fontSize.xxl} weight="900">
-          Bienvenue 👋
+          {t('Bienvenue 👋')}
         </Txt>
         <Txt dim style={{ marginTop: spacing(0.5) }}>
-          Choisis {LIMIT} univers à jouer gratuitement. Les autres restent visibles mais verrouillés —
-          tu pourras tout débloquer plus tard dans la Boutique.
+          {t(
+            'Choisis {n} univers à jouer gratuitement. Les autres restent visibles mais verrouillés — tu pourras tout débloquer plus tard dans la Boutique.',
+            { n: LIMIT },
+          )}
         </Txt>
         <View style={styles.counter}>
           <Txt weight="900" size={fontSize.lg} color={atLimit ? colors.success : colors.primary}>
             {sel.size} / {LIMIT}
           </Txt>
           <Txt dim size={fontSize.sm} style={{ flex: 1 }}>
-            {atLimit ? 'Parfait ! Tu peux commencer.' : 'univers sélectionnés'}
+            {atLimit ? t('Parfait ! Tu peux commencer.') : t('univers sélectionnés')}
           </Txt>
-          <Button title="🎲 Au hasard" size="sm" variant="secondary" onPress={randomFill} />
+          <Button title={t('🎲 Au hasard')} size="sm" variant="secondary" onPress={randomFill} />
         </View>
       </View>
 
@@ -119,7 +123,7 @@ export function OnboardingScreen({ onDone }: { onDone: (universes: string[]) => 
 
       <View style={styles.footer}>
         <Button
-          title={sel.size === LIMIT ? 'Commencer 🎉' : `Choisis encore ${LIMIT - sel.size} univers`}
+          title={sel.size === LIMIT ? t('Commencer 🎉') : t('Choisis encore {n} univers', { n: LIMIT - sel.size })}
           size="lg"
           disabled={sel.size !== LIMIT || saving}
           loading={saving}
