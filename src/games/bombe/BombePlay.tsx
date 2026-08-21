@@ -44,6 +44,8 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
   const cfg = config as BombeConfig;
   const [game, setGame] = useState<BombeState | null>(null);
   const [revealed, setRevealed] = useState(false);
+  // Pile d'états « avant réponse » pour corriger un mauvais clic (✅/❌).
+  const [history, setHistory] = useState<BombeState[]>([]);
 
   const rngRef = useRef<() => number>(() => Math.random());
   const startedAtRef = useRef(Date.now());
@@ -143,6 +145,23 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
   }, []);
 
   const dispatch = useCallback((a: BombeAction) => setGame((s) => (s ? bombeReducer(s, a) : s)), []);
+
+  // Correction d'un mauvais clic : on empile l'état AVANT chaque réponse, puis
+  // on le restaure. On réarme la référence de temps pour que la mèche ne saute
+  // pas d'un coup au retour. (Revenir en phase « question » ne relance pas
+  // l'animation d'explosion, qui ne se déclenche que vers 'exploded'/'finished'.)
+  const snapshot = () => {
+    if (game) setHistory((h) => [...h, game].slice(-50));
+  };
+  const undo = () => {
+    if (history.length === 0) return;
+    const prev = history[history.length - 1];
+    setHistory((h) => h.slice(0, -1));
+    setRevealed(false);
+    lastTickRef.current = Date.now();
+    if (prev) setGame(prev);
+  };
+  const canUndo = history.length > 0;
 
   // Reset per-question local state when the question or the active player changes.
   useEffect(() => {
@@ -293,6 +312,7 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
         {renderControls(q)}
 
         <Button title={t('⏭️ Passer  (−{n} s)', { n: cfg.penaltySkipSec })} variant="ghost" size="sm" onPress={onSkip} />
+        {canUndo && <Button title={t('↩︎ Corriger')} variant="ghost" size="sm" onPress={undo} />}
       </View>
     );
   }
@@ -378,6 +398,7 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
           {t(game!.aliveIds.length > 1 ? 'Encore {n} joueurs en lice.' : 'Encore {n} joueur en lice.', { n: game!.aliveIds.length })}
         </Txt>
         <Button title={t('Manche suivante 💣')} size="lg" variant="accent" onPress={onNextRound} />
+        {canUndo && <Button title={t('↩︎ Corriger')} variant="ghost" size="sm" onPress={undo} />}
       </View>
     );
   }
@@ -402,6 +423,7 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
     const timeMs = Date.now() - questionStartRef.current;
     if (correct) haptic('ok');
     else penaltyAnim();
+    snapshot();
     dispatch({ type: 'ANSWER', correct, timeMs });
   }
   function onProps(count: 2 | 4) {

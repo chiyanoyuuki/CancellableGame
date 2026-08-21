@@ -691,6 +691,16 @@ export const EN: Record<string, string> = {
   'Imposteurs par manche': 'Impostors per round',
   '1 imposteur': '1 impostor',
   '2 imposteurs': '2 impostors',
+  "Indice de l'imposteur": "Impostor's hint",
+  'Sans mot': 'No word',
+  'Mot proche': 'Close word',
+  "L'imposteur reçoit un mot proche (même univers) : il bluffe plus facilement, sans être totalement perdu.":
+    'The impostor gets a close word (same universe): easier to bluff, without being totally lost.',
+  "L'imposteur ne voit que l'univers : à lui de bluffer à l'aveugle.":
+    'The impostor only sees the universe: they must bluff blind.',
+  'MOT PROCHE': 'CLOSE WORD',
+  "Ce n'est PAS le vrai mot, mais il en est proche. Sers-t'en pour bluffer un indice crédible sans te faire griller !":
+    "It is NOT the real word, but it's close. Use it to bluff a believable clue without getting caught!",
   'Minuteur de discussion': 'Discussion timer',
   "Lancer L'Imposteur": 'Start The Impostor',
   'Il faut au moins 3 joueurs.': 'You need at least 3 players.',

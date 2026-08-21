@@ -27,6 +27,8 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
   const [revealedAnswer, setRevealedAnswer] = useState(false);
   // Écran de transition affiché quand la difficulté d'un joueur change.
   const [diffTransition, setDiffTransition] = useState<Difficulty | null>(null);
+  // Pile d'états « avant réponse » pour corriger un mauvais clic (✅/❌).
+  const [history, setHistory] = useState<DuelState[]>([]);
 
   const startedAtRef = useRef(Date.now());
   const finishedRef = useRef(false);
@@ -61,6 +63,20 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
 
   const dispatch = (a: DuelAction) => setGame((s) => (s ? duelReducer(s, a) : s));
 
+  // Correction d'un mauvais clic : on empile l'état AVANT chaque réponse.
+  const snapshot = () => {
+    if (game) setHistory((h) => [...h, game].slice(-50));
+  };
+  const undo = () => {
+    if (history.length === 0) return;
+    const prev = history[history.length - 1];
+    setHistory((h) => h.slice(0, -1));
+    setRevealedAnswer(false);
+    setLastDrink(null);
+    if (prev) setGame(prev);
+  };
+  const canUndo = history.length > 0;
+
   // Reset the free-answer reveal whenever a new question appears.
   useEffect(() => {
     if (game?.phase === 'question') setRevealedAnswer(false);
@@ -94,6 +110,7 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
 
   const answer = (correct: boolean) => {
     haptic(correct);
+    snapshot();
     if (cfg.drinksEnabled) {
       setLastDrink(
         rollAnswerDrink({
@@ -352,6 +369,7 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
         )}
 
         <Button title={t('Continuer')} size="lg" onPress={() => { setLastDrink(null); dispatch({ type: 'CONTINUE' }); }} />
+        {canUndo && <Button title={t('↩︎ Corriger')} variant="ghost" size="sm" onPress={undo} />}
       </View>
     );
   }

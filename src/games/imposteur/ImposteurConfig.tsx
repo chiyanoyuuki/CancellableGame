@@ -22,6 +22,7 @@ export function ImposteurConfigComponent({ players, onStart }: MiniGameConfigPro
   const [manualSel, setManualSel] = useState<Set<string> | null>(null);
   const [rounds, setRounds] = useState(5);
   const [imposterCount, setImposterCount] = useState(1);
+  const [imposterHint, setImposterHint] = useState<'none' | 'close'>('none');
   const [discussionSec, setDiscussionSec] = useState(90);
   const [drinksEnabled, setDrinksEnabled] = useState(true);
   const [drinkIntensity, setDrinkIntensity] = useState<DrinkIntensity>('normal');
@@ -89,6 +90,7 @@ export function ImposteurConfigComponent({ players, onStart }: MiniGameConfigPro
       universes: resolved,
       rounds,
       imposterCount: canTwoImposters ? imposterCount : 1,
+      imposterHint,
       discussionSec,
       drinksEnabled,
       drinkIntensity,
@@ -187,6 +189,21 @@ export function ImposteurConfigComponent({ players, onStart }: MiniGameConfigPro
           />
         </>
       )}
+
+      <SectionHeader title={t("Indice de l'imposteur")} />
+      <Segmented<'none' | 'close'>
+        value={imposterHint}
+        onChange={setImposterHint}
+        options={[
+          { label: t('Sans mot'), value: 'none' },
+          { label: t('Mot proche'), value: 'close' },
+        ]}
+      />
+      <Txt faint size={fontSize.xs}>
+        {imposterHint === 'close'
+          ? t("L'imposteur reçoit un mot proche (même univers) : il bluffe plus facilement, sans être totalement perdu.")
+          : t("L'imposteur ne voit que l'univers : à lui de bluffer à l'aveugle.")}
+      </Txt>
 
       <SectionHeader title={t('Minuteur de discussion')} />
       <Segmented<string>

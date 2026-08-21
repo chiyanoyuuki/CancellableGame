@@ -28,6 +28,8 @@ export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: Mi
   const [game, setGame] = useState<ImposteurState | null>(null);
   const [showRole, setShowRole] = useState(false);
   const [discussLeft, setDiscussLeft] = useState<number | null>(null);
+  // Pile d'états « avant décision » pour corriger un mauvais clic (vote/devinette).
+  const [history, setHistory] = useState<ImposteurState[]>([]);
 
   const startedAtRef = useRef(Date.now());
   const finishedRef = useRef(false);
@@ -60,6 +62,20 @@ export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: Mi
   }, []);
 
   const dispatch = (a: ImposteurAction) => setGame((s) => (s ? imposteurReducer(s, a) : s));
+
+  // Correction d'un mauvais clic : on empile l'état AVANT chaque décision
+  // irréversible (vote, devinette) et on le restaure tel quel si besoin.
+  const snapshot = () => {
+    if (game) setHistory((h) => [...h, game].slice(-50));
+  };
+  const undo = () => {
+    if (history.length === 0) return;
+    const prev = history[history.length - 1];
+    setHistory((h) => h.slice(0, -1));
+    setShowRole(false);
+    if (prev) setGame(prev);
+  };
+  const canUndo = history.length > 0;
 
   // Minuteur de discussion (informatif) : redémarre à chaque manche.
   useEffect(() => {
@@ -173,9 +189,23 @@ export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: Mi
             <Txt size={fontSize.xxl} weight="900" center>
               {t("🤫 Tu es l'imposteur")}
             </Txt>
-            <Txt dim center style={{ marginTop: spacing(1) }}>
-              {t("Tu ne connais pas le mot. Écoute, adapte-toi et donne un indice crédible pour ne pas te faire griller !")}
-            </Txt>
+            {game!.imposterWord ? (
+              <>
+                <Txt faint size={fontSize.xs} center style={{ marginTop: spacing(1.5) }}>
+                  {t('MOT PROCHE')}
+                </Txt>
+                <Txt size={fontSize.xl} weight="900" center color={colors.danger}>
+                  {game!.imposterWord}
+                </Txt>
+                <Txt dim center style={{ marginTop: spacing(1) }}>
+                  {t("Ce n'est PAS le vrai mot, mais il en est proche. Sers-t'en pour bluffer un indice crédible sans te faire griller !")}
+                </Txt>
+              </>
+            ) : (
+              <Txt dim center style={{ marginTop: spacing(1) }}>
+                {t("Tu ne connais pas le mot. Écoute, adapte-toi et donne un indice crédible pour ne pas te faire griller !")}
+              </Txt>
+            )}
           </Card>
         ) : (
           <Card accent={colors.success}>
@@ -247,6 +277,7 @@ export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: Mi
                 style={styles.voteCell}
                 onPress={() => {
                   haptics.select();
+                  snapshot();
                   dispatch({ type: 'ACCUSE', playerId: id });
                 }}
               >
@@ -282,17 +313,30 @@ export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: Mi
           </Txt>
         </Card>
         <View style={styles.judgeRow}>
-          <Pressable style={[styles.judge, { backgroundColor: colors.success }]} onPress={() => dispatch({ type: 'GUESS', correct: false })}>
+          <Pressable
+            style={[styles.judge, { backgroundColor: colors.success }]}
+            onPress={() => {
+              snapshot();
+              dispatch({ type: 'GUESS', correct: false });
+            }}
+          >
             <Txt weight="800" size={fontSize.lg} color={colors.white}>
               {t('❌ Non — équipage gagne')}
             </Txt>
           </Pressable>
-          <Pressable style={[styles.judge, { backgroundColor: colors.danger }]} onPress={() => dispatch({ type: 'GUESS', correct: true })}>
+          <Pressable
+            style={[styles.judge, { backgroundColor: colors.danger }]}
+            onPress={() => {
+              snapshot();
+              dispatch({ type: 'GUESS', correct: true });
+            }}
+          >
             <Txt weight="800" size={fontSize.lg} color={colors.white}>
               {t('✅ Oui — il vole tout')}
             </Txt>
           </Pressable>
         </View>
+        {canUndo && <Button title={t('↩︎ Corriger')} variant="ghost" size="sm" onPress={undo} />}
       </View>
     );
   }
@@ -364,6 +408,7 @@ export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: Mi
           size="lg"
           onPress={() => dispatch({ type: 'NEXT' })}
         />
+        {canUndo && <Button title={t('↩︎ Corriger le vote')} variant="ghost" size="sm" onPress={undo} />}
       </View>
     );
   }

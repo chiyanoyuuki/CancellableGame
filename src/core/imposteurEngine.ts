@@ -11,6 +11,9 @@
 import type { DrinkIntensity, Player, PlayerSessionResult, SessionResult } from './models';
 import { mulberry32, type Rng, shuffle } from './rng';
 
+/** Mode d'indice pour l'imposteur (voir ImposteurConfig.imposterHint). */
+export type ImposterHint = 'none' | 'close';
+
 export interface ImposteurConfig {
   /** Univers d'où proviennent les mots secrets (résolus par l'écran de config :
    * soit ceux gardés par tous les profils, soit un choix manuel). */
@@ -19,6 +22,10 @@ export interface ImposteurConfig {
   rounds: number;
   /** Nombre d'imposteurs par manche (1 ou 2). */
   imposterCount: number;
+  /** Indice donné à l'imposteur :
+   *  - 'none'  : il ne voit que l'univers (défaut, façon « Mr. White ») ;
+   *  - 'close' : il reçoit un mot PROCHE (même univers) pour bluffer sans être perdu. */
+  imposterHint: ImposterHint;
   /** Minuteur de discussion en secondes (0 = pas de minuteur). */
   discussionSec: number;
   drinksEnabled: boolean;
@@ -60,6 +67,8 @@ export interface ImposteurState {
   word: string;
   universe: string;
   theme: string;
+  /** Mot proche donné à l'imposteur (mode 'close') ; '' sinon. */
+  imposterWord: string;
   imposterIds: string[];
   /** Ordre (mélangé) de passage du téléphone pour la révélation des rôles. */
   revealOrder: string[];
@@ -113,6 +122,14 @@ function startRound(state: ImposteurState, round: number): ImposteurState {
   const count = Math.max(1, Math.min(state.config.imposterCount, state.order.length - 1));
   const imposterIds = shuffle(state.order, rng).slice(0, count);
   const revealOrder = shuffle(state.order, rng);
+  // Mode « mot proche » : on donne à l'imposteur un autre mot du MÊME univers,
+  // pour qu'il puisse bluffer sans être totalement perdu. S'il n'existe aucun
+  // autre mot dans cet univers, on retombe sur le mode sans mot ('').
+  let imposterWord = '';
+  if (state.config.imposterHint === 'close') {
+    const sameUniverse = state.pool.filter((c) => c.universe === card.universe && c.word !== card.word);
+    if (sameUniverse.length > 0) imposterWord = (shuffle(sameUniverse, rng)[0] as WordCard).word;
+  }
   return {
     ...state,
     step,
@@ -121,6 +138,7 @@ function startRound(state: ImposteurState, round: number): ImposteurState {
     word: card.word,
     universe: card.universe,
     theme: card.theme,
+    imposterWord,
     imposterIds,
     revealOrder,
     revealIdx: 0,
@@ -191,6 +209,7 @@ export function createImposteurState(args: {
     word: '',
     universe: '',
     theme: '',
+    imposterWord: '',
     imposterIds: [],
     revealOrder: order,
     revealIdx: 0,

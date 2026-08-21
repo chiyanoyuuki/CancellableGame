@@ -27,6 +27,7 @@ const cfg = (over: Partial<ImposteurConfig> = {}): ImposteurConfig => ({
   universes: ['One Piece', 'Dragon Ball', 'Mario'],
   rounds: 2,
   imposterCount: 1,
+  imposterHint: 'none',
   discussionSec: 0,
   drinksEnabled: true,
   drinkIntensity: 'normal',
@@ -149,6 +150,38 @@ describe('classement et resultat', () => {
     expect(winner.points).toBe(2);
     expect(res.players.find((p) => p.playerId === imp)!.points).toBe(0);
     expect(imposteurRanking(s)[0]).not.toBe(imp);
+  });
+});
+
+describe("indice de l'imposteur (mot proche)", () => {
+  // Univers avec plusieurs mots, pour garantir qu'un « mot proche » existe.
+  const richPool: WordCard[] = [
+    { word: 'Luffy', universe: 'One Piece', theme: 'manga' },
+    { word: 'Zoro', universe: 'One Piece', theme: 'manga' },
+    { word: 'Nami', universe: 'One Piece', theme: 'manga' },
+  ];
+
+  test("mode 'none' (defaut) : aucun mot proche", () => {
+    const s = create();
+    expect(s.imposterWord).toBe('');
+  });
+
+  test("mode 'close' : un mot du meme univers, different du vrai", () => {
+    const s = createImposteurState({
+      config: cfg({ imposterHint: 'close', universes: ['One Piece'] }),
+      players,
+      pool: richPool,
+      seed: 7,
+    });
+    expect(s.imposterWord).not.toBe('');
+    expect(s.imposterWord).not.toBe(s.word);
+    expect(richPool.some((c) => c.word === s.imposterWord && c.universe === s.universe)).toBe(true);
+  });
+
+  test("mode 'close' sans alternative dans l'univers : retombe sur aucun mot", () => {
+    // Chaque univers du pool par defaut n'a qu'un seul mot.
+    const s = createImposteurState({ config: cfg({ imposterHint: 'close' }), players, pool, seed: 3 });
+    expect(s.imposterWord).toBe('');
   });
 });
 

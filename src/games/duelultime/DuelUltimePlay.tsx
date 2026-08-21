@@ -37,6 +37,8 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
   const [remaining, setRemaining] = useState<number | null>(null);
   // Écran « passe le téléphone » affiché au début du bloc de chaque joueur.
   const [handoff, setHandoff] = useState<Player | null>(null);
+  // Pile d'états « avant réponse » pour corriger un mauvais clic (trouvé/raté).
+  const [history, setHistory] = useState<DuelUltimeState[]>([]);
 
   const startedAtRef = useRef(Date.now());
   const finishedRef = useRef(false);
@@ -111,8 +113,23 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
   const [lastDrink, setLastDrink] = useState<DrinkOutcome | null>(null);
 
   // L'invité déclare s'il a trouvé la réponse (aucune proposition affichée).
+  // Correction d'un mauvais clic : on empile l'état AVANT chaque jugement.
+  const snapshot = () => {
+    if (game) setHistory((h) => [...h, game].slice(-50));
+  };
+  const undo = () => {
+    if (history.length === 0) return;
+    const prev = history[history.length - 1];
+    setHistory((h) => h.slice(0, -1));
+    setRevealed(true);
+    setLastDrink(null);
+    if (prev) setGame(prev);
+  };
+  const canUndo = history.length > 0;
+
   const judge = (correct: boolean) => {
     haptic(correct);
+    snapshot();
     if (cfg.drinksEnabled) {
       setLastDrink(
         rollAnswerDrink({
@@ -317,6 +334,7 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
         )}
 
         <Button title={t('Continuer')} size="lg" onPress={next} />
+        {canUndo && <Button title={t('↩︎ Corriger')} variant="ghost" size="sm" onPress={undo} />}
       </View>
     );
   }
