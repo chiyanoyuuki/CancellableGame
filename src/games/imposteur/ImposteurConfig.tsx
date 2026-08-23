@@ -201,7 +201,7 @@ export function ImposteurConfigComponent({ players, onStart }: MiniGameConfigPro
       />
       <Txt faint size={fontSize.xs}>
         {imposterHint === 'close'
-          ? t("L'imposteur reçoit un mot proche (même univers) : il bluffe plus facilement, sans être totalement perdu.")
+          ? t("L'imposteur reçoit un mot proche (même univers) présenté comme le vrai : il ne sait même pas qu'il est l'imposteur. Le décalage se révèle à la fin.")
           : t("L'imposteur ne voit que l'univers : à lui de bluffer à l'aveugle.")}
       </Txt>
 

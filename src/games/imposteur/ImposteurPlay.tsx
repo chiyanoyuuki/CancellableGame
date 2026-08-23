@@ -158,6 +158,11 @@ export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: Mi
     const p = id ? byId[id] : undefined;
     if (!p) return null;
     const isImposter = !!id && game!.imposterIds.includes(id);
+    // Mode « mot proche » : l'imposteur ne sait PAS qu'il l'est. On lui montre un
+    // mot (proche mais différent) présenté comme le vrai mot ; le décalage
+    // n'apparaîtra qu'à la discussion. En mode « sans mot », il sait qu'il est
+    // l'imposteur et ne voit aucun mot.
+    const closeMode = isImposter && !!game!.imposterWord;
     if (!showRole) {
       return (
         <View style={{ gap: spacing(2), paddingTop: spacing(5), alignItems: 'center' }}>
@@ -184,36 +189,24 @@ export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: Mi
         <Txt size={fontSize.xl} weight="900" center color={colors.accent}>
           {game!.universe}
         </Txt>
-        {isImposter ? (
+        {isImposter && !closeMode ? (
           <Card accent={colors.danger}>
             <Txt size={fontSize.xxl} weight="900" center>
               {t("🤫 Tu es l'imposteur")}
             </Txt>
-            {game!.imposterWord ? (
-              <>
-                <Txt faint size={fontSize.xs} center style={{ marginTop: spacing(1.5) }}>
-                  {t('MOT PROCHE')}
-                </Txt>
-                <Txt size={fontSize.xl} weight="900" center color={colors.danger}>
-                  {game!.imposterWord}
-                </Txt>
-                <Txt dim center style={{ marginTop: spacing(1) }}>
-                  {t("Ce n'est PAS le vrai mot, mais il en est proche. Sers-t'en pour bluffer un indice crédible sans te faire griller !")}
-                </Txt>
-              </>
-            ) : (
-              <Txt dim center style={{ marginTop: spacing(1) }}>
-                {t("Tu ne connais pas le mot. Écoute, adapte-toi et donne un indice crédible pour ne pas te faire griller !")}
-              </Txt>
-            )}
+            <Txt dim center style={{ marginTop: spacing(1) }}>
+              {t("Tu ne connais pas le mot. Écoute, adapte-toi et donne un indice crédible pour ne pas te faire griller !")}
+            </Txt>
           </Card>
         ) : (
+          // Équipage — et imposteur en mode « mot proche » : même carte, pour
+          // qu'il ne sache pas qu'il est l'imposteur (son mot diffère juste un peu).
           <Card accent={colors.success}>
             <Txt faint size={fontSize.xs} center>
               {t('MOT SECRET')}
             </Txt>
             <Txt size={fontSize.xxl} weight="900" center>
-              {game!.word}
+              {closeMode ? game!.imposterWord : game!.word}
             </Txt>
             <Txt dim center style={{ marginTop: spacing(1) }}>
               {t("Donne un indice à voix haute : assez précis pour prouver que tu sais, assez vague pour ne pas aider l'imposteur.")}

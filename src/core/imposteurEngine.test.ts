@@ -178,6 +178,29 @@ describe("indice de l'imposteur (mot proche)", () => {
     expect(richPool.some((c) => c.word === s.imposterWord && c.universe === s.universe)).toBe(true);
   });
 
+  test("mode 'close' : le mot proche a le meme nombre de mots que le vrai (type similaire)", () => {
+    // Deux groupes par nombre de mots, chacun avec >=2 entrees : quel que soit
+    // le vrai mot tire, un « meme type » (meme nombre de mots) existe toujours.
+    const typedPool: WordCard[] = [
+      { word: 'Thomas Shelby', universe: 'Peaky Blinders', theme: 'series' },
+      { word: 'Arthur Shelby', universe: 'Peaky Blinders', theme: 'series' },
+      { word: 'John Shelby', universe: 'Peaky Blinders', theme: 'series' },
+      { word: 'Birmingham', universe: 'Peaky Blinders', theme: 'series' },
+      { word: 'Londres', universe: 'Peaky Blinders', theme: 'series' },
+    ];
+    const wc = (s: string) => s.trim().split(/\s+/).length;
+    for (let seed = 0; seed < 20; seed++) {
+      const s = createImposteurState({
+        config: cfg({ imposterHint: 'close', universes: ['Peaky Blinders'] }),
+        players,
+        pool: typedPool,
+        seed,
+      });
+      expect(s.imposterWord).not.toBe('');
+      expect(wc(s.imposterWord)).toBe(wc(s.word));
+    }
+  });
+
   test("mode 'close' sans alternative dans l'univers : retombe sur aucun mot", () => {
     // Chaque univers du pool par defaut n'a qu'un seul mot.
     const s = createImposteurState({ config: cfg({ imposterHint: 'close' }), players, pool, seed: 3 });

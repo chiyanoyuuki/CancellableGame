@@ -23,8 +23,12 @@ export interface ImposteurConfig {
   /** Nombre d'imposteurs par manche (1 ou 2). */
   imposterCount: number;
   /** Indice donné à l'imposteur :
-   *  - 'none'  : il ne voit que l'univers (défaut, façon « Mr. White ») ;
-   *  - 'close' : il reçoit un mot PROCHE (même univers) pour bluffer sans être perdu. */
+   *  - 'none'  : il ne voit que l'univers (défaut, façon « Mr. White »), en
+   *              sachant qu'il est l'imposteur ;
+   *  - 'close' : il reçoit un mot PROCHE (même univers, type similaire) présenté
+   *              exactement comme le vrai mot. Il NE SAIT PAS qu'il est
+   *              l'imposteur : le décalage n'apparaît qu'à la discussion, puis au
+   *              dénouement quand les mots sont annoncés. */
   imposterHint: ImposterHint;
   /** Minuteur de discussion en secondes (0 = pas de minuteur). */
   discussionSec: number;
@@ -122,13 +126,22 @@ function startRound(state: ImposteurState, round: number): ImposteurState {
   const count = Math.max(1, Math.min(state.config.imposterCount, state.order.length - 1));
   const imposterIds = shuffle(state.order, rng).slice(0, count);
   const revealOrder = shuffle(state.order, rng);
-  // Mode « mot proche » : on donne à l'imposteur un autre mot du MÊME univers,
-  // pour qu'il puisse bluffer sans être totalement perdu. S'il n'existe aucun
-  // autre mot dans cet univers, on retombe sur le mode sans mot ('').
+  // Mode « mot proche » : on donne à l'imposteur un autre mot du MÊME univers.
+  // On privilégie un mot du même TYPE que le vrai — approché par le même nombre
+  // de mots (un « Prénom Nom » de personnage plutôt qu'un lieu d'un seul mot) —
+  // pour qu'il ressemble vraiment au vrai et que l'imposteur, qui l'ignore, ne
+  // détonne pas d'emblée. S'il n'existe aucun autre mot dans cet univers, on
+  // retombe sur le mode sans mot ('').
   let imposterWord = '';
   if (state.config.imposterHint === 'close') {
     const sameUniverse = state.pool.filter((c) => c.universe === card.universe && c.word !== card.word);
-    if (sameUniverse.length > 0) imposterWord = (shuffle(sameUniverse, rng)[0] as WordCard).word;
+    if (sameUniverse.length > 0) {
+      const wordCount = (s: string) => s.trim().split(/\s+/).length;
+      const target = wordCount(card.word);
+      const similar = sameUniverse.filter((c) => wordCount(c.word) === target);
+      const pick = similar.length > 0 ? similar : sameUniverse;
+      imposterWord = (shuffle(pick, rng)[0] as WordCard).word;
+    }
   }
   return {
     ...state,
