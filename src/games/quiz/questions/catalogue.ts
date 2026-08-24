@@ -5,7 +5,9 @@ import { QUESTIONS } from './index';
  * Catalogue des univers jouables, groupés par thème. Source de vérité partagée :
  * l'app (écran profils, import) et le formulaire web des invités affichent la
  * même liste, dans le même ordre (thèmes dans l'ordre officiel, univers triés
- * par ordre alphabétique). Le thème « Image mystère » est exclu.
+ * par ordre alphabétique). Le thème « Image mystère » (Pokémon, personnages de
+ * manga et de jeux vidéo en images) est inclus : ce sont de vrais univers,
+ * jouables dans le quiz, donc gérables depuis le profil comme les autres.
  */
 export interface UniverseGroup {
   theme: Theme;
@@ -14,7 +16,7 @@ export interface UniverseGroup {
   universes: string[];
 }
 
-const EXCLUDED_THEMES: Theme[] = ['images'];
+const EXCLUDED_THEMES: Theme[] = [];
 
 export function getUniverseGroups(): UniverseGroup[] {
   const byTheme = new Map<Theme, Set<string>>();

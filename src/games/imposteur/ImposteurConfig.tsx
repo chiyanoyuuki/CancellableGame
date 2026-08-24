@@ -47,7 +47,10 @@ export function ImposteurConfigComponent({ players, onStart }: MiniGameConfigPro
     const words = new Map<string, number>();
     const theme = new Map<string, Theme>();
     for (const q of pool) {
-      if (q.theme === 'images' || !q.universe) continue;
+      // Le thème « images » est inclus : l'imposteur ne montre jamais l'image,
+      // seulement le mot secret (nom de Pokémon / de personnage), qui marche
+      // très bien comme mot — et sans connexion, contrairement au quiz.
+      if (!q.universe) continue;
       if (!isGoodImposteurWord(q.answer)) continue;
       if (!store.isUniverseUnlocked(q.universe)) continue;
       words.set(q.universe, (words.get(q.universe) ?? 0) + 1);
