@@ -13,6 +13,7 @@ export type RootStackParamList = {
   Results: { result: SessionResult; players: Player[] };
   Soiree: undefined;
   Stats: undefined;
+  AppStats: undefined;
   Settings: undefined;
   CustomContent: undefined;
   ImageCheck: undefined;

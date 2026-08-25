@@ -204,6 +204,19 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
         />
       </Card>
 
+      <SectionHeader title={t("Statistiques de l'app")} />
+      <Card>
+        <Txt dim size={fontSize.sm} style={{ marginBottom: spacing(1.5) }}>
+          {t("L'état de la banque de questions (nombre, univers, difficultés), l'avancée de la traduction anglaise et vos totaux de parties.")}
+        </Txt>
+        <Button
+          title={t("Voir les statistiques de l'app")}
+          emoji="📊"
+          variant="secondary"
+          onPress={() => navigation.navigate('AppStats')}
+        />
+      </Card>
+
       <SectionHeader title={t('Zone de danger')} />
       <Card>
         <Button title={t('Tout effacer')} variant="danger" onPress={reset} disabled={busy} />

@@ -979,4 +979,33 @@ export const EN: Record<string, string> = {
   'Mes défis ({n})': 'My challenges ({n})',
   "Aucun défi perso pour l'instant.": 'No custom challenges yet.',
   'Supprimer ce défi ?': 'Delete this challenge?',
+
+  // --- Statistiques de l'app (AppStatsScreen / Settings) -------------------
+  "Statistiques de l'app": 'App statistics',
+  'Contenu, traduction et totaux': 'Content, translation and totals',
+  univers: 'universes',
+  'Répartition par difficulté': 'Difficulty breakdown',
+  'Traduction anglaise': 'English translation',
+  '{done} / {total} questions': '{done} / {total} questions',
+  "Les énoncés non traduits restent affichés en français : l'app est toujours jouable, la couverture se complète par lots.":
+    'Untranslated prompts stay in French: the app is always playable, and coverage fills in batch by batch.',
+  'Par thème': 'By theme',
+  'Vos parties': 'Your games',
+  profils: 'profiles',
+  réponses: 'answers',
+  'points cumulés': 'total points',
+  "Voir les statistiques de l'app": 'View app statistics',
+  "L'état de la banque de questions (nombre, univers, difficultés), l'avancée de la traduction anglaise et vos totaux de parties.":
+    'The state of the question bank (count, universes, difficulties), the progress of the English translation, and your game totals.',
+
+  // --- Date relative + dernière partie (relativeTime / PlayersScreen) ------
+  "aujourd'hui": 'today',
+  hier: 'yesterday',
+  'il y a {n} j': '{n}d ago',
+  'il y a {n} sem.': '{n}w ago',
+  'il y a {n} mois': '{n}mo ago',
+  'il y a {n} an': '{n}y ago',
+  'il y a {n} ans': '{n}y ago',
+  '🕹️ Dernière partie : {when}': '🕹️ Last game: {when}',
+  '🕹️ Jamais joué': '🕹️ Never played',
 };

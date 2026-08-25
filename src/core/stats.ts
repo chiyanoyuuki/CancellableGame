@@ -163,6 +163,23 @@ export function playerTotals(results: readonly StatResult[], filter: StatFilter 
 }
 
 // ---------------------------------------------------------------------------
+// Dernière partie jouée par joueur
+// ---------------------------------------------------------------------------
+
+/**
+ * Horodatage (startedAt) de la dernière partie jouée par chaque joueur, d'après
+ * les lignes de résultats. Un joueur sans résultat est absent de l'objet.
+ */
+export function lastPlayedByPlayer(results: readonly StatResult[]): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const r of results) {
+    const prev = out[r.playerId];
+    if (prev === undefined || r.startedAt > prev) out[r.playerId] = r.startedAt;
+  }
+  return out;
+}
+
+// ---------------------------------------------------------------------------
 // Time series (for charts) — buckets by day/month/year
 // ---------------------------------------------------------------------------
 

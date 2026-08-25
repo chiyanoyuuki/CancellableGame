@@ -10,9 +10,10 @@ import { THEME_META, THEMES } from '../core/models';
 import type { Player, Question, Theme } from '../core/models';
 import { keepsEnoughUniverses, keptUniverses, MIN_KEPT_UNIVERSES } from '../core/profilePrefs';
 import type { QuestionHistory } from '../core/questionSelection';
-import { type StatAnswer, type StatResult, titlesByPlayer } from '../core/stats';
+import { lastPlayedByPlayer, type StatAnswer, type StatResult, titlesByPlayer } from '../core/stats';
 import { haptics } from '../lib/haptics';
 import { useT } from '../lib/i18nProvider';
+import { relativeDay } from '../lib/relativeTime';
 import { exportProfile, importProfile } from '../lib/profileTransfer';
 import {
   archivePlayer,
@@ -222,6 +223,10 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
     () => titlesByPlayer(players, statResults, statAnswers, { period: 'all' }),
     [players, statResults, statAnswers],
   );
+
+  // Dernière partie jouée par joueur (tous modes confondus), pour l'afficher
+  // sous le pseudo dans le roster.
+  const lastPlayed = useMemo(() => lastPlayedByPlayer(statResults), [statResults]);
 
   useFocusEffect(
     useCallback(() => {
@@ -496,6 +501,11 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
                   })}
                 </Txt>
               )}
+              <Txt faint size={fontSize.xs}>
+                {lastPlayed[p.id] !== undefined
+                  ? t('🕹️ Dernière partie : {when}', { when: relativeDay(lastPlayed[p.id]!) })
+                  : t('🕹️ Jamais joué')}
+              </Txt>
             </View>
             {showArchived ? (
               <Button

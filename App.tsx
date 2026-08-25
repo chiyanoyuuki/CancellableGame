@@ -21,6 +21,7 @@ import { ImageCheckScreen } from './src/screens/ImageCheckScreen';
 import { LobbyScreen } from './src/screens/LobbyScreen';
 import { OnboardingScreen } from './src/screens/OnboardingScreen';
 import { PlayerProfileScreen } from './src/screens/PlayerProfileScreen';
+import { AppStatsScreen } from './src/screens/AppStatsScreen';
 import { PlayersScreen } from './src/screens/PlayersScreen';
 import { RemoteProfileScreen } from './src/screens/RemoteProfileScreen';
 import { ReportedQuestionsScreen } from './src/screens/ReportedQuestionsScreen';
@@ -128,6 +129,7 @@ function AppInner() {
           <Stack.Screen name="GamePlay" component={GamePlayScreen} options={{ gestureEnabled: false }} />
           <Stack.Screen name="Results" component={ResultsScreen} options={{ gestureEnabled: false }} />
           <Stack.Screen name="Stats" component={StatsScreen} />
+          <Stack.Screen name="AppStats" component={AppStatsScreen} />
           <Stack.Screen name="Settings" component={SettingsScreen} />
           <Stack.Screen name="CustomContent" component={CustomContentScreen} />
           <Stack.Screen name="ImageCheck" component={ImageCheckScreen} />

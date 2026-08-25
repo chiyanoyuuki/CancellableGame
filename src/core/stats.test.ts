@@ -2,6 +2,7 @@ import type { Player } from './models';
 import {
   funFacts,
   inPeriod,
+  lastPlayedByPlayer,
   periodStart,
   playerTotals,
   type StatAnswer,
@@ -168,5 +169,23 @@ describe('funFacts', () => {
     expect(f.totalQuestions).toBe(8);
     expect(f.totalPoints).toBe(650);
     expect(f.favouriteTheme).toBe('manga');
+  });
+});
+
+describe('lastPlayedByPlayer', () => {
+  test('keeps the most recent startedAt per player', () => {
+    const map = lastPlayedByPlayer(results);
+    expect(map['p1']).toBe(FEB);
+    expect(map['p2']).toBe(FEB);
+  });
+
+  test('players without results are absent', () => {
+    const map = lastPlayedByPlayer([results[0]!]); // uniquement p1 en janvier
+    expect(map['p1']).toBe(JAN);
+    expect(map['p2']).toBeUndefined();
+  });
+
+  test('empty input yields an empty map', () => {
+    expect(lastPlayedByPlayer([])).toEqual({});
   });
 });
