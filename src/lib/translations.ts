@@ -1314,6 +1314,24 @@ export const EN: Record<string, string> = {
   Novembre: 'November',
   Décembre: 'December',
 
+  // --- Question du jour -----------------------------------------------------
+  'Question du jour': 'Question of the day',
+  'Une question, une fois par jour': 'One question, once a day',
+  // (« Aucun joueur » est déjà traduit plus haut.)
+  'Ajoute des joueurs pour répondre à la question du jour.':
+    'Add players to answer the question of the day.',
+  '{name} répond': '{name} answers',
+  'Réponds sans montrer aux autres — les résultats se révèlent quand tout le monde a joué.':
+    'Answer without showing others — results are revealed once everyone has played.',
+  'LA RÉPONSE': 'THE ANSWER',
+  'Résultats du jour': 'Today’s results',
+  'À vous de jouer': 'Your turn',
+  '{n} bonnes réponses au total': '{n} correct answers in total',
+  'a joué': 'played',
+  'à toi ›': 'your turn ›',
+  'Tout le monde a joué ! Reviens demain pour une nouvelle question. 🌅':
+    'Everyone has played! Come back tomorrow for a new question. 🌅',
+
   // --- Triage des signalements ----------------------------------------------
   'signalée {n} fois': 'reported {n} time',
   'signalée {n}×': 'reported {n}×',

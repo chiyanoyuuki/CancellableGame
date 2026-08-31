@@ -19,6 +19,7 @@ export type RootStackParamList = {
   FaceAFace: undefined;
   Entrainement: undefined;
   Seasons: undefined;
+  Qotd: undefined;
   Stats: undefined;
   AppStats: undefined;
   Settings: undefined;
