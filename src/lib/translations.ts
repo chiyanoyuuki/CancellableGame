@@ -1072,4 +1072,17 @@ export const EN: Record<string, string> = {
   'Thèmes les plus durs': 'Hardest themes',
   // Classement hebdomadaire (période Stats)
   Semaine: 'Week',
+
+  // --- Modes solo (Survie / Contre-la-montre) -------------------------------
+  'Autres modes solo': 'Other solo modes',
+  Survie: 'Survival',
+  'Contre-la-montre': 'Time attack',
+  'Meilleur score : {n}': 'Best score: {n}',
+  'Réponds à un maximum de questions en {s} secondes.': 'Answer as many questions as you can in {s} seconds.',
+  'Enchaîne les bonnes réponses. La première erreur arrête tout !':
+    'Chain correct answers. The first mistake ends it all!',
+  Commencer: 'Start',
+  '⏱️ {s}s': '⏱️ {s}s',
+  '💀 Survie': '💀 Survival',
+  'Nouveau record ! 🎉': 'New record! 🎉',
 };

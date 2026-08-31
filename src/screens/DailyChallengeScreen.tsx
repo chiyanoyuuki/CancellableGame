@@ -250,6 +250,13 @@ export function DailyChallengeScreen({ navigation, route }: NativeStackScreenPro
             <Button title={t('Jouer')} onPress={() => openCode(codeInput)} disabled={normalizeCode(codeInput).length < 3} />
           </View>
         </Card>
+
+        {/* --- Autres modes solo ------------------------------------------- */}
+        <SectionHeader title={t('Autres modes solo')} />
+        <View style={{ gap: spacing(1) }}>
+          <Button title={t('Survie')} emoji="💀" variant="secondary" onPress={() => navigation.navigate('SoloQuiz', { mode: 'survie' })} />
+          <Button title={t('Contre-la-montre')} emoji="⏱️" variant="secondary" onPress={() => navigation.navigate('SoloQuiz', { mode: 'chrono' })} />
+        </View>
       </Screen>
     );
   }

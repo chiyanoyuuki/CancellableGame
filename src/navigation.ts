@@ -13,6 +13,7 @@ export type RootStackParamList = {
   Results: { result: SessionResult; players: Player[] };
   Soiree: undefined;
   DailyChallenge: { seed?: string } | undefined;
+  SoloQuiz: { mode: 'survie' | 'chrono' };
   Stats: undefined;
   AppStats: undefined;
   Settings: undefined;
