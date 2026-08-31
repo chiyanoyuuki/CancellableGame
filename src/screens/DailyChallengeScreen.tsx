@@ -1,9 +1,9 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, Share, StyleSheet, TextInput, View } from 'react-native';
 
-import { Button, Card, ProgressBar, Screen, Txt } from '../components/ui';
+import { Button, Card, ProgressBar, Screen, SectionHeader, Txt } from '../components/ui';
 import {
   buildDaily,
   completeDay,
@@ -13,7 +13,9 @@ import {
   EMPTY_STREAK,
   isDoneToday,
   liveStreak,
+  normalizeCode,
   previousDateKey,
+  randomChallengeCode,
   type StreakState,
 } from '../core/dailyChallenge';
 import { getQuizPool } from '../games/quiz/pool';
@@ -33,12 +35,13 @@ interface DayResult {
   total: number;
 }
 
-export function DailyChallengeScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'DailyChallenge'>) {
+export function DailyChallengeScreen({ navigation, route }: NativeStackScreenProps<RootStackParamList, 'DailyChallenge'>) {
   const t = useT();
   const [phase, setPhase] = useState<Phase>('loading');
   const [daily, setDaily] = useState<DailyQuestion[]>([]);
   const [streak, setStreak] = useState<StreakState>(EMPTY_STREAK);
   const [todayResult, setTodayResult] = useState<DayResult | null>(null);
+  const [codeInput, setCodeInput] = useState('');
 
   const [idx, setIdx] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
@@ -47,6 +50,10 @@ export function DailyChallengeScreen({ navigation }: NativeStackScreenProps<Root
 
   const today = dateKey();
   const yesterday = previousDateKey();
+  // Défi partagé : le code reçu EST la graine ; ne compte jamais pour la série.
+  const challengeCode = route.params?.seed ? normalizeCode(route.params.seed) : null;
+  const isChallenge = !!challengeCode;
+  const seedKey = challengeCode ?? today;
 
   useFocusEffect(
     useCallback(() => {
@@ -58,7 +65,7 @@ export function DailyChallengeScreen({ navigation }: NativeStackScreenProps<Root
           kvGetJSON<DayResult | null>(lastResultKey(today), null),
         ]);
         if (!alive) return;
-        setDaily(buildDaily(pool, today));
+        setDaily(buildDaily(pool, seedKey));
         setStreak(s);
         setTodayResult(res);
         // Ne pas écraser une partie en cours si l'écran reprend le focus.
@@ -68,15 +75,33 @@ export function DailyChallengeScreen({ navigation }: NativeStackScreenProps<Root
         alive = false;
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [today]),
+    }, [seedKey]),
   );
 
   const start = () => {
-    countedRef.current = !isDoneToday(streak, today); // ne compte que la 1re fois du jour
+    // Un défi partagé ou déjà fait aujourd'hui ne compte pas pour la série.
+    countedRef.current = !isChallenge && !isDoneToday(streak, today);
     setIdx(0);
     setScore(0);
     setSelected(null);
     setPhase('playing');
+  };
+
+  const shareChallenge = (code: string, myScore?: number) => {
+    const line =
+      myScore !== undefined
+        ? t('Je fais {score}/{total} sur ce défi Cancellable ! Bats-moi avec le code {code} 🎯', {
+            score: myScore,
+            total: daily.length,
+            code,
+          })
+        : t('Défi Cancellable ! Rejoue exactement mes questions avec le code {code} 🎯', { code });
+    void Share.share({ message: line });
+  };
+
+  const openCode = (code: string) => {
+    const c = normalizeCode(code);
+    if (c.length >= 3) navigation.push('DailyChallenge', { seed: c });
   };
 
   const current = daily[idx];
@@ -118,8 +143,10 @@ export function DailyChallengeScreen({ navigation }: NativeStackScreenProps<Root
       await kvSetJSON(STREAK_KEY, nextStreak);
       await kvSetJSON(lastResultKey(today), result);
       haptics.win();
-    } else {
+    } else if (!isChallenge) {
       setTodayResult((r) => r ?? result);
+    } else {
+      haptics.win();
     }
     setPhase('done');
   };
@@ -134,6 +161,30 @@ export function DailyChallengeScreen({ navigation }: NativeStackScreenProps<Root
         <Txt dim center style={{ marginTop: spacing(4) }}>
           {t('Chargement…')}
         </Txt>
+      </Screen>
+    );
+  }
+
+  if (phase === 'intro' && isChallenge) {
+    return (
+      <Screen title={t('Défi partagé')} onBack={() => navigation.goBack()} scroll>
+        <View style={{ alignItems: 'center', marginVertical: spacing(2), gap: spacing(0.5) }}>
+          <Txt size={fontSize.huge}>🔗</Txt>
+          <Txt faint size={fontSize.xs} weight="800">{t('CODE DU DÉFI')}</Txt>
+          <Txt size={fontSize.xxl} weight="900" style={{ letterSpacing: 3 }}>
+            {challengeCode}
+          </Txt>
+        </View>
+        <Card>
+          <Txt weight="800" size={fontSize.lg}>{t('{n} questions, exactement les mêmes pour ton ami', { n: daily.length })}</Txt>
+          <Txt dim size={fontSize.sm} style={{ marginTop: spacing(0.5) }}>
+            {t('Comparez vos scores ! (ce défi ne compte pas pour ta série)')}
+          </Txt>
+        </Card>
+        <View style={{ marginTop: spacing(2), gap: spacing(1) }}>
+          <Button title={t('Commencer le défi')} emoji="🎯" size="lg" onPress={start} disabled={daily.length === 0} />
+          <Button title={t('Partager ce défi')} emoji="🔗" variant="secondary" onPress={() => shareChallenge(challengeCode!)} />
+        </View>
       </Screen>
     );
   }
@@ -173,6 +224,32 @@ export function DailyChallengeScreen({ navigation }: NativeStackScreenProps<Root
           />
           {daily.length === 0 && <Txt faint center size={fontSize.xs}>{t('Aucune question disponible.')}</Txt>}
         </View>
+
+        {/* --- Défi entre amis --------------------------------------------- */}
+        <SectionHeader title={t('Défi entre amis')} />
+        <Card>
+          <Txt dim size={fontSize.sm}>{t('Crée un code et partage-le : ton ami jouera exactement les mêmes questions.')}</Txt>
+          <Button
+            title={t('Créer un défi à partager')}
+            emoji="🔗"
+            variant="secondary"
+            style={{ marginTop: spacing(1) }}
+            onPress={() => openCode(randomChallengeCode())}
+          />
+          <View style={{ flexDirection: 'row', gap: spacing(1), marginTop: spacing(1.5) }}>
+            <TextInput
+              style={styles.codeInput}
+              value={codeInput}
+              onChangeText={(v) => setCodeInput(normalizeCode(v))}
+              placeholder={t('Entrer un code reçu')}
+              placeholderTextColor={colors.textFaint}
+              autoCapitalize="characters"
+              autoCorrect={false}
+              maxLength={8}
+            />
+            <Button title={t('Jouer')} onPress={() => openCode(codeInput)} disabled={normalizeCode(codeInput).length < 3} />
+          </View>
+        </Card>
       </Screen>
     );
   }
@@ -272,6 +349,20 @@ export function DailyChallengeScreen({ navigation }: NativeStackScreenProps<Root
         {streak.best > 0 && <Txt faint>{t('Meilleure série : {n}', { n: streak.best })}</Txt>}
       </View>
       <View style={{ gap: spacing(1) }}>
+        {isChallenge ? (
+          <Button title={t('Partager ce défi')} emoji="🔗" onPress={() => shareChallenge(challengeCode!, score)} />
+        ) : (
+          <Button
+            title={t('Défier un ami')}
+            emoji="🔗"
+            variant="secondary"
+            onPress={() => {
+              const code = randomChallengeCode();
+              shareChallenge(code, score);
+              openCode(code);
+            }}
+          />
+        )}
         <Button title={t('Rejouer (hors série)')} emoji="🔁" variant="secondary" onPress={start} />
         <Button title={t('Retour')} emoji="🏠" variant="ghost" onPress={() => navigation.goBack()} />
       </View>
@@ -280,6 +371,19 @@ export function DailyChallengeScreen({ navigation }: NativeStackScreenProps<Root
 }
 
 const styles = StyleSheet.create({
+  codeInput: {
+    flex: 1,
+    color: colors.text,
+    fontSize: fontSize.lg,
+    fontWeight: '800',
+    letterSpacing: 2,
+    backgroundColor: colors.card,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: radius.sm,
+    paddingHorizontal: spacing(1.25),
+    paddingVertical: spacing(1),
+  },
   option: {
     borderWidth: 1,
     borderRadius: radius.md,

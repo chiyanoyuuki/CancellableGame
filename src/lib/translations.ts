@@ -1036,6 +1036,23 @@ export const EN: Record<string, string> = {
   'Score : {n}': 'Score: {n}',
   'Voir le score': 'See score',
   '{pct}% de bonnes réponses': '{pct}% correct',
+  // Défi entre amis (codes partagés)
+  'Défi partagé': 'Shared challenge',
+  'CODE DU DÉFI': 'CHALLENGE CODE',
+  '{n} questions, exactement les mêmes pour ton ami': '{n} questions, the exact same for your friend',
+  'Comparez vos scores ! (ce défi ne compte pas pour ta série)':
+    'Compare your scores! (this challenge does not count toward your streak)',
+  'Partager ce défi': 'Share this challenge',
+  'Défi entre amis': 'Challenge a friend',
+  'Crée un code et partage-le : ton ami jouera exactement les mêmes questions.':
+    'Create a code and share it: your friend plays the exact same questions.',
+  'Créer un défi à partager': 'Create a challenge to share',
+  'Entrer un code reçu': 'Enter a code you received',
+  'Défier un ami': 'Challenge a friend',
+  'Je fais {score}/{total} sur ce défi Cancellable ! Bats-moi avec le code {code} 🎯':
+    'I scored {score}/{total} on this Cancellable challenge! Beat me with code {code} 🎯',
+  'Défi Cancellable ! Rejoue exactement mes questions avec le code {code} 🎯':
+    'Cancellable challenge! Replay my exact questions with code {code} 🎯',
   Suivant: 'Next',
   Retour: 'Back',
 

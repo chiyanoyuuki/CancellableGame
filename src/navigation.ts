@@ -12,7 +12,7 @@ export type RootStackParamList = {
   GamePlay: { gameId: string; players: Player[]; config: unknown; resume?: boolean; slotId?: string; soiree?: boolean };
   Results: { result: SessionResult; players: Player[] };
   Soiree: undefined;
-  DailyChallenge: undefined;
+  DailyChallenge: { seed?: string } | undefined;
   Stats: undefined;
   AppStats: undefined;
   Settings: undefined;

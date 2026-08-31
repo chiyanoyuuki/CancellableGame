@@ -35,6 +35,24 @@ export function seedFromString(s: string): number {
   return h >>> 0;
 }
 
+/**
+ * Code de défi partageable. C'est LUI la graine : deux personnes qui saisissent
+ * le même code obtiennent le même set (`buildDaily(pool, code)`), sans serveur.
+ * Alphabet sans caractères ambigus (pas de I/L/O/0/1).
+ */
+const CODE_ALPHABET = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+
+export function randomChallengeCode(rand: () => number = Math.random, len = 5): string {
+  let s = '';
+  for (let i = 0; i < len; i++) s += CODE_ALPHABET[Math.floor(rand() * CODE_ALPHABET.length)];
+  return s;
+}
+
+/** Nettoie un code saisi (majuscules, retire tout caractère hors alphabet). */
+export function normalizeCode(s: string): string {
+  return s.trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
+}
+
 export interface DailyQuestion {
   question: Question;
   /** Réponse + distracteurs, dans un ordre mélangé de façon déterministe. */

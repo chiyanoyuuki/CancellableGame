@@ -7,9 +7,12 @@ import {
   liveStreak,
   isDoneToday,
   seedFromString,
+  randomChallengeCode,
+  normalizeCode,
   EMPTY_STREAK,
   DAILY_COUNT,
 } from './dailyChallenge';
+import { mulberry32 } from './rng';
 
 const Q = (id: string, answer: string, distractors: string[], extra: Partial<Question> = {}): Question => ({
   id,
@@ -68,6 +71,19 @@ describe('dailyChallenge', () => {
     // saut d'un jour -> reset à 1, mais best conservé
     s = completeDay(s, '2026-09-05', '2026-09-04');
     expect(s).toEqual({ lastDate: '2026-09-05', current: 1, best: 2 });
+  });
+
+  test('code de défi : format, alphabet non ambigu, déterminisme, normalisation', () => {
+    const code = randomChallengeCode(mulberry32(42));
+    expect(code).toHaveLength(5);
+    expect(code).toMatch(/^[ABCDEFGHJKMNPQRSTUVWXYZ23456789]+$/);
+    expect(randomChallengeCode(mulberry32(42))).toBe(code); // déterministe à graine égale
+    expect(normalizeCode('  ab-2 z ')).toBe('AB2Z');
+    // même code -> même défi
+    const pool = bank;
+    expect(buildDaily(pool, code).map((d) => d.question.id)).toEqual(
+      buildDaily(pool, code).map((d) => d.question.id),
+    );
   });
 
   test('isDoneToday / liveStreak', () => {
