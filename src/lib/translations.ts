@@ -1046,4 +1046,11 @@ export const EN: Record<string, string> = {
   // --- Triage des signalements ----------------------------------------------
   'signalée {n} fois': 'reported {n} time',
   'signalée {n}×': 'reported {n}×',
+
+  // --- Calibrage difficulté (AppStats) --------------------------------------
+  'Calibrage difficulté': 'Difficulty calibration',
+  'Taux de réussite par difficulté': 'Success rate by difficulty',
+  '⚠️ Calibrage à revoir : {issue}': '⚠️ Calibration to review: {issue}',
+  'La réussite décroît bien avec la difficulté 👍': 'Success rate drops nicely with difficulty 👍',
+  'Thèmes les plus durs': 'Hardest themes',
 };

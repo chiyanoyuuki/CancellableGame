@@ -5,7 +5,9 @@ import { StyleSheet, View } from 'react-native';
 
 import { Card, ProgressBar, Screen, SectionHeader, Txt } from '../components/ui';
 import { contentStats } from '../core/contentStats';
+import { calibrationIssues, successByDifficulty, successByTheme } from '../core/difficultyAudit';
 import { DIFFICULTY_LABELS, THEME_META } from '../core/models';
+import type { Theme } from '../core/models';
 import type { Difficulty } from '../core/models';
 import { funFacts, type StatAnswer, type StatResult, type StatSession } from '../core/stats';
 import { listPlayers, loadStatAnswers, loadStatResults, loadStatSessions } from '../db';
@@ -49,6 +51,11 @@ export function AppStatsScreen({ navigation }: NativeStackScreenProps<RootStackP
     () => funFacts(play.sessions, play.results, play.answers),
     [play],
   );
+
+  const byDiff = useMemo(() => successByDifficulty(play.answers), [play.answers]);
+  const hardestThemes = useMemo(() => successByTheme(play.answers, 10).slice(0, 5), [play.answers]);
+  const calibration = useMemo(() => calibrationIssues(play.answers), [play.answers]);
+  const rateColor = (rate: number) => (rate >= 0.66 ? colors.success : rate >= 0.4 ? colors.warning : colors.danger);
 
   return (
     <Screen title={t("Statistiques de l'app")} subtitle={t('Contenu, traduction et totaux')} onBack={() => navigation.goBack()} scroll>
@@ -126,6 +133,56 @@ export function AppStatsScreen({ navigation }: NativeStackScreenProps<RootStackP
         <FactCard emoji="🍺" value={String(facts.totalSips)} label={t('gorgées')} />
         <FactCard emoji="🎯" value={String(facts.totalPoints)} label={t('points cumulés')} />
       </View>
+
+      {/* --- Calibrage (taux de réussite réel) ------------------------------ */}
+      {byDiff.length > 0 && (
+        <>
+          <SectionHeader title={t('Calibrage difficulté')} />
+          <Card>
+            <Txt weight="700" size={fontSize.sm} style={{ marginBottom: spacing(1) }}>
+              {t('Taux de réussite par difficulté')}
+            </Txt>
+            {byDiff.map((s) => (
+              <BreakdownRow
+                key={s.key}
+                label={t(DIFFICULTY_LABELS[Number(s.key) as Difficulty])}
+                value={s.correct}
+                total={s.total}
+                trailing={`${Math.round(s.rate * 100)}% · ${s.total}`}
+                color={rateColor(s.rate)}
+              />
+            ))}
+            {calibration.length > 0 ? (
+              calibration.map((c, i) => (
+                <Txt key={i} size={fontSize.xs} color={colors.warning} style={{ marginTop: spacing(0.5) }}>
+                  {t('⚠️ Calibrage à revoir : {issue}', { issue: c })}
+                </Txt>
+              ))
+            ) : (
+              <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
+                {t('La réussite décroît bien avec la difficulté 👍')}
+              </Txt>
+            )}
+          </Card>
+          {hardestThemes.length > 0 && (
+            <Card style={{ marginTop: spacing(1) }}>
+              <Txt weight="700" size={fontSize.sm} style={{ marginBottom: spacing(1) }}>
+                {t('Thèmes les plus durs')}
+              </Txt>
+              {hardestThemes.map((s) => (
+                <BreakdownRow
+                  key={s.key}
+                  label={`${THEME_META[s.key as Theme]?.emoji ?? '❓'} ${t(THEME_META[s.key as Theme]?.label ?? s.key)}`}
+                  value={s.correct}
+                  total={s.total}
+                  trailing={`${Math.round(s.rate * 100)}% · ${s.total}`}
+                  color={rateColor(s.rate)}
+                />
+              ))}
+            </Card>
+          )}
+        </>
+      )}
     </Screen>
   );
 }
