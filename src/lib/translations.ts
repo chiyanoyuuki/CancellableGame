@@ -1008,4 +1008,13 @@ export const EN: Record<string, string> = {
   'il y a {n} ans': '{n}y ago',
   '🕹️ Dernière partie : {when}': '🕹️ Last game: {when}',
   '🕹️ Jamais joué': '🕹️ Never played',
+
+  // --- Découvrabilité des univers (QuizConfig) ------------------------------
+  'Rechercher un univers…': 'Search for a universe…',
+  'Tout activer': 'Enable all',
+  'Tout désactiver': 'Disable all',
+  'Appui long sur un univers pour le mettre en favori ★.': 'Long-press a universe to favorite it ★.',
+  FAVORIS: 'FAVORITES',
+  'RÉCEMMENT JOUÉS': 'RECENTLY PLAYED',
+  'Aucun univers ne correspond à la recherche.': 'No universe matches your search.',
 };

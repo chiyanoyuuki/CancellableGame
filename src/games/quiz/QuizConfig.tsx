@@ -16,6 +16,12 @@ import {
   type TurnMode,
 } from '../../core/models';
 import { countUnseenGroups, identityGroups, type QuestionHistory } from '../../core/questionSelection';
+import {
+  matchesQuery,
+  presentPinned,
+  pushRecent,
+  toggleFavorite as toggleFav,
+} from '../../core/universePrefs';
 import { getQuestionHistory, getQuestionHistoryByPlayer, kvGetJSON, kvSetJSON } from '../../db';
 import { useT } from '../../lib/i18nProvider';
 import { useStore } from '../../store/StoreProvider';
@@ -27,6 +33,8 @@ const TEAM_EMOJIS = ['🦁', '🐺', '🦅', '🐉', '🦈', '🐻', '🦊', '�
 const teamKey = (name: string, i: number) => `team:${(name.trim() || `equipe-${i + 1}`).toLowerCase().replace(/\s+/g, '-')}`;
 
 const LAST_CONFIG_KEY = 'quiz:lastConfig';
+const FAVORITE_UNIVERSES_KEY = 'quiz:favoriteUniverses';
+const RECENT_UNIVERSES_KEY = 'quiz:recentUniverses';
 
 export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
   const t = useT();
@@ -36,6 +44,9 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
   const [history, setHistory] = useState<QuestionHistory>({});
   const [historyByPlayer, setHistoryByPlayer] = useState<Record<string, QuestionHistory>>({});
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const [favorites, setFavorites] = useState<string[]>([]);
+  const [recent, setRecent] = useState<string[]>([]);
+  const [universeSearch, setUniverseSearch] = useState('');
 
   // --- Team mode local state (turned into cfg.teams only at launch) ----------
   const [teamCount, setTeamCount] = useState(() => Math.min(2, Math.max(1, players.length)));
@@ -78,6 +89,8 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
     void kvGetJSON<Partial<QuizConfig>>(LAST_CONFIG_KEY, {}).then((saved) => {
       if (alive) setCfg((c) => ({ ...c, ...saved }));
     });
+    void kvGetJSON<string[]>(FAVORITE_UNIVERSES_KEY, []).then((f) => alive && setFavorites(f));
+    void kvGetJSON<string[]>(RECENT_UNIVERSES_KEY, []).then((r) => alive && setRecent(r));
     void (async () => {
       const [p, h, hbp] = await Promise.all([
         getQuizPool(),
@@ -124,6 +137,48 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
     }
     return out;
   }, [pool, cfg.themes]);
+
+  // --- Découvrabilité des univers : recherche + favoris + récemment joués -----
+  const availableUniverses = useMemo(() => {
+    const s = new Set<string>();
+    for (const g of universesByTheme) for (const u of g.universes) s.add(u);
+    return s;
+  }, [universesByTheme]);
+  const favoritePresent = useMemo(
+    () => presentPinned(favorites, availableUniverses).filter((u) => matchesQuery(u, universeSearch)),
+    [favorites, availableUniverses, universeSearch],
+  );
+  const recentPresent = useMemo(
+    () =>
+      presentPinned(recent, availableUniverses).filter(
+        (u) => !favorites.includes(u) && matchesQuery(u, universeSearch),
+      ),
+    [recent, availableUniverses, universeSearch, favorites],
+  );
+  const filteredByTheme = useMemo(
+    () =>
+      universesByTheme
+        .map((g) => ({ theme: g.theme, universes: g.universes.filter((u) => matchesQuery(u, universeSearch)) }))
+        .filter((g) => g.universes.length > 0),
+    [universesByTheme, universeSearch],
+  );
+  const visibleUniverses = useMemo(() => {
+    const s = new Set<string>();
+    for (const u of favoritePresent) s.add(u);
+    for (const u of recentPresent) s.add(u);
+    for (const g of filteredByTheme) for (const u of g.universes) s.add(u);
+    return [...s];
+  }, [favoritePresent, recentPresent, filteredByTheme]);
+  const bulkSetVisible = (exclude: boolean) =>
+    setCfg((c) => {
+      const set = new Set(c.excludedUniverses);
+      for (const u of visibleUniverses) {
+        if (exclude) set.add(u);
+        else set.delete(u);
+      }
+      return { ...c, excludedUniverses: [...set] };
+    });
+
   const available = eligible.length;
   const unseen = useMemo(
     () => eligible.filter((q) => !history[q.id]?.timesUsed).length,
@@ -171,6 +226,21 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
         : [...c.excludedUniverses, u],
     }));
 
+  const renderUniverseChip = (u: string) =>
+    store.isUniverseUnlocked(u) ? (
+      <Chip
+        key={u}
+        label={favorites.includes(u) ? `★ ${u}` : u}
+        selected={!cfg.excludedUniverses.includes(u)}
+        onPress={() => toggleUniverse(u)}
+        onLongPress={() => toggleFavoriteUniverse(u)}
+      />
+    ) : (
+      <View key={u} style={{ opacity: 0.45 }}>
+        <Chip label={`🔒 ${u}`} selected={false} />
+      </View>
+    );
+
   const valid = cfg.themes.length > 0 && cfg.difficulties.length > 0 && available > 0;
 
   const changeTeamCount = (n: number) => {
@@ -178,6 +248,14 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
     setAssign((a) => {
       const next = { ...a };
       for (const p of players) if ((next[p.id] ?? 0) >= n) next[p.id] = (next[p.id] ?? 0) % n;
+      return next;
+    });
+  };
+
+  const toggleFavoriteUniverse = (u: string) => {
+    setFavorites((f) => {
+      const next = toggleFav(f, u);
+      void kvSetJSON(FAVORITE_UNIVERSES_KEY, next);
       return next;
     });
   };
@@ -191,6 +269,12 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
       teamMode: cfg.teamMode && teams.length >= 1,
     };
     void kvSetJSON(LAST_CONFIG_KEY, finalCfg);
+    // Mémorise les univers réellement jouables de cette partie (raccourci
+    // « récemment joués »). Ignoré si la sélection est large (voir pushRecent).
+    const played = [...new Set(eligible.map((q) => q.universe).filter((u): u is string => !!u))];
+    const nextRecent = pushRecent(recent, played);
+    setRecent(nextRecent);
+    void kvSetJSON(RECENT_UNIVERSES_KEY, nextRecent);
     onStart(finalCfg);
   };
 
@@ -256,25 +340,52 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
           <Pressable onPress={() => setShowAdvanced((v) => !v)}>
             <SectionHeader title={`${t('Options avancées — univers')} ${showAdvanced ? '▾' : '▸'}`} />
           </Pressable>
-          {showAdvanced &&
-            universesByTheme.map(({ theme, universes }) => (
-              <View key={theme} style={{ marginBottom: spacing(1.5) }}>
-                <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.5) }}>
-                  {THEME_META[theme].emoji} {t(THEME_META[theme].label).toUpperCase()}
-                </Txt>
-                <View style={styles.wrap}>
-                  {universes.map((u) =>
-                    store.isUniverseUnlocked(u) ? (
-                      <Chip key={u} label={u} selected={!cfg.excludedUniverses.includes(u)} onPress={() => toggleUniverse(u)} />
-                    ) : (
-                      <View key={u} style={{ opacity: 0.45 }}>
-                        <Chip label={`🔒 ${u}`} selected={false} />
-                      </View>
-                    ),
-                  )}
-                </View>
+          {showAdvanced && (
+            <>
+              <TextInput
+                style={styles.searchInput}
+                value={universeSearch}
+                onChangeText={setUniverseSearch}
+                placeholder={t('Rechercher un univers…')}
+                placeholderTextColor={colors.textFaint}
+                autoCorrect={false}
+              />
+              <View style={[styles.wrap, { marginTop: spacing(1), marginBottom: spacing(0.5) }]}>
+                <Button size="sm" variant="ghost" title={t('Tout activer')} onPress={() => bulkSetVisible(false)} />
+                <Button size="sm" variant="ghost" title={t('Tout désactiver')} onPress={() => bulkSetVisible(true)} />
               </View>
-            ))}
+              <Txt faint size={fontSize.xs} style={{ marginBottom: spacing(1) }}>
+                {t('Appui long sur un univers pour le mettre en favori ★.')}
+              </Txt>
+              {favoritePresent.length > 0 && (
+                <View style={{ marginBottom: spacing(1.5) }}>
+                  <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.5) }}>
+                    ★ {t('FAVORIS')}
+                  </Txt>
+                  <View style={styles.wrap}>{favoritePresent.map(renderUniverseChip)}</View>
+                </View>
+              )}
+              {recentPresent.length > 0 && (
+                <View style={{ marginBottom: spacing(1.5) }}>
+                  <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.5) }}>
+                    🕹️ {t('RÉCEMMENT JOUÉS')}
+                  </Txt>
+                  <View style={styles.wrap}>{recentPresent.map(renderUniverseChip)}</View>
+                </View>
+              )}
+              {filteredByTheme.map(({ theme, universes }) => (
+                <View key={theme} style={{ marginBottom: spacing(1.5) }}>
+                  <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.5) }}>
+                    {THEME_META[theme].emoji} {t(THEME_META[theme].label).toUpperCase()}
+                  </Txt>
+                  <View style={styles.wrap}>{universes.map(renderUniverseChip)}</View>
+                </View>
+              ))}
+              {visibleUniverses.length === 0 && (
+                <Txt faint size={fontSize.xs}>{t('Aucun univers ne correspond à la recherche.')}</Txt>
+              )}
+            </>
+          )}
         </>
       )}
 
@@ -532,6 +643,17 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
 
 const styles = StyleSheet.create({
   wrap: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing(1) },
+  searchInput: {
+    color: colors.text,
+    fontSize: fontSize.md,
+    fontWeight: '600',
+    backgroundColor: colors.card,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: radius.sm,
+    paddingHorizontal: spacing(1.25),
+    paddingVertical: spacing(1),
+  },
   row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing(1) },
   teamInput: {
     flex: 1,

@@ -195,11 +195,12 @@ export function Card(props: { children: ReactNode; onPress?: () => void; style?:
 // Chip (toggle pill)
 // ---------------------------------------------------------------------------
 
-export function Chip(props: { label: string; selected?: boolean; onPress?: () => void; emoji?: string; color?: string }) {
+export function Chip(props: { label: string; selected?: boolean; onPress?: () => void; onLongPress?: () => void; emoji?: string; color?: string }) {
   const selColor = props.color ?? colors.primary;
   return (
     <Pressable
       onPress={props.onPress}
+      onLongPress={props.onLongPress}
       style={[
         styles.chip,
         {
