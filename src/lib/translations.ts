@@ -1070,4 +1070,6 @@ export const EN: Record<string, string> = {
   '⚠️ Calibrage à revoir : {issue}': '⚠️ Calibration to review: {issue}',
   'La réussite décroît bien avec la difficulté 👍': 'Success rate drops nicely with difficulty 👍',
   'Thèmes les plus durs': 'Hardest themes',
+  // Classement hebdomadaire (période Stats)
+  Semaine: 'Week',
 };

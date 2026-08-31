@@ -35,6 +35,7 @@ const EMPTY: Data = { sessions: [], results: [], answers: [], players: [] };
 
 const PERIODS: { label: string; value: Period }[] = [
   { label: 'Soir', value: 'today' },
+  { label: 'Semaine', value: 'week' },
   { label: 'Mois', value: 'month' },
   { label: 'Année', value: 'year' },
   { label: 'Total', value: 'all' },

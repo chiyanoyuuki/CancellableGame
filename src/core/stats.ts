@@ -9,7 +9,7 @@
 import { t } from '../lib/i18n';
 import type { Player } from './models';
 
-export type Period = 'today' | 'month' | 'year' | 'all';
+export type Period = 'today' | 'week' | 'month' | 'year' | 'all';
 
 export interface StatSession {
   id: number;
@@ -54,6 +54,11 @@ export function periodStart(period: Period, ref: number = Date.now()): number {
   switch (period) {
     case 'today':
       return new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+    case 'week': {
+      // Début de la semaine courante (lundi), heure locale.
+      const daysSinceMonday = (d.getDay() + 6) % 7;
+      return new Date(d.getFullYear(), d.getMonth(), d.getDate() - daysSinceMonday).getTime();
+    }
     case 'month':
       return new Date(d.getFullYear(), d.getMonth(), 1).getTime();
     case 'year':
@@ -68,6 +73,10 @@ export function periodEnd(period: Period, ref: number = Date.now()): number {
   switch (period) {
     case 'today':
       return new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1).getTime();
+    case 'week': {
+      const daysSinceMonday = (d.getDay() + 6) % 7;
+      return new Date(d.getFullYear(), d.getMonth(), d.getDate() - daysSinceMonday + 7).getTime();
+    }
     case 'month':
       return new Date(d.getFullYear(), d.getMonth() + 1, 1).getTime();
     case 'year':

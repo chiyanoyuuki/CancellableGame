@@ -66,6 +66,16 @@ describe('period helpers', () => {
     expect(inPeriod(FEB, 'month', JAN)).toBe(false);
     expect(inPeriod(JAN, 'year', FEB)).toBe(true);
   });
+
+  test('periode semaine : lundi -> dimanche, exclut la semaine voisine', () => {
+    // mercredi 2026-09-02 (10h) — la semaine ISO va du lundi 08-31 au dimanche 09-06.
+    const wed = new Date(2026, 8, 2, 10).getTime();
+    expect(periodStart('week', wed)).toBe(new Date(2026, 7, 31).getTime()); // lundi 31 août
+    expect(inPeriod(new Date(2026, 7, 31, 0, 1).getTime(), 'week', wed)).toBe(true); // lundi
+    expect(inPeriod(new Date(2026, 8, 6, 23).getTime(), 'week', wed)).toBe(true); // dimanche
+    expect(inPeriod(new Date(2026, 8, 7).getTime(), 'week', wed)).toBe(false); // lundi suivant
+    expect(inPeriod(new Date(2026, 7, 30, 23).getTime(), 'week', wed)).toBe(false); // dimanche d'avant
+  });
 });
 
 describe('playerTotals', () => {
