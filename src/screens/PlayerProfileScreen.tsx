@@ -4,10 +4,11 @@ import { useCallback, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { AchievementTrackCard } from '../components/AchievementTrackCard';
+import { ThemeRadar, type RadarAxis } from '../components/ThemeRadar';
 import { Button, Card, EmptyState, PlayerAvatar, ProgressBar, Screen, SectionHeader, Txt } from '../components/ui';
 import { achievementScore, achievementSummary, MAX_POINTS, playerAchievements } from '../core/achievements';
-import type { Player } from '../core/models';
-import type { StatAnswer, StatResult } from '../core/stats';
+import { type Player, type Theme, THEME_META } from '../core/models';
+import { type StatAnswer, type StatResult, themeAccuracy } from '../core/stats';
 import { listPlayers, loadStatAnswers, loadStatResults } from '../db';
 import { useT } from '../lib/i18nProvider';
 import type { RootStackParamList } from '../navigation';
@@ -46,6 +47,15 @@ export function PlayerProfileScreen({ route, navigation }: NativeStackScreenProp
 
   const locked = !ent.allAchievements;
 
+  // Radar « forces par thème » : les thèmes les plus joués par ce joueur.
+  const radarAxes = useMemo<RadarAxis[]>(() => {
+    const acc = themeAccuracy(answers, playerId).filter((x) => x.total >= 3);
+    return [...acc]
+      .sort((a, b) => b.total - a.total)
+      .slice(0, 7)
+      .map((x) => ({ label: THEME_META[x.theme as Theme]?.emoji ?? x.theme.slice(0, 3), a: x.accuracy }));
+  }, [answers, playerId]);
+
   return (
     <Screen title={player?.name ?? t('Profil')} onBack={() => navigation.goBack()} scroll>
       {!player ? (
@@ -60,6 +70,18 @@ export function PlayerProfileScreen({ route, navigation }: NativeStackScreenProp
               {locked ? '' : ` · ${t(summary.tiers > 1 ? '{n} paliers' : '{n} palier', { n: summary.tiers })}`}
             </Txt>
           </View>
+
+          {radarAxes.length >= 3 && (
+            <>
+              <SectionHeader title={t('Forces par thème')} />
+              <Card>
+                <ThemeRadar axes={radarAxes} colorA={player.color} />
+                <Txt faint center size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
+                  {t('Taux de bonnes réponses par thème (le plus large = le plus fort).')}
+                </Txt>
+              </Card>
+            </>
+          )}
 
           {locked ? (
             <Card accent={colors.accent} onPress={() => navigation.navigate('Store')}>

@@ -280,6 +280,16 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
   return (
     <Screen title={tr('Statistiques')} subtitle={tr('Le palmarès de vos soirées')} onBack={() => navigation.goBack()} scroll>
       <Segmented<Period> value={period} onChange={changePeriod} options={PERIODS.map((o) => ({ label: tr(o.label), value: o.value }))} />
+      <Card onPress={() => navigation.navigate('FaceAFace')} style={{ marginTop: spacing(1) }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing(1) }}>
+          <Txt size={fontSize.xl}>🤝</Txt>
+          <View style={{ flex: 1 }}>
+            <Txt weight="800">{tr('Face-à-face')}</Txt>
+            <Txt faint size={fontSize.xs}>{tr('Compare deux joueurs : victoires, vitesse et forces par thème.')}</Txt>
+          </View>
+          <Txt faint>›</Txt>
+        </View>
+      </Card>
       {!ent.allStats && (
         <Card accent={colors.accent} onPress={() => navigation.navigate('Store')} style={{ marginTop: spacing(1) }}>
           <Txt weight="800" size={fontSize.sm}>

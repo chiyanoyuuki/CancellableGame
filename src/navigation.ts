@@ -16,6 +16,7 @@ export type RootStackParamList = {
   SoloQuiz: { mode: 'survie' | 'chrono' };
   Roue: undefined;
   Revision: undefined;
+  FaceAFace: undefined;
   Stats: undefined;
   AppStats: undefined;
   Settings: undefined;

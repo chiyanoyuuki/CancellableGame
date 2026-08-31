@@ -1220,6 +1220,28 @@ export const EN: Record<string, string> = {
     '{q} questions and {c} dares will be added to your content.',
   '{q} questions et {c} défis ajoutés.': '{q} questions and {c} dares added.',
 
+  // --- Face-à-face & radar par thème (stats) --------------------------------
+  'Face-à-face': 'Head-to-head',
+  'Compare deux joueurs : victoires, vitesse et forces par thème.':
+    'Compare two players: wins, speed and strengths by theme.',
+  'Joueur A': 'Player A',
+  'Joueur B': 'Player B',
+  // (« Pas assez de joueurs » est déjà traduit plus haut.)
+  'Ajoute au moins deux joueurs et jouez quelques parties pour comparer vos bilans.':
+    'Add at least two players and play a few games to compare records.',
+  '{n} duels · {t} nuls': '{n} duels · {t} ties',
+  'Jamais affrontés': 'Never faced off',
+  '{name} mène 🔥': '{name} leads 🔥',
+  'Tout est serré !': 'Neck and neck!',
+  'Vitesse ⚡': 'Speed ⚡',
+  'Forces par thème': 'Strengths by theme',
+  'Jouez au quiz dans plus de thèmes pour comparer vos forces.':
+    'Play the quiz across more themes to compare strengths.',
+  'Choisis deux joueurs différents.': 'Pick two different players.',
+  'moy · record {n}s': 'avg · best {n}s',
+  'Taux de bonnes réponses par thème (le plus large = le plus fort).':
+    'Correct-answer rate by theme (wider = stronger).',
+
   // --- Triage des signalements ----------------------------------------------
   'signalée {n} fois': 'reported {n} time',
   'signalée {n}×': 'reported {n}×',

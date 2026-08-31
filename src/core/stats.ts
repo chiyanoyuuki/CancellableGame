@@ -499,3 +499,68 @@ export function titlesByPlayer(
   }
   return out;
 }
+
+// ---------------------------------------------------------------------------
+// Face-à-face (rivalités) & vitesse de réponse
+// ---------------------------------------------------------------------------
+
+export interface HeadToHead {
+  /** Sessions où les DEUX joueurs ont joué. */
+  meetings: number;
+  /** Fois où A a fini devant B (rang plus petit). */
+  aWins: number;
+  bWins: number;
+  ties: number;
+}
+
+/**
+ * Bilan tête-à-tête entre deux joueurs, à partir de leur rang dans les sessions
+ * où ils ont joué tous les deux. Un rang plus petit = meilleure place.
+ */
+export function headToHead(results: readonly StatResult[], aId: string, bId: string): HeadToHead {
+  const bySession = new Map<number, Record<string, number>>();
+  for (const r of results) {
+    if (r.playerId !== aId && r.playerId !== bId) continue;
+    let m = bySession.get(r.sessionId);
+    if (!m) {
+      m = {};
+      bySession.set(r.sessionId, m);
+    }
+    m[r.playerId] = r.rank;
+  }
+  let meetings = 0;
+  let aWins = 0;
+  let bWins = 0;
+  let ties = 0;
+  for (const m of bySession.values()) {
+    const ra = m[aId];
+    const rb = m[bId];
+    if (ra === undefined || rb === undefined) continue;
+    meetings += 1;
+    if (ra < rb) aWins += 1;
+    else if (rb < ra) bWins += 1;
+    else ties += 1;
+  }
+  return { meetings, aWins, bWins, ties };
+}
+
+export interface AnswerSpeed {
+  avgMs: number;
+  bestMs: number;
+  count: number;
+}
+
+/** Vitesse de réponse (moyenne, meilleur temps) d'un joueur, sur les réponses chronométrées. */
+export function answerSpeed(answers: readonly StatAnswer[], playerId?: string): AnswerSpeed {
+  let sum = 0;
+  let count = 0;
+  let best = Infinity;
+  for (const a of answers) {
+    if (playerId && a.playerId !== playerId) continue;
+    if (a.timeMs == null) continue;
+    sum += a.timeMs;
+    count += 1;
+    if (a.timeMs < best) best = a.timeMs;
+  }
+  return { avgMs: count > 0 ? sum / count : 0, bestMs: count > 0 ? best : 0, count };
+}

@@ -1,6 +1,8 @@
 import type { Player } from './models';
 import {
+  answerSpeed,
   funFacts,
+  headToHead,
   inPeriod,
   lastPlayedByPlayer,
   periodStart,
@@ -197,5 +199,54 @@ describe('lastPlayedByPlayer', () => {
 
   test('empty input yields an empty map', () => {
     expect(lastPlayedByPlayer([])).toEqual({});
+  });
+});
+
+describe('headToHead', () => {
+  test('compte les victoires par session où les deux ont joué', () => {
+    // session 1 : p1 rang1, p2 rang2 → A gagne ; session 2 : inverse → B gagne
+    const h = headToHead(results, 'p1', 'p2');
+    expect(h.meetings).toBe(2);
+    expect(h.aWins).toBe(1);
+    expect(h.bWins).toBe(1);
+    expect(h.ties).toBe(0);
+  });
+
+  test('ignore les sessions où un seul des deux a joué', () => {
+    const solo: StatResult[] = [
+      { sessionId: 9, gameId: 'quiz', startedAt: JAN, playerId: 'p1', points: 10, rank: 1, sipsDrunk: 0, sipsGiven: 0 },
+    ];
+    expect(headToHead(solo, 'p1', 'p2').meetings).toBe(0);
+  });
+
+  test('compte les égalités de rang', () => {
+    const tie: StatResult[] = [
+      { sessionId: 5, gameId: 'q', startedAt: JAN, playerId: 'p1', points: 5, rank: 1, sipsDrunk: 0, sipsGiven: 0 },
+      { sessionId: 5, gameId: 'q', startedAt: JAN, playerId: 'p2', points: 5, rank: 1, sipsDrunk: 0, sipsGiven: 0 },
+    ];
+    const h = headToHead(tie, 'p1', 'p2');
+    expect(h.ties).toBe(1);
+    expect(h.aWins).toBe(0);
+    expect(h.bWins).toBe(0);
+  });
+});
+
+describe('answerSpeed', () => {
+  test('calcule moyenne, meilleur temps et nombre de réponses chronométrées', () => {
+    const s = answerSpeed(answers, 'p1');
+    // p1 : 1000,2000,1500,900,5000 → best 900, avg 2080
+    expect(s.count).toBe(5);
+    expect(s.bestMs).toBe(900);
+    expect(Math.round(s.avgMs)).toBe(2080);
+  });
+
+  test('ignore les réponses sans temps et gère l\'absence de données', () => {
+    const noTime: StatAnswer[] = [
+      { gameId: 'q', startedAt: JAN, playerId: 'p3', theme: 'manga', difficulty: 1, correct: true, hintsUsed: 0, timeMs: null, points: 10 },
+    ];
+    const s = answerSpeed(noTime, 'p3');
+    expect(s.count).toBe(0);
+    expect(s.avgMs).toBe(0);
+    expect(s.bestMs).toBe(0);
   });
 });
