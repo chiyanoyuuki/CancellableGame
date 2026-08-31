@@ -1,3 +1,4 @@
+import { aliasGame } from './alias';
 import { bombeGame } from './bombe';
 import { cultureOuGageGame } from './cultureougage';
 import { duelGame } from './duel';
@@ -21,6 +22,7 @@ export const MINI_GAMES: MiniGameDefinition[] = [
   tuPreferesGame,
   quiDeNousGame,
   cultureOuGageGame,
+  aliasGame,
 ];
 
 export function getGame(id: string): MiniGameDefinition | null {

@@ -1253,6 +1253,43 @@ export const EN: Record<string, string> = {
   'Changer de thème': 'Change theme',
   '{n}/{total} · {m} bonnes': '{n}/{total} · {m} correct',
 
+  // --- Fais deviner / Alias (mode) ------------------------------------------
+  'Fais deviner': 'Describe it',
+  '🗣️ Fais deviner': '🗣️ Describe it',
+  'En équipes : fais deviner un maximum de mots aux tiens sans les prononcer, contre le chrono.':
+    'In teams: get your teammates to guess as many words as possible without saying them, against the clock.',
+  "En équipes, fais deviner un maximum de mots aux tiens sans les prononcer, contre le chrono. Chaque mot trouvé rapporte un point. Rires et cris garantis.":
+    'In teams, get your teammates to guess as many words as possible without saying them, against the clock. Each word found scores a point. Shouting guaranteed.',
+  "À son tour, une équipe désigne un « décriveur » qui tient le téléphone.":
+    'On its turn, a team picks a “describer” who holds the phone.',
+  'Il voit un mot et le fait deviner à son équipe SANS le dire (ni traduction, ni « ça rime avec »).':
+    'They see a word and get their team to guess it WITHOUT saying it (no translation, no “rhymes with”).',
+  'Chaque mot trouvé = 1 point. On peut passer un mot trop dur.':
+    'Each word found = 1 point. You can skip a word that’s too hard.',
+  "Au temps écoulé, on passe à l'équipe suivante. La plus haute après le même nombre de tours gagne.":
+    'When time’s up, the next team plays. Highest after the same number of turns wins.',
+  '{n} équipes': '{n} teams',
+  'Répartissez-vous physiquement : {teams}.': 'Split up physically: {teams}.',
+  'Tours par équipe': 'Turns per team',
+  'Durée du tour': 'Turn length',
+  'Lancer Fais deviner': 'Start Describe It',
+  'Il faut au moins 4 joueurs (2 par équipe).': 'You need at least 4 players (2 per team).',
+  Rouges: 'Reds',
+  Bleus: 'Blues',
+  Verts: 'Greens',
+  Jaunes: 'Yellows',
+  'tour {n}/{total}': 'turn {n}/{total}',
+  '{name}, à vous !': '{name}, your turn!',
+  'Le décriveur prend le téléphone. Prêt ? Le chrono démarre au « Go ».':
+    'The describer takes the phone. Ready? The timer starts on “Go”.',
+  'Go ! 🚀': 'Go! 🚀',
+  '⤳ Passer': '⤳ Skip',
+  '✓ Trouvé': '✓ Got it',
+  'Terminer le tour': 'End the turn',
+  '{n} mots trouvés !': '{n} words found!',
+  SCORES: 'SCORES',
+  'Équipe suivante': 'Next team',
+
   // --- Triage des signalements ----------------------------------------------
   'signalée {n} fois': 'reported {n} time',
   'signalée {n}×': 'reported {n}×',
