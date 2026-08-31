@@ -1060,6 +1060,14 @@ export const EN: Record<string, string> = {
   'Lecture vocale 🔊': 'Read aloud 🔊',
   "Lire l'énoncé des questions à voix haute (utile en soirée).": 'Read questions aloud (handy at parties).',
 
+  // --- Rappel quotidien (Réglages) ------------------------------------------
+  'Rappel quotidien 🔔': 'Daily reminder 🔔',
+  'Une notification à 19h pour ne pas perdre ta série.': 'A 7pm notification so you keep your streak.',
+  'Défi du jour Cancellable': 'Cancellable daily challenge',
+  'Ton défi du jour t’attend — garde ta série ! 🔥': 'Your daily challenge is ready — keep your streak! 🔥',
+  'Notifications refusées': 'Notifications denied',
+  'Autorise les notifications pour recevoir le rappel.': 'Allow notifications to receive the reminder.',
+
   // --- Triage des signalements ----------------------------------------------
   'signalée {n} fois': 'reported {n} time',
   'signalée {n}×': 'reported {n}×',

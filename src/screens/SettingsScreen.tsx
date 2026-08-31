@@ -1,16 +1,17 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Alert, Switch, View } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 
 import { Button, Card, Screen, SectionHeader, Segmented, Txt } from '../components/ui';
-import { type BackupData, exportAll, getReportedCount, importAll, kvSetJSON, resetDb } from '../db';
+import { type BackupData, exportAll, getReportedCount, importAll, kvGetJSON, kvSetJSON, resetDb } from '../db';
 import { useAvatarFrames } from '../lib/avatarFrames';
 import { areHapticsEnabled, setHapticsEnabled } from '../lib/haptics';
 import { isSpeechEnabled, setSpeechEnabled } from '../lib/speech';
+import { cancelDailyReminder, scheduleDailyReminder } from '../lib/notifications';
 import { useI18n, useT } from '../lib/i18nProvider';
 import { useTextScale } from '../lib/textScale';
 import type { RootStackParamList } from '../navigation';
@@ -49,6 +50,29 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
     setSpeech(on);
     setSpeechEnabled(on);
     void kvSetJSON('ui:speech', on);
+  };
+
+  const [reminder, setReminder] = useState(false);
+  useEffect(() => {
+    void kvGetJSON<boolean>('ui:dailyReminder', false).then(setReminder);
+  }, []);
+  const toggleReminder = async (on: boolean) => {
+    if (on) {
+      const ok = await scheduleDailyReminder(
+        t('Défi du jour Cancellable'),
+        t('Ton défi du jour t’attend — garde ta série ! 🔥'),
+      );
+      if (!ok) {
+        Alert.alert(t('Notifications refusées'), t('Autorise les notifications pour recevoir le rappel.'));
+        return; // on laisse l'interrupteur sur off
+      }
+      setReminder(true);
+      void kvSetJSON('ui:dailyReminder', true);
+    } else {
+      await cancelDailyReminder();
+      setReminder(false);
+      void kvSetJSON('ui:dailyReminder', false);
+    }
   };
 
   // Le sélecteur de taille compare des chaînes ; on prend la valeur exacte la plus proche.
@@ -169,6 +193,18 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
           <Switch
             value={speech}
             onValueChange={toggleSpeech}
+            trackColor={{ true: colors.primary, false: colors.border }}
+            thumbColor={colors.white}
+          />
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing(1), marginTop: spacing(2) }}>
+          <View style={{ flex: 1 }}>
+            <Txt weight="700">{t('Rappel quotidien 🔔')}</Txt>
+            <Txt faint size={fontSize.xs}>{t('Une notification à 19h pour ne pas perdre ta série.')}</Txt>
+          </View>
+          <Switch
+            value={reminder}
+            onValueChange={(on) => void toggleReminder(on)}
             trackColor={{ true: colors.primary, false: colors.border }}
             thumbColor={colors.white}
           />
