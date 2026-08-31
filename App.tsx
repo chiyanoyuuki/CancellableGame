@@ -11,6 +11,7 @@ import { initDatabase, kvGetJSON, mostRecentSavedGame } from './src/db';
 import { AvatarFramesProvider } from './src/lib/avatarFrames';
 import { setHapticsEnabled } from './src/lib/haptics';
 import { setSpeechEnabled } from './src/lib/speech';
+import { setSoundEnabled } from './src/lib/sounds';
 import { scheduleDailyReminder } from './src/lib/notifications';
 import { I18nProvider } from './src/lib/i18nProvider';
 import { TextScaleProvider } from './src/lib/textScale';
@@ -87,6 +88,12 @@ function AppInner() {
       // Préférence de lecture vocale (Réglages).
       try {
         setSpeechEnabled(await kvGetJSON<boolean>('ui:speech', false));
+      } catch {
+        // best-effort
+      }
+      // Préférence d'effets sonores (Réglages).
+      try {
+        setSoundEnabled(await kvGetJSON<boolean>('ui:sound', false));
       } catch {
         // best-effort
       }

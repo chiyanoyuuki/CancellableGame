@@ -11,6 +11,7 @@ import { type BackupData, exportAll, getReportedCount, importAll, kvGetJSON, kvS
 import { useAvatarFrames } from '../lib/avatarFrames';
 import { areHapticsEnabled, setHapticsEnabled } from '../lib/haptics';
 import { isSpeechEnabled, setSpeechEnabled } from '../lib/speech';
+import { isSoundEnabled, setSoundEnabled } from '../lib/sounds';
 import { cancelDailyReminder, scheduleDailyReminder } from '../lib/notifications';
 import { currentThemeMode, setAppTheme } from '../lib/appTheme';
 import type { ThemeMode } from '../theme/theme';
@@ -57,6 +58,13 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
     setSpeech(on);
     setSpeechEnabled(on);
     void kvSetJSON('ui:speech', on);
+  };
+
+  const [sound, setSound] = useState(isSoundEnabled());
+  const toggleSound = (on: boolean) => {
+    setSound(on);
+    setSoundEnabled(on);
+    void kvSetJSON('ui:sound', on);
   };
 
   const [theme, setTheme] = useState<ThemeMode>(currentThemeMode());
@@ -226,6 +234,18 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
           <Switch
             value={speech}
             onValueChange={toggleSpeech}
+            trackColor={{ true: colors.primary, false: colors.border }}
+            thumbColor={colors.white}
+          />
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing(1), marginTop: spacing(2) }}>
+          <View style={{ flex: 1 }}>
+            <Txt weight="700">{t('Effets sonores 🎶')}</Txt>
+            <Txt faint size={fontSize.xs}>{t('Petits sons de jeu (bonne/mauvaise réponse, compte à rebours, victoire).')}</Txt>
+          </View>
+          <Switch
+            value={sound}
+            onValueChange={toggleSound}
             trackColor={{ true: colors.primary, false: colors.border }}
             thumbColor={colors.white}
           />

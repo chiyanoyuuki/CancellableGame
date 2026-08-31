@@ -3,6 +3,7 @@ import { duelGame } from './duel';
 import { duelUltimeGame } from './duelultime';
 import { imposteurGame } from './imposteur';
 import { quizGame } from './quiz';
+import { tuPreferesGame } from './tupreferes';
 import type { MiniGameDefinition } from './types';
 
 /**
@@ -15,6 +16,7 @@ export const MINI_GAMES: MiniGameDefinition[] = [
   duelGame,
   duelUltimeGame,
   imposteurGame,
+  tuPreferesGame,
 ];
 
 export function getGame(id: string): MiniGameDefinition | null {

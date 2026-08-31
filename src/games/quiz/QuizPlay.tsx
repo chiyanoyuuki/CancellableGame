@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button, Card, PlayerAvatar, ProgressBar, Txt } from '../../components/ui';
 import { haptics } from '../../lib/haptics';
+import { sounds } from '../../lib/sounds';
 import { speak, stopSpeaking } from '../../lib/speech';
 import { useT } from '../../lib/i18nProvider';
 import { DRINK_CHALLENGES, resolveChallenge } from '../../core/drinks';
@@ -43,8 +44,13 @@ import type { MiniGamePlayProps } from '../types';
 import { getQuizPool } from './pool';
 
 function haptic(success: boolean) {
-  if (success) haptics.correct();
-  else haptics.wrong();
+  if (success) {
+    haptics.correct();
+    sounds.correct();
+  } else {
+    haptics.wrong();
+    sounds.wrong();
+  }
 }
 
 // Précharge dans le cache disque toutes les images d'un round (« Image mystère »),

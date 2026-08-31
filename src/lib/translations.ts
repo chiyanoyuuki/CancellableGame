@@ -1078,6 +1078,43 @@ export const EN: Record<string, string> = {
   'Thème enregistré': 'Theme saved',
   "Redémarre l'application pour appliquer le nouveau thème.": 'Restart the app to apply the new theme.',
 
+  // --- Effets sonores (Réglages) --------------------------------------------
+  'Effets sonores 🎶': 'Sound effects 🎶',
+  'Petits sons de jeu (bonne/mauvaise réponse, compte à rebours, victoire).':
+    'Little game sounds (right/wrong answer, countdown, victory).',
+
+  // --- Tu préfères ? (mode) -------------------------------------------------
+  'Tu préfères ?': 'Would you rather?',
+  '🤔 Tu préfères ?': '🤔 Would you rather?',
+  'Un dilemme, deux options. Chacun vote en secret, on révèle le partage — et un camp trinque.':
+    'One dilemma, two options. Everyone votes in secret, the split is revealed — and one side drinks.',
+  'Un dilemme, deux options, aucune bonne réponse. Chacun vote en secret, on révèle le partage — et le camp minoritaire trinque. Débats garantis.':
+    'One dilemma, two options, no right answer. Everyone votes in secret, the split is revealed — and the minority drinks. Debates guaranteed.',
+  'On se passe le téléphone : chacun vote A ou B en secret, puis passe au suivant.':
+    'Pass the phone around: everyone votes A or B in secret, then hands it on.',
+  'Une fois tout le monde a voté, on révèle le partage des voix.':
+    'Once everyone has voted, the vote split is revealed.',
+  'Par défaut, la minorité (les originaux !) boit, et la majorité marque un point.':
+    'By default the minority (the originals!) drinks, and the majority scores a point.',
+  'Égalité parfaite ? Tout le monde trinque 🥂.': 'Perfect tie? Everyone drinks 🥂.',
+  'Qui boit ?': 'Who drinks?',
+  'La minorité': 'The minority',
+  'La majorité': 'The majority',
+  'Le petit camp assume ses goûts… et boit 😏.': 'The small camp owns its taste… and drinks 😏.',
+  'Le grand camp boit : les moutons trinquent !': 'The big camp drinks: the sheep pay up!',
+  'Lancer Tu préfères': 'Start Would You Rather',
+  'Il faut au moins 2 joueurs.': 'You need at least 2 players.',
+  '🤔 Manche {n}/{total}': '🤔 Round {n}/{total}',
+  'Toi seul(e) votes, puis tu passes au suivant.': 'Only you vote, then pass to the next player.',
+  'Voter en secret': 'Vote in secret',
+  'TU PRÉFÈRES…': 'WOULD YOU RATHER…',
+  '— ou —': '— or —',
+  RÉSULTAT: 'RESULT',
+  '{pct}% ont préféré A': '{pct}% chose A',
+  '🥂 Égalité — tout le monde trinque !': '🥂 Tie — everyone drinks!',
+  'Le camp minoritaire boit.': 'The minority side drinks.',
+  'Le camp majoritaire boit.': 'The majority side drinks.',
+
   // --- Triage des signalements ----------------------------------------------
   'signalée {n} fois': 'reported {n} time',
   'signalée {n}×': 'reported {n}×',
