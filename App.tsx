@@ -1,4 +1,4 @@
-import { DarkTheme, type InitialState, NavigationContainer } from '@react-navigation/native';
+import { DarkTheme, DefaultTheme, type InitialState, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { type ReactNode, useEffect, useState } from 'react';
@@ -36,14 +36,14 @@ import { SoloQuizScreen } from './src/screens/SoloQuizScreen';
 import { StatsScreen } from './src/screens/StatsScreen';
 import { StoreScreen } from './src/screens/StoreScreen';
 import { StoreProvider, useStore } from './src/store/StoreProvider';
-import { colors } from './src/theme/theme';
+import { colors, themeMode } from './src/theme/theme';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const navTheme = {
-  ...DarkTheme,
+  ...(themeMode === 'light' ? DefaultTheme : DarkTheme),
   colors: {
-    ...DarkTheme.colors,
+    ...(themeMode === 'light' ? DefaultTheme : DarkTheme).colors,
     background: colors.bg,
     card: colors.bg,
     text: colors.text,
@@ -55,7 +55,7 @@ const navTheme = {
 export default function App() {
   return (
     <SafeAreaProvider>
-      <StatusBar style="light" />
+      <StatusBar style={themeMode === 'light' ? 'dark' : 'light'} />
       <I18nProvider>
         <TextScaleProvider>
           <StoreProvider>

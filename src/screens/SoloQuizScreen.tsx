@@ -185,10 +185,10 @@ export function SoloQuizScreen({ navigation, route }: NativeStackScreenProps<Roo
             let border = colors.border;
             if (selected) {
               if (isAnswer) {
-                bg = '#17352a';
+                bg = colors.successBg;
                 border = colors.success;
               } else if (isPicked) {
-                bg = '#3a1f28';
+                bg = colors.dangerBg;
                 border = colors.danger;
               }
             }

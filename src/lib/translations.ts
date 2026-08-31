@@ -1068,6 +1068,16 @@ export const EN: Record<string, string> = {
   'Notifications refusées': 'Notifications denied',
   'Autorise les notifications pour recevoir le rappel.': 'Allow notifications to receive the reminder.',
 
+  // --- Thème clair / sombre (Réglages) --------------------------------------
+  // (« Thème » est déjà traduit plus haut.)
+  "Thème de l'application": 'App theme',
+  Sombre: 'Dark',
+  Clair: 'Light',
+  'Le thème sombre est idéal en soirée. Le changement redémarre l’application.':
+    'Dark theme is best for parties. Changing it restarts the app.',
+  'Thème enregistré': 'Theme saved',
+  "Redémarre l'application pour appliquer le nouveau thème.": 'Restart the app to apply the new theme.',
+
   // --- Triage des signalements ----------------------------------------------
   'signalée {n} fois': 'reported {n} time',
   'signalée {n}×': 'reported {n}×',

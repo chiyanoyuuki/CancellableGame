@@ -12,6 +12,8 @@ import { useAvatarFrames } from '../lib/avatarFrames';
 import { areHapticsEnabled, setHapticsEnabled } from '../lib/haptics';
 import { isSpeechEnabled, setSpeechEnabled } from '../lib/speech';
 import { cancelDailyReminder, scheduleDailyReminder } from '../lib/notifications';
+import { currentThemeMode, setAppTheme } from '../lib/appTheme';
+import type { ThemeMode } from '../theme/theme';
 import { useI18n, useT } from '../lib/i18nProvider';
 import { useTextScale } from '../lib/textScale';
 import type { RootStackParamList } from '../navigation';
@@ -27,6 +29,11 @@ const TEXT_SIZES = [
 const LANGUAGES = [
   { label: 'Français', value: 'fr' as const },
   { label: 'English', value: 'en' as const },
+];
+
+const THEMES = [
+  { label: 'Sombre', value: 'dark' as const },
+  { label: 'Clair', value: 'light' as const },
 ];
 
 export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'Settings'>) {
@@ -50,6 +57,17 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
     setSpeech(on);
     setSpeechEnabled(on);
     void kvSetJSON('ui:speech', on);
+  };
+
+  const [theme, setTheme] = useState<ThemeMode>(currentThemeMode());
+  const changeTheme = async (mode: ThemeMode) => {
+    if (mode === theme) return; // déjà sélectionné
+    setTheme(mode);
+    const reloaded = await setAppTheme(mode);
+    // En build de prod, pas de rechargement auto : on prévient l'utilisateur.
+    if (!reloaded) {
+      Alert.alert(t('Thème enregistré'), t("Redémarre l'application pour appliquer le nouveau thème."));
+    }
   };
 
   const [reminder, setReminder] = useState(false);
@@ -163,6 +181,21 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
         </View>
         <Txt faint size={fontSize.xs} style={{ marginTop: spacing(1) }}>
           {t('Les questions du quiz restent en français.')}
+        </Txt>
+      </Card>
+
+      <SectionHeader title={t('Thème')} />
+      <Card>
+        <Txt weight="700">{t("Thème de l'application")}</Txt>
+        <View style={{ marginTop: spacing(1) }}>
+          <Segmented<ThemeMode>
+            value={theme}
+            onChange={(v) => void changeTheme(v)}
+            options={THEMES.map((o) => ({ label: t(o.label), value: o.value }))}
+          />
+        </View>
+        <Txt faint size={fontSize.xs} style={{ marginTop: spacing(1) }}>
+          {t('Le thème sombre est idéal en soirée. Le changement redémarre l’application.')}
         </Txt>
       </Card>
 
