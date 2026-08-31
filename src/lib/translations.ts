@@ -1242,6 +1242,17 @@ export const EN: Record<string, string> = {
   'Taux de bonnes réponses par thème (le plus large = le plus fort).':
     'Correct-answer rate by theme (wider = stronger).',
 
+  // --- Entraînement par thème (solo) ----------------------------------------
+  Entraînement: 'Practice',
+  'Entraînement par thème': 'Practice by theme',
+  'Choisis un thème et enchaîne, sans pression': 'Pick a theme and go, no pressure',
+  // (« Thèmes » est déjà traduit plus haut.)
+  'Aucun thème jouable pour le moment.': 'No playable theme right now.',
+  '{n}/{total} bonnes réponses': '{n}/{total} correct answers',
+  'Encore ce thème': 'Same theme again',
+  'Changer de thème': 'Change theme',
+  '{n}/{total} · {m} bonnes': '{n}/{total} · {m} correct',
+
   // --- Triage des signalements ----------------------------------------------
   'signalée {n} fois': 'reported {n} time',
   'signalée {n}×': 'reported {n}×',

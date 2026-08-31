@@ -256,6 +256,7 @@ export function DailyChallengeScreen({ navigation, route }: NativeStackScreenPro
         <View style={{ gap: spacing(1) }}>
           <Button title={t('Survie')} emoji="💀" variant="secondary" onPress={() => navigation.navigate('SoloQuiz', { mode: 'survie' })} />
           <Button title={t('Contre-la-montre')} emoji="⏱️" variant="secondary" onPress={() => navigation.navigate('SoloQuiz', { mode: 'chrono' })} />
+          <Button title={t('Entraînement par thème')} emoji="🎯" variant="secondary" onPress={() => navigation.navigate('Entrainement')} />
         </View>
       </Screen>
     );
