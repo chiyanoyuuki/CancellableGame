@@ -2,10 +2,14 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useState } from 'react';
 import { Alert, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import * as DocumentPicker from 'expo-document-picker';
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
 
 import { Button, Card, Chip, Screen, SectionHeader, Segmented, Txt } from '../components/ui';
 import type { DrinkChallenge } from '../core/drinks';
 import { type Difficulty, DIFFICULTY_LABELS, THEME_META, THEMES, type Theme } from '../core/models';
+import { type CustomPack, decodePack, encodePack } from '../core/packCodec';
 import {
   addCustomChallenge,
   addCustomQuestion,
@@ -43,6 +47,7 @@ export function CustomContentScreen({ navigation }: NativeStackScreenProps<RootS
   const [hint, setHint] = useState('');
 
   const [challengeText, setChallengeText] = useState('');
+  const [busy, setBusy] = useState(false);
 
   const refresh = useCallback(async () => {
     const [q, c] = await Promise.all([listCustomQuestions(), listCustomChallenges()]);
@@ -114,8 +119,97 @@ export function CustomContentScreen({ navigation }: NativeStackScreenProps<RootS
       },
     ]);
 
+  // Exporte questions + défis perso dans un fichier .json partageable.
+  const exportPack = async () => {
+    if (questions.length === 0 && challenges.length === 0) {
+      Alert.alert(tr('Rien à partager'), tr('Crée au moins une question ou un défi.'));
+      return;
+    }
+    try {
+      setBusy(true);
+      const pack: CustomPack = {
+        questions: questions.map((q) => ({
+          theme: q.theme,
+          universe: q.universe,
+          difficulty: q.difficulty,
+          text: q.text,
+          answer: q.answer,
+          acceptable: q.acceptable,
+          distractors: q.distractors,
+          hints: q.hints,
+        })),
+        challenges: challenges.map((c) => c.text),
+      };
+      const raw = encodePack(pack);
+      const uri = `${FileSystem.documentDirectory ?? FileSystem.cacheDirectory}cancellable-pack-${Date.now()}.json`;
+      await FileSystem.writeAsStringAsync(uri, raw);
+      if (await Sharing.isAvailableAsync()) {
+        await Sharing.shareAsync(uri, { mimeType: 'application/json', dialogTitle: tr('Partager mon pack') });
+      } else {
+        Alert.alert(tr('Pack créé'), uri);
+      }
+    } catch (e) {
+      Alert.alert(tr('Erreur'), String(e));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  // Importe un pack .json (contenu NON fiable : decodePack valide et borne tout).
+  const importPack = async () => {
+    try {
+      const res = await DocumentPicker.getDocumentAsync({ type: '*/*', copyToCacheDirectory: true });
+      if (res.canceled || !res.assets?.[0]) return;
+      const raw = await FileSystem.readAsStringAsync(res.assets[0].uri);
+      const pack = decodePack(raw);
+      if (!pack) {
+        Alert.alert(tr('Pack invalide'), tr("Ce fichier n'est pas un pack Cancellable valide."));
+        return;
+      }
+      Alert.alert(
+        tr('Importer ce pack ?'),
+        tr('{q} questions et {c} défis seront ajoutés à ton contenu.', { q: pack.questions.length, c: pack.challenges.length }),
+        [
+          { text: tr('Annuler'), style: 'cancel' },
+          {
+            text: tr('Importer'),
+            onPress: async () => {
+              setBusy(true);
+              try {
+                for (const q of pack.questions) await addCustomQuestion(q);
+                for (const c of pack.challenges) await addCustomChallenge(c);
+                await refresh();
+                Alert.alert(
+                  tr('Import terminé'),
+                  tr('{q} questions et {c} défis ajoutés.', { q: pack.questions.length, c: pack.challenges.length }),
+                );
+              } catch (e) {
+                Alert.alert(tr('Erreur'), String(e));
+              } finally {
+                setBusy(false);
+              }
+            },
+          },
+        ],
+      );
+    } catch (e) {
+      Alert.alert(tr('Erreur'), String(e));
+    }
+  };
+
   return (
     <Screen title={tr('Mon contenu')} subtitle={tr('Ajoute tes propres questions et défis')} onBack={() => navigation.goBack()} scroll>
+      <SectionHeader title={tr('Partage de packs')} />
+      <Card>
+        <Txt dim size={fontSize.sm} style={{ marginBottom: spacing(1.5) }}>
+          {tr('Exporte tes questions et défis dans un fichier à envoyer à tes amis — ou importe le leur.')}
+        </Txt>
+        <View style={{ gap: spacing(1) }}>
+          <Button title={tr('Partager mon pack')} emoji="📤" variant="secondary" onPress={() => void exportPack()} loading={busy} />
+          <Button title={tr('Importer un pack')} emoji="📥" variant="secondary" onPress={() => void importPack()} disabled={busy} />
+        </View>
+      </Card>
+
       <SectionHeader title={tr('Nouvelle question')} />
       <Card>
         <Txt faint size={fontSize.xs} weight="800">

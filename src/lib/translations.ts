@@ -1204,6 +1204,22 @@ export const EN: Record<string, string> = {
   '{n}/{total} · {m} maîtrisées': '{n}/{total} · {m} mastered',
   'Voir le bilan': 'See summary',
 
+  // --- Partage de packs de contenu perso ------------------------------------
+  'Partage de packs': 'Pack sharing',
+  'Exporte tes questions et défis dans un fichier à envoyer à tes amis — ou importe le leur.':
+    'Export your questions and dares to a file to send to friends — or import theirs.',
+  'Partager mon pack': 'Share my pack',
+  'Importer un pack': 'Import a pack',
+  'Rien à partager': 'Nothing to share',
+  'Crée au moins une question ou un défi.': 'Create at least one question or dare.',
+  'Pack créé': 'Pack created',
+  'Pack invalide': 'Invalid pack',
+  "Ce fichier n'est pas un pack Cancellable valide.": 'This file is not a valid Cancellable pack.',
+  'Importer ce pack ?': 'Import this pack?',
+  '{q} questions et {c} défis seront ajoutés à ton contenu.':
+    '{q} questions and {c} dares will be added to your content.',
+  '{q} questions et {c} défis ajoutés.': '{q} questions and {c} dares added.',
+
   // --- Triage des signalements ----------------------------------------------
   'signalée {n} fois': 'reported {n} time',
   'signalée {n}×': 'reported {n}×',
