@@ -1115,6 +1115,31 @@ export const EN: Record<string, string> = {
   'Le camp minoritaire boit.': 'The minority side drinks.',
   'Le camp majoritaire boit.': 'The majority side drinks.',
 
+  // --- Qui est le plus susceptible… ? (mode) --------------------------------
+  'Qui de nous… ?': 'Which of us… ?',
+  '🙋 Qui est le plus susceptible… ?': '🙋 Who is most likely to… ?',
+  'Une affirmation, tout le monde désigne un joueur en secret. Le plus pointé du doigt trinque.':
+    'One statement, everyone secretly points at a player. The most pointed-at drinks.',
+  'Une affirmation, tout le monde désigne un joueur en secret. Le plus pointé du doigt trinque et devient la vedette de la manche. Fous rires garantis.':
+    'One statement, everyone secretly points at a player. The most pointed-at drinks and becomes the round’s star. Belly laughs guaranteed.',
+  'On se passe le téléphone : chacun désigne en secret le joueur qui colle le mieux, puis passe au suivant.':
+    'Pass the phone: everyone secretly points at the player who fits best, then hands it on.',
+  'Une fois tout le monde a voté, on révèle le décompte des doigts pointés.':
+    'Once everyone has voted, the tally of pointed fingers is revealed.',
+  'Le plus désigné boit autant de gorgées que de votes reçus — et devient la vedette de la manche.':
+    'The most-picked drinks as many sips as votes received — and becomes the round’s star.',
+  'Classement final : la plus grosse vedette de la soirée 🌟.':
+    'Final ranking: the biggest star of the night 🌟.',
+  'Lancer Qui est le plus susceptible': 'Start Most Likely To',
+  '🙋 Manche {n}/{total}': '🙋 Round {n}/{total}',
+  'QUI EST LE PLUS SUSCEPTIBLE…': 'WHO IS MOST LIKELY TO…',
+  '🌟 Ex æquo : {names}': '🌟 Tied: {names}',
+  '🌟 {names}': '🌟 {names}',
+  '{n} doigts pointés': '{n} fingers pointed',
+  '{n} doigt pointé': '{n} finger pointed',
+  DÉCOMPTE: 'TALLY',
+  'VEDETTES DE LA SOIRÉE': 'STARS OF THE NIGHT',
+
   // --- Triage des signalements ----------------------------------------------
   'signalée {n} fois': 'reported {n} time',
   'signalée {n}×': 'reported {n}×',
