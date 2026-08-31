@@ -1042,4 +1042,8 @@ export const EN: Record<string, string> = {
   // --- Lecture vocale (Réglages) --------------------------------------------
   'Lecture vocale 🔊': 'Read aloud 🔊',
   "Lire l'énoncé des questions à voix haute (utile en soirée).": 'Read questions aloud (handy at parties).',
+
+  // --- Triage des signalements ----------------------------------------------
+  'signalée {n} fois': 'reported {n} time',
+  'signalée {n}×': 'reported {n}×',
 };
