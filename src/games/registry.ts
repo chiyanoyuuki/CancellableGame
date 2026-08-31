@@ -1,4 +1,5 @@
 import { bombeGame } from './bombe';
+import { cultureOuGageGame } from './cultureougage';
 import { duelGame } from './duel';
 import { duelUltimeGame } from './duelultime';
 import { imposteurGame } from './imposteur';
@@ -19,6 +20,7 @@ export const MINI_GAMES: MiniGameDefinition[] = [
   imposteurGame,
   tuPreferesGame,
   quiDeNousGame,
+  cultureOuGageGame,
 ];
 
 export function getGame(id: string): MiniGameDefinition | null {

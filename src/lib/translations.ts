@@ -1155,6 +1155,34 @@ export const EN: Record<string, string> = {
   'Les nouveaux modes démarrent sans gorgées et la Roue s’ouvre sur les gages soft.':
     'New modes start without sips and the Wheel opens on soft dares.',
 
+  // --- Culture ou gage (mode) -----------------------------------------------
+  'Culture ou gage': 'Trivia or dare',
+  '🎲 Culture ou gage': '🎲 Trivia or dare',
+  'Une question éclair à ton tour. Tu sais ? +1 point. Tu sèches ? Tu piges un gage.':
+    'A flash question on your turn. Know it? +1 point. Stumped? Draw a dare.',
+  "Une question éclair à ton tour : bonne réponse, +1 point ; mauvaise réponse, tu piges un gage (et des gorgées si tu veux). Le quiz qui pimente la soirée.":
+    'A flash question on your turn: right answer, +1 point; wrong answer, draw a dare (and sips if you like). The quiz that spices up the party.',
+  'Le téléphone tourne : à ton tour, tu as une question à choix multiple.':
+    'The phone goes around: on your turn you get a multiple-choice question.',
+  'Bonne réponse : +1 point, tu passes tranquille.': 'Right answer: +1 point, you’re safe.',
+  'Mauvaise réponse : tu piges un gage à faire (et des gorgées si le mode alcool est activé).':
+    'Wrong answer: draw a dare to do (and sips if alcohol mode is on).',
+  'Chacun a le même nombre de questions ; le plus cultivé gagne 🧠.':
+    'Everyone gets the same number of questions; the most knowledgeable wins 🧠.',
+  // (« Questions par joueur » est déjà traduit plus haut.)
+  'Le gage à faire est toujours « soft » (physique/fun) ; les gorgées s’ajoutent si le mode alcool est activé.':
+    'The dare is always “soft” (physical/fun); sips are added if alcohol mode is on.',
+  'Lancer Culture ou gage': 'Start Trivia or Dare',
+  '🎲 Question {n}/{total}': '🎲 Question {n}/{total}',
+  "C'est à {name}": "{name}’s turn",
+  'Bonne réponse ! +1': 'Correct! +1',
+  'Raté… gage !': 'Missed… dare!',
+  'La bonne réponse était': 'The correct answer was',
+  '🎭 Gage': '🎭 Dare',
+  '🍺 {name} : {n} gorgées': '🍺 {name}: {n} sips',
+  '🍺 {name} : {n} gorgée': '🍺 {name}: {n} sip',
+  'Joueur suivant': 'Next player',
+
   // --- Triage des signalements ----------------------------------------------
   'signalée {n} fois': 'reported {n} time',
   'signalée {n}×': 'reported {n}×',
