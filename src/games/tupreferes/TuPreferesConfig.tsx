@@ -4,6 +4,7 @@ import { StyleSheet, Switch, View } from 'react-native';
 import { Button, Card, HowToPlay, Segmented, SectionHeader, Txt } from '../../components/ui';
 import type { DrinkIntensity } from '../../core/models';
 import type { DrinkingSide, TuPreferesConfig } from '../../core/tupreferesEngine';
+import { isNoAlcohol } from '../../lib/drinkMode';
 import { useT } from '../../lib/i18nProvider';
 import { colors, fontSize, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
@@ -14,7 +15,7 @@ export function TuPreferesConfigComponent({ players, onStart }: MiniGameConfigPr
   const t = useT();
   const [rounds, setRounds] = useState(8);
   const [drinkingSide, setDrinkingSide] = useState<DrinkingSide>('minority');
-  const [drinksEnabled, setDrinksEnabled] = useState(true);
+  const [drinksEnabled, setDrinksEnabled] = useState(!isNoAlcohol());
   const [drinkIntensity, setDrinkIntensity] = useState<DrinkIntensity>('normal');
 
   const valid = players.length >= 2;

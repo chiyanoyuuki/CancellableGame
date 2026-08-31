@@ -1140,6 +1140,21 @@ export const EN: Record<string, string> = {
   DÉCOMPTE: 'TALLY',
   'VEDETTES DE LA SOIRÉE': 'STARS OF THE NIGHT',
 
+  // --- Roue des gages & mode sans alcool ------------------------------------
+  'Roue des gages': 'Dares wheel',
+  '🎡 Roue des gages': '🎡 Dares wheel',
+  'Un gage au hasard, quand vous voulez — pas besoin de lancer une partie.':
+    'A random dare, whenever you want — no need to start a game.',
+  'Sans alcool': 'Alcohol-free',
+  Alcool: 'Alcohol',
+  'Appuie sur « Tourner la roue » 👇': 'Tap “Spin the wheel” 👇',
+  'Tourner la roue': 'Spin the wheel',
+  'Tourner encore': 'Spin again',
+  Soirée: 'Party',
+  'Sans alcool 🚫🍺': 'Alcohol-free 🚫🍺',
+  'Les nouveaux modes démarrent sans gorgées et la Roue s’ouvre sur les gages soft.':
+    'New modes start without sips and the Wheel opens on soft dares.',
+
   // --- Triage des signalements ----------------------------------------------
   'signalée {n} fois': 'reported {n} time',
   'signalée {n}×': 'reported {n}×',

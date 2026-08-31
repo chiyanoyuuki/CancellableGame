@@ -12,6 +12,7 @@ import { AvatarFramesProvider } from './src/lib/avatarFrames';
 import { setHapticsEnabled } from './src/lib/haptics';
 import { setSpeechEnabled } from './src/lib/speech';
 import { setSoundEnabled } from './src/lib/sounds';
+import { setNoAlcohol } from './src/lib/drinkMode';
 import { scheduleDailyReminder } from './src/lib/notifications';
 import { I18nProvider } from './src/lib/i18nProvider';
 import { TextScaleProvider } from './src/lib/textScale';
@@ -34,6 +35,7 @@ import { SettingsScreen } from './src/screens/SettingsScreen';
 import { SoireeScreen } from './src/screens/SoireeScreen';
 import { DailyChallengeScreen } from './src/screens/DailyChallengeScreen';
 import { SoloQuizScreen } from './src/screens/SoloQuizScreen';
+import { RoueScreen } from './src/screens/RoueScreen';
 import { StatsScreen } from './src/screens/StatsScreen';
 import { StoreScreen } from './src/screens/StoreScreen';
 import { StoreProvider, useStore } from './src/store/StoreProvider';
@@ -97,6 +99,12 @@ function AppInner() {
       } catch {
         // best-effort
       }
+      // Préférence « Sans alcool » (Réglages).
+      try {
+        setNoAlcohol(await kvGetJSON<boolean>('ui:noAlcohol', false));
+      } catch {
+        // best-effort
+      }
       // Rappel quotidien : re-planifie si activé (au cas où l'OS l'aurait oublié).
       try {
         if (await kvGetJSON<boolean>('ui:dailyReminder', false)) {
@@ -155,6 +163,7 @@ function AppInner() {
           <Stack.Screen name="Soiree" component={SoireeScreen} />
           <Stack.Screen name="DailyChallenge" component={DailyChallengeScreen} />
           <Stack.Screen name="SoloQuiz" component={SoloQuizScreen} />
+          <Stack.Screen name="Roue" component={RoueScreen} />
           <Stack.Screen name="Lobby" component={LobbyScreen} />
           <Stack.Screen name="GameConfig" component={GameConfigScreen} />
           <Stack.Screen name="GamePlay" component={GamePlayScreen} options={{ gestureEnabled: false }} />

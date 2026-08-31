@@ -4,6 +4,7 @@ import { StyleSheet, Switch, View } from 'react-native';
 import { Button, Card, HowToPlay, Segmented, SectionHeader, Txt } from '../../components/ui';
 import type { DrinkIntensity } from '../../core/models';
 import type { QuiDeNousConfig } from '../../core/quidenousEngine';
+import { isNoAlcohol } from '../../lib/drinkMode';
 import { useT } from '../../lib/i18nProvider';
 import { colors, fontSize, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
@@ -13,7 +14,7 @@ const ROUND_OPTIONS = [5, 8, 12];
 export function QuiDeNousConfigComponent({ players, onStart }: MiniGameConfigProps) {
   const t = useT();
   const [rounds, setRounds] = useState(8);
-  const [drinksEnabled, setDrinksEnabled] = useState(true);
+  const [drinksEnabled, setDrinksEnabled] = useState(!isNoAlcohol());
   const [drinkIntensity, setDrinkIntensity] = useState<DrinkIntensity>('normal');
 
   const valid = players.length >= 3;

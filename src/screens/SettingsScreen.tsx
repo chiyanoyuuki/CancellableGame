@@ -12,6 +12,7 @@ import { useAvatarFrames } from '../lib/avatarFrames';
 import { areHapticsEnabled, setHapticsEnabled } from '../lib/haptics';
 import { isSpeechEnabled, setSpeechEnabled } from '../lib/speech';
 import { isSoundEnabled, setSoundEnabled } from '../lib/sounds';
+import { isNoAlcohol, setNoAlcohol } from '../lib/drinkMode';
 import { cancelDailyReminder, scheduleDailyReminder } from '../lib/notifications';
 import { currentThemeMode, setAppTheme } from '../lib/appTheme';
 import type { ThemeMode } from '../theme/theme';
@@ -65,6 +66,13 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
     setSound(on);
     setSoundEnabled(on);
     void kvSetJSON('ui:sound', on);
+  };
+
+  const [noAlcohol, setNoAlcoholState] = useState(isNoAlcohol());
+  const toggleNoAlcohol = (on: boolean) => {
+    setNoAlcoholState(on);
+    setNoAlcohol(on);
+    void kvSetJSON('ui:noAlcohol', on);
   };
 
   const [theme, setTheme] = useState<ThemeMode>(currentThemeMode());
@@ -273,6 +281,22 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
             value={frames.enabled}
             onValueChange={frames.setEnabled}
             trackColor={{ true: colors.primary, false: colors.border }}
+            thumbColor={colors.white}
+          />
+        </View>
+      </Card>
+
+      <SectionHeader title={t('Soirée')} />
+      <Card>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing(1) }}>
+          <View style={{ flex: 1 }}>
+            <Txt weight="700">{t('Sans alcool 🚫🍺')}</Txt>
+            <Txt faint size={fontSize.xs}>{t('Les nouveaux modes démarrent sans gorgées et la Roue s’ouvre sur les gages soft.')}</Txt>
+          </View>
+          <Switch
+            value={noAlcohol}
+            onValueChange={toggleNoAlcohol}
+            trackColor={{ true: colors.success, false: colors.border }}
             thumbColor={colors.white}
           />
         </View>
