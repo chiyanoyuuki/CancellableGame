@@ -1038,4 +1038,8 @@ export const EN: Record<string, string> = {
   '{pct}% de bonnes réponses': '{pct}% correct',
   Suivant: 'Next',
   Retour: 'Back',
+
+  // --- Lecture vocale (Réglages) --------------------------------------------
+  'Lecture vocale 🔊': 'Read aloud 🔊',
+  "Lire l'énoncé des questions à voix haute (utile en soirée).": 'Read questions aloud (handy at parties).',
 };

@@ -10,6 +10,7 @@ import { Button, Card, Screen, SectionHeader, Segmented, Txt } from '../componen
 import { type BackupData, exportAll, getReportedCount, importAll, kvSetJSON, resetDb } from '../db';
 import { useAvatarFrames } from '../lib/avatarFrames';
 import { areHapticsEnabled, setHapticsEnabled } from '../lib/haptics';
+import { isSpeechEnabled, setSpeechEnabled } from '../lib/speech';
 import { useI18n, useT } from '../lib/i18nProvider';
 import { useTextScale } from '../lib/textScale';
 import type { RootStackParamList } from '../navigation';
@@ -41,6 +42,13 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
     setHaptics(on);
     setHapticsEnabled(on);
     void kvSetJSON('ui:haptics', on);
+  };
+
+  const [speech, setSpeech] = useState(isSpeechEnabled());
+  const toggleSpeech = (on: boolean) => {
+    setSpeech(on);
+    setSpeechEnabled(on);
+    void kvSetJSON('ui:speech', on);
   };
 
   // Le sélecteur de taille compare des chaînes ; on prend la valeur exacte la plus proche.
@@ -149,6 +157,18 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
           <Switch
             value={haptics}
             onValueChange={toggleHaptics}
+            trackColor={{ true: colors.primary, false: colors.border }}
+            thumbColor={colors.white}
+          />
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing(1), marginTop: spacing(2) }}>
+          <View style={{ flex: 1 }}>
+            <Txt weight="700">{t('Lecture vocale 🔊')}</Txt>
+            <Txt faint size={fontSize.xs}>{t("Lire l'énoncé des questions à voix haute (utile en soirée).")}</Txt>
+          </View>
+          <Switch
+            value={speech}
+            onValueChange={toggleSpeech}
             trackColor={{ true: colors.primary, false: colors.border }}
             thumbColor={colors.white}
           />

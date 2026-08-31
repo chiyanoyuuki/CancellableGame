@@ -9,6 +9,7 @@ import { AnimatedSplash } from './src/components/AnimatedSplash';
 import { initDatabase, kvGetJSON, mostRecentSavedGame } from './src/db';
 import { AvatarFramesProvider } from './src/lib/avatarFrames';
 import { setHapticsEnabled } from './src/lib/haptics';
+import { setSpeechEnabled } from './src/lib/speech';
 import { I18nProvider } from './src/lib/i18nProvider';
 import { TextScaleProvider } from './src/lib/textScale';
 import type { RootStackParamList } from './src/navigation';
@@ -77,6 +78,12 @@ function AppInner() {
       // Préférence de vibrations (Réglages) appliquée au module haptique.
       try {
         setHapticsEnabled(await kvGetJSON<boolean>('ui:haptics', true));
+      } catch {
+        // best-effort
+      }
+      // Préférence de lecture vocale (Réglages).
+      try {
+        setSpeechEnabled(await kvGetJSON<boolean>('ui:speech', false));
       } catch {
         // best-effort
       }

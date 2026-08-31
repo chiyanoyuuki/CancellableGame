@@ -1,5 +1,5 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { Pressable, StyleSheet, View } from 'react-native';
 
@@ -19,6 +19,7 @@ import {
 import { getQuizPool } from '../games/quiz/pool';
 import { kvGetJSON, kvSetJSON } from '../db';
 import { haptics } from '../lib/haptics';
+import { speak, stopSpeaking } from '../lib/speech';
 import { useT } from '../lib/i18nProvider';
 import type { RootStackParamList } from '../navigation';
 import { colors, fontSize, radius, spacing } from '../theme/theme';
@@ -79,6 +80,14 @@ export function DailyChallengeScreen({ navigation }: NativeStackScreenProps<Root
   };
 
   const current = daily[idx];
+
+  // Lecture vocale de l'énoncé à chaque nouvelle question (si activée).
+  useEffect(() => {
+    if (phase === 'playing' && current) speak(current.question.text);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, current?.question.id]);
+  // Couper la voix en quittant l'écran.
+  useEffect(() => stopSpeaking, []);
 
   const choose = (opt: string) => {
     if (selected || !current) return;
@@ -185,9 +194,14 @@ export function DailyChallengeScreen({ navigation }: NativeStackScreenProps<Root
         </View>
 
         <Card>
-          <Txt weight="800" size={fontSize.lg}>
-            {current.question.text}
-          </Txt>
+          <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: spacing(1) }}>
+            <Txt weight="800" size={fontSize.lg} style={{ flex: 1 }}>
+              {current.question.text}
+            </Txt>
+            <Pressable onPress={() => speak(current.question.text)} hitSlop={8}>
+              <Txt size={fontSize.lg}>🔊</Txt>
+            </Pressable>
+          </View>
         </Card>
 
         <View style={{ marginTop: spacing(1.5), gap: spacing(1) }}>

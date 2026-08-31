@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button, Card, PlayerAvatar, ProgressBar, Txt } from '../../components/ui';
 import { haptics } from '../../lib/haptics';
+import { speak, stopSpeaking } from '../../lib/speech';
 import { useT } from '../../lib/i18nProvider';
 import { DRINK_CHALLENGES, resolveChallenge } from '../../core/drinks';
 import { accuracyRatio, adaptiveDifficulties } from '../../core/adaptiveDifficulty';
@@ -446,6 +447,15 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [game, onFinish]);
+
+  // Lecture vocale de l'énoncé à chaque nouvelle question (si activée dans les
+  // Réglages). Ne parle qu'en phase « question », une fois par question.
+  const spokenQ = game && game.phase === 'question' ? currentQuestion(game) : null;
+  useEffect(() => {
+    if (spokenQ?.text) speak(spokenQ.text);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [spokenQ?.id]);
+  useEffect(() => stopSpeaking, []);
 
   // Quitter = mettre en pause : la partie est gardée et reprendra plus tard.
   const confirmQuit = () =>
