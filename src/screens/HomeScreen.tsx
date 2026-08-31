@@ -4,7 +4,8 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Alert, View } from 'react-native';
 
 import { Button, Screen, Txt } from '../components/ui';
-import { deleteSavedGame, getSessionCount, listSavedGames, type SavedGame } from '../db';
+import { dateKey, EMPTY_STREAK, liveStreak, previousDateKey, type StreakState } from '../core/dailyChallenge';
+import { deleteSavedGame, getSessionCount, kvGetJSON, listSavedGames, type SavedGame } from '../db';
 import { useT } from '../lib/i18nProvider';
 import type { RootStackParamList } from '../navigation';
 import { fontSize, spacing } from '../theme/theme';
@@ -13,6 +14,7 @@ export function HomeScreen({ navigation }: NativeStackScreenProps<RootStackParam
   const t = useT();
   const [games, setGames] = useState<number | null>(null);
   const [saved, setSaved] = useState<SavedGame[]>([]);
+  const [dailyStreak, setDailyStreak] = useState(0);
 
   const refreshSaved = useCallback(() => {
     void listSavedGames().then(setSaved);
@@ -21,6 +23,9 @@ export function HomeScreen({ navigation }: NativeStackScreenProps<RootStackParam
   useFocusEffect(
     useCallback(() => {
       void getSessionCount().then(setGames);
+      void kvGetJSON<StreakState>('daily:streak', EMPTY_STREAK).then((s) =>
+        setDailyStreak(liveStreak(s, dateKey(), previousDateKey())),
+      );
       refreshSaved();
     }, [refreshSaved]),
   );
@@ -82,6 +87,13 @@ export function HomeScreen({ navigation }: NativeStackScreenProps<RootStackParam
           </View>
         )}
         <Button title={saved.length > 0 ? t('Nouvelle partie') : t('Jouer')} emoji="🎮" variant={saved.length > 0 ? 'secondary' : 'primary'} size="lg" onPress={() => navigation.navigate('GameSelect')} />
+        <Button
+          title={dailyStreak > 0 ? t('Défi du jour · 🔥 {n}', { n: dailyStreak }) : t('Défi du jour')}
+          emoji="🎯"
+          variant="secondary"
+          size="lg"
+          onPress={() => navigation.navigate('DailyChallenge')}
+        />
         <Button title={t('Mode Soirée')} emoji="🎉" variant="secondary" size="lg" onPress={() => navigation.navigate('Soiree')} />
         <Button title={t('Joueurs')} emoji="👥" variant="secondary" size="lg" onPress={() => navigation.navigate('Players')} />
         <Button title={t('Statistiques')} emoji="📊" variant="secondary" size="lg" onPress={() => navigation.navigate('Stats')} />

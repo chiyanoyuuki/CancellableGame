@@ -1017,4 +1017,25 @@ export const EN: Record<string, string> = {
   FAVORIS: 'FAVORITES',
   'RÉCEMMENT JOUÉS': 'RECENTLY PLAYED',
   'Aucun univers ne correspond à la recherche.': 'No universe matches your search.',
+
+  // --- Défi du jour (DailyChallengeScreen / Home) ---------------------------
+  'Défi du jour': 'Daily challenge',
+  'Défi du jour · 🔥 {n}': 'Daily challenge · 🔥 {n}',
+  'Chargement…': 'Loading…',
+  'Série : {n}': 'Streak: {n}',
+  '🔥 Série : {n}': '🔥 Streak: {n}',
+  'Meilleure série : {n}': 'Best streak: {n}',
+  '{n} questions, un défi par jour': '{n} questions, one challenge a day',
+  'Le même défi pour tout le monde aujourd’hui. Reviens chaque jour pour allonger ta série.':
+    'The same challenge for everyone today. Come back each day to grow your streak.',
+  '✅ Terminé aujourd’hui — {score}/{total}': '✅ Done today — {score}/{total}',
+  'Commencer le défi': 'Start the challenge',
+  'Rejouer (hors série)': 'Play again (no streak)',
+  'Aucune question disponible.': 'No questions available.',
+  'Question {i}/{n}': 'Question {i}/{n}',
+  'Score : {n}': 'Score: {n}',
+  'Voir le score': 'See score',
+  '{pct}% de bonnes réponses': '{pct}% correct',
+  Suivant: 'Next',
+  Retour: 'Back',
 };
