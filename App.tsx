@@ -39,6 +39,7 @@ import { RoueScreen } from './src/screens/RoueScreen';
 import { RevisionScreen } from './src/screens/RevisionScreen';
 import { FaceAFaceScreen } from './src/screens/FaceAFaceScreen';
 import { EntrainementScreen } from './src/screens/EntrainementScreen';
+import { SeasonsScreen } from './src/screens/SeasonsScreen';
 import { StatsScreen } from './src/screens/StatsScreen';
 import { StoreScreen } from './src/screens/StoreScreen';
 import { StoreProvider, useStore } from './src/store/StoreProvider';
@@ -170,6 +171,7 @@ function AppInner() {
           <Stack.Screen name="Revision" component={RevisionScreen} />
           <Stack.Screen name="FaceAFace" component={FaceAFaceScreen} />
           <Stack.Screen name="Entrainement" component={EntrainementScreen} />
+          <Stack.Screen name="Seasons" component={SeasonsScreen} />
           <Stack.Screen name="Lobby" component={LobbyScreen} />
           <Stack.Screen name="GameConfig" component={GameConfigScreen} />
           <Stack.Screen name="GamePlay" component={GamePlayScreen} options={{ gestureEnabled: false }} />

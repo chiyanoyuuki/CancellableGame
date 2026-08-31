@@ -544,6 +544,46 @@ export function headToHead(results: readonly StatResult[], aId: string, bId: str
   return { meetings, aWins, bWins, ties };
 }
 
+// ---------------------------------------------------------------------------
+// Saisons (classement mensuel qui repart à zéro)
+// ---------------------------------------------------------------------------
+
+/** Clé de saison « AAAA-MM » (mois sur 2 chiffres) pour un instant donné. */
+export function seasonKey(ts: number): string {
+  const d = new Date(ts);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+}
+
+/** Instant de référence (milieu du mois) pour une clé de saison. */
+export function seasonRef(key: string): number {
+  const [y, m] = key.split('-').map(Number);
+  return new Date(y ?? 1970, (m ?? 1) - 1, 15, 12).getTime();
+}
+
+/** Clés de saison ayant des données, de la plus récente à la plus ancienne. */
+export function seasonKeys(results: readonly StatResult[]): string[] {
+  const set = new Set<string>();
+  for (const r of results) set.add(seasonKey(r.startedAt));
+  return [...set].sort((a, b) => (a < b ? 1 : a > b ? -1 : 0));
+}
+
+export interface SeasonChampion {
+  key: string;
+  playerId: string | null;
+  wins: number;
+  points: number;
+}
+
+/** Champion d'une saison : plus de victoires, puis plus de points, ce mois-là. */
+export function seasonChampion(results: readonly StatResult[], key: string): SeasonChampion {
+  const totals = playerTotals(results, { period: 'month', ref: seasonRef(key) });
+  let best: PlayerTotals | null = null;
+  for (const tt of totals) {
+    if (!best || tt.wins > best.wins || (tt.wins === best.wins && tt.points > best.points)) best = tt;
+  }
+  return { key, playerId: best?.playerId ?? null, wins: best?.wins ?? 0, points: best?.points ?? 0 };
+}
+
 export interface AnswerSpeed {
   avgMs: number;
   bestMs: number;

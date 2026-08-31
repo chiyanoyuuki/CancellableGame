@@ -7,6 +7,10 @@ import {
   lastPlayedByPlayer,
   periodStart,
   playerTotals,
+  seasonChampion,
+  seasonKey,
+  seasonKeys,
+  seasonRef,
   type StatAnswer,
   type StatResult,
   type StatSession,
@@ -228,6 +232,30 @@ describe('headToHead', () => {
     expect(h.ties).toBe(1);
     expect(h.aWins).toBe(0);
     expect(h.bWins).toBe(0);
+  });
+});
+
+describe('saisons', () => {
+  test('seasonKey formate AAAA-MM', () => {
+    expect(seasonKey(JAN)).toBe('2026-01');
+    expect(seasonKey(FEB)).toBe('2026-02');
+  });
+
+  test('seasonRef tombe dans le bon mois', () => {
+    expect(seasonKey(seasonRef('2026-02'))).toBe('2026-02');
+  });
+
+  test('seasonKeys liste les mois avec données, du plus récent au plus ancien', () => {
+    expect(seasonKeys(results)).toEqual(['2026-02', '2026-01']);
+  });
+
+  test('seasonChampion prend le meilleur du mois (victoires puis points)', () => {
+    expect(seasonChampion(results, '2026-01').playerId).toBe('p1'); // p1 gagne en janvier
+    expect(seasonChampion(results, '2026-02').playerId).toBe('p2'); // p2 gagne en février
+  });
+
+  test('seasonChampion renvoie null pour un mois vide', () => {
+    expect(seasonChampion(results, '2020-01').playerId).toBeNull();
   });
 });
 

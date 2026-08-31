@@ -290,6 +290,16 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
           <Txt faint>›</Txt>
         </View>
       </Card>
+      <Card onPress={() => navigation.navigate('Seasons')} style={{ marginTop: spacing(1) }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing(1) }}>
+          <Txt size={fontSize.xl}>📅</Txt>
+          <View style={{ flex: 1 }}>
+            <Txt weight="800">{tr('Saisons')}</Txt>
+            <Txt faint size={fontSize.xs}>{tr('Le classement du mois et les champions passés.')}</Txt>
+          </View>
+          <Txt faint>›</Txt>
+        </View>
+      </Card>
       {!ent.allStats && (
         <Card accent={colors.accent} onPress={() => navigation.navigate('Store')} style={{ marginTop: spacing(1) }}>
           <Txt weight="800" size={fontSize.sm}>
