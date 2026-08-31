@@ -6,6 +6,7 @@ import { View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { AnimatedSplash } from './src/components/AnimatedSplash';
+import { ErrorBoundary } from './src/components/ErrorBoundary';
 import { initDatabase, kvGetJSON, mostRecentSavedGame } from './src/db';
 import { AvatarFramesProvider } from './src/lib/avatarFrames';
 import { setHapticsEnabled } from './src/lib/haptics';
@@ -150,9 +151,11 @@ function AppInner() {
   }
 
   return (
-    <AvatarFramesProvider allAchievements={store.ent.allAchievements}>
-      {content}
-      {!splashDone && <AnimatedSplash onFinish={() => setSplashDone(true)} />}
-    </AvatarFramesProvider>
+    <ErrorBoundary>
+      <AvatarFramesProvider allAchievements={store.ent.allAchievements}>
+        {content}
+        {!splashDone && <AnimatedSplash onFinish={() => setSplashDone(true)} />}
+      </AvatarFramesProvider>
+    </ErrorBoundary>
   );
 }

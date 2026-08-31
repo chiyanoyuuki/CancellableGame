@@ -219,6 +219,8 @@ export function DailyChallengeScreen({ navigation }: NativeStackScreenProps<Root
                 border = colors.danger;
               }
             }
+            // Repère non coloré (accessibilité daltonisme) : ✓ bonne, ✗ mauvaise choisie.
+            const glyph = selected ? (isAnswer ? '✓' : isPicked ? '✗' : '') : '';
             return (
               <Pressable
                 key={opt}
@@ -226,7 +228,16 @@ export function DailyChallengeScreen({ navigation }: NativeStackScreenProps<Root
                 disabled={!!selected}
                 style={[styles.option, { backgroundColor: bg, borderColor: border }]}
               >
-                <Txt weight="700">{opt}</Txt>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing(1) }}>
+                  <Txt weight="700" style={{ flex: 1 }}>
+                    {opt}
+                  </Txt>
+                  {!!glyph && (
+                    <Txt weight="900" size={fontSize.lg} color={isAnswer ? colors.success : colors.danger}>
+                      {glyph}
+                    </Txt>
+                  )}
+                </View>
               </Pressable>
             );
           })}
