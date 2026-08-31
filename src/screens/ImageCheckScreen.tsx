@@ -1,6 +1,7 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useMemo, useState } from 'react';
-import { Image, Share, StyleSheet, View } from 'react-native';
+import { Share, StyleSheet, View } from 'react-native';
+import { Image } from 'expo-image';
 
 import { Button, Card, Chip, Screen, SectionHeader, Txt } from '../components/ui';
 import type { Question } from '../core/models';
@@ -96,7 +97,9 @@ export function ImageCheckScreen({ navigation }: NativeStackScreenProps<RootStac
                   <Image
                     source={{ uri: q.media.uri }}
                     style={styles.thumb}
-                    resizeMode="cover"
+                    contentFit="cover"
+                    // Vérifier les images les met aussi en cache disque pour le jeu.
+                    cachePolicy="memory-disk"
                     onLoad={() => set(q.id, 'ok')}
                     onError={() => set(q.id, 'error')}
                   />

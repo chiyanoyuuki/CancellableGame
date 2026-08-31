@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, Image, Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Alert, Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Image } from 'expo-image';
 import { setAudioModeAsync, useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -44,6 +45,16 @@ import { getQuizPool } from './pool';
 function haptic(success: boolean) {
   if (success) haptics.correct();
   else haptics.wrong();
+}
+
+// Précharge dans le cache disque toutes les images d'un round (« Image mystère »),
+// pour un affichage instantané et une disponibilité hors-ligne dès la 2ᵉ partie.
+// Best-effort : on ignore silencieusement les URLs qui échouent.
+function prefetchRoundImages(questions: { media?: { type?: string; uri?: string } }[]) {
+  const uris = questions
+    .map((q) => (q.media?.type === 'image' ? q.media.uri : undefined))
+    .filter((u): u is string => !!u);
+  if (uris.length) void Image.prefetch(uris, 'memory-disk').catch(() => undefined);
 }
 
 export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, slotId: resumeSlotId }: MiniGamePlayProps) {
@@ -182,6 +193,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
           setUnwantedRawByPlayer(unwantedUniverses);
           startedAtRef.current = saved?.startedAt ?? Date.now();
           questionStartRef.current = Date.now();
+          prefetchRoundImages([...st.questions, ...(st.reserve ?? [])]);
           // Défauts pour les parties sauvegardées avant l'ajout de la pause.
           setGame({
             ...st,
@@ -290,6 +302,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
         .slice(cfg.questionCount)
         .sort((a, b) => Number(a.media?.type === 'image') - Number(b.media?.type === 'image'));
       if (!alive) return;
+      prefetchRoundImages([...selected, ...reserve]);
       setUnwantedByPlayer(unwantedUniversesByPlayer);
       setUnwantedRawByPlayer(unwantedUniverses);
       startedAtRef.current = Date.now();
@@ -684,7 +697,10 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
             <Image
               source={{ uri: q.media.uri }}
               style={styles.media}
-              resizeMode="contain"
+              contentFit="contain"
+              // Cache disque persistant : une image vue une fois reste dispo hors-ligne.
+              cachePolicy="memory-disk"
+              transition={150}
               onError={() => {
                 setImgError(true);
                 // Image won't load → skip to a replacement, same player stays up.
