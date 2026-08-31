@@ -1,6 +1,8 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useEffect, useMemo, useState } from 'react';
-import { Modal, Pressable, ScrollView, Share, StyleSheet, View } from 'react-native';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Alert, Modal, Pressable, ScrollView, Share, StyleSheet, View } from 'react-native';
+import { captureRef } from 'react-native-view-shot';
+import * as Sharing from 'expo-sharing';
 
 import { AchievementTrackCard } from '../components/AchievementTrackCard';
 import { Button, Card, PlayerAvatar, Screen, Txt } from '../components/ui';
@@ -18,6 +20,8 @@ export function ResultsScreen({ route, navigation }: NativeStackScreenProps<Root
   const t = useT();
   const { result, players } = route.params;
   const { ent } = useStore();
+  const recapRef = useRef<View>(null);
+  const [sharing, setSharing] = useState(false);
 
   const byId = useMemo(() => {
     const m: Record<string, Player> = {};
@@ -101,7 +105,10 @@ export function ResultsScreen({ route, navigation }: NativeStackScreenProps<Root
               emoji="🔁"
               onPress={() => navigation.navigate('GameConfig', { gameId: result.gameId, players })}
             />
-            <Button title={t('Partager le résultat')} emoji="📤" variant="secondary" onPress={() => void shareRecap()} />
+            <View style={{ flexDirection: 'row', gap: spacing(1) }}>
+              <Button title={t('Partager')} emoji="📤" variant="secondary" style={{ flex: 1 }} onPress={() => void shareRecap()} />
+              <Button title={t('En image')} emoji="🖼️" variant="secondary" style={{ flex: 1 }} loading={sharing} onPress={() => void shareImage()} />
+            </View>
             <View style={{ flexDirection: 'row', gap: spacing(1) }}>
               <Button title={t('Statistiques')} variant="secondary" style={{ flex: 1 }} onPress={() => navigation.navigate('Stats')} />
               <Button title={t('Accueil')} variant="ghost" style={{ flex: 1 }} onPress={() => navigation.navigate('Home')} />
@@ -251,6 +258,50 @@ export function ResultsScreen({ route, navigation }: NativeStackScreenProps<Root
           </Pressable>
         </Pressable>
       </Modal>
+
+      {/* Carte de récap rendue hors-écran, capturée en image à la demande. */}
+      <View style={styles.shotWrap} pointerEvents="none">
+        <View ref={recapRef} collapsable={false} style={styles.recapCard}>
+          <Txt weight="900" size={fontSize.lg} color={colors.white}>
+            🔒 Cancellable
+          </Txt>
+          <Txt weight="700" color={colors.white} style={{ opacity: 0.85, marginBottom: spacing(1.5) }}>
+            {getGame(result.gameId) ? t(getGame(result.gameId)!.title) : t('Partie')}
+          </Txt>
+          {winner && (
+            <View style={{ alignItems: 'center', gap: spacing(0.5), marginBottom: spacing(1.5) }}>
+              <Txt size={fontSize.xxl}>🏆</Txt>
+              <Txt weight="900" size={fontSize.lg} color={colors.white}>
+                {winner.name}
+              </Txt>
+            </View>
+          )}
+          {ranked.map((r, i) => (
+            <View key={r.playerId} style={styles.recapRow}>
+              <Txt weight="800" color={colors.white} style={{ width: 30 }}>
+                {RANK_MEDALS[i] ?? `${i + 1}.`}
+              </Txt>
+              <Txt weight="700" color={colors.white} style={{ flex: 1 }} numberOfLines={1}>
+                {disp(r).emoji} {disp(r).name}
+              </Txt>
+              <Txt weight="900" color={colors.white}>
+                {r.points}
+              </Txt>
+            </View>
+          ))}
+          {(() => {
+            const totalSips = result.players.reduce((s, p) => s + p.sipsDrunk, 0);
+            return totalSips > 0 ? (
+              <Txt weight="700" color={colors.white} style={{ opacity: 0.9, marginTop: spacing(1) }}>
+                {t('🍺 {n} gorgées au total', { n: totalSips })}
+              </Txt>
+            ) : null;
+          })()}
+          <Txt size={fontSize.xs} color={colors.white} style={{ opacity: 0.7, marginTop: spacing(1.5) }}>
+            {t('Le jeu de vos soirées entre amis 🎉')}
+          </Txt>
+        </View>
+      </View>
     </>
   );
 
@@ -275,6 +326,25 @@ export function ResultsScreen({ route, navigation }: NativeStackScreenProps<Root
       // partage annulé — rien à faire
     }
   }
+
+  // Récap EN IMAGE : on capture la carte (rendue hors-écran) en PNG puis on la
+  // partage via la feuille native. Best-effort : on prévient en cas d'échec.
+  async function shareImage() {
+    if (sharing) return;
+    setSharing(true);
+    try {
+      const uri = await captureRef(recapRef, { format: 'png', quality: 1, result: 'tmpfile' });
+      if (await Sharing.isAvailableAsync()) {
+        await Sharing.shareAsync(uri, { mimeType: 'image/png', dialogTitle: t('Récap de la partie') });
+      } else {
+        await Share.share({ url: uri });
+      }
+    } catch {
+      Alert.alert(t('Oups'), t("Impossible de générer l'image du récap."));
+    } finally {
+      setSharing(false);
+    }
+  }
 }
 
 function StatCell({ label, value }: { label: string; value: string }) {
@@ -291,6 +361,15 @@ function StatCell({ label, value }: { label: string; value: string }) {
 }
 
 const styles = StyleSheet.create({
+  // Carte de récap capturée en image (rendue hors de l'écran visible).
+  shotWrap: { position: 'absolute', left: -9999, top: 0 },
+  recapCard: {
+    width: 360,
+    backgroundColor: colors.primaryDark,
+    padding: spacing(3),
+    borderRadius: radius.lg,
+  },
+  recapRow: { flexDirection: 'row', alignItems: 'center', gap: spacing(1), paddingVertical: spacing(0.5) },
   backdrop: { flex: 1, backgroundColor: colors.overlay, justifyContent: 'flex-end' },
   sheet: {
     backgroundColor: colors.bgElevated,

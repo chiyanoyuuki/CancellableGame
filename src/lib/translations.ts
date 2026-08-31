@@ -1183,6 +1183,13 @@ export const EN: Record<string, string> = {
   '🍺 {name} : {n} gorgée': '🍺 {name}: {n} sip',
   'Joueur suivant': 'Next player',
 
+  // --- Récap de partie en image (Résultats) ---------------------------------
+  Partager: 'Share',
+  'En image': 'As image',
+  'Récap de la partie': 'Game recap',
+  Oups: 'Oops',
+  "Impossible de générer l'image du récap.": 'Could not generate the recap image.',
+
   // --- Triage des signalements ----------------------------------------------
   'signalée {n} fois': 'reported {n} time',
   'signalée {n}×': 'reported {n}×',
