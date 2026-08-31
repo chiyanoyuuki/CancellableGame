@@ -35,6 +35,8 @@ import {
   getSavedGame,
   listCustomChallenges,
   newSlotId,
+  recordMissedQuestion,
+  clearMissedQuestion,
   reportQuestion,
   saveGame,
 } from '../../db';
@@ -502,6 +504,19 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
     snapshot();
     dispatch({ type: 'SUBMIT', playerId, correct, timeMs });
   };
+
+  // Journalise les questions ratées pour le mode solo « Réviser mes erreurs ».
+  // À la révélation : réussie → on la retire, ratée (ou personne n'a trouvé) →
+  // on l'enregistre. Sans média (les images-mystère se révisent mal hors-ligne).
+  useEffect(() => {
+    if (!game || game.phase !== 'reveal') return;
+    const q = currentQuestion(game);
+    const o = game.lastOutcome;
+    if (!q || !o || q.media) return;
+    if (o.correct) void clearMissedQuestion(q.id);
+    else void recordMissedQuestion(q.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [game?.phase, game?.index]);
 
   // Réponse fausse automatique quand le chrono atteint 0 (option activée).
   // En « chacun son tour » : le joueur actif rate ; en « au plus rapide » :

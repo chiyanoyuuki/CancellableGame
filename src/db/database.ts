@@ -11,7 +11,7 @@ import * as SQLite from 'expo-sqlite';
 
 const DB_NAME = 'soiree.db';
 // Doit refléter le plus haut numéro de migration ci-dessous (bloc `if (version < N)`).
-export const SCHEMA_VERSION = 5;
+export const SCHEMA_VERSION = 6;
 
 let dbPromise: Promise<SQLite.SQLiteDatabase> | null = null;
 
@@ -147,6 +147,19 @@ async function migrate(db: SQLite.SQLiteDatabase): Promise<void> {
       );
     `);
     version = 5;
+  }
+  if (version < 6) {
+    // Questions ratées, pour le mode solo « Réviser mes erreurs ». On garde le
+    // nombre de fois ratée et la date (tri), et on retire la question une fois
+    // maîtrisée (bonne réponse en révision ou en partie).
+    await db.execAsync(`
+      CREATE TABLE IF NOT EXISTS missed_questions (
+        question_id TEXT PRIMARY KEY NOT NULL,
+        times_missed INTEGER NOT NULL,
+        last_missed_at INTEGER NOT NULL
+      );
+    `);
+    version = 6;
   }
 
   await db.execAsync(`PRAGMA user_version = ${version}`);

@@ -1190,6 +1190,20 @@ export const EN: Record<string, string> = {
   Oups: 'Oops',
   "Impossible de générer l'image du récap.": 'Could not generate the recap image.',
 
+  // --- Réviser mes erreurs (solo) -------------------------------------------
+  'Réviser mes erreurs': 'Review my mistakes',
+  'Réviser mes erreurs ({n})': 'Review my mistakes ({n})',
+  'Révision terminée': 'Review complete',
+  'Aucune erreur à réviser': 'No mistakes to review',
+  'Joue au quiz : les questions que tu rates atterriront ici pour être révisées.':
+    'Play the quiz: questions you miss will land here to review.',
+  '{n} sur {total} maîtrisées': '{n} of {total} mastered',
+  'Sans faute ! Ces questions ne reviendront plus. 👑': 'Flawless! These questions won’t come back. 👑',
+  'Les questions encore ratées restent à réviser plus tard.':
+    'Questions still missed stay for you to review later.',
+  '{n}/{total} · {m} maîtrisées': '{n}/{total} · {m} mastered',
+  'Voir le bilan': 'See summary',
+
   // --- Triage des signalements ----------------------------------------------
   'signalée {n} fois': 'reported {n} time',
   'signalée {n}×': 'reported {n}×',

@@ -36,6 +36,7 @@ import { SoireeScreen } from './src/screens/SoireeScreen';
 import { DailyChallengeScreen } from './src/screens/DailyChallengeScreen';
 import { SoloQuizScreen } from './src/screens/SoloQuizScreen';
 import { RoueScreen } from './src/screens/RoueScreen';
+import { RevisionScreen } from './src/screens/RevisionScreen';
 import { StatsScreen } from './src/screens/StatsScreen';
 import { StoreScreen } from './src/screens/StoreScreen';
 import { StoreProvider, useStore } from './src/store/StoreProvider';
@@ -164,6 +165,7 @@ function AppInner() {
           <Stack.Screen name="DailyChallenge" component={DailyChallengeScreen} />
           <Stack.Screen name="SoloQuiz" component={SoloQuizScreen} />
           <Stack.Screen name="Roue" component={RoueScreen} />
+          <Stack.Screen name="Revision" component={RevisionScreen} />
           <Stack.Screen name="Lobby" component={LobbyScreen} />
           <Stack.Screen name="GameConfig" component={GameConfigScreen} />
           <Stack.Screen name="GamePlay" component={GamePlayScreen} options={{ gestureEnabled: false }} />

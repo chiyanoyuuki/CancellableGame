@@ -15,6 +15,7 @@ export type RootStackParamList = {
   DailyChallenge: { seed?: string } | undefined;
   SoloQuiz: { mode: 'survie' | 'chrono' };
   Roue: undefined;
+  Revision: undefined;
   Stats: undefined;
   AppStats: undefined;
   Settings: undefined;
