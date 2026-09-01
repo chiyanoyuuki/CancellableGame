@@ -1428,6 +1428,13 @@ export const EN: Record<string, string> = {
   'Aucun thème choisi → tous les thèmes seront utilisés.':
     'No theme selected → all themes will be used.',
 
+  // --- Catégories de mini-jeux (Choisir un jeu) -----------------------------
+  'Quiz & culture': 'Quiz & trivia',
+  'Ambiance & soirée': 'Party & vibes',
+  'Duel & bluff': 'Duel & bluff',
+  'En équipe': 'Teams',
+  Autres: 'Other',
+
   // --- Triage des signalements ----------------------------------------------
   'signalée {n} fois': 'reported {n} time',
   'signalée {n}×': 'reported {n}×',
