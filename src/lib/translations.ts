@@ -1428,6 +1428,11 @@ export const EN: Record<string, string> = {
   'Aucun thème choisi → tous les thèmes seront utilisés.':
     'No theme selected → all themes will be used.',
 
+  // --- Réglages : sections Accessibilité scindées ---------------------------
+  Affichage: 'Display',
+  'Son & vibrations': 'Sound & vibration',
+  Notifications: 'Notifications',
+
   // --- Catégories de mini-jeux (Choisir un jeu) -----------------------------
   'Quiz & culture': 'Quiz & trivia',
   'Ambiance & soirée': 'Party & vibes',

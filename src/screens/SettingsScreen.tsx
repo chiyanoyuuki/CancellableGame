@@ -1,7 +1,7 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useEffect, useState } from 'react';
-import { Alert, Switch, View } from 'react-native';
+import { Alert, StyleSheet, Switch, View } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
@@ -39,6 +39,14 @@ const THEMES = [
   { label: 'Sombre', value: 'dark' as const },
   { label: 'Clair', value: 'light' as const },
 ];
+
+// Ligne d'interrupteur : « first » sans marge haute (1re d'une carte), sinon espacée.
+const rowStyles = StyleSheet.create({
+  row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing(1), marginTop: spacing(2) },
+  first: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing(1) },
+});
+const settingRow = rowStyles.row;
+const settingRowFirst = rowStyles.first;
 
 export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'Settings'>) {
   const t = useT();
@@ -242,86 +250,64 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
         </Txt>
       </Card>
 
-      <SectionHeader title={t('Accessibilité & confort')} />
+      <SectionHeader title={t('Affichage')} />
       <Card>
         <Txt weight="700">{t('Taille du texte')}</Txt>
         <View style={{ marginTop: spacing(1) }}>
           <Segmented<string> value={scaleValue} onChange={(v) => setScale(Number(v))} options={textSizeOptions} />
         </View>
         <Txt style={{ marginTop: spacing(1.5) }}>{t('Aperçu : tout le monde voit bien la question ? 👀')}</Txt>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing(1), marginTop: spacing(2) }}>
-          <View style={{ flex: 1 }}>
-            <Txt weight="700">{t('Vibrations 📳')}</Txt>
-            <Txt faint size={fontSize.xs}>{t('Retours haptiques (bonnes/mauvaises réponses, victoire…)')}</Txt>
-          </View>
-          <Switch
-            value={haptics}
-            onValueChange={toggleHaptics}
-            trackColor={{ true: colors.primary, false: colors.border }}
-            thumbColor={colors.white}
-          />
-        </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing(1), marginTop: spacing(2) }}>
+        <View style={settingRow}>
           <View style={{ flex: 1 }}>
             <Txt weight="700">{t('Animations réduites 🍃')}</Txt>
             <Txt faint size={fontSize.xs}>{t('Coupe le splash, les transitions et la roue (confort et perf).')}</Txt>
           </View>
-          <Switch
-            value={reduceMotion}
-            onValueChange={toggleReduceMotion}
-            trackColor={{ true: colors.primary, false: colors.border }}
-            thumbColor={colors.white}
-          />
+          <Switch value={reduceMotion} onValueChange={toggleReduceMotion} trackColor={{ true: colors.primary, false: colors.border }} thumbColor={colors.white} />
         </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing(1), marginTop: spacing(2) }}>
-          <View style={{ flex: 1 }}>
-            <Txt weight="700">{t('Lecture vocale 🔊')}</Txt>
-            <Txt faint size={fontSize.xs}>{t("Lire l'énoncé des questions à voix haute (utile en soirée).")}</Txt>
-          </View>
-          <Switch
-            value={speech}
-            onValueChange={toggleSpeech}
-            trackColor={{ true: colors.primary, false: colors.border }}
-            thumbColor={colors.white}
-          />
-        </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing(1), marginTop: spacing(2) }}>
-          <View style={{ flex: 1 }}>
-            <Txt weight="700">{t('Effets sonores 🎶')}</Txt>
-            <Txt faint size={fontSize.xs}>{t('Petits sons de jeu (bonne/mauvaise réponse, compte à rebours, victoire).')}</Txt>
-          </View>
-          <Switch
-            value={sound}
-            onValueChange={toggleSound}
-            trackColor={{ true: colors.primary, false: colors.border }}
-            thumbColor={colors.white}
-          />
-        </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing(1), marginTop: spacing(2) }}>
-          <View style={{ flex: 1 }}>
-            <Txt weight="700">{t('Rappel quotidien 🔔')}</Txt>
-            <Txt faint size={fontSize.xs}>{t('Une notification à 19h pour ne pas perdre ta série.')}</Txt>
-          </View>
-          <Switch
-            value={reminder}
-            onValueChange={(on) => void toggleReminder(on)}
-            trackColor={{ true: colors.primary, false: colors.border }}
-            thumbColor={colors.white}
-          />
-        </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing(1), marginTop: spacing(2) }}>
+        <View style={settingRow}>
           <View style={{ flex: 1 }}>
             <Txt weight="700">{t('Cadre de palier sur les avatars 🖼️')}</Txt>
             <Txt faint size={fontSize.xs}>
               {t("Un anneau coloré autour de l'avatar selon le palier général du profil (nécessite le pack Hauts faits).")}
             </Txt>
           </View>
-          <Switch
-            value={frames.enabled}
-            onValueChange={frames.setEnabled}
-            trackColor={{ true: colors.primary, false: colors.border }}
-            thumbColor={colors.white}
-          />
+          <Switch value={frames.enabled} onValueChange={frames.setEnabled} trackColor={{ true: colors.primary, false: colors.border }} thumbColor={colors.white} />
+        </View>
+      </Card>
+
+      <SectionHeader title={t('Son & vibrations')} />
+      <Card>
+        <View style={settingRowFirst}>
+          <View style={{ flex: 1 }}>
+            <Txt weight="700">{t('Vibrations 📳')}</Txt>
+            <Txt faint size={fontSize.xs}>{t('Retours haptiques (bonnes/mauvaises réponses, victoire…)')}</Txt>
+          </View>
+          <Switch value={haptics} onValueChange={toggleHaptics} trackColor={{ true: colors.primary, false: colors.border }} thumbColor={colors.white} />
+        </View>
+        <View style={settingRow}>
+          <View style={{ flex: 1 }}>
+            <Txt weight="700">{t('Lecture vocale 🔊')}</Txt>
+            <Txt faint size={fontSize.xs}>{t("Lire l'énoncé des questions à voix haute (utile en soirée).")}</Txt>
+          </View>
+          <Switch value={speech} onValueChange={toggleSpeech} trackColor={{ true: colors.primary, false: colors.border }} thumbColor={colors.white} />
+        </View>
+        <View style={settingRow}>
+          <View style={{ flex: 1 }}>
+            <Txt weight="700">{t('Effets sonores 🎶')}</Txt>
+            <Txt faint size={fontSize.xs}>{t('Petits sons de jeu (bonne/mauvaise réponse, compte à rebours, victoire).')}</Txt>
+          </View>
+          <Switch value={sound} onValueChange={toggleSound} trackColor={{ true: colors.primary, false: colors.border }} thumbColor={colors.white} />
+        </View>
+      </Card>
+
+      <SectionHeader title={t('Notifications')} />
+      <Card>
+        <View style={settingRowFirst}>
+          <View style={{ flex: 1 }}>
+            <Txt weight="700">{t('Rappel quotidien 🔔')}</Txt>
+            <Txt faint size={fontSize.xs}>{t('Une notification à 19h pour ne pas perdre ta série.')}</Txt>
+          </View>
+          <Switch value={reminder} onValueChange={(on) => void toggleReminder(on)} trackColor={{ true: colors.primary, false: colors.border }} thumbColor={colors.white} />
         </View>
       </Card>
 
