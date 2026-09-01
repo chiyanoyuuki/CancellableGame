@@ -1417,6 +1417,11 @@ export const EN: Record<string, string> = {
   // --- Atouts (jokers du quiz) ----------------------------------------------
   'Geler ❄️': 'Freeze ❄️',
 
+  // --- Accueil (refonte) ----------------------------------------------------
+  Reprendre: 'Resume',
+  'Soirée & outils': 'Party & tools',
+  Gérer: 'Manage',
+
   // --- Triage des signalements ----------------------------------------------
   'signalée {n} fois': 'reported {n} time',
   'signalée {n}×': 'reported {n}×',
