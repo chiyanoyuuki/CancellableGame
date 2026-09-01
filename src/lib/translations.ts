@@ -1414,6 +1414,9 @@ export const EN: Record<string, string> = {
   'en tête': 'in the lead',
   'thème favori': 'favorite theme',
 
+  // --- Atouts (jokers du quiz) ----------------------------------------------
+  'Geler ❄️': 'Freeze ❄️',
+
   // --- Triage des signalements ----------------------------------------------
   'signalée {n} fois': 'reported {n} time',
   'signalée {n}×': 'reported {n}×',

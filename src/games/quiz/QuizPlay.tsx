@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Card, PlayerAvatar, ProgressBar, Txt } from '../../components/ui';
 import { haptics } from '../../lib/haptics';
 import { sounds } from '../../lib/sounds';
+import { getFlag } from '../../lib/featureFlags';
 import { speak, stopSpeaking } from '../../lib/speech';
 import { useT } from '../../lib/i18nProvider';
 import { DRINK_CHALLENGES, resolveChallenge } from '../../core/drinks';
@@ -76,6 +77,12 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
   const [buzzed, setBuzzed] = useState<{ playerId: string; timeMs: number } | null>(null);
   const [imgError, setImgError] = useState(false);
   const [remaining, setRemaining] = useState<number | null>(null);
+  // Atouts (jokers) — 1 de chaque par partie, si activés dans les Réglages.
+  const jokersOn = getFlag('jokers');
+  const [fiftyUsed, setFiftyUsed] = useState(false);
+  const [freezeUsed, setFreezeUsed] = useState(false);
+  const [removedOptions, setRemovedOptions] = useState<string[]>([]);
+  const frozenRef = useRef(false);
   // Défi en cours : graine du tirage au sort des joueurs (le bouton « retirer au
   // sort » l'incrémente) et compte à rebours du minuteur (réinitialisable).
   const [challengeSeed, setChallengeSeed] = useState(1);
@@ -398,7 +405,8 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [game?.index, game?.phase]);
 
-  // Informative per-question countdown (no penalty; host decides).
+  // Informative per-question countdown (no penalty; host decides). Le chrono
+  // s'interrompt tant que l'atout « geler » est actif (frozenRef).
   useEffect(() => {
     if (game?.phase !== 'question' || cfg.questionTimerSec <= 0) {
       setRemaining(null);
@@ -406,10 +414,16 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
     }
     setRemaining(cfg.questionTimerSec);
     const iv = setInterval(() => {
-      setRemaining((r) => (r != null && r > 0 ? r - 1 : 0));
+      setRemaining((r) => (frozenRef.current ? r : r != null && r > 0 ? r - 1 : 0));
     }, 1000);
     return () => clearInterval(iv);
   }, [game?.index, game?.phase, cfg.questionTimerSec]);
+
+  // Réinitialise les effets d'atouts à chaque nouvelle question.
+  useEffect(() => {
+    setRemovedOptions([]);
+    frozenRef.current = false;
+  }, [game?.index]);
 
   // Chaque nouveau défi retire au sort les joueurs concernés (graine fraîche).
   useEffect(() => {
@@ -503,6 +517,26 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
     haptic(correct);
     snapshot();
     dispatch({ type: 'SUBMIT', playerId, correct, timeMs });
+  };
+
+  // Atout 50/50 : retire deux mauvaises propositions visibles (une fois/partie).
+  const useFifty = () => {
+    if (fiftyUsed || !game) return;
+    const cq = currentQuestion(game);
+    if (!cq) return;
+    const wrongs = visibleOptions(game).filter((o) => o !== cq.answer);
+    if (wrongs.length < 2) return;
+    setRemovedOptions(wrongs.slice(0, 2));
+    setFiftyUsed(true);
+    haptics.select();
+  };
+
+  // Atout « geler le chrono » : stoppe le compte à rebours (une fois/partie).
+  const useFreeze = () => {
+    if (freezeUsed || remaining == null) return;
+    frozenRef.current = true;
+    setFreezeUsed(true);
+    haptics.select();
   };
 
   // Journalise les questions ratées pour le mode solo « Réviser mes erreurs ».
@@ -885,9 +919,27 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
     );
   }
 
+  // Barre d'atouts (jokers) : 50/50 et geler le chrono, 1 de chaque par partie.
+  function renderJokerBar() {
+    if (!jokersOn) return null;
+    const canFifty = !fiftyUsed && visibleOptions(game!).filter((o) => o !== q!.answer).length >= 2;
+    const canFreeze = !freezeUsed && remaining != null;
+    if (fiftyUsed && freezeUsed) return null;
+    return (
+      <View style={{ flexDirection: 'row', gap: spacing(1), justifyContent: 'center' }}>
+        {!fiftyUsed && (
+          <Button title={t('50/50')} emoji="✂️" size="sm" variant="secondary" disabled={!canFifty} onPress={useFifty} />
+        )}
+        {!freezeUsed && (
+          <Button title={t('Geler ❄️')} size="sm" variant="secondary" disabled={!canFreeze} onPress={useFreeze} />
+        )}
+      </View>
+    );
+  }
+
   // The revealed propositions, tappable (interactive) or as a read-only preview.
   function renderOptions(playerId: string | null, timeMs: number | null, interactive: boolean) {
-    const opts = visibleOptions(game!);
+    const opts = visibleOptions(game!).filter((o) => !removedOptions.includes(o));
     if (opts.length === 0) return null;
     return (
       <View style={{ gap: spacing(1) }}>
@@ -908,9 +960,14 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
   function renderAnswerControls(playerId: string | null, timeMs: number | null) {
     if (!q || !playerId) return null;
 
-    // Propositions revealed → tap the right one.
+    // Propositions revealed → tap the right one (avec la barre d'atouts au-dessus).
     if (game!.propsShown > 0) {
-      return renderOptions(playerId, timeMs, true);
+      return (
+        <View style={{ gap: spacing(1) }}>
+          {renderJokerBar()}
+          {renderOptions(playerId, timeMs, true)}
+        </View>
+      );
     }
 
     // Free answer: reveal, then the host judges.
