@@ -1,10 +1,13 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Alert, ScrollView, Share, StyleSheet, View } from 'react-native';
+import { captureRef } from 'react-native-view-shot';
+import * as Sharing from 'expo-sharing';
 
 import { achievementScoresByPlayer } from '../core/achievements';
 import { Card, Chip, EmptyState, PlayerAvatar, Screen, Segmented, Txt } from '../components/ui';
+import { getFlag } from '../lib/featureFlags';
 import type { Player } from '../core/models';
 import { THEME_META, type Theme } from '../core/models';
 import {
@@ -122,6 +125,37 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
     [data, filter],
   );
   const themes = useMemo(() => themeAccuracy(data.answers, undefined, filter), [data.answers, filter]);
+
+  // --- Récap de la semaine (carte partageable en image) ---
+  const weekFacts = useMemo(
+    () => funFacts(data.sessions, data.results, data.answers, { period: 'week' }),
+    [data],
+  );
+  const weekLeader = useMemo(() => {
+    const rows = [...playerTotals(data.results, { period: 'week' })].sort(
+      (a, b) => b.wins - a.wins || b.points - a.points,
+    );
+    return rows[0] ?? null;
+  }, [data.results]);
+  const recapRef = useRef<View>(null);
+  const [sharingWeek, setSharingWeek] = useState(false);
+  const shareWeek = async () => {
+    if (sharingWeek) return;
+    setSharingWeek(true);
+    try {
+      const uri = await captureRef(recapRef, { format: 'png', quality: 1, result: 'tmpfile' });
+      if (await Sharing.isAvailableAsync()) {
+        await Sharing.shareAsync(uri, { mimeType: 'image/png', dialogTitle: tr('Ma semaine Cancellable') });
+      } else {
+        await Share.share({ url: uri });
+      }
+    } catch {
+      Alert.alert(tr('Oups'), tr("Impossible de générer l'image du récap."));
+    } finally {
+      setSharingWeek(false);
+    }
+  };
+  const weekLeaderPlayer = weekLeader ? byId[weekLeader.playerId] : undefined;
 
   // Classement par hauts faits : calculé sur TOUTE la vie du joueur (pas de
   // filtre de période), chaque palier valant ses points. Vrais joueurs seulement.
@@ -300,6 +334,18 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
           <Txt faint>›</Txt>
         </View>
       </Card>
+      {getFlag('weeklyRecap') && weekFacts.totalGames > 0 && (
+        <Card onPress={() => void shareWeek()} style={{ marginTop: spacing(1) }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing(1) }}>
+            <Txt size={fontSize.xl}>📈</Txt>
+            <View style={{ flex: 1 }}>
+              <Txt weight="800">{tr('Récap de la semaine')}</Txt>
+              <Txt faint size={fontSize.xs}>{tr('Partage ta semaine en image.')}</Txt>
+            </View>
+            <Txt faint>{sharingWeek ? '…' : '📤'}</Txt>
+          </View>
+        </Card>
+      )}
       {!ent.allStats && (
         <Card accent={colors.accent} onPress={() => navigation.navigate('Store')} style={{ marginTop: spacing(1) }}>
           <Txt weight="800" size={fontSize.sm}>
@@ -350,7 +396,43 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
           </View>
         </>
       )}
+
+      {/* Carte « ma semaine » rendue hors-écran, capturée en image à la demande. */}
+      {getFlag('weeklyRecap') && (
+        <View style={styles.shotWrap} pointerEvents="none">
+          <View ref={recapRef} collapsable={false} style={styles.weekCard}>
+            <Txt weight="900" size={fontSize.lg} color={colors.white}>🔒 Cancellable</Txt>
+            <Txt weight="700" color={colors.white} style={{ opacity: 0.85, marginBottom: spacing(1.5) }}>
+              {tr('Ma semaine 📈')}
+            </Txt>
+            <WeekStat label={tr('parties')} value={String(weekFacts.totalGames)} />
+            <WeekStat label={tr('questions')} value={String(weekFacts.totalQuestions)} />
+            <WeekStat label={tr('gorgées')} value={String(weekFacts.totalSips)} />
+            {weekLeaderPlayer && (
+              <WeekStat label={tr('en tête')} value={`${weekLeaderPlayer.emoji} ${weekLeaderPlayer.name}`} />
+            )}
+            {weekFacts.favouriteTheme && (
+              <WeekStat
+                label={tr('thème favori')}
+                value={THEME_META[weekFacts.favouriteTheme as Theme] ? tr(THEME_META[weekFacts.favouriteTheme as Theme].label) : weekFacts.favouriteTheme}
+              />
+            )}
+            <Txt size={fontSize.xs} color={colors.white} style={{ opacity: 0.7, marginTop: spacing(1.5) }}>
+              {tr('Le jeu de vos soirées entre amis 🎉')}
+            </Txt>
+          </View>
+        </View>
+      )}
     </Screen>
+  );
+}
+
+function WeekStat({ label, value }: { label: string; value: string }) {
+  return (
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: spacing(0.5) }}>
+      <Txt color={colors.white} style={{ opacity: 0.85 }}>{label}</Txt>
+      <Txt weight="900" color={colors.white}>{value}</Txt>
+    </View>
   );
 }
 
@@ -377,6 +459,8 @@ function TabEmpty({ text }: { text: string }) {
 }
 
 const styles = StyleSheet.create({
+  shotWrap: { position: 'absolute', left: -9999, top: 0 },
+  weekCard: { width: 340, backgroundColor: colors.primaryDark, padding: spacing(3), borderRadius: radius.lg },
   factsRow: { flexDirection: 'row', gap: spacing(1), marginTop: spacing(1.5) },
   factCard: { flex: 1, alignItems: 'center', gap: 2, paddingVertical: spacing(1.5) },
   rankRow: { flexDirection: 'row', alignItems: 'center', gap: spacing(1.5), marginBottom: spacing(1) },

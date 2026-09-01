@@ -1406,6 +1406,14 @@ export const EN: Record<string, string> = {
   'Ta régularité': 'Your consistency',
   '{n} jours joués sur les 5 dernières semaines': '{n} days played in the last 5 weeks',
 
+  // --- Récap de la semaine --------------------------------------------------
+  'Récap de la semaine': 'Weekly recap',
+  'Partage ta semaine en image.': 'Share your week as an image.',
+  'Ma semaine Cancellable': 'My Cancellable week',
+  'Ma semaine 📈': 'My week 📈',
+  'en tête': 'in the lead',
+  'thème favori': 'favorite theme',
+
   // --- Triage des signalements ----------------------------------------------
   'signalée {n} fois': 'reported {n} time',
   'signalée {n}×': 'reported {n}×',
