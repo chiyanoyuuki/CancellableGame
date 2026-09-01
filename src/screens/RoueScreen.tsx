@@ -6,6 +6,7 @@ import { Button, Card, Screen, Segmented, Txt } from '../components/ui';
 import { type DareCategory, daresFor, nextDare } from '../core/dares';
 import { haptics } from '../lib/haptics';
 import { isNoAlcohol } from '../lib/drinkMode';
+import { isReduceMotion } from '../lib/motion';
 import { sounds } from '../lib/sounds';
 import { useT } from '../lib/i18nProvider';
 import type { RootStackParamList } from '../navigation';
@@ -37,8 +38,17 @@ export function RoueScreen({ navigation }: NativeStackScreenProps<RootStackParam
 
   const spin = () => {
     if (spinning) return;
-    setSpinning(true);
     const pool = daresFor(category);
+    // Animations réduites : on tire directement un gage, sans défilement.
+    if (isReduceMotion()) {
+      const d = nextDare(pool, dareRef.current, Math.random);
+      dareRef.current = d;
+      setDare(d);
+      haptics.win();
+      sounds.reveal();
+      return;
+    }
+    setSpinning(true);
     spinAnim.setValue(0);
     Animated.timing(spinAnim, {
       toValue: 1,

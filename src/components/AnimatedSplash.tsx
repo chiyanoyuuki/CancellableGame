@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Animated, Dimensions, Easing, StyleSheet, View } from 'react-native';
+
+import { isReduceMotion } from '../lib/motion';
 import * as Haptics from 'expo-haptics';
 
 import { colors } from '../theme/theme';
@@ -21,6 +23,11 @@ export function AnimatedSplash({ onFinish }: { onFinish: () => void }) {
   const fade = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
+    // Animations réduites : on saute directement le splash.
+    if (isReduceMotion()) {
+      onFinish();
+      return;
+    }
     const bars = drops.map((d, i) =>
       Animated.spring(d, { toValue: 1, useNativeDriver: true, delay: i * 80, friction: 5.5, tension: 90 }),
     );

@@ -13,6 +13,7 @@ import { areHapticsEnabled, setHapticsEnabled } from '../lib/haptics';
 import { isSpeechEnabled, setSpeechEnabled } from '../lib/speech';
 import { isSoundEnabled, setSoundEnabled } from '../lib/sounds';
 import { isNoAlcohol, setNoAlcohol } from '../lib/drinkMode';
+import { isReduceMotion, setReduceMotion } from '../lib/motion';
 import { cancelDailyReminder, scheduleDailyReminder } from '../lib/notifications';
 import { currentThemeMode, setAppTheme } from '../lib/appTheme';
 import type { ThemeMode } from '../theme/theme';
@@ -73,6 +74,13 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
     setNoAlcoholState(on);
     setNoAlcohol(on);
     void kvSetJSON('ui:noAlcohol', on);
+  };
+
+  const [reduceMotion, setReduceMotionState] = useState(isReduceMotion());
+  const toggleReduceMotion = (on: boolean) => {
+    setReduceMotionState(on);
+    setReduceMotion(on);
+    void kvSetJSON('ui:reduceMotion', on);
   };
 
   const [theme, setTheme] = useState<ThemeMode>(currentThemeMode());
@@ -230,6 +238,18 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
           <Switch
             value={haptics}
             onValueChange={toggleHaptics}
+            trackColor={{ true: colors.primary, false: colors.border }}
+            thumbColor={colors.white}
+          />
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing(1), marginTop: spacing(2) }}>
+          <View style={{ flex: 1 }}>
+            <Txt weight="700">{t('Animations réduites 🍃')}</Txt>
+            <Txt faint size={fontSize.xs}>{t('Coupe le splash, les transitions et la roue (confort et perf).')}</Txt>
+          </View>
+          <Switch
+            value={reduceMotion}
+            onValueChange={toggleReduceMotion}
             trackColor={{ true: colors.primary, false: colors.border }}
             thumbColor={colors.white}
           />

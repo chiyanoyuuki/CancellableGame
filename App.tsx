@@ -13,6 +13,7 @@ import { setHapticsEnabled } from './src/lib/haptics';
 import { setSpeechEnabled } from './src/lib/speech';
 import { setSoundEnabled } from './src/lib/sounds';
 import { setNoAlcohol } from './src/lib/drinkMode';
+import { isReduceMotion, setReduceMotion } from './src/lib/motion';
 import { scheduleDailyReminder } from './src/lib/notifications';
 import { I18nProvider } from './src/lib/i18nProvider';
 import { TextScaleProvider } from './src/lib/textScale';
@@ -111,6 +112,12 @@ function AppInner() {
       } catch {
         // best-effort
       }
+      // Préférence « Animations réduites » (Réglages).
+      try {
+        setReduceMotion(await kvGetJSON<boolean>('ui:reduceMotion', false));
+      } catch {
+        // best-effort
+      }
       // Rappel quotidien : re-planifie si activé (au cas où l'OS l'aurait oublié).
       try {
         if (await kvGetJSON<boolean>('ui:dailyReminder', false)) {
@@ -159,7 +166,7 @@ function AppInner() {
     content = (
       <NavigationContainer theme={navTheme} initialState={initialNavState}>
         <Stack.Navigator
-          screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.bg }, animation: 'slide_from_right' }}
+          screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.bg }, animation: isReduceMotion() ? 'none' : 'slide_from_right' }}
         >
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Players" component={PlayersScreen} />

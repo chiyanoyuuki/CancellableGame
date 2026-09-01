@@ -1359,6 +1359,11 @@ export const EN: Record<string, string> = {
   'Reprendre le tournoi': 'Resume the tournament',
   // (« Qui participe ? » est déjà traduit plus haut.)
 
+  // --- Animations réduites (Réglages) ---------------------------------------
+  'Animations réduites 🍃': 'Reduced motion 🍃',
+  'Coupe le splash, les transitions et la roue (confort et perf).':
+    'Turns off the splash, transitions and the wheel (comfort and performance).',
+
   // --- Triage des signalements ----------------------------------------------
   'signalée {n} fois': 'reported {n} time',
   'signalée {n}×': 'reported {n}×',
