@@ -1332,6 +1332,33 @@ export const EN: Record<string, string> = {
   'Tout le monde a joué ! Reviens demain pour une nouvelle question. 🌅':
     'Everyone has played! Come back tomorrow for a new question. 🌅',
 
+  // --- Tournoi --------------------------------------------------------------
+  Tournoi: 'Tournament',
+  'Un programme de manches, un champion à la fin': 'A schedule of rounds, one champion at the end',
+  '🏆 Un vrai tournoi de soirée': '🏆 A real party tournament',
+  'Une sélection surprise de mini-jeux enchaînés. Chaque manche rapporte des points selon le classement ; le meilleur cumul est sacré champion.':
+    'A surprise lineup of back-to-back mini-games. Each round scores points by ranking; the best total is crowned champion.',
+  'Nombre de manches': 'Number of rounds',
+  'Lancer le tournoi': 'Start the tournament',
+  'Manche {n}/{total}': 'Round {n}/{total}',
+  Programme: 'Schedule',
+  'à jouer': 'to play',
+  'Jouer : {game}': 'Play: {game}',
+  'Encore {n} manches': '{n} rounds left',
+  'Dernière manche': 'Last round',
+  'Fin du tournoi': 'Tournament over',
+  'remporte le tournoi ! 🎊': 'wins the tournament! 🎊',
+  'Égalité en tête, pas de vainqueur unique !': 'Tied at the top, no single winner!',
+  'Nouveau tournoi': 'New tournament',
+  'Une soirée libre est en cours': 'A free party is in progress',
+  'Termine-la (ou démarre un nouveau tournoi, ce qui la remplacera).':
+    'Finish it (or start a new tournament, which will replace it).',
+  'Ouvrir la soirée': 'Open the party',
+  'Un tournoi est en cours': 'A tournament is in progress',
+  'Reprends-le pour continuer les manches.': 'Resume it to keep playing rounds.',
+  'Reprendre le tournoi': 'Resume the tournament',
+  // (« Qui participe ? » est déjà traduit plus haut.)
+
   // --- Triage des signalements ----------------------------------------------
   'signalée {n} fois': 'reported {n} time',
   'signalée {n}×': 'reported {n}×',

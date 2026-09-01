@@ -31,12 +31,42 @@ export interface SoireeState {
   points: Record<string, number>;
   rounds: SoireeRound[];
   startedAt: number;
+  /**
+   * Mode « Tournoi » : liste ordonnée des mini-jeux prévus. Absent pour une
+   * Soirée libre (open-ended). Présent → nombre de manches fixé et cérémonie
+   * de fin automatique une fois le programme épuisé.
+   */
+  plan?: string[];
 }
 
-export function createSoiree(players: SoireePlayer[], at: number = Date.now()): SoireeState {
+export function createSoiree(players: SoireePlayer[], at: number = Date.now(), plan?: string[]): SoireeState {
   const points: Record<string, number> = {};
   for (const p of players) points[p.id] = 0;
-  return { players, points, rounds: [], startedAt: at };
+  const base: SoireeState = { players, points, rounds: [], startedAt: at };
+  if (plan && plan.length > 0) base.plan = [...plan];
+  return base;
+}
+
+/** Mode Tournoi (un programme de manches est défini) ? */
+export function isTournoi(state: SoireeState): boolean {
+  return Array.isArray(state.plan) && state.plan.length > 0;
+}
+
+/** Prochain mini-jeu prévu du tournoi, ou null (soirée libre ou programme fini). */
+export function nextPlannedGameId(state: SoireeState): string | null {
+  if (!isTournoi(state)) return null;
+  return state.plan![state.rounds.length] ?? null;
+}
+
+/** Nombre de manches restantes au programme du tournoi. */
+export function plannedRemaining(state: SoireeState): number {
+  if (!isTournoi(state)) return 0;
+  return Math.max(0, state.plan!.length - state.rounds.length);
+}
+
+/** Tournoi terminé : toutes les manches prévues ont été jouées. */
+export function isTournoiComplete(state: SoireeState): boolean {
+  return isTournoi(state) && state.rounds.length >= state.plan!.length;
 }
 
 /** Points d'UNE manche par joueur selon le classement (1er = participants pts). */

@@ -20,6 +20,7 @@ export type RootStackParamList = {
   Entrainement: undefined;
   Seasons: undefined;
   Qotd: undefined;
+  Tournoi: undefined;
   Stats: undefined;
   AppStats: undefined;
   Settings: undefined;

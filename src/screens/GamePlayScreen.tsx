@@ -25,14 +25,19 @@ export function GamePlayScreen({ route, navigation }: NativeStackScreenProps<Roo
       // Manche de « Mode Soirée » : on crédite le classement cumulé et on revient
       // au tableau de la soirée plutôt qu'à l'écran de résultats normal.
       if (soiree) {
+        let isTournoi = false;
         try {
           const active = await getActiveSoiree();
-          if (active) await saveActiveSoiree(applyRound(active, result));
+          if (active) {
+            isTournoi = Array.isArray(active.plan) && active.plan.length > 0;
+            await saveActiveSoiree(applyRound(active, result));
+          }
         } catch (e) {
           console.warn('Impossible de mettre à jour la soirée', e);
         }
-        // Revient au tableau de la soirée déjà présent dans la pile (dépile la config + le jeu).
-        navigation.navigate('Soiree');
+        // Revient au tableau : celui du Tournoi si un programme est défini, sinon
+        // celui de la soirée libre (dépile la config + le jeu).
+        navigation.navigate(isTournoi ? 'Tournoi' : 'Soiree');
         return;
       }
       // Le nettoyage du slot sauvegardé est géré par le jeu lui-même.

@@ -169,6 +169,18 @@ export function SoireeScreen({ navigation }: NativeStackScreenProps<RootStackPar
     );
   }
 
+  // --- Un tournoi occupe l'état de soirée : on renvoie vers son écran dédié. ---
+  if (soiree.plan && soiree.plan.length > 0) {
+    return (
+      <Screen title={t('Mode Soirée')} onBack={() => navigation.navigate('Home')} scroll>
+        <EmptyState emoji="🏆" title={t('Un tournoi est en cours')} subtitle={t('Reprends-le pour continuer les manches.')} />
+        <View style={{ marginTop: spacing(2) }}>
+          <Button title={t('Reprendre le tournoi')} emoji="🏆" onPress={() => navigation.navigate('Tournoi')} />
+        </View>
+      </Screen>
+    );
+  }
+
   // --- Soirée en cours (tableau de bord) ---
   const standings = soireeStandings(soiree);
   return (

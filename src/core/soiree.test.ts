@@ -1,5 +1,16 @@
 import type { PlayerSessionResult, SessionResult } from './models';
-import { applyRound, createSoiree, roundPoints, soireeChampion, soireeStandings, type SoireePlayer } from './soiree';
+import {
+  applyRound,
+  createSoiree,
+  isTournoi,
+  isTournoiComplete,
+  nextPlannedGameId,
+  plannedRemaining,
+  roundPoints,
+  soireeChampion,
+  soireeStandings,
+  type SoireePlayer,
+} from './soiree';
 
 const players: SoireePlayer[] = [
   { id: 'p1', name: 'Alice', emoji: '🦊', color: '#f00' },
@@ -69,5 +80,31 @@ describe('soiree', () => {
 
     s = applyRound(s, session('duel', [['p2', 1], ['p3', 2], ['p1', 3]])); // p1:3+1=4, p2:2+3=5
     expect(soireeChampion(s)?.id).toBe('p2');
+  });
+
+  test('mode Tournoi : programme, progression et fin', () => {
+    let s = createSoiree(players, 0, ['quiz', 'bombe', 'duel']);
+    expect(isTournoi(s)).toBe(true);
+    expect(nextPlannedGameId(s)).toBe('quiz');
+    expect(plannedRemaining(s)).toBe(3);
+    expect(isTournoiComplete(s)).toBe(false);
+
+    s = applyRound(s, session('quiz', [['p1', 1], ['p2', 2], ['p3', 3]]));
+    expect(nextPlannedGameId(s)).toBe('bombe');
+    expect(plannedRemaining(s)).toBe(2);
+
+    s = applyRound(s, session('bombe', [['p2', 1], ['p1', 2], ['p3', 3]]));
+    s = applyRound(s, session('duel', [['p3', 1], ['p1', 2], ['p2', 3]]));
+    expect(isTournoiComplete(s)).toBe(true);
+    expect(nextPlannedGameId(s)).toBeNull();
+    expect(plannedRemaining(s)).toBe(0);
+  });
+
+  test('une soirée libre n\'est pas un tournoi', () => {
+    const s = createSoiree(players);
+    expect(isTournoi(s)).toBe(false);
+    expect(nextPlannedGameId(s)).toBeNull();
+    expect(isTournoiComplete(s)).toBe(false);
+    expect(createSoiree(players, 0, []).plan).toBeUndefined(); // plan vide ignoré
   });
 });
