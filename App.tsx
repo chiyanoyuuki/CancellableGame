@@ -14,6 +14,7 @@ import { setSpeechEnabled } from './src/lib/speech';
 import { setSoundEnabled } from './src/lib/sounds';
 import { setNoAlcohol } from './src/lib/drinkMode';
 import { isReduceMotion, setReduceMotion } from './src/lib/motion';
+import { ALL_FLAGS, FLAG_KV, setFlag } from './src/lib/featureFlags';
 import { scheduleDailyReminder } from './src/lib/notifications';
 import { I18nProvider } from './src/lib/i18nProvider';
 import { TextScaleProvider } from './src/lib/textScale';
@@ -43,6 +44,7 @@ import { EntrainementScreen } from './src/screens/EntrainementScreen';
 import { SeasonsScreen } from './src/screens/SeasonsScreen';
 import { QotdScreen } from './src/screens/QotdScreen';
 import { TournoiScreen } from './src/screens/TournoiScreen';
+import { TeamGeneratorScreen } from './src/screens/TeamGeneratorScreen';
 import { StatsScreen } from './src/screens/StatsScreen';
 import { StoreScreen } from './src/screens/StoreScreen';
 import { StoreProvider, useStore } from './src/store/StoreProvider';
@@ -118,6 +120,14 @@ function AppInner() {
       } catch {
         // best-effort
       }
+      // Interrupteurs des fonctionnalités optionnelles (toutes activées par défaut).
+      try {
+        await Promise.all(
+          ALL_FLAGS.map(async (f) => setFlag(f, await kvGetJSON<boolean>(FLAG_KV[f], true))),
+        );
+      } catch {
+        // best-effort
+      }
       // Rappel quotidien : re-planifie si activé (au cas où l'OS l'aurait oublié).
       try {
         if (await kvGetJSON<boolean>('ui:dailyReminder', false)) {
@@ -183,6 +193,7 @@ function AppInner() {
           <Stack.Screen name="Seasons" component={SeasonsScreen} />
           <Stack.Screen name="Qotd" component={QotdScreen} />
           <Stack.Screen name="Tournoi" component={TournoiScreen} />
+          <Stack.Screen name="TeamGenerator" component={TeamGeneratorScreen} />
           <Stack.Screen name="Lobby" component={LobbyScreen} />
           <Stack.Screen name="GameConfig" component={GameConfigScreen} />
           <Stack.Screen name="GamePlay" component={GamePlayScreen} options={{ gestureEnabled: false }} />

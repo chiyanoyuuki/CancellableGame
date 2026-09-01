@@ -6,6 +6,7 @@ import { Alert, View } from 'react-native';
 import { Button, Screen, Txt } from '../components/ui';
 import { dateKey, EMPTY_STREAK, liveStreak, previousDateKey, type StreakState } from '../core/dailyChallenge';
 import { deleteSavedGame, getMissedCount, getSessionCount, kvGetJSON, listSavedGames, type SavedGame } from '../db';
+import { getFlag } from '../lib/featureFlags';
 import { useT } from '../lib/i18nProvider';
 import type { RootStackParamList } from '../navigation';
 import { fontSize, spacing } from '../theme/theme';
@@ -109,6 +110,9 @@ export function HomeScreen({ navigation }: NativeStackScreenProps<RootStackParam
         <Button title={t('Tournoi')} emoji="🏆" variant="secondary" size="lg" onPress={() => navigation.navigate('Tournoi')} />
         <Button title={t('Question du jour')} emoji="🗓️" variant="secondary" size="lg" onPress={() => navigation.navigate('Qotd')} />
         <Button title={t('Roue des gages')} emoji="🎡" variant="secondary" size="lg" onPress={() => navigation.navigate('Roue')} />
+        {getFlag('teamGen') && (
+          <Button title={t("Générateur d'équipes")} emoji="🧩" variant="secondary" size="lg" onPress={() => navigation.navigate('TeamGenerator')} />
+        )}
         <Button title={t('Joueurs')} emoji="👥" variant="secondary" size="lg" onPress={() => navigation.navigate('Players')} />
         <Button title={t('Statistiques')} emoji="📊" variant="secondary" size="lg" onPress={() => navigation.navigate('Stats')} />
         <Button title={t('Mon contenu')} emoji="✏️" variant="secondary" size="lg" onPress={() => navigation.navigate('CustomContent')} />

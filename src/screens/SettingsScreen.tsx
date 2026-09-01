@@ -14,6 +14,7 @@ import { isSpeechEnabled, setSpeechEnabled } from '../lib/speech';
 import { isSoundEnabled, setSoundEnabled } from '../lib/sounds';
 import { isNoAlcohol, setNoAlcohol } from '../lib/drinkMode';
 import { isReduceMotion, setReduceMotion } from '../lib/motion';
+import { ALL_FLAGS, type FeatureFlag, FLAG_KV, getFlag, setFlag } from '../lib/featureFlags';
 import { cancelDailyReminder, scheduleDailyReminder } from '../lib/notifications';
 import { currentThemeMode, setAppTheme } from '../lib/appTheme';
 import type { ThemeMode } from '../theme/theme';
@@ -81,6 +82,24 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
     setReduceMotionState(on);
     setReduceMotion(on);
     void kvSetJSON('ui:reduceMotion', on);
+  };
+
+  const [feat, setFeat] = useState<Record<FeatureFlag, boolean>>(() => {
+    const o = {} as Record<FeatureFlag, boolean>;
+    for (const f of ALL_FLAGS) o[f] = getFlag(f);
+    return o;
+  });
+  const toggleFeat = (f: FeatureFlag, on: boolean) => {
+    setFeat((p) => ({ ...p, [f]: on }));
+    setFlag(f, on);
+    void kvSetJSON(FLAG_KV[f], on);
+  };
+  const FEATURE_LABELS: Record<FeatureFlag, { title: string; desc: string }> = {
+    teamGen: { title: t("Générateur d'équipes 🧩"), desc: t("Raccourci sur l'accueil pour répartir les joueurs en équipes.") },
+    streakCalendar: { title: t('Calendrier de série 📆'), desc: t("Historique visuel de tes défis du jour.") },
+    weeklyRecap: { title: t('Récap de la semaine 📈'), desc: t('Carte de la semaine à partager, dans les Stats.') },
+    jokers: { title: t('Jokers dans le quiz 🃏'), desc: t('50/50 et geler le chrono, en nombre limité par partie.') },
+    tiebreak: { title: t('Manche de départage 🥊'), desc: t("Question surprise en cas d'égalité (Soirée & Tournoi).") },
   };
 
   const [theme, setTheme] = useState<ThemeMode>(currentThemeMode());
@@ -320,6 +339,30 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
             thumbColor={colors.white}
           />
         </View>
+      </Card>
+
+      <SectionHeader title={t('Fonctionnalités')} />
+      <Card>
+        <Txt dim size={fontSize.sm} style={{ marginBottom: spacing(1) }}>
+          {t('Active ou masque les extras. Tout est activé par défaut.')}
+        </Txt>
+        {ALL_FLAGS.map((f, i) => (
+          <View
+            key={f}
+            style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing(1), marginTop: i === 0 ? 0 : spacing(2) }}
+          >
+            <View style={{ flex: 1 }}>
+              <Txt weight="700">{FEATURE_LABELS[f].title}</Txt>
+              <Txt faint size={fontSize.xs}>{FEATURE_LABELS[f].desc}</Txt>
+            </View>
+            <Switch
+              value={feat[f]}
+              onValueChange={(on) => toggleFeat(f, on)}
+              trackColor={{ true: colors.primary, false: colors.border }}
+              thumbColor={colors.white}
+            />
+          </View>
+        ))}
       </Card>
 
       <SectionHeader title={t('Sauvegarde')} />

@@ -1364,6 +1364,31 @@ export const EN: Record<string, string> = {
   'Coupe le splash, les transitions et la roue (confort et perf).':
     'Turns off the splash, transitions and the wheel (comfort and performance).',
 
+  // --- Fonctionnalités (Réglages) -------------------------------------------
+  Fonctionnalités: 'Features',
+  'Active ou masque les extras. Tout est activé par défaut.':
+    'Turn extras on or off. Everything is on by default.',
+  "Générateur d'équipes 🧩": 'Team generator 🧩',
+  "Raccourci sur l'accueil pour répartir les joueurs en équipes.":
+    'Home shortcut to split players into teams.',
+  'Calendrier de série 📆': 'Streak calendar 📆',
+  'Historique visuel de tes défis du jour.': 'A visual history of your daily challenges.',
+  'Récap de la semaine 📈': 'Weekly recap 📈',
+  'Carte de la semaine à partager, dans les Stats.': 'A shareable weekly card, in Stats.',
+  'Jokers dans le quiz 🃏': 'Quiz jokers 🃏',
+  '50/50 et geler le chrono, en nombre limité par partie.': '50/50 and freeze timer, limited per game.',
+  'Manche de départage 🥊': 'Tie-break round 🥊',
+  "Question surprise en cas d'égalité (Soirée & Tournoi).":
+    'Surprise question on a tie (Party & Tournament).',
+
+  // --- Générateur d'équipes -------------------------------------------------
+  "Générateur d'équipes": 'Team generator',
+  'Des équipes équilibrées en un tap': 'Balanced teams in one tap',
+  'Générer les équipes': 'Generate teams',
+  'Re-générer 🎲': 'Reshuffle 🎲',
+  // (« Nombre d'équipes » et « Équipe {n} » sont déjà traduits plus haut.)
+  'Pas convaincu ? Re-génère pour un autre tirage.': 'Not sold? Reshuffle for another draw.',
+
   // --- Triage des signalements ----------------------------------------------
   'signalée {n} fois': 'reported {n} time',
   'signalée {n}×': 'reported {n}×',
