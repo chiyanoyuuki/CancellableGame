@@ -24,6 +24,8 @@ export interface AliasConfig {
   roundsPerTeam: number;
   /** Durée d'un tour en secondes (informatif ; l'écran gère le chrono). */
   roundSeconds: number;
+  /** Thèmes d'où viennent les mots ([] ou absent = tous). Filtré par l'écran. */
+  themes?: string[];
 }
 
 export type AliasPhase = 'ready' | 'playing' | 'turnEnd' | 'finished';

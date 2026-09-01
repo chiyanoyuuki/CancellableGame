@@ -34,9 +34,12 @@ export function CulturePlayComponent({ players, config, onFinish, onQuit }: Mini
     let alive = true;
     void (async () => {
       const full = await getQuizPool();
-      const pool = store.ent.allThemes
-        ? full
-        : full.filter((q) => store.isUniverseUnlocked(q.universe ?? `#${q.theme}`));
+      const themeSet = cfg.themes && cfg.themes.length > 0 ? new Set(cfg.themes) : null;
+      const pool = full.filter(
+        (q) =>
+          (!themeSet || themeSet.has(q.theme)) &&
+          (store.ent.allThemes || store.isUniverseUnlocked(q.universe ?? `#${q.theme}`)),
+      );
       const need = players.length * Math.max(1, cfg.questionsPerPlayer);
       const daily = buildDaily(pool, randomSeed().toString(), Math.max(need + 4, need));
       const deck: QCard[] = daily.map((d) => ({

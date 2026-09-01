@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { StyleSheet, Switch, View } from 'react-native';
 
 import { Button, Card, HowToPlay, Segmented, SectionHeader, Txt } from '../../components/ui';
+import { ThemePicker } from '../../components/ThemePicker';
 import type { CultureConfig } from '../../core/cultureEngine';
 import type { DrinkIntensity } from '../../core/models';
 import { isNoAlcohol } from '../../lib/drinkMode';
@@ -16,6 +17,7 @@ export function CultureConfigComponent({ players, onStart }: MiniGameConfigProps
   const [questionsPerPlayer, setQuestionsPerPlayer] = useState(3);
   const [drinksEnabled, setDrinksEnabled] = useState(!isNoAlcohol());
   const [drinkIntensity, setDrinkIntensity] = useState<DrinkIntensity>('normal');
+  const [themes, setThemes] = useState<string[]>([]);
 
   const valid = players.length >= 2;
 
@@ -25,6 +27,7 @@ export function CultureConfigComponent({ players, onStart }: MiniGameConfigProps
       drinksEnabled,
       drinkIntensity,
       dareCategory: 'soft',
+      themes,
     } satisfies CultureConfig);
 
   return (
@@ -51,6 +54,9 @@ export function CultureConfigComponent({ players, onStart }: MiniGameConfigProps
         onChange={(v) => setQuestionsPerPlayer(Number(v))}
         options={PER_PLAYER_OPTIONS.map((n) => ({ label: `${n}`, value: String(n) }))}
       />
+
+      <SectionHeader title={t('Thèmes des questions')} />
+      <ThemePicker selected={themes} onChange={setThemes} />
 
       <SectionHeader title={t('Mode alcool')} />
       <View style={styles.rowBetween}>

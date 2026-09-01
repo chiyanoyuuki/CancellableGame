@@ -25,6 +25,8 @@ export interface CultureConfig {
   drinkIntensity: DrinkIntensity;
   /** Catégorie de gage piochée sur une mauvaise réponse. */
   dareCategory: DareCategory;
+  /** Thèmes d'où viennent les questions ([] ou absent = tous). Filtré par l'écran. */
+  themes?: string[];
 }
 
 export type CulturePhase = 'question' | 'result' | 'finished';

@@ -1422,6 +1422,12 @@ export const EN: Record<string, string> = {
   'Soirée & outils': 'Party & tools',
   Gérer: 'Manage',
 
+  // --- Sélecteur de thèmes (Alias, Culture ou gage) -------------------------
+  'Thèmes des mots': 'Word themes',
+  'Thèmes des questions': 'Question themes',
+  'Aucun thème choisi → tous les thèmes seront utilisés.':
+    'No theme selected → all themes will be used.',
+
   // --- Triage des signalements ----------------------------------------------
   'signalée {n} fois': 'reported {n} time',
   'signalée {n}×': 'reported {n}×',
