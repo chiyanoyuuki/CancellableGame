@@ -1421,6 +1421,15 @@ export const EN: Record<string, string> = {
   Reprendre: 'Resume',
   'Soirée & outils': 'Party & tools',
   Gérer: 'Manage',
+  Explorer: 'Explore',
+  'Jeux solo': 'Solo games',
+  'Stats & profils': 'Stats & profiles',
+
+  // --- Sous-menus (Hub) -----------------------------------------------------
+  'Jouer en solo': 'Play solo',
+  "S'entraîner et se défier seul": 'Practice and challenge yourself',
+  'Fils rouges et outils de soirée': 'Party threads and tools',
+  'Gérer joueurs, stats et contenu': 'Manage players, stats and content',
 
   // --- Sélecteur de thèmes (Alias, Culture ou gage) -------------------------
   'Thèmes des mots': 'Word themes',

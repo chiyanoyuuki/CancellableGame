@@ -23,6 +23,7 @@ export type RootStackParamList = {
   Tournoi: undefined;
   TeamGenerator: undefined;
   TieBreak: { playerIds: string[]; returnTo: 'Soiree' | 'Tournoi' };
+  Hub: { hub: 'solo' | 'party' | 'manage' };
   Stats: undefined;
   AppStats: undefined;
   Settings: undefined;

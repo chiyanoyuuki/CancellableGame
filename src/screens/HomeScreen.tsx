@@ -6,7 +6,6 @@ import { Alert, View } from 'react-native';
 import { Button, Screen, SectionHeader, Txt } from '../components/ui';
 import { dateKey, EMPTY_STREAK, liveStreak, previousDateKey, type StreakState } from '../core/dailyChallenge';
 import { deleteSavedGame, getMissedCount, getSessionCount, kvGetJSON, listSavedGames, type SavedGame } from '../db';
-import { getFlag } from '../lib/featureFlags';
 import { useT } from '../lib/i18nProvider';
 import type { RootStackParamList } from '../navigation';
 import { fontSize, spacing } from '../theme/theme';
@@ -107,34 +106,17 @@ export function HomeScreen({ navigation }: NativeStackScreenProps<RootStackParam
         )}
       </View>
 
-      {/* Soirée & outils, en grille compacte. */}
-      <SectionHeader title={t('Soirée & outils')} />
+      {/* Sous-menus : l'accueil reste léger, chaque tuile ouvre une catégorie. */}
+      <SectionHeader title={t('Explorer')} />
       <View style={{ gap: spacing(1) }}>
         <View style={{ flexDirection: 'row', gap: spacing(1) }}>
-          <Button title={t('Mode Soirée')} emoji="🎉" variant="secondary" style={{ flex: 1 }} onPress={() => navigation.navigate('Soiree')} />
-          <Button title={t('Tournoi')} emoji="🏆" variant="secondary" style={{ flex: 1 }} onPress={() => navigation.navigate('Tournoi')} />
+          <Button title={t('Jeux solo')} emoji="🕹️" variant="secondary" style={{ flex: 1 }} onPress={() => navigation.navigate('Hub', { hub: 'solo' })} />
+          <Button title={t('Soirée & outils')} emoji="🎉" variant="secondary" style={{ flex: 1 }} onPress={() => navigation.navigate('Hub', { hub: 'party' })} />
         </View>
         <View style={{ flexDirection: 'row', gap: spacing(1) }}>
-          <Button title={t('Question du jour')} emoji="🗓️" variant="secondary" style={{ flex: 1 }} onPress={() => navigation.navigate('Qotd')} />
-          <Button title={t('Roue des gages')} emoji="🎡" variant="secondary" style={{ flex: 1 }} onPress={() => navigation.navigate('Roue')} />
+          <Button title={t('Stats & profils')} emoji="📊" variant="secondary" style={{ flex: 1 }} onPress={() => navigation.navigate('Hub', { hub: 'manage' })} />
+          <Button title={t('Réglages')} emoji="⚙️" variant="secondary" style={{ flex: 1 }} onPress={() => navigation.navigate('Settings')} />
         </View>
-        {getFlag('teamGen') && (
-          <Button title={t("Générateur d'équipes")} emoji="🧩" variant="secondary" onPress={() => navigation.navigate('TeamGenerator')} />
-        )}
-      </View>
-
-      {/* Gérer / secondaire. */}
-      <SectionHeader title={t('Gérer')} />
-      <View style={{ gap: spacing(1) }}>
-        <View style={{ flexDirection: 'row', gap: spacing(1) }}>
-          <Button title={t('Joueurs')} emoji="👥" variant="secondary" style={{ flex: 1 }} onPress={() => navigation.navigate('Players')} />
-          <Button title={t('Statistiques')} emoji="📊" variant="secondary" style={{ flex: 1 }} onPress={() => navigation.navigate('Stats')} />
-        </View>
-        <View style={{ flexDirection: 'row', gap: spacing(1) }}>
-          <Button title={t('Mon contenu')} emoji="✏️" variant="secondary" style={{ flex: 1 }} onPress={() => navigation.navigate('CustomContent')} />
-          <Button title={t('Boutique')} emoji="🛍️" variant="secondary" style={{ flex: 1 }} onPress={() => navigation.navigate('Store')} />
-        </View>
-        <Button title={t('Réglages')} emoji="⚙️" variant="ghost" onPress={() => navigation.navigate('Settings')} />
       </View>
 
       {games !== null && games > 0 && (
