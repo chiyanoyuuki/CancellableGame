@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { View } from 'react-native';
 
 import { Button, Card, HowToPlay, Segmented, SectionHeader, Txt } from '../../components/ui';
-import { ThemePicker } from '../../components/ThemePicker';
+import { ContentPicker, type ContentSelection } from '../../components/ContentPicker';
 import type { AliasConfig, AliasTeam } from '../../core/aliasEngine';
 import { useT } from '../../lib/i18nProvider';
 import { colors, fontSize, spacing } from '../../theme/theme';
@@ -20,7 +20,7 @@ export function AliasConfigComponent({ players, onStart }: MiniGameConfigProps) 
   const [teamCount, setTeamCount] = useState(2);
   const [roundsPerTeam, setRoundsPerTeam] = useState(2);
   const [roundSeconds, setRoundSeconds] = useState(45);
-  const [themes, setThemes] = useState<string[]>([]);
+  const [content, setContent] = useState<ContentSelection>({ themes: [], excludedUniverses: [] });
 
   const maxTeams = Math.min(4, Math.max(2, Math.floor(players.length / 2)));
   const effectiveCount = Math.min(teamCount, maxTeams);
@@ -31,7 +31,8 @@ export function AliasConfigComponent({ players, onStart }: MiniGameConfigProps) 
       teams: TEAM_PRESET.slice(0, effectiveCount),
       roundsPerTeam,
       roundSeconds,
-      themes,
+      themes: content.themes,
+      excludedUniverses: content.excludedUniverses,
     } satisfies AliasConfig);
 
   return (
@@ -80,8 +81,8 @@ export function AliasConfigComponent({ players, onStart }: MiniGameConfigProps) 
         ]}
       />
 
-      <SectionHeader title={t('Thèmes des mots')} />
-      <ThemePicker selected={themes} onChange={setThemes} />
+      <SectionHeader title={t('Thèmes & univers des mots')} />
+      <ContentPicker value={content} onChange={setContent} />
 
       <View style={{ height: spacing(1) }} />
       <Button title={t('Lancer Fais deviner')} emoji="🗣️" size="lg" variant="accent" onPress={launch} disabled={!valid} />

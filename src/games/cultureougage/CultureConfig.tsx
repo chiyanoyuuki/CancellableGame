@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { StyleSheet, Switch, View } from 'react-native';
 
 import { Button, Card, HowToPlay, Segmented, SectionHeader, Txt } from '../../components/ui';
-import { ThemePicker } from '../../components/ThemePicker';
+import { ContentPicker, type ContentSelection } from '../../components/ContentPicker';
 import type { CultureConfig } from '../../core/cultureEngine';
 import type { DrinkIntensity } from '../../core/models';
 import { isNoAlcohol } from '../../lib/drinkMode';
@@ -17,7 +17,7 @@ export function CultureConfigComponent({ players, onStart }: MiniGameConfigProps
   const [questionsPerPlayer, setQuestionsPerPlayer] = useState(3);
   const [drinksEnabled, setDrinksEnabled] = useState(!isNoAlcohol());
   const [drinkIntensity, setDrinkIntensity] = useState<DrinkIntensity>('normal');
-  const [themes, setThemes] = useState<string[]>([]);
+  const [content, setContent] = useState<ContentSelection>({ themes: [], excludedUniverses: [] });
 
   const valid = players.length >= 2;
 
@@ -27,7 +27,8 @@ export function CultureConfigComponent({ players, onStart }: MiniGameConfigProps
       drinksEnabled,
       drinkIntensity,
       dareCategory: 'soft',
-      themes,
+      themes: content.themes,
+      excludedUniverses: content.excludedUniverses,
     } satisfies CultureConfig);
 
   return (
@@ -55,8 +56,8 @@ export function CultureConfigComponent({ players, onStart }: MiniGameConfigProps
         options={PER_PLAYER_OPTIONS.map((n) => ({ label: `${n}`, value: String(n) }))}
       />
 
-      <SectionHeader title={t('Thèmes des questions')} />
-      <ThemePicker selected={themes} onChange={setThemes} />
+      <SectionHeader title={t('Thèmes & univers des questions')} />
+      <ContentPicker value={content} onChange={setContent} />
 
       <SectionHeader title={t('Mode alcool')} />
       <View style={styles.rowBetween}>

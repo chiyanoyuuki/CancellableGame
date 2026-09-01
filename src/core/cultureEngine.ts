@@ -27,6 +27,8 @@ export interface CultureConfig {
   dareCategory: DareCategory;
   /** Thèmes d'où viennent les questions ([] ou absent = tous). Filtré par l'écran. */
   themes?: string[];
+  /** Univers exclus au sein des thèmes retenus. Filtré par l'écran. */
+  excludedUniverses?: string[];
 }
 
 export type CulturePhase = 'question' | 'result' | 'finished';

@@ -53,10 +53,36 @@ export function EntrainementScreen({ navigation }: NativeStackScreenProps<RootSt
     return m;
   }, [pool]);
 
-  const startTheme = (th: Theme) => {
-    const themed = (pool ?? []).filter((q) => q.theme === th);
+  // Univers jouables par thème (pour l'entraînement ciblé sur un univers précis).
+  const universesByTheme = useMemo(() => {
+    const m = new Map<Theme, string[]>();
+    const seen = new Map<Theme, Set<string>>();
+    for (const q of pool ?? []) {
+      if (q.media || q.distractors.length !== 3 || !q.universe) continue;
+      let s = seen.get(q.theme);
+      if (!s) {
+        s = new Set();
+        seen.set(q.theme, s);
+        m.set(q.theme, []);
+      }
+      if (!s.has(q.universe)) {
+        s.add(q.universe);
+        m.get(q.theme)!.push(q.universe);
+      }
+    }
+    for (const arr of m.values()) arr.sort((a, b) => a.localeCompare(b, 'fr'));
+    return m;
+  }, [pool]);
+
+  const [sessionUniverse, setSessionUniverse] = useState<string | null>(null);
+  const [showUniverses, setShowUniverses] = useState(false);
+  const sessionTitle = theme ? sessionUniverse ?? t(THEME_META[theme].label) : '';
+
+  const start = (th: Theme, universe?: string) => {
+    const themed = (pool ?? []).filter((q) => q.theme === th && (!universe || q.universe === universe));
     const built = buildDaily(themed, randomSeed().toString(), SESSION);
     setTheme(th);
+    setSessionUniverse(universe ?? null);
     setDeck(built);
     setIdx(0);
     setSelected(null);
@@ -88,6 +114,7 @@ export function EntrainementScreen({ navigation }: NativeStackScreenProps<RootSt
 
   const backToThemes = () => {
     setTheme(null);
+    setSessionUniverse(null);
     setDeck([]);
     stopSpeaking();
   };
@@ -113,7 +140,7 @@ export function EntrainementScreen({ navigation }: NativeStackScreenProps<RootSt
             <Chip
               key={th}
               label={`${THEME_META[th].emoji} ${t(THEME_META[th].label)} · ${counts.get(th) ?? 0}`}
-              onPress={() => startTheme(th)}
+              onPress={() => start(th)}
             />
           ))}
         </View>
@@ -121,6 +148,33 @@ export function EntrainementScreen({ navigation }: NativeStackScreenProps<RootSt
           <Txt dim center style={{ marginTop: spacing(3) }}>
             {t('Aucun thème jouable pour le moment.')}
           </Txt>
+        )}
+
+        {available.length > 0 && (
+          <>
+            <Pressable onPress={() => setShowUniverses((v) => !v)}>
+              <Txt weight="800" size={fontSize.sm} color={colors.primary} style={{ marginTop: spacing(2) }}>
+                {t('Ou choisis un univers précis')} {showUniverses ? '▾' : '▸'}
+              </Txt>
+            </Pressable>
+            {showUniverses &&
+              available.map((th) => {
+                const us = universesByTheme.get(th) ?? [];
+                if (us.length === 0) return null;
+                return (
+                  <View key={th} style={{ marginTop: spacing(1) }}>
+                    <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.5) }}>
+                      {THEME_META[th].emoji} {t(THEME_META[th].label).toUpperCase()}
+                    </Txt>
+                    <View style={styles.chips}>
+                      {us.map((u) => (
+                        <Chip key={u} label={u} onPress={() => start(th, u)} />
+                      ))}
+                    </View>
+                  </View>
+                );
+              })}
+          </>
         )}
       </Screen>
     );
@@ -135,10 +189,10 @@ export function EntrainementScreen({ navigation }: NativeStackScreenProps<RootSt
           <Txt size={fontSize.xl} weight="900" center>
             {t('{n}/{total} bonnes réponses', { n: correct, total: deck.length })}
           </Txt>
-          <Txt dim center>{THEME_META[theme].emoji} {t(THEME_META[theme].label)}</Txt>
+          <Txt dim center>{THEME_META[theme].emoji} {sessionTitle}</Txt>
         </View>
         <View style={{ height: spacing(3) }} />
-        <Button title={t('Encore ce thème')} emoji="🔁" size="lg" onPress={() => startTheme(theme)} />
+        <Button title={t('Encore')} emoji="🔁" size="lg" onPress={() => start(theme, sessionUniverse ?? undefined)} />
         <View style={{ height: spacing(1) }} />
         <Button title={t('Changer de thème')} emoji="🎯" variant="secondary" onPress={backToThemes} />
       </Screen>
@@ -147,7 +201,7 @@ export function EntrainementScreen({ navigation }: NativeStackScreenProps<RootSt
 
   const q = current!.question;
   return (
-    <Screen title={`${THEME_META[theme].emoji} ${t(THEME_META[theme].label)}`} onBack={backToThemes}>
+    <Screen title={`${THEME_META[theme].emoji} ${sessionTitle}`} onBack={backToThemes}>
       <ProgressBar value={idx + 1} total={deck.length} />
       <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
         {t('{n}/{total} · {m} bonnes', { n: idx + 1, total: deck.length, m: correct })}

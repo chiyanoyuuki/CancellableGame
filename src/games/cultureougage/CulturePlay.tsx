@@ -35,9 +35,11 @@ export function CulturePlayComponent({ players, config, onFinish, onQuit }: Mini
     void (async () => {
       const full = await getQuizPool();
       const themeSet = cfg.themes && cfg.themes.length > 0 ? new Set(cfg.themes) : null;
+      const excluded = new Set(cfg.excludedUniverses ?? []);
       const pool = full.filter(
         (q) =>
           (!themeSet || themeSet.has(q.theme)) &&
+          !(q.universe && excluded.has(q.universe)) &&
           (store.ent.allThemes || store.isUniverseUnlocked(q.universe ?? `#${q.theme}`)),
       );
       const need = players.length * Math.max(1, cfg.questionsPerPlayer);

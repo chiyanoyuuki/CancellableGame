@@ -38,10 +38,12 @@ export function AliasPlayComponent({ config, onFinish, onQuit }: MiniGamePlayPro
     void (async () => {
       const full = await getQuizPool();
       const themeSet = cfg.themes && cfg.themes.length > 0 ? new Set(cfg.themes) : null;
+      const excluded = new Set(cfg.excludedUniverses ?? []);
       const seen = new Set<string>();
       const words: string[] = [];
       for (const q of full) {
         if (themeSet && !themeSet.has(q.theme)) continue;
+        if (q.universe && excluded.has(q.universe)) continue;
         if (!isGoodImposteurWord(q.answer)) continue;
         if (!store.ent.allThemes && !store.isUniverseUnlocked(q.universe ?? `#${q.theme}`)) continue;
         if (seen.has(q.answer)) continue;

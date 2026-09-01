@@ -1431,11 +1431,14 @@ export const EN: Record<string, string> = {
   'Fils rouges et outils de soirée': 'Party threads and tools',
   'Gérer joueurs, stats et contenu': 'Manage players, stats and content',
 
-  // --- Sélecteur de thèmes (Alias, Culture ou gage) -------------------------
-  'Thèmes des mots': 'Word themes',
-  'Thèmes des questions': 'Question themes',
-  'Aucun thème choisi → tous les thèmes seront utilisés.':
-    'No theme selected → all themes will be used.',
+  // --- Sélecteur de contenu (thèmes + univers) : Alias, Culture ou gage -----
+  'Thèmes & univers des mots': 'Word themes & universes',
+  'Thèmes & univers des questions': 'Question themes & universes',
+  'Choisir des univers précis': 'Pick specific universes',
+  'Les univers décochés sont exclus. Un thème entièrement décoché ne sort plus.':
+    'Unchecked universes are excluded. A fully unchecked theme won’t appear.',
+  'Ou choisis un univers précis': 'Or pick a specific universe',
+  Encore: 'Again',
 
   // --- Sélection par thème (univers du quiz) --------------------------------
   tout: 'all',

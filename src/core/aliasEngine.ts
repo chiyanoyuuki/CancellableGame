@@ -26,6 +26,8 @@ export interface AliasConfig {
   roundSeconds: number;
   /** Thèmes d'où viennent les mots ([] ou absent = tous). Filtré par l'écran. */
   themes?: string[];
+  /** Univers exclus au sein des thèmes retenus. Filtré par l'écran. */
+  excludedUniverses?: string[];
 }
 
 export type AliasPhase = 'ready' | 'playing' | 'turnEnd' | 'finished';
