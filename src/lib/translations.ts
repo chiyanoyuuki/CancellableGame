@@ -1428,6 +1428,10 @@ export const EN: Record<string, string> = {
   'Aucun thème choisi → tous les thèmes seront utilisés.':
     'No theme selected → all themes will be used.',
 
+  // --- Sélection par thème (univers du quiz) --------------------------------
+  tout: 'all',
+  rien: 'none',
+
   // --- Réglages : sections Accessibilité scindées ---------------------------
   Affichage: 'Display',
   'Son & vibrations': 'Sound & vibration',

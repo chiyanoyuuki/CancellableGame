@@ -169,15 +169,17 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
     for (const g of filteredByTheme) for (const u of g.universes) s.add(u);
     return [...s];
   }, [favoritePresent, recentPresent, filteredByTheme]);
-  const bulkSetVisible = (exclude: boolean) =>
+  // Active (exclude=false) ou désactive (exclude=true) une liste d'univers d'un coup.
+  const bulkSetFor = (list: readonly string[], exclude: boolean) =>
     setCfg((c) => {
       const set = new Set(c.excludedUniverses);
-      for (const u of visibleUniverses) {
+      for (const u of list) {
         if (exclude) set.add(u);
         else set.delete(u);
       }
       return { ...c, excludedUniverses: [...set] };
     });
+  const bulkSetVisible = (exclude: boolean) => bulkSetFor(visibleUniverses, exclude);
 
   const available = eligible.length;
   const unseen = useMemo(
@@ -375,9 +377,15 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
               )}
               {filteredByTheme.map(({ theme, universes }) => (
                 <View key={theme} style={{ marginBottom: spacing(1.5) }}>
-                  <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.5) }}>
-                    {THEME_META[theme].emoji} {t(THEME_META[theme].label).toUpperCase()}
-                  </Txt>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing(0.5) }}>
+                    <Txt faint size={fontSize.xs} weight="800">
+                      {THEME_META[theme].emoji} {t(THEME_META[theme].label).toUpperCase()}
+                    </Txt>
+                    <View style={{ flexDirection: 'row', gap: spacing(0.5) }}>
+                      <Button size="sm" variant="ghost" title={t('tout')} onPress={() => bulkSetFor(universes, false)} />
+                      <Button size="sm" variant="ghost" title={t('rien')} onPress={() => bulkSetFor(universes, true)} />
+                    </View>
+                  </View>
                   <View style={styles.wrap}>{universes.map(renderUniverseChip)}</View>
                 </View>
               ))}
