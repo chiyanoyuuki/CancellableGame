@@ -1,6 +1,7 @@
 import type { PlayerSessionResult, SessionResult } from './models';
 import {
   applyRound,
+  awardTieBreak,
   createSoiree,
   isTournoi,
   isTournoiComplete,
@@ -10,6 +11,7 @@ import {
   soireeChampion,
   soireeStandings,
   type SoireePlayer,
+  topTiedPlayerIds,
 } from './soiree';
 
 const players: SoireePlayer[] = [
@@ -98,6 +100,27 @@ describe('soiree', () => {
     expect(isTournoiComplete(s)).toBe(true);
     expect(nextPlannedGameId(s)).toBeNull();
     expect(plannedRemaining(s)).toBe(0);
+  });
+
+  test('départage : détecte l\'égalité en tête et la casse', () => {
+    let s = createSoiree(players);
+    // p1 et p2 gagnent une manche chacun → égalité en tête (p1,p2 à 5), p3 à 2.
+    s = applyRound(s, session('quiz', [['p1', 1], ['p2', 2], ['p3', 3]]));
+    s = applyRound(s, session('bombe', [['p2', 1], ['p1', 2], ['p3', 3]]));
+    expect(soireeChampion(s)).toBeNull(); // égalité
+    const tied = topTiedPlayerIds(s).sort();
+    expect(tied).toEqual(['p1', 'p2']);
+
+    s = awardTieBreak(s, 'p1');
+    expect(soireeChampion(s)?.id).toBe('p1');
+    expect(topTiedPlayerIds(s)).toEqual([]); // plus d'égalité
+  });
+
+  test('topTiedPlayerIds vide sans égalité ou sans manche', () => {
+    let s = createSoiree(players);
+    expect(topTiedPlayerIds(s)).toEqual([]); // aucune manche
+    s = applyRound(s, session('quiz', [['p1', 1], ['p2', 2], ['p3', 3]]));
+    expect(topTiedPlayerIds(s)).toEqual([]); // p1 seul en tête
   });
 
   test('une soirée libre n\'est pas un tournoi', () => {

@@ -119,6 +119,26 @@ export function soireeStandings(state: SoireeState): SoireeStanding[] {
   return out;
 }
 
+/**
+ * Joueurs à égalité en TÊTE (rang 1). Renvoie la liste seulement s'il y a
+ * vraiment égalité (≥ 2 joueurs) et au moins une manche jouée ; sinon [].
+ * Sert au « départage » : une manche surprise tranche entre eux.
+ */
+export function topTiedPlayerIds(state: SoireeState): string[] {
+  if (state.rounds.length === 0) return [];
+  const s = soireeStandings(state);
+  const top = s.filter((x) => x.rank === 1);
+  return top.length >= 2 ? top.map((x) => x.player.id) : [];
+}
+
+/**
+ * Départage : crédite 1 point au vainqueur de la manche de départage pour
+ * casser l'égalité en tête (le gagnant, jusque-là à égalité, passe seul devant).
+ */
+export function awardTieBreak(state: SoireeState, winnerId: string): SoireeState {
+  return { ...state, points: { ...state.points, [winnerId]: (state.points[winnerId] ?? 0) + 1 } };
+}
+
 /** Champion de la soirée, ou null s'il y a égalité en tête (ou aucune manche). */
 export function soireeChampion(state: SoireeState): SoireePlayer | null {
   if (state.rounds.length === 0) return null;

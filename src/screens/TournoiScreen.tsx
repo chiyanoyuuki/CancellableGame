@@ -15,8 +15,10 @@ import {
   type SoireeState,
   soireeChampion,
   soireeStandings,
+  topTiedPlayerIds,
 } from '../core/soiree';
 import { clearActiveSoiree, getActiveSoiree, listPlayers, saveActiveSoiree } from '../db';
+import { getFlag } from '../lib/featureFlags';
 import { getGame, MINI_GAMES } from '../games/registry';
 import { useT } from '../lib/i18nProvider';
 import type { RootStackParamList } from '../navigation';
@@ -132,6 +134,14 @@ export function TournoiScreen({ navigation }: NativeStackScreenProps<RootStackPa
             </>
           ) : (
             <Txt weight="800">{t('Égalité en tête, pas de vainqueur unique !')}</Txt>
+          )}
+          {!champ && getFlag('tiebreak') && topTiedPlayerIds(state).length >= 2 && (
+            <Button
+              title={t('Départage 🥊')}
+              variant="accent"
+              onPress={() => navigation.navigate('TieBreak', { playerIds: topTiedPlayerIds(state), returnTo: 'Tournoi' })}
+              style={{ marginTop: spacing(1) }}
+            />
           )}
         </View>
         {standings.map((s, i) => (

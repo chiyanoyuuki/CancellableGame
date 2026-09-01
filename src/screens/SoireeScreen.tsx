@@ -5,8 +5,9 @@ import { Alert, Pressable, View } from 'react-native';
 
 import { Button, Card, EmptyState, PlayerAvatar, Screen, SectionHeader, Txt } from '../components/ui';
 import type { Player } from '../core/models';
-import { createSoiree, type SoireeState, soireeChampion, soireeStandings } from '../core/soiree';
+import { createSoiree, type SoireeState, soireeChampion, soireeStandings, topTiedPlayerIds } from '../core/soiree';
 import { clearActiveSoiree, getActiveSoiree, listPlayers, saveActiveSoiree } from '../db';
+import { getFlag } from '../lib/featureFlags';
 import { getGame, MINI_GAMES } from '../games/registry';
 import { useT } from '../lib/i18nProvider';
 import type { RootStackParamList } from '../navigation';
@@ -103,6 +104,14 @@ export function SoireeScreen({ navigation }: NativeStackScreenProps<RootStackPar
             </>
           ) : (
             <Txt weight="800">{t('Égalité en tête, pas de champion unique !')}</Txt>
+          )}
+          {!champ && getFlag('tiebreak') && topTiedPlayerIds(soiree).length >= 2 && (
+            <Button
+              title={t('Départage 🥊')}
+              variant="accent"
+              onPress={() => navigation.navigate('TieBreak', { playerIds: topTiedPlayerIds(soiree), returnTo: 'Soiree' })}
+              style={{ marginTop: spacing(1) }}
+            />
           )}
         </View>
         {standings.map((s, i) => (

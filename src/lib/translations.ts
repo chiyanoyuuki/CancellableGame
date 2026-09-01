@@ -1389,6 +1389,19 @@ export const EN: Record<string, string> = {
   // (« Nombre d'équipes » et « Équipe {n} » sont déjà traduits plus haut.)
   'Pas convaincu ? Re-génère pour un autre tirage.': 'Not sold? Reshuffle for another draw.',
 
+  // --- Manche de départage --------------------------------------------------
+  '🥊 Départage': '🥊 Tie-break',
+  'Départage 🥊': 'Tie-break 🥊',
+  '{n} en lice': '{n} in the running',
+  'Préparation du départage…': 'Preparing the tie-break…',
+  "Personne n'a trouvé !": 'Nobody got it!',
+  'Toujours à égalité !': 'Still tied!',
+  'La bonne réponse était « {answer} ». On remet ça.': 'The answer was “{answer}”. Let’s go again.',
+  // (« Question suivante » est déjà traduit plus haut.)
+  'Réponds vite et bien : une seule bonne réponse te sacre champion.':
+    'Answer fast and right: a single correct answer crowns you champion.',
+  'Voir la question': 'See the question',
+
   // --- Triage des signalements ----------------------------------------------
   'signalée {n} fois': 'reported {n} time',
   'signalée {n}×': 'reported {n}×',

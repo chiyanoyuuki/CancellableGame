@@ -45,6 +45,7 @@ import { SeasonsScreen } from './src/screens/SeasonsScreen';
 import { QotdScreen } from './src/screens/QotdScreen';
 import { TournoiScreen } from './src/screens/TournoiScreen';
 import { TeamGeneratorScreen } from './src/screens/TeamGeneratorScreen';
+import { TieBreakScreen } from './src/screens/TieBreakScreen';
 import { StatsScreen } from './src/screens/StatsScreen';
 import { StoreScreen } from './src/screens/StoreScreen';
 import { StoreProvider, useStore } from './src/store/StoreProvider';
@@ -194,6 +195,7 @@ function AppInner() {
           <Stack.Screen name="Qotd" component={QotdScreen} />
           <Stack.Screen name="Tournoi" component={TournoiScreen} />
           <Stack.Screen name="TeamGenerator" component={TeamGeneratorScreen} />
+          <Stack.Screen name="TieBreak" component={TieBreakScreen} options={{ gestureEnabled: false }} />
           <Stack.Screen name="Lobby" component={LobbyScreen} />
           <Stack.Screen name="GameConfig" component={GameConfigScreen} />
           <Stack.Screen name="GamePlay" component={GamePlayScreen} options={{ gestureEnabled: false }} />

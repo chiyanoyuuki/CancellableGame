@@ -22,6 +22,7 @@ export type RootStackParamList = {
   Qotd: undefined;
   Tournoi: undefined;
   TeamGenerator: undefined;
+  TieBreak: { playerIds: string[]; returnTo: 'Soiree' | 'Tournoi' };
   Stats: undefined;
   AppStats: undefined;
   Settings: undefined;
