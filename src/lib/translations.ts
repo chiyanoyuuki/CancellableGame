@@ -1444,6 +1444,16 @@ export const EN: Record<string, string> = {
   tout: 'all',
   rien: 'none',
 
+  // --- Proposer un thème (par e-mail) ---------------------------------------
+  'Proposer un thème': 'Suggest a theme',
+  "Une idée de thème ou d'univers ? Ça ouvre un e-mail prérempli (objet « [CANCEL] ») — complète le nom et écris ce que tu veux.":
+    'An idea for a theme or universe? This opens a pre-filled email (subject “[CANCEL] ”) — add the name and write whatever you like.',
+  'Proposer par e-mail ({n} restants)': 'Suggest by email ({n} left)',
+  'Limite du jour atteinte': 'Daily limit reached',
+  'Tu peux proposer 5 thèmes par jour. Reviens demain 🙂': 'You can suggest 5 themes a day. Come back tomorrow 🙂',
+  "Aucune application e-mail n'est configurée sur cet appareil.": 'No email app is set up on this device.',
+  "Impossible d'ouvrir l'application e-mail.": 'Could not open the email app.',
+
   // --- Réglages : sections Accessibilité scindées ---------------------------
   Affichage: 'Display',
   'Son & vibrations': 'Sound & vibration',

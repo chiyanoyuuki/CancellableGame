@@ -1,7 +1,7 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useEffect, useState } from 'react';
-import { Alert, StyleSheet, Switch, View } from 'react-native';
+import { Alert, Linking, StyleSheet, Switch, View } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
@@ -15,6 +15,7 @@ import { isSoundEnabled, setSoundEnabled } from '../lib/sounds';
 import { isNoAlcohol, setNoAlcohol } from '../lib/drinkMode';
 import { isReduceMotion, setReduceMotion } from '../lib/motion';
 import { ALL_FLAGS, type FeatureFlag, FLAG_KV, getFlag, setFlag } from '../lib/featureFlags';
+import { dateKey } from '../core/dailyChallenge';
 import { cancelDailyReminder, scheduleDailyReminder } from '../lib/notifications';
 import { currentThemeMode, setAppTheme } from '../lib/appTheme';
 import type { ThemeMode } from '../theme/theme';
@@ -39,6 +40,11 @@ const THEMES = [
   { label: 'Sombre', value: 'dark' as const },
   { label: 'Clair', value: 'light' as const },
 ];
+
+// Proposition de thème par e-mail : destinataire et plafond quotidien.
+const SUGGEST_EMAIL = 'charles.poure@hotmail.com';
+const SUGGEST_SUBJECT_PREFIX = '[CANCEL] ';
+const MAX_SUGGEST_PER_DAY = 5;
 
 // Ligne d'interrupteur : « first » sans marge haute (1re d'une carte), sinon espacée.
 const rowStyles = StyleSheet.create({
@@ -90,6 +96,34 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
     setReduceMotionState(on);
     setReduceMotion(on);
     void kvSetJSON('ui:reduceMotion', on);
+  };
+
+  // Proposition de thème : compteur quotidien (max 5/jour), persistant.
+  const [suggest, setSuggest] = useState<{ date: string; n: number }>({ date: '', n: 0 });
+  useEffect(() => {
+    void kvGetJSON<{ date: string; n: number }>('suggest:themes', { date: '', n: 0 }).then(setSuggest);
+  }, []);
+  const suggestsToday = suggest.date === dateKey() ? suggest.n : 0;
+  const suggestsLeft = Math.max(0, MAX_SUGGEST_PER_DAY - suggestsToday);
+  const proposeTheme = async () => {
+    if (suggestsLeft <= 0) {
+      Alert.alert(t('Limite du jour atteinte'), t('Tu peux proposer 5 thèmes par jour. Reviens demain 🙂'));
+      return;
+    }
+    // On ouvre l'app mail préremplie (destinataire + objet) ; l'utilisateur écrit ce qu'il veut.
+    const url = `mailto:${SUGGEST_EMAIL}?subject=${encodeURIComponent(SUGGEST_SUBJECT_PREFIX)}`;
+    try {
+      if (!(await Linking.canOpenURL(url))) {
+        Alert.alert(t('Oups'), t("Aucune application e-mail n'est configurée sur cet appareil."));
+        return;
+      }
+      await Linking.openURL(url);
+      const next = { date: dateKey(), n: suggestsToday + 1 };
+      setSuggest(next);
+      await kvSetJSON('suggest:themes', next);
+    } catch {
+      Alert.alert(t('Oups'), t("Impossible d'ouvrir l'application e-mail."));
+    }
   };
 
   const [feat, setFeat] = useState<Record<FeatureFlag, boolean>>(() => {
@@ -383,6 +417,20 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
           emoji="⚠️"
           variant="secondary"
           onPress={() => navigation.navigate('ReportedQuestions')}
+        />
+      </Card>
+
+      <SectionHeader title={t('Proposer un thème')} />
+      <Card>
+        <Txt dim size={fontSize.sm} style={{ marginBottom: spacing(1.5) }}>
+          {t("Une idée de thème ou d'univers ? Ça ouvre un e-mail prérempli (objet « [CANCEL] ») — complète le nom et écris ce que tu veux.")}
+        </Txt>
+        <Button
+          title={suggestsLeft > 0 ? t('Proposer par e-mail ({n} restants)', { n: suggestsLeft }) : t('Limite du jour atteinte')}
+          emoji="✉️"
+          variant="secondary"
+          disabled={suggestsLeft <= 0}
+          onPress={() => void proposeTheme()}
         />
       </Card>
 
