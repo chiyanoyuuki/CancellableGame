@@ -4,7 +4,9 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Pressable, Share, StyleSheet, TextInput, View } from 'react-native';
 
 import { Button, Card, ProgressBar, Screen, SectionHeader, Txt } from '../components/ui';
+import { StreakCalendar } from '../components/StreakCalendar';
 import {
+  addDoneDate,
   buildDaily,
   completeDay,
   DAILY_COUNT,
@@ -20,6 +22,7 @@ import {
 } from '../core/dailyChallenge';
 import { getQuizPool } from '../games/quiz/pool';
 import { kvGetJSON, kvSetJSON } from '../db';
+import { getFlag } from '../lib/featureFlags';
 import { haptics } from '../lib/haptics';
 import { speak, stopSpeaking } from '../lib/speech';
 import { useT } from '../lib/i18nProvider';
@@ -27,6 +30,7 @@ import type { RootStackParamList } from '../navigation';
 import { colors, fontSize, radius, spacing } from '../theme/theme';
 
 const STREAK_KEY = 'daily:streak';
+const DONE_DATES_KEY = 'daily:doneDates';
 const lastResultKey = (date: string) => `daily:result:${date}`;
 
 type Phase = 'loading' | 'intro' | 'playing' | 'done';
@@ -41,6 +45,7 @@ export function DailyChallengeScreen({ navigation, route }: NativeStackScreenPro
   const [daily, setDaily] = useState<DailyQuestion[]>([]);
   const [streak, setStreak] = useState<StreakState>(EMPTY_STREAK);
   const [todayResult, setTodayResult] = useState<DayResult | null>(null);
+  const [doneDates, setDoneDates] = useState<string[]>([]);
   const [codeInput, setCodeInput] = useState('');
 
   const [idx, setIdx] = useState(0);
@@ -59,15 +64,17 @@ export function DailyChallengeScreen({ navigation, route }: NativeStackScreenPro
     useCallback(() => {
       let alive = true;
       void (async () => {
-        const [pool, s, res] = await Promise.all([
+        const [pool, s, res, done] = await Promise.all([
           getQuizPool(),
           kvGetJSON<StreakState>(STREAK_KEY, EMPTY_STREAK),
           kvGetJSON<DayResult | null>(lastResultKey(today), null),
+          kvGetJSON<string[]>(DONE_DATES_KEY, []),
         ]);
         if (!alive) return;
         setDaily(buildDaily(pool, seedKey));
         setStreak(s);
         setTodayResult(res);
+        setDoneDates(done);
         // Ne pas écraser une partie en cours si l'écran reprend le focus.
         setPhase((p) => (p === 'playing' || p === 'done' ? p : 'intro'));
       })();
@@ -140,8 +147,11 @@ export function DailyChallengeScreen({ navigation, route }: NativeStackScreenPro
       setStreak(nextStreak);
       setTodayResult(result);
       countedRef.current = false;
+      const nextDone = addDoneDate(doneDates, today);
+      setDoneDates(nextDone);
       await kvSetJSON(STREAK_KEY, nextStreak);
       await kvSetJSON(lastResultKey(today), result);
+      await kvSetJSON(DONE_DATES_KEY, nextDone);
       haptics.win();
     } else if (!isChallenge) {
       setTodayResult((r) => r ?? result);
@@ -213,6 +223,15 @@ export function DailyChallengeScreen({ navigation, route }: NativeStackScreenPro
             </Txt>
           )}
         </Card>
+
+        {getFlag('streakCalendar') && (
+          <>
+            <SectionHeader title={t('Ta régularité')} />
+            <Card>
+              <StreakCalendar dates={doneDates} />
+            </Card>
+          </>
+        )}
 
         <View style={{ marginTop: spacing(2), gap: spacing(1) }}>
           <Button

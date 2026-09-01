@@ -1402,6 +1402,10 @@ export const EN: Record<string, string> = {
     'Answer fast and right: a single correct answer crowns you champion.',
   'Voir la question': 'See the question',
 
+  // --- Calendrier de série (défi du jour) -----------------------------------
+  'Ta régularité': 'Your consistency',
+  '{n} jours joués sur les 5 dernières semaines': '{n} days played in the last 5 weeks',
+
   // --- Triage des signalements ----------------------------------------------
   'signalée {n} fois': 'reported {n} time',
   'signalée {n}×': 'reported {n}×',

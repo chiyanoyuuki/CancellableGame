@@ -11,6 +11,8 @@ import {
   normalizeCode,
   EMPTY_STREAK,
   DAILY_COUNT,
+  addDoneDate,
+  recentDayKeys,
 } from './dailyChallenge';
 import { mulberry32 } from './rng';
 
@@ -94,5 +96,21 @@ describe('dailyChallenge', () => {
     expect(liveStreak(s, '2026-09-01', '2026-08-31')).toBe(3);
     // rompue (ni aujourd'hui ni hier)
     expect(liveStreak(s, '2026-09-03', '2026-09-02')).toBe(0);
+  });
+});
+
+describe('calendrier de série', () => {
+  test('addDoneDate ajoute sans doublon et trie', () => {
+    let d: string[] = [];
+    d = addDoneDate(d, '2026-09-02');
+    d = addDoneDate(d, '2026-09-01');
+    d = addDoneDate(d, '2026-09-02'); // doublon ignoré
+    expect(d).toEqual(['2026-09-01', '2026-09-02']);
+  });
+
+  test('recentDayKeys renvoie count jours consécutifs, aujourd\'hui en dernier', () => {
+    const ref = new Date(2026, 8, 3, 12).getTime(); // 3 sept. 2026
+    const days = recentDayKeys(3, ref);
+    expect(days).toEqual(['2026-09-01', '2026-09-02', '2026-09-03']);
   });
 });

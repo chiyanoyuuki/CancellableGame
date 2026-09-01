@@ -105,3 +105,30 @@ export function liveStreak(state: StreakState, today: string, yesterday: string)
   if (state.lastDate === today || state.lastDate === yesterday) return state.current;
   return 0;
 }
+
+const DONE_DATES_CAP = 400;
+
+/**
+ * Ajoute (sans doublon) un jour à l'historique des défis complétés, trié et
+ * plafonné. Sert au « calendrier de série ».
+ */
+export function addDoneDate(dates: readonly string[], day: string): string[] {
+  if (dates.includes(day)) return [...dates];
+  return [...dates, day].sort().slice(-DONE_DATES_CAP);
+}
+
+/**
+ * Clés de date des `count` derniers jours (aujourd'hui en dernier), pour la
+ * grille du calendrier. `ref` = instant de référence (aujourd'hui par défaut).
+ */
+export function recentDayKeys(count: number, ref: number = Date.now()): string[] {
+  const out: string[] = [];
+  const base = new Date(ref);
+  base.setHours(12, 0, 0, 0); // midi : évite les dérives d'heure d'été
+  for (let i = count - 1; i >= 0; i -= 1) {
+    const d = new Date(base);
+    d.setDate(base.getDate() - i);
+    out.push(dateKey(d));
+  }
+  return out;
+}
