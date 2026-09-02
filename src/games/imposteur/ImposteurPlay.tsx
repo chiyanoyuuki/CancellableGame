@@ -26,6 +26,7 @@ export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: Mi
   const t = useT();
   const cfg = config as ImposteurConfig;
   const [game, setGame] = useState<ImposteurState | null>(null);
+  const [loadFailed, setLoadFailed] = useState(false);
   const [showRole, setShowRole] = useState(false);
   const [discussLeft, setDiscussLeft] = useState<number | null>(null);
   // Pile d'états « avant décision » pour corriger un mauvais clic (vote/devinette).
@@ -43,17 +44,21 @@ export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: Mi
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const full = await getQuizPool();
-      const universes = new Set(cfg.universes);
-      const seen = new Map<string, WordCard>();
-      for (const q of full) {
-        if (!q.universe || !universes.has(q.universe)) continue;
-        if (!isGoodImposteurWord(q.answer)) continue;
-        if (!seen.has(q.answer)) seen.set(q.answer, { word: q.answer, universe: q.universe, theme: q.theme });
+      try {
+        const full = await getQuizPool();
+        const universes = new Set(cfg.universes);
+        const seen = new Map<string, WordCard>();
+        for (const q of full) {
+          if (!q.universe || !universes.has(q.universe)) continue;
+          if (!isGoodImposteurWord(q.answer)) continue;
+          if (!seen.has(q.answer)) seen.set(q.answer, { word: q.answer, universe: q.universe, theme: q.theme });
+        }
+        if (!alive) return;
+        startedAtRef.current = Date.now();
+        setGame(createImposteurState({ config: cfg, players, pool: [...seen.values()], seed: randomSeed() }));
+      } catch {
+        if (alive) setLoadFailed(true);
       }
-      if (!alive) return;
-      startedAtRef.current = Date.now();
-      setGame(createImposteurState({ config: cfg, players, pool: [...seen.values()], seed: randomSeed() }));
     })();
     return () => {
       alive = false;
@@ -113,10 +118,22 @@ export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: Mi
     return (
       <SafeAreaView style={styles.screen}>
         <View style={styles.center}>
-          <ActivityIndicator color={colors.primary} size="large" />
-          <Txt dim style={{ marginTop: spacing(2) }}>
-            {t('Préparation de la partie…')}
-          </Txt>
+          {loadFailed ? (
+            <>
+              <Txt size={fontSize.huge}>😕</Txt>
+              <Txt weight="800" center style={{ marginTop: spacing(1) }}>
+                {t('Impossible de préparer la partie.')}
+              </Txt>
+              <Button title={t('Retour')} variant="secondary" style={{ marginTop: spacing(2) }} onPress={onQuit} />
+            </>
+          ) : (
+            <>
+              <ActivityIndicator color={colors.primary} size="large" />
+              <Txt dim style={{ marginTop: spacing(2) }}>
+                {t('Préparation de la partie…')}
+              </Txt>
+            </>
+          )}
         </View>
       </SafeAreaView>
     );

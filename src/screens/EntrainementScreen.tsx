@@ -31,11 +31,16 @@ export function EntrainementScreen({ navigation }: NativeStackScreenProps<RootSt
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const full = await getQuizPool();
-      const usable = store.ent.allThemes
-        ? full
-        : full.filter((q) => store.isUniverseUnlocked(q.universe ?? `#${q.theme}`));
-      if (alive) setPool(usable);
+      try {
+        const full = await getQuizPool();
+        const usable = store.ent.allThemes
+          ? full
+          : full.filter((q) => store.isUniverseUnlocked(q.universe ?? `#${q.theme}`));
+        if (alive) setPool(usable);
+      } catch {
+        // Lecture impossible → liste vide plutôt qu'un spinner figé.
+        if (alive) setPool([]);
+      }
     })();
     return () => {
       alive = false;
@@ -208,6 +213,14 @@ export function EntrainementScreen({ navigation }: NativeStackScreenProps<RootSt
       </Txt>
 
       <Card style={{ marginTop: spacing(1.5) }}>
+        {/* En entraînement sur un THÈME entier, on rappelle l'univers de la
+            question (sinon deviner « à l'aveugle » est trop dur). Inutile quand
+            la session est déjà ciblée sur un univers précis. */}
+        {!sessionUniverse && !!q.universe && (
+          <Txt faint size={fontSize.xs} weight="800" center style={{ marginBottom: spacing(0.5) }}>
+            {THEME_META[theme].emoji} {q.universe}
+          </Txt>
+        )}
         <Txt center size={fontSize.lg} weight="800">
           {q.text}
         </Txt>

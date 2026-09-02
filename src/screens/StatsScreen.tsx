@@ -76,7 +76,10 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
   };
 
   const gameOptions = useMemo(
-    () => [{ label: tr('Tous'), value: 'all' }, ...MINI_GAMES.map((g) => ({ label: tr(g.title), value: g.id }))],
+    () => [
+      { label: tr('Tous'), value: 'all', emoji: '📊' },
+      ...MINI_GAMES.map((g) => ({ label: tr(g.title), value: g.id, emoji: g.emoji })),
+    ],
     [tr],
   );
 
@@ -356,10 +359,26 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
           </Txt>
         </Card>
       )}
+      {/* Filtre par mode de jeu : une rangée de puces qui défile
+          horizontalement (une dizaine de modes tiendraient à l'étroit dans un
+          Segmented, textes tassés et illisibles). */}
       {gameOptions.length > 2 && (
-        <View style={{ marginTop: spacing(1) }}>
-          <Segmented<string> value={gameId} onChange={setGameId} options={gameOptions} />
-        </View>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={{ marginTop: spacing(1) }}
+          contentContainerStyle={styles.gameFilterRow}
+        >
+          {gameOptions.map((o) => (
+            <Chip
+              key={o.value}
+              label={o.label}
+              emoji={o.emoji}
+              selected={gameId === o.value}
+              onPress={() => setGameId(o.value)}
+            />
+          ))}
+        </ScrollView>
       )}
 
       {!hasData ? (
@@ -460,6 +479,7 @@ function TabEmpty({ text }: { text: string }) {
 
 const styles = StyleSheet.create({
   shotWrap: { position: 'absolute', left: -9999, top: 0 },
+  gameFilterRow: { flexDirection: 'row', gap: spacing(1), paddingRight: spacing(1) },
   weekCard: { width: 340, backgroundColor: colors.primaryDark, padding: spacing(3), borderRadius: radius.lg },
   factsRow: { flexDirection: 'row', gap: spacing(1), marginTop: spacing(1.5) },
   factCard: { flex: 1, alignItems: 'center', gap: 2, paddingVertical: spacing(1.5) },

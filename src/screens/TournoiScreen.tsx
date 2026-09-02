@@ -1,7 +1,7 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useState } from 'react';
-import { Alert, Pressable, View } from 'react-native';
+import { ActivityIndicator, Alert, Pressable, View } from 'react-native';
 
 import { Button, Card, EmptyState, PlayerAvatar, Screen, SectionHeader, Segmented, Txt } from '../components/ui';
 import type { Player } from '../core/models';
@@ -37,10 +37,17 @@ export function TournoiScreen({ navigation }: NativeStackScreenProps<RootStackPa
   const [rounds, setRounds] = useState(5);
 
   const load = useCallback(async () => {
-    const [s, pl] = await Promise.all([getActiveSoiree(), listPlayers(false)]);
-    setState(s);
-    setPlayers(pl);
-    if (!s || !isTournoi(s)) setSelected((prev) => (prev.size === 0 ? new Set(pl.map((p) => p.id)) : prev));
+    try {
+      const [s, pl] = await Promise.all([getActiveSoiree(), listPlayers(false)]);
+      setState(s);
+      setPlayers(pl);
+      if (!s || !isTournoi(s)) setSelected((prev) => (prev.size === 0 ? new Set(pl.map((p) => p.id)) : prev));
+    } catch {
+      // Jamais rester bloqué sur l'écran de chargement : on retombe sur la mise
+      // en place (aucun tournoi), qui gère elle-même le cas « pas de joueurs ».
+      setState(null);
+      setPlayers([]);
+    }
   }, []);
   useFocusEffect(useCallback(() => { void load(); }, [load]));
 
@@ -92,7 +99,13 @@ export function TournoiScreen({ navigation }: NativeStackScreenProps<RootStackPa
   };
 
   if (state === undefined) {
-    return <Screen title={t('Tournoi')} onBack={() => navigation.goBack()} scroll><View /></Screen>;
+    return (
+      <Screen title={t('Tournoi')} onBack={() => navigation.goBack()}>
+        <View style={{ alignItems: 'center', paddingTop: spacing(6) }}>
+          <ActivityIndicator color={colors.primary} size="large" />
+        </View>
+      </Screen>
+    );
   }
 
   // Une soirée LIBRE est en cours → on n'écrase pas sans prévenir.

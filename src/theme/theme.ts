@@ -91,8 +91,9 @@ export const PALETTES: Record<ThemeMode, Palette> = { dark, light };
 function readInitialThemeSync(): ThemeMode {
   // Jamais d'appel natif sous Jest (testEnvironment: node).
   if (typeof process !== 'undefined' && process.env?.JEST_WORKER_ID !== undefined) return 'dark';
+  let db: SQLite.SQLiteDatabase | null = null;
   try {
-    const db = SQLite.openDatabaseSync('soiree.db');
+    db = SQLite.openDatabaseSync('soiree.db');
     const row = db.getFirstSync<{ value: string }>("SELECT value FROM kv WHERE key = 'ui:theme'");
     if (row?.value) {
       const parsed = JSON.parse(row.value) as unknown;
@@ -100,6 +101,18 @@ function readInitialThemeSync(): ThemeMode {
     }
   } catch {
     // base/table absente ou API indisponible → thème sombre par défaut
+  } finally {
+    // CRUCIAL : expo-sqlite met en cache la connexion native par chemin+options.
+    // Si on laisse cette connexion SYNCHRONE ouverte (mode journal par défaut),
+    // `getDb()` réutilise EXACTEMENT la même connexion et tente d'y basculer le
+    // WAL après coup — source de blocages/erreurs qui laissent des écrans tourner
+    // en boucle « Chargement… ». En fermant ici (refcount → 0), `getDb()` ouvre
+    // une connexion neuve, à lui, avec le WAL posé dès l'ouverture.
+    try {
+      db?.closeSync();
+    } catch {
+      // best-effort
+    }
   }
   return 'dark';
 }

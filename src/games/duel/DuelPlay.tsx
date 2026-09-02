@@ -24,6 +24,7 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
   const store = useStore();
   const cfg = config as DuelConfig;
   const [game, setGame] = useState<DuelState | null>(null);
+  const [loadFailed, setLoadFailed] = useState(false);
   const [revealedAnswer, setRevealedAnswer] = useState(false);
   // Écran de transition affiché quand la difficulté d'un joueur change.
   const [diffTransition, setDiffTransition] = useState<Difficulty | null>(null);
@@ -44,16 +45,20 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const fullPool = await getQuizPool();
-      // Version gratuite : ne tire que dans les univers débloqués du joueur.
-      const pool = store.ent.allThemes
-        ? fullPool
-        : fullPool.filter((q) => store.isUniverseUnlocked(q.universe ?? `#${q.theme}`));
-      const seed = randomSeed();
-      const order = shuffle(players, mulberry32(seed)).map((p) => p.id);
-      if (!alive) return;
-      startedAtRef.current = Date.now();
-      setGame(createDuelState({ config: cfg, players, pool, seed, order }));
+      try {
+        const fullPool = await getQuizPool();
+        // Version gratuite : ne tire que dans les univers débloqués du joueur.
+        const pool = store.ent.allThemes
+          ? fullPool
+          : fullPool.filter((q) => store.isUniverseUnlocked(q.universe ?? `#${q.theme}`));
+        const seed = randomSeed();
+        const order = shuffle(players, mulberry32(seed)).map((p) => p.id);
+        if (!alive) return;
+        startedAtRef.current = Date.now();
+        setGame(createDuelState({ config: cfg, players, pool, seed, order }));
+      } catch {
+        if (alive) setLoadFailed(true);
+      }
     })();
     return () => {
       alive = false;
@@ -130,10 +135,22 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
     return (
       <SafeAreaView style={styles.screen}>
         <View style={styles.center}>
-          <ActivityIndicator color={colors.primary} size="large" />
-          <Txt dim style={{ marginTop: spacing(2) }}>
-            {t('Préparation du duel…')}
-          </Txt>
+          {loadFailed ? (
+            <>
+              <Txt size={fontSize.huge}>😕</Txt>
+              <Txt weight="800" center style={{ marginTop: spacing(1) }}>
+                {t('Impossible de préparer la partie.')}
+              </Txt>
+              <Button title={t('Retour')} variant="secondary" style={{ marginTop: spacing(2) }} onPress={onQuit} />
+            </>
+          ) : (
+            <>
+              <ActivityIndicator color={colors.primary} size="large" />
+              <Txt dim style={{ marginTop: spacing(2) }}>
+                {t('Préparation du duel…')}
+              </Txt>
+            </>
+          )}
         </View>
       </SafeAreaView>
     );

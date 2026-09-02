@@ -29,6 +29,7 @@ export function AliasPlayComponent({ config, onFinish, onQuit }: MiniGamePlayPro
   const cfg = config as AliasConfig;
   const store = useStore();
   const [game, setGame] = useState<AliasState | null>(null);
+  const [loadFailed, setLoadFailed] = useState(false);
   const [left, setLeft] = useState(cfg.roundSeconds);
   const startedAtRef = useRef(Date.now());
   const finishedRef = useRef(false);
@@ -36,23 +37,27 @@ export function AliasPlayComponent({ config, onFinish, onQuit }: MiniGamePlayPro
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const full = await getQuizPool();
-      const themeSet = cfg.themes && cfg.themes.length > 0 ? new Set(cfg.themes) : null;
-      const excluded = new Set(cfg.excludedUniverses ?? []);
-      const seen = new Set<string>();
-      const words: string[] = [];
-      for (const q of full) {
-        if (themeSet && !themeSet.has(q.theme)) continue;
-        if (q.universe && excluded.has(q.universe)) continue;
-        if (!isGoodImposteurWord(q.answer)) continue;
-        if (!store.ent.allThemes && !store.isUniverseUnlocked(q.universe ?? `#${q.theme}`)) continue;
-        if (seen.has(q.answer)) continue;
-        seen.add(q.answer);
-        words.push(q.answer);
+      try {
+        const full = await getQuizPool();
+        const themeSet = cfg.themes && cfg.themes.length > 0 ? new Set(cfg.themes) : null;
+        const excluded = new Set(cfg.excludedUniverses ?? []);
+        const seen = new Set<string>();
+        const words: string[] = [];
+        for (const q of full) {
+          if (themeSet && !themeSet.has(q.theme)) continue;
+          if (q.universe && excluded.has(q.universe)) continue;
+          if (!isGoodImposteurWord(q.answer)) continue;
+          if (!store.ent.allThemes && !store.isUniverseUnlocked(q.universe ?? `#${q.theme}`)) continue;
+          if (seen.has(q.answer)) continue;
+          seen.add(q.answer);
+          words.push(q.answer);
+        }
+        if (!alive) return;
+        startedAtRef.current = Date.now();
+        setGame(createAliasState({ config: cfg, pool: words, seed: randomSeed() }));
+      } catch {
+        if (alive) setLoadFailed(true);
       }
-      if (!alive) return;
-      startedAtRef.current = Date.now();
-      setGame(createAliasState({ config: cfg, pool: words, seed: randomSeed() }));
     })();
     return () => {
       alive = false;
@@ -109,10 +114,22 @@ export function AliasPlayComponent({ config, onFinish, onQuit }: MiniGamePlayPro
     return (
       <SafeAreaView style={styles.screen}>
         <View style={styles.center}>
-          <ActivityIndicator color={colors.primary} size="large" />
-          <Txt dim style={{ marginTop: spacing(2) }}>
-            {t('Préparation de la partie…')}
-          </Txt>
+          {loadFailed ? (
+            <>
+              <Txt size={fontSize.huge}>😕</Txt>
+              <Txt weight="800" center style={{ marginTop: spacing(1) }}>
+                {t('Impossible de préparer la partie.')}
+              </Txt>
+              <Button title={t('Retour')} variant="secondary" style={{ marginTop: spacing(2) }} onPress={onQuit} />
+            </>
+          ) : (
+            <>
+              <ActivityIndicator color={colors.primary} size="large" />
+              <Txt dim style={{ marginTop: spacing(2) }}>
+                {t('Préparation de la partie…')}
+              </Txt>
+            </>
+          )}
         </View>
       </SafeAreaView>
     );

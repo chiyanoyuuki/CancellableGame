@@ -4,6 +4,7 @@ import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';
 
 import { Button, Card, EmptyState, ProgressBar, Screen, Txt } from '../components/ui';
 import { buildDaily, type DailyQuestion } from '../core/dailyChallenge';
+import { THEME_META } from '../core/models';
 import { randomSeed } from '../core/rng';
 import { clearMissedQuestion, getMissedQuestionIds } from '../db';
 import { QUESTIONS } from '../games/quiz/questions';
@@ -27,14 +28,20 @@ export function RevisionScreen({ navigation }: NativeStackScreenProps<RootStackP
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const ids = await getMissedQuestionIds();
-      const idSet = new Set(ids);
-      const pool = QUESTIONS.filter((q) => idSet.has(q.id));
-      // buildDaily filtre les QCM propres sans média et mélange les options.
-      const built = buildDaily(pool, randomSeed().toString(), pool.length);
-      if (!alive) return;
-      startCountRef.current = built.length;
-      setDeck(built);
+      try {
+        const ids = await getMissedQuestionIds();
+        const idSet = new Set(ids);
+        const pool = QUESTIONS.filter((q) => idSet.has(q.id));
+        // buildDaily filtre les QCM propres sans média et mélange les options.
+        const built = buildDaily(pool, randomSeed().toString(), pool.length);
+        if (!alive) return;
+        startCountRef.current = built.length;
+        setDeck(built);
+      } catch {
+        // Lecture impossible → paquet vide (affiche « Aucune erreur à réviser »)
+        // plutôt qu'un spinner qui tourne indéfiniment.
+        if (alive) setDeck([]);
+      }
     })();
     return () => {
       alive = false;
@@ -122,6 +129,11 @@ export function RevisionScreen({ navigation }: NativeStackScreenProps<RootStackP
       </Txt>
 
       <Card style={{ marginTop: spacing(1.5) }}>
+        {!!q.universe && (
+          <Txt faint size={fontSize.xs} weight="800" center style={{ marginBottom: spacing(0.5) }}>
+            {THEME_META[q.theme].emoji} {q.universe}
+          </Txt>
+        )}
         <Txt center size={fontSize.lg} weight="800">
           {q.text}
         </Txt>

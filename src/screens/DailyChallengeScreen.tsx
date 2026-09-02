@@ -64,19 +64,28 @@ export function DailyChallengeScreen({ navigation, route }: NativeStackScreenPro
     useCallback(() => {
       let alive = true;
       void (async () => {
-        const [pool, s, res, done] = await Promise.all([
-          getQuizPool(),
-          kvGetJSON<StreakState>(STREAK_KEY, EMPTY_STREAK),
-          kvGetJSON<DayResult | null>(lastResultKey(today), null),
-          kvGetJSON<string[]>(DONE_DATES_KEY, []),
-        ]);
-        if (!alive) return;
-        setDaily(buildDaily(pool, seedKey));
-        setStreak(s);
-        setTodayResult(res);
-        setDoneDates(done);
-        // Ne pas écraser une partie en cours si l'écran reprend le focus.
-        setPhase((p) => (p === 'playing' || p === 'done' ? p : 'intro'));
+        try {
+          const [pool, s, res, done] = await Promise.all([
+            getQuizPool(),
+            kvGetJSON<StreakState>(STREAK_KEY, EMPTY_STREAK),
+            kvGetJSON<DayResult | null>(lastResultKey(today), null),
+            kvGetJSON<string[]>(DONE_DATES_KEY, []),
+          ]);
+          if (!alive) return;
+          setDaily(buildDaily(pool, seedKey));
+          setStreak(s);
+          setTodayResult(res);
+          setDoneDates(done);
+        } catch {
+          // En cas d'échec de lecture (base indisponible…), on n'affiche pas un
+          // écran « Chargement… » figé : on bascule sur l'intro avec un deck vide,
+          // qui propose déjà un message « Aucune question disponible ».
+          if (!alive) return;
+          setDaily([]);
+        } finally {
+          // Ne pas écraser une partie en cours si l'écran reprend le focus.
+          if (alive) setPhase((p) => (p === 'playing' || p === 'done' ? p : 'intro'));
+        }
       })();
       return () => {
         alive = false;

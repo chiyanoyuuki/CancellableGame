@@ -43,6 +43,7 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
   const store = useStore();
   const cfg = config as BombeConfig;
   const [game, setGame] = useState<BombeState | null>(null);
+  const [loadFailed, setLoadFailed] = useState(false);
   const [revealed, setRevealed] = useState(false);
   // Pile d'états « avant réponse » pour corriger un mauvais clic (✅/❌).
   const [history, setHistory] = useState<BombeState[]>([]);
@@ -115,28 +116,32 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const [history, fullPool] = await Promise.all([getQuestionHistory(), getQuizPool()]);
-      // Version gratuite : ne tire que dans les univers débloqués du joueur.
-      const pool = store.ent.allThemes
-        ? fullPool
-        : fullPool.filter((q) => store.isUniverseUnlocked(q.universe ?? `#${q.theme}`));
-      const seed = randomSeed();
-      const rng = mulberry32(seed);
-      rngRef.current = rng;
-      const selected = selectQuestions(
-        pool,
-        { themes: cfg.themes, difficulties: cfg.difficulties, count: POOL_COUNT, excludedUniverses: cfg.excludedUniverses },
-        history,
-        rng,
-      );
-      const order = shuffle(players, rng).map((p) => p.id);
-      const startIndex = Math.floor(rng() * order.length);
-      const firstFuseMs = randomFuseMs(cfg, order.length, rng);
-      if (!alive) return;
-      startedAtRef.current = Date.now();
-      questionStartRef.current = Date.now();
-      lastTickRef.current = Date.now();
-      setGame(createBombeState({ config: cfg, players, questions: selected, order, startIndex, firstFuseMs }));
+      try {
+        const [history, fullPool] = await Promise.all([getQuestionHistory(), getQuizPool()]);
+        // Version gratuite : ne tire que dans les univers débloqués du joueur.
+        const pool = store.ent.allThemes
+          ? fullPool
+          : fullPool.filter((q) => store.isUniverseUnlocked(q.universe ?? `#${q.theme}`));
+        const seed = randomSeed();
+        const rng = mulberry32(seed);
+        rngRef.current = rng;
+        const selected = selectQuestions(
+          pool,
+          { themes: cfg.themes, difficulties: cfg.difficulties, count: POOL_COUNT, excludedUniverses: cfg.excludedUniverses },
+          history,
+          rng,
+        );
+        const order = shuffle(players, rng).map((p) => p.id);
+        const startIndex = Math.floor(rng() * order.length);
+        const firstFuseMs = randomFuseMs(cfg, order.length, rng);
+        if (!alive) return;
+        startedAtRef.current = Date.now();
+        questionStartRef.current = Date.now();
+        lastTickRef.current = Date.now();
+        setGame(createBombeState({ config: cfg, players, questions: selected, order, startIndex, firstFuseMs }));
+      } catch {
+        if (alive) setLoadFailed(true);
+      }
     })();
     return () => {
       alive = false;
@@ -209,10 +214,22 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
     return (
       <SafeAreaView style={styles.screen}>
         <View style={styles.center}>
-          <ActivityIndicator color={colors.accent} size="large" />
-          <Txt dim style={{ marginTop: spacing(2) }}>
-            {t('On amorce la bombe…')}
-          </Txt>
+          {loadFailed ? (
+            <>
+              <Txt size={fontSize.huge}>😕</Txt>
+              <Txt weight="800" center style={{ marginTop: spacing(1) }}>
+                {t('Impossible de préparer la partie.')}
+              </Txt>
+              <Button title={t('Retour')} variant="secondary" style={{ marginTop: spacing(2) }} onPress={onQuit} />
+            </>
+          ) : (
+            <>
+              <ActivityIndicator color={colors.accent} size="large" />
+              <Txt dim style={{ marginTop: spacing(2) }}>
+                {t('On amorce la bombe…')}
+              </Txt>
+            </>
+          )}
         </View>
       </SafeAreaView>
     );

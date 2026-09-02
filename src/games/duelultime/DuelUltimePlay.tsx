@@ -31,6 +31,7 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
   const store = useStore();
   const cfg = config as DuelUltimeConfig;
   const [game, setGame] = useState<DuelUltimeState | null>(null);
+  const [loadFailed, setLoadFailed] = useState(false);
   // Réponse révélée (l'invité se juge : trouvé / raté) — pas de propositions.
   const [revealed, setRevealed] = useState(false);
   // Chrono par question (0 = désactivé) : à 0, la réponse est révélée d'office.
@@ -52,15 +53,19 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const [fullPool, historyByPlayer] = await Promise.all([getQuizPool(), getQuestionHistoryByPlayer()]);
-      const pool = store.ent.allThemes
-        ? fullPool
-        : fullPool.filter((q) => store.isUniverseUnlocked(q.universe ?? `#${q.theme}`));
-      const seed = randomSeed();
-      const order = players.map((p) => p.id);
-      if (!alive) return;
-      startedAtRef.current = Date.now();
-      setGame(createDuelUltimeState({ config: cfg, players, pool, seed, order, historyByPlayer }));
+      try {
+        const [fullPool, historyByPlayer] = await Promise.all([getQuizPool(), getQuestionHistoryByPlayer()]);
+        const pool = store.ent.allThemes
+          ? fullPool
+          : fullPool.filter((q) => store.isUniverseUnlocked(q.universe ?? `#${q.theme}`));
+        const seed = randomSeed();
+        const order = players.map((p) => p.id);
+        if (!alive) return;
+        startedAtRef.current = Date.now();
+        setGame(createDuelUltimeState({ config: cfg, players, pool, seed, order, historyByPlayer }));
+      } catch {
+        if (alive) setLoadFailed(true);
+      }
     })();
     return () => {
       alive = false;
@@ -155,10 +160,22 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
     return (
       <SafeAreaView style={styles.screen}>
         <View style={styles.center}>
-          <ActivityIndicator color={colors.primary} size="large" />
-          <Txt dim style={{ marginTop: spacing(2) }}>
-            {t('Préparation du duel…')}
-          </Txt>
+          {loadFailed ? (
+            <>
+              <Txt size={fontSize.huge}>😕</Txt>
+              <Txt weight="800" center style={{ marginTop: spacing(1) }}>
+                {t('Impossible de préparer la partie.')}
+              </Txt>
+              <Button title={t('Retour')} variant="secondary" style={{ marginTop: spacing(2) }} onPress={onQuit} />
+            </>
+          ) : (
+            <>
+              <ActivityIndicator color={colors.primary} size="large" />
+              <Txt dim style={{ marginTop: spacing(2) }}>
+                {t('Préparation du duel…')}
+              </Txt>
+            </>
+          )}
         </View>
       </SafeAreaView>
     );

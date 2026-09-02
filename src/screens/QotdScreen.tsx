@@ -25,18 +25,32 @@ export function QotdScreen({ navigation }: NativeStackScreenProps<RootStackParam
   const [question, setQuestion] = useState<DailyQuestion | null>(null);
   const [answering, setAnswering] = useState<string | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
+    let alive = true;
     void (async () => {
-      const [pl, stored, pool] = await Promise.all([
-        listPlayers(true),
-        kvGetJSON<QotdRecord>(KV_KEY, {}),
-        getQuizPool(),
-      ]);
-      setPlayers(pl);
-      setData(stored);
-      setQuestion(buildDaily(pool, `qotd-${today}`, 1)[0] ?? null);
+      try {
+        const [pl, stored, pool] = await Promise.all([
+          listPlayers(true),
+          kvGetJSON<QotdRecord>(KV_KEY, {}),
+          getQuizPool(),
+        ]);
+        if (!alive) return;
+        setPlayers(pl);
+        setData(stored);
+        setQuestion(buildDaily(pool, `qotd-${today}`, 1)[0] ?? null);
+      } catch {
+        // Lecture impossible → on n'affiche pas un spinner figé.
+        if (!alive) return;
+        setData({});
+      } finally {
+        if (alive) setLoaded(true);
+      }
     })();
+    return () => {
+      alive = false;
+    };
   }, [today]);
 
   const playerIds = useMemo(() => players.map((p) => p.id), [players]);
@@ -69,19 +83,28 @@ export function QotdScreen({ navigation }: NativeStackScreenProps<RootStackParam
     }, 500);
   };
 
-  if (!data || !question || players.length === 0) {
-    if (players.length === 0 && data) {
-      return (
-        <Screen title={t('Question du jour')} onBack={() => navigation.goBack()}>
-          <EmptyState emoji="👥" title={t('Aucun joueur')} subtitle={t('Ajoute des joueurs pour répondre à la question du jour.')} />
-        </Screen>
-      );
-    }
+  // Tant que le chargement n'est pas terminé → spinner (jamais figé : `loaded`
+  // passe à true même en cas d'erreur de lecture).
+  if (!loaded) {
     return (
       <Screen title={t('Question du jour')} onBack={() => navigation.goBack()}>
         <View style={{ alignItems: 'center', paddingTop: spacing(6) }}>
           <ActivityIndicator color={colors.primary} size="large" />
         </View>
+      </Screen>
+    );
+  }
+  if (players.length === 0) {
+    return (
+      <Screen title={t('Question du jour')} onBack={() => navigation.goBack()}>
+        <EmptyState emoji="👥" title={t('Aucun joueur')} subtitle={t('Ajoute des joueurs pour répondre à la question du jour.')} />
+      </Screen>
+    );
+  }
+  if (!data || !question) {
+    return (
+      <Screen title={t('Question du jour')} onBack={() => navigation.goBack()}>
+        <EmptyState emoji="🤷" title={t('Aucune question disponible')} subtitle={t('Reviens un peu plus tard pour la question du jour.')} />
       </Screen>
     );
   }

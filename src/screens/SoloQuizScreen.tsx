@@ -3,8 +3,9 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { Pressable, StyleSheet, View } from 'react-native';
 
-import { Button, Card, ProgressBar, Screen, Txt } from '../components/ui';
+import { Button, Card, Screen, ProgressBar, Txt } from '../components/ui';
 import { buildDaily, type DailyQuestion } from '../core/dailyChallenge';
+import { THEME_META } from '../core/models';
 import { getQuizPool } from '../games/quiz/pool';
 import { kvGetJSON, kvSetJSON } from '../db';
 import { haptics } from '../lib/haptics';
@@ -40,11 +41,18 @@ export function SoloQuizScreen({ navigation, route }: NativeStackScreenProps<Roo
     useCallback(() => {
       let alive = true;
       void (async () => {
-        const [pool, b] = await Promise.all([getQuizPool(), kvGetJSON<number>(bestKey(mode), 0)]);
-        if (!alive) return;
-        setDeck(buildDaily(pool, `${mode}-${Date.now()}`, DECK));
-        setBest(b);
-        setPhase((p) => (p === 'playing' || p === 'done' ? p : 'intro'));
+        try {
+          const [pool, b] = await Promise.all([getQuizPool(), kvGetJSON<number>(bestKey(mode), 0)]);
+          if (!alive) return;
+          setDeck(buildDaily(pool, `${mode}-${Date.now()}`, DECK));
+          setBest(b);
+        } catch {
+          // Lecture impossible → on ne reste pas coincé sur « Chargement… ».
+          if (!alive) return;
+          setDeck([]);
+        } finally {
+          if (alive) setPhase((p) => (p === 'playing' || p === 'done' ? p : 'intro'));
+        }
       })();
       return () => {
         alive = false;
@@ -153,6 +161,11 @@ export function SoloQuizScreen({ navigation, route }: NativeStackScreenProps<Roo
           onPress={start}
           disabled={deck.length === 0}
         />
+        {deck.length === 0 && (
+          <Txt faint center size={fontSize.xs} style={{ marginTop: spacing(1) }}>
+            {t('Aucune question disponible.')}
+          </Txt>
+        )}
       </Screen>
     );
   }
@@ -172,6 +185,10 @@ export function SoloQuizScreen({ navigation, route }: NativeStackScreenProps<Roo
         {isChrono && <ProgressBar value={remaining} total={CHRONO_SECONDS} color={remaining <= 10 ? colors.danger : colors.primary} />}
 
         <Card style={{ marginTop: spacing(1) }}>
+          <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.5) }}>
+            {THEME_META[current.question.theme].emoji}{' '}
+            {current.question.universe ?? t(THEME_META[current.question.theme].label)}
+          </Txt>
           <Txt weight="800" size={fontSize.lg}>
             {current.question.text}
           </Txt>

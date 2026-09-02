@@ -73,6 +73,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
   // Slot de sauvegarde de CETTE partie : repris s'il est fourni, sinon nouveau.
   const [gameSlotId] = useState(() => resumeSlotId ?? newSlotId());
   const [game, setGame] = useState<QuizState | null>(null);
+  const [loadFailed, setLoadFailed] = useState(false);
   const [revealedAnswer, setRevealedAnswer] = useState(false);
   const [buzzed, setBuzzed] = useState<{ playerId: string; timeMs: number } | null>(null);
   const [imgError, setImgError] = useState(false);
@@ -196,6 +197,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
   useEffect(() => {
     let alive = true;
     void (async () => {
+     try {
       if (resume && resumeSlotId) {
         const saved = await getSavedGame(resumeSlotId);
         const st = saved?.state as QuizState | undefined;
@@ -333,6 +335,10 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
           reserve,
         }),
       );
+     } catch {
+       // Préparation impossible → écran d'erreur au lieu d'un spinner figé.
+       if (alive) setLoadFailed(true);
+     }
     })();
     return () => {
       alive = false;
@@ -575,10 +581,22 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
     return (
       <SafeAreaView style={styles.screen}>
         <View style={styles.center}>
-          <ActivityIndicator color={colors.primary} size="large" />
-          <Txt dim style={{ marginTop: spacing(2) }}>
-            {t('Préparation des questions…')}
-          </Txt>
+          {loadFailed ? (
+            <>
+              <Txt size={fontSize.huge}>😕</Txt>
+              <Txt weight="800" center style={{ marginTop: spacing(1) }}>
+                {t('Impossible de préparer la partie.')}
+              </Txt>
+              <Button title={t('Retour')} variant="secondary" style={{ marginTop: spacing(2) }} onPress={onQuit} />
+            </>
+          ) : (
+            <>
+              <ActivityIndicator color={colors.primary} size="large" />
+              <Txt dim style={{ marginTop: spacing(2) }}>
+                {t('Préparation des questions…')}
+              </Txt>
+            </>
+          )}
         </View>
       </SafeAreaView>
     );

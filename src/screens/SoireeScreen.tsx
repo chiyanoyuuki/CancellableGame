@@ -1,7 +1,7 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useState } from 'react';
-import { Alert, Pressable, View } from 'react-native';
+import { ActivityIndicator, Alert, Pressable, View } from 'react-native';
 
 import { Button, Card, EmptyState, PlayerAvatar, Screen, SectionHeader, Txt } from '../components/ui';
 import type { Player } from '../core/models';
@@ -25,10 +25,16 @@ export function SoireeScreen({ navigation }: NativeStackScreenProps<RootStackPar
   const [finished, setFinished] = useState(false);
 
   const load = useCallback(async () => {
-    const [s, pl] = await Promise.all([getActiveSoiree(), listPlayers(false)]);
-    setSoiree(s);
-    setPlayers(pl);
-    if (!s) setSelected((prev) => (prev.size === 0 ? new Set(pl.map((p) => p.id)) : prev));
+    try {
+      const [s, pl] = await Promise.all([getActiveSoiree(), listPlayers(false)]);
+      setSoiree(s);
+      setPlayers(pl);
+      if (!s) setSelected((prev) => (prev.size === 0 ? new Set(pl.map((p) => p.id)) : prev));
+    } catch {
+      // Jamais rester bloqué sur le chargement : on retombe sur la mise en place.
+      setSoiree(null);
+      setPlayers([]);
+    }
   }, []);
   useFocusEffect(useCallback(() => { void load(); }, [load]));
 
@@ -75,7 +81,13 @@ export function SoireeScreen({ navigation }: NativeStackScreenProps<RootStackPar
 
   // --- Chargement ---
   if (soiree === undefined) {
-    return <Screen title={t('Mode Soirée')} onBack={() => navigation.goBack()} scroll><View /></Screen>;
+    return (
+      <Screen title={t('Mode Soirée')} onBack={() => navigation.goBack()}>
+        <View style={{ alignItems: 'center', paddingTop: spacing(6) }}>
+          <ActivityIndicator color={colors.primary} size="large" />
+        </View>
+      </Screen>
+    );
   }
 
   // --- Classement final ---

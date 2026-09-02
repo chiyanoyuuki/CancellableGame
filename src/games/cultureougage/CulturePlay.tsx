@@ -21,6 +21,7 @@ export function CulturePlayComponent({ players, config, onFinish, onQuit }: Mini
   const cfg = config as CultureConfig;
   const store = useStore();
   const [game, setGame] = useState<CultureState | null>(null);
+  const [loadFailed, setLoadFailed] = useState(false);
   const startedAtRef = useRef(Date.now());
   const finishedRef = useRef(false);
 
@@ -33,28 +34,33 @@ export function CulturePlayComponent({ players, config, onFinish, onQuit }: Mini
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const full = await getQuizPool();
-      const themeSet = cfg.themes && cfg.themes.length > 0 ? new Set(cfg.themes) : null;
-      const excluded = new Set(cfg.excludedUniverses ?? []);
-      const pool = full.filter(
-        (q) =>
-          (!themeSet || themeSet.has(q.theme)) &&
-          !(q.universe && excluded.has(q.universe)) &&
-          (store.ent.allThemes || store.isUniverseUnlocked(q.universe ?? `#${q.theme}`)),
-      );
-      const need = players.length * Math.max(1, cfg.questionsPerPlayer);
-      const daily = buildDaily(pool, randomSeed().toString(), Math.max(need + 4, need));
-      const deck: QCard[] = daily.map((d) => ({
-        id: d.question.id,
-        text: d.question.text,
-        options: d.options,
-        answer: d.question.answer,
-      }));
-      if (!alive) return;
-      startedAtRef.current = Date.now();
-      setGame(
-        createCultureState({ config: cfg, players, deck, dares: daresFor(cfg.dareCategory), seed: randomSeed() }),
-      );
+      try {
+        const full = await getQuizPool();
+        const themeSet = cfg.themes && cfg.themes.length > 0 ? new Set(cfg.themes) : null;
+        const excluded = new Set(cfg.excludedUniverses ?? []);
+        const pool = full.filter(
+          (q) =>
+            (!themeSet || themeSet.has(q.theme)) &&
+            !(q.universe && excluded.has(q.universe)) &&
+            (store.ent.allThemes || store.isUniverseUnlocked(q.universe ?? `#${q.theme}`)),
+        );
+        const need = players.length * Math.max(1, cfg.questionsPerPlayer);
+        const daily = buildDaily(pool, randomSeed().toString(), Math.max(need + 4, need));
+        const deck: QCard[] = daily.map((d) => ({
+          id: d.question.id,
+          text: d.question.text,
+          options: d.options,
+          answer: d.question.answer,
+        }));
+        if (!alive) return;
+        startedAtRef.current = Date.now();
+        setGame(
+          createCultureState({ config: cfg, players, deck, dares: daresFor(cfg.dareCategory), seed: randomSeed() }),
+        );
+      } catch {
+        // Préparation impossible → on affiche une erreur au lieu d'un spinner figé.
+        if (alive) setLoadFailed(true);
+      }
     })();
     return () => {
       alive = false;
@@ -94,10 +100,22 @@ export function CulturePlayComponent({ players, config, onFinish, onQuit }: Mini
     return (
       <SafeAreaView style={styles.screen}>
         <View style={styles.center}>
-          <ActivityIndicator color={colors.primary} size="large" />
-          <Txt dim style={{ marginTop: spacing(2) }}>
-            {t('Préparation de la partie…')}
-          </Txt>
+          {loadFailed ? (
+            <>
+              <Txt size={fontSize.huge}>😕</Txt>
+              <Txt weight="800" center style={{ marginTop: spacing(1) }}>
+                {t('Impossible de préparer la partie.')}
+              </Txt>
+              <Button title={t('Retour')} variant="secondary" style={{ marginTop: spacing(2) }} onPress={onQuit} />
+            </>
+          ) : (
+            <>
+              <ActivityIndicator color={colors.primary} size="large" />
+              <Txt dim style={{ marginTop: spacing(2) }}>
+                {t('Préparation de la partie…')}
+              </Txt>
+            </>
+          )}
         </View>
       </SafeAreaView>
     );
