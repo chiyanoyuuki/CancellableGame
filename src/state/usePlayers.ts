@@ -9,9 +9,14 @@ export function usePlayers(includeArchived = false) {
   const [loading, setLoading] = useState(true);
 
   const refresh = useCallback(async () => {
-    const list = await listPlayers(includeArchived);
-    setPlayers(list);
-    setLoading(false);
+    try {
+      const list = await listPlayers(includeArchived);
+      setPlayers(list);
+    } catch {
+      // lecture impossible : on garde la liste précédente plutôt que de tout vider
+    } finally {
+      setLoading(false);
+    }
   }, [includeArchived]);
 
   return { players, loading, refresh };

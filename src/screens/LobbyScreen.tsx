@@ -19,7 +19,13 @@ export function LobbyScreen({ route, navigation }: NativeStackScreenProps<RootSt
   const [selected, setSelected] = useState<Set<string>>(new Set());
 
   const refresh = useCallback(async () => {
-    const list = await listPlayers(false);
+    let list: Player[];
+    try {
+      list = await listPlayers(false);
+    } catch {
+      // lecture impossible : on garde le roster précédent
+      return;
+    }
     setRoster(list);
     // Aucun joueur coché par défaut : chaque nouvelle partie démarre sans
     // sélection. On garde seulement les sélections déjà faites et encore valides.

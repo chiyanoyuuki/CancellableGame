@@ -203,18 +203,31 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
   // QR, etc.) : joueurs + univers évités + historique, pour que l'écran reflète
   // tout de suite les imports, sans avoir à quitter et revenir.
   const refresh = useCallback(async () => {
-    const [pl, u, h, sr, sa] = await Promise.all([
-      showArchived ? listArchivedPlayers() : listPlayers(false),
-      getPlayerUnwantedUniverses(),
-      getQuestionHistoryByPlayer(),
-      loadStatResults(),
-      loadStatAnswers(),
-    ]);
-    setPlayers(pl);
-    setUnwanted(u);
-    setHistoryByPlayer(h);
-    setStatResults(sr);
-    setStatAnswers(sa);
+    // Le roster est la donnée CRITIQUE : on le charge À PART et on l'affiche
+    // toujours, même si une donnée annexe (stats, historique, univers évités)
+    // échoue ou traîne. Sinon une seule requête annexe en échec vide toute la
+    // liste des profils — alors que les joueurs existent bel et bien (et
+    // restent visibles dans les modes de jeu, qui ne lisent que le roster).
+    try {
+      const pl = await (showArchived ? listArchivedPlayers() : listPlayers(false));
+      setPlayers(pl);
+    } catch {
+      // lecture du roster impossible : on garde la liste déjà affichée
+    }
+    try {
+      const [u, h, sr, sa] = await Promise.all([
+        getPlayerUnwantedUniverses(),
+        getQuestionHistoryByPlayer(),
+        loadStatResults(),
+        loadStatAnswers(),
+      ]);
+      setUnwanted(u);
+      setHistoryByPlayer(h);
+      setStatResults(sr);
+      setStatAnswers(sa);
+    } catch {
+      // stats / historique indisponibles : le roster reste affiché sans ces infos
+    }
   }, [showArchived]);
 
   // Titre le plus prestigieux détenu par chaque joueur, sur tous les modes et
