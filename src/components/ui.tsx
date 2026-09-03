@@ -136,6 +136,11 @@ export function Button(props: {
   };
   const pad = size === 'lg' ? spacing(2.25) : size === 'sm' ? spacing(1) : spacing(1.75);
   const txtSize = size === 'lg' ? fontSize.lg : size === 'sm' ? fontSize.sm : fontSize.md;
+  // « secondary » et « ghost » reposent sur une surface claire/neutre (carte ou
+  // transparent) : leur texte doit être foncé, sinon en thème CLAIR on a du
+  // blanc sur blanc (texte invisible). Les variantes pleines (primary/accent/
+  // danger) gardent un texte blanc sur leur fond coloré.
+  const onColor = variant === 'ghost' || variant === 'secondary' ? colors.text : colors.white;
 
   return (
     <Pressable
@@ -154,9 +159,9 @@ export function Button(props: {
       ]}
     >
       {props.loading ? (
-        <ActivityIndicator color={colors.white} />
+        <ActivityIndicator color={onColor} />
       ) : (
-        <Text style={[styles.btnTxt, { fontSize: txtSize, color: variant === 'ghost' ? colors.text : colors.white }]}>
+        <Text style={[styles.btnTxt, { fontSize: txtSize, color: onColor }]}>
           {props.emoji ? `${props.emoji}  ` : ''}
           {props.title}
         </Text>
@@ -512,7 +517,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  stepSign: { color: colors.white, fontSize: 26, fontWeight: '800' },
+  // Le fond du bouton +/- est `cardAlt` (clair en thème clair) : le signe doit
+  // donc être `text` (foncé/clair selon le thème), pas blanc — sinon invisible.
+  stepSign: { color: colors.text, fontSize: 26, fontWeight: '800' },
   stepValue: { color: colors.text, fontSize: fontSize.xl, fontWeight: '800', minWidth: 48, textAlign: 'center' },
   sectionHeader: {
     flexDirection: 'row',
