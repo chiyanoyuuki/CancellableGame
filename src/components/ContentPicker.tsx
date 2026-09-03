@@ -31,7 +31,12 @@ export function ContentPicker(props: { value: ContentSelection; onChange: (v: Co
 
   useEffect(() => {
     let alive = true;
-    void getQuizPool().then((p) => alive && setPool(p));
+    void getQuizPool()
+      .then((p) => alive && setPool(p))
+      .catch(() => {
+        // Pool indisponible : on laisse la liste vide plutôt que de planter le
+        // sélecteur (l'écran de config reste utilisable).
+      });
     return () => {
       alive = false;
     };

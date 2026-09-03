@@ -21,12 +21,23 @@ export function FaceAFaceScreen({ navigation }: NativeStackScreenProps<RootStack
 
   useEffect(() => {
     void (async () => {
-      const [pl, r, a] = await Promise.all([listPlayers(true), loadStatResults(), loadStatAnswers()]);
-      setPlayers(pl);
-      setResults(r);
-      setAnswers(a);
-      if (pl[0]) setAId(pl[0].id);
-      if (pl[1]) setBId(pl[1].id);
+      // Joueurs d'abord (donnée critique de l'écran), stats ensuite : un échec de
+      // lecture des stats ne doit pas cacher les joueurs.
+      try {
+        const pl = await listPlayers(true);
+        setPlayers(pl);
+        if (pl[0]) setAId(pl[0].id);
+        if (pl[1]) setBId(pl[1].id);
+      } catch {
+        // roster indisponible : on garde l'état précédent
+      }
+      try {
+        const [r, a] = await Promise.all([loadStatResults(), loadStatAnswers()]);
+        setResults(r);
+        setAnswers(a);
+      } catch {
+        // stats indisponibles : les comparaisons resteront vides
+      }
     })();
   }, []);
 

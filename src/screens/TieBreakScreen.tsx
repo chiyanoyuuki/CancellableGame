@@ -22,6 +22,7 @@ export function TieBreakScreen({ route, navigation }: NativeStackScreenProps<Roo
   const { playerIds, returnTo } = route.params;
   const [players, setPlayers] = useState<Player[]>([]);
   const [deck, setDeck] = useState<DailyQuestion[] | null>(null);
+  const [failed, setFailed] = useState(false);
 
   const [contenders, setContenders] = useState<string[]>(playerIds);
   const [qIndex, setQIndex] = useState(0);
@@ -33,9 +34,18 @@ export function TieBreakScreen({ route, navigation }: NativeStackScreenProps<Roo
 
   useEffect(() => {
     void (async () => {
-      const [pl, pool] = await Promise.all([listPlayers(true), getQuizPool()]);
-      setPlayers(pl);
-      setDeck(buildDaily(pool, `tiebreak-${randomSeed()}`, 24));
+      try {
+        const [pl, pool] = await Promise.all([listPlayers(true), getQuizPool()]);
+        const d = buildDaily(pool, `tiebreak-${randomSeed()}`, 24);
+        setPlayers(pl);
+        setDeck(d);
+        // Sans joueurs ni questions, le départage ne peut pas se dérouler : on
+        // bascule sur un écran d'erreur au lieu d'un spinner (ou d'un crash sur
+        // un deck vide).
+        if (d.length === 0 || pl.length === 0) setFailed(true);
+      } catch {
+        setFailed(true);
+      }
     })();
   }, []);
 
@@ -96,6 +106,18 @@ export function TieBreakScreen({ route, navigation }: NativeStackScreenProps<Roo
     setCorrectThisRound([]);
     setRoundOver(false);
   };
+
+  if (failed) {
+    return (
+      <SafeAreaView style={styles.screen}>
+        <View style={styles.center}>
+          <Txt size={fontSize.huge}>😕</Txt>
+          <Txt weight="800" center style={{ marginTop: spacing(1) }}>{t('Départage impossible pour le moment.')}</Txt>
+          <Button title={t('Retour')} variant="secondary" style={{ marginTop: spacing(2) }} onPress={() => navigation.navigate(returnTo)} />
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   if (!deck || players.length === 0) {
     return (

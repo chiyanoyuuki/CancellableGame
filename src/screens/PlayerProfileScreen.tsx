@@ -26,10 +26,19 @@ export function PlayerProfileScreen({ route, navigation }: NativeStackScreenProp
   useFocusEffect(
     useCallback(() => {
       void (async () => {
-        const [pl, r, a] = await Promise.all([listPlayers(true), loadStatResults(), loadStatAnswers()]);
-        setPlayer(pl.find((p) => p.id === playerId) ?? null);
-        setResults(r);
-        setAnswers(a);
+        try {
+          const pl = await listPlayers(true);
+          setPlayer(pl.find((p) => p.id === playerId) ?? null);
+        } catch {
+          // profil indisponible : on garde l'état précédent
+        }
+        try {
+          const [r, a] = await Promise.all([loadStatResults(), loadStatAnswers()]);
+          setResults(r);
+          setAnswers(a);
+        } catch {
+          // stats indisponibles : hauts faits/radar resteront vides
+        }
       })();
     }, [playerId]),
   );

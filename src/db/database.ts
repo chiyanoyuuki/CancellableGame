@@ -168,10 +168,22 @@ async function migrate(db: SQLite.SQLiteDatabase): Promise<void> {
 export function getDb(): Promise<SQLite.SQLiteDatabase> {
   if (!dbPromise) {
     dbPromise = (async () => {
-      const db = await SQLite.openDatabaseAsync(DB_NAME);
-      await db.execAsync('PRAGMA journal_mode = WAL;');
-      await migrate(db);
-      return db;
+      try {
+        const db = await SQLite.openDatabaseAsync(DB_NAME);
+        await db.execAsync('PRAGMA journal_mode = WAL;');
+        await migrate(db);
+        return db;
+      } catch (e) {
+        // NE PAS garder en cache une promesse rejetée. Un échec transitoire à
+        // l'ouverture (verrou pendant la mise en WAL, course sur le cache de
+        // connexions natif…) « empoisonnerait » sinon `dbPromise` pour TOUTE la
+        // session : chaque `getDb()` suivant renverrait la même promesse rejetée
+        // et tous les écrans resteraient bloqués sur leur animation de chargement
+        // jusqu'au redémarrage de l'app. En réinitialisant, le prochain appel
+        // (au focus d'un écran, par ex.) retente proprement et l'app se rétablit.
+        dbPromise = null;
+        throw e;
+      }
     })();
   }
   return dbPromise;

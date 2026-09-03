@@ -23,9 +23,16 @@ export function SeasonsScreen({ navigation }: NativeStackScreenProps<RootStackPa
 
   useEffect(() => {
     void (async () => {
-      const [pl, r] = await Promise.all([listPlayers(true), loadStatResults()]);
-      setPlayers(pl);
-      setResults(r);
+      try {
+        setPlayers(await listPlayers(true));
+      } catch {
+        // roster indisponible : on garde l'état précédent
+      }
+      try {
+        setResults(await loadStatResults());
+      } catch {
+        // stats indisponibles : le classement restera vide
+      }
     })();
   }, []);
 

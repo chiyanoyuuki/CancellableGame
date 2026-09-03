@@ -23,9 +23,13 @@ export function TeamGeneratorScreen({ navigation }: NativeStackScreenProps<RootS
 
   useEffect(() => {
     void (async () => {
-      const pl = await listPlayers(false);
-      setPlayers(pl);
-      setSelected(new Set(pl.map((p) => p.id)));
+      try {
+        const pl = await listPlayers(false);
+        setPlayers(pl);
+        setSelected(new Set(pl.map((p) => p.id)));
+      } catch {
+        // roster indisponible : l'écran affichera « pas assez de joueurs »
+      }
     })();
   }, []);
 

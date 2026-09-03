@@ -38,7 +38,7 @@ export function HubScreen({ route, navigation }: NativeStackScreenProps<RootStac
 
   useFocusEffect(
     useCallback(() => {
-      if (hub === 'solo') void getMissedCount().then(setMissed);
+      if (hub === 'solo') void getMissedCount().then(setMissed).catch(() => setMissed(0));
     }, [hub]),
   );
 
