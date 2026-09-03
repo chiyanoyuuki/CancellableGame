@@ -14,6 +14,7 @@ import { setSpeechEnabled } from './src/lib/speech';
 import { setSoundEnabled } from './src/lib/sounds';
 import { setNoAlcohol } from './src/lib/drinkMode';
 import { isReduceMotion, setReduceMotion } from './src/lib/motion';
+import { type QuestionHint, QUESTION_HINT_KV, setQuestionHint } from './src/lib/questionHint';
 import { ALL_FLAGS, FLAG_KV, setFlag } from './src/lib/featureFlags';
 import { scheduleDailyReminder } from './src/lib/notifications';
 import { I18nProvider } from './src/lib/i18nProvider';
@@ -119,6 +120,12 @@ function AppInner() {
       // Préférence « Animations réduites » (Réglages).
       try {
         setReduceMotion(await kvGetJSON<boolean>('ui:reduceMotion', false));
+      } catch {
+        // best-effort
+      }
+      // Indice de contexte des questions : univers / thème / les deux / aucun.
+      try {
+        setQuestionHint(await kvGetJSON<QuestionHint>(QUESTION_HINT_KV, 'universe'));
       } catch {
         // best-effort
       }

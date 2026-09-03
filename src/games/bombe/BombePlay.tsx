@@ -5,7 +5,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Card, PlayerAvatar, Txt } from '../../components/ui';
 import { haptics } from '../../lib/haptics';
 import { useT } from '../../lib/i18nProvider';
-import { type BombeConfig, DIFFICULTY_LABELS, type Player, type SessionResult, THEME_META } from '../../core/models';
+import { type BombeConfig, DIFFICULTY_LABELS, type Player, type SessionResult } from '../../core/models';
+import { QuestionHint } from '../../components/QuestionHint';
 import {
   type BombeAction,
   type BombeState,
@@ -282,7 +283,6 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
   function renderQuestion() {
     const q = game!.current;
     if (!q || !active) return null;
-    const theme = THEME_META[q.theme];
     return (
       <View style={{ gap: spacing(2) }}>
         <View style={styles.activeBanner}>
@@ -291,9 +291,7 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
         </View>
 
         <View style={styles.metaRow}>
-          <Txt weight="800" color={colors.accent}>
-            {theme.emoji} {q.universe ?? t(theme.label)}
-          </Txt>
+          <QuestionHint theme={q.theme} universe={q.universe} style={{ marginBottom: 0 }} />
           <Txt faint weight="700" size={fontSize.xs}>
             {t(DIFFICULTY_LABELS[q.difficulty]).toUpperCase()}
           </Txt>

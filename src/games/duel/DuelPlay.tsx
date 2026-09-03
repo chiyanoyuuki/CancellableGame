@@ -5,7 +5,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Card, PlayerAvatar, Txt } from '../../components/ui';
 import { haptics } from '../../lib/haptics';
 import { useT } from '../../lib/i18nProvider';
-import { DIFFICULTY_LABELS, type Difficulty, type DuelConfig, type DuelJoker, type Player, THEME_META } from '../../core/models';
+import { DIFFICULTY_LABELS, type Difficulty, type DuelConfig, type DuelJoker, type Player } from '../../core/models';
+import { QuestionHint } from '../../components/QuestionHint';
 import { type DuelAction, type DuelState, createDuelState, duelReducer, duelToSessionResult } from '../../core/duelEngine';
 import { type DrinkOutcome, rollAnswerDrink } from '../../core/drinks';
 import { mulberry32, randomSeed, shuffle } from '../../core/rng';
@@ -209,13 +210,10 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
 
   function renderQuestion() {
     if (!q) return null;
-    const theme = THEME_META[q.theme];
     return (
       <View style={{ gap: spacing(2) }}>
         <View style={styles.metaRow}>
-          <Txt weight="800" color={colors.accent}>
-            {theme.emoji} {q.universe ?? t(theme.label)}
-          </Txt>
+          <QuestionHint theme={q.theme} universe={q.universe} style={{ marginBottom: 0 }} />
           <Txt faint weight="700" size={fontSize.xs}>
             {t(DIFFICULTY_LABELS[q.difficulty]).toUpperCase()}
           </Txt>

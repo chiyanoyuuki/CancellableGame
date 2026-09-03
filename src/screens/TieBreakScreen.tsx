@@ -4,6 +4,7 @@ import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button, Card, PlayerAvatar, Txt } from '../components/ui';
+import { QuestionHint } from '../components/QuestionHint';
 import { buildDaily, type DailyQuestion } from '../core/dailyChallenge';
 import type { Player } from '../core/models';
 import { randomSeed } from '../core/rng';
@@ -162,7 +163,10 @@ export function TieBreakScreen({ route, navigation }: NativeStackScreenProps<Roo
           </View>
         ) : (
           <View style={{ gap: spacing(1.5), paddingTop: spacing(1) }}>
-            <Card><Txt center size={fontSize.lg} weight="800">{q.text}</Txt></Card>
+            <Card>
+              <QuestionHint theme={q.theme} universe={q.universe} center />
+              <Txt center size={fontSize.lg} weight="800">{q.text}</Txt>
+            </Card>
             {question!.options.map((opt) => (
               <Pressable key={opt} style={styles.option} onPress={() => answer(opt)}>
                 <Txt weight="700" size={fontSize.lg}>{opt}</Txt>

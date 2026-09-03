@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';
 
 import { Button, Card, EmptyState, PlayerAvatar, Screen, SectionHeader, Txt } from '../components/ui';
+import { QuestionHint } from '../components/QuestionHint';
 import { buildDaily, dateKey, type DailyQuestion } from '../core/dailyChallenge';
 import type { Player } from '../core/models';
 import { allAnsweredToday, hasAnswered, qotdBoard, type QotdRecord, recordQotd } from '../core/qotd';
@@ -121,6 +122,7 @@ export function QotdScreen({ navigation }: NativeStackScreenProps<RootStackParam
           <Txt weight="800">{t('{name} répond', { name: p?.name ?? '?' })}</Txt>
         </View>
         <Card>
+          <QuestionHint theme={q.theme} universe={q.universe} center />
           <Txt center size={fontSize.lg} weight="800">{q.text}</Txt>
         </Card>
         <View style={{ gap: spacing(1), marginTop: spacing(1.5) }}>
@@ -145,6 +147,7 @@ export function QotdScreen({ navigation }: NativeStackScreenProps<RootStackParam
   return (
     <Screen title={t('Question du jour')} subtitle={t('Une question, une fois par jour')} onBack={() => navigation.goBack()} scroll>
       <Card accent={colors.accent}>
+        <QuestionHint theme={q.theme} universe={q.universe} center />
         <Txt center size={fontSize.lg} weight="800">{q.text}</Txt>
         {allDone && (
           <View style={{ marginTop: spacing(1.5), alignItems: 'center' }}>

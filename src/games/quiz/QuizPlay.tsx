@@ -12,7 +12,8 @@ import { speak, stopSpeaking } from '../../lib/speech';
 import { useT } from '../../lib/i18nProvider';
 import { DRINK_CHALLENGES, resolveChallenge } from '../../core/drinks';
 import { accuracyRatio, adaptiveDifficulties } from '../../core/adaptiveDifficulty';
-import { DIFFICULTY_LABELS, type Difficulty, type Player, type QuizConfig, type SessionResult, THEME_META } from '../../core/models';
+import { DIFFICULTY_LABELS, type Difficulty, type Player, type QuizConfig, type SessionResult } from '../../core/models';
+import { getQuestionHint, questionHintText } from '../../lib/questionHint';
 import {
   createQuizState,
   currentQuestion,
@@ -703,7 +704,12 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
 
   function renderQuestion() {
     if (!q) return null;
-    const theme = THEME_META[q.theme];
+    // Indice de contexte selon le réglage global (univers / thème / les deux /
+    // aucun). `showUniv` = l'univers précis est révélé → on n'affiche les lignes
+    // « univers voulu / non souhaité » que dans ce cas.
+    const hint = getQuestionHint();
+    const showUniv = hint === 'universe' || hint === 'both';
+    const hintText = questionHintText(q.theme, q.universe, t, hint);
     const revealedHints = (q.hints ?? []).slice(0, game!.hintsRevealed);
 
     // Sous l'univers, en mode « tour » seulement (un seul « joueur » à la question) :
@@ -717,7 +723,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
     const categoryExcluded = !teamMode && !!activeId && (unwantedByPlayer[activeId] ?? []).includes(categoryKey);
     // Pour une question à univers, on ne montre la ligne que si l'univers est
     // affiché ; pour un thème sans univers, on la montre toujours.
-    const showSoloLine = !teamMode && !!activeId && (q.universe ? cfg.showUniverse : true);
+    const showSoloLine = !teamMode && !!activeId && (q.universe ? showUniv : true);
     // Membres de l'équipe active qui n'ont PAS exclu cet univers de leur profil
     // (donc ceux pour qui c'est un univers voulu).
     const teamMembersWithUniverse =
@@ -731,9 +737,13 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
       <View style={{ gap: spacing(2) }}>
         <View style={{ gap: spacing(0.5) }}>
           <View style={styles.metaRow}>
-            <Txt weight="800" color={colors.accent}>
-              {theme.emoji} {cfg.showUniverse && q.universe ? q.universe : t(theme.label)}
-            </Txt>
+            {hintText ? (
+              <Txt weight="800" color={colors.accent}>
+                {hintText}
+              </Txt>
+            ) : (
+              <View />
+            )}
             <Txt faint weight="700" size={fontSize.xs}>
               {t(DIFFICULTY_LABELS[q.difficulty]).toUpperCase()}
             </Txt>
@@ -747,7 +757,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
                 : t('✓ {cat} activé', { cat: t(categoryWord) })}
             </Txt>
           )}
-          {activeTeam && q.universe && (
+          {activeTeam && q.universe && showUniv && (
             <Txt
               weight="700"
               size={fontSize.xs}

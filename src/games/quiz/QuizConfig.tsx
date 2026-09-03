@@ -541,18 +541,9 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
             thumbColor={colors.white}
           />
         </View>
-        <View style={[styles.row, { marginTop: spacing(1.5) }]}>
-          <View style={{ flex: 1 }}>
-            <Txt weight="700">{t("Afficher l'univers")}</Txt>
-            <Txt faint size={fontSize.xs}>{t("Montrer l'univers pendant la partie (ex. « Naruto »)")}</Txt>
-          </View>
-          <Switch
-            value={cfg.showUniverse}
-            onValueChange={(v) => setCfg((c) => ({ ...c, showUniverse: v }))}
-            trackColor={{ true: colors.primary, false: colors.border }}
-            thumbColor={colors.white}
-          />
-        </View>
+        <Txt faint size={fontSize.xs} style={{ marginTop: spacing(1.5) }}>
+          {t("L'indice de contexte (univers / thème) se règle dans les Réglages, pour tous les modes.")}
+        </Txt>
       </Card>
 
       {cfg.drinksEnabled && (

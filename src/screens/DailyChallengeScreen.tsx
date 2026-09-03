@@ -4,6 +4,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Pressable, Share, StyleSheet, TextInput, View } from 'react-native';
 
 import { Button, Card, ProgressBar, Screen, SectionHeader, Txt } from '../components/ui';
+import { QuestionHint } from '../components/QuestionHint';
 import { StreakCalendar } from '../components/StreakCalendar';
 import {
   addDoneDate,
@@ -307,6 +308,7 @@ export function DailyChallengeScreen({ navigation, route }: NativeStackScreenPro
         </View>
 
         <Card>
+          <QuestionHint theme={current.question.theme} universe={current.question.universe} />
           <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: spacing(1) }}>
             <Txt weight="800" size={fontSize.lg} style={{ flex: 1 }}>
               {current.question.text}

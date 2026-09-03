@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';
 
 import { Button, Card, Chip, ProgressBar, Screen, SectionHeader, Txt } from '../components/ui';
+import { QuestionHint } from '../components/QuestionHint';
 import { buildDaily, type DailyQuestion } from '../core/dailyChallenge';
 import { type Question, type Theme, THEME_META, THEMES } from '../core/models';
 import { randomSeed } from '../core/rng';
@@ -213,14 +214,11 @@ export function EntrainementScreen({ navigation }: NativeStackScreenProps<RootSt
       </Txt>
 
       <Card style={{ marginTop: spacing(1.5) }}>
-        {/* En entraînement sur un THÈME entier, on rappelle l'univers de la
+        {/* En entraînement sur un THÈME entier, on rappelle le contexte de la
             question (sinon deviner « à l'aveugle » est trop dur). Inutile quand
-            la session est déjà ciblée sur un univers précis. */}
-        {!sessionUniverse && !!q.universe && (
-          <Txt faint size={fontSize.xs} weight="800" center style={{ marginBottom: spacing(0.5) }}>
-            {THEME_META[theme].emoji} {q.universe}
-          </Txt>
-        )}
+            la session est déjà ciblée sur un univers précis (affiché en titre).
+            Respecte le réglage global univers/thème/les deux/aucun. */}
+        {!sessionUniverse && <QuestionHint theme={theme} universe={q.universe} center />}
         <Txt center size={fontSize.lg} weight="800">
           {q.text}
         </Txt>

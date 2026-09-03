@@ -18,6 +18,7 @@ import { ALL_FLAGS, type FeatureFlag, FLAG_KV, getFlag, setFlag } from '../lib/f
 import { dateKey } from '../core/dailyChallenge';
 import { cancelDailyReminder, scheduleDailyReminder } from '../lib/notifications';
 import { currentThemeMode, setAppTheme } from '../lib/appTheme';
+import { type QuestionHint, getQuestionHint, QUESTION_HINT_KV, setQuestionHint } from '../lib/questionHint';
 import type { ThemeMode } from '../theme/theme';
 import { useI18n, useT } from '../lib/i18nProvider';
 import { useTextScale } from '../lib/textScale';
@@ -176,6 +177,13 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
     );
   };
 
+  const [qHint, setQHint] = useState<QuestionHint>(getQuestionHint());
+  const changeQHint = (m: QuestionHint) => {
+    setQHint(m);
+    setQuestionHint(m);
+    void kvSetJSON(QUESTION_HINT_KV, m);
+  };
+
   const [reminder, setReminder] = useState(false);
   useEffect(() => {
     void kvGetJSON<boolean>('ui:dailyReminder', false).then(setReminder);
@@ -312,6 +320,27 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
           <Segmented<string> value={scaleValue} onChange={(v) => setScale(Number(v))} options={textSizeOptions} />
         </View>
         <Txt style={{ marginTop: spacing(1.5) }}>{t('Aperçu : tout le monde voit bien la question ? 👀')}</Txt>
+        <View style={settingRow}>
+          <View style={{ flex: 1 }}>
+            <Txt weight="700">{t('Indice des questions 🧭')}</Txt>
+            <Txt faint size={fontSize.xs}>
+              {t('Contexte affiché avec chaque question, pour régler la difficulté.')}
+            </Txt>
+          </View>
+        </View>
+        <Segmented<QuestionHint>
+          value={qHint}
+          onChange={changeQHint}
+          options={[
+            { label: t('Univers'), value: 'universe' },
+            { label: t('Thème'), value: 'theme' },
+            { label: t('Les deux'), value: 'both' },
+            { label: t('Aucun'), value: 'none' },
+          ]}
+        />
+        <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
+          {t('Par défaut « Univers » : sans lui, beaucoup de questions sont trop dures à deviner.')}
+        </Txt>
         <View style={settingRow}>
           <View style={{ flex: 1 }}>
             <Txt weight="700">{t('Animations réduites 🍃')}</Txt>

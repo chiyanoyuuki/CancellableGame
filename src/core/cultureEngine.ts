@@ -7,7 +7,7 @@
  * nombre de questions, puis classement final par bonnes réponses.
  */
 import { type DareCategory } from './dares';
-import type { DrinkIntensity, Player, PlayerSessionResult, SessionResult } from './models';
+import type { DrinkIntensity, Player, PlayerSessionResult, SessionResult, Theme } from './models';
 import { mulberry32, pick, type Rng, shuffle } from './rng';
 
 /** Question minimale (indépendante du type Question complet). */
@@ -16,6 +16,9 @@ export interface QCard {
   text: string;
   options: string[];
   answer: string;
+  /** Contexte de la question (pour l'indice univers/thème à l'écran). */
+  theme?: Theme;
+  universe?: string;
 }
 
 export interface CultureConfig {

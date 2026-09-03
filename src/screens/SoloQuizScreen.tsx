@@ -4,8 +4,8 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Pressable, StyleSheet, View } from 'react-native';
 
 import { Button, Card, Screen, ProgressBar, Txt } from '../components/ui';
+import { QuestionHint } from '../components/QuestionHint';
 import { buildDaily, type DailyQuestion } from '../core/dailyChallenge';
-import { THEME_META } from '../core/models';
 import { getQuizPool } from '../games/quiz/pool';
 import { kvGetJSON, kvSetJSON } from '../db';
 import { haptics } from '../lib/haptics';
@@ -185,10 +185,7 @@ export function SoloQuizScreen({ navigation, route }: NativeStackScreenProps<Roo
         {isChrono && <ProgressBar value={remaining} total={CHRONO_SECONDS} color={remaining <= 10 ? colors.danger : colors.primary} />}
 
         <Card style={{ marginTop: spacing(1) }}>
-          <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.5) }}>
-            {THEME_META[current.question.theme].emoji}{' '}
-            {current.question.universe ?? t(THEME_META[current.question.theme].label)}
-          </Txt>
+          <QuestionHint theme={current.question.theme} universe={current.question.universe} />
           <Txt weight="800" size={fontSize.lg}>
             {current.question.text}
           </Txt>

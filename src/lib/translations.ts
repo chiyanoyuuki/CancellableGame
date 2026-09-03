@@ -1378,6 +1378,15 @@ export const EN: Record<string, string> = {
   'Animations réduites 🍃': 'Reduced motion 🍃',
   'Coupe le splash, les transitions et la roue (confort et perf).':
     'Turns off the splash, transitions and the wheel (comfort and performance).',
+  // Indice de contexte des questions (univers / thème / les deux / aucun).
+  'Indice des questions 🧭': 'Question hint 🧭',
+  'Contexte affiché avec chaque question, pour régler la difficulté.':
+    'Context shown with each question, to tune the difficulty.',
+  'Les deux': 'Both',
+  'Par défaut « Univers » : sans lui, beaucoup de questions sont trop dures à deviner.':
+    'Defaults to “Universe”: without it, many questions are too hard to guess.',
+  "L'indice de contexte (univers / thème) se règle dans les Réglages, pour tous les modes.":
+    'The context hint (universe / theme) is set in Settings, for all modes.',
 
   // --- Fonctionnalités (Réglages) -------------------------------------------
   Fonctionnalités: 'Features',

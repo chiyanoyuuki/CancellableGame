@@ -3,6 +3,7 @@ import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, View } fro
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button, Card, PlayerAvatar, Txt } from '../../components/ui';
+import { QuestionHint } from '../../components/QuestionHint';
 import { buildDaily } from '../../core/dailyChallenge';
 import { type CultureConfig, type CultureState, type QCard, createCultureState, cultureRanking, cultureReducer, cultureToSessionResult, currentPlayerId } from '../../core/cultureEngine';
 import { daresFor } from '../../core/dares';
@@ -51,6 +52,8 @@ export function CulturePlayComponent({ players, config, onFinish, onQuit }: Mini
           text: d.question.text,
           options: d.options,
           answer: d.question.answer,
+          theme: d.question.theme,
+          universe: d.question.universe,
         }));
         if (!alive) return;
         startedAtRef.current = Date.now();
@@ -153,6 +156,7 @@ export function CulturePlayComponent({ players, config, onFinish, onQuit }: Mini
           <Txt weight="800">{t("C'est à {name}", { name: me?.name ?? '?' })}</Txt>
         </View>
         <Card>
+          {game!.card.theme && <QuestionHint theme={game!.card.theme} universe={game!.card.universe} center />}
           <Txt center size={fontSize.lg} weight="800">
             {game!.card.text}
           </Txt>

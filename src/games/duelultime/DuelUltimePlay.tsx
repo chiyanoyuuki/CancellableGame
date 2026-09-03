@@ -5,7 +5,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Card, PlayerAvatar, Txt } from '../../components/ui';
 import { haptics } from '../../lib/haptics';
 import { useT } from '../../lib/i18nProvider';
-import { type DuelUltimeConfig, type Player, THEME_META } from '../../core/models';
+import { type DuelUltimeConfig, type Player } from '../../core/models';
+import { QuestionHint } from '../../components/QuestionHint';
 import {
   type DuelUltimeAction,
   type DuelUltimeState,
@@ -237,13 +238,10 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
 
   function renderQuestion() {
     if (!q) return null;
-    const theme = THEME_META[q.theme];
     return (
       <View style={{ gap: spacing(2) }}>
         <View style={styles.metaRow}>
-          <Txt weight="800" color={colors.accent}>
-            {theme.emoji} {q.universe ?? t(theme.label)}
-          </Txt>
+          <QuestionHint theme={q.theme} universe={q.universe} style={{ marginBottom: 0 }} />
           <Txt faint weight="700" size={fontSize.xs}>
             PRO
           </Txt>

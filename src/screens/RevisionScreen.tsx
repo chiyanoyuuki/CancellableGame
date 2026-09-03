@@ -3,8 +3,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';
 
 import { Button, Card, EmptyState, ProgressBar, Screen, Txt } from '../components/ui';
+import { QuestionHint } from '../components/QuestionHint';
 import { buildDaily, type DailyQuestion } from '../core/dailyChallenge';
-import { THEME_META } from '../core/models';
 import { randomSeed } from '../core/rng';
 import { clearMissedQuestion, getMissedQuestionIds } from '../db';
 import { QUESTIONS } from '../games/quiz/questions';
@@ -129,11 +129,7 @@ export function RevisionScreen({ navigation }: NativeStackScreenProps<RootStackP
       </Txt>
 
       <Card style={{ marginTop: spacing(1.5) }}>
-        {!!q.universe && (
-          <Txt faint size={fontSize.xs} weight="800" center style={{ marginBottom: spacing(0.5) }}>
-            {THEME_META[q.theme].emoji} {q.universe}
-          </Txt>
-        )}
+        <QuestionHint theme={q.theme} universe={q.universe} center />
         <Txt center size={fontSize.lg} weight="800">
           {q.text}
         </Txt>
