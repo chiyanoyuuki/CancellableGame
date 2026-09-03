@@ -1080,6 +1080,18 @@ export const EN: Record<string, string> = {
     'Dark theme is best for parties. Changing it restarts the app.',
   'Thème enregistré': 'Theme saved',
   "Redémarre l'application pour appliquer le nouveau thème.": 'Restart the app to apply the new theme.',
+  // Confirmation + fermeture pour appliquer le thème (voir SettingsScreen).
+  'Passer au thème {mode} ?': 'Switch to the {mode} theme?',
+  "Le thème s'applique au redémarrage. L'application va se fermer : rouvre-la pour découvrir le nouveau thème.":
+    'The theme applies on restart. The app will close — reopen it to see the new theme.',
+  'Changer et fermer': 'Switch and close',
+  clair: 'light',
+  sombre: 'dark',
+  'Thème enregistré ✓': 'Theme saved ✓',
+  "Ferme complètement l'application puis rouvre-la pour appliquer le nouveau thème.":
+    'Fully close the app, then reopen it to apply the new theme.',
+  'Le thème sombre est idéal en soirée. Changer de thème ferme l’application : rouvre-la pour l’appliquer.':
+    'Dark theme is best for parties. Changing the theme closes the app — reopen it to apply.',
 
   // --- Effets sonores (Réglages) --------------------------------------------
   'Effets sonores 🎶': 'Sound effects 🎶',

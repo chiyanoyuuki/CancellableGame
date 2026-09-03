@@ -1,7 +1,7 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useEffect, useState } from 'react';
-import { Alert, Linking, StyleSheet, Switch, View } from 'react-native';
+import { Alert, BackHandler, Linking, Platform, StyleSheet, Switch, View } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
@@ -145,14 +145,35 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
   };
 
   const [theme, setTheme] = useState<ThemeMode>(currentThemeMode());
-  const changeTheme = async (mode: ThemeMode) => {
-    if (mode === theme) return; // déjà sélectionné
+  // Le thème est figé au démarrage (voir theme.ts) : le changer n'a d'effet
+  // qu'au redémarrage. On demande donc confirmation, puis on ferme l'app (en
+  // prod Android) pour qu'elle rouvre dans le bon thème — en dev, le bundle se
+  // recharge tout seul.
+  const applyTheme = async (mode: ThemeMode) => {
     setTheme(mode);
     const reloaded = await setAppTheme(mode);
-    // En build de prod, pas de rechargement auto : on prévient l'utilisateur.
-    if (!reloaded) {
-      Alert.alert(t('Thème enregistré'), t("Redémarre l'application pour appliquer le nouveau thème."));
+    if (reloaded) return; // dev : rechargé immédiatement, rien à faire
+    if (Platform.OS === 'android') {
+      // Laisse la boîte de dialogue se fermer avant de quitter l'app.
+      setTimeout(() => BackHandler.exitApp(), 250);
+    } else {
+      Alert.alert(
+        t('Thème enregistré ✓'),
+        t("Ferme complètement l'application puis rouvre-la pour appliquer le nouveau thème."),
+      );
     }
+  };
+  const changeTheme = (mode: ThemeMode) => {
+    if (mode === theme) return; // déjà sélectionné
+    const label = mode === 'light' ? t('clair') : t('sombre');
+    Alert.alert(
+      t('Passer au thème {mode} ?', { mode: label }),
+      t("Le thème s'applique au redémarrage. L'application va se fermer : rouvre-la pour découvrir le nouveau thème."),
+      [
+        { text: t('Annuler'), style: 'cancel' },
+        { text: t('Changer et fermer'), style: 'destructive', onPress: () => void applyTheme(mode) },
+      ],
+    );
   };
 
   const [reminder, setReminder] = useState(false);
@@ -275,12 +296,12 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
         <View style={{ marginTop: spacing(1) }}>
           <Segmented<ThemeMode>
             value={theme}
-            onChange={(v) => void changeTheme(v)}
+            onChange={changeTheme}
             options={THEMES.map((o) => ({ label: t(o.label), value: o.value }))}
           />
         </View>
         <Txt faint size={fontSize.xs} style={{ marginTop: spacing(1) }}>
-          {t('Le thème sombre est idéal en soirée. Le changement redémarre l’application.')}
+          {t('Le thème sombre est idéal en soirée. Changer de thème ferme l’application : rouvre-la pour l’appliquer.')}
         </Txt>
       </Card>
 
