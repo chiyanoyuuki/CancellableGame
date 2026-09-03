@@ -38,6 +38,26 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   .count { color:var(--dim); font-size:12px; }
   .err { color:#ffb3c8; font-size:13px; margin-top:10px; }
   #sorthint { display:none; color:#9fd3ff; font-size:12px; margin:8px 0; }
+  /* Sélecteur d'univers plein écran (drill-down thèmes → univers) */
+  .pickbtn { width:100%; margin-top:8px; padding:14px 16px; font-size:15px; font-weight:800; border:1px solid var(--border); border-radius:14px; background:var(--card2); color:var(--text); cursor:pointer; text-align:left; }
+  .pickbtn small { display:block; color:var(--dim); font-weight:600; font-size:12px; margin-top:4px; }
+  .modal { position:fixed; inset:0; background:var(--bg); z-index:50; display:none; flex-direction:column; }
+  .modal.open { display:flex; }
+  .modal > header { display:flex; align-items:center; gap:8px; padding:14px 16px; border-bottom:1px solid var(--border); }
+  .modal > header .ttl { flex:1; text-align:center; font-weight:800; font-size:17px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .modal > header button { background:none; border:0; color:var(--accent); font-weight:800; font-size:15px; cursor:pointer; min-width:70px; padding:6px; }
+  .modal > header button:last-child { text-align:right; }
+  .mtools { padding:12px 16px; display:flex; flex-direction:column; gap:10px; border-bottom:1px solid var(--border); }
+  .mtools input { width:100%; padding:12px; font-size:16px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--text); }
+  .rowbtns { display:flex; gap:8px; align-items:center; }
+  .smallbtn { padding:8px 12px; border-radius:10px; border:1px solid var(--border); background:var(--card2); color:var(--text); font-weight:700; font-size:13px; cursor:pointer; }
+  .mbody { flex:1; overflow-y:auto; padding:16px; padding-bottom:48px; }
+  .themerow { display:flex; align-items:center; gap:12px; padding:14px 12px; border:1px solid var(--border); border-radius:14px; background:var(--card); margin-bottom:10px; cursor:pointer; }
+  .themerow .tem { font-size:24px; }
+  .themerow .tlbl { font-weight:800; }
+  .themerow .tsub { font-size:12px; font-weight:700; margin-top:2px; }
+  .themerow .tchev { color:var(--dim); font-size:22px; }
+  .mgroup { margin-bottom:18px; }
 </style>
 </head>
 <body>
@@ -62,13 +82,27 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   <label>Ta couleur</label>
   <div class="grid" id="colors"></div>
 
-  <details id="univDetails">
-    <summary>Univers que je ne veux pas voir (optionnel)</summary>
-    <p class="hint">Touche un univers pour l'exclure : tu n'auras quasiment jamais de questions dessus. Par défaut, tout est gardé. Il faut en garder au moins 10.</p>
-    <p id="keptcount" style="font-weight:700"></p>
-    <p id="sorthint">🆕 Triés par ajout : les univers les plus récents en premier.</p>
-    <div id="universes"></div>
-  </details>
+  <label>Univers de mes questions</label>
+  <button type="button" class="pickbtn" id="openUniv">🎛️ Choisir les univers<small id="univSummary"></small></button>
+  <p class="hint">Par défaut tout est gardé. Ouvre le sélecteur pour exclure des univers par thème — tu n'auras quasiment jamais de questions dessus. Il faut en garder au moins 10.</p>
+
+  <div class="modal" id="univModal" role="dialog" aria-modal="true">
+    <header>
+      <button id="mBack" type="button" style="visibility:hidden">‹ Thèmes</button>
+      <div class="ttl" id="mTitle">Choisir les univers</div>
+      <button id="mDone" type="button">Terminé</button>
+    </header>
+    <div class="mtools" id="mTools">
+      <input id="mSearch" type="text" placeholder="Rechercher un univers…" autocomplete="off">
+      <div class="rowbtns">
+        <button type="button" class="smallbtn" id="mAllKeep">Tout garder</button>
+        <button type="button" class="smallbtn" id="mAllExcl">Tout exclure</button>
+        <span style="flex:1"></span>
+        <span class="tsub" id="mCount"></span>
+      </div>
+    </div>
+    <div class="mbody" id="mBody"></div>
+  </div>
 
   <button class="primary" id="gen">Générer mon QR code ▶</button>
   <div class="err" id="formerr"></div>
@@ -91,7 +125,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   var ADD_ORDER = ["Astrologie","Insectes","Animaux","Alcool","Astronomie","Arbres","Voitures","Culture tchèque","Gastronomie tchèque","Histoire de Prague","SVT","Célébrités","Sexe","Kingdom Come Deliverance","Bouddhisme","Catholicisme","Chrétienté","Latin","Kim Jong-un","Phasmophobia","Far Cry","Hades","Baldur's Gate","Final Fantasy","The Walking Dead","86","Spy x Family","The Promised Neverland","Tokyo Ghoul","Moi quand je me réincarne en slime","Dr. Stone","Haikyu","Yakuza","Clair Obscur Expédition 33","Adolf Hitler","Donald Trump","La gauche","La droite","Théories du complot","Polémiques","Les Simpson","Family Guy","Futurama","Devil May Cry","Blue Lock","Solo Leveling","Elden Ring","Fortnite","The Last of Us","Harry Potter","Star Wars","Le Seigneur des Anneaux","Mercredi","Taylor Swift","One Punch Man","Call of Duty","Assassin's Creed","Genshin Impact","Rick et Morty","Lupin","Kaamelott","Marvel","Disney","Michael Jackson","JoJo's Bizarre Adventure","Fairy Tail","Dark Souls","God of War","Studio Ghibli","James Bond","Le Parrain","How I Met Your Mother","Queen","Daft Punk","Vinland Saga","Sword Art Online","Red Dead Redemption","Overwatch","Better Call Saul","Black Mirror","Jurassic Park","Retour vers le futur","The Beatles","Eminem","Classiques de la littérature","Victor Hugo","Molière","Émile Zola","Shakespeare","Jules Verne","Alexandre Dumas","Stephen King","Fantasy","Roald Dahl"];
   var FLAT = []; GROUPS.forEach(function(g){ g.universes.forEach(function(u){ FLAT.push(u); }); });
   var ADD_RANK = {}; ADD_ORDER.forEach(function(k,i){ ADD_RANK[k]=i; });
-  var state = { emoji: EMOJIS[0], color: COLORS[0], unwanted: {}, dateSort: false };
+  var state = { emoji: EMOJIS[0], color: COLORS[0], unwanted: {} };
 
   // Roster éventuel passé par l'hôte dans le lien (#r=...) : profils déjà connus.
   var roster = null, catMatch = true;
@@ -125,52 +159,124 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   // Minimum d'univers à garder non exclus (même règle que l'app).
   var MIN_KEPT = 10;
   function keptCount(){ return FLAT.length - Object.keys(state.unwanted).length; }
-  function updateKept(){
+  function normSearch(s){ return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+
+  // Sélecteur plein écran : navigation thèmes → univers (comme dans l'appli).
+  var modalTheme = null, modalSearch = '';
+  var mBody, mBack, mTitle, mTools, mSearch, mCount, univSummary;
+
+  function updateCountLabels(){
     var kept = keptCount();
-    var el = document.getElementById('keptcount');
-    if (!el) return;
-    el.textContent = '📚 ' + kept + '/' + FLAT.length + ' univers gardés' + (kept < MIN_KEPT ? ' — minimum ' + MIN_KEPT : '');
-    el.style.color = kept < MIN_KEPT ? '#ff5c5c' : '';
+    if (univSummary) univSummary.textContent = kept + '/' + FLAT.length + ' univers gardés' + (kept < MIN_KEPT ? ' — minimum ' + MIN_KEPT + ' !' : '');
+    if (mCount) { mCount.textContent = kept + '/' + FLAT.length; mCount.style.color = kept < MIN_KEPT ? '#ff5c5c' : 'var(--dim)'; }
   }
 
-  function chip(u){
+  function chipEl(u){
     var c = document.createElement('div');
     c.className = 'chip' + (state.unwanted[u] ? ' off' : '');
     c.textContent = u;
-    c.onclick = function(){ if(state.unwanted[u]){ delete state.unwanted[u]; c.className='chip'; } else { state.unwanted[u]=1; c.className='chip off'; } updateKept(); };
+    c.onclick = function(){
+      if (state.unwanted[u]) delete state.unwanted[u]; else state.unwanted[u] = 1;
+      c.className = 'chip' + (state.unwanted[u] ? ' off' : '');
+      updateCountLabels();
+    };
     return c;
   }
 
-  function renderUniverses(){
-    var box = document.getElementById('universes'); box.innerHTML='';
-    document.getElementById('sorthint').style.display = state.dateSort ? 'block' : 'none';
-    if (state.dateSort){
-      var items = FLAT.slice();
-      items.sort(function(a,b){ var ra=(a in ADD_RANK)?ADD_RANK[a]:-1, rb=(b in ADD_RANK)?ADD_RANK[b]:-1; return rb-ra; });
-      var row = document.createElement('div'); row.className='chips';
-      items.forEach(function(u){ row.appendChild(chip(u)); });
-      box.appendChild(row);
-    } else {
+  function bulk(list, exclude){
+    list.forEach(function(u){ if (exclude) state.unwanted[u] = 1; else delete state.unwanted[u]; });
+    renderModal();
+  }
+
+  function themeToolbar(universes){
+    var head = document.createElement('div'); head.className = 'rowbtns'; head.style.marginBottom = '12px';
+    var k = document.createElement('button'); k.type = 'button'; k.className = 'smallbtn'; k.textContent = 'Tout garder'; k.onclick = function(){ bulk(universes, false); };
+    var x = document.createElement('button'); x.type = 'button'; x.className = 'smallbtn'; x.textContent = 'Tout exclure'; x.onclick = function(){ bulk(universes, true); };
+    head.appendChild(k); head.appendChild(x);
+    return head;
+  }
+
+  function renderModal(){
+    if (!mBody) return;
+    mBody.innerHTML = '';
+    var q = normSearch(modalSearch);
+    if (modalTheme){
+      // Niveau 2 : les univers d'un thème.
+      mBack.style.visibility = 'visible';
+      mTitle.textContent = modalTheme.emoji + ' ' + modalTheme.label;
+      mTools.style.display = 'none';
+      mBody.appendChild(themeToolbar(modalTheme.universes));
+      var row = document.createElement('div'); row.className = 'chips';
+      modalTheme.universes.forEach(function(u){ row.appendChild(chipEl(u)); });
+      mBody.appendChild(row);
+    } else if (q){
+      // Recherche : résultats à plat, groupés par thème.
+      mBack.style.visibility = 'hidden';
+      mTitle.textContent = 'Choisir les univers';
+      mTools.style.display = 'flex';
+      var any = false;
       GROUPS.forEach(function(g){
-        var t = document.createElement('div'); t.className='theme'; t.textContent = g.emoji+' '+g.label.toUpperCase(); box.appendChild(t);
-        var row = document.createElement('div'); row.className='chips';
-        g.universes.forEach(function(u){ row.appendChild(chip(u)); });
-        box.appendChild(row);
+        var matches = g.universes.filter(function(u){ return normSearch(u).indexOf(q) >= 0; });
+        if (!matches.length) return; any = true;
+        var grp = document.createElement('div'); grp.className = 'mgroup';
+        var th = document.createElement('div'); th.className = 'theme'; th.textContent = g.emoji + ' ' + g.label.toUpperCase(); grp.appendChild(th);
+        var row = document.createElement('div'); row.className = 'chips';
+        matches.forEach(function(u){ row.appendChild(chipEl(u)); });
+        grp.appendChild(row); mBody.appendChild(grp);
+      });
+      if (!any){ var e = document.createElement('p'); e.className = 'hint'; e.textContent = 'Aucun univers ne correspond à la recherche.'; mBody.appendChild(e); }
+    } else {
+      // Niveau 1 : la liste des thèmes.
+      mBack.style.visibility = 'hidden';
+      mTitle.textContent = 'Choisir les univers';
+      mTools.style.display = 'flex';
+      GROUPS.forEach(function(g){
+        var active = g.universes.filter(function(u){ return !state.unwanted[u]; }).length;
+        var tot = g.universes.length;
+        var r = document.createElement('div'); r.className = 'themerow';
+        r.onclick = function(){ modalTheme = g; modalSearch = ''; if (mSearch) mSearch.value = ''; renderModal(); };
+        var em = document.createElement('div'); em.className = 'tem'; em.textContent = g.emoji;
+        var mid = document.createElement('div'); mid.style.flex = '1';
+        var lbl = document.createElement('div'); lbl.className = 'tlbl'; lbl.textContent = g.label;
+        var sub = document.createElement('div'); sub.className = 'tsub';
+        if (active === 0){ sub.textContent = 'Aucun univers gardé'; sub.style.color = '#ff5c5c'; }
+        else if (active === tot){ sub.textContent = 'Tous les univers (' + tot + ')'; sub.style.color = '#33d69f'; }
+        else { sub.textContent = active + '/' + tot + ' univers gardés'; sub.style.color = 'var(--dim)'; }
+        mid.appendChild(lbl); mid.appendChild(sub);
+        var chev = document.createElement('div'); chev.className = 'tchev'; chev.textContent = '›';
+        r.appendChild(em); r.appendChild(mid); r.appendChild(chev);
+        mBody.appendChild(r);
       });
     }
-    updateKept();
+    updateCountLabels();
   }
+
+  function openUnivModal(){ modalTheme = null; modalSearch = ''; if (mSearch) mSearch.value = ''; document.getElementById('univModal').classList.add('open'); renderModal(); }
+  function closeUnivModal(){ document.getElementById('univModal').classList.remove('open'); updateCountLabels(); }
+
+  // Références + branchements (le script est en bas de page : les éléments existent).
+  mBody = document.getElementById('mBody');
+  mBack = document.getElementById('mBack');
+  mTitle = document.getElementById('mTitle');
+  mTools = document.getElementById('mTools');
+  mSearch = document.getElementById('mSearch');
+  mCount = document.getElementById('mCount');
+  univSummary = document.getElementById('univSummary');
+  document.getElementById('openUniv').onclick = openUnivModal;
+  document.getElementById('mDone').onclick = closeUnivModal;
+  mBack.onclick = function(){ modalTheme = null; modalSearch = ''; if (mSearch) mSearch.value = ''; renderModal(); };
+  document.getElementById('mAllKeep').onclick = function(){ bulk(FLAT, false); };
+  document.getElementById('mAllExcl').onclick = function(){ bulk(FLAT, true); };
+  mSearch.oninput = function(){ modalSearch = mSearch.value; renderModal(); };
 
   function selectProfile(item){
     document.getElementById('name').value = item.n || '';
     if (item.e) { state.emoji = item.e; highlightEmoji(); }
     if (item.c) { state.color = item.c; highlightColor(); }
     state.unwanted = {};
-    var count = 0;
-    if (catMatch && item.u) { item.u.forEach(function(i){ var u = FLAT[i]; if(u){ state.unwanted[u]=1; count++; } }); }
-    state.dateSort = count >= 20; // même seuil que l'app
-    renderUniverses();
-    if (count > 0) { document.getElementById('univDetails').open = true; }
+    if (catMatch && item.u) { item.u.forEach(function(i){ var u = FLAT[i]; if(u){ state.unwanted[u]=1; } }); }
+    modalTheme = null; // le sélecteur rouvrira sur la liste des thèmes
+    updateCountLabels();
     window.scrollTo(0, 0);
   }
 
@@ -192,7 +298,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
     });
   }
 
-  renderUniverses();
+  updateCountLabels();
 
   var FLAT_INDEX = {}; FLAT.forEach(function(u,i){ FLAT_INDEX[u]=i; });
   // Échappe tout caractère non-ASCII en \uXXXX. La bibliothèque QR embarquée a un
