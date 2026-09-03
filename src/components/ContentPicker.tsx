@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-import { Button, Chip, Txt } from './ui';
-import { normalizeSearch } from '../core/universePrefs';
+import { Button, Chip } from './ui';
+import { UniversePickerModal } from './UniversePickerModal';
 import { type Question, type Theme, THEME_META, THEMES } from '../core/models';
 import { getQuizPool } from '../games/quiz/pool';
 import { useT } from '../lib/i18nProvider';
 import { useStore } from '../store/StoreProvider';
-import { colors, fontSize, radius, spacing } from '../theme/theme';
+import { spacing } from '../theme/theme';
 
 export interface ContentSelection {
   /** Thèmes en jeu ([] = tous). */
@@ -26,8 +26,7 @@ export function ContentPicker(props: { value: ContentSelection; onChange: (v: Co
   const t = useT();
   const store = useStore();
   const [pool, setPool] = useState<Question[]>([]);
-  const [showUniverses, setShowUniverses] = useState(false);
-  const [search, setSearch] = useState('');
+  const [pickerOpen, setPickerOpen] = useState(false);
 
   useEffect(() => {
     let alive = true;
@@ -90,18 +89,21 @@ export function ContentPicker(props: { value: ContentSelection; onChange: (v: Co
     setExcluded(next);
   };
 
-  const q = normalizeSearch(search);
-  const themeUniverses = (th: Theme) => {
-    const list = [...(byTheme.groups.get(th) ?? [])].sort((a, b) => a.localeCompare(b, 'fr'));
-    return q ? list.filter((u) => normalizeSearch(u).includes(q)) : list;
-  };
+  // Univers proposés dans la fenêtre : ceux des thèmes sélectionnés (déjà
+  // filtrés aux univers débloqués par le memo `byTheme`).
+  const modalGroups = presentThemes
+    .filter((th) => selectedThemes.has(th))
+    .map((th) => ({ theme: th, universes: [...(byTheme.groups.get(th) ?? [])].sort((a, b) => a.localeCompare(b, 'fr')) }))
+    .filter((g) => g.universes.length > 0);
+  const totalU = modalGroups.reduce((n, g) => n + g.universes.length, 0);
+  const activeU = modalGroups.reduce((n, g) => n + g.universes.filter((u) => !excluded.has(u)).length, 0);
 
   return (
     <View style={{ gap: spacing(1) }}>
       {/* Thèmes */}
       <View style={{ flexDirection: 'row', gap: spacing(1) }}>
-        <Button size="sm" variant="ghost" title={t('Tout')} onPress={() => emitThemes(new Set(presentThemes))} />
-        <Button size="sm" variant="ghost" title={t('Aucun')} onPress={() => props.onChange({ themes: [], excludedUniverses: props.value.excludedUniverses })} />
+        <Button size="sm" variant="secondary" title={t('Tout')} onPress={() => emitThemes(new Set(presentThemes))} />
+        <Button size="sm" variant="secondary" title={t('Aucun')} onPress={() => props.onChange({ themes: [], excludedUniverses: props.value.excludedUniverses })} />
       </View>
       <View style={styles.wrap}>
         {presentThemes.map((th) => (
@@ -114,51 +116,30 @@ export function ContentPicker(props: { value: ContentSelection; onChange: (v: Co
         ))}
       </View>
 
-      {/* Univers précis (repliable) */}
-      <Pressable onPress={() => setShowUniverses((v) => !v)}>
-        <Txt weight="800" size={fontSize.sm} color={colors.primary} style={{ marginTop: spacing(0.5) }}>
-          {t('Choisir des univers précis')} {showUniverses ? '▾' : '▸'}
-        </Txt>
-      </Pressable>
-
-      {showUniverses && (
-        <View style={{ gap: spacing(1) }}>
-          <TextInput
-            style={styles.search}
-            value={search}
-            onChangeText={setSearch}
-            placeholder={t('Rechercher un univers…')}
-            placeholderTextColor={colors.textFaint}
-            autoCorrect={false}
+      {/* Univers précis : ouvre la fenêtre dédiée (thèmes → univers). */}
+      {modalGroups.length > 0 && (
+        <>
+          <Button
+            title={
+              activeU === totalU
+                ? t('Choisir les univers')
+                : t('Choisir les univers ({n}/{total})', { n: activeU, total: totalU })
+            }
+            emoji="🎛️"
+            size="sm"
+            variant="secondary"
+            onPress={() => setPickerOpen(true)}
           />
-          {presentThemes
-            .filter((th) => selectedThemes.has(th))
-            .map((th) => {
-              const universes = themeUniverses(th);
-              if (universes.length === 0) return null;
-              return (
-                <View key={th} style={{ marginBottom: spacing(0.5) }}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing(0.5) }}>
-                    <Txt faint size={fontSize.xs} weight="800">
-                      {THEME_META[th].emoji} {t(THEME_META[th].label).toUpperCase()}
-                    </Txt>
-                    <View style={{ flexDirection: 'row', gap: spacing(0.5) }}>
-                      <Button size="sm" variant="ghost" title={t('tout')} onPress={() => bulkTheme(universes, false)} />
-                      <Button size="sm" variant="ghost" title={t('rien')} onPress={() => bulkTheme(universes, true)} />
-                    </View>
-                  </View>
-                  <View style={styles.wrap}>
-                    {universes.map((u) => (
-                      <Chip key={u} label={u} selected={!excluded.has(u)} onPress={() => toggleUniverse(u)} />
-                    ))}
-                  </View>
-                </View>
-              );
-            })}
-          <Txt faint size={fontSize.xs}>
-            {t('Les univers décochés sont exclus. Un thème entièrement décoché ne sort plus.')}
-          </Txt>
-        </View>
+          <UniversePickerModal
+            visible={pickerOpen}
+            onClose={() => setPickerOpen(false)}
+            groups={modalGroups}
+            excluded={excluded}
+            onToggle={toggleUniverse}
+            onBulk={bulkTheme}
+            isUnlocked={() => true}
+          />
+        </>
       )}
     </View>
   );
@@ -166,13 +147,4 @@ export function ContentPicker(props: { value: ContentSelection; onChange: (v: Co
 
 const styles = StyleSheet.create({
   wrap: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing(1) },
-  search: {
-    backgroundColor: colors.card,
-    borderRadius: radius.md,
-    borderWidth: 1,
-    borderColor: colors.border,
-    color: colors.text,
-    paddingHorizontal: spacing(1.5),
-    paddingVertical: spacing(1),
-  },
 });

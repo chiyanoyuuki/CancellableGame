@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Switch, TextInput, View } from 'react-native';
 
 import { Button, Card, Chip, HowToPlay, PlayerAvatar, PlayerUnseenList, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
+import { UniversePickerModal } from '../../components/UniversePickerModal';
 import {
   DEFAULT_QUIZ_CONFIG,
   type Difficulty,
@@ -16,12 +17,7 @@ import {
   type TurnMode,
 } from '../../core/models';
 import { countUnseenGroups, identityGroups, type QuestionHistory } from '../../core/questionSelection';
-import {
-  matchesQuery,
-  presentPinned,
-  pushRecent,
-  toggleFavorite as toggleFav,
-} from '../../core/universePrefs';
+import { pushRecent, toggleFavorite as toggleFav } from '../../core/universePrefs';
 import { getQuestionHistory, getQuestionHistoryByPlayer, kvGetJSON, kvSetJSON } from '../../db';
 import { useT } from '../../lib/i18nProvider';
 import { useStore } from '../../store/StoreProvider';
@@ -43,10 +39,9 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
   const [pool, setPool] = useState<Question[]>([]);
   const [history, setHistory] = useState<QuestionHistory>({});
   const [historyByPlayer, setHistoryByPlayer] = useState<Record<string, QuestionHistory>>({});
-  const [showAdvanced, setShowAdvanced] = useState(false);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [recent, setRecent] = useState<string[]>([]);
-  const [universeSearch, setUniverseSearch] = useState('');
+  const [pickerOpen, setPickerOpen] = useState(false);
 
   // --- Team mode local state (turned into cfg.teams only at launch) ----------
   const [teamCount, setTeamCount] = useState(() => Math.min(2, Math.max(1, players.length)));
@@ -138,37 +133,13 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
     return out;
   }, [pool, cfg.themes]);
 
-  // --- Découvrabilité des univers : recherche + favoris + récemment joués -----
-  const availableUniverses = useMemo(() => {
-    const s = new Set<string>();
-    for (const g of universesByTheme) for (const u of g.universes) s.add(u);
-    return s;
-  }, [universesByTheme]);
-  const favoritePresent = useMemo(
-    () => presentPinned(favorites, availableUniverses).filter((u) => matchesQuery(u, universeSearch)),
-    [favorites, availableUniverses, universeSearch],
+  // Résumé de la sélection d'univers (pour la carte + la fenêtre de choix).
+  const excludedSet = useMemo(() => new Set(cfg.excludedUniverses), [cfg.excludedUniverses]);
+  const allUniversesFlat = useMemo(() => universesByTheme.flatMap((g) => g.universes), [universesByTheme]);
+  const activeUniverseCount = useMemo(
+    () => allUniversesFlat.filter((u) => !excludedSet.has(u)).length,
+    [allUniversesFlat, excludedSet],
   );
-  const recentPresent = useMemo(
-    () =>
-      presentPinned(recent, availableUniverses).filter(
-        (u) => !favorites.includes(u) && matchesQuery(u, universeSearch),
-      ),
-    [recent, availableUniverses, universeSearch, favorites],
-  );
-  const filteredByTheme = useMemo(
-    () =>
-      universesByTheme
-        .map((g) => ({ theme: g.theme, universes: g.universes.filter((u) => matchesQuery(u, universeSearch)) }))
-        .filter((g) => g.universes.length > 0),
-    [universesByTheme, universeSearch],
-  );
-  const visibleUniverses = useMemo(() => {
-    const s = new Set<string>();
-    for (const u of favoritePresent) s.add(u);
-    for (const u of recentPresent) s.add(u);
-    for (const g of filteredByTheme) for (const u of g.universes) s.add(u);
-    return [...s];
-  }, [favoritePresent, recentPresent, filteredByTheme]);
   // Active (exclude=false) ou désactive (exclude=true) une liste d'univers d'un coup.
   const bulkSetFor = (list: readonly string[], exclude: boolean) =>
     setCfg((c) => {
@@ -179,7 +150,6 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
       }
       return { ...c, excludedUniverses: [...set] };
     });
-  const bulkSetVisible = (exclude: boolean) => bulkSetFor(visibleUniverses, exclude);
 
   const available = eligible.length;
   const unseen = useMemo(
@@ -227,21 +197,6 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
         ? c.excludedUniverses.filter((x) => x !== u)
         : [...c.excludedUniverses, u],
     }));
-
-  const renderUniverseChip = (u: string) =>
-    store.isUniverseUnlocked(u) ? (
-      <Chip
-        key={u}
-        label={favorites.includes(u) ? `★ ${u}` : u}
-        selected={!cfg.excludedUniverses.includes(u)}
-        onPress={() => toggleUniverse(u)}
-        onLongPress={() => toggleFavoriteUniverse(u)}
-      />
-    ) : (
-      <View key={u} style={{ opacity: 0.45 }}>
-        <Chip label={`🔒 ${u}`} selected={false} />
-      </View>
-    );
 
   const valid = cfg.themes.length > 0 && cfg.difficulties.length > 0 && available > 0;
 
@@ -339,61 +294,35 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
 
       {universesByTheme.length > 0 && (
         <>
-          <Pressable onPress={() => setShowAdvanced((v) => !v)}>
-            <SectionHeader title={`${t('Options avancées — univers')} ${showAdvanced ? '▾' : '▸'}`} />
-          </Pressable>
-          {showAdvanced && (
-            <>
-              <TextInput
-                style={styles.searchInput}
-                value={universeSearch}
-                onChangeText={setUniverseSearch}
-                placeholder={t('Rechercher un univers…')}
-                placeholderTextColor={colors.textFaint}
-                autoCorrect={false}
-              />
-              <View style={[styles.wrap, { marginTop: spacing(1), marginBottom: spacing(0.5) }]}>
-                <Button size="sm" variant="ghost" title={t('Tout activer')} onPress={() => bulkSetVisible(false)} />
-                <Button size="sm" variant="ghost" title={t('Tout désactiver')} onPress={() => bulkSetVisible(true)} />
-              </View>
-              <Txt faint size={fontSize.xs} style={{ marginBottom: spacing(1) }}>
-                {t('Appui long sur un univers pour le mettre en favori ★.')}
-              </Txt>
-              {favoritePresent.length > 0 && (
-                <View style={{ marginBottom: spacing(1.5) }}>
-                  <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.5) }}>
-                    ★ {t('FAVORIS')}
-                  </Txt>
-                  <View style={styles.wrap}>{favoritePresent.map(renderUniverseChip)}</View>
-                </View>
-              )}
-              {recentPresent.length > 0 && (
-                <View style={{ marginBottom: spacing(1.5) }}>
-                  <Txt faint size={fontSize.xs} weight="800" style={{ marginBottom: spacing(0.5) }}>
-                    🕹️ {t('RÉCEMMENT JOUÉS')}
-                  </Txt>
-                  <View style={styles.wrap}>{recentPresent.map(renderUniverseChip)}</View>
-                </View>
-              )}
-              {filteredByTheme.map(({ theme, universes }) => (
-                <View key={theme} style={{ marginBottom: spacing(1.5) }}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing(0.5) }}>
-                    <Txt faint size={fontSize.xs} weight="800">
-                      {THEME_META[theme].emoji} {t(THEME_META[theme].label).toUpperCase()}
-                    </Txt>
-                    <View style={{ flexDirection: 'row', gap: spacing(0.5) }}>
-                      <Button size="sm" variant="ghost" title={t('tout')} onPress={() => bulkSetFor(universes, false)} />
-                      <Button size="sm" variant="ghost" title={t('rien')} onPress={() => bulkSetFor(universes, true)} />
-                    </View>
-                  </View>
-                  <View style={styles.wrap}>{universes.map(renderUniverseChip)}</View>
-                </View>
-              ))}
-              {visibleUniverses.length === 0 && (
-                <Txt faint size={fontSize.xs}>{t('Aucun univers ne correspond à la recherche.')}</Txt>
-              )}
-            </>
-          )}
+          <SectionHeader title={t('Univers')} />
+          <Card>
+            <Txt weight="700">{t('Affiner par univers 🌌')}</Txt>
+            <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5) }}>
+              {activeUniverseCount === allUniversesFlat.length
+                ? t('Tous les univers des thèmes choisis ({n})', { n: allUniversesFlat.length })
+                : t('{n}/{total} univers actifs', { n: activeUniverseCount, total: allUniversesFlat.length })}
+            </Txt>
+            <Button
+              title={t('Choisir les univers')}
+              emoji="🎛️"
+              variant="secondary"
+              onPress={() => setPickerOpen(true)}
+              style={{ marginTop: spacing(1.5) }}
+            />
+          </Card>
+          <UniversePickerModal
+            visible={pickerOpen}
+            onClose={() => setPickerOpen(false)}
+            groups={universesByTheme}
+            excluded={excludedSet}
+            onToggle={toggleUniverse}
+            onBulk={bulkSetFor}
+            isUnlocked={(u) => store.isUniverseUnlocked(u)}
+            favorites={favorites}
+            onToggleFavorite={toggleFavoriteUniverse}
+            recent={recent}
+            subtitle={t('{n} questions disponibles avec la sélection actuelle', { n: available })}
+          />
         </>
       )}
 
@@ -651,17 +580,6 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
 
 const styles = StyleSheet.create({
   wrap: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing(1) },
-  searchInput: {
-    color: colors.text,
-    fontSize: fontSize.md,
-    fontWeight: '600',
-    backgroundColor: colors.card,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: radius.sm,
-    paddingHorizontal: spacing(1.25),
-    paddingVertical: spacing(1),
-  },
   row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing(1) },
   teamInput: {
     flex: 1,

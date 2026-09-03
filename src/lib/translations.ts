@@ -1438,6 +1438,18 @@ export const EN: Record<string, string> = {
   'Thèmes & univers des mots': 'Word themes & universes',
   'Thèmes & univers des questions': 'Question themes & universes',
   'Choisir des univers précis': 'Pick specific universes',
+  // Fenêtre « drill-down » de sélection d'univers (thèmes → univers).
+  'Choisir les univers': 'Choose universes',
+  'Choisir les univers ({n}/{total})': 'Choose universes ({n}/{total})',
+  'Affiner par univers 🌌': 'Refine by universe 🌌',
+  'Tous les univers des thèmes choisis ({n})': 'All universes of the chosen themes ({n})',
+  '{n} questions disponibles avec la sélection actuelle': '{n} questions available with the current selection',
+  '‹ Thèmes': '‹ Themes',
+  Terminé: 'Done',
+  '{n}/{total} actifs': '{n}/{total} on',
+  '{n}/{total} univers actifs': '{n}/{total} universes on',
+  'Aucun univers actif': 'No universe enabled',
+  'Tous les univers ({n})': 'All universes ({n})',
   'Les univers décochés sont exclus. Un thème entièrement décoché ne sort plus.':
     'Unchecked universes are excluded. A fully unchecked theme won’t appear.',
   'Ou choisis un univers précis': 'Or pick a specific universe',
