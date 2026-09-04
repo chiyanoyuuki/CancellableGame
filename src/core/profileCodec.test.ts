@@ -1,4 +1,4 @@
-import { decodeProfile, encodeProfile, encodeProfileCompact, isProfileCode, type RemoteProfile } from './profileCodec';
+import { decodeProfile, encodeProfile, encodeProfileCompact, encodeProfileHashed, isProfileCode, type RemoteProfile, universeCode } from './profileCodec';
 
 const sample: RemoteProfile = {
   name: 'Sofiane',
@@ -99,6 +99,46 @@ describe('profileCodec', () => {
     test('ignore les indices hors bornes', () => {
       const code = `CANCELLABLE-PROFILE|2|{"n":"Tom","v":${catalogue.length},"u":[0,99,-1,5]}`;
       expect(decodeProfile(code, catalogue)?.unwanted).toEqual(['Naruto', 'Bleach']);
+    });
+  });
+
+  describe('format v3 (univers par hash de nom, robuste au décalage)', () => {
+    const catalogue = ['Naruto', 'One Piece', 'La gauche', "Assassin's Creed", 'Théories du complot', 'Bleach'];
+
+    test('aller-retour avec catalogue', () => {
+      const code = encodeProfileHashed(sample);
+      expect(decodeProfile(code, catalogue)).toEqual(sample);
+    });
+
+    test('décodage correct MÊME si le catalogue a changé de taille et d’ordre', () => {
+      const code = encodeProfileHashed(sample);
+      // Catalogue de décodage : réordonné + de nouveaux univers ajoutés au milieu.
+      const shifted = ['Nouveau A', "Assassin's Creed", 'Nouveau B', 'La gauche', 'One Piece', 'Naruto', 'Nouveau C'];
+      // Les 3 univers du profil sont présents (peu importe leur position) → retrouvés.
+      expect(decodeProfile(code, shifted)?.unwanted?.sort()).toEqual([...sample.unwanted].sort());
+    });
+
+    test('un univers absent du catalogue de décodage est simplement ignoré', () => {
+      const code = encodeProfileHashed({ ...sample, unwanted: ['Naruto', 'Univers Inconnu'] });
+      expect(decodeProfile(code, catalogue)?.unwanted).toEqual(['Naruto']);
+    });
+
+    test('sans catalogue, un v3 se décode sans exclusions', () => {
+      expect(decodeProfile(encodeProfileHashed(sample))).toEqual({ ...sample, unwanted: [] });
+    });
+
+    test('reste 100 % ASCII (le corps échappé n’altère pas les codes hex)', () => {
+      const code = encodeProfileHashed(sample);
+      // Les codes sont hexadécimaux (ASCII) ; seuls nom/emoji nécessitent l’échappement.
+      const body = code.slice(code.indexOf('|', code.indexOf('|') + 1) + 1);
+      const u = (JSON.parse(body) as { u: string }).u;
+      expect(/^[0-9a-f]*$/.test(u)).toBe(true);
+      expect(u.length).toBe(sample.unwanted.length * 8);
+    });
+
+    test('universeCode est déterministe et stable (garde-fou anti-régression)', () => {
+      expect(universeCode('Naruto')).toBe('d45cd9b8');
+      expect(universeCode('Naruto')).toBe(universeCode('Naruto'));
     });
   });
 

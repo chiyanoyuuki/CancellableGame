@@ -36,8 +36,24 @@ function sanitizeEmoji(raw: string): string {
 }
 
 const MAGIC = 'CANCELLABLE-PROFILE';
-const VERSION = 1; // version écrite par encodeProfile (noms) ; v2 = encodeProfileCompact
-const VERSION_MAX = 2; // version la plus récente que decodeProfile sait lire
+const VERSION = 1; // version écrite par encodeProfile (noms) ; v2 = indices, v3 = hash
+const VERSION_MAX = 3; // version la plus récente que decodeProfile sait lire
+
+/**
+ * Code stable d'un univers, dérivé de SON NOM (FNV-1a 32 bits → 8 hex). Sert au
+ * format v3 : contrairement aux indices (v2), il ne dépend NI de l'ordre NI de
+ * la taille du catalogue, donc un profil scanné reste correct même si l'app et
+ * le formulaire web n'ont pas exactement la même liste d'univers (l'un a été mis
+ * à jour avant l'autre). DOIT rester identique ici et dans webform/index.html.
+ */
+export function universeCode(name: string): string {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < name.length; i++) {
+    h ^= name.charCodeAt(i);
+    h = Math.imul(h, 0x01000193);
+  }
+  return (h >>> 0).toString(16).padStart(8, '0');
+}
 const MAX_NAME = 40;
 const MAX_EMOJI = 16;
 const MAX_COLOR = 16;
@@ -62,6 +78,17 @@ export function encodeProfileCompact(p: RemoteProfile, catalogue: readonly strin
     .filter((i): i is number => i !== undefined);
   const body = JSON.stringify({ n: p.name, e: p.emoji, c: p.color, v: catalogue.length, u });
   return `${MAGIC}|2|${body}`;
+}
+
+/**
+ * Sérialise un profil au format v3 : les univers évités sont encodés par le HASH
+ * de leur nom (8 hex chacun, concaténés). Compact ET insensible au décalage de
+ * catalogue entre l'app et le formulaire web — le format à privilégier.
+ */
+export function encodeProfileHashed(p: RemoteProfile): string {
+  const u = p.unwanted.map(universeCode).join('');
+  const body = JSON.stringify({ n: p.name, e: p.emoji, c: p.color, u });
+  return `${MAGIC}|3|${body}`;
 }
 
 /**
@@ -108,7 +135,21 @@ export function decodeProfile(raw: string, catalogue?: readonly string[]): Remot
   const color = typeof o.c === 'string' ? o.c.slice(0, MAX_COLOR) : '';
 
   let unwanted: string[];
-  if (version >= 2) {
+  if (version >= 3) {
+    // v3 : `u` = codes de hash (8 hex) concaténés. On reconstruit une table
+    // hash → nom depuis le catalogue courant et on retrouve chaque univers. Rien
+    // ne dépend de l'ordre ni de la taille : robuste au décalage app/web.
+    const cat = catalogue ?? [];
+    const byCode = new Map<string, string>();
+    for (const u of cat) byCode.set(universeCode(u), u);
+    const s = typeof o.u === 'string' ? o.u : '';
+    const out: string[] = [];
+    for (let i = 0; i + 8 <= s.length && out.length < MAX_UNWANTED; i += 8) {
+      const name = byCode.get(s.slice(i, i + 8).toLowerCase());
+      if (name) out.push(name);
+    }
+    unwanted = out;
+  } else if (version === 2) {
     // `u` = indices dans le catalogue ; `v` = taille du catalogue à l'encodage.
     const cat = catalogue ?? null;
     const drift = typeof o.v === 'number' && cat !== null && o.v !== cat.length;
