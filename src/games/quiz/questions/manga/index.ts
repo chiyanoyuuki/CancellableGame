@@ -11,6 +11,7 @@ import { dragonball } from './dragonball';
 import { drstone } from './drstone';
 import { eightysix } from './eightysix';
 import { fma } from './fma';
+import { gto } from './gto';
 import { haikyuu } from './haikyuu';
 import { hxh } from './hxh';
 import { jojo } from './jojo';
@@ -67,4 +68,5 @@ export const mangaQuestions: Question[] = [
   ...fairytail,
   ...vinland,
   ...sao,
+  ...gto,
 ];
