@@ -7,6 +7,7 @@ import {
   type AliasAction,
   type AliasConfig,
   type AliasState,
+  type AliasWord,
   aliasRanking,
   aliasReducer,
   aliasToSessionResult,
@@ -14,6 +15,7 @@ import {
   currentRoundForTeam,
   currentTeam,
 } from '../../core/aliasEngine';
+import { THEME_META } from '../../core/models';
 import { isGoodImposteurWord } from '../../core/imposteurEngine';
 import { randomSeed } from '../../core/rng';
 import { haptics } from '../../lib/haptics';
@@ -42,7 +44,7 @@ export function AliasPlayComponent({ config, onFinish, onQuit }: MiniGamePlayPro
         const themeSet = cfg.themes && cfg.themes.length > 0 ? new Set(cfg.themes) : null;
         const excluded = new Set(cfg.excludedUniverses ?? []);
         const seen = new Set<string>();
-        const words: string[] = [];
+        const words: AliasWord[] = [];
         for (const q of full) {
           if (themeSet && !themeSet.has(q.theme)) continue;
           if (q.universe && excluded.has(q.universe)) continue;
@@ -50,7 +52,7 @@ export function AliasPlayComponent({ config, onFinish, onQuit }: MiniGamePlayPro
           if (!store.ent.allThemes && !store.isUniverseUnlocked(q.universe ?? `#${q.theme}`)) continue;
           if (seen.has(q.answer)) continue;
           seen.add(q.answer);
-          words.push(q.answer);
+          words.push({ word: q.answer, theme: q.theme, universe: q.universe });
         }
         if (!alive) return;
         startedAtRef.current = Date.now();
@@ -66,6 +68,13 @@ export function AliasPlayComponent({ config, onFinish, onQuit }: MiniGamePlayPro
   }, []);
 
   const dispatch = (a: AliasAction) => setGame((s) => (s ? aliasReducer(s, a) : s));
+
+  // Contexte affiché au décriveur : « 🍥 Manga / Anime · Naruto ».
+  const ctxLabel = (theme?: string, universe?: string): string => {
+    const meta = theme ? THEME_META[theme as keyof typeof THEME_META] : undefined;
+    const themePart = meta ? `${meta.emoji} ${t(meta.label)}` : '';
+    return [themePart, universe].filter(Boolean).join(' · ');
+  };
 
   // Chrono du tour : démarre à chaque passage en « playing », s'arrête à 0.
   useEffect(() => {
@@ -88,7 +97,7 @@ export function AliasPlayComponent({ config, onFinish, onQuit }: MiniGamePlayPro
     if (game?.phase === 'playing' && left === 0) {
       haptics.fail();
       sounds.wrong();
-      dispatch({ type: 'END_TURN' });
+      dispatch({ type: 'END_TURN', timedOut: true });
     } else if (game?.phase === 'playing' && left <= 5 && left > 0) {
       haptics.tick();
       sounds.tick();
@@ -183,15 +192,21 @@ export function AliasPlayComponent({ config, onFinish, onQuit }: MiniGamePlayPro
 
   function renderPlaying() {
     const danger = left <= 5;
+    const ctx = ctxLabel(game!.theme, game!.universe);
     return (
       <View style={{ gap: spacing(2), paddingTop: spacing(1) }}>
         <Txt weight="900" size={fontSize.huge} center color={danger ? colors.danger : colors.text}>
           {left}s
         </Txt>
-        <Card style={{ minHeight: 140, justifyContent: 'center' }}>
+        <Card style={{ minHeight: 140, justifyContent: 'center', gap: spacing(1) }}>
           <Txt center size={fontSize.xxl} weight="900">
             {game!.word}
           </Txt>
+          {ctx ? (
+            <Txt center dim weight="700" size={fontSize.sm}>
+              {ctx}
+            </Txt>
+          ) : null}
         </Card>
         <View style={styles.actionRow}>
           <Pressable
@@ -214,7 +229,7 @@ export function AliasPlayComponent({ config, onFinish, onQuit }: MiniGamePlayPro
             <Txt weight="900" size={fontSize.lg} color={colors.white}>{t('✓ Trouvé')}</Txt>
           </Pressable>
         </View>
-        <Button title={t('Terminer le tour')} variant="ghost" size="sm" onPress={() => dispatch({ type: 'END_TURN' })} />
+        <Button title={t('Terminer le tour')} variant="ghost" size="sm" onPress={() => dispatch({ type: 'END_TURN', timedOut: false })} />
       </View>
     );
   }
@@ -239,9 +254,15 @@ export function AliasPlayComponent({ config, onFinish, onQuit }: MiniGamePlayPro
                 <Txt weight="700" style={{ flex: 1 }} numberOfLines={1}>
                   {r.word}
                 </Txt>
-                <Txt weight="900" color={r.found ? colors.success : colors.textFaint}>
-                  {r.found ? '✓' : '⤳'}
-                </Txt>
+                {r.timedOut ? (
+                  <Txt weight="800" color={colors.danger} size={fontSize.sm}>
+                    {t('⏱️ temps écoulé')}
+                  </Txt>
+                ) : (
+                  <Txt weight="900" color={r.found ? colors.success : colors.textFaint}>
+                    {r.found ? '✓' : '⤳'}
+                  </Txt>
+                )}
               </View>
             ))}
           </Card>

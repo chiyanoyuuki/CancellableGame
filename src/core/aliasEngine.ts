@@ -32,9 +32,20 @@ export interface AliasConfig {
 
 export type AliasPhase = 'ready' | 'playing' | 'turnEnd' | 'finished';
 
+/** Un mot du pool, avec son contexte pour aider à le faire deviner. */
+export interface AliasWord {
+  word: string;
+  /** Code du thème d'origine (ex. 'manga'). */
+  theme?: string;
+  /** Nom de l'univers d'origine (ex. 'Naruto'). */
+  universe?: string;
+}
+
 export interface AliasWordResult {
   word: string;
   found: boolean;
+  /** Mot affiché au moment où le tour s'est terminé (temps écoulé) : montré dans le recap. */
+  timedOut?: boolean;
 }
 
 export interface AliasState {
@@ -45,10 +56,13 @@ export interface AliasState {
   totalTurns: number; // teams.length * roundsPerTeam
   phase: AliasPhase;
   word: string;
+  /** Thème/univers du mot courant, affichés au décriveur pendant la manche. */
+  theme?: string;
+  universe?: string;
   scores: Record<string, number>;
   /** Résultats mot par mot du tour EN COURS (recap de fin de tour). */
   turnResults: AliasWordResult[];
-  pool: string[];
+  pool: AliasWord[];
   poolIdx: number;
   seed: number;
 }
@@ -57,13 +71,13 @@ export type AliasAction =
   | { type: 'START_TURN' }
   | { type: 'FOUND' }
   | { type: 'SKIP' }
-  | { type: 'END_TURN' }
+  | { type: 'END_TURN'; timedOut?: boolean }
   | { type: 'NEXT_TURN' };
 
-function nextWord(state: AliasState): { word: string; poolIdx: number } {
+function nextWord(state: AliasState): { word: string; theme?: string; universe?: string; poolIdx: number } {
   if (state.pool.length === 0) return { word: '???', poolIdx: 0 };
-  const word = state.pool[state.poolIdx % state.pool.length] as string;
-  return { word, poolIdx: state.poolIdx + 1 };
+  const entry = state.pool[state.poolIdx % state.pool.length] as AliasWord;
+  return { word: entry.word, theme: entry.theme, universe: entry.universe, poolIdx: state.poolIdx + 1 };
 }
 
 export function currentTeam(state: AliasState): AliasTeam | null {
@@ -72,11 +86,12 @@ export function currentTeam(state: AliasState): AliasTeam | null {
 
 export function createAliasState(args: {
   config: AliasConfig;
-  pool: readonly string[];
+  pool: readonly (AliasWord | string)[];
   seed: number;
 }): AliasState {
   const rng = mulberry32(args.seed >>> 0);
-  const pool = shuffle([...args.pool], rng);
+  const normalized: AliasWord[] = args.pool.map((p) => (typeof p === 'string' ? { word: p } : p));
+  const pool = shuffle(normalized, rng);
   const teams = args.config.teams;
   const base: AliasState = {
     config: args.config,
@@ -86,6 +101,8 @@ export function createAliasState(args: {
     totalTurns: teams.length * Math.max(1, args.config.roundsPerTeam),
     phase: 'ready',
     word: '',
+    theme: undefined,
+    universe: undefined,
     scores: {},
     turnResults: [],
     pool,
@@ -102,7 +119,7 @@ export function aliasReducer(state: AliasState, action: AliasAction): AliasState
     case 'START_TURN': {
       if (state.phase !== 'ready') return state;
       const nw = nextWord(state);
-      return { ...state, phase: 'playing', word: nw.word, poolIdx: nw.poolIdx, turnResults: [] };
+      return { ...state, phase: 'playing', word: nw.word, theme: nw.theme, universe: nw.universe, poolIdx: nw.poolIdx, turnResults: [] };
     }
     case 'FOUND': {
       if (state.phase !== 'playing') return state;
@@ -111,17 +128,21 @@ export function aliasReducer(state: AliasState, action: AliasAction): AliasState
       const scores = { ...state.scores, [team.id]: (state.scores[team.id] ?? 0) + 1 };
       const turnResults = [...state.turnResults, { word: state.word, found: true }];
       const nw = nextWord(state);
-      return { ...state, scores, turnResults, word: nw.word, poolIdx: nw.poolIdx };
+      return { ...state, scores, turnResults, word: nw.word, theme: nw.theme, universe: nw.universe, poolIdx: nw.poolIdx };
     }
     case 'SKIP': {
       if (state.phase !== 'playing') return state;
       const turnResults = [...state.turnResults, { word: state.word, found: false }];
       const nw = nextWord(state);
-      return { ...state, turnResults, word: nw.word, poolIdx: nw.poolIdx };
+      return { ...state, turnResults, word: nw.word, theme: nw.theme, universe: nw.universe, poolIdx: nw.poolIdx };
     }
     case 'END_TURN': {
       if (state.phase !== 'playing') return state;
-      return { ...state, phase: 'turnEnd' };
+      // Le mot affiché quand le tour se termine (souvent au temps écoulé) rejoint le recap.
+      const turnResults = state.word
+        ? [...state.turnResults, { word: state.word, found: false, timedOut: !!action.timedOut }]
+        : state.turnResults;
+      return { ...state, turnResults, phase: 'turnEnd' };
     }
     case 'NEXT_TURN': {
       if (state.phase !== 'turnEnd') return state;
@@ -134,6 +155,8 @@ export function aliasReducer(state: AliasState, action: AliasAction): AliasState
         phase: 'ready',
         turnResults: [],
         word: '',
+        theme: undefined,
+        universe: undefined,
       };
     }
   }

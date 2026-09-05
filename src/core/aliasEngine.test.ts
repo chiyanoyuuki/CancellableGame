@@ -84,6 +84,27 @@ describe('aliasEngine', () => {
     expect(aliasRanking(s)[0]?.id).toBe('t1'); // t1 a 1 pt, t2 a 0
   });
 
+  it('END_TURN au temps écoulé ajoute le mot en cours au recap', () => {
+    let s = create();
+    s = aliasReducer(s, { type: 'START_TURN' });
+    const w = s.word;
+    s = aliasReducer(s, { type: 'END_TURN', timedOut: true });
+    expect(s.phase).toBe('turnEnd');
+    expect(s.turnResults).toContainEqual({ word: w, found: false, timedOut: true });
+  });
+
+  it('porte le thème et l’univers du mot courant, pour le faire deviner', () => {
+    let s = createAliasState({
+      config: cfg(),
+      pool: [{ word: 'Sasuke', theme: 'manga', universe: 'Naruto' }],
+      seed: 1,
+    });
+    s = aliasReducer(s, { type: 'START_TURN' });
+    expect(s.word).toBe('Sasuke');
+    expect(s.theme).toBe('manga');
+    expect(s.universe).toBe('Naruto');
+  });
+
   it('currentRoundForTeam suit la progression', () => {
     let s = create({ roundsPerTeam: 2 });
     expect(currentRoundForTeam(s)).toBe(1);
