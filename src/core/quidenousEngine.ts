@@ -8,8 +8,9 @@
  * et accumule des points de personnage. Classement final = la plus grande
  * vedette de la soirée.
  */
+import { orderByLeastSeen } from './leastSeen';
 import type { DrinkIntensity, Player, PlayerSessionResult, SessionResult } from './models';
-import { mulberry32, type Rng, shuffle } from './rng';
+import { mulberry32 } from './rng';
 
 export interface QuiDeNousConfig {
   rounds: number;
@@ -111,10 +112,12 @@ export function createQuiDeNousState(args: {
   pool: readonly string[];
   seed: number;
   order?: string[];
+  /** Compteur « déjà vu » par affirmation : on ressert les moins vues d'abord. */
+  seen?: Record<string, number>;
 }): QuiDeNousState {
   const order = args.order ?? args.players.map((p) => p.id);
   const rng = mulberry32(args.seed >>> 0);
-  const pool = shuffle([...args.pool], rng);
+  const pool = orderByLeastSeen(args.pool, (s) => s, args.seen ?? {}, rng);
   const base: QuiDeNousState = {
     config: args.config,
     players: args.players,

@@ -7,13 +7,19 @@
  * (« tu penses comme le groupe »). Égalité parfaite = tout le monde trinque.
  * Plusieurs manches, puis un classement final.
  */
+import { orderByLeastSeen } from './leastSeen';
 import type { DrinkIntensity, Player, PlayerSessionResult, SessionResult } from './models';
-import { mulberry32, type Rng, shuffle } from './rng';
+import { mulberry32 } from './rng';
 
 /** Un dilemme : deux options que tout oppose. */
 export interface Dilemma {
   a: string;
   b: string;
+}
+
+/** Clé stable d'un dilemme, pour le suivi « déjà vu ». */
+export function dilemmaKey(d: Dilemma): string {
+  return `${d.a}|${d.b}`;
 }
 
 /** Quel camp boit : la minorité (défaut) ou la majorité. */
@@ -148,10 +154,12 @@ export function createTuPreferesState(args: {
   pool: readonly Dilemma[];
   seed: number;
   order?: string[];
+  /** Compteur « déjà vu » par clé de dilemme : on ressert les moins vus d'abord. */
+  seen?: Record<string, number>;
 }): TuPreferesState {
   const order = args.order ?? args.players.map((p) => p.id);
   const rng = mulberry32(args.seed >>> 0);
-  const pool = shuffle([...args.pool], rng);
+  const pool = orderByLeastSeen(args.pool, dilemmaKey, args.seen ?? {}, rng);
   const base: TuPreferesState = {
     config: args.config,
     players: args.players,

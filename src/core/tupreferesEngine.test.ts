@@ -129,4 +129,11 @@ describe('tuPreferesEngine', () => {
     const ranked = tuPreferesRanking(s);
     expect(ranked[ranked.length - 1]).toBe('p4'); // p4 dernier (0 pt)
   });
+
+  it('ressert d’abord le dilemme le moins vu (seen)', () => {
+    // « Montagne|Plage » jamais vu ; les deux autres beaucoup → il passe en premier.
+    const seen = { 'Voler|Être invisible': 5, 'Pizza|Burger': 5 };
+    const s = createTuPreferesState({ config: cfg(), players, pool, seed: 999, seen });
+    expect(s.dilemma).toEqual({ a: 'Montagne', b: 'Plage' });
+  });
 });

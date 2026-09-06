@@ -14,6 +14,7 @@ import {
   quiDeNousReducer,
   quiDeNousToSessionResult,
 } from '../../core/quidenousEngine';
+import { getPromptSeen, recordPromptSeen } from '../../db';
 import { haptics } from '../../lib/haptics';
 import { sounds } from '../../lib/sounds';
 import { useT } from '../../lib/i18nProvider';
@@ -39,6 +40,31 @@ export function QuiDeNousPlayComponent({ players, config, onFinish, onQuit }: Mi
 
   const dispatch = (a: QuiDeNousAction) => setGame((s) => quiDeNousReducer(s, a));
 
+  // Enregistre les affirmations montrées pour resservir les moins vues plus tard.
+  const recordServed = (g: QuiDeNousState) =>
+    void recordPromptSeen('quidenous', g.pool.slice(0, g.poolIdx));
+
+  // Au démarrage, on réordonne la pioche du moins vu au plus vu (avant tout vote).
+  useEffect(() => {
+    let alive = true;
+    void (async () => {
+      try {
+        const seen = await getPromptSeen('quidenous');
+        if (!alive) return;
+        setGame((cur) => {
+          if (cur.round !== 1 || cur.voterIdx !== 0 || cur.phase !== 'vote') return cur;
+          return createQuiDeNousState({ config: cfg, players, pool: PROMPTS, seed: randomSeed(), seen });
+        });
+      } catch {
+        /* pas d'historique : on garde l'ordre aléatoire par défaut */
+      }
+    })();
+    return () => {
+      alive = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     if (game.phase === 'result') {
       haptics.warn();
@@ -49,6 +75,7 @@ export function QuiDeNousPlayComponent({ players, config, onFinish, onQuit }: Mi
   useEffect(() => {
     if (game.phase === 'finished' && !finishedRef.current) {
       finishedRef.current = true;
+      recordServed(game);
       onFinish(quiDeNousToSessionResult(game, startedAtRef.current, Date.now()));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -64,7 +91,14 @@ export function QuiDeNousPlayComponent({ players, config, onFinish, onQuit }: Mi
   const confirmQuit = () =>
     Alert.alert(t('Quitter la partie ?'), t('La partie en cours sera perdue.'), [
       { text: t('Continuer'), style: 'cancel' },
-      { text: t('Quitter'), style: 'destructive', onPress: onQuit },
+      {
+        text: t('Quitter'),
+        style: 'destructive',
+        onPress: () => {
+          recordServed(game);
+          onQuit();
+        },
+      },
     ]);
 
   return (

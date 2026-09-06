@@ -5,6 +5,7 @@ export * from './history';
 export * from './missed';
 export * from './statsLoader';
 export * from './kv';
+export * from './promptSeen';
 export * from './currentGame';
 export * from './backup';
 export * from './customQuestions';

@@ -11,10 +11,12 @@ import {
   type TuPreferesState,
   type Vote,
   createTuPreferesState,
+  dilemmaKey,
   tuPreferesRanking,
   tuPreferesReducer,
   tuPreferesToSessionResult,
 } from '../../core/tupreferesEngine';
+import { getPromptSeen, recordPromptSeen } from '../../db';
 import { haptics } from '../../lib/haptics';
 import { sounds } from '../../lib/sounds';
 import { useT } from '../../lib/i18nProvider';
@@ -40,6 +42,32 @@ export function TuPreferesPlayComponent({ players, config, onFinish, onQuit }: M
 
   const dispatch = (a: TuPreferesAction) => setGame((s) => tuPreferesReducer(s, a));
 
+  // Enregistre les dilemmes réellement montrés (pool[0..poolIdx]) pour ne pas les
+  // resservir en priorité la prochaine fois. Un seul write, comme le quiz.
+  const recordServed = (g: TuPreferesState) =>
+    void recordPromptSeen('tupreferes', g.pool.slice(0, g.poolIdx).map(dilemmaKey));
+
+  // Au démarrage, on réordonne la pioche du moins vu au plus vu (avant tout vote).
+  useEffect(() => {
+    let alive = true;
+    void (async () => {
+      try {
+        const seen = await getPromptSeen('tupreferes');
+        if (!alive) return;
+        setGame((cur) => {
+          if (cur.round !== 1 || cur.voterIdx !== 0 || cur.phase !== 'vote') return cur;
+          return createTuPreferesState({ config: cfg, players, pool: DILEMMAS, seed: randomSeed(), seen });
+        });
+      } catch {
+        /* pas d'historique : on garde l'ordre aléatoire par défaut */
+      }
+    })();
+    return () => {
+      alive = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     if (game.phase === 'result') {
       if (game.lastOutcome?.tie) haptics.warn();
@@ -51,6 +79,7 @@ export function TuPreferesPlayComponent({ players, config, onFinish, onQuit }: M
   useEffect(() => {
     if (game.phase === 'finished' && !finishedRef.current) {
       finishedRef.current = true;
+      recordServed(game);
       onFinish(tuPreferesToSessionResult(game, startedAtRef.current, Date.now()));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -66,7 +95,14 @@ export function TuPreferesPlayComponent({ players, config, onFinish, onQuit }: M
   const confirmQuit = () =>
     Alert.alert(t('Quitter la partie ?'), t('La partie en cours sera perdue.'), [
       { text: t('Continuer'), style: 'cancel' },
-      { text: t('Quitter'), style: 'destructive', onPress: onQuit },
+      {
+        text: t('Quitter'),
+        style: 'destructive',
+        onPress: () => {
+          recordServed(game);
+          onQuit();
+        },
+      },
     ]);
 
   return (
