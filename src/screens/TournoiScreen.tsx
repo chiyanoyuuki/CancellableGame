@@ -3,7 +3,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, View } from 'react-native';
 
-import { Button, Card, EmptyState, PlayerAvatar, Screen, SectionHeader, Segmented, Txt } from '../components/ui';
+import { Button, Card, EmptyState, PlayerAvatar, Screen, SectionHeader, Stepper, Txt } from '../components/ui';
 import type { Player } from '../core/models';
 import { mulberry32, randomSeed, shuffle } from '../core/rng';
 import {
@@ -26,7 +26,6 @@ import { useStore } from '../store/StoreProvider';
 import { isModeUnlocked } from '../store/products';
 import { colors, fontSize, RANK_MEDALS, spacing } from '../theme/theme';
 
-const ROUND_OPTIONS = [3, 5, 7];
 
 export function TournoiScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'Tournoi'>) {
   const t = useT();
@@ -244,11 +243,7 @@ export function TournoiScreen({ navigation }: NativeStackScreenProps<RootStackPa
       </Card>
 
       <SectionHeader title={t('Nombre de manches')} />
-      <Segmented<string>
-        value={String(rounds)}
-        onChange={(v) => setRounds(Number(v))}
-        options={ROUND_OPTIONS.map((r) => ({ label: `${r}`, value: String(r) }))}
-      />
+      <Stepper value={rounds} min={3} max={15} onChange={setRounds} />
 
       {players.length < 2 ? (
         <EmptyState emoji="👥" title={t('Pas assez de joueurs')} subtitle={t("Ajoute au moins 2 joueurs dans l'écran Joueurs.")} />

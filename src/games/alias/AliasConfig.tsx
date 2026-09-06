@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { View } from 'react-native';
 
-import { Button, Card, HowToPlay, Segmented, SectionHeader, Txt } from '../../components/ui';
+import { Button, Card, HowToPlay, SectionHeader, Stepper, Txt } from '../../components/ui';
 import { ContentPicker, type ContentSelection } from '../../components/ContentPicker';
 import type { AliasConfig, AliasTeam } from '../../core/aliasEngine';
 import { useT } from '../../lib/i18nProvider';
@@ -54,32 +54,19 @@ export function AliasConfigComponent({ players, onStart }: MiniGameConfigProps) 
       />
 
       <SectionHeader title={t('Équipes')} />
-      <Segmented<string>
-        value={String(effectiveCount)}
-        onChange={(v) => setTeamCount(Number(v))}
-        options={[2, 3, 4].filter((n) => n <= maxTeams).map((n) => ({ label: t('{n} équipes', { n }), value: String(n) }))}
-      />
+      <Stepper value={effectiveCount} min={2} max={maxTeams} onChange={setTeamCount} />
       <Txt faint size={fontSize.xs}>
         {t('Répartissez-vous physiquement : {teams}.', { teams: TEAM_PRESET.slice(0, effectiveCount).map((x) => `${x.emoji} ${t(x.name)}`).join(', ') })}
       </Txt>
 
       <SectionHeader title={t('Tours par équipe')} />
-      <Segmented<string>
-        value={String(roundsPerTeam)}
-        onChange={(v) => setRoundsPerTeam(Number(v))}
-        options={[2, 3, 4].map((n) => ({ label: `${n}`, value: String(n) }))}
-      />
+      <Stepper value={roundsPerTeam} min={1} max={10} onChange={setRoundsPerTeam} />
 
       <SectionHeader title={t('Durée du tour')} />
-      <Segmented<string>
-        value={String(roundSeconds)}
-        onChange={(v) => setRoundSeconds(Number(v))}
-        options={[
-          { label: '30 s', value: '30' },
-          { label: '45 s', value: '45' },
-          { label: '60 s', value: '60' },
-        ]}
-      />
+      <Stepper value={roundSeconds} min={20} max={120} step={5} onChange={setRoundSeconds} />
+      <Txt faint size={fontSize.xs}>
+        {t('{n} secondes par tour', { n: roundSeconds })}
+      </Txt>
 
       <SectionHeader title={t('Thèmes & univers des mots')} />
       <ContentPicker value={content} onChange={setContent} />

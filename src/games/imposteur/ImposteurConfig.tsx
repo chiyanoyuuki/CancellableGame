@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, Switch, View } from 'react-native';
 
-import { Button, Card, Chip, HowToPlay, Segmented, SectionHeader, Txt } from '../../components/ui';
+import { Button, Card, Chip, HowToPlay, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
 import { type DrinkIntensity, type Question, type Theme, THEME_META, THEMES } from '../../core/models';
 import { type ImposteurConfig, isGoodImposteurWord } from '../../core/imposteurEngine';
 import { getPlayerUnwantedUniverses } from '../../db';
@@ -11,7 +11,6 @@ import { colors, fontSize, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
 import { getQuizPool } from '../quiz/pool';
 
-const ROUND_OPTIONS = [3, 5, 7];
 
 export function ImposteurConfigComponent({ players, onStart }: MiniGameConfigProps) {
   const t = useT();
@@ -173,23 +172,12 @@ export function ImposteurConfigComponent({ players, onStart }: MiniGameConfigPro
       )}
 
       <SectionHeader title={t('Manches')} />
-      <Segmented<string>
-        value={String(rounds)}
-        onChange={(v) => setRounds(Number(v))}
-        options={ROUND_OPTIONS.map((r) => ({ label: `${r}`, value: String(r) }))}
-      />
+      <Stepper value={rounds} min={3} max={15} onChange={setRounds} />
 
       {canTwoImposters && (
         <>
           <SectionHeader title={t('Imposteurs par manche')} />
-          <Segmented<string>
-            value={String(imposterCount)}
-            onChange={(v) => setImposterCount(Number(v))}
-            options={[
-              { label: t('1 imposteur'), value: '1' },
-              { label: t('2 imposteurs'), value: '2' },
-            ]}
-          />
+          <Stepper value={imposterCount} min={1} max={2} onChange={setImposterCount} />
         </>
       )}
 
@@ -209,16 +197,10 @@ export function ImposteurConfigComponent({ players, onStart }: MiniGameConfigPro
       </Txt>
 
       <SectionHeader title={t('Minuteur de discussion')} />
-      <Segmented<string>
-        value={String(discussionSec)}
-        onChange={(v) => setDiscussionSec(Number(v))}
-        options={[
-          { label: t('Aucun'), value: '0' },
-          { label: '60 s', value: '60' },
-          { label: '90 s', value: '90' },
-          { label: '2 min', value: '120' },
-        ]}
-      />
+      <Stepper value={discussionSec} min={0} max={300} step={15} onChange={setDiscussionSec} />
+      <Txt faint size={fontSize.xs}>
+        {discussionSec === 0 ? t('Aucun minuteur') : t('{n} secondes de discussion', { n: discussionSec })}
+      </Txt>
 
       <SectionHeader title={t('Mode alcool')} />
       <View style={styles.rowBetween}>

@@ -1,15 +1,13 @@
 import { useState } from 'react';
 import { StyleSheet, Switch, View } from 'react-native';
 
-import { Button, Card, HowToPlay, Segmented, SectionHeader, Txt } from '../../components/ui';
+import { Button, Card, HowToPlay, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
 import type { DrinkIntensity } from '../../core/models';
 import type { DrinkingSide, TuPreferesConfig } from '../../core/tupreferesEngine';
 import { isNoAlcohol } from '../../lib/drinkMode';
 import { useT } from '../../lib/i18nProvider';
 import { colors, fontSize, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
-
-const ROUND_OPTIONS = [5, 8, 12];
 
 export function TuPreferesConfigComponent({ players, onStart }: MiniGameConfigProps) {
   const t = useT();
@@ -42,11 +40,7 @@ export function TuPreferesConfigComponent({ players, onStart }: MiniGameConfigPr
       />
 
       <SectionHeader title={t('Manches')} />
-      <Segmented<string>
-        value={String(rounds)}
-        onChange={(v) => setRounds(Number(v))}
-        options={ROUND_OPTIONS.map((r) => ({ label: `${r}`, value: String(r) }))}
-      />
+      <Stepper value={rounds} min={3} max={30} onChange={setRounds} />
 
       <SectionHeader title={t('Qui boit ?')} />
       <Segmented<DrinkingSide>

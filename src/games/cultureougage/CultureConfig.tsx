@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { StyleSheet, Switch, View } from 'react-native';
 
-import { Button, Card, HowToPlay, Segmented, SectionHeader, Txt } from '../../components/ui';
+import { Button, Card, HowToPlay, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
 import { ContentPicker, type ContentSelection } from '../../components/ContentPicker';
 import type { CultureConfig } from '../../core/cultureEngine';
 import type { DrinkIntensity } from '../../core/models';
@@ -10,7 +10,6 @@ import { useT } from '../../lib/i18nProvider';
 import { colors, fontSize, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
 
-const PER_PLAYER_OPTIONS = [2, 3, 4];
 
 export function CultureConfigComponent({ players, onStart }: MiniGameConfigProps) {
   const t = useT();
@@ -50,11 +49,7 @@ export function CultureConfigComponent({ players, onStart }: MiniGameConfigProps
       />
 
       <SectionHeader title={t('Questions par joueur')} />
-      <Segmented<string>
-        value={String(questionsPerPlayer)}
-        onChange={(v) => setQuestionsPerPlayer(Number(v))}
-        options={PER_PLAYER_OPTIONS.map((n) => ({ label: `${n}`, value: String(n) }))}
-      />
+      <Stepper value={questionsPerPlayer} min={1} max={10} onChange={setQuestionsPerPlayer} />
 
       <SectionHeader title={t('Thèmes & univers des questions')} />
       <ContentPicker value={content} onChange={setContent} />

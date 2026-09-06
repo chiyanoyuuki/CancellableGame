@@ -2,7 +2,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useEffect, useMemo, useState } from 'react';
 import { Pressable, View } from 'react-native';
 
-import { Button, Card, EmptyState, PlayerAvatar, Screen, SectionHeader, Segmented, Txt } from '../components/ui';
+import { Button, Card, EmptyState, PlayerAvatar, Screen, SectionHeader, Stepper, Txt } from '../components/ui';
 import type { Player } from '../core/models';
 import { randomSeed } from '../core/rng';
 import { makeTeams } from '../core/teams';
@@ -107,11 +107,7 @@ export function TeamGeneratorScreen({ navigation }: NativeStackScreenProps<RootS
       ) : (
         <>
           <SectionHeader title={t('Nombre d\'équipes')} />
-          <Segmented<string>
-            value={String(teamCount)}
-            onChange={(v) => setTeamCount(Number(v))}
-            options={[2, 3, 4].filter((n) => n <= Math.max(2, chosen.length)).map((n) => ({ label: `${n}`, value: String(n) }))}
-          />
+          <Stepper value={teamCount} min={2} max={Math.max(2, chosen.length)} onChange={setTeamCount} />
 
           <SectionHeader title={t('Qui participe ?')} />
           {players.map((p) => {

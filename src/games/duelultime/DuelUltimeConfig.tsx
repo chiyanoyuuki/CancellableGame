@@ -15,7 +15,6 @@ import { getQuizPool } from '../quiz/pool';
 // Thèmes au rendu spécial (image distante) : exclus du Duel Ultime.
 const EXCLUDED_THEMES: Theme[] = ['images'];
 
-const QUESTION_OPTIONS = [5, 10, 15];
 
 export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigProps) {
   const t = useT();
@@ -159,11 +158,7 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
       />
 
       <SectionHeader title={t('Questions par joueur')} />
-      <Segmented<string>
-        value={String(n)}
-        onChange={(v) => setN(Number(v))}
-        options={QUESTION_OPTIONS.map((q) => ({ label: `${q}`, value: String(q) }))}
-      />
+      <Stepper value={n} min={3} max={30} onChange={setN} />
 
       <SectionHeader title={t('Mode alcool')} />
       <View style={styles.rowBetween}>
@@ -183,16 +178,10 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
       )}
 
       <SectionHeader title={t('Chrono par question')} />
-      <Segmented<string>
-        value={String(timerSec)}
-        onChange={(v) => setTimerSec(Number(v))}
-        options={[
-          { label: t('Aucun'), value: '0' },
-          { label: '15 s', value: '15' },
-          { label: '30 s', value: '30' },
-          { label: '45 s', value: '45' },
-        ]}
-      />
+      <Stepper value={timerSec} min={0} max={60} step={5} onChange={setTimerSec} />
+      <Txt faint size={fontSize.xs}>
+        {timerSec === 0 ? t('Aucun chrono') : t('{n} secondes par question', { n: timerSec })}
+      </Txt>
 
       <SectionHeader title={t('Univers au hasard')} />
       <Card>
