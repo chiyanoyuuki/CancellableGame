@@ -493,36 +493,55 @@ describe('poids d’univers par joueur (mode équipe)', () => {
   });
 });
 
-describe('lot personnalisé par joueur (historique par joueur)', () => {
-  const p: Question[] = [
-    ...Array.from({ length: 10 }, (_, i) => uq(`A${i}`, 'A')),
-    ...Array.from({ length: 10 }, (_, i) => uq(`B${i}`, 'B')),
-  ];
-  // p1 has already seen every question of universe A; p2 is brand new.
-  const historyByPlayer = {
-    p1: Object.fromEntries(p.filter((q) => q.universe === 'A').map((q) => [q.id, { timesUsed: 1, lastUsedAt: 1 }])),
-  };
+describe('découverte du groupe (question vue par le moins de joueurs)', () => {
+  test('priorise la question vue par le moins de joueurs de la partie', () => {
+    const pool3 = [uq('q0', 'U'), uq('q1', 'U'), uq('q2', 'U')];
+    // q0 : 0 joueur ; q1 : 1 joueur (p1) ; q2 : 2 joueurs (p1, p2).
+    const historyByPlayer = {
+      p1: { q1: { timesUsed: 1, lastUsedAt: 1 }, q2: { timesUsed: 1, lastUsedAt: 1 } },
+      p2: { q2: { timesUsed: 1, lastUsedAt: 1 } },
+    };
+    for (let seed = 1; seed <= 20; seed++) {
+      const out = selectQuestions(pool3, { themes: ['manga'], difficulties: [1], count: 1 }, {}, mulberry32(seed), {
+        order: ['p1', 'p2', 'p3'],
+        turnMode: 'turn',
+        historyByPlayer,
+      });
+      expect(out[0]?.id).toBe('q0'); // la moins vue par le groupe
+    }
+  });
 
-  test('a player only gets questions THEY have not seen, while a new player still gets them', () => {
-    let p1GotSeen = 0;
-    let seenServedToNewPlayer = 0;
-    for (let seed = 1; seed <= 40; seed++) {
+  test('à égalité de joueurs l’ayant vue, le joueur du slot évite celle qu’il connaît', () => {
+    const pool2 = [uq('a1', 'U'), uq('a2', 'U')];
+    // a1 vue par p1, a2 vue par p2 : chacune 1 joueur. Le slot de p1 doit prendre a2.
+    const historyByPlayer = {
+      p1: { a1: { timesUsed: 1, lastUsedAt: 1 } },
+      p2: { a2: { timesUsed: 1, lastUsedAt: 1 } },
+    };
+    const out = selectQuestions(pool2, { themes: ['manga'], difficulties: [1], count: 2 }, {}, mulberry32(4), {
+      order: ['p1', 'p2'],
+      turnMode: 'turn',
+      historyByPlayer,
+    });
+    expect(out[0]?.id).toBe('a2'); // slot de p1 : la question que p1 n'a pas vue
+  });
+
+  test('personne ne revoit une question tant qu’il reste de l’inédit pour tout le groupe', () => {
+    // p1 a vu tout l'univers A ; B est inédit pour tous → un tour reste 100 % B.
+    const p: Question[] = [
+      ...Array.from({ length: 10 }, (_, i) => uq(`A${i}`, 'A')),
+      ...Array.from({ length: 10 }, (_, i) => uq(`B${i}`, 'B')),
+    ];
+    const historyByPlayer = {
+      p1: Object.fromEntries(p.filter((q) => q.universe === 'A').map((q) => [q.id, { timesUsed: 1, lastUsedAt: 1 }])),
+    };
+    for (let seed = 1; seed <= 30; seed++) {
       const out = selectQuestions(p, { themes: ['manga'], difficulties: [1], count: 8 }, {}, mulberry32(seed), {
         order: ['p1', 'p2'],
         turnMode: 'turn',
         historyByPlayer,
       });
-      out.forEach((q, i) => {
-        const player = i % 2 === 0 ? 'p1' : 'p2';
-        if (q.universe === 'A') {
-          if (player === 'p1') p1GotSeen++;
-          else seenServedToNewPlayer++;
-        }
-      });
+      expect(out.every((q) => q.universe === 'B')).toBe(true);
     }
-    // p1 is never served a question they had already seen…
-    expect(p1GotSeen).toBe(0);
-    // …but universe A is still used — for p2, to whom it is new.
-    expect(seenServedToNewPlayer).toBeGreaterThan(0);
   });
 });

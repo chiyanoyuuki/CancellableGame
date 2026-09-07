@@ -11,8 +11,11 @@ import { type Rng, shuffle } from './rng';
  * différentes (drapeaux, rébus, images) restent bien des questions distinctes.
  *
  * Priorités, dans l'ordre :
- *  1. Nouvelles questions d'abord : on épuise les questions jamais vues (puis les
- *     moins vues) avant de réutiliser une question déjà posée.
+ *  1. Découverte du groupe d'abord : une question vue par le MOINS de joueurs de
+ *     la partie passe en priorité (moins de gens l'ont vue = plus de plaisir de
+ *     découverte). À nombre de joueurs l'ayant vue égal, on préfère celle que le
+ *     joueur du slot n'a pas encore vue. Sans historique par joueur, on épuise
+ *     simplement les questions jamais vues (puis les moins utilisées) d'abord.
  *  2. Un maximum d'univers différents : au sein des questions d'un même joueur,
  *     on évite de reprendre deux fois le même univers tant qu'il en reste
  *     d'autres.
@@ -147,6 +150,27 @@ export function selectQuestions(
   const turnMode: TurnMode = opts?.turnMode ?? 'turn';
   const n = order.length;
 
+  // Priorité « découverte » : une question vue par MOINS de joueurs de la partie
+  // passe avant (plus de monde la découvre = plus de plaisir). On s'appuie sur
+  // l'historique par joueur (les participants de `order`). À nombre de joueurs
+  // l'ayant vue égal, on préfère celle que le joueur du slot n'a pas encore vue.
+  // Sans historique par joueur, on garde le comportement historique (nb d'usages).
+  const hbp = opts?.historyByPlayer;
+  const partyIds = hbp ? [...new Set(order)] : [];
+  const usePartySeen = !!hbp && partyIds.length > 0;
+  const partySeenCount = (q: Question): number => {
+    let c = 0;
+    for (const pid of partyIds) if ((hbp![pid]?.[q.id]?.timesUsed ?? 0) > 0) c += 1;
+    return c;
+  };
+  const usageCost = (q: Question, slotPlayer: string, slotHistory: QuestionHistory): number => {
+    if (usePartySeen) {
+      const own = slotPlayer && (hbp![slotPlayer]?.[q.id]?.timesUsed ?? 0) > 0 ? 1 : 0;
+      return partySeenCount(q) * (partyIds.length + 1) + own;
+    }
+    return slotHistory[q.id]?.timesUsed ?? 0;
+  };
+
   const unwantedSets: Record<string, Set<string>> = {};
   const anyUnwanted = new Set<string>();
   for (const [pid, arr] of Object.entries(opts?.unwantedUniversesByPlayer ?? {})) {
@@ -248,7 +272,7 @@ export function selectQuestions(
     for (const q of remaining) {
       if (!passes(q)) continue;
       if (isUnwanted(q) !== pickUnwanted) continue;
-      const u = slotHistory[q.id]?.timesUsed ?? 0;
+      const u = usageCost(q, slotPlayer, slotHistory);
       if (u < minUsage) minUsage = u;
     }
 
@@ -261,7 +285,7 @@ export function selectQuestions(
     remaining.forEach((q, idx) => {
       if (!passes(q)) return;
       if (isUnwanted(q) !== pickUnwanted) return;
-      if ((slotHistory[q.id]?.timesUsed ?? 0) !== minUsage) return;
+      if (usageCost(q, slotPlayer, slotHistory) !== minUsage) return;
       const pref = univWeights && q.universe !== undefined ? (univWeights[q.universe] ?? 1) : 1;
       const w = Math.pow(UNIVERSE_REPEAT_DECAY, seenCount(slotPlayer, diversityKey(q))) * pref;
       bestSum += w;

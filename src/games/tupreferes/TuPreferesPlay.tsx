@@ -16,7 +16,8 @@ import {
   tuPreferesReducer,
   tuPreferesToSessionResult,
 } from '../../core/tupreferesEngine';
-import { getPromptSeen, recordPromptSeen } from '../../db';
+import { partySeenScores } from '../../core/leastSeen';
+import { getPromptSeenByPlayer, recordPromptSeen } from '../../db';
 import { haptics } from '../../lib/haptics';
 import { sounds } from '../../lib/sounds';
 import { useT } from '../../lib/i18nProvider';
@@ -42,18 +43,21 @@ export function TuPreferesPlayComponent({ players, config, onFinish, onQuit }: M
 
   const dispatch = (a: TuPreferesAction) => setGame((s) => tuPreferesReducer(s, a));
 
-  // Enregistre les dilemmes réellement montrés (pool[0..poolIdx]) pour ne pas les
-  // resservir en priorité la prochaine fois. Un seul write, comme le quiz.
+  // Enregistre les dilemmes réellement montrés (pool[0..poolIdx]) pour CHAQUE
+  // joueur présent, pour ne pas les resservir en priorité la prochaine fois. Un
+  // seul write, comme le quiz.
   const recordServed = (g: TuPreferesState) =>
-    void recordPromptSeen('tupreferes', g.pool.slice(0, g.poolIdx).map(dilemmaKey));
+    void recordPromptSeen('tupreferes', players.map((p) => p.id), g.pool.slice(0, g.poolIdx).map(dilemmaKey));
 
-  // Au démarrage, on réordonne la pioche du moins vu au plus vu (avant tout vote).
+  // Au démarrage, on réordonne la pioche « découverte d'abord » : les dilemmes que
+  // le MOINS de joueurs présents ont déjà vus passent en premier (avant tout vote).
   useEffect(() => {
     let alive = true;
     void (async () => {
       try {
-        const seen = await getPromptSeen('tupreferes');
+        const byPlayer = await getPromptSeenByPlayer('tupreferes');
         if (!alive) return;
+        const seen = partySeenScores(byPlayer, players.map((p) => p.id));
         setGame((cur) => {
           if (cur.round !== 1 || cur.voterIdx !== 0 || cur.phase !== 'vote') return cur;
           return createTuPreferesState({ config: cfg, players, pool: DILEMMAS, seed: randomSeed(), seen });

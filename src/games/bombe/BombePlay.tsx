@@ -15,7 +15,7 @@ import {
   createBombeState,
   randomFuseMs,
 } from '../../core/bombeEngine';
-import { getQuestionHistory } from '../../db';
+import { getQuestionHistory, getQuestionHistoryByPlayer } from '../../db';
 import { selectQuestions } from '../../core/questionSelection';
 import { mulberry32, randomSeed, shuffle } from '../../core/rng';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
@@ -118,7 +118,11 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
     let alive = true;
     void (async () => {
       try {
-        const [history, fullPool] = await Promise.all([getQuestionHistory(), getQuizPool()]);
+        const [history, historyByPlayer, fullPool] = await Promise.all([
+          getQuestionHistory(),
+          getQuestionHistoryByPlayer(),
+          getQuizPool(),
+        ]);
         // Version gratuite : ne tire que dans les univers débloqués du joueur.
         const pool = store.ent.allThemes
           ? fullPool
@@ -126,11 +130,14 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
         const seed = randomSeed();
         const rng = mulberry32(seed);
         rngRef.current = rng;
+        // Bombe = question partagée (patate chaude) : on priorise celles que le
+        // MOINS de joueurs de la partie ont déjà vues (découverte pour le groupe).
         const selected = selectQuestions(
           pool,
           { themes: cfg.themes, difficulties: cfg.difficulties, count: POOL_COUNT, excludedUniverses: cfg.excludedUniverses },
           history,
           rng,
+          { order: players.map((p) => p.id), turnMode: 'fastest', historyByPlayer },
         );
         const order = shuffle(players, rng).map((p) => p.id);
         const startIndex = Math.floor(rng() * order.length);

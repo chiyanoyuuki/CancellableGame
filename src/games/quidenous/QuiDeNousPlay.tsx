@@ -14,7 +14,8 @@ import {
   quiDeNousReducer,
   quiDeNousToSessionResult,
 } from '../../core/quidenousEngine';
-import { getPromptSeen, recordPromptSeen } from '../../db';
+import { partySeenScores } from '../../core/leastSeen';
+import { getPromptSeenByPlayer, recordPromptSeen } from '../../db';
 import { haptics } from '../../lib/haptics';
 import { sounds } from '../../lib/sounds';
 import { useT } from '../../lib/i18nProvider';
@@ -40,17 +41,20 @@ export function QuiDeNousPlayComponent({ players, config, onFinish, onQuit }: Mi
 
   const dispatch = (a: QuiDeNousAction) => setGame((s) => quiDeNousReducer(s, a));
 
-  // Enregistre les affirmations montrées pour resservir les moins vues plus tard.
+  // Enregistre les affirmations montrées pour CHAQUE joueur présent, afin de
+  // resservir en priorité celles que le moins de monde a vues plus tard.
   const recordServed = (g: QuiDeNousState) =>
-    void recordPromptSeen('quidenous', g.pool.slice(0, g.poolIdx));
+    void recordPromptSeen('quidenous', players.map((p) => p.id), g.pool.slice(0, g.poolIdx));
 
-  // Au démarrage, on réordonne la pioche du moins vu au plus vu (avant tout vote).
+  // Au démarrage, on réordonne la pioche « découverte d'abord » : les affirmations
+  // que le MOINS de joueurs présents ont déjà vues passent en premier (avant tout vote).
   useEffect(() => {
     let alive = true;
     void (async () => {
       try {
-        const seen = await getPromptSeen('quidenous');
+        const byPlayer = await getPromptSeenByPlayer('quidenous');
         if (!alive) return;
+        const seen = partySeenScores(byPlayer, players.map((p) => p.id));
         setGame((cur) => {
           if (cur.round !== 1 || cur.voterIdx !== 0 || cur.phase !== 'vote') return cur;
           return createQuiDeNousState({ config: cfg, players, pool: PROMPTS, seed: randomSeed(), seen });
