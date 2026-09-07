@@ -137,7 +137,7 @@ export function TuPreferesPlayComponent({ players, config, onFinish, onQuit }: M
           <Txt faint weight="800" size={fontSize.sm}>
             {t('PASSE LE TÉLÉPHONE')}
           </Txt>
-          <Txt size={fontSize.xxl} weight="900" center>
+          <Txt size={fontSize.xxl} weight="900" center color={p.color}>
             {t('{name}, à toi', { name: p.name })}
           </Txt>
           <Txt dim center>
@@ -247,7 +247,7 @@ export function TuPreferesPlayComponent({ players, config, onFinish, onQuit }: M
                   {i + 1}
                 </Txt>
                 {p && <PlayerAvatar emoji={p.emoji} color={p.color} photoUri={p.photoUri} size={28} playerId={p.id} />}
-                <Txt weight="700" style={{ flex: 1 }} numberOfLines={1}>
+                <Txt weight="700" style={{ flex: 1 }} numberOfLines={1} color={p?.color}>
                   {p?.name ?? id}
                 </Txt>
                 <Txt weight="900" color={colors.primary}>
