@@ -233,6 +233,31 @@ export function QuiDeNousPlayComponent({ players, config, onFinish, onQuit }: Mi
           </View>
         )}
 
+        {/* Révélation : pour qui chacun a voté (le vote était secret pendant la manche). */}
+        <View>
+          <Txt faint weight="800" size={fontSize.xs} style={{ marginBottom: spacing(0.5) }}>
+            {t('QUI A VOTÉ POUR QUI')}
+          </Txt>
+          {game.order.map((voterId) => {
+            const voter = byId[voterId];
+            const targetId = game.votes[voterId];
+            const target = targetId ? byId[targetId] : undefined;
+            return (
+              <View key={voterId} style={styles.standRow}>
+                {voter && <PlayerAvatar emoji={voter.emoji} color={voter.color} photoUri={voter.photoUri} size={26} playerId={voter.id} />}
+                <Txt weight="700" numberOfLines={1}>
+                  {voter?.name ?? voterId}
+                </Txt>
+                <Txt faint weight="800">→</Txt>
+                {target && <PlayerAvatar emoji={target.emoji} color={target.color} photoUri={target.photoUri} size={22} playerId={target.id} />}
+                <Txt weight="800" style={{ flex: 1 }} numberOfLines={1}>
+                  {target?.name ?? '—'}
+                </Txt>
+              </View>
+            );
+          })}
+        </View>
+
         <View>
           <Txt faint weight="800" size={fontSize.xs} style={{ marginBottom: spacing(0.5) }}>
             {t('VEDETTES DE LA SOIRÉE')}

@@ -1126,6 +1126,7 @@ export const EN: Record<string, string> = {
   '— ou —': '— or —',
   RÉSULTAT: 'RESULT',
   '{pct}% ont préféré A': '{pct}% chose A',
+  'QUI A CHOISI QUOI': 'WHO CHOSE WHAT',
   '🥂 Égalité — tout le monde trinque !': '🥂 Tie — everyone drinks!',
   'Le camp minoritaire boit.': 'The minority side drinks.',
   'Le camp majoritaire boit.': 'The majority side drinks.',
@@ -1154,6 +1155,7 @@ export const EN: Record<string, string> = {
   '{n} doigt pointé': '{n} finger pointed',
   DÉCOMPTE: 'TALLY',
   'VEDETTES DE LA SOIRÉE': 'STARS OF THE NIGHT',
+  'QUI A VOTÉ POUR QUI': 'WHO VOTED FOR WHOM',
 
   // --- Roue des gages & mode sans alcool ------------------------------------
   'Roue des gages': 'Dares wheel',

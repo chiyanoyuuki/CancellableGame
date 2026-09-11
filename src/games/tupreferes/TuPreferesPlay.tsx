@@ -141,7 +141,7 @@ export function TuPreferesPlayComponent({ players, config, onFinish, onQuit }: M
           <Txt faint weight="800" size={fontSize.sm}>
             {t('PASSE LE TÉLÉPHONE')}
           </Txt>
-          <Txt size={fontSize.xxl} weight="900" center color={p.color}>
+          <Txt size={fontSize.xxl} weight="900" center>
             {t('{name}, à toi', { name: p.name })}
           </Txt>
           <Txt dim center>
@@ -224,6 +224,32 @@ export function TuPreferesPlayComponent({ players, config, onFinish, onQuit }: M
           </View>
         </Card>
 
+        {/* Révélation : le choix de chacun (le vote était secret pendant la manche). */}
+        <View>
+          <Txt faint weight="800" size={fontSize.xs} style={{ marginBottom: spacing(0.5) }}>
+            {t('QUI A CHOISI QUOI')}
+          </Txt>
+          {game.order.map((id) => {
+            const p = byId[id];
+            const v = game.votes[id];
+            const label = v === 'a' ? 'A' : v === 'b' ? 'B' : '—';
+            const col = v === 'a' ? colors.primary : v === 'b' ? colors.accent : colors.textFaint;
+            return (
+              <View key={id} style={styles.standRow}>
+                {p && <PlayerAvatar emoji={p.emoji} color={p.color} photoUri={p.photoUri} size={26} playerId={p.id} />}
+                <Txt weight="700" style={{ flex: 1 }} numberOfLines={1}>
+                  {p?.name ?? id}
+                </Txt>
+                <View style={[styles.voteBadge, { borderColor: col }]}>
+                  <Txt weight="900" color={col}>
+                    {label}
+                  </Txt>
+                </View>
+              </View>
+            );
+          })}
+        </View>
+
         {o.tie ? (
           <Card accent={colors.warning}>
             <Txt weight="800" center>{t('🥂 Égalité — tout le monde trinque !')}</Txt>
@@ -251,7 +277,7 @@ export function TuPreferesPlayComponent({ players, config, onFinish, onQuit }: M
                   {i + 1}
                 </Txt>
                 {p && <PlayerAvatar emoji={p.emoji} color={p.color} photoUri={p.photoUri} size={28} playerId={p.id} />}
-                <Txt weight="700" style={{ flex: 1 }} numberOfLines={1} color={p?.color}>
+                <Txt weight="700" style={{ flex: 1 }} numberOfLines={1}>
                   {p?.name ?? id}
                 </Txt>
                 <Txt weight="900" color={colors.primary}>
@@ -296,4 +322,12 @@ const styles = StyleSheet.create({
   splitBar: { flexDirection: 'row', height: 16, borderRadius: radius.sm, overflow: 'hidden' },
   optLine: { flexDirection: 'row', alignItems: 'center', gap: spacing(1) },
   standRow: { flexDirection: 'row', alignItems: 'center', gap: spacing(1), paddingVertical: spacing(0.5) },
+  voteBadge: {
+    minWidth: 30,
+    alignItems: 'center',
+    borderWidth: 2,
+    borderRadius: radius.sm,
+    paddingHorizontal: spacing(1),
+    paddingVertical: spacing(0.25),
+  },
 });
