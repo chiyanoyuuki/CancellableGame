@@ -381,4 +381,86 @@ export const adulteQuestions: Question[] = [
     text: 'Quelle ville allemande est connue pour la Reeperbahn, son célèbre quartier chaud ?', answer: 'Hambourg',
     distractors: ['Munich', 'Cologne', 'Francfort'],
   },
+
+  // ===== Vague 4 ============================================================
+  // --- Niveau 2 · Épicé 🌶️ --------------------------------------------------
+  {
+    id: 'adl-224', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 2, cancelLevel: 2,
+    text: 'Comment appelle-t-on un mélange de bière et de limonade ?', answer: 'Un panaché',
+    distractors: ['Un demi', 'Une pinte', 'Un spritz'],
+  },
+  {
+    id: 'adl-225', theme: 'culture', universe: 'Sexo 🔞', difficulty: 1, cancelLevel: 2,
+    text: 'Quelle couleur est traditionnellement associée à la passion ?', answer: 'Le rouge',
+    distractors: ['Le bleu', 'Le vert', 'Le jaune'],
+  },
+  {
+    id: 'adl-226', theme: 'culture', universe: 'Vie de couple 💔', difficulty: 2, cancelLevel: 2,
+    text: 'Comment nomme-t-on le fait de disparaître sans explication après une histoire ?', answer: 'Le ghosting',
+    distractors: ['Le crushing', 'Le matching', 'Le zapping'],
+  },
+  {
+    id: 'adl-227', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 2, cancelLevel: 2,
+    text: "Quelle fête irlandaise est l'occasion de boire des bières, parfois vertes ?", answer: 'La Saint-Patrick',
+    distractors: ['Halloween', 'Thanksgiving', 'Mardi gras'],
+  },
+  {
+    id: 'adl-228', theme: 'culture', universe: 'Sexo 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quel oiseau donne son nom aux jeunes amoureux, les « tourtereaux » ?', answer: 'La tourterelle',
+    distractors: ['Le pigeon', 'La colombe', 'Le rossignol'],
+  },
+
+  // --- Niveau 3 · +18 🔞 ----------------------------------------------------
+  {
+    id: 'adl-324', theme: 'culture', universe: 'Sexo 🔞', difficulty: 4, cancelLevel: 3,
+    text: "Quel médicament bleu lancé en 1998 traite les troubles de l'érection ?", answer: 'Le Viagra',
+    distractors: ['Le Prozac', "L'aspirine", 'Le Doliprane'],
+  },
+  {
+    id: 'adl-325', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Combien de spermatozoïdes contient en moyenne une éjaculation ?', answer: 'Plusieurs centaines de millions',
+    distractors: ['Quelques milliers', 'Environ un million', 'Une dizaine'],
+  },
+  {
+    id: 'adl-326', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel acteur incarne Christian Grey dans « Cinquante nuances de Grey » ?', answer: 'Jamie Dornan',
+    distractors: ['Robert Pattinson', 'Ian Somerhalder', 'Henry Cavill'],
+  },
+  {
+    id: 'adl-327', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 3, cancelLevel: 3,
+    text: "Quel rappeur multiplie les provocations sous l'alias « Slim Shady » ?", answer: 'Eminem',
+    distractors: ['Snoop Dogg', '50 Cent', 'Dr. Dre'],
+  },
+  {
+    id: 'adl-328', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quelle île espagnole est LA capitale mondiale des clubs et de la fête ?', answer: 'Ibiza',
+    distractors: ['Majorque', 'Minorque', 'Ténérife'],
+  },
+
+  // --- Niveau 4 · Cancellable ☠️ --------------------------------------------
+  {
+    id: 'adl-425', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 4, cancelLevel: 4,
+    text: "Quelle comtesse hongroise est accusée d'avoir tué de nombreuses jeunes filles ?", answer: 'Élisabeth Báthory',
+    distractors: ['Catherine de Médicis', 'Lucrèce Borgia', 'Mata Hari'],
+  },
+  {
+    id: 'adl-426', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on le commerce illégal de biens et de services ?', answer: 'Le marché noir',
+    distractors: ['Le marché aux puces', 'Le marché bio', 'La bourse'],
+  },
+  {
+    id: 'adl-427', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel gaz hilarant détourné en soirée est aussi un anesthésique médical ?', answer: "Le protoxyde d'azote",
+    distractors: ['Le dioxyde de carbone', "L'hélium", "L'oxygène"],
+  },
+  {
+    id: 'adl-428', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel film de Gaspar Noé (2002) a choqué par sa violence extrême ?', answer: 'Irréversible',
+    distractors: ['Antichrist', 'Martyrs', 'Climax'],
+  },
+  {
+    id: 'adl-429', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'À quel âge sont morts Hendrix, Joplin et Cobain, formant un « club » tristement célèbre ?', answer: '27 ans',
+    distractors: ['30 ans', '25 ans', '33 ans'],
+  },
 ];

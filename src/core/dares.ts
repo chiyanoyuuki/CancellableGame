@@ -127,6 +127,20 @@ export const HOT_DARES: HotDare[] = [
   { category: 'alcool', lvl: 4, text: "Bois une gorgée pour chaque personne de la table qui t'attire." },
   { category: 'alcool', lvl: 4, text: "Le plus gros compteur de partenaires distribue 10 gorgées." },
   { category: 'alcool', lvl: 4, text: "Cul sec, ou avoue le lieu le plus insolite où tu as couché." },
+
+  // ----- Vague 2 -----------------------------------------------------------
+  { category: 'soft', lvl: 2, text: "Fais un clin d'œil appuyé à chaque personne de la table, une par une." },
+  { category: 'soft', lvl: 2, text: "Déclare ta flamme (fausse) à un objet de la pièce, avec conviction." },
+  { category: 'soft', lvl: 3, text: "Fais une danse lascive de 10 secondes sur la musique du moment." },
+  { category: 'soft', lvl: 3, text: "Décris ton date idéal dans les moindres détails coquins." },
+  { category: 'soft', lvl: 4, text: "Classe les ex dont tu te souviens, du pire au meilleur, à voix haute." },
+  { category: 'soft', lvl: 4, text: "Avoue la chose la plus folle que tu aies faite par désir." },
+  { category: 'alcool', lvl: 2, text: "Tout le monde boit une gorgée en l'honneur de ton dernier crush." },
+  { category: 'alcool', lvl: 2, text: "Bois avec la personne dont l'anniversaire est le plus proche du tien." },
+  { category: 'alcool', lvl: 3, text: "Choisis quelqu'un : cul sec en vous regardant dans les yeux." },
+  { category: 'alcool', lvl: 3, text: "Bois une gorgée pour chaque personne que tu as embrassée ce mois-ci." },
+  { category: 'alcool', lvl: 4, text: "Cul sec, ou réponds franchement : combien de partenaires cette année ?" },
+  { category: 'alcool', lvl: 4, text: "Désigne la personne la plus sexy de la table : elle et toi, cul sec." },
 ];
 
 /**

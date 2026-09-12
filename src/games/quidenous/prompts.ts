@@ -418,6 +418,43 @@ export const PROMPTS_HOT: HotPrompt[] = [
   { text: "de tout faire pour de l'argent, même le pire", lvl: 4 },
   { text: "de cacher une double vie à tout le monde", lvl: 4 },
   { text: "d'avoir un secret qui choquerait même ses proches", lvl: 4 },
+
+  // ===== Vague 5 ===========================================================
+  // --- Niveau 2 · Épicé 🌶️ -------------------------------------------------
+  { text: "de préparer une phrase de drague et de l'oublier au moment M", lvl: 2 },
+  { text: "de suivre secrètement le compte de son crush", lvl: 2 },
+  { text: "de rougir en recevant un simple emoji cœur", lvl: 2 },
+  { text: "de tomber amoureux(se) de son/sa prof de sport", lvl: 2 },
+  { text: "de garder le ticket de ciné d'un premier date", lvl: 2 },
+  { text: "de refaire trois fois sa photo de profil", lvl: 2 },
+  { text: "d'écrire à son ex un soir de nostalgie", lvl: 2 },
+  { text: "de flirter maladroitement avec le/la barman(aid)", lvl: 2 },
+  { text: "de mentir sur ses hobbies pour matcher", lvl: 2 },
+  { text: "de craquer pour quelqu'un juste parce qu'il/elle cuisine bien", lvl: 2 },
+
+  // --- Niveau 3 · +18 🔞 ---------------------------------------------------
+  { text: "d'avoir déjà pris une douche à deux « pour gagner du temps »", lvl: 3 },
+  { text: "d'avoir un tiroir secret qu'on préfère ne pas ouvrir", lvl: 3 },
+  { text: "d'avoir déjà eu un coup de foudre purement physique", lvl: 3 },
+  { text: "d'avoir déjà proposé de pimenter le couple", lvl: 3 },
+  { text: "d'avoir déjà été surpris(e) en plein ébat", lvl: 3 },
+  { text: "d'avoir un profil très osé quelque part", lvl: 3 },
+  { text: "d'avoir tout tenté pour séduire quelqu'un de déjà pris", lvl: 3 },
+  { text: "d'assumer un plan cul avec un(e) ex", lvl: 3 },
+  { text: "d'avoir déjà couché juste par ennui", lvl: 3 },
+  { text: "d'avoir déjà menti sur le nombre pour paraître plus sage", lvl: 3 },
+
+  // --- Niveau 4 · Cancellable ☠️ (le plus trash) ---------------------------
+  { text: "d'avoir déjà saboté le bonheur de quelqu'un exprès", lvl: 4 },
+  { text: "de mentir à ses proches sur ce qu'il/elle fait vraiment", lvl: 4 },
+  { text: "d'avoir un plan B secret au cas où le couple explose", lvl: 4 },
+  { text: "de balancer un(e) ami(e) pour redorer sa propre image", lvl: 4 },
+  { text: "d'avoir déjà souhaité très fort du mal à quelqu'un", lvl: 4 },
+  { text: "de cacher une addiction à tout le monde", lvl: 4 },
+  { text: "de trahir un secret dès qu'on lui promet quelque chose", lvl: 4 },
+  { text: "d'avoir déjà séduit le/la partenaire de quelqu'un par pur jeu", lvl: 4 },
+  { text: "de mentir sur tout son passé pour repartir à zéro", lvl: 4 },
+  { text: "d'avoir déjà fait quelque chose d'illégal sans se faire prendre", lvl: 4 },
 ];
 
 /**

@@ -419,6 +419,43 @@ export const DILEMMAS_HOT: HotDilemma[] = [
   { a: "Rire nerveusement à chaque mauvaise nouvelle", b: "Pleurer à chaque bonne nouvelle des autres", lvl: 4 },
   { a: "Effacer une personne de la mémoire de tous", b: "T'effacer toi-même de la leur", lvl: 4 },
   { a: "Trahir un(e) ami(e) sans qu'il/elle le sache jamais", b: "Être trahi(e) et le savoir à jamais", lvl: 4 },
+
+  // ===== Vague 5 ===========================================================
+  // --- Niveau 2 · Épicé 🌶️ -------------------------------------------------
+  { a: "Que ton patron voie le surnom que tu lui donnes", b: "Que ta belle-famille voie le sien", lvl: 2 },
+  { a: "Avoir un rencard filmé pour une émission de télé", b: "Que ton pire date devienne viral malgré toi", lvl: 2 },
+  { a: "Te faire poser un lapin en public", b: "Poser un lapin et te faire griller", lvl: 2 },
+  { a: "Draguer en te faisant passer pour plus riche", b: "Pour beaucoup plus cultivé(e)", lvl: 2 },
+  { a: "Que ton crush voie combien de fois tu as visité son profil", b: "Qu'il/elle lise tes brouillons de déclaration", lvl: 2 },
+  { a: "Tomber sous le charme d'une simple voix au téléphone", b: "D'un sourire aperçu une seconde", lvl: 2 },
+  { a: "Que ton téléphone sonne « chanson d'amour » en pleine réunion", b: "En plein moment solennel", lvl: 2 },
+  { a: "Devoir complimenter ton ex très sincèrement", b: "Remercier la personne qui t'a largué(e)", lvl: 2 },
+  { a: "Être surpris(e) à répéter ta déclaration devant le miroir", b: "À parler tout(e) seul(e) de ton crush", lvl: 2 },
+  { a: "N'attirer que des gens déjà en couple", b: "N'attirer que des gens à l'autre bout du monde", lvl: 2 },
+
+  // --- Niveau 3 · +18 🔞 ---------------------------------------------------
+  { a: "Que ton/ta partenaire te compare à voix haute à ses ex", b: "Devoir te comparer aux tiens", lvl: 3 },
+  { a: "Ne jamais oser dire ce que tu aimes vraiment", b: "Devoir tout dire, sans aucun filtre", lvl: 3 },
+  { a: "Un premier soir interrompu par un appel de tes parents", b: "Par ta coloc qui rentre plus tôt", lvl: 3 },
+  { a: "Que ta liste de fantasmes soit imprimée", b: "Que tes anciens messages coquins soient reliés en livre", lvl: 3 },
+  { a: "Coucher toujours avec une musique gênante", b: "Toujours dans le noir complet", lvl: 3 },
+  { a: "Un(e) partenaire qui commente absolument tout", b: "Un(e) partenaire qui ne réagit jamais", lvl: 3 },
+  { a: "Recroiser un coup d'un soir en salle d'attente médicale", b: "À la pharmacie, au pire rayon", lvl: 3 },
+  { a: "Que tout le monde connaisse ta préférence", b: "Ton pire refus", lvl: 3 },
+  { a: "Ne plus jamais te sentir désiré(e)", b: "Te sentir désiré(e) mais par les mauvaises personnes", lvl: 3 },
+  { a: "Devoir raconter ta nuit sur un blog anonyme", b: "La raconter en détail à ton/ta meilleur(e) ami(e)", lvl: 3 },
+
+  // --- Niveau 4 · Cancellable ☠️ (le plus trash) ---------------------------
+  { a: "Découvrir que toute ta famille te ment depuis toujours", b: "Apprendre que c'est TOI, le secret de la famille", lvl: 4 },
+  { a: "Ressusciter une personne au prix de la vie d'une autre", b: "Ne jamais avoir ce pouvoir", lvl: 4 },
+  { a: "Qu'un double maléfique prenne ta place un jour par an", b: "Que personne ne se souvienne de toi un jour par an", lvl: 4 },
+  { a: "Trahir tout le monde pour sauver ta peau", b: "Te sacrifier pour un(e) parfait(e) inconnu(e)", lvl: 4 },
+  { a: "Devoir choisir qui, dans la pièce, tu sauverais en dernier", b: "Qui tu laisserais tomber en premier", lvl: 4 },
+  { a: "Qu'on révèle ta pire pensée sur chaque personne ici", b: "Ta pire action jamais avouée", lvl: 4 },
+  { a: "Gagner en piétinant tous tes principes", b: "Rester intègre et tout perdre", lvl: 4 },
+  { a: "Hanter après ta mort la personne que tu détestes", b: "Veiller sur celle que tu aimes sans jamais te montrer", lvl: 4 },
+  { a: "Que ton procès imaginaire soit diffusé en direct", b: "Que ton journal intime soit publié à ta mort", lvl: 4 },
+  { a: "Connaître la pire chose qu'on pense de toi", b: "La pire chose que TU penses des autres révélée à tous", lvl: 4 },
 ];
 
 /**
