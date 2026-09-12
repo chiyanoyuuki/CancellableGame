@@ -325,6 +325,56 @@ export const PROMPTS_HOT: HotPrompt[] = [
   { text: "de se venger des années après, à froid", lvl: 4 },
   { text: "de trahir le groupe pour percer en solo", lvl: 4 },
   { text: "d'avoir un secret capable de briser un couple ici", lvl: 4 },
+
+  // ===== Vague 3 ===========================================================
+  // --- Niveau 2 · Épicé 🌶️ -------------------------------------------------
+  { text: "de rougir dès qu'on parle de son/sa crush", lvl: 2 },
+  { text: "de garder une photo de son ex dans son téléphone", lvl: 2 },
+  { text: "de tomber amoureux(se) de quelqu'un rencontré en ligne", lvl: 2 },
+  { text: "de flirter sans même s'en rendre compte", lvl: 2 },
+  { text: "de relire dix fois un message avant de l'envoyer", lvl: 2 },
+  { text: "de craquer pour quelqu'un de totalement inaccessible", lvl: 2 },
+  { text: "d'oser aborder un(e) inconnu(e) dans la rue", lvl: 2 },
+  { text: "de replonger dans une relation compliquée", lvl: 2 },
+  { text: "de mentir sur le nombre de ses ex", lvl: 2 },
+  { text: "de pleurer devant une comédie romantique", lvl: 2 },
+  { text: "de draguer le/la serveur(se) toute la soirée", lvl: 2 },
+  { text: "d'avoir un coup de cœur en vacances chaque été", lvl: 2 },
+  { text: "de sortir avec quelqu'un juste pour son physique", lvl: 2 },
+  { text: "de retomber dans les bras de son ex à Noël", lvl: 2 },
+
+  // --- Niveau 3 · +18 🔞 ---------------------------------------------------
+  { text: "d'avoir déjà eu une aventure au bureau", lvl: 3 },
+  { text: "d'avoir un dossier « privé » bien caché", lvl: 3 },
+  { text: "d'avoir déjà couché le soir même d'une rencontre", lvl: 3 },
+  { text: "d'avoir simulé plus d'une fois", lvl: 3 },
+  { text: "d'avoir un fantasme qui surprendrait tout le monde", lvl: 3 },
+  { text: "d'avoir déjà envoyé un sexto au mauvais destinataire", lvl: 3 },
+  { text: "d'assumer complètement sa vie sexuelle en public", lvl: 3 },
+  { text: "d'avoir déjà eu un plan cul avec un(e) ami(e)", lvl: 3 },
+  { text: "d'avoir déjà couché dans un lieu public", lvl: 3 },
+  { text: "d'avoir un compteur bien plus élevé qu'il/elle ne l'avoue", lvl: 3 },
+  { text: "d'avoir déjà proposé un plan à trois", lvl: 3 },
+  { text: "d'avoir gardé des photos très intimes", lvl: 3 },
+  { text: "d'avoir menti sur sa première fois", lvl: 3 },
+  { text: "d'avoir déjà eu une relation secrète interdite", lvl: 3 },
+
+  // --- Niveau 4 · Cancellable ☠️ (le plus trash) ---------------------------
+  { text: "d'avoir déjà trompé et laissé quelqu'un d'autre porter le chapeau", lvl: 4 },
+  { text: "de coucher avec le/la partenaire d'un(e) ami(e) proche", lvl: 4 },
+  { text: "de finir un jour recherché(e) par la police", lvl: 4 },
+  { text: "de vendre un proche pour une très grosse somme", lvl: 4 },
+  { text: "de mentir sous serment sans transpirer", lvl: 4 },
+  { text: "de saboter discrètement un(e) rival(e)", lvl: 4 },
+  { text: "de balancer une vanne déplacée en plein enterrement", lvl: 4 },
+  { text: "de garder un secret qui pourrait envoyer quelqu'un en prison", lvl: 4 },
+  { text: "d'avoir déjà volé dans un magasin", lvl: 4 },
+  { text: "de retourner sa veste au pire moment", lvl: 4 },
+  { text: "de se faire passer pour quelqu'un d'autre pour séduire", lvl: 4 },
+  { text: "de disparaître du jour au lendemain sans un mot", lvl: 4 },
+  { text: "de ne jamais pardonner, même après des années", lvl: 4 },
+  { text: "de tricher le jour de son propre mariage", lvl: 4 },
+  { text: "d'avoir déjà menti pour séparer deux personnes", lvl: 4 },
 ];
 
 /**

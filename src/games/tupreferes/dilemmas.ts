@@ -324,6 +324,58 @@ export const DILEMMAS_HOT: HotDilemma[] = [
   { a: "Hériter en débranchant toi-même la prise", b: "Rester ruiné et veiller le/la malade dix ans", lvl: 4 },
   { a: "Simuler un deuil pour un congé payé", b: "Rater le vrai enterrement à cause du travail", lvl: 4 },
   { a: "Voler le/la partenaire de ton/ta meilleur(e) ami(e)", b: "Rester seul(e) mais loyal(e) à vie", lvl: 4 },
+
+  // ===== Vague 3 ===========================================================
+  // --- Niveau 2 · Épicé 🌶️ -------------------------------------------------
+  { a: "Que ton/ta crush voie ta playlist « du soir »", b: "Qu'il/elle lise tes notes de téléphone", lvl: 2 },
+  { a: "Un premier rendez-vous au resto le plus chic", b: "Un premier rendez-vous à 4 h du mat en after", lvl: 2 },
+  { a: "Rougir à chaque compliment", b: "Bégayer dès que quelqu'un te plaît", lvl: 2 },
+  { a: "Sortir avec quelqu'un qui ronfle très fort", b: "Avec quelqu'un qui parle en dormant et balance tout", lvl: 2 },
+  { a: "Avoir le béguin pour un(e) collègue", b: "Pour un(e) ami(e) de très longue date", lvl: 2 },
+  { a: "Te faire larguer par SMS", b: "Te faire larguer devant tes amis", lvl: 2 },
+  { a: "Embrasser quelqu'un qui embrasse divinement mais que tu n'aimes pas", b: "Aimer quelqu'un qui embrasse très mal", lvl: 2 },
+  { a: "Un date qui checke son téléphone toute la soirée", b: "Un date qui ne parle que de lui", lvl: 2 },
+  { a: "Que tout le monde sache pour qui tu as flashé ici", b: "Ne jamais l'avouer et le regretter", lvl: 2 },
+  { a: "Un rencard parfait sous la pluie", b: "Un rencard raté par une journée magnifique", lvl: 2 },
+  { a: "Devoir déclarer ta flamme en chanson", b: "En envoyant tes parents comme intermédiaires", lvl: 2 },
+  { a: "Ne pouvoir draguer qu'avec des jeux de mots pourris", b: "Qu'en citant des répliques de films", lvl: 2 },
+  { a: "Que ton/ta date arrive avec 1 h de retard", b: "Qu'il/elle arrive avec un(e) ami(e) non prévu(e)", lvl: 2 },
+  { a: "Recevoir une lettre d'amour anonyme", b: "Découvrir un compte secret qui te suit partout", lvl: 2 },
+  { a: "Sortir avec quelqu'un de trop parfait (intimidant)", b: "Avec quelqu'un d'attachant mais bordélique", lvl: 2 },
+
+  // --- Niveau 3 · +18 🔞 ---------------------------------------------------
+  { a: "Que ton/ta partenaire garde toujours les yeux ouverts", b: "Qu'il/elle éteigne toujours la lumière", lvl: 3 },
+  { a: "Faire l'amour dans un lieu insolite mais risqué", b: "Toujours au même endroit mais tranquille", lvl: 3 },
+  { a: "Révéler ton chiffre à ton/ta partenaire actuel(le)", b: "Ne jamais connaître le sien", lvl: 3 },
+  { a: "Un(e) partenaire infatigable mais très bruyant(e)", b: "Doux/douce mais qui s'endort avant la fin", lvl: 3 },
+  { a: "Coucher avec ton plus grand fantasme et être déçu(e)", b: "Ne jamais tenter et fantasmer à vie", lvl: 3 },
+  { a: "Que tes recherches privées s'affichent sur la TV du salon", b: "Que tes vocaux les plus gênants passent en boucle", lvl: 3 },
+  { a: "Ne plus jamais de sexe mais des câlins parfaits", b: "Beaucoup de sexe mais zéro tendresse", lvl: 3 },
+  { a: "Qu'un plan d'un soir tombe amoureux de toi", b: "Tomber amoureux(se) de ton plan d'un soir", lvl: 3 },
+  { a: "Faire l'amour sur la musique de tes parents", b: "Sur le générique de ton dessin animé d'enfance", lvl: 3 },
+  { a: "Que ton/ta boss découvre ta vie sexuelle", b: "Que ta belle-famille la découvre", lvl: 3 },
+  { a: "Ne coucher qu'en vacances", b: "Ne coucher que les jours de pluie", lvl: 3 },
+  { a: "Un tatouage au nom de ton ex", b: "Un tatouage raté à un endroit très intime", lvl: 3 },
+  { a: "Que ton/ta partenaire lise ton journal intime coquin", b: "Qu'il/elle ouvre ton dossier « caché »", lvl: 3 },
+  { a: "Assumer un fantasme jugé bizarre", b: "Cacher cette part de toi à vie", lvl: 3 },
+  { a: "Coucher une dernière fois avec chaque ex pour tourner la page", b: "Ne jamais les revoir mais rester curieux(se)", lvl: 3 },
+
+  // --- Niveau 4 · Cancellable ☠️ (le plus trash) ---------------------------
+  { a: "Coucher avec le/la meilleur(e) ami(e) de ton/ta ex", b: "Avec l'ex de ton/ta meilleur(e) ami(e)", lvl: 4 },
+  { a: "Avouer publiquement ton pire mensonge", b: "Emporter ton pire secret dans la tombe", lvl: 4 },
+  { a: "Gagner un million si un inconnu meurt (tu ne sauras jamais qui)", b: "Rester fauché toute ta vie", lvl: 4 },
+  { a: "Que ta famille apprenne ton casier (même imaginaire)", b: "Ton nombre exact de partenaires", lvl: 4 },
+  { a: "Trahir ton pays pour de l'argent", b: "Trahir ta famille pour la gloire", lvl: 4 },
+  { a: "Rire pendant un discours d'enterrement", b: "T'endormir au mariage de ton/ta meilleur(e) ami(e)", lvl: 4 },
+  { a: "Effacer la mémoire de ton pire ennemi", b: "Effacer la tienne des cinq dernières années", lvl: 4 },
+  { a: "Vendre les secrets de ta bande d'amis à la presse", b: "Ceux de ta propre famille", lvl: 4 },
+  { a: "Coucher avec quelqu'un juste pour un héritage", b: "Épouser sans amour pour l'argent", lvl: 4 },
+  { a: "Connaître la date de mort de tes proches", b: "Qu'ils connaissent la tienne", lvl: 4 },
+  { a: "Que ton pire moment soit rejoué sur écran géant", b: "Que ta pire pensée s'affiche au-dessus de ta tête", lvl: 4 },
+  { a: "Piquer le/la fiancé(e) de quelqu'un le jour J", b: "Rater volontairement ton propre mariage", lvl: 4 },
+  { a: "Balancer un(e) ami(e) infidèle à son/sa partenaire", b: "Garder le secret et culpabiliser", lvl: 4 },
+  { a: "Un enterrement où personne ne pleure", b: "Un mariage où tout le monde parie sur le divorce", lvl: 4 },
+  { a: "Simuler ta propre disparition pour repartir à zéro", b: "Rester coincé(e) dans ta vie actuelle à jamais", lvl: 4 },
 ];
 
 /**

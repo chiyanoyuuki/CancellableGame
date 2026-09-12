@@ -127,4 +127,161 @@ export const adulteQuestions: Question[] = [
     text: 'Quelle substance festive était surnommée « la poudre » dans les nuits des années 80 ?', answer: 'La cocaïne',
     distractors: ["L'héroïne", 'Le cannabis', "L'ecstasy"],
   },
+
+  // ===== Vague 2 ============================================================
+  // --- Niveau 2 · Épicé 🌶️ --------------------------------------------------
+  {
+    id: 'adl-208', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 2, cancelLevel: 2,
+    text: "Quel cocktail mélange vodka et jus d'orange ?", answer: 'Le Screwdriver',
+    distractors: ['La Margarita', 'Le Mojito', 'Le Cosmopolitan'],
+  },
+  {
+    id: 'adl-209', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 2, cancelLevel: 2,
+    text: "Quelle boisson pétillante italienne est la base d'un Spritz ?", answer: 'Le prosecco',
+    distractors: ['Le champagne', 'Le cidre', 'Le crémant'],
+  },
+  {
+    id: 'adl-210', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 3, cancelLevel: 2,
+    text: 'Quel apéritif italien amer et orangé donne sa couleur au Spritz ?', answer: "L'Aperol",
+    distractors: ['Le Martini', 'Le Limoncello', 'La Grappa'],
+  },
+  {
+    id: 'adl-211', theme: 'culture', universe: 'Sexo 🔞', difficulty: 1, cancelLevel: 2,
+    text: 'Quelle fleur rouge est le symbole universel de la passion ?', answer: 'La rose',
+    distractors: ['La tulipe', 'Le lys', 'Le tournesol'],
+  },
+  {
+    id: 'adl-212', theme: 'culture', universe: 'Sexo 🔞', difficulty: 2, cancelLevel: 2,
+    text: "Quel dieu romain de l'amour décoche des flèches sur les cœurs ?", answer: 'Cupidon',
+    distractors: ['Mars', 'Jupiter', 'Neptune'],
+  },
+  {
+    id: 'adl-213', theme: 'culture', universe: 'Vie de couple 💔', difficulty: 2, cancelLevel: 2,
+    text: "Comment appelle-t-on l'anniversaire des 50 ans de mariage ?", answer: "Les noces d'or",
+    distractors: ["Les noces d'argent", 'Les noces de diamant', 'Les noces de perle'],
+  },
+  {
+    id: 'adl-214', theme: 'culture', universe: 'Vie de couple 💔', difficulty: 1, cancelLevel: 2,
+    text: 'Quel bijou symbolise une demande en mariage ?', answer: 'La bague',
+    distractors: ['Le collier', 'La montre', 'Le bracelet'],
+  },
+  {
+    id: 'adl-215', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 3, cancelLevel: 2,
+    text: "En France, en quelle unité mesure-t-on l'alcoolémie au volant ?", answer: 'Le gramme par litre de sang',
+    distractors: ['Le degré', 'Le millilitre', 'Le pourcentage'],
+  },
+  {
+    id: 'adl-216', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 2, cancelLevel: 2,
+    text: 'De quelle céréale la bière est-elle principalement issue ?', answer: "L'orge",
+    distractors: ['Le blé', 'Le maïs', 'Le riz'],
+  },
+  {
+    id: 'adl-217', theme: 'culture', universe: 'Sexo 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quel fruit de mer, cher à Casanova, est réputé aphrodisiaque ?', answer: "L'huître",
+    distractors: ['La moule', 'La crevette', "L'oursin"],
+  },
+
+  // --- Niveau 3 · +18 🔞 ----------------------------------------------------
+  {
+    id: 'adl-308', theme: 'culture', universe: 'Sexo 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel roman érotique de E. L. James a battu des records de ventes ?', answer: 'Cinquante nuances de Grey',
+    distractors: ['Emmanuelle', "Histoire d'O", 'Belle du Seigneur'],
+  },
+  {
+    id: 'adl-309', theme: 'culture', universe: 'Sexo 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel sigle désigne les pratiques de domination et de soumission consenties ?', answer: 'BDSM',
+    distractors: ['ASMR', 'LGBT', 'BCBG'],
+  },
+  {
+    id: 'adl-310', theme: 'culture', universe: 'Sexo 🔞', difficulty: 4, cancelLevel: 3,
+    text: "Quelle molécule du plaisir inonde le cerveau lors d'un coup de foudre ?", answer: 'La dopamine',
+    distractors: ['La kératine', 'La créatine', "L'hémoglobine"],
+  },
+  {
+    id: 'adl-311', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Comment nomme-t-on les toutes premières règles chez la femme ?', answer: 'Les ménarches',
+    distractors: ['La ménopause', "L'ovulation", 'La nidation'],
+  },
+  {
+    id: 'adl-312', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel organe masculin produit les spermatozoïdes ?', answer: 'Les testicules',
+    distractors: ['La prostate', 'La vessie', 'Les reins'],
+  },
+  {
+    id: 'adl-313', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel virus est responsable du sida ?', answer: 'Le VIH',
+    distractors: ['Le HPV', "L'hépatite B", "L'herpès"],
+  },
+  {
+    id: 'adl-314', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 3, cancelLevel: 3,
+    text: "Quelle actrice incarne l'héroïne fatale de « Basic Instinct » (1992) ?", answer: 'Sharon Stone',
+    distractors: ['Kim Basinger', 'Demi Moore', 'Michelle Pfeiffer'],
+  },
+  {
+    id: 'adl-315', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel film érotique de 1974 révéla Sylvia Kristel ?', answer: 'Emmanuelle',
+    distractors: ['9 Semaines ½', 'Lolita', 'Le Dernier Tango à Paris'],
+  },
+  {
+    id: 'adl-316', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Quelle chanteuse a fait scandale avec sa robe en viande crue ?', answer: 'Lady Gaga',
+    distractors: ['Madonna', 'Rihanna', 'Miley Cyrus'],
+  },
+  {
+    id: 'adl-317', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 2, cancelLevel: 3,
+    text: 'Quelle ville américaine du jeu et de la fête est surnommée « Sin City » ?', answer: 'Las Vegas',
+    distractors: ['Atlantic City', 'Reno', 'Miami'],
+  },
+
+  // --- Niveau 4 · Cancellable ☠️ --------------------------------------------
+  {
+    id: 'adl-409', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 4, cancelLevel: 4,
+    text: 'Quel pays fut le premier à légaliser le cannabis récréatif au niveau national, en 2013 ?', answer: "L'Uruguay",
+    distractors: ['Les Pays-Bas', 'Le Canada', 'Le Portugal'],
+  },
+  {
+    id: 'adl-410', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 4, cancelLevel: 4,
+    text: 'Quelle pratique de fin de vie médicalisée est légale en Belgique depuis 2002 ?', answer: "L'euthanasie",
+    distractors: ['La trépanation', 'La lobotomie', 'La dialyse'],
+  },
+  {
+    id: 'adl-411', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 4, cancelLevel: 4,
+    text: "Comment qualifie-t-on l'argent d'origine illégale rendu « propre » ?", answer: "De l'argent blanchi",
+    distractors: ["De l'argent liquide", "De l'argent de poche", 'De la petite monnaie'],
+  },
+  {
+    id: 'adl-412', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: "Quelle reine d'Égypte séduisit à la fois César et Marc Antoine ?", answer: 'Cléopâtre',
+    distractors: ['Néfertiti', 'Hatchepsout', 'Livie'],
+  },
+  {
+    id: 'adl-413', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 4, cancelLevel: 4,
+    text: "Quel médecin viennois a fondé la psychanalyse et théorisé le complexe d'Œdipe ?", answer: 'Sigmund Freud',
+    distractors: ['Carl Jung', 'Jacques Lacan', 'Alfred Adler'],
+  },
+  {
+    id: 'adl-414', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 4, cancelLevel: 4,
+    text: 'Quel groupe fut marqué par le suicide collectif de Jonestown en 1978 ?', answer: 'Le Temple du Peuple',
+    distractors: ["L'Ordre du Temple solaire", 'Les Davidiens', "Heaven's Gate"],
+  },
+  {
+    id: 'adl-415', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quelle drogue de synthèse festive est surnommée « ecstasy » ?', answer: 'La MDMA',
+    distractors: ['Le LSD', 'La kétamine', 'Le GHB'],
+  },
+  {
+    id: 'adl-416', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel cinéaste a scandalisé avec « Salò ou les 120 Journées de Sodome » ?', answer: 'Pier Paolo Pasolini',
+    distractors: ['Lars von Trier', 'Gaspar Noé', 'Stanley Kubrick'],
+  },
+  {
+    id: 'adl-417', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel chanteur des Doors fut arrêté sur scène pour outrage à la pudeur en 1969 ?', answer: 'Jim Morrison',
+    distractors: ['Mick Jagger', 'Iggy Pop', 'Freddie Mercury'],
+  },
+  {
+    id: 'adl-418', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Dans quelle ville se dresse le célèbre cabaret du Moulin Rouge ?', answer: 'Paris',
+    distractors: ['Londres', 'Berlin', 'Madrid'],
+  },
 ];
