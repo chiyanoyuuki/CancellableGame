@@ -5,6 +5,7 @@ import { Button, Card, Chip, HowToPlay, Segmented, SectionHeader, Stepper, Txt }
 import { type DrinkIntensity, type Question, type Theme, THEME_META, THEMES } from '../../core/models';
 import { type ImposteurConfig, isGoodImposteurWord } from '../../core/imposteurEngine';
 import { getPlayerUnwantedUniverses } from '../../db';
+import { getCancelLevel } from '../../lib/cancelLevel';
 import { useT } from '../../lib/i18nProvider';
 import { useStore } from '../../store/StoreProvider';
 import { colors, fontSize, spacing } from '../../theme/theme';
@@ -29,7 +30,7 @@ export function ImposteurConfigComponent({ players, onStart }: MiniGameConfigPro
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const [p, un] = await Promise.all([getQuizPool(), getPlayerUnwantedUniverses()]);
+      const [p, un] = await Promise.all([getQuizPool({ maxCancelLevel: getCancelLevel() }), getPlayerUnwantedUniverses()]);
       if (alive) {
         setPool(p);
         setUnwantedMap(un);
@@ -51,7 +52,8 @@ export function ImposteurConfigComponent({ players, onStart }: MiniGameConfigPro
       // très bien comme mot — et sans connexion, contrairement au quiz.
       if (!q.universe) continue;
       if (!isGoodImposteurWord(q.answer)) continue;
-      if (!store.isUniverseUnlocked(q.universe)) continue;
+      // Le contenu « cancellable » n'est pas payant : le niveau est la seule barrière.
+      if ((q.cancelLevel ?? 1) <= 1 && !store.isUniverseUnlocked(q.universe)) continue;
       words.set(q.universe, (words.get(q.universe) ?? 0) + 1);
       theme.set(q.universe, q.theme);
     }

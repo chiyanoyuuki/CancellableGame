@@ -376,6 +376,49 @@ export const DILEMMAS_HOT: HotDilemma[] = [
   { a: "Balancer un(e) ami(e) infidèle à son/sa partenaire", b: "Garder le secret et culpabiliser", lvl: 4 },
   { a: "Un enterrement où personne ne pleure", b: "Un mariage où tout le monde parie sur le divorce", lvl: 4 },
   { a: "Simuler ta propre disparition pour repartir à zéro", b: "Rester coincé(e) dans ta vie actuelle à jamais", lvl: 4 },
+
+  // ===== Vague 4 ===========================================================
+  // --- Niveau 2 · Épicé 🌶️ -------------------------------------------------
+  { a: "Que ton/ta partenaire suive tous tes ex sur les réseaux", b: "Que tu suives tous les siens", lvl: 2 },
+  { a: "Recevoir un compliment très gênant de ton/ta boss", b: "De ta belle-mère", lvl: 2 },
+  { a: "Avoir un fou rire nerveux à ton premier bisou", b: "Éternuer juste avant", lvl: 2 },
+  { a: "Un date qui commande pour toi sans demander", b: "Un date qui te laisse toute l'addition", lvl: 2 },
+  { a: "Draguer quelqu'un qui ne rit à aucune de tes blagues", b: "Quelqu'un qui rit à TOUTES, même les nulles", lvl: 2 },
+  { a: "Que ton téléphone lise tes messages à voix haute en soirée", b: "Qu'il affiche tes dernières photos likées", lvl: 2 },
+  { a: "Tomber amoureux(se) de deux personnes en même temps", b: "De personne pendant deux ans", lvl: 2 },
+  { a: "Rougir dès qu'on prononce un certain prénom", b: "Sourire bêtement à chaque notification", lvl: 2 },
+  { a: "Un slow très gênant avec un(e) inconnu(e)", b: "Un blanc de 30 secondes en plein date", lvl: 2 },
+  { a: "Que ta recherche « symptômes » devienne publique", b: "Ta recherche « comment dire à quelqu'un que… »", lvl: 2 },
+  { a: "Refaire ta coiffure dix fois avant un rencard", b: "Changer de tenue jusqu'à être en retard", lvl: 2 },
+  { a: "Mentir sur tes goûts pour plaire", b: "Assumer des goûts que personne ne partage", lvl: 2 },
+
+  // --- Niveau 3 · +18 🔞 ---------------------------------------------------
+  { a: "Que ton/ta partenaire connaisse toutes tes anciennes conquêtes", b: "Que tu connaisses toutes les siennes", lvl: 3 },
+  { a: "Un bruit très gênant au pire moment sous la couette", b: "Un fou rire incontrôlable", lvl: 3 },
+  { a: "Devoir garder les chaussettes à chaque fois", b: "Ne jamais pouvoir éteindre la lumière", lvl: 3 },
+  { a: "Que ton lit grince très fort", b: "Que les murs soient en papier", lvl: 3 },
+  { a: "Un match parfait à 3 h de route", b: "Un match tiède juste en bas de chez toi", lvl: 3 },
+  { a: "Recroiser un coup d'un soir chez le médecin", b: "À un entretien d'embauche", lvl: 3 },
+  { a: "Que ton/ta crush découvre ta playlist très coquine", b: "Ta liste de fantasmes notée quelque part", lvl: 3 },
+  { a: "Un(e) partenaire qui parle sans arrêt", b: "Un(e) partenaire totalement muet(te)", lvl: 3 },
+  { a: "Que tes voisins connaissent ton rythme", b: "Que ta coloc te chambre chaque matin", lvl: 3 },
+  { a: "Refaire une nuit parfaite sans jamais t'en souvenir", b: "T'en souvenir parfaitement sans qu'elle se répète", lvl: 3 },
+  { a: "Que ton historique de rencontres soit tatoué", b: "Que tes notes de date le soient", lvl: 3 },
+  { a: "N'avoir le droit qu'à un seul et unique fantasme à vie", b: "Devoir tous les réaliser sans exception", lvl: 3 },
+
+  // --- Niveau 4 · Cancellable ☠️ (le plus trash) ---------------------------
+  { a: "Découvrir que ton/ta partenaire t'a toujours menti", b: "Qu'il/elle découvre que TOI, tu mens depuis le début", lvl: 4 },
+  { a: "Assister au succès insolent de ton pire ennemi", b: "À ta propre humiliation publique", lvl: 4 },
+  { a: "Que tout ce que tu dis en soirée soit enregistré et diffusé", b: "Que tes pensées de la journée soient publiées", lvl: 4 },
+  { a: "Voler l'idée d'un(e) ami(e) et devenir riche", b: "Le/la soutenir et rester dans l'ombre", lvl: 4 },
+  { a: "Ne plus jamais pouvoir mentir de ta vie", b: "Ne plus jamais pouvoir dire la vérité", lvl: 4 },
+  { a: "Provoquer un scandale à un mariage", b: "Faire capoter un enterrement", lvl: 4 },
+  { a: "Connaître le pire secret de chaque personne ici", b: "Qu'ils connaissent tous le tien", lvl: 4 },
+  { a: "Hériter en épousant quelqu'un de mourant", b: "Rester pauvre mais libre", lvl: 4 },
+  { a: "Que ta pire action passe aux infos", b: "Que ton pire message circule dans ta famille", lvl: 4 },
+  { a: "Rire nerveusement à chaque mauvaise nouvelle", b: "Pleurer à chaque bonne nouvelle des autres", lvl: 4 },
+  { a: "Effacer une personne de la mémoire de tous", b: "T'effacer toi-même de la leur", lvl: 4 },
+  { a: "Trahir un(e) ami(e) sans qu'il/elle le sache jamais", b: "Être trahi(e) et le savoir à jamais", lvl: 4 },
 ];
 
 /**

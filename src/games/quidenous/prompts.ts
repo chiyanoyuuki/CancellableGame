@@ -375,6 +375,49 @@ export const PROMPTS_HOT: HotPrompt[] = [
   { text: "de ne jamais pardonner, même après des années", lvl: 4 },
   { text: "de tricher le jour de son propre mariage", lvl: 4 },
   { text: "d'avoir déjà menti pour séparer deux personnes", lvl: 4 },
+
+  // ===== Vague 4 ===========================================================
+  // --- Niveau 2 · Épicé 🌶️ -------------------------------------------------
+  { text: "de liker une photo par accident en pleine nuit", lvl: 2 },
+  { text: "de tomber amoureux(se) de quelqu'un juste pour sa voix", lvl: 2 },
+  { text: "de garder une capture d'écran d'une conversation gênante", lvl: 2 },
+  { text: "d'avoir une appli de rencontre ouverte « juste pour regarder »", lvl: 2 },
+  { text: "de rougir en croisant quelqu'un qui lui plaît", lvl: 2 },
+  { text: "de refaire sa coiffure dix fois avant un rencard", lvl: 2 },
+  { text: "de complimenter quelqu'un très maladroitement", lvl: 2 },
+  { text: "d'écrire un long message puis de tout effacer", lvl: 2 },
+  { text: "de craquer sur quelqu'un de complètement à l'opposé", lvl: 2 },
+  { text: "d'organiser toute sa soirée autour d'une seule personne", lvl: 2 },
+  { text: "de mentir sur ses goûts pour plaire", lvl: 2 },
+  { text: "de relancer un ex un soir de déprime", lvl: 2 },
+
+  // --- Niveau 3 · +18 🔞 ---------------------------------------------------
+  { text: "d'avoir eu un plan cul qui a duré bien plus longtemps que prévu", lvl: 3 },
+  { text: "d'avoir une story privée réservée à quelques personnes", lvl: 3 },
+  { text: "d'avoir déjà quitté quelqu'un en plein milieu", lvl: 3 },
+  { text: "d'avoir un chiffre bien plus élevé qu'on ne l'imagine", lvl: 3 },
+  { text: "d'avoir déjà envoyé un message très osé en pleine réunion", lvl: 3 },
+  { text: "d'assumer des goûts très particuliers au lit", lvl: 3 },
+  { text: "d'avoir déjà eu une aventure interdite", lvl: 3 },
+  { text: "d'avoir un objet coquin bien caché quelque part", lvl: 3 },
+  { text: "d'avoir tout raconté à ses amis dès le lendemain", lvl: 3 },
+  { text: "d'avoir déjà menti sur avec qui il/elle passait la nuit", lvl: 3 },
+  { text: "d'avoir un profil très différent sur les applis", lvl: 3 },
+  { text: "d'avoir osé une proposition coquine dès le premier rendez-vous", lvl: 3 },
+
+  // --- Niveau 4 · Cancellable ☠️ (le plus trash) ---------------------------
+  { text: "d'avoir déjà détruit une amitié par pure jalousie", lvl: 4 },
+  { text: "de mentir sur son CV sans le moindre scrupule", lvl: 4 },
+  { text: "de garder rancune toute sa vie", lvl: 4 },
+  { text: "d'avoir déjà pris quelque chose qui ne lui appartenait pas", lvl: 4 },
+  { text: "de doubler un(e) collègue pour une promotion", lvl: 4 },
+  { text: "de faire semblant de pleurer pour s'en sortir", lvl: 4 },
+  { text: "d'avoir un plan pour disparaître si tout s'écroule", lvl: 4 },
+  { text: "de critiquer ses amis dès qu'ils ont le dos tourné", lvl: 4 },
+  { text: "d'avoir déjà fait porter le chapeau à un innocent", lvl: 4 },
+  { text: "de tout faire pour de l'argent, même le pire", lvl: 4 },
+  { text: "de cacher une double vie à tout le monde", lvl: 4 },
+  { text: "d'avoir un secret qui choquerait même ses proches", lvl: 4 },
 ];
 
 /**

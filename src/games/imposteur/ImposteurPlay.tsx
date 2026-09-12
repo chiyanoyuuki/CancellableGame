@@ -19,6 +19,7 @@ import { randomSeed } from '../../core/rng';
 import { haptics } from '../../lib/haptics';
 import { useT } from '../../lib/i18nProvider';
 import { getQuizPool } from '../quiz/pool';
+import { getCancelLevel } from '../../lib/cancelLevel';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import type { MiniGamePlayProps } from '../types';
 
@@ -45,7 +46,7 @@ export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: Mi
     let alive = true;
     void (async () => {
       try {
-        const full = await getQuizPool();
+        const full = await getQuizPool({ maxCancelLevel: getCancelLevel() });
         const universes = new Set(cfg.universes);
         const seen = new Map<string, WordCard>();
         for (const q of full) {

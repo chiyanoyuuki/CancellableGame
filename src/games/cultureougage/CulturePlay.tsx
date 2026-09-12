@@ -6,7 +6,7 @@ import { Button, Card, PlayerAvatar, Txt } from '../../components/ui';
 import { QuestionHint } from '../../components/QuestionHint';
 import { buildDaily } from '../../core/dailyChallenge';
 import { type CultureConfig, type CultureState, type QCard, createCultureState, cultureRanking, cultureReducer, cultureToSessionResult, currentPlayerId } from '../../core/cultureEngine';
-import { daresFor } from '../../core/dares';
+import { daresForLevel } from '../../core/dares';
 import type { Player } from '../../core/models';
 import { randomSeed } from '../../core/rng';
 import { haptics } from '../../lib/haptics';
@@ -61,7 +61,7 @@ export function CulturePlayComponent({ players, config, onFinish, onQuit }: Mini
         if (!alive) return;
         startedAtRef.current = Date.now();
         setGame(
-          createCultureState({ config: cfg, players, deck, dares: daresFor(cfg.dareCategory), seed: randomSeed() }),
+          createCultureState({ config: cfg, players, deck, dares: daresForLevel(cfg.dareCategory, getCancelLevel()), seed: randomSeed() }),
         );
       } catch {
         // Préparation impossible → on affiche une erreur au lieu d'un spinner figé.

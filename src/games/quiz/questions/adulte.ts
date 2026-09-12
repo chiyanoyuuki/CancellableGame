@@ -284,4 +284,101 @@ export const adulteQuestions: Question[] = [
     text: 'Dans quelle ville se dresse le célèbre cabaret du Moulin Rouge ?', answer: 'Paris',
     distractors: ['Londres', 'Berlin', 'Madrid'],
   },
+
+  // ===== Vague 3 ============================================================
+  // --- Niveau 2 · Épicé 🌶️ --------------------------------------------------
+  {
+    id: 'adl-218', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 2, cancelLevel: 2,
+    text: "Quel alcool anisé se trouble au contact de l'eau ?", answer: 'Le pastis',
+    distractors: ['Le rhum', 'La vodka', 'Le whisky'],
+  },
+  {
+    id: 'adl-219', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 3, cancelLevel: 2,
+    text: 'Quelle région française est mondialement réputée pour ses grands vins rouges classés ?', answer: 'Le Bordelais',
+    distractors: ['La Bretagne', 'La Normandie', 'La Corse'],
+  },
+  {
+    id: 'adl-220', theme: 'culture', universe: 'Sexo 🔞', difficulty: 1, cancelLevel: 2,
+    text: 'Quel mois célèbre la fête des amoureux, la Saint-Valentin ?', answer: 'Février',
+    distractors: ['Janvier', 'Mars', 'Juin'],
+  },
+  {
+    id: 'adl-221', theme: 'culture', universe: 'Vie de couple 💔', difficulty: 3, cancelLevel: 2,
+    text: "Comment appelle-t-on l'anniversaire des 25 ans de mariage ?", answer: "Les noces d'argent",
+    distractors: ["Les noces d'or", 'Les noces de bois', 'Les noces de coton'],
+  },
+  {
+    id: 'adl-222', theme: 'culture', universe: 'Sexo 🔞', difficulty: 3, cancelLevel: 2,
+    text: "Quelle déesse grecque incarne l'amour et la beauté ?", answer: 'Aphrodite',
+    distractors: ['Athéna', 'Héra', 'Artémis'],
+  },
+  {
+    id: 'adl-223', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 2, cancelLevel: 2,
+    text: "Comment nomme-t-on le mal de crâne du lendemain d'une soirée trop arrosée ?", answer: 'La gueule de bois',
+    distractors: ["L'insomnie", 'La migraine', 'Le vertige'],
+  },
+
+  // --- Niveau 3 · +18 🔞 ----------------------------------------------------
+  {
+    id: 'adl-318', theme: 'culture', universe: 'Sexo 🔞', difficulty: 3, cancelLevel: 3,
+    text: "Quel mot grec antique désigne l'amour charnel et passionné ?", answer: 'Éros',
+    distractors: ['Philia', 'Agapè', 'Storgê'],
+  },
+  {
+    id: 'adl-319', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Selon les études, combien de temps dure en moyenne un rapport, hors préliminaires ?', answer: 'Environ 5 minutes',
+    distractors: ['Environ 30 secondes', 'Environ 30 minutes', 'Environ 2 heures'],
+  },
+  {
+    id: 'adl-320', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel film érotique de 1986 réunit Mickey Rourke et Kim Basinger ?', answer: '9 Semaines ½',
+    distractors: ['Basic Instinct', 'Body', 'Eyes Wide Shut'],
+  },
+  {
+    id: 'adl-321', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quelle chanteuse a fait polémique en twerkant aux MTV VMA 2013 ?', answer: 'Miley Cyrus',
+    distractors: ['Katy Perry', 'Taylor Swift', 'Ariana Grande'],
+  },
+  {
+    id: 'adl-322', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel quartier de Paris est historiquement lié à la vie nocturne et au Moulin Rouge ?', answer: 'Pigalle',
+    distractors: ['Le Marais', 'Montparnasse', 'La Défense'],
+  },
+  {
+    id: 'adl-323', theme: 'culture', universe: 'Sexo 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel séducteur vénitien du XVIIIᵉ siècle a donné son nom aux dragueurs invétérés ?', answer: 'Casanova',
+    distractors: ['Cyrano', 'Roméo', 'Machiavel'],
+  },
+
+  // --- Niveau 4 · Cancellable ☠️ --------------------------------------------
+  {
+    id: 'adl-419', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 4, cancelLevel: 4,
+    text: 'Comment appelle-t-on un pot-de-vin versé pour obtenir une faveur illégale ?', answer: 'Un bakchich',
+    distractors: ['Un acompte', 'Un pourboire', 'Une caution'],
+  },
+  {
+    id: 'adl-420', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: 'Quel tsar de Russie est resté célèbre sous le surnom « le Terrible » ?', answer: 'Ivan IV',
+    distractors: ['Pierre Ier', 'Nicolas II', 'Alexandre III'],
+  },
+  {
+    id: 'adl-421', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quelle infection sexuellement transmissible est causée par la bactérie Treponema pallidum ?', answer: 'La syphilis',
+    distractors: ['Le sida', "L'herpès génital", "L'hépatite B"],
+  },
+  {
+    id: 'adl-422', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel réalisateur a signé le sulfureux « Eyes Wide Shut » avec Tom Cruise ?', answer: 'Stanley Kubrick',
+    distractors: ['Roman Polanski', 'David Lynch', 'Brian De Palma'],
+  },
+  {
+    id: 'adl-423', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 4, cancelLevel: 4,
+    text: "Quel groupe de hard rock a raconté ses excès dans l'autobiographie « The Dirt » ?", answer: 'Mötley Crüe',
+    distractors: ['Kiss', 'Aerosmith', 'Bon Jovi'],
+  },
+  {
+    id: 'adl-424', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quelle ville allemande est connue pour la Reeperbahn, son célèbre quartier chaud ?', answer: 'Hambourg',
+    distractors: ['Munich', 'Cologne', 'Francfort'],
+  },
 ];

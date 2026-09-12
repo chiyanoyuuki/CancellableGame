@@ -5,6 +5,8 @@
  * gage se suffit à lui-même (pas de marqueur {0}/{1} ni de meneur), pour pouvoir
  * tomber sur la roue sans contexte de partie.
  */
+import { filterHot } from './contentLevel';
+import type { CancelLevel } from './models';
 import { pick, type Rng } from './rng';
 
 export type DareCategory = 'soft' | 'alcool';
@@ -75,4 +77,68 @@ export function nextDare(pool: readonly string[], current: string | null, rng: R
   if (pool.length === 1) return pool[0] as string;
   const fresh = pool.filter((d) => d !== current);
   return pick(fresh.length > 0 ? fresh : [...pool], rng);
+}
+
+/** Gage osé tagué du niveau minimum de « cancellabilité » et de sa catégorie. */
+export interface HotDare {
+  text: string;
+  lvl: CancelLevel;
+  category: DareCategory;
+}
+
+/**
+ * Gages « cancellable » (échantillon), du plus léger (2) au plus trash (4), pour
+ * la Roue des gages et Culture ou Gage. Esprit soirée entre adultes — coquin,
+ * torride, tabou — sans jamais viser ni rabaisser quelqu'un. Rangés par catégorie
+ * (soft = sans alcool ; alcool = gorgées) comme la banque de base.
+ */
+export const HOT_DARES: HotDare[] = [
+  // --- soft · Niveau 2 · Épicé 🌶️ ------------------------------------------
+  { category: 'soft', lvl: 2, text: "Fais un slow d'une minute avec la personne à ta droite." },
+  { category: 'soft', lvl: 2, text: "Mime ta scène de film la plus romantique avec quelqu'un de la table." },
+  { category: 'soft', lvl: 2, text: "Fais un compliment un peu osé à la personne en face de toi." },
+  { category: 'soft', lvl: 2, text: "Assieds-toi sur les genoux de quelqu'un jusqu'à ton prochain tour." },
+  { category: 'soft', lvl: 2, text: "Écris « tu me manques » à la 3e personne de tes contacts (et assume)." },
+  // --- soft · Niveau 3 · +18 🔞 ---------------------------------------------
+  { category: 'soft', lvl: 3, text: "Improvise un strip-tease de 10 secondes (tu gardes tout, joue le jeu)." },
+  { category: 'soft', lvl: 3, text: "Mime une position du Kâma-Sûtra choisie par le groupe." },
+  { category: 'soft', lvl: 3, text: "Chuchote à l'oreille de ton voisin ce que tu ferais après la soirée." },
+  { category: 'soft', lvl: 3, text: "Fais deviner un mot très coquin en mime, sans parler." },
+  { category: 'soft', lvl: 3, text: "Roule la pelle la plus convaincante… à ton avant-bras." },
+  // --- soft · Niveau 4 · Cancellable ☠️ ------------------------------------
+  { category: 'soft', lvl: 4, text: "Avoue à la table ton fantasme le plus inavouable." },
+  { category: 'soft', lvl: 4, text: "Raconte ton pire (ou meilleur) plan d'un soir en 30 secondes." },
+  { category: 'soft', lvl: 4, text: "Écris « je pense à toi » à ton ex maintenant, ou prends un gage double." },
+  { category: 'soft', lvl: 4, text: "Dis quelle personne de la pièce tu trouves la plus attirante." },
+  { category: 'soft', lvl: 4, text: "Montre la dernière photo de ta galerie… ou décris-la si tu n'oses pas." },
+
+  // --- alcool · Niveau 2 · Épicé 🌶️ ----------------------------------------
+  { category: 'alcool', lvl: 2, text: "Cul sec avec la personne que tu trouves la plus mignonne de la table." },
+  { category: 'alcool', lvl: 2, text: "Bois une gorgée pour chaque date raté que tu as eu cette année." },
+  { category: 'alcool', lvl: 2, text: "Trinque bras dessus bras dessous avec ton voisin, puis 2 gorgées." },
+  { category: 'alcool', lvl: 2, text: "La dernière personne que tu as embrassée te fait boire (ou 2 gorgées)." },
+  // --- alcool · Niveau 3 · +18 🔞 -------------------------------------------
+  { category: 'alcool', lvl: 3, text: "Bois autant de gorgées que de partenaires cette année… ou mens et bois le double si on te grille." },
+  { category: 'alcool', lvl: 3, text: "Body shot version soft : un shot posé sur le dos de la main de quelqu'un." },
+  { category: 'alcool', lvl: 3, text: "Le/la dernier(e) à avoir couché distribue 5 gorgées." },
+  { category: 'alcool', lvl: 3, text: "Bois cul sec ou nomme la personne de la table la plus à ton goût." },
+  // --- alcool · Niveau 4 · Cancellable ☠️ ----------------------------------
+  { category: 'alcool', lvl: 4, text: "Bois cul sec ou révèle ton historique de recherches privées." },
+  { category: 'alcool', lvl: 4, text: "Bois une gorgée pour chaque personne de la table qui t'attire." },
+  { category: 'alcool', lvl: 4, text: "Le plus gros compteur de partenaires distribue 10 gorgées." },
+  { category: 'alcool', lvl: 4, text: "Cul sec, ou avoue le lieu le plus insolite où tu as couché." },
+];
+
+/**
+ * Banque de gages pour un niveau donné : le contenu de base (niveau 1) + les
+ * gages osés de la catégorie, de niveau ≤ `level`. Au niveau 1, renvoie la banque
+ * de base inchangée (référence conservée).
+ */
+export function daresForLevel(category: DareCategory, level: CancelLevel): string[] {
+  const base = daresFor(category);
+  const spicy = filterHot(
+    HOT_DARES.filter((d) => d.category === category),
+    level,
+  ).map((d) => d.text);
+  return spicy.length > 0 ? [...base, ...spicy] : base;
 }

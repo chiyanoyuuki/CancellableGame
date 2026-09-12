@@ -25,6 +25,7 @@ import { useStore } from '../../store/StoreProvider';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import type { MiniGamePlayProps } from '../types';
 import { getQuizPool } from '../quiz/pool';
+import { getCancelLevel } from '../../lib/cancelLevel';
 
 export function AliasPlayComponent({ config, onFinish, onQuit }: MiniGamePlayProps) {
   const t = useT();
@@ -40,7 +41,7 @@ export function AliasPlayComponent({ config, onFinish, onQuit }: MiniGamePlayPro
     let alive = true;
     void (async () => {
       try {
-        const full = await getQuizPool();
+        const full = await getQuizPool({ maxCancelLevel: getCancelLevel() });
         const themeSet = cfg.themes && cfg.themes.length > 0 ? new Set(cfg.themes) : null;
         const excluded = new Set(cfg.excludedUniverses ?? []);
         const seen = new Set<string>();
@@ -49,7 +50,8 @@ export function AliasPlayComponent({ config, onFinish, onQuit }: MiniGamePlayPro
           if (themeSet && !themeSet.has(q.theme)) continue;
           if (q.universe && excluded.has(q.universe)) continue;
           if (!isGoodImposteurWord(q.answer)) continue;
-          if (!store.ent.allThemes && !store.isUniverseUnlocked(q.universe ?? `#${q.theme}`)) continue;
+          // Le contenu « cancellable » n'est pas un pack payant : le niveau est la barrière.
+          if (!store.ent.allThemes && (q.cancelLevel ?? 1) <= 1 && !store.isUniverseUnlocked(q.universe ?? `#${q.theme}`)) continue;
           if (seen.has(q.answer)) continue;
           seen.add(q.answer);
           words.push({ word: q.answer, theme: q.theme, universe: q.universe });
