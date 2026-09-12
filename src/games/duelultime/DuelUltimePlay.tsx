@@ -21,6 +21,7 @@ import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import { useStore } from '../../store/StoreProvider';
 import type { MiniGamePlayProps } from '../types';
 import { getQuizPool } from '../quiz/pool';
+import { getCancelLevel } from '../../lib/cancelLevel';
 
 function haptic(success: boolean) {
   if (success) haptics.correct();
@@ -55,10 +56,14 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
     let alive = true;
     void (async () => {
       try {
-        const [fullPool, historyByPlayer] = await Promise.all([getQuizPool(), getQuestionHistoryByPlayer()]);
+        const [fullPool, historyByPlayer] = await Promise.all([
+          getQuizPool({ maxCancelLevel: getCancelLevel() }),
+          getQuestionHistoryByPlayer(),
+        ]);
+        // Le contenu « cancellable » passe même sans achat : le niveau est la barrière.
         const pool = store.ent.allThemes
           ? fullPool
-          : fullPool.filter((q) => store.isUniverseUnlocked(q.universe ?? `#${q.theme}`));
+          : fullPool.filter((q) => (q.cancelLevel ?? 1) > 1 || store.isUniverseUnlocked(q.universe ?? `#${q.theme}`));
         const seed = randomSeed();
         const order = players.map((p) => p.id);
         if (!alive) return;

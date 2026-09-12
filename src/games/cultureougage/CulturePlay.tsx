@@ -16,6 +16,7 @@ import { useStore } from '../../store/StoreProvider';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import type { MiniGamePlayProps } from '../types';
 import { getQuizPool } from '../quiz/pool';
+import { getCancelLevel } from '../../lib/cancelLevel';
 
 export function CulturePlayComponent({ players, config, onFinish, onQuit }: MiniGamePlayProps) {
   const t = useT();
@@ -36,14 +37,16 @@ export function CulturePlayComponent({ players, config, onFinish, onQuit }: Mini
     let alive = true;
     void (async () => {
       try {
-        const full = await getQuizPool();
+        const full = await getQuizPool({ maxCancelLevel: getCancelLevel() });
         const themeSet = cfg.themes && cfg.themes.length > 0 ? new Set(cfg.themes) : null;
         const excluded = new Set(cfg.excludedUniverses ?? []);
+        // Le contenu « cancellable » respecte le choix de thèmes et les exclusions,
+        // mais n'est pas soumis à l'achat (le niveau choisi est la seule barrière).
         const pool = full.filter(
           (q) =>
             (!themeSet || themeSet.has(q.theme)) &&
             !(q.universe && excluded.has(q.universe)) &&
-            (store.ent.allThemes || store.isUniverseUnlocked(q.universe ?? `#${q.theme}`)),
+            ((q.cancelLevel ?? 1) > 1 || store.ent.allThemes || store.isUniverseUnlocked(q.universe ?? `#${q.theme}`)),
         );
         const need = players.length * Math.max(1, cfg.questionsPerPlayer);
         const daily = buildDaily(pool, randomSeed().toString(), Math.max(need + 4, need));

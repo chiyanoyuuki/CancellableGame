@@ -1,4 +1,5 @@
 import type { Question } from '../../../core/models';
+import { adulteQuestions } from './adulte';
 import { cultureQuestions, sciencesQuestions, societeQuestions } from './culture';
 import { enigmesQuestions } from './enigmes';
 import { filmsQuestions } from './films';
@@ -50,6 +51,7 @@ export const QUESTIONS: Question[] = [
   ...rebusQuestions,
   ...imagesQuestions,
   ...imageCharsQuestions,
+  ...adulteQuestions,
 ];
 
 /**

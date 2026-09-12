@@ -22,6 +22,7 @@ import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import { useStore } from '../../store/StoreProvider';
 import type { MiniGamePlayProps } from '../types';
 import { getQuizPool } from '../quiz/pool';
+import { getCancelLevel } from '../../lib/cancelLevel';
 
 function haptic(type: 'ok' | 'warn' | 'boom') {
   if (type === 'boom') haptics.fail();
@@ -121,12 +122,13 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
         const [history, historyByPlayer, fullPool] = await Promise.all([
           getQuestionHistory(),
           getQuestionHistoryByPlayer(),
-          getQuizPool(),
+          getQuizPool({ maxCancelLevel: getCancelLevel() }),
         ]);
         // Version gratuite : ne tire que dans les univers débloqués du joueur.
+        // Le contenu « cancellable » passe même sans achat (le niveau est la barrière).
         const pool = store.ent.allThemes
           ? fullPool
-          : fullPool.filter((q) => store.isUniverseUnlocked(q.universe ?? `#${q.theme}`));
+          : fullPool.filter((q) => (q.cancelLevel ?? 1) > 1 || store.isUniverseUnlocked(q.universe ?? `#${q.theme}`));
         const seed = randomSeed();
         const rng = mulberry32(seed);
         rngRef.current = rng;

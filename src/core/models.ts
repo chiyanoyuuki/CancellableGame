@@ -153,6 +153,13 @@ export interface Question {
   acceptable_en?: string[];
   hints_en?: string[];
   explanation_en?: string;
+  /**
+   * Niveau minimum de « cancellabilité » requis pour tirer cette question
+   * (absent = 1, grand public). Le pool grand public (getQuizPool sans option)
+   * exclut tout niveau > 1 ; les modes de soirée peuvent les inclure selon le
+   * plafond choisi. Contenu adulte à ranger dans un univers dédié (🔞).
+   */
+  cancelLevel?: CancelLevel;
 }
 
 // ---------------------------------------------------------------------------

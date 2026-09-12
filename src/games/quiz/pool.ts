@@ -1,5 +1,5 @@
 import { localizeQuestion } from '../../core/questionLocale';
-import type { Question } from '../../core/models';
+import type { CancelLevel, Question } from '../../core/models';
 import { loadCustomQuestionsAsQuestions } from '../../db';
 import { currentLang } from '../../lib/i18n';
 import { QUESTIONS } from './questions';
@@ -20,11 +20,17 @@ import { QUESTIONS } from './questions';
  */
 const HIDDEN_UNIVERSE_BY_LANG: Record<string, string> = { fr: 'Français', en: 'Anglais' };
 
-export async function getQuizPool(): Promise<Question[]> {
+export async function getQuizPool(opts?: { maxCancelLevel?: CancelLevel }): Promise<Question[]> {
   const lang = currentLang();
+  const max = opts?.maxCancelLevel ?? 1;
   const custom = await loadCustomQuestionsAsQuestions();
   const merged = custom.length > 0 ? [...QUESTIONS, ...custom] : QUESTIONS;
   const hidden = HIDDEN_UNIVERSE_BY_LANG[lang];
-  const all = hidden ? merged.filter((q) => q.universe !== hidden) : merged;
+  // Contenu « cancellable » : exclu par défaut (max = 1), pour que tous les
+  // contextes grand public (quiz solo, défi du jour, onboarding, sélecteurs…)
+  // restent sages sans rien changer. Les modes de soirée passent le plafond voulu.
+  const all = merged.filter(
+    (q) => (q.cancelLevel ?? 1) <= max && !(hidden && q.universe === hidden),
+  );
   return lang === 'en' ? all.map((q) => localizeQuestion(q, lang)) : all;
 }

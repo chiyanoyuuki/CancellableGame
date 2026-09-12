@@ -77,8 +77,9 @@ describe('banque de questions', () => {
     for (const q of QUESTIONS) {
       // Le thème « Image mystère » regroupe librement ses univers d'images et
       // ne suit pas la répartition 5/10/15/20. (Les questions à drapeaux d'autres
-      // thèmes, elles, restent soumises à la règle.)
-      if (!q.universe || q.theme === 'images') continue;
+      // thèmes, elles, restent soumises à la règle.) Le contenu « cancellable »
+      // (cancelLevel > 1) est un bonus de soirée, hors de la banque équilibrée.
+      if (!q.universe || q.theme === 'images' || (q.cancelLevel ?? 1) > 1) continue;
       const counts = byUniverse.get(q.universe) ?? { 1: 0, 2: 0, 3: 0, 4: 0 };
       counts[q.difficulty] = (counts[q.difficulty] ?? 0) + 1;
       byUniverse.set(q.universe, counts);
