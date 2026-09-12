@@ -7,6 +7,7 @@ import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 
 import { Button, Card, Screen, SectionHeader, Segmented, Txt } from '../components/ui';
+import { CancelLevelSelector } from '../components/CancelLevelSelector';
 import { type BackupData, exportAll, getReportedCount, importAll, kvGetJSON, kvSetJSON, resetDb } from '../db';
 import { useAvatarFrames } from '../lib/avatarFrames';
 import { areHapticsEnabled, setHapticsEnabled } from '../lib/haptics';
@@ -409,6 +410,15 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
             thumbColor={colors.white}
           />
         </View>
+      </Card>
+
+      <SectionHeader title={t('Niveau Cancellable')} />
+      <Card>
+        <Txt weight="700">{t('Jusqu’où on va ce soir ? 🌶️')}</Txt>
+        <Txt faint size={fontSize.xs} style={{ marginTop: spacing(0.5), marginBottom: spacing(1) }}>
+          {t('Filtre le contenu de tous les modes, du plus soft au plus trash. Réglage commun à toute la soirée — modifiable aussi avant chaque partie.')}
+        </Txt>
+        <CancelLevelSelector />
       </Card>
 
       <SectionHeader title={t('Fonctionnalités')} />

@@ -1157,6 +1157,22 @@ export const EN: Record<string, string> = {
   'VEDETTES DE LA SOIRÉE': 'STARS OF THE NIGHT',
   'QUI A VOTÉ POUR QUI': 'WHO VOTED FOR WHOM',
 
+  // --- Niveau « Cancellable » (Réglages + config des modes) ----------------
+  'Niveau Cancellable': 'Cancellable level',
+  'Jusqu’où on va ce soir ? 🌶️': 'How far do we go tonight? 🌶️',
+  'Filtre le contenu de tous les modes, du plus soft au plus trash. Réglage commun à toute la soirée — modifiable aussi avant chaque partie.':
+    'Filters the content of every mode, from softest to edgiest. One setting for the whole night — also changeable before each game.',
+  Chill: 'Chill',
+  Épicé: 'Spicy',
+  '+18': '+18',
+  Cancellable: 'Cancellable',
+  'Tout public. Rien de gênant, on peut jouer avec n’importe qui.': 'All audiences. Nothing awkward — play with anyone.',
+  'Coquin et taquin : rencards, soirées, petites allusions. Rien d’explicite.':
+    'Cheeky and teasing: dates, parties, light innuendo. Nothing explicit.',
+  'Torride et très adulte. Entre adultes consentants seulement.': 'Steamy and very adult. Consenting adults only.',
+  'Humour noir, tabou et politiquement incorrect. Ça pique — public averti.':
+    'Dark, taboo and politically incorrect humor. It stings — mature audiences.',
+
   // --- Roue des gages & mode sans alcool ------------------------------------
   'Roue des gages': 'Dares wheel',
   '🎡 Roue des gages': '🎡 Dares wheel',

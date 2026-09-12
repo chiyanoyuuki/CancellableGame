@@ -45,6 +45,22 @@ export const DIFFICULTY_LABELS: Record<Difficulty, string> = {
   4: 'Pro',
 };
 
+/**
+ * Niveau de « cancellabilité » : jusqu'où le contenu peut aller. C'est un plafond
+ * cumulatif — au niveau N, tout le contenu des niveaux ≤ N peut sortir. Réglage
+ * commun à tous les modes (le contenu osé est tagué du niveau minimum requis).
+ * Par défaut 1 (« Chill »), pour rester grand public tant qu'on n'a rien changé.
+ */
+export type CancelLevel = 1 | 2 | 3 | 4;
+export const CANCEL_LEVELS: readonly CancelLevel[] = [1, 2, 3, 4];
+
+export const CANCEL_META: Record<CancelLevel, { emoji: string; label: string; desc: string }> = {
+  1: { emoji: '😇', label: 'Chill', desc: 'Tout public. Rien de gênant, on peut jouer avec n’importe qui.' },
+  2: { emoji: '🌶️', label: 'Épicé', desc: 'Coquin et taquin : rencards, soirées, petites allusions. Rien d’explicite.' },
+  3: { emoji: '🔞', label: '+18', desc: 'Torride et très adulte. Entre adultes consentants seulement.' },
+  4: { emoji: '☠️', label: 'Cancellable', desc: 'Humour noir, tabou et politiquement incorrect. Ça pique — public averti.' },
+};
+
 /** All quiz themes. Add new themes here and tag questions with them. */
 export const THEMES = [
   'manga',

@@ -1,3 +1,6 @@
+import { filterHot } from '../../core/contentLevel';
+import type { CancelLevel } from '../../core/models';
+
 /**
  * Banque d'affirmations « Qui est le plus susceptible… ». Chaque entrée complète
  * la phrase « Qui est le plus susceptible … ? » (affichée par l'écran de jeu).
@@ -223,3 +226,61 @@ export const PROMPTS: string[] = [
   "de proposer de raccompagner tout le monde",
   "de transformer une galère en bonne histoire à raconter",
 ];
+
+/** Affirmation taguée du niveau minimum de « cancellabilité » requis. */
+export interface HotPrompt {
+  text: string;
+  lvl: CancelLevel;
+}
+
+/**
+ * Contenu osé, du plus léger (2) au plus trash (4). Échantillon démonstratif (à
+ * étoffer). Esprit « soirée entre adultes » — coquin, tabou, humour noir — sans
+ * jamais viser ni rabaisser un groupe. Chaque entrée complète « Qui est le plus
+ * susceptible … ? », comme la banque de base.
+ */
+export const PROMPTS_HOT: HotPrompt[] = [
+  // --- Niveau 2 · Épicé 🌶️ -------------------------------------------------
+  { text: "de finir la nuit chez quelqu'un rencontré ce soir", lvl: 2 },
+  { text: "d'avoir un date secret que personne ne connaît", lvl: 2 },
+  { text: "d'envoyer un message coquin à la mauvaise personne", lvl: 2 },
+  { text: "de retomber dans les bras de son ex après deux verres", lvl: 2 },
+  { text: "de flirter pour obtenir un service", lvl: 2 },
+  { text: "de mentir sur son nombre de rencards", lvl: 2 },
+  { text: "de craquer sur un(e) inconnu(e) en vacances", lvl: 2 },
+  { text: "de stalker un ex à 2 h du matin", lvl: 2 },
+  { text: "d'avoir déjà embrassé quelqu'un présent dans cette pièce", lvl: 2 },
+  { text: "de tomber amoureux(se) en une seule soirée", lvl: 2 },
+
+  // --- Niveau 3 · +18 🔞 ---------------------------------------------------
+  { text: "d'avoir un coup d'un soir cette semaine", lvl: 3 },
+  { text: "d'avoir déjà couché dès le premier soir", lvl: 3 },
+  { text: "d'avoir un fantasme qu'il/elle n'avouera jamais ici", lvl: 3 },
+  { text: "d'avoir déjà envoyé une photo très osée", lvl: 3 },
+  { text: "d'avoir une appli de rencontre ouverte en ce moment", lvl: 3 },
+  { text: "d'avoir déjà tenté un plan à plusieurs", lvl: 3 },
+  { text: "d'assumer le plus ses coups d'un soir", lvl: 3 },
+  { text: "d'avoir couché avec quelqu'un présent ce soir", lvl: 3 },
+  { text: "de parler de sa vie intime sans le moindre filtre", lvl: 3 },
+  { text: "d'avoir déjà menti sur ses performances", lvl: 3 },
+
+  // --- Niveau 4 · Cancellable ☠️ -------------------------------------------
+  { text: "d'avoir déjà trompé quelqu'un sans se faire prendre", lvl: 4 },
+  { text: "de trahir un ami pour de l'argent", lvl: 4 },
+  { text: "de finir en garde à vue un jour", lvl: 4 },
+  { text: "de mentir à la police sans ciller", lvl: 4 },
+  { text: "de garder l'argent d'un portefeuille trouvé", lvl: 4 },
+  { text: "de rire au mauvais moment à un enterrement", lvl: 4 },
+  { text: "de ghoster quelqu'un sans le moindre remords", lvl: 4 },
+  { text: "de balancer un proche pour sauver sa peau", lvl: 4 },
+  { text: "de cacher un secret qui détruirait le groupe", lvl: 4 },
+  { text: "de revendre les cadeaux qu'on lui offre", lvl: 4 },
+];
+
+/**
+ * Pioche pour un niveau donné : le grand public (niveau 1) + tout le contenu osé
+ * de niveau ≤ `level`. Au niveau 1, strictement identique à avant.
+ */
+export function promptsForLevel(level: CancelLevel): string[] {
+  return [...PROMPTS, ...filterHot(PROMPTS_HOT, level).map((p) => p.text)];
+}

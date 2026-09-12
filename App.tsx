@@ -13,6 +13,8 @@ import { setHapticsEnabled } from './src/lib/haptics';
 import { setSpeechEnabled } from './src/lib/speech';
 import { setSoundEnabled } from './src/lib/sounds';
 import { setNoAlcohol } from './src/lib/drinkMode';
+import { CANCEL_KV, setCancelLevel } from './src/lib/cancelLevel';
+import type { CancelLevel } from './src/core/models';
 import { isReduceMotion, setReduceMotion } from './src/lib/motion';
 import { type QuestionHint, QUESTION_HINT_KV, setQuestionHint } from './src/lib/questionHint';
 import { ALL_FLAGS, FLAG_KV, setFlag } from './src/lib/featureFlags';
@@ -114,6 +116,12 @@ function AppInner() {
       // Préférence « Sans alcool » (Réglages).
       try {
         setNoAlcohol(await kvGetJSON<boolean>('ui:noAlcohol', false));
+      } catch {
+        // best-effort
+      }
+      // Niveau de « cancellabilité » (Réglages / config des modes).
+      try {
+        setCancelLevel(await kvGetJSON<CancelLevel>(CANCEL_KV, 1));
       } catch {
         // best-effort
       }

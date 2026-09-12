@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { StyleSheet, Switch, View } from 'react-native';
 
 import { Button, Card, HowToPlay, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
+import { CancelLevelSelector } from '../../components/CancelLevelSelector';
 import type { DrinkIntensity } from '../../core/models';
 import type { QuiDeNousConfig } from '../../core/quidenousEngine';
 import { isNoAlcohol } from '../../lib/drinkMode';
@@ -36,6 +37,9 @@ export function QuiDeNousConfigComponent({ players, onStart }: MiniGameConfigPro
           t('Classement final : la plus grosse vedette de la soirée 🌟.'),
         ]}
       />
+
+      <SectionHeader title={t('Niveau Cancellable')} />
+      <CancelLevelSelector />
 
       <SectionHeader title={t('Manches')} />
       <Stepper value={rounds} min={3} max={30} onChange={setRounds} />

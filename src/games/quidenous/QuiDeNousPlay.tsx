@@ -16,18 +16,19 @@ import {
 } from '../../core/quidenousEngine';
 import { partySeenScores } from '../../core/leastSeen';
 import { getPromptSeenByPlayer, recordPromptSeen } from '../../db';
+import { getCancelLevel } from '../../lib/cancelLevel';
 import { haptics } from '../../lib/haptics';
 import { sounds } from '../../lib/sounds';
 import { useT } from '../../lib/i18nProvider';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import type { MiniGamePlayProps } from '../types';
-import { PROMPTS } from './prompts';
+import { promptsForLevel } from './prompts';
 
 export function QuiDeNousPlayComponent({ players, config, onFinish, onQuit }: MiniGamePlayProps) {
   const t = useT();
   const cfg = config as QuiDeNousConfig;
   const [game, setGame] = useState<QuiDeNousState>(() =>
-    createQuiDeNousState({ config: cfg, players, pool: PROMPTS, seed: randomSeed() }),
+    createQuiDeNousState({ config: cfg, players, pool: promptsForLevel(getCancelLevel()), seed: randomSeed() }),
   );
   const [showVote, setShowVote] = useState(false);
   const startedAtRef = useRef(Date.now());
@@ -57,7 +58,7 @@ export function QuiDeNousPlayComponent({ players, config, onFinish, onQuit }: Mi
         const seen = partySeenScores(byPlayer, players.map((p) => p.id));
         setGame((cur) => {
           if (cur.round !== 1 || cur.voterIdx !== 0 || cur.phase !== 'vote') return cur;
-          return createQuiDeNousState({ config: cfg, players, pool: PROMPTS, seed: randomSeed(), seen });
+          return createQuiDeNousState({ config: cfg, players, pool: promptsForLevel(getCancelLevel()), seed: randomSeed(), seen });
         });
       } catch {
         /* pas d'historique : on garde l'ordre aléatoire par défaut */

@@ -1,3 +1,5 @@
+import { filterHot } from '../../core/contentLevel';
+import type { CancelLevel } from '../../core/models';
 import type { Dilemma } from '../../core/tupreferesEngine';
 
 /**
@@ -227,3 +229,57 @@ export const DILEMMAS: Dilemma[] = [
   { a: "Ne plus jamais oublier un rendez-vous", b: "Ne plus jamais être coincé dans une conversation" },
   { a: "Que le week-end dure trois jours", b: "Que les vacances arrivent deux fois plus souvent" },
 ];
+
+/** Dilemme tagué du niveau minimum de « cancellabilité » requis pour le tirer. */
+type HotDilemma = Dilemma & { lvl: CancelLevel };
+
+/**
+ * Contenu osé, du plus léger (2) au plus trash (4). Échantillon volontairement
+ * démonstratif (à étoffer). On reste dans l'esprit « jeu de soirée adulte » —
+ * coquin, tabou, humour noir — sans jamais viser ni rabaisser un groupe.
+ */
+export const DILEMMAS_HOT: HotDilemma[] = [
+  // --- Niveau 2 · Épicé 🌶️ (coquin, gênant) --------------------------------
+  { a: "Embrasser ton ex", b: "Embrasser le/la meilleur(e) ami(e) de ton ex", lvl: 2 },
+  { a: "Que ton/ta partenaire lise tous tes messages", b: "Qu'il/elle voie tout ton historique de recherche", lvl: 2 },
+  { a: "Un rencard parfait sans aucune alchimie", b: "Une alchimie de folie mais un rencard catastrophique", lvl: 2 },
+  { a: "Matcher avec ton/ta boss sur une appli", b: "Matcher avec un(e) cousin(e) éloigné(e)", lvl: 2 },
+  { a: "Que ta mère tombe sur tes textos coquins", b: "Que tes collègues tombent dessus", lvl: 2 },
+  { a: "Te faire ghoster après un date de rêve", b: "Enchaîner dix dates tièdes", lvl: 2 },
+  { a: "Draguer toute la nuit sans succès", b: "Être dragué(e) sans arrêt par la mauvaise personne", lvl: 2 },
+  { a: "Ne plus jamais embrasser", b: "Ne plus jamais faire de câlins", lvl: 2 },
+  { a: "Un(e) partenaire hyper jaloux(se)", b: "Un(e) partenaire trop convoité(e) par les autres", lvl: 2 },
+  { a: "Liker par erreur une vieille photo de ton crush", b: "Envoyer un cœur à la mauvaise conversation", lvl: 2 },
+
+  // --- Niveau 3 · +18 🔞 (torride, très adulte) ----------------------------
+  { a: "Un plan à trois avec deux inconnus", b: "Un plan à trois avec deux ex", lvl: 3 },
+  { a: "Que tout le monde ici connaisse ton nombre de partenaires", b: "Que tout le monde connaisse tes fantasmes", lvl: 3 },
+  { a: "Le meilleur coup de ta vie, une seule fois", b: "Un niveau correct, mais garanti à vie", lvl: 3 },
+  { a: "Ne faire l'amour qu'en silence total", b: "Qu'en réveillant tout l'immeuble", lvl: 3 },
+  { a: "Te faire surprendre en plein acte par tes parents", b: "Par ton/ta boss", lvl: 3 },
+  { a: "Un(e) amant(e) incroyable mais qui raconte tout", b: "Décevant(e) mais d'une discrétion totale", lvl: 3 },
+  { a: "Recoucher une dernière fois avec ton ex", b: "Coucher avec quelqu'un présent ce soir", lvl: 3 },
+  { a: "Révéler ton historique de sites pour adultes", b: "Révéler tous tes messages privés", lvl: 3 },
+  { a: "Envoyer une photo osée à la mauvaise personne", b: "Recevoir celle que tu n'aurais jamais dû voir", lvl: 3 },
+  { a: "Ne plus jamais coucher", b: "Ne plus jamais dormir plus de quatre heures", lvl: 3 },
+
+  // --- Niveau 4 · Cancellable ☠️ (humour noir, tabou, provoc) --------------
+  { a: "Hériter d'un million à la mort d'un proche que tu détestes", b: "Rester fauché, mais tout le monde en pleine santé", lvl: 4 },
+  { a: "Savoir exactement quand tu vas mourir", b: "Savoir exactement comment", lvl: 4 },
+  { a: "Balancer le pire secret de ton/ta meilleur(e) ami(e) pour 50 000 €", b: "Le garder et rester fauché", lvl: 4 },
+  { a: "Dire tout haut ce que tout le monde pense tout bas", b: "Ne plus jamais pouvoir donner ton avis", lvl: 4 },
+  { a: "Assister en fantôme à ton propre enterrement", b: "À celui de la personne que tu aimes le plus", lvl: 4 },
+  { a: "Gagner à chaque fois en trichant, sans te faire prendre", b: "Perdre honnêtement toute ta vie", lvl: 4 },
+  { a: "Coucher avec la seule personne interdite (l'ex d'un ami…)", b: "Ne plus toucher personne pendant deux ans", lvl: 4 },
+  { a: "Qu'on projette ton historique internet à ton enterrement", b: "Qu'on lise tes messages privés à voix haute", lvl: 4 },
+  { a: "Pleurer de rire à un enterrement", b: "Éclater de rire en pleine rupture", lvl: 4 },
+  { a: "Effacer un souvenir traumatisant… et la leçon avec", b: "Le garder pour toujours, intact", lvl: 4 },
+];
+
+/**
+ * Pioche pour un niveau donné : le grand public (niveau 1) + tout le contenu osé
+ * de niveau ≤ `level`. Au niveau 1, strictement identique à avant.
+ */
+export function dilemmasForLevel(level: CancelLevel): Dilemma[] {
+  return [...DILEMMAS, ...filterHot(DILEMMAS_HOT, level)];
+}

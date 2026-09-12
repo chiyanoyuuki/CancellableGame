@@ -18,18 +18,19 @@ import {
 } from '../../core/tupreferesEngine';
 import { partySeenScores } from '../../core/leastSeen';
 import { getPromptSeenByPlayer, recordPromptSeen } from '../../db';
+import { getCancelLevel } from '../../lib/cancelLevel';
 import { haptics } from '../../lib/haptics';
 import { sounds } from '../../lib/sounds';
 import { useT } from '../../lib/i18nProvider';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import type { MiniGamePlayProps } from '../types';
-import { DILEMMAS } from './dilemmas';
+import { dilemmasForLevel } from './dilemmas';
 
 export function TuPreferesPlayComponent({ players, config, onFinish, onQuit }: MiniGamePlayProps) {
   const t = useT();
   const cfg = config as TuPreferesConfig;
   const [game, setGame] = useState<TuPreferesState>(() =>
-    createTuPreferesState({ config: cfg, players, pool: DILEMMAS, seed: randomSeed() }),
+    createTuPreferesState({ config: cfg, players, pool: dilemmasForLevel(getCancelLevel()), seed: randomSeed() }),
   );
   const [showVote, setShowVote] = useState(false);
   const startedAtRef = useRef(Date.now());
@@ -60,7 +61,7 @@ export function TuPreferesPlayComponent({ players, config, onFinish, onQuit }: M
         const seen = partySeenScores(byPlayer, players.map((p) => p.id));
         setGame((cur) => {
           if (cur.round !== 1 || cur.voterIdx !== 0 || cur.phase !== 'vote') return cur;
-          return createTuPreferesState({ config: cfg, players, pool: DILEMMAS, seed: randomSeed(), seen });
+          return createTuPreferesState({ config: cfg, players, pool: dilemmasForLevel(getCancelLevel()), seed: randomSeed(), seen });
         });
       } catch {
         /* pas d'historique : on garde l'ordre aléatoire par défaut */
