@@ -46,6 +46,7 @@ import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import { useStore } from '../../store/StoreProvider';
 import type { MiniGamePlayProps } from '../types';
 import { getQuizPool } from './pool';
+import { getCancelLevel } from '../../lib/cancelLevel';
 
 function haptic(success: boolean) {
   if (success) {
@@ -229,7 +230,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
       const [history, historyByPlayer, fullPool, customChallenges, unwantedUniverses, accuracy] = await Promise.all([
         getQuestionHistory(),
         getQuestionHistoryByPlayer(),
-        getQuizPool(),
+        getQuizPool({ maxCancelLevel: getCancelLevel() }),
         listCustomChallenges(),
         getPlayerUnwantedUniverses(),
         cfg.adaptiveDifficulty && !teamMode && cfg.turnMode === 'turn'
@@ -237,9 +238,10 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
           : Promise.resolve({} as Record<string, { correct: number; total: number }>),
       ]);
       // Version gratuite : ne tire que dans les univers débloqués du joueur.
+      // Le contenu « cancellable » passe même sans achat (le niveau est la barrière).
       const pool = store.ent.allThemes
         ? fullPool
-        : fullPool.filter((q) => store.isUniverseUnlocked(q.universe ?? `#${q.theme}`));
+        : fullPool.filter((q) => (q.cancelLevel ?? 1) > 1 || store.isUniverseUnlocked(q.universe ?? `#${q.theme}`));
       const seed = randomSeed();
       // Turn order, computed once and shared with the engine so that the
       // per-player weighting lines up with who actually gets each question.
@@ -311,6 +313,8 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
           difficultiesByPlayer,
           // Per-player fresh questions only make sense outside team mode.
           historyByPlayer: teamMode ? undefined : historyByPlayer,
+          // Dosage « cancellable » : ~70/10/10/10 selon le niveau choisi.
+          blendCancelLevel: getCancelLevel(),
         },
       );
       const selected = selectedAll.slice(0, cfg.questionCount);

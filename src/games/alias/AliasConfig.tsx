@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { View } from 'react-native';
 
 import { Button, Card, HowToPlay, SectionHeader, Stepper, Txt } from '../../components/ui';
+import { CancelLevelSelector } from '../../components/CancelLevelSelector';
 import { ContentPicker, type ContentSelection } from '../../components/ContentPicker';
+import { getCancelLevel } from '../../lib/cancelLevel';
 import type { AliasConfig, AliasTeam } from '../../core/aliasEngine';
 import { useT } from '../../lib/i18nProvider';
 import { colors, fontSize, spacing } from '../../theme/theme';
@@ -21,6 +23,7 @@ export function AliasConfigComponent({ players, onStart }: MiniGameConfigProps) 
   const [roundsPerTeam, setRoundsPerTeam] = useState(2);
   const [roundSeconds, setRoundSeconds] = useState(45);
   const [content, setContent] = useState<ContentSelection>({ themes: [], excludedUniverses: [] });
+  const [level, setLevel] = useState(getCancelLevel());
 
   const maxTeams = Math.min(4, Math.max(2, Math.floor(players.length / 2)));
   const effectiveCount = Math.min(teamCount, maxTeams);
@@ -68,8 +71,11 @@ export function AliasConfigComponent({ players, onStart }: MiniGameConfigProps) 
         {t('{n} secondes par tour', { n: roundSeconds })}
       </Txt>
 
+      <SectionHeader title={t('Niveau Cancellable')} />
+      <CancelLevelSelector onChange={setLevel} />
+
       <SectionHeader title={t('Thèmes & univers des mots')} />
-      <ContentPicker value={content} onChange={setContent} />
+      <ContentPicker value={content} onChange={setContent} maxCancelLevel={level} />
 
       <View style={{ height: spacing(1) }} />
       <Button title={t('Lancer Fais deviner')} emoji="🗣️" size="lg" variant="accent" onPress={launch} disabled={!valid} />

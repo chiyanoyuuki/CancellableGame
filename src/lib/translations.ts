@@ -388,6 +388,9 @@ export const EN: Record<string, string> = {
   '{n} jamais vue': '{n} never seen',
   '{n} jamais vues': '{n} never seen',
   'Inédites par joueur': 'Unseen per player',
+  'Inédits par joueur': 'Unseen per player',
+  'Dilemmes jamais vus par chaque joueur au niveau choisi.': 'Dilemmas never seen by each player at the chosen level.',
+  'Affirmations jamais vues par chaque joueur au niveau choisi.': 'Statements never seen by each player at the chosen level.',
   'Questions jamais vues par chaque joueur avec les thèmes, difficultés et univers choisis.':
     'Questions never seen by each player with the chosen themes, difficulties and universes.',
   'Mode de jeu': 'Game mode',

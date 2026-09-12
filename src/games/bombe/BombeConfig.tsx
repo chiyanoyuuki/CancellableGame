@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Switch, View } from 'react-native';
 
 import { Button, Card, Chip, HowToPlay, PlayerUnseenList, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
+import { CancelLevelSelector } from '../../components/CancelLevelSelector';
+import { getCancelLevel } from '../../lib/cancelLevel';
 import {
   type BombeConfig,
   DEFAULT_BOMBE_CONFIG,
@@ -28,23 +30,31 @@ export function BombeConfigComponent({ players, onStart }: MiniGameConfigProps) 
   const [pool, setPool] = useState<Question[]>([]);
   const [historyByPlayer, setHistoryByPlayer] = useState<Record<string, QuestionHistory>>({});
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const [level, setLevel] = useState(getCancelLevel());
 
   useEffect(() => {
     let alive = true;
     void kvGetJSON<Partial<BombeConfig>>(LAST_CONFIG_KEY, {}).then((saved) => {
       if (alive) setCfg((c) => ({ ...c, ...saved }));
     });
-    void (async () => {
-      const [p, hbp] = await Promise.all([getQuizPool(), getQuestionHistoryByPlayer()]);
-      if (alive) {
-        setPool(p);
-        setHistoryByPlayer(hbp);
-      }
-    })();
+    void getQuestionHistoryByPlayer().then((hbp) => {
+      if (alive) setHistoryByPlayer(hbp);
+    });
     return () => {
       alive = false;
     };
   }, []);
+
+  // Pool borné au niveau de cancellabilité choisi (recharge au changement de niveau).
+  useEffect(() => {
+    let alive = true;
+    void getQuizPool({ maxCancelLevel: level }).then((p) => {
+      if (alive) setPool(p);
+    });
+    return () => {
+      alive = false;
+    };
+  }, [level]);
 
   const eligibleQuestions = useMemo(
     () =>
@@ -133,6 +143,9 @@ export function BombeConfigComponent({ players, onStart }: MiniGameConfigProps) 
           t('Le dernier survivant remporte la partie.'),
         ]}
       />
+
+      <SectionHeader title={t('Niveau Cancellable')} />
+      <CancelLevelSelector onChange={setLevel} />
 
       <SectionHeader title={t('Thèmes')} />
       <View style={styles.wrap}>

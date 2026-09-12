@@ -1,14 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, Switch, View } from 'react-native';
 
-import { Button, Card, HowToPlay, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
+import { Button, Card, HowToPlay, PlayerUnseenList, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
 import { CancelLevelSelector } from '../../components/CancelLevelSelector';
 import type { DrinkIntensity } from '../../core/models';
-import type { DrinkingSide, TuPreferesConfig } from '../../core/tupreferesEngine';
+import { dilemmaKey, type DrinkingSide, type TuPreferesConfig } from '../../core/tupreferesEngine';
+import { getCancelLevel } from '../../lib/cancelLevel';
+import { getPromptSeenByPlayer, type PromptSeenByPlayer } from '../../db';
 import { isNoAlcohol } from '../../lib/drinkMode';
 import { useT } from '../../lib/i18nProvider';
 import { colors, fontSize, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
+import { dilemmasForLevel } from './dilemmas';
 
 export function TuPreferesConfigComponent({ players, onStart }: MiniGameConfigProps) {
   const t = useT();
@@ -16,6 +19,21 @@ export function TuPreferesConfigComponent({ players, onStart }: MiniGameConfigPr
   const [drinkingSide, setDrinkingSide] = useState<DrinkingSide>('minority');
   const [drinksEnabled, setDrinksEnabled] = useState(!isNoAlcohol());
   const [drinkIntensity, setDrinkIntensity] = useState<DrinkIntensity>('normal');
+  const [level, setLevel] = useState(getCancelLevel());
+  const [seen, setSeen] = useState<PromptSeenByPlayer>({});
+
+  useEffect(() => {
+    void getPromptSeenByPlayer('tupreferes').then(setSeen);
+  }, []);
+
+  // Dilemmes jamais vus par chaque joueur, au niveau de cancellabilité choisi.
+  const unseenByPlayer = useMemo(() => {
+    const keys = dilemmasForLevel(level).map(dilemmaKey);
+    return players.map((p) => {
+      const s = seen[p.id] ?? {};
+      return { player: p, unseen: keys.filter((k) => (s[k] ?? 0) === 0).length };
+    });
+  }, [players, seen, level]);
 
   const valid = players.length >= 2;
 
@@ -41,7 +59,17 @@ export function TuPreferesConfigComponent({ players, onStart }: MiniGameConfigPr
       />
 
       <SectionHeader title={t('Niveau Cancellable')} />
-      <CancelLevelSelector />
+      <CancelLevelSelector onChange={setLevel} />
+
+      {players.length >= 2 && (
+        <>
+          <SectionHeader title={t('Inédits par joueur')} />
+          <PlayerUnseenList rows={unseenByPlayer} />
+          <Txt faint size={fontSize.xs}>
+            {t('Dilemmes jamais vus par chaque joueur au niveau choisi.')}
+          </Txt>
+        </>
+      )}
 
       <SectionHeader title={t('Manches')} />
       <Stepper value={rounds} min={3} max={30} onChange={setRounds} />

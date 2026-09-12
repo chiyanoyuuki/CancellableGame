@@ -6,6 +6,7 @@ import { type DrinkIntensity, type Question, type Theme, THEME_META, THEMES } fr
 import { type ImposteurConfig, isGoodImposteurWord } from '../../core/imposteurEngine';
 import { getPlayerUnwantedUniverses } from '../../db';
 import { getCancelLevel } from '../../lib/cancelLevel';
+import { CancelLevelSelector } from '../../components/CancelLevelSelector';
 import { useT } from '../../lib/i18nProvider';
 import { useStore } from '../../store/StoreProvider';
 import { colors, fontSize, spacing } from '../../theme/theme';
@@ -26,20 +27,21 @@ export function ImposteurConfigComponent({ players, onStart }: MiniGameConfigPro
   const [discussionSec, setDiscussionSec] = useState(90);
   const [drinksEnabled, setDrinksEnabled] = useState(true);
   const [drinkIntensity, setDrinkIntensity] = useState<DrinkIntensity>('normal');
+  const [level, setLevel] = useState(getCancelLevel());
 
   useEffect(() => {
+    void getPlayerUnwantedUniverses().then(setUnwantedMap);
+  }, []);
+
+  // Pool borné au niveau de cancellabilité choisi (les univers 🔞/☠️ apparaissent
+  // dès que le niveau les débloque).
+  useEffect(() => {
     let alive = true;
-    void (async () => {
-      const [p, un] = await Promise.all([getQuizPool({ maxCancelLevel: getCancelLevel() }), getPlayerUnwantedUniverses()]);
-      if (alive) {
-        setPool(p);
-        setUnwantedMap(un);
-      }
-    })();
+    void getQuizPool({ maxCancelLevel: level }).then((p) => alive && setPool(p));
     return () => {
       alive = false;
     };
-  }, []);
+  }, [level]);
 
   // Univers jouables : au moins un mot secret concret + débloqués. On retient
   // aussi leur thème (pour l'exclusion « #thème ») et leur nombre de mots.
@@ -134,6 +136,9 @@ export function ImposteurConfigComponent({ players, onStart }: MiniGameConfigPro
           t("Équipage gagnant : l'imposteur boit. Imposteur gagnant : tout le monde boit."),
         ]}
       />
+
+      <SectionHeader title={t('Niveau Cancellable')} />
+      <CancelLevelSelector onChange={setLevel} />
 
       <SectionHeader title={t('Univers des mots secrets')} />
       <Segmented<'auto' | 'manual'>

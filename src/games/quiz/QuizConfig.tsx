@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Switch, TextInput, View } from 'react-native';
 
 import { Button, Card, Chip, HowToPlay, PlayerAvatar, PlayerUnseenList, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
+import { CancelLevelSelector } from '../../components/CancelLevelSelector';
+import { getCancelLevel } from '../../lib/cancelLevel';
 import { UniversePickerModal } from '../../components/UniversePickerModal';
 import {
   DEFAULT_QUIZ_CONFIG,
@@ -42,6 +44,7 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [recent, setRecent] = useState<string[]>([]);
   const [pickerOpen, setPickerOpen] = useState(false);
+  const [level, setLevel] = useState(getCancelLevel());
 
   // --- Team mode local state (turned into cfg.teams only at launch) ----------
   const [teamCount, setTeamCount] = useState(() => Math.min(2, Math.max(1, players.length)));
@@ -87,13 +90,8 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
     void kvGetJSON<string[]>(FAVORITE_UNIVERSES_KEY, []).then((f) => alive && setFavorites(f));
     void kvGetJSON<string[]>(RECENT_UNIVERSES_KEY, []).then((r) => alive && setRecent(r));
     void (async () => {
-      const [p, h, hbp] = await Promise.all([
-        getQuizPool(),
-        getQuestionHistory(),
-        getQuestionHistoryByPlayer(),
-      ]);
+      const [h, hbp] = await Promise.all([getQuestionHistory(), getQuestionHistoryByPlayer()]);
       if (alive) {
-        setPool(p);
         setHistory(h);
         setHistoryByPlayer(hbp);
       }
@@ -102,6 +100,15 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
       alive = false;
     };
   }, []);
+
+  // Pool borné au niveau de cancellabilité choisi (recharge au changement de niveau).
+  useEffect(() => {
+    let alive = true;
+    void getQuizPool({ maxCancelLevel: level }).then((p) => alive && setPool(p));
+    return () => {
+      alive = false;
+    };
+  }, [level]);
 
   const eligible = useMemo(
     () =>
@@ -245,6 +252,9 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
           t('Active les gorgées et les défis pour pimenter la soirée ; règle un chrono si besoin.'),
         ]}
       />
+      <SectionHeader title={t('Niveau Cancellable')} />
+      <CancelLevelSelector onChange={setLevel} />
+
       <SectionHeader title={t('Thèmes')} />
       <View style={styles.wrap}>
         {THEMES.map((th) => (

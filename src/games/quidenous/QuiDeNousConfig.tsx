@@ -1,20 +1,38 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, Switch, View } from 'react-native';
 
-import { Button, Card, HowToPlay, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
+import { Button, Card, HowToPlay, PlayerUnseenList, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
 import { CancelLevelSelector } from '../../components/CancelLevelSelector';
 import type { DrinkIntensity } from '../../core/models';
 import type { QuiDeNousConfig } from '../../core/quidenousEngine';
+import { getCancelLevel } from '../../lib/cancelLevel';
+import { getPromptSeenByPlayer, type PromptSeenByPlayer } from '../../db';
 import { isNoAlcohol } from '../../lib/drinkMode';
 import { useT } from '../../lib/i18nProvider';
 import { colors, fontSize, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
+import { promptsForLevel } from './prompts';
 
 export function QuiDeNousConfigComponent({ players, onStart }: MiniGameConfigProps) {
   const t = useT();
   const [rounds, setRounds] = useState(8);
   const [drinksEnabled, setDrinksEnabled] = useState(!isNoAlcohol());
   const [drinkIntensity, setDrinkIntensity] = useState<DrinkIntensity>('normal');
+  const [level, setLevel] = useState(getCancelLevel());
+  const [seen, setSeen] = useState<PromptSeenByPlayer>({});
+
+  useEffect(() => {
+    void getPromptSeenByPlayer('quidenous').then(setSeen);
+  }, []);
+
+  // Affirmations jamais vues par chaque joueur, au niveau de cancellabilité choisi.
+  const unseenByPlayer = useMemo(() => {
+    const keys = promptsForLevel(level);
+    return players.map((p) => {
+      const s = seen[p.id] ?? {};
+      return { player: p, unseen: keys.filter((k) => (s[k] ?? 0) === 0).length };
+    });
+  }, [players, seen, level]);
 
   const valid = players.length >= 3;
 
@@ -39,7 +57,17 @@ export function QuiDeNousConfigComponent({ players, onStart }: MiniGameConfigPro
       />
 
       <SectionHeader title={t('Niveau Cancellable')} />
-      <CancelLevelSelector />
+      <CancelLevelSelector onChange={setLevel} />
+
+      {players.length >= 3 && (
+        <>
+          <SectionHeader title={t('Inédits par joueur')} />
+          <PlayerUnseenList rows={unseenByPlayer} />
+          <Txt faint size={fontSize.xs}>
+            {t('Affirmations jamais vues par chaque joueur au niveau choisi.')}
+          </Txt>
+        </>
+      )}
 
       <SectionHeader title={t('Manches')} />
       <Stepper value={rounds} min={3} max={30} onChange={setRounds} />

@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { Button, Chip } from './ui';
 import { UniversePickerModal } from './UniversePickerModal';
-import { type Question, type Theme, THEME_META, THEMES } from '../core/models';
+import { type CancelLevel, type Question, type Theme, THEME_META, THEMES } from '../core/models';
 import { getQuizPool } from '../games/quiz/pool';
 import { useT } from '../lib/i18nProvider';
 import { useStore } from '../store/StoreProvider';
@@ -22,15 +22,21 @@ export interface ContentSelection {
  * des univers précis (recherche, « tout / rien » par thème). Contrôlé : émet
  * { themes, excludedUniverses } que l'écran de jeu applique pour filtrer.
  */
-export function ContentPicker(props: { value: ContentSelection; onChange: (v: ContentSelection) => void }) {
+export function ContentPicker(props: {
+  value: ContentSelection;
+  onChange: (v: ContentSelection) => void;
+  /** Plafond de cancellabilité : les univers osés n'apparaissent qu'à partir du niveau requis. */
+  maxCancelLevel?: CancelLevel;
+}) {
   const t = useT();
   const store = useStore();
   const [pool, setPool] = useState<Question[]>([]);
   const [pickerOpen, setPickerOpen] = useState(false);
+  const maxCancelLevel = props.maxCancelLevel ?? 1;
 
   useEffect(() => {
     let alive = true;
-    void getQuizPool()
+    void getQuizPool({ maxCancelLevel })
       .then((p) => alive && setPool(p))
       .catch(() => {
         // Pool indisponible : on laisse la liste vide plutôt que de planter le
@@ -39,7 +45,7 @@ export function ContentPicker(props: { value: ContentSelection; onChange: (v: Co
     return () => {
       alive = false;
     };
-  }, []);
+  }, [maxCancelLevel]);
 
   // Univers jouables groupés par thème (débloqués en version gratuite).
   const byTheme = useMemo(() => {
