@@ -275,6 +275,56 @@ export const PROMPTS_HOT: HotPrompt[] = [
   { text: "de balancer un proche pour sauver sa peau", lvl: 4 },
   { text: "de cacher un secret qui détruirait le groupe", lvl: 4 },
   { text: "de revendre les cadeaux qu'on lui offre", lvl: 4 },
+
+  // ===== Vague 2 ===========================================================
+  // --- Niveau 2 · Épicé 🌶️ -------------------------------------------------
+  { text: "de retomber amoureux(se) de son ex pour la troisième fois", lvl: 2 },
+  { text: "de draguer quelqu'un déjà en couple", lvl: 2 },
+  { text: "d'avoir un crush secret sur quelqu'un dans cette pièce", lvl: 2 },
+  { text: "de mentir sur son âge sur une appli de rencontre", lvl: 2 },
+  { text: "de pleurer une rupture pendant des mois", lvl: 2 },
+  { text: "de collectionner les matchs sans jamais oser y aller", lvl: 2 },
+  { text: "de sortir avec quelqu'un juste pour rendre un ex jaloux", lvl: 2 },
+  { text: "de flasher sur le/la pote de son/sa pote", lvl: 2 },
+  { text: "de faire le premier pas très maladroitement", lvl: 2 },
+  { text: "de garder les cadeaux d'un ex par nostalgie", lvl: 2 },
+  { text: "de craquer sur quelqu'un rien que pour son physique", lvl: 2 },
+  { text: "de raconter sa vie amoureuse à des inconnus", lvl: 2 },
+  { text: "de retourner voir son ex « juste pour parler »", lvl: 2 },
+  { text: "d'avoir trois applis de rencontre en même temps", lvl: 2 },
+
+  // --- Niveau 3 · +18 🔞 ---------------------------------------------------
+  { text: "d'avoir déjà couché sur son lieu de travail", lvl: 3 },
+  { text: "d'avoir un nombre de partenaires à deux chiffres", lvl: 3 },
+  { text: "d'avoir déjà fait semblant au lit", lvl: 3 },
+  { text: "d'avoir eu un coup d'un soir dont il/elle ignore le prénom", lvl: 3 },
+  { text: "d'avoir déjà réalisé un fantasme original", lvl: 3 },
+  { text: "d'avoir déjà couché avec deux personnes le même jour", lvl: 3 },
+  { text: "d'avoir déjà filmé ses ébats", lvl: 3 },
+  { text: "d'avoir déjà eu une aventure en vacances", lvl: 3 },
+  { text: "de coucher pour obtenir un avantage", lvl: 3 },
+  { text: "d'assumer un plan cul régulier en ce moment", lvl: 3 },
+  { text: "d'avoir la sextape la plus gênante du groupe", lvl: 3 },
+  { text: "d'avoir déjà dragué deux personnes du même groupe", lvl: 3 },
+  { text: "d'avoir menti sur son expérience au lit", lvl: 3 },
+  { text: "d'avoir déjà envoyé un nude à la mauvaise personne", lvl: 3 },
+
+  // --- Niveau 4 · Cancellable ☠️ (le plus trash) ---------------------------
+  { text: "d'avoir déjà trompé sans jamais l'avouer", lvl: 4 },
+  { text: "de coucher avec l'ex de son/sa meilleur(e) ami(e)", lvl: 4 },
+  { text: "de faire de la prison un jour", lvl: 4 },
+  { text: "de vendre un secret de famille pour de l'argent", lvl: 4 },
+  { text: "de mentir à un enterrement pour toucher l'héritage", lvl: 4 },
+  { text: "de piétiner un ami pour réussir", lvl: 4 },
+  { text: "de rire en apprenant une très mauvaise nouvelle", lvl: 4 },
+  { text: "de saboter la relation d'un(e) ami(e) par jalousie", lvl: 4 },
+  { text: "d'avoir déjà volé quelqu'un de proche", lvl: 4 },
+  { text: "de tout balancer pour 500 € ou sous la torture", lvl: 4 },
+  { text: "de coucher avec quelqu'un juste pour l'héritage", lvl: 4 },
+  { text: "de simuler des sentiments pour de l'argent", lvl: 4 },
+  { text: "de se venger des années après, à froid", lvl: 4 },
+  { text: "de trahir le groupe pour percer en solo", lvl: 4 },
+  { text: "d'avoir un secret capable de briser un couple ici", lvl: 4 },
 ];
 
 /**

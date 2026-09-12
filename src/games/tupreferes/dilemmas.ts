@@ -274,6 +274,56 @@ export const DILEMMAS_HOT: HotDilemma[] = [
   { a: "Qu'on projette ton historique internet à ton enterrement", b: "Qu'on lise tes messages privés à voix haute", lvl: 4 },
   { a: "Pleurer de rire à un enterrement", b: "Éclater de rire en pleine rupture", lvl: 4 },
   { a: "Effacer un souvenir traumatisant… et la leçon avec", b: "Le garder pour toujours, intact", lvl: 4 },
+
+  // ===== Vague 2 ===========================================================
+  // --- Niveau 2 · Épicé 🌶️ -------------------------------------------------
+  { a: "Que ton crush voie tous tes brouillons de messages", b: "Qu'il/elle entende toutes tes pensées pendant un date", lvl: 2 },
+  { a: "Sortir avec quelqu'un de 15 ans de plus", b: "De 15 ans de moins (majeur !)", lvl: 2 },
+  { a: "Embrasser trois inconnus ce soir", b: "N'embrasser personne pendant six mois", lvl: 2 },
+  { a: "Un ex qui revient toutes les semaines", b: "Un ex qui ne répond plus jamais", lvl: 2 },
+  { a: "Que ton/ta partenaire reste ami(e) avec tous ses ex", b: "Qu'il/elle coupe les ponts avec tout le monde", lvl: 2 },
+  { a: "Un date parfait mais devant tes parents", b: "Un date catastrophique mais en tête-à-tête", lvl: 2 },
+  { a: "Te déclarer et te prendre un râteau en public", b: "Ne jamais oser et le regretter à vie", lvl: 2 },
+  { a: "Découvrir combien de gens t'ont friendzoné", b: "Combien t'ont trouvé(e) trop collant(e)", lvl: 2 },
+  { a: "Ne draguer que par messages", b: "Ne draguer qu'en vrai", lvl: 2 },
+  { a: "Que ton historique de likes devienne public", b: "Que tes captures d'écran deviennent publiques", lvl: 2 },
+  { a: "Un rencard qui ne parle que de son ex", b: "Un rencard qui ne parle que de sa mère", lvl: 2 },
+  { a: "Toujours dire « je t'aime » le premier", b: "Attendre indéfiniment que l'autre le dise", lvl: 2 },
+  { a: "Sortir avec le/la meilleur(e) ami(e) de ton/ta pote", b: "Avec ton/ta voisin(e) de palier", lvl: 2 },
+  { a: "Que tout le monde connaisse ton genre de crush", b: "Que personne ne devine jamais ce qui te plaît", lvl: 2 },
+
+  // --- Niveau 3 · +18 🔞 ---------------------------------------------------
+  { a: "Coucher une fois avec ton/ta meilleur(e) ami(e)", b: "Ne plus jamais le/la revoir", lvl: 3 },
+  { a: "Que ton/ta partenaire note tes performances sur 10", b: "Devoir noter les siennes à voix haute", lvl: 3 },
+  { a: "Refaire ta toute première fois", b: "Effacer ton pire coup d'un soir", lvl: 3 },
+  { a: "Une sextape qui fuite auprès de tes amis", b: "Auprès de tes collègues", lvl: 3 },
+  { a: "Ne coucher qu'avec la même personne à vie", b: "Ne jamais deux fois avec la même", lvl: 3 },
+  { a: "Dire tous tes fantasmes à ton/ta partenaire", b: "Qu'il/elle te révèle tous les siens", lvl: 3 },
+  { a: "Un coup d'un soir incroyable avec un(e) inconnu(e)", b: "Un câlin médiocre avec quelqu'un que tu aimes", lvl: 3 },
+  { a: "Être surpris(e) à mater du contenu +18", b: "Qu'on découvre tes recherches les plus bizarres", lvl: 3 },
+  { a: "Coucher une fois avec la star qui te fait fantasmer", b: "Une vie sexuelle parfaite mais banale", lvl: 3 },
+  { a: "Que ton nombre de partenaires s'affiche sur ton front", b: "Que tes notes de performance s'y affichent", lvl: 3 },
+  { a: "Ne plus jamais de préliminaires", b: "Ne plus jamais d'after", lvl: 3 },
+  { a: "Envoyer un nude à ton/ta boss par erreur", b: "À tout ton groupe d'amis", lvl: 3 },
+  { a: "Coucher avec l'ex de ton/ta meilleur(e) ami(e)", b: "Avec un(e) ancien(ne) prof, entre adultes", lvl: 3 },
+  { a: "Une dernière nuit torride puis célibat à vie", b: "Une vie de dates sans jamais conclure", lvl: 3 },
+
+  // --- Niveau 4 · Cancellable ☠️ (le plus trash) ---------------------------
+  { a: "Coucher avec ton/ta ex le soir de son mariage", b: "Avec le/la marié(e) que tu ne connais même pas", lvl: 4 },
+  { a: "Que le groupe apprenne qui tu as déjà trompé", b: "Combien de fois tu as menti pour coucher", lvl: 4 },
+  { a: "Provoquer sans le vouloir le divorce de tes parents", b: "La rupture de ton/ta meilleur(e) ami(e)", lvl: 4 },
+  { a: "Balancer un proche à la police pour 100 000 €", b: "Couvrir son délit et vivre avec", lvl: 4 },
+  { a: "Coucher pour décrocher le job de tes rêves", b: "Rester médiocre mais intègre toute ta carrière", lvl: 4 },
+  { a: "Qu'on lise tes messages les plus honteux à ton mariage", b: "À l'enterrement de ta grand-mère", lvl: 4 },
+  { a: "Coucher avec quelqu'un que tu détestes pour sauver ta peau", b: "Tout perdre en gardant ta dignité", lvl: 4 },
+  { a: "Mettre une nuit avec toi aux enchères", b: "Devoir enchérir sur celle de ton crush", lvl: 4 },
+  { a: "Que ton pire secret d'alcôve devienne une story publique", b: "Que ton casier (même imaginaire) le devienne", lvl: 4 },
+  { a: "Tromper et l'avouer dès le lendemain", b: "Tromper et l'emporter dans la tombe", lvl: 4 },
+  { a: "Rire au nez de quelqu'un qui se fait larguer", b: "Filmer ta propre rupture pour les vues", lvl: 4 },
+  { a: "Coucher avec deux ami(e)s d'un même groupe le même soir", b: "Avec deux ex le même week-end", lvl: 4 },
+  { a: "Hériter en débranchant toi-même la prise", b: "Rester ruiné et veiller le/la malade dix ans", lvl: 4 },
+  { a: "Simuler un deuil pour un congé payé", b: "Rater le vrai enterrement à cause du travail", lvl: 4 },
+  { a: "Voler le/la partenaire de ton/ta meilleur(e) ami(e)", b: "Rester seul(e) mais loyal(e) à vie", lvl: 4 },
 ];
 
 /**
