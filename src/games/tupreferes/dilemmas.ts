@@ -496,9 +496,9 @@ export const DILEMMAS_HOT: HotDilemma[] = [
 ];
 
 /**
- * Pioche pour un niveau donné : le grand public (niveau 1) + tout le contenu osé
- * de niveau ≤ `level`. Au niveau 1, strictement identique à avant.
+ * Pioche pour un ensemble de niveaux ACTIFS : le grand public (niveau 1) s'il est
+ * actif + le contenu osé des niveaux actifs. Sélection indépendante (ex. 1 et 4).
  */
-export function dilemmasForLevel(level: CancelLevel): Dilemma[] {
-  return [...DILEMMAS, ...filterHot(DILEMMAS_HOT, level)];
+export function dilemmasForLevels(levels: CancelLevel[]): Dilemma[] {
+  return [...(levels.includes(1) ? DILEMMAS : []), ...filterHot(DILEMMAS_HOT, levels)];
 }

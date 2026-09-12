@@ -5,20 +5,20 @@ import { Button, Card, HowToPlay, PlayerUnseenList, Segmented, SectionHeader, St
 import { CancelLevelSelector } from '../../components/CancelLevelSelector';
 import type { DrinkIntensity } from '../../core/models';
 import type { QuiDeNousConfig } from '../../core/quidenousEngine';
-import { getCancelLevel } from '../../lib/cancelLevel';
+import { getActiveCancelLevels } from '../../lib/cancelLevel';
 import { getPromptSeenByPlayer, type PromptSeenByPlayer } from '../../db';
 import { isNoAlcohol } from '../../lib/drinkMode';
 import { useT } from '../../lib/i18nProvider';
 import { colors, fontSize, spacing } from '../../theme/theme';
 import type { MiniGameConfigProps } from '../types';
-import { promptsForLevel } from './prompts';
+import { promptsForLevels } from './prompts';
 
 export function QuiDeNousConfigComponent({ players, onStart }: MiniGameConfigProps) {
   const t = useT();
   const [rounds, setRounds] = useState(8);
   const [drinksEnabled, setDrinksEnabled] = useState(!isNoAlcohol());
   const [drinkIntensity, setDrinkIntensity] = useState<DrinkIntensity>('normal');
-  const [level, setLevel] = useState(getCancelLevel());
+  const [levels, setLevels] = useState(getActiveCancelLevels());
   const [seen, setSeen] = useState<PromptSeenByPlayer>({});
 
   useEffect(() => {
@@ -27,12 +27,12 @@ export function QuiDeNousConfigComponent({ players, onStart }: MiniGameConfigPro
 
   // Affirmations jamais vues par chaque joueur, au niveau de cancellabilité choisi.
   const unseenByPlayer = useMemo(() => {
-    const keys = promptsForLevel(level);
+    const keys = promptsForLevels(levels);
     return players.map((p) => {
       const s = seen[p.id] ?? {};
       return { player: p, unseen: keys.filter((k) => (s[k] ?? 0) === 0).length };
     });
-  }, [players, seen, level]);
+  }, [players, seen, levels]);
 
   const valid = players.length >= 3;
 
@@ -57,7 +57,7 @@ export function QuiDeNousConfigComponent({ players, onStart }: MiniGameConfigPro
       />
 
       <SectionHeader title={t('Niveau Cancellable')} />
-      <CancelLevelSelector onChange={setLevel} />
+      <CancelLevelSelector onChange={setLevels} />
 
       {players.length >= 3 && (
         <>

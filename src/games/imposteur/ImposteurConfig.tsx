@@ -5,7 +5,7 @@ import { Button, Card, Chip, HowToPlay, Segmented, SectionHeader, Stepper, Txt }
 import { type DrinkIntensity, type Question, type Theme, THEME_META, THEMES } from '../../core/models';
 import { type ImposteurConfig, isGoodImposteurWord } from '../../core/imposteurEngine';
 import { getPlayerUnwantedUniverses } from '../../db';
-import { getCancelLevel } from '../../lib/cancelLevel';
+import { getActiveCancelLevels } from '../../lib/cancelLevel';
 import { CancelLevelSelector } from '../../components/CancelLevelSelector';
 import { useT } from '../../lib/i18nProvider';
 import { useStore } from '../../store/StoreProvider';
@@ -27,7 +27,7 @@ export function ImposteurConfigComponent({ players, onStart }: MiniGameConfigPro
   const [discussionSec, setDiscussionSec] = useState(90);
   const [drinksEnabled, setDrinksEnabled] = useState(true);
   const [drinkIntensity, setDrinkIntensity] = useState<DrinkIntensity>('normal');
-  const [level, setLevel] = useState(getCancelLevel());
+  const [levels, setLevels] = useState(getActiveCancelLevels());
 
   useEffect(() => {
     void getPlayerUnwantedUniverses().then(setUnwantedMap);
@@ -37,11 +37,11 @@ export function ImposteurConfigComponent({ players, onStart }: MiniGameConfigPro
   // dès que le niveau les débloque).
   useEffect(() => {
     let alive = true;
-    void getQuizPool({ maxCancelLevel: level }).then((p) => alive && setPool(p));
+    void getQuizPool({ levels }).then((p) => alive && setPool(p));
     return () => {
       alive = false;
     };
-  }, [level]);
+  }, [levels]);
 
   // Univers jouables : au moins un mot secret concret + débloqués. On retient
   // aussi leur thème (pour l'exclusion « #thème ») et leur nombre de mots.
@@ -138,7 +138,7 @@ export function ImposteurConfigComponent({ players, onStart }: MiniGameConfigPro
       />
 
       <SectionHeader title={t('Niveau Cancellable')} />
-      <CancelLevelSelector onChange={setLevel} />
+      <CancelLevelSelector onChange={setLevels} />
 
       <SectionHeader title={t('Univers des mots secrets')} />
       <Segmented<'auto' | 'manual'>

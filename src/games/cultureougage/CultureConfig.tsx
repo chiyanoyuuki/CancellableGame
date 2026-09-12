@@ -4,7 +4,7 @@ import { StyleSheet, Switch, View } from 'react-native';
 import { Button, Card, HowToPlay, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
 import { CancelLevelSelector } from '../../components/CancelLevelSelector';
 import { ContentPicker, type ContentSelection } from '../../components/ContentPicker';
-import { getCancelLevel } from '../../lib/cancelLevel';
+import { getActiveCancelLevels } from '../../lib/cancelLevel';
 import type { CultureConfig } from '../../core/cultureEngine';
 import type { DrinkIntensity } from '../../core/models';
 import { isNoAlcohol } from '../../lib/drinkMode';
@@ -19,7 +19,7 @@ export function CultureConfigComponent({ players, onStart }: MiniGameConfigProps
   const [drinksEnabled, setDrinksEnabled] = useState(!isNoAlcohol());
   const [drinkIntensity, setDrinkIntensity] = useState<DrinkIntensity>('normal');
   const [content, setContent] = useState<ContentSelection>({ themes: [], excludedUniverses: [] });
-  const [level, setLevel] = useState(getCancelLevel());
+  const [levels, setLevels] = useState(getActiveCancelLevels());
 
   const valid = players.length >= 2;
 
@@ -55,10 +55,10 @@ export function CultureConfigComponent({ players, onStart }: MiniGameConfigProps
       <Stepper value={questionsPerPlayer} min={1} max={10} onChange={setQuestionsPerPlayer} />
 
       <SectionHeader title={t('Niveau Cancellable')} />
-      <CancelLevelSelector onChange={setLevel} />
+      <CancelLevelSelector onChange={setLevels} />
 
       <SectionHeader title={t('Thèmes & univers des questions')} />
-      <ContentPicker value={content} onChange={setContent} maxCancelLevel={level} />
+      <ContentPicker value={content} onChange={setContent} levels={levels} />
 
       <SectionHeader title={t('Mode alcool')} />
       <View style={styles.rowBetween}>

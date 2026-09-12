@@ -26,7 +26,7 @@ import { useStore } from '../../store/StoreProvider';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import type { MiniGamePlayProps } from '../types';
 import { getQuizPool } from '../quiz/pool';
-import { getCancelLevel } from '../../lib/cancelLevel';
+import { getActiveCancelLevels } from '../../lib/cancelLevel';
 
 export function AliasPlayComponent({ config, onFinish, onQuit }: MiniGamePlayProps) {
   const t = useT();
@@ -42,7 +42,7 @@ export function AliasPlayComponent({ config, onFinish, onQuit }: MiniGamePlayPro
     let alive = true;
     void (async () => {
       try {
-        const full = await getQuizPool({ maxCancelLevel: getCancelLevel() });
+        const full = await getQuizPool({ levels: getActiveCancelLevels() });
         const themeSet = cfg.themes && cfg.themes.length > 0 ? new Set(cfg.themes) : null;
         const excluded = new Set(cfg.excludedUniverses ?? []);
         // Contenu jouable : thème/exclusions/mot valide + droits (le contenu osé
@@ -55,7 +55,7 @@ export function AliasPlayComponent({ config, onFinish, onQuit }: MiniGamePlayPro
             (store.ent.allThemes || (q.cancelLevel ?? 1) > 1 || store.isUniverseUnlocked(q.universe ?? `#${q.theme}`)),
         );
         // Dosage « cancellable » : ~70 % chill / ~10 % par palier osé (sans effet au niveau 1).
-        const blended = blendByCancelLevel(eligible, getCancelLevel(), mulberry32(randomSeed()));
+        const blended = blendByCancelLevel(eligible, mulberry32(randomSeed()));
         const seen = new Set<string>();
         const words: AliasWord[] = [];
         for (const q of blended) {

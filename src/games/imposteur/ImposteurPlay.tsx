@@ -20,7 +20,7 @@ import { blendByCancelLevel } from '../../core/contentLevel';
 import { haptics } from '../../lib/haptics';
 import { useT } from '../../lib/i18nProvider';
 import { getQuizPool } from '../quiz/pool';
-import { getCancelLevel } from '../../lib/cancelLevel';
+import { getActiveCancelLevels } from '../../lib/cancelLevel';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import type { MiniGamePlayProps } from '../types';
 
@@ -47,11 +47,11 @@ export function ImposteurPlayComponent({ players, config, onFinish, onQuit }: Mi
     let alive = true;
     void (async () => {
       try {
-        const full = await getQuizPool({ maxCancelLevel: getCancelLevel() });
+        const full = await getQuizPool({ levels: getActiveCancelLevels() });
         const universes = new Set(cfg.universes);
         const eligible = full.filter((q) => q.universe && universes.has(q.universe) && isGoodImposteurWord(q.answer));
         // Dosage « cancellable » : ~70 % chill / ~10 % par palier osé (sans effet au niveau 1).
-        const blended = blendByCancelLevel(eligible, getCancelLevel(), mulberry32(randomSeed()));
+        const blended = blendByCancelLevel(eligible, mulberry32(randomSeed()));
         const seen = new Map<string, WordCard>();
         for (const q of blended) {
           if (!q.universe) continue;

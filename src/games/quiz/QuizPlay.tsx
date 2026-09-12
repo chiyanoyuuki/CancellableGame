@@ -46,7 +46,7 @@ import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import { useStore } from '../../store/StoreProvider';
 import type { MiniGamePlayProps } from '../types';
 import { getQuizPool } from './pool';
-import { getCancelLevel } from '../../lib/cancelLevel';
+import { getActiveCancelLevels } from '../../lib/cancelLevel';
 
 function haptic(success: boolean) {
   if (success) {
@@ -230,7 +230,7 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
       const [history, historyByPlayer, fullPool, customChallenges, unwantedUniverses, accuracy] = await Promise.all([
         getQuestionHistory(),
         getQuestionHistoryByPlayer(),
-        getQuizPool({ maxCancelLevel: getCancelLevel() }),
+        getQuizPool({ levels: getActiveCancelLevels() }),
         listCustomChallenges(),
         getPlayerUnwantedUniverses(),
         cfg.adaptiveDifficulty && !teamMode && cfg.turnMode === 'turn'
@@ -313,8 +313,8 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
           difficultiesByPlayer,
           // Per-player fresh questions only make sense outside team mode.
           historyByPlayer: teamMode ? undefined : historyByPlayer,
-          // Dosage « cancellable » : ~70/10/10/10 selon le niveau choisi.
-          blendCancelLevel: getCancelLevel(),
+          // Dosage « cancellable » : ~70/10/10/10 selon les niveaux actifs.
+          blendCancel: true,
         },
       );
       const selected = selectedAll.slice(0, cfg.questionCount);

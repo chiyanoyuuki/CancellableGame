@@ -3,7 +3,7 @@ import { StyleSheet, Switch, View } from 'react-native';
 
 import { Button, Card, Chip, HowToPlay, PlayerUnseenList, Segmented, SectionHeader, Txt } from '../../components/ui';
 import { CancelLevelSelector } from '../../components/CancelLevelSelector';
-import { getCancelLevel } from '../../lib/cancelLevel';
+import { getActiveCancelLevels } from '../../lib/cancelLevel';
 import { type DrinkIntensity, type DuelConfig, type DuelJoker, type Question, type Theme, THEME_META, THEMES } from '../../core/models';
 import { countUnseenGroups, identityGroups, type QuestionHistory } from '../../core/questionSelection';
 import { shuffle } from '../../core/rng';
@@ -44,13 +44,13 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
   });
   const [drinksEnabled, setDrinksEnabled] = useState(true);
   const [drinkIntensity, setDrinkIntensity] = useState<DrinkIntensity>('normal');
-  const [level, setLevel] = useState(getCancelLevel());
+  const [levels, setLevels] = useState(getActiveCancelLevels());
 
   useEffect(() => {
     let alive = true;
     void (async () => {
       const [p, u, hbp] = await Promise.all([
-        getQuizPool({ maxCancelLevel: level }),
+        getQuizPool({ levels }),
         getPlayerUnwantedUniverses(),
         getQuestionHistoryByPlayer(),
       ]);
@@ -63,7 +63,7 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
     return () => {
       alive = false;
     };
-  }, [level]);
+  }, [levels]);
 
   // Univers présents dans le pool, groupés par thème (hors thèmes exclus).
   const universesByTheme = useMemo(() => {
@@ -174,7 +174,7 @@ export function DuelConfigComponent({ players, onStart }: MiniGameConfigProps) {
       />
 
       <SectionHeader title={t('Niveau Cancellable')} />
-      <CancelLevelSelector onChange={setLevel} />
+      <CancelLevelSelector onChange={setLevels} />
 
       <SectionHeader title={t('Univers du duel')} />
       <Segmented<UniverseMode>

@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Switch, View } from 'react-native';
 
 import { Button, Card, Chip, HowToPlay, PlayerUnseenList, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
 import { CancelLevelSelector } from '../../components/CancelLevelSelector';
-import { getCancelLevel } from '../../lib/cancelLevel';
+import { getActiveCancelLevels } from '../../lib/cancelLevel';
 import {
   type BombeConfig,
   DEFAULT_BOMBE_CONFIG,
@@ -30,7 +30,7 @@ export function BombeConfigComponent({ players, onStart }: MiniGameConfigProps) 
   const [pool, setPool] = useState<Question[]>([]);
   const [historyByPlayer, setHistoryByPlayer] = useState<Record<string, QuestionHistory>>({});
   const [showAdvanced, setShowAdvanced] = useState(false);
-  const [level, setLevel] = useState(getCancelLevel());
+  const [levels, setLevels] = useState(getActiveCancelLevels());
 
   useEffect(() => {
     let alive = true;
@@ -48,13 +48,13 @@ export function BombeConfigComponent({ players, onStart }: MiniGameConfigProps) 
   // Pool borné au niveau de cancellabilité choisi (recharge au changement de niveau).
   useEffect(() => {
     let alive = true;
-    void getQuizPool({ maxCancelLevel: level }).then((p) => {
+    void getQuizPool({ levels }).then((p) => {
       if (alive) setPool(p);
     });
     return () => {
       alive = false;
     };
-  }, [level]);
+  }, [levels]);
 
   const eligibleQuestions = useMemo(
     () =>
@@ -145,7 +145,7 @@ export function BombeConfigComponent({ players, onStart }: MiniGameConfigProps) 
       />
 
       <SectionHeader title={t('Niveau Cancellable')} />
-      <CancelLevelSelector onChange={setLevel} />
+      <CancelLevelSelector onChange={setLevels} />
 
       <SectionHeader title={t('Thèmes')} />
       <View style={styles.wrap}>

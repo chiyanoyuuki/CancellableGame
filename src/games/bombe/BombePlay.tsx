@@ -22,7 +22,7 @@ import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import { useStore } from '../../store/StoreProvider';
 import type { MiniGamePlayProps } from '../types';
 import { getQuizPool } from '../quiz/pool';
-import { getCancelLevel } from '../../lib/cancelLevel';
+import { getActiveCancelLevels } from '../../lib/cancelLevel';
 
 function haptic(type: 'ok' | 'warn' | 'boom') {
   if (type === 'boom') haptics.fail();
@@ -122,7 +122,7 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
         const [history, historyByPlayer, fullPool] = await Promise.all([
           getQuestionHistory(),
           getQuestionHistoryByPlayer(),
-          getQuizPool({ maxCancelLevel: getCancelLevel() }),
+          getQuizPool({ levels: getActiveCancelLevels() }),
         ]);
         // Version gratuite : ne tire que dans les univers débloqués du joueur.
         // Le contenu « cancellable » passe même sans achat (le niveau est la barrière).
@@ -139,7 +139,7 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
           { themes: cfg.themes, difficulties: cfg.difficulties, count: POOL_COUNT, excludedUniverses: cfg.excludedUniverses },
           history,
           rng,
-          { order: players.map((p) => p.id), turnMode: 'fastest', historyByPlayer, blendCancelLevel: getCancelLevel() },
+          { order: players.map((p) => p.id), turnMode: 'fastest', historyByPlayer, blendCancel: true },
         );
         const order = shuffle(players, rng).map((p) => p.id);
         const startIndex = Math.floor(rng() * order.length);

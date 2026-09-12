@@ -25,18 +25,18 @@ export interface ContentSelection {
 export function ContentPicker(props: {
   value: ContentSelection;
   onChange: (v: ContentSelection) => void;
-  /** Plafond de cancellabilité : les univers osés n'apparaissent qu'à partir du niveau requis. */
-  maxCancelLevel?: CancelLevel;
+  /** Niveaux de cancellabilité actifs : les univers osés n'apparaissent que pour ces niveaux. */
+  levels?: CancelLevel[];
 }) {
   const t = useT();
   const store = useStore();
   const [pool, setPool] = useState<Question[]>([]);
   const [pickerOpen, setPickerOpen] = useState(false);
-  const maxCancelLevel = props.maxCancelLevel ?? 1;
+  const levelsKey = (props.levels ?? [1]).join(',');
 
   useEffect(() => {
     let alive = true;
-    void getQuizPool({ maxCancelLevel })
+    void getQuizPool({ levels: props.levels ?? [1] })
       .then((p) => alive && setPool(p))
       .catch(() => {
         // Pool indisponible : on laisse la liste vide plutôt que de planter le
@@ -45,7 +45,8 @@ export function ContentPicker(props: {
     return () => {
       alive = false;
     };
-  }, [maxCancelLevel]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [levelsKey]);
 
   // Univers jouables groupés par thème (débloqués en version gratuite).
   const byTheme = useMemo(() => {

@@ -6,7 +6,7 @@ import { Button, Card, PlayerAvatar, Txt } from '../../components/ui';
 import { QuestionHint } from '../../components/QuestionHint';
 import { buildDaily } from '../../core/dailyChallenge';
 import { type CultureConfig, type CultureState, type QCard, createCultureState, cultureRanking, cultureReducer, cultureToSessionResult, currentPlayerId } from '../../core/cultureEngine';
-import { daresForLevel } from '../../core/dares';
+import { daresForLevels } from '../../core/dares';
 import type { Player } from '../../core/models';
 import { mulberry32, randomSeed } from '../../core/rng';
 import { blendByCancelLevel } from '../../core/contentLevel';
@@ -17,7 +17,7 @@ import { useStore } from '../../store/StoreProvider';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import type { MiniGamePlayProps } from '../types';
 import { getQuizPool } from '../quiz/pool';
-import { getCancelLevel } from '../../lib/cancelLevel';
+import { getActiveCancelLevels } from '../../lib/cancelLevel';
 
 export function CulturePlayComponent({ players, config, onFinish, onQuit }: MiniGamePlayProps) {
   const t = useT();
@@ -38,7 +38,7 @@ export function CulturePlayComponent({ players, config, onFinish, onQuit }: Mini
     let alive = true;
     void (async () => {
       try {
-        const full = await getQuizPool({ maxCancelLevel: getCancelLevel() });
+        const full = await getQuizPool({ levels: getActiveCancelLevels() });
         const themeSet = cfg.themes && cfg.themes.length > 0 ? new Set(cfg.themes) : null;
         const excluded = new Set(cfg.excludedUniverses ?? []);
         // Le contenu « cancellable » respecte le choix de thèmes et les exclusions,
@@ -50,7 +50,7 @@ export function CulturePlayComponent({ players, config, onFinish, onQuit }: Mini
             ((q.cancelLevel ?? 1) > 1 || store.ent.allThemes || store.isUniverseUnlocked(q.universe ?? `#${q.theme}`)),
         );
         // Dosage « cancellable » : ~70 % chill / ~10 % par palier osé (sans effet au niveau 1).
-        const blended = blendByCancelLevel(pool, getCancelLevel(), mulberry32(randomSeed()));
+        const blended = blendByCancelLevel(pool, mulberry32(randomSeed()));
         const need = players.length * Math.max(1, cfg.questionsPerPlayer);
         const daily = buildDaily(blended, randomSeed().toString(), Math.max(need + 4, need));
         const deck: QCard[] = daily.map((d) => ({
@@ -64,7 +64,7 @@ export function CulturePlayComponent({ players, config, onFinish, onQuit }: Mini
         if (!alive) return;
         startedAtRef.current = Date.now();
         setGame(
-          createCultureState({ config: cfg, players, deck, dares: daresForLevel(cfg.dareCategory, getCancelLevel()), seed: randomSeed() }),
+          createCultureState({ config: cfg, players, deck, dares: daresForLevels(cfg.dareCategory, getActiveCancelLevels()), seed: randomSeed() }),
         );
       } catch {
         // Préparation impossible → on affiche une erreur au lieu d'un spinner figé.

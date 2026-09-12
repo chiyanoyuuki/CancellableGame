@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import { Animated, Easing, StyleSheet, View } from 'react-native';
 
 import { Button, Card, Screen, Segmented, Txt } from '../components/ui';
-import { type DareCategory, daresForLevel, nextDare } from '../core/dares';
-import { getCancelLevel } from '../lib/cancelLevel';
+import { type DareCategory, daresForLevels, nextDare } from '../core/dares';
+import { getActiveCancelLevels } from '../lib/cancelLevel';
 import { haptics } from '../lib/haptics';
 import { isNoAlcohol } from '../lib/drinkMode';
 import { isReduceMotion } from '../lib/motion';
@@ -39,7 +39,7 @@ export function RoueScreen({ navigation }: NativeStackScreenProps<RootStackParam
 
   const spin = () => {
     if (spinning) return;
-    const pool = daresForLevel(category, getCancelLevel());
+    const pool = daresForLevels(category, getActiveCancelLevels());
     // Animations réduites : on tire directement un gage, sans défilement.
     if (isReduceMotion()) {
       const d = nextDare(pool, dareRef.current, Math.random);

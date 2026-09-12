@@ -14,7 +14,7 @@ import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import { useStore } from '../../store/StoreProvider';
 import type { MiniGamePlayProps } from '../types';
 import { getQuizPool } from '../quiz/pool';
-import { getCancelLevel } from '../../lib/cancelLevel';
+import { getActiveCancelLevels } from '../../lib/cancelLevel';
 import { blendByCancelLevel } from '../../core/contentLevel';
 
 function haptic(success: boolean) {
@@ -49,7 +49,7 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
     let alive = true;
     void (async () => {
       try {
-        const fullPool = await getQuizPool({ maxCancelLevel: getCancelLevel() });
+        const fullPool = await getQuizPool({ levels: getActiveCancelLevels() });
         // Version gratuite : ne tire que dans les univers débloqués du joueur.
         // Le contenu « cancellable » n'est pas un pack payant : le niveau choisi
         // est la seule barrière, donc il passe même sans achat.
@@ -59,7 +59,7 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
         const seed = randomSeed();
         const rng = mulberry32(seed);
         // Dosage « cancellable » : ~70 % chill / ~10 % par palier osé (sans effet au niveau 1).
-        const pool = blendByCancelLevel(filtered, getCancelLevel(), rng);
+        const pool = blendByCancelLevel(filtered, rng);
         const order = shuffle(players, rng).map((p) => p.id);
         if (!alive) return;
         startedAtRef.current = Date.now();

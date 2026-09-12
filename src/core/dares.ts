@@ -152,15 +152,15 @@ export const HOT_DARES: HotDare[] = [
 ];
 
 /**
- * Banque de gages pour un niveau donné : le contenu de base (niveau 1) + les
- * gages osés de la catégorie, de niveau ≤ `level`. Au niveau 1, renvoie la banque
- * de base inchangée (référence conservée).
+ * Banque de gages pour un ensemble de niveaux ACTIFS : le contenu de base
+ * (niveau 1) s'il est actif + les gages osés de la catégorie dont le niveau est
+ * actif. Sélection indépendante (ex. 1 et 4).
  */
-export function daresForLevel(category: DareCategory, level: CancelLevel): string[] {
-  const base = daresFor(category);
+export function daresForLevels(category: DareCategory, levels: CancelLevel[]): string[] {
+  const base = levels.includes(1) ? daresFor(category) : [];
   const spicy = filterHot(
     HOT_DARES.filter((d) => d.category === category),
-    level,
+    levels,
   ).map((d) => d.text);
-  return spicy.length > 0 ? [...base, ...spicy] : base;
+  return [...base, ...spicy];
 }

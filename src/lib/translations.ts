@@ -249,6 +249,8 @@ export const EN: Record<string, string> = {
   'Débloque les niveaux osés (Épicé, +18 et Cancellable) dans tous les modes pour {price}.':
     'Unlocks the edgy levels (Spicy, +18 and Cancellable) in every mode for {price}.',
   '🔒 Niveaux osés réservés au Pack Cancellable ({price}).': '🔒 Edgy levels require the Cancellable Pack ({price}).',
+  'Active ou désactive chaque niveau indépendamment (au moins un actif).':
+    'Turn each level on or off independently (at least one active).',
   '0,99 €': '€0.99',
   '4,99 €': '€4.99',
 

@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Switch, View } from 'react-native';
 
 import { Button, Card, Chip, HowToPlay, PlayerAvatar, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
 import { CancelLevelSelector } from '../../components/CancelLevelSelector';
-import { getCancelLevel } from '../../lib/cancelLevel';
+import { getActiveCancelLevels } from '../../lib/cancelLevel';
 import { type DrinkIntensity, type DuelUltimeConfig, type Question, type Theme, THEME_META, THEMES } from '../../core/models';
 import { pickRandomUniverses } from '../../core/duelUltimeEngine';
 import { countUnseen, type QuestionHistory } from '../../core/questionSelection';
@@ -31,13 +31,13 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
   const [timerSec, setTimerSec] = useState(0);
   const [universesByPlayer, setUniversesByPlayer] = useState<Record<string, string[]>>({});
   const [editing, setEditing] = useState<string>(players[0]?.id ?? '');
-  const [level, setLevel] = useState(getCancelLevel());
+  const [levels, setLevels] = useState(getActiveCancelLevels());
 
   useEffect(() => {
     let alive = true;
     void (async () => {
       const [p, hbp, un] = await Promise.all([
-        getQuizPool({ maxCancelLevel: level }),
+        getQuizPool({ levels }),
         getQuestionHistoryByPlayer(),
         getPlayerUnwantedUniverses(),
       ]);
@@ -50,7 +50,7 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
     return () => {
       alive = false;
     };
-  }, [level]);
+  }, [levels]);
 
   // Nombre de questions pro (difficulté 4) par univers présent dans le pool.
   const proCount = useMemo(() => {
@@ -161,7 +161,7 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
       />
 
       <SectionHeader title={t('Niveau Cancellable')} />
-      <CancelLevelSelector onChange={setLevel} />
+      <CancelLevelSelector onChange={setLevels} />
 
       <SectionHeader title={t('Questions par joueur')} />
       <Stepper value={n} min={3} max={30} onChange={setN} />

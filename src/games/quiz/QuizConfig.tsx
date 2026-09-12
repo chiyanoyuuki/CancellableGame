@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Switch, TextInput, View } from 'react-native';
 
 import { Button, Card, Chip, HowToPlay, PlayerAvatar, PlayerUnseenList, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
 import { CancelLevelSelector } from '../../components/CancelLevelSelector';
-import { getCancelLevel } from '../../lib/cancelLevel';
+import { getActiveCancelLevels } from '../../lib/cancelLevel';
 import { UniversePickerModal } from '../../components/UniversePickerModal';
 import {
   DEFAULT_QUIZ_CONFIG,
@@ -44,7 +44,7 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [recent, setRecent] = useState<string[]>([]);
   const [pickerOpen, setPickerOpen] = useState(false);
-  const [level, setLevel] = useState(getCancelLevel());
+  const [levels, setLevels] = useState(getActiveCancelLevels());
 
   // --- Team mode local state (turned into cfg.teams only at launch) ----------
   const [teamCount, setTeamCount] = useState(() => Math.min(2, Math.max(1, players.length)));
@@ -104,11 +104,11 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
   // Pool borné au niveau de cancellabilité choisi (recharge au changement de niveau).
   useEffect(() => {
     let alive = true;
-    void getQuizPool({ maxCancelLevel: level }).then((p) => alive && setPool(p));
+    void getQuizPool({ levels }).then((p) => alive && setPool(p));
     return () => {
       alive = false;
     };
-  }, [level]);
+  }, [levels]);
 
   const eligible = useMemo(
     () =>
@@ -253,7 +253,7 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
         ]}
       />
       <SectionHeader title={t('Niveau Cancellable')} />
-      <CancelLevelSelector onChange={setLevel} />
+      <CancelLevelSelector onChange={setLevels} />
 
       <SectionHeader title={t('Thèmes')} />
       <View style={styles.wrap}>

@@ -1,4 +1,4 @@
-import { BOOZE_DARES, daresFor, daresForLevel, HOT_DARES, nextDare, SOFT_DARES } from './dares';
+import { BOOZE_DARES, daresFor, daresForLevels, HOT_DARES, nextDare, SOFT_DARES } from './dares';
 import { mulberry32 } from './rng';
 
 describe('dares', () => {
@@ -28,24 +28,29 @@ describe('dares', () => {
     expect(nextDare(['seul'], 'seul', rng)).toBe('seul');
   });
 
-  it('daresForLevel : niveau 1 = banque de base inchangée', () => {
-    expect(daresForLevel('soft', 1)).toBe(SOFT_DARES);
-    expect(daresForLevel('alcool', 1)).toBe(BOOZE_DARES);
+  it('daresForLevels : niveau 1 seul = banque de base', () => {
+    expect(daresForLevels('soft', [1])).toEqual(SOFT_DARES);
+    expect(daresForLevels('alcool', [1])).toEqual(BOOZE_DARES);
   });
 
-  it('daresForLevel : les paliers osés ajoutent du contenu, de façon cumulative', () => {
-    const soft2 = daresForLevel('soft', 2);
-    const soft3 = daresForLevel('soft', 3);
-    const soft4 = daresForLevel('soft', 4);
-    expect(soft2.length).toBeGreaterThan(SOFT_DARES.length); // du contenu osé est ajouté
-    expect(soft3.length).toBeGreaterThanOrEqual(soft2.length); // cumulatif
-    expect(soft4.length).toBeGreaterThanOrEqual(soft3.length);
-    expect(SOFT_DARES.every((d) => soft4.includes(d))).toBe(true); // la base reste présente
+  it('daresForLevels : les niveaux osés ajoutent du contenu (indépendants)', () => {
+    const s1 = daresForLevels('soft', [1]);
+    const s14 = daresForLevels('soft', [1, 4]);
+    const s124 = daresForLevels('soft', [1, 2, 4]);
+    expect(s14.length).toBeGreaterThan(s1.length); // le niveau 4 ajoute des gages
+    expect(s124.length).toBeGreaterThan(s14.length); // le niveau 2 en ajoute encore
+    expect(SOFT_DARES.every((d) => s14.includes(d))).toBe(true); // la base reste présente
   });
 
-  it('daresForLevel : respecte la catégorie (un gage alcool ne fuit pas dans soft)', () => {
-    const soft4 = daresForLevel('soft', 4);
+  it('daresForLevels : sans niveau 1, pas de contenu de base (que l’osé)', () => {
+    const only4 = daresForLevels('soft', [4]);
+    expect(only4.length).toBeGreaterThan(0);
+    expect(SOFT_DARES.some((d) => only4.includes(d))).toBe(false);
+  });
+
+  it('daresForLevels : respecte la catégorie (un gage alcool ne fuit pas dans soft)', () => {
+    const soft = daresForLevels('soft', [2, 3, 4]);
     const boozeHot = HOT_DARES.filter((d) => d.category === 'alcool').map((d) => d.text);
-    expect(boozeHot.some((d) => soft4.includes(d))).toBe(false);
+    expect(boozeHot.some((d) => soft.includes(d))).toBe(false);
   });
 });

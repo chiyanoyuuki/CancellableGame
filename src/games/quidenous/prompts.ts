@@ -498,6 +498,6 @@ export const PROMPTS_HOT: HotPrompt[] = [
  * Pioche pour un niveau donné : le grand public (niveau 1) + tout le contenu osé
  * de niveau ≤ `level`. Au niveau 1, strictement identique à avant.
  */
-export function promptsForLevel(level: CancelLevel): string[] {
-  return [...PROMPTS, ...filterHot(PROMPTS_HOT, level).map((p) => p.text)];
+export function promptsForLevels(levels: CancelLevel[]): string[] {
+  return [...(levels.includes(1) ? PROMPTS : []), ...filterHot(PROMPTS_HOT, levels).map((p) => p.text)];
 }

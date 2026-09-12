@@ -22,7 +22,7 @@ import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import { useStore } from '../../store/StoreProvider';
 import type { MiniGamePlayProps } from '../types';
 import { getQuizPool } from '../quiz/pool';
-import { getCancelLevel } from '../../lib/cancelLevel';
+import { getActiveCancelLevels } from '../../lib/cancelLevel';
 
 function haptic(success: boolean) {
   if (success) haptics.correct();
@@ -58,7 +58,7 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
     void (async () => {
       try {
         const [fullPool, historyByPlayer] = await Promise.all([
-          getQuizPool({ maxCancelLevel: getCancelLevel() }),
+          getQuizPool({ levels: getActiveCancelLevels() }),
           getQuestionHistoryByPlayer(),
         ]);
         // Le contenu « cancellable » passe même sans achat : le niveau est la barrière.
@@ -67,7 +67,7 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
           : fullPool.filter((q) => (q.cancelLevel ?? 1) > 1 || store.isUniverseUnlocked(q.universe ?? `#${q.theme}`));
         const seed = randomSeed();
         // Dosage « cancellable » : ~70 % chill / ~10 % par palier osé (sans effet au niveau 1).
-        const pool = blendByCancelLevel(filtered, getCancelLevel(), mulberry32(seed));
+        const pool = blendByCancelLevel(filtered, mulberry32(seed));
         const order = players.map((p) => p.id);
         if (!alive) return;
         startedAtRef.current = Date.now();
