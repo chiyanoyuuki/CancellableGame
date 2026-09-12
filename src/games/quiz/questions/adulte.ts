@@ -620,4 +620,131 @@ export const adulteQuestions: Question[] = [
     text: 'Comment nomme-t-on le fait de truquer une élection ?', answer: 'La fraude électorale',
     distractors: ['Le sondage', 'Le référendum', 'Le recensement'],
   },
+
+  // ===== Vague 6 ============================================================
+  // --- Niveau 2 · Épicé 🌶️ --------------------------------------------------
+  {
+    id: 'adl-239', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 3, cancelLevel: 2,
+    text: "Quelle boisson mexicaine fermentée, ancêtre de la tequila, est tirée de l'agave ?", answer: 'Le pulque',
+    distractors: ['Le mezcal', 'Le sotol', 'Le raicilla'],
+  },
+  {
+    id: 'adl-240', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 3, cancelLevel: 2,
+    text: "Quel vin pétillant espagnol est l'équivalent du champagne ?", answer: 'Le cava',
+    distractors: ['Le porto', 'Le xérès', 'Le rioja'],
+  },
+  {
+    id: 'adl-241', theme: 'culture', universe: 'Sexo 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Comment appelle-t-on familièrement un baiser avec la langue ?', answer: 'Un patin',
+    distractors: ['Une bise', 'Un smack', 'Une accolade'],
+  },
+  {
+    id: 'adl-242', theme: 'culture', universe: 'Vie de couple 💔', difficulty: 3, cancelLevel: 2,
+    text: 'Comment appelle-t-on les noces de 10 ans de mariage ?', answer: "Les noces d'étain",
+    distractors: ["Les noces d'or", 'Les noces de cuir', 'Les noces de perle'],
+  },
+  {
+    id: 'adl-243', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 1, cancelLevel: 2,
+    text: 'Quel organe féminin accueille le fœtus pendant la grossesse ?', answer: "L'utérus",
+    distractors: ['Le foie', "L'estomac", 'La rate'],
+  },
+  {
+    id: 'adl-244', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 2, cancelLevel: 2,
+    text: "Quelle est la durée moyenne d'un cycle menstruel ?", answer: '28 jours',
+    distractors: ['7 jours', '90 jours', '365 jours'],
+  },
+  {
+    id: 'adl-245', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 3, cancelLevel: 2,
+    text: 'Combien de bulles compte environ une flûte de champagne ?', answer: 'Environ un million',
+    distractors: ['Une centaine', 'Un milliard', 'Une dizaine'],
+  },
+  {
+    id: 'adl-246', theme: 'culture', universe: 'Sexo 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quel dieu grec du vin et de la fête symbolise les excès ?', answer: 'Dionysos',
+    distractors: ['Apollon', 'Hermès', 'Arès'],
+  },
+
+  // --- Niveau 3 · +18 🔞 ----------------------------------------------------
+  {
+    id: 'adl-347', theme: 'culture', universe: 'Sexo 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Comment nommait-on l’amulette phallique porte-bonheur des Romains ?', answer: 'Le fascinus',
+    distractors: ['Le laraire', "L'amphore", 'La fibule'],
+  },
+  {
+    id: 'adl-348', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quelle hormone féminine domine le cycle et la grossesse ?', answer: "L'œstrogène",
+    distractors: ['La testostérone', "L'insuline", 'Le cortisol'],
+  },
+  {
+    id: 'adl-349', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Quel film japonais de 1976 fut censuré pour sa crudité sexuelle ?', answer: "L'Empire des sens",
+    distractors: ['Ran', 'Rashômon', 'Tokyo Story'],
+  },
+  {
+    id: 'adl-350', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quelle est la suite directe de « Cinquante nuances de Grey » ?', answer: 'Cinquante nuances plus sombres',
+    distractors: ['Après', '365 Jours', 'Twilight'],
+  },
+  {
+    id: 'adl-351', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quelle chanteuse a choqué avec le clip très suggestif « Dirrty » en 2002 ?', answer: 'Christina Aguilera',
+    distractors: ['Britney Spears', 'Pink', 'Jessica Simpson'],
+  },
+  {
+    id: 'adl-352', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Quelle chanteuse a déchiré une photo du pape en direct à la télé en 1992 ?', answer: "Sinéad O'Connor",
+    distractors: ['Madonna', 'Cyndi Lauper', 'Alanis Morissette'],
+  },
+  {
+    id: 'adl-353', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel quartier animé de Tokyo abrite le célèbre Kabukichō ?', answer: 'Shinjuku',
+    distractors: ['Shibuya', 'Ginza', 'Asakusa'],
+  },
+  {
+    id: 'adl-354', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 2, cancelLevel: 3,
+    text: 'Comment appelle-t-on la grande avenue des casinos de Las Vegas ?', answer: 'Le Strip',
+    distractors: ['Broadway', 'Sunset Boulevard', 'La Rambla'],
+  },
+
+  // --- Niveau 4 · Cancellable ☠️ --------------------------------------------
+  {
+    id: 'adl-440', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quel film polonais de Netflix (2020) a fait scandale par ses scènes explicites ?', answer: '365 Jours',
+    distractors: ['Sex/Life', 'Elite', 'Baby'],
+  },
+  {
+    id: 'adl-441', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 4, cancelLevel: 4,
+    text: "Comment appelle-t-on le commerce illégal d'organes humains ?", answer: "Le trafic d'organes",
+    distractors: ['Le don du sang', 'La greffe', 'La transfusion'],
+  },
+  {
+    id: 'adl-442', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: 'Quel réseau chiffré est associé aux marchés illégaux en ligne ?', answer: 'Le dark web',
+    distractors: ['Le cloud', 'Le wifi', 'Le web 2.0'],
+  },
+  {
+    id: 'adl-443', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 4, cancelLevel: 4,
+    text: "Quel jugement médiéval par l'eau ou le feu était censé prouver l'innocence ?", answer: "L'ordalie",
+    distractors: ['Le tournoi', "L'adoubement", 'La dîme'],
+  },
+  {
+    id: 'adl-444', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: 'Quel conquérant mongol a bâti un empire par la terreur au XIIIᵉ siècle ?', answer: 'Gengis Khan',
+    distractors: ['Attila', 'Tamerlan', 'Soliman'],
+  },
+  {
+    id: 'adl-445', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel poison végétal a servi à exécuter Socrate ?', answer: 'La ciguë',
+    distractors: ["L'arsenic", 'Le cyanure', 'La belladone'],
+  },
+  {
+    id: 'adl-446', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 3, cancelLevel: 4,
+    text: "Quel festival déjanté du désert du Nevada prône l'auto-expression radicale ?", answer: 'Le Burning Man',
+    distractors: ['Coachella', 'Tomorrowland', 'Glastonbury'],
+  },
+  {
+    id: 'adl-447', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 4, cancelLevel: 4,
+    text: 'Comment appelle-t-on le fait de détourner des fonds publics à son profit ?', answer: 'Le détournement de fonds',
+    distractors: ["L'épargne", 'La subvention', 'Le budget'],
+  },
 ];

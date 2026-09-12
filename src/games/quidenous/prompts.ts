@@ -455,6 +455,43 @@ export const PROMPTS_HOT: HotPrompt[] = [
   { text: "d'avoir déjà séduit le/la partenaire de quelqu'un par pur jeu", lvl: 4 },
   { text: "de mentir sur tout son passé pour repartir à zéro", lvl: 4 },
   { text: "d'avoir déjà fait quelque chose d'illégal sans se faire prendre", lvl: 4 },
+
+  // ===== Vague 6 ===========================================================
+  // --- Niveau 2 · Épicé 🌶️ -------------------------------------------------
+  { text: "de faire semblant d'aimer un film pour impressionner un date", lvl: 2 },
+  { text: "d'avoir une playlist spéciale « soir de déprime amoureuse »", lvl: 2 },
+  { text: "de connaître par cœur le planning de son crush", lvl: 2 },
+  { text: "de changer de trottoir pour éviter un ex", lvl: 2 },
+  { text: "de liker puis unliker dans la seconde", lvl: 2 },
+  { text: "de tomber amoureux(se) de son coach ou de son/sa prof", lvl: 2 },
+  { text: "d'inventer une excuse pour reparler à son crush", lvl: 2 },
+  { text: "de garder ses vieux tickets de rencard", lvl: 2 },
+  { text: "de stresser une semaine avant un premier date", lvl: 2 },
+  { text: "de confondre gentillesse et flirt", lvl: 2 },
+
+  // --- Niveau 3 · +18 🔞 ---------------------------------------------------
+  { text: "d'avoir menti sur son expérience pour impressionner", lvl: 3 },
+  { text: "d'avoir un tiroir de sous-vêtements « spéciaux »", lvl: 3 },
+  { text: "d'avoir eu un coup de foudre uniquement physique", lvl: 3 },
+  { text: "d'avoir déjà tenté quelque chose de risqué en public", lvl: 3 },
+  { text: "d'avoir un ex qu'il/elle recontacte « par accident »", lvl: 3 },
+  { text: "d'avoir déjà comparé ses partenaires à voix haute", lvl: 3 },
+  { text: "d'assumer une appli de rencontre plutôt coquine", lvl: 3 },
+  { text: "d'avoir déjà fait le mur pour rejoindre quelqu'un", lvl: 3 },
+  { text: "d'avoir un fantasme lié à un uniforme", lvl: 3 },
+  { text: "d'avoir déjà couché sans retenir le prénom", lvl: 3 },
+
+  // --- Niveau 4 · Cancellable ☠️ (le plus trash) ---------------------------
+  { text: "de faire capoter un mariage par pure jalousie", lvl: 4 },
+  { text: "d'avoir déjà piqué le/la partenaire d'un(e) proche", lvl: 4 },
+  { text: "de faire un faux témoignage sans ciller", lvl: 4 },
+  { text: "de cacher de l'argent à ses proches", lvl: 4 },
+  { text: "d'avoir déjà fait chanter quelqu'un", lvl: 4 },
+  { text: "de trahir n'importe qui pour réussir", lvl: 4 },
+  { text: "d'avoir un plan secret pour disparaître du jour au lendemain", lvl: 4 },
+  { text: "de garder une rancune tenace pendant des années", lvl: 4 },
+  { text: "d'exagérer un malheur pour attirer la pitié", lvl: 4 },
+  { text: "de retourner sa veste dès que ça l'arrange", lvl: 4 },
 ];
 
 /**

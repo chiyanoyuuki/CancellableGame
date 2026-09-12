@@ -456,6 +456,43 @@ export const DILEMMAS_HOT: HotDilemma[] = [
   { a: "Hanter après ta mort la personne que tu détestes", b: "Veiller sur celle que tu aimes sans jamais te montrer", lvl: 4 },
   { a: "Que ton procès imaginaire soit diffusé en direct", b: "Que ton journal intime soit publié à ta mort", lvl: 4 },
   { a: "Connaître la pire chose qu'on pense de toi", b: "La pire chose que TU penses des autres révélée à tous", lvl: 4 },
+
+  // ===== Vague 6 ===========================================================
+  // --- Niveau 2 · Épicé 🌶️ -------------------------------------------------
+  { a: "Que ton historique Netflix s'affiche à ton prochain date", b: "Ta playlist de chansons tristes", lvl: 2 },
+  { a: "Un date qui t'a clairement stalké avant", b: "Un date qui te confond avec quelqu'un d'autre", lvl: 2 },
+  { a: "Flirter sans savoir que c'est ton nouveau collègue", b: "Ton nouveau voisin de palier", lvl: 2 },
+  { a: "Que ton crush voie ta tête au réveil", b: "T'entende chanter faux sous la douche", lvl: 2 },
+  { a: "Un date parfait mais qui mâche très bruyamment", b: "Un date ennuyeux mais parfait sur la forme", lvl: 2 },
+  { a: "Que ton ex devienne célèbre et raconte votre histoire", b: "Qu'il/elle t'oublie totalement", lvl: 2 },
+  { a: "Rougir à chaque fois que tu mens", b: "Transpirer à chaque fois que tu dragues", lvl: 2 },
+  { a: "Recevoir chaque matin un récap de tous tes ex", b: "Un rappel quotidien de tes pires vents", lvl: 2 },
+  { a: "Ne pouvoir draguer qu'en parlant météo", b: "Qu'avec des questions de culture générale", lvl: 2 },
+  { a: "Que ton clavier corrige « je t'aime » en « je t'aime pas »", b: "Qu'il envoie tes brouillons tout seul", lvl: 2 },
+
+  // --- Niveau 3 · +18 🔞 ---------------------------------------------------
+  { a: "Que ton/ta partenaire tombe sur ton compte privé", b: "Sur ton pseudo secret en ligne", lvl: 3 },
+  { a: "Ne faire l'amour qu'à des heures planifiées", b: "Uniquement de façon totalement imprévue", lvl: 3 },
+  { a: "Un(e) partenaire qui prend des notes après", b: "Qui fait un débrief à voix haute", lvl: 3 },
+  { a: "Coucher avec quelqu'un qui crie le mauvais prénom", b: "Qui reste totalement silencieux(se)", lvl: 3 },
+  { a: "Devoir mimer ton fantasme devant tes amis", b: "Le confier au hasard à un(e) inconnu(e)", lvl: 3 },
+  { a: "Qu'un coup d'un soir poste une story de chez toi", b: "Laisse une trace très embarrassante", lvl: 3 },
+  { a: "Que ta recherche la plus honteuse s'autocomplète en public", b: "Que tes favoris s'affichent", lvl: 3 },
+  { a: "Devoir garder les yeux bandés à chaque fois", b: "Ne jamais pouvoir enlever tes chaussettes", lvl: 3 },
+  { a: "Coucher dans le lit de tes parents", b: "Dans le bureau de ton/ta boss", lvl: 3 },
+  { a: "Devoir donner une note à chaque partenaire", b: "Recevoir la tienne à chaque fois", lvl: 3 },
+
+  // --- Niveau 4 · Cancellable ☠️ (le plus trash) ---------------------------
+  { a: "Coucher avec un(e) inconnu(e) contre 10 000 €", b: "Rester fidèle et fauché(e)", lvl: 4 },
+  { a: "Que ton nombre de partenaires soit annoncé au repas de Noël", b: "Ton salaire exact", lvl: 4 },
+  { a: "Balancer l'infidélité de ton/ta meilleur(e) ami(e) à sa moitié", b: "Mentir pour le/la couvrir", lvl: 4 },
+  { a: "Passer une nuit avec ton/ta patron(ne) pour un poste", b: "Le/la dénoncer et perdre ton job", lvl: 4 },
+  { a: "Que ta sextape fuite mais tu deviens riche", b: "Que rien ne fuite mais tu restes fauché(e)", lvl: 4 },
+  { a: "Draguer à un enterrement", b: "Éclater de rire à un mariage raté", lvl: 4 },
+  { a: "Voler l'identité de quelqu'un pour repartir à zéro", b: "Rester coincé(e) dans ta réputation", lvl: 4 },
+  { a: "Que tous tes mensonges de la semaine soient révélés", b: "Toutes tes pensées interdites", lvl: 4 },
+  { a: "Devenir riche en ruinant discrètement un inconnu", b: "Rester modeste mais irréprochable", lvl: 4 },
+  { a: "Hériter de la fortune d'un criminel", b: "Rester pauvre mais les mains propres", lvl: 4 },
 ];
 
 /**

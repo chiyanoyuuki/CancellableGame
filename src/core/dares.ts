@@ -141,6 +141,14 @@ export const HOT_DARES: HotDare[] = [
   { category: 'alcool', lvl: 3, text: "Bois une gorgée pour chaque personne que tu as embrassée ce mois-ci." },
   { category: 'alcool', lvl: 4, text: "Cul sec, ou réponds franchement : combien de partenaires cette année ?" },
   { category: 'alcool', lvl: 4, text: "Désigne la personne la plus sexy de la table : elle et toi, cul sec." },
+
+  // ----- Vague 3 -----------------------------------------------------------
+  { category: 'soft', lvl: 2, text: "Fais deviner ton type idéal en trois mimes." },
+  { category: 'soft', lvl: 3, text: "Décris ton meilleur souvenir coquin (sans citer de nom)." },
+  { category: 'soft', lvl: 4, text: "Nomme la personne de la table avec qui tu partirais en week-end en amoureux." },
+  { category: 'alcool', lvl: 2, text: "Bois avec la dernière personne à qui tu as écrit." },
+  { category: 'alcool', lvl: 3, text: "Cul sec, ou montre la dernière photo de ta pellicule." },
+  { category: 'alcool', lvl: 4, text: "Bois autant de gorgées que de personnes que tu as embrassées (à la louche)." },
 ];
 
 /**
