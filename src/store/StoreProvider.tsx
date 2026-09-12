@@ -3,6 +3,7 @@ import { Modal, StyleSheet, View } from 'react-native';
 
 import { Button, Txt } from '../components/ui';
 import { colors, fontSize, radius, spacing } from '../theme/theme';
+import { setCancelOwned } from '../lib/cancelLevel';
 import { localBilling } from './billing';
 import {
   loadFreeUniverses,
@@ -74,6 +75,12 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const ent = useMemo(() => deriveEntitlements(owned), [owned]);
+
+  // Répercute la possession du pack « Cancellable » au module de niveau, qui
+  // borne le contenu osé tant que le pack n'est pas acheté.
+  useEffect(() => {
+    setCancelOwned(ent.cancellable);
+  }, [ent.cancellable]);
 
   const isUniverseUnlocked = useCallback(
     (category: string) => ent.allThemes || freeUniverses.has(category),

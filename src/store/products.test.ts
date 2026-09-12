@@ -1,6 +1,7 @@
 import {
   canAddProfile,
   deriveEntitlements,
+  isCancelLevelUnlocked,
   isModeUnlocked,
   isProductOwned,
   isStatsPeriodUnlocked,
@@ -17,6 +18,7 @@ describe('deriveEntitlements', () => {
       allStats: false,
       allAchievements: false,
       noAds: false,
+      cancellable: false,
     });
   });
 
@@ -34,6 +36,7 @@ describe('deriveEntitlements', () => {
       allStats: true,
       allAchievements: true,
       noAds: true,
+      cancellable: true,
     });
   });
 
@@ -72,6 +75,22 @@ describe('modes de jeu', () => {
     expect(isModeUnlocked('bombe', free)).toBe(false);
     expect(isModeUnlocked('duel', free)).toBe(false);
     expect(isModeUnlocked('duel', deriveEntitlements(['all_modes']))).toBe(true);
+  });
+});
+
+describe('niveaux cancellable', () => {
+  test('le niveau 1 est gratuit, les niveaux osés exigent le pack', () => {
+    const free = deriveEntitlements([]);
+    const paid = deriveEntitlements(['cancellable']);
+    expect(isCancelLevelUnlocked(1, free)).toBe(true);
+    expect(isCancelLevelUnlocked(2, free)).toBe(false);
+    expect(isCancelLevelUnlocked(4, free)).toBe(false);
+    expect(isCancelLevelUnlocked(4, paid)).toBe(true);
+  });
+
+  test('le pack « tout débloquer » inclut les niveaux osés', () => {
+    expect(deriveEntitlements(['unlock_all']).cancellable).toBe(true);
+    expect(isCancelLevelUnlocked(4, deriveEntitlements(['unlock_all']))).toBe(true);
   });
 });
 

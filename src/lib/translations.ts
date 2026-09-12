@@ -239,6 +239,16 @@ export const EN: Record<string, string> = {
   'Tout débloquer': 'Unlock everything',
   'Profils, modes, thèmes, stats — et sans publicité.': 'Profiles, modes, themes, stats — and no ads.',
   '1,99 €': '€1.99',
+  'Pack Cancellable': 'Cancellable Pack',
+  'Débloque les niveaux osés (Épicé, +18 et Cancellable) dans tous les modes.':
+    'Unlocks the edgy levels (Spicy, +18 and Cancellable) in every mode.',
+  'Profils, modes, thèmes, stats, niveaux osés — et sans publicité.':
+    'Profiles, modes, themes, stats, edgy levels — and no ads.',
+  Débloquer: 'Unlock',
+  'Pack Cancellable 🌶️': 'Cancellable Pack 🌶️',
+  'Débloque les niveaux osés (Épicé, +18 et Cancellable) dans tous les modes pour {price}.':
+    'Unlocks the edgy levels (Spicy, +18 and Cancellable) in every mode for {price}.',
+  '🔒 Niveaux osés réservés au Pack Cancellable ({price}).': '🔒 Edgy levels require the Cancellable Pack ({price}).',
   '0,99 €': '€0.99',
   '4,99 €': '€4.99',
 

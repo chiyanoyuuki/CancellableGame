@@ -20,6 +20,7 @@ export type ProductId =
   | 'all_stats'
   | 'all_achievements'
   | 'no_ads'
+  | 'cancellable'
   | 'unlock_all';
 
 export interface Product {
@@ -38,7 +39,8 @@ export const PRODUCTS: Product[] = [
   { id: 'all_stats', title: 'Toutes les statistiques', description: 'Mois, année, total et tous les palmarès.', price: '1,99 €', emoji: '📊' },
   { id: 'all_achievements', title: 'Hauts faits', description: 'Débloque tous les hauts faits, leurs paliers et le classement.', price: '1,99 €', emoji: '🎖️' },
   { id: 'no_ads', title: 'Sans publicité', description: 'Retire les publicités pour toujours.', price: '0,99 €', emoji: '🚫' },
-  { id: 'unlock_all', title: 'Tout débloquer', description: 'Profils, modes, thèmes, stats — et sans publicité.', price: '4,99 €', emoji: '✨' },
+  { id: 'cancellable', title: 'Pack Cancellable', description: 'Débloque les niveaux osés (Épicé, +18 et Cancellable) dans tous les modes.', price: '1,99 €', emoji: '🌶️' },
+  { id: 'unlock_all', title: 'Tout débloquer', description: 'Profils, modes, thèmes, stats, niveaux osés — et sans publicité.', price: '4,99 €', emoji: '✨' },
 ];
 
 /** Ce que le pack « tout débloquer » accorde implicitement. */
@@ -49,6 +51,7 @@ export const UNLOCK_ALL_GRANTS: ProductId[] = [
   'all_stats',
   'all_achievements',
   'no_ads',
+  'cancellable',
 ];
 
 export interface Entitlements {
@@ -58,6 +61,8 @@ export interface Entitlements {
   allStats: boolean;
   allAchievements: boolean;
   noAds: boolean;
+  /** Pack « Cancellable » : accès aux niveaux osés (au-delà du gratuit). */
+  cancellable: boolean;
 }
 
 /** True si `id` est couvert par les produits possédés (achat direct ou pack). */
@@ -77,6 +82,7 @@ export function deriveEntitlements(owned: Iterable<string>): Entitlements {
     allStats: isProductOwned('all_stats', set),
     allAchievements: isProductOwned('all_achievements', set),
     noAds: isProductOwned('no_ads', set),
+    cancellable: isProductOwned('cancellable', set),
   };
 }
 
@@ -88,6 +94,13 @@ export const FREE_PROFILE_LIMIT = 10;
 export const FREE_UNIVERSE_COUNT = 20;
 /** Modes jouables gratuitement (les autres exigent `all_modes`). */
 export const FREE_GAME_IDS = ['quiz'];
+/** Niveau de « cancellabilité » gratuit ; au-delà il faut le pack `cancellable`. */
+export const FREE_CANCEL_LEVEL = 1;
+
+/** Un niveau de « cancellabilité » est-il débloqué ? (1 gratuit, le reste au pack). */
+export function isCancelLevelUnlocked(level: number, ent: Entitlements): boolean {
+  return level <= FREE_CANCEL_LEVEL || ent.cancellable;
+}
 
 export function profileLimit(ent: Entitlements): number {
   return ent.unlimitedProfiles ? Infinity : FREE_PROFILE_LIMIT;
