@@ -8,7 +8,8 @@ import { buildDaily } from '../../core/dailyChallenge';
 import { type CultureConfig, type CultureState, type QCard, createCultureState, cultureRanking, cultureReducer, cultureToSessionResult, currentPlayerId } from '../../core/cultureEngine';
 import { daresForLevel } from '../../core/dares';
 import type { Player } from '../../core/models';
-import { randomSeed } from '../../core/rng';
+import { mulberry32, randomSeed } from '../../core/rng';
+import { blendByCancelLevel } from '../../core/contentLevel';
 import { haptics } from '../../lib/haptics';
 import { sounds } from '../../lib/sounds';
 import { useT } from '../../lib/i18nProvider';
@@ -48,8 +49,10 @@ export function CulturePlayComponent({ players, config, onFinish, onQuit }: Mini
             !(q.universe && excluded.has(q.universe)) &&
             ((q.cancelLevel ?? 1) > 1 || store.ent.allThemes || store.isUniverseUnlocked(q.universe ?? `#${q.theme}`)),
         );
+        // Dosage « cancellable » : ~70 % chill / ~10 % par palier osé (sans effet au niveau 1).
+        const blended = blendByCancelLevel(pool, getCancelLevel(), mulberry32(randomSeed()));
         const need = players.length * Math.max(1, cfg.questionsPerPlayer);
-        const daily = buildDaily(pool, randomSeed().toString(), Math.max(need + 4, need));
+        const daily = buildDaily(blended, randomSeed().toString(), Math.max(need + 4, need));
         const deck: QCard[] = daily.map((d) => ({
           id: d.question.id,
           text: d.question.text,

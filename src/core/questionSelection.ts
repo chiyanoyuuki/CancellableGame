@@ -1,4 +1,5 @@
-import type { Difficulty, Question, Theme, TurnMode } from './models';
+import { blendByCancelLevel } from './contentLevel';
+import type { CancelLevel, Difficulty, Question, Theme, TurnMode } from './models';
 import { type Rng, shuffle } from './rng';
 
 /**
@@ -86,6 +87,13 @@ export interface SelectionOptions {
    * défaut = 1 ; se combine (multiplication) avec la diversité d'univers.
    */
   universeWeightByPlayer?: Record<string, Record<string, number>>;
+  /**
+   * Dosage « cancellable » : si défini (> 1), le pool éligible est recomposé pour
+   * viser ~70 % chill / ~10 % par palier osé (voir blendByCancelLevel). Appliqué
+   * APRÈS le filtre thèmes/difficultés, donc sans risque de manquer de questions
+   * quand les thèmes choisis n'ont pas de contenu osé.
+   */
+  blendCancelLevel?: CancelLevel;
 }
 
 /** Reused for players with no personal history yet (everything is fresh). */
@@ -145,7 +153,13 @@ export function selectQuestions(
   rng: Rng,
   opts?: SelectionOptions,
 ): Question[] {
-  const eligible = eligiblePool(pool, filter);
+  const eligible0 = eligiblePool(pool, filter);
+  // Dosage « cancellable » optionnel : recompose le pool éligible vers la cible
+  // ~70/10/10/10 (sans effet s'il n'y a pas de contenu osé dans les thèmes tirés).
+  const eligible =
+    opts?.blendCancelLevel && opts.blendCancelLevel > 1
+      ? blendByCancelLevel(eligible0, opts.blendCancelLevel, rng)
+      : eligible0;
   const order = opts?.order ?? [];
   const turnMode: TurnMode = opts?.turnMode ?? 'turn';
   const n = order.length;

@@ -15,6 +15,7 @@ import { useStore } from '../../store/StoreProvider';
 import type { MiniGamePlayProps } from '../types';
 import { getQuizPool } from '../quiz/pool';
 import { getCancelLevel } from '../../lib/cancelLevel';
+import { blendByCancelLevel } from '../../core/contentLevel';
 
 function haptic(success: boolean) {
   if (success) haptics.correct();
@@ -52,11 +53,14 @@ export function DuelPlayComponent({ players, config, onFinish, onQuit }: MiniGam
         // Version gratuite : ne tire que dans les univers débloqués du joueur.
         // Le contenu « cancellable » n'est pas un pack payant : le niveau choisi
         // est la seule barrière, donc il passe même sans achat.
-        const pool = store.ent.allThemes
+        const filtered = store.ent.allThemes
           ? fullPool
           : fullPool.filter((q) => (q.cancelLevel ?? 1) > 1 || store.isUniverseUnlocked(q.universe ?? `#${q.theme}`));
         const seed = randomSeed();
-        const order = shuffle(players, mulberry32(seed)).map((p) => p.id);
+        const rng = mulberry32(seed);
+        // Dosage « cancellable » : ~70 % chill / ~10 % par palier osé (sans effet au niveau 1).
+        const pool = blendByCancelLevel(filtered, getCancelLevel(), rng);
+        const order = shuffle(players, rng).map((p) => p.id);
         if (!alive) return;
         startedAtRef.current = Date.now();
         setGame(createDuelState({ config: cfg, players, pool, seed, order }));

@@ -17,7 +17,8 @@ import {
 } from '../../core/aliasEngine';
 import { THEME_META } from '../../core/models';
 import { isGoodImposteurWord } from '../../core/imposteurEngine';
-import { randomSeed } from '../../core/rng';
+import { mulberry32, randomSeed } from '../../core/rng';
+import { blendByCancelLevel } from '../../core/contentLevel';
 import { haptics } from '../../lib/haptics';
 import { sounds } from '../../lib/sounds';
 import { useT } from '../../lib/i18nProvider';
@@ -44,14 +45,20 @@ export function AliasPlayComponent({ config, onFinish, onQuit }: MiniGamePlayPro
         const full = await getQuizPool({ maxCancelLevel: getCancelLevel() });
         const themeSet = cfg.themes && cfg.themes.length > 0 ? new Set(cfg.themes) : null;
         const excluded = new Set(cfg.excludedUniverses ?? []);
+        // Contenu jouable : thème/exclusions/mot valide + droits (le contenu osé
+        // n'est pas un pack payant, le niveau est la barrière).
+        const eligible = full.filter(
+          (q) =>
+            (!themeSet || themeSet.has(q.theme)) &&
+            !(q.universe && excluded.has(q.universe)) &&
+            isGoodImposteurWord(q.answer) &&
+            (store.ent.allThemes || (q.cancelLevel ?? 1) > 1 || store.isUniverseUnlocked(q.universe ?? `#${q.theme}`)),
+        );
+        // Dosage « cancellable » : ~70 % chill / ~10 % par palier osé (sans effet au niveau 1).
+        const blended = blendByCancelLevel(eligible, getCancelLevel(), mulberry32(randomSeed()));
         const seen = new Set<string>();
         const words: AliasWord[] = [];
-        for (const q of full) {
-          if (themeSet && !themeSet.has(q.theme)) continue;
-          if (q.universe && excluded.has(q.universe)) continue;
-          if (!isGoodImposteurWord(q.answer)) continue;
-          // Le contenu « cancellable » n'est pas un pack payant : le niveau est la barrière.
-          if (!store.ent.allThemes && (q.cancelLevel ?? 1) <= 1 && !store.isUniverseUnlocked(q.universe ?? `#${q.theme}`)) continue;
+        for (const q of blended) {
           if (seen.has(q.answer)) continue;
           seen.add(q.answer);
           words.push({ word: q.answer, theme: q.theme, universe: q.universe });

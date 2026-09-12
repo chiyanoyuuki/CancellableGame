@@ -139,7 +139,7 @@ export function BombePlayComponent({ players, config, onFinish, onQuit }: MiniGa
           { themes: cfg.themes, difficulties: cfg.difficulties, count: POOL_COUNT, excludedUniverses: cfg.excludedUniverses },
           history,
           rng,
-          { order: players.map((p) => p.id), turnMode: 'fastest', historyByPlayer },
+          { order: players.map((p) => p.id), turnMode: 'fastest', historyByPlayer, blendCancelLevel: getCancelLevel() },
         );
         const order = shuffle(players, rng).map((p) => p.id);
         const startIndex = Math.floor(rng() * order.length);

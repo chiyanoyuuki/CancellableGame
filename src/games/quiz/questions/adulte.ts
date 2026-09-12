@@ -463,4 +463,161 @@ export const adulteQuestions: Question[] = [
     text: 'À quel âge sont morts Hendrix, Joplin et Cobain, formant un « club » tristement célèbre ?', answer: '27 ans',
     distractors: ['30 ans', '25 ans', '33 ans'],
   },
+
+  // ===== Vague 5 ============================================================
+  // --- Niveau 2 · Épicé 🌶️ --------------------------------------------------
+  {
+    id: 'adl-229', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 3, cancelLevel: 2,
+    text: 'Quelle liqueur de café entre dans un Espresso Martini ?', answer: 'Le Kahlúa',
+    distractors: ['Le Cointreau', 'Le Baileys', 'La Chartreuse'],
+  },
+  {
+    id: 'adl-230', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 2, cancelLevel: 2,
+    text: 'Quel alcool japonais à base de riz accompagne traditionnellement les sushis ?', answer: 'Le saké',
+    distractors: ['Le soju', 'Le baijiu', 'Le mirin'],
+  },
+  {
+    id: 'adl-231', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 3, cancelLevel: 2,
+    text: 'Quel cocktail brésilien est à base de cachaça ?', answer: 'La caïpirinha',
+    distractors: ['La sangria', 'Le spritz', 'Le daïquiri'],
+  },
+  {
+    id: 'adl-232', theme: 'culture', universe: 'Sexo 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quelle pierre précieuse rouge symbolise la passion ?', answer: 'Le rubis',
+    distractors: ["L'émeraude", 'Le saphir', 'Le diamant'],
+  },
+  {
+    id: 'adl-233', theme: 'culture', universe: 'Sexo 🔞', difficulty: 1, cancelLevel: 2,
+    text: "Comment appelle-t-on l'attirance foudroyante dès le premier regard ?", answer: 'Le coup de foudre',
+    distractors: ['Le béguin', 'La tendresse', 'La routine'],
+  },
+  {
+    id: 'adl-234', theme: 'culture', universe: 'Sexo 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quel roman de Choderlos de Laclos peint des jeux de séduction cruels ?', answer: 'Les Liaisons dangereuses',
+    distractors: ['Manon Lescaut', 'Madame Bovary', 'Le Rouge et le Noir'],
+  },
+  {
+    id: 'adl-235', theme: 'culture', universe: 'Vie de couple 💔', difficulty: 2, cancelLevel: 2,
+    text: "Comment nomme-t-on un couple qui vit loin l'un de l'autre ?", answer: 'Une relation à distance',
+    distractors: ['Un mariage blanc', 'Une union libre', 'Un pacs'],
+  },
+  {
+    id: 'adl-236', theme: 'culture', universe: 'Vie de couple 💔', difficulty: 2, cancelLevel: 2,
+    text: 'Quel contrat civil français unit deux personnes sans mariage ?', answer: 'Le PACS',
+    distractors: ['Le CDI', 'Le bail', 'La tutelle'],
+  },
+  {
+    id: 'adl-237', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 2, cancelLevel: 2,
+    text: 'Quelle gigantesque fête de la bière a lieu chaque automne à Munich ?', answer: "L'Oktoberfest",
+    distractors: ['Le Carnaval', 'La Saint-Patrick', 'Le Nouvel An'],
+  },
+  {
+    id: 'adl-238', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 3, cancelLevel: 2,
+    text: 'Quel cépage blanc entre, avec le pinot noir, dans la composition du champagne ?', answer: 'Le chardonnay',
+    distractors: ['Le merlot', 'La syrah', 'Le gamay'],
+  },
+
+  // --- Niveau 3 · +18 🔞 ----------------------------------------------------
+  {
+    id: 'adl-329', theme: 'culture', universe: 'Sexo 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Comment nomme-t-on la zone de plaisir féminine controversée désignée par une lettre ?', answer: 'Le point G',
+    distractors: ['Le point A', 'Le point V', 'Le point Z'],
+  },
+  {
+    id: 'adl-330', theme: 'culture', universe: 'Sexo 🔞', difficulty: 2, cancelLevel: 3,
+    text: 'Comment désigne-t-on familièrement une relation charnelle sans engagement ?', answer: 'Un plan cul',
+    distractors: ['Un rencard', 'Un flirt', 'Un béguin'],
+  },
+  {
+    id: 'adl-331', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 3, cancelLevel: 3,
+    text: "Quel ensemble de muscles du plancher pelvien se muscle pour améliorer le plaisir ?", answer: 'Le périnée',
+    distractors: ['Le diaphragme', 'Le biceps', 'Le trapèze'],
+  },
+  {
+    id: 'adl-332', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Combien de terminaisons nerveuses compte environ le clitoris ?', answer: 'Environ 8 000',
+    distractors: ['Environ 100', 'Environ 800', 'Environ 80 000'],
+  },
+  {
+    id: 'adl-333', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 3, cancelLevel: 3,
+    text: "Quel film de 2013 d'Abdellatif Kechiche fut primé et remarqué pour ses scènes intimes ?", answer: "La Vie d'Adèle",
+    distractors: ['Amour', 'Intouchables', 'La Haine'],
+  },
+  {
+    id: 'adl-334', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Quel film de Paul Verhoeven (1995) sur des strip-teaseuses est devenu un flop culte ?', answer: 'Showgirls',
+    distractors: ['Striptease', 'Flashdance', 'Coyote Ugly'],
+  },
+  {
+    id: 'adl-335', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Quel groupe britannique a choqué avec « Relax », interdit d’antenne par la BBC ?', answer: 'Frankie Goes to Hollywood',
+    distractors: ['Wham!', 'Duran Duran', 'The Police'],
+  },
+  {
+    id: 'adl-336', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel style musical jamaïcain aux paroles souvent très crues a émergé dans les années 90 ?', answer: 'Le dancehall',
+    distractors: ['Le reggae', 'Le ska', 'Le calypso'],
+  },
+  {
+    id: 'adl-337', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quelle capitale asiatique est réputée pour sa vie nocturne intense ?', answer: 'Bangkok',
+    distractors: ['Tokyo', 'Séoul', 'Hanoï'],
+  },
+  {
+    id: 'adl-338', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 4, cancelLevel: 3,
+    text: "Quelle célèbre boîte techno berlinoise est réputée pour sa sélection d'entrée impitoyable ?", answer: 'Le Berghain',
+    distractors: ['Le Studio 54', 'Le Rex', "L'Amnesia"],
+  },
+
+  // --- Niveau 4 · Cancellable ☠️ --------------------------------------------
+  {
+    id: 'adl-430', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: "Quel empereur romain aurait joué de la lyre pendant l'incendie de Rome ?", answer: 'Néron',
+    distractors: ['Auguste', 'Hadrien', 'Marc Aurèle'],
+  },
+  {
+    id: 'adl-431', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 4, cancelLevel: 4,
+    text: "Quelle famille de la Renaissance italienne est synonyme d'intrigues et d'empoisonnements ?", answer: 'Les Borgia',
+    distractors: ['Les Médicis', 'Les Sforza', 'Les Este'],
+  },
+  {
+    id: 'adl-432', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: "Comment appelle-t-on l'argent exigé pour libérer un otage ?", answer: 'Une rançon',
+    distractors: ['Une caution', 'Une amende', 'Un acompte'],
+  },
+  {
+    id: 'adl-433', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 4, cancelLevel: 4,
+    text: "Comment nomme-t-on le trafic d'êtres humains à des fins d'exploitation ?", answer: 'La traite',
+    distractors: ['Le troc', 'La contrebande', 'Le recel'],
+  },
+  {
+    id: 'adl-434', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quelle drogue hallucinogène fut popularisée par la contre-culture des années 60 ?', answer: 'Le LSD',
+    distractors: ['La morphine', 'La nicotine', 'La caféine'],
+  },
+  {
+    id: 'adl-435', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 4, cancelLevel: 4,
+    text: "Quel film d'horreur français de 2008 est réputé pour être insoutenable ?", answer: 'Martyrs',
+    distractors: ['Le Pacte des loups', 'Frontière(s)', 'Grave'],
+  },
+  {
+    id: 'adl-436', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quel festival de 1969 est devenu le symbole du mouvement hippie et de ses excès ?', answer: 'Woodstock',
+    distractors: ['Coachella', 'Glastonbury', 'Le Hellfest'],
+  },
+  {
+    id: 'adl-437', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quelle boîte de nuit new-yorkaise des années 70 symbolisait la fête et la décadence ?', answer: 'Le Studio 54',
+    distractors: ['Le CBGB', 'Le Cotton Club', 'Le Blue Note'],
+  },
+  {
+    id: 'adl-438', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on un dirigeant qui exerce un pouvoir absolu et répressif ?', answer: 'Un dictateur',
+    distractors: ['Un député', 'Un maire', 'Un diplomate'],
+  },
+  {
+    id: 'adl-439', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 4, cancelLevel: 4,
+    text: 'Comment nomme-t-on le fait de truquer une élection ?', answer: 'La fraude électorale',
+    distractors: ['Le sondage', 'Le référendum', 'Le recensement'],
+  },
 ];

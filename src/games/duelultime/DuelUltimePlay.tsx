@@ -15,7 +15,8 @@ import {
   duelUltimeToSessionResult,
 } from '../../core/duelUltimeEngine';
 import { type DrinkOutcome, rollAnswerDrink } from '../../core/drinks';
-import { randomSeed } from '../../core/rng';
+import { mulberry32, randomSeed } from '../../core/rng';
+import { blendByCancelLevel } from '../../core/contentLevel';
 import { getQuestionHistoryByPlayer } from '../../db';
 import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import { useStore } from '../../store/StoreProvider';
@@ -61,10 +62,12 @@ export function DuelUltimePlayComponent({ players, config, onFinish, onQuit }: M
           getQuestionHistoryByPlayer(),
         ]);
         // Le contenu « cancellable » passe même sans achat : le niveau est la barrière.
-        const pool = store.ent.allThemes
+        const filtered = store.ent.allThemes
           ? fullPool
           : fullPool.filter((q) => (q.cancelLevel ?? 1) > 1 || store.isUniverseUnlocked(q.universe ?? `#${q.theme}`));
         const seed = randomSeed();
+        // Dosage « cancellable » : ~70 % chill / ~10 % par palier osé (sans effet au niveau 1).
+        const pool = blendByCancelLevel(filtered, getCancelLevel(), mulberry32(seed));
         const order = players.map((p) => p.id);
         if (!alive) return;
         startedAtRef.current = Date.now();
