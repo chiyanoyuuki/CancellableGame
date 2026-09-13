@@ -509,6 +509,29 @@ export const PROMPTS_HOT: HotPrompt[] = [
   { text: "de ghoster sans le moindre remords", lvl: 4 },
   { text: "d'avoir déjà fouillé le téléphone de son/sa partenaire", lvl: 4 },
   { text: "de balancer un secret dès que ça l'arrange", lvl: 4 },
+
+  // ----- Vague 2 (nouvelles affirmations osées) ----------------------------
+  // --- Niveau 2 · Épicé 🌶️ -------------------------------------------------
+  { text: "de tomber amoureux(se) de quelqu'un jamais rencontré en vrai", lvl: 2 },
+  { text: "d'avoir un crush sur une célébrité totalement inaccessible", lvl: 2 },
+  { text: "de laisser un « vu » sans jamais répondre", lvl: 2 },
+  { text: "de reprendre son ex pour la troisième fois", lvl: 2 },
+  { text: "de mentir sur ses hobbies pour paraître intéressant(e)", lvl: 2 },
+  { text: "de flirter juste pour un verre gratuit", lvl: 2 },
+  // --- Niveau 3 · +18 🔞 ---------------------------------------------------
+  { text: "d'avoir déjà eu un plan sans lendemain totalement assumé", lvl: 3 },
+  { text: "d'avoir un tiroir secret que personne ne doit ouvrir", lvl: 3 },
+  { text: "d'avoir déjà craqué pour deux personnes en même temps", lvl: 3 },
+  { text: "d'assumer le plus fort ses envies sans complexe", lvl: 3 },
+  { text: "d'avoir déjà tout raconté de sa nuit au petit-déj", lvl: 3 },
+  { text: "d'avoir déjà simulé pour en finir plus vite", lvl: 3 },
+  // --- Niveau 4 · Cancellable ☠️ -------------------------------------------
+  { text: "de doubler tout le monde pour arriver en haut", lvl: 4 },
+  { text: "de garder l'argent trouvé sans jamais le signaler", lvl: 4 },
+  { text: "de laisser un(e) autre porter le chapeau à sa place", lvl: 4 },
+  { text: "de couper les ponts du jour au lendemain sans explication", lvl: 4 },
+  { text: "de faire semblant d'être quelqu'un d'autre pour impressionner", lvl: 4 },
+  { text: "de fouiller dans les affaires de ses invités", lvl: 4 },
 ];
 
 /**

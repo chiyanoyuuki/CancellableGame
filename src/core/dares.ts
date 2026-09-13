@@ -157,6 +157,20 @@ export const HOT_DARES: HotDare[] = [
   { category: 'alcool', lvl: 2, text: "Bois avec la personne que tu trouves la plus mystérieuse ici." },
   { category: 'alcool', lvl: 3, text: "Cul sec, ou révèle le prénom de ton dernier crush secret." },
   { category: 'alcool', lvl: 4, text: "Bois autant de gorgées que de personnes présentes que tu trouves attirantes." },
+
+  // ----- Vague 5 -----------------------------------------------------------
+  { category: 'soft', lvl: 2, text: "Rejoue ton pire vent reçu, en incarnant les deux rôles." },
+  { category: 'soft', lvl: 2, text: "Fais ton plus beau regard charmeur à la personne en face pendant 5 secondes." },
+  { category: 'soft', lvl: 3, text: "Décris ton crush idéal, puis dis qui, ici, s'en rapproche le plus." },
+  { category: 'soft', lvl: 3, text: "Mime une scène de danse sensuelle jusqu'à ce qu'on devine le film." },
+  { category: 'soft', lvl: 4, text: "Avoue le plus gros secret que tu n'as encore jamais dit ce soir." },
+  { category: 'soft', lvl: 4, text: "Révèle le fantasme le plus fou que tu oses avouer à voix haute." },
+  { category: 'alcool', lvl: 2, text: "Bois avec la personne que tu trouves la plus flirteuse ce soir." },
+  { category: 'alcool', lvl: 2, text: "Trinque avec la dernière personne qui t'a fait rougir." },
+  { category: 'alcool', lvl: 3, text: "Cul sec, ou avoue ton coup de cœur le plus inavouable." },
+  { category: 'alcool', lvl: 3, text: "Bois une gorgée pour chaque appli de rencontre installée sur ton téléphone." },
+  { category: 'alcool', lvl: 4, text: "Cul sec, ou révèle combien de personnes présentes tu as déjà embrassées." },
+  { category: 'alcool', lvl: 4, text: "Désigne la personne la plus mystérieuse : vous buvez tous les deux à votre pire secret." },
 ];
 
 /**

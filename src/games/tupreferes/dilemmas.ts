@@ -510,6 +510,29 @@ export const DILEMMAS_HOT: HotDilemma[] = [
   { a: "Truquer un jeu télé pour rafler le jackpot", b: "Perdre honnêtement en direct", lvl: 4 },
   { a: "Que ton casier s'affiche sur ton profil de rencontre", b: "Que tes ex y laissent tous un avis public", lvl: 4 },
   { a: "Doubler un(e) ami(e) pour décrocher LE job", b: "Le/la laisser l'avoir et rester au placard", lvl: 4 },
+
+  // ----- Vague 2 (nouveaux dilemmes osés) ----------------------------------
+  // Niveau 2 · Épicé 🌶️
+  { a: "Que ton/ta crush voie tes brouillons de messages non envoyés", b: "Qu'il/elle connaisse toutes les personnes que tu as bloquées", lvl: 2 },
+  { a: "Un rencard qui filme tout pour ses réseaux", b: "Un rencard qui note la soirée à voix haute", lvl: 2 },
+  { a: "Devoir pimenter chaque anecdote pour séduire", b: "Ne raconter que la stricte vérité, même plate", lvl: 2 },
+  { a: "Un date qui t'a clairement stalké(e) avant", b: "Un date qui confond ton prénom toute la soirée", lvl: 2 },
+  { a: "Que ton ex commente toutes tes photos", b: "Que ta mère like tes posts en trois secondes", lvl: 2 },
+  { a: "Avouer ton pire swipe de la semaine", b: "Montrer ton dernier match", lvl: 2 },
+  // Niveau 3 · +18 🔞
+  { a: "Faire le premier pas à chaque fois", b: "Ne jamais oser le faire", lvl: 3 },
+  { a: "Un(e) partenaire qui garde tout en souvenir", b: "Un(e) partenaire qui raconte tout à ses potes", lvl: 3 },
+  { a: "Révéler le lieu le plus improbable où tu l'as fait", b: "Révéler qui, dans la pièce, ne te laisserait pas indifférent(e)", lvl: 3 },
+  { a: "Une nuit inoubliable avec quelqu'un d'inaccessible", b: "Dix nuits banales avec la personne parfaite", lvl: 3 },
+  { a: "Dévoiler ton historique de navigation nocturne", b: "Dévoiler tes conversations privées les plus chaudes", lvl: 3 },
+  { a: "N'avoir de succès qu'en vacances", b: "N'avoir de succès qu'au travail", lvl: 3 },
+  // Niveau 4 · Cancellable ☠️
+  { a: "Truquer ton CV pour décrocher le job de tes rêves", b: "Rester honnête et sous-employé(e)", lvl: 4 },
+  { a: "Que ton/ta partenaire découvre ton compte secret", b: "Que ton patron découvre ton job au noir", lvl: 4 },
+  { a: "Empocher l'argent d'un portefeuille perdu", b: "Le rendre mais rater ton loyer", lvl: 4 },
+  { a: "Trahir un secret d'ami pour devenir célèbre", b: "Rester anonyme et loyal(e)", lvl: 4 },
+  { a: "Faire accuser un innocent à ta place", b: "Assumer une faute que tu n'as pas commise", lvl: 4 },
+  { a: "Mentir sous serment pour sauver un proche", b: "Dire la vérité et l'envoyer en prison", lvl: 4 },
 ];
 
 /**
