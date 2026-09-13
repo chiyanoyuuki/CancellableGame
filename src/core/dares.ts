@@ -199,6 +199,20 @@ export const HOT_DARES: HotDare[] = [
   { category: 'alcool', lvl: 3, text: "Bois une gorgée par personne présente que tu suivrais sur un compte privé." },
   { category: 'alcool', lvl: 4, text: "Cul sec, ou révèle le secret le plus lourd que tu gardes ce soir." },
   { category: 'alcool', lvl: 4, text: "Bois cul sec avec la personne que tu connais depuis le plus longtemps." },
+
+  // ----- Vague 8 -----------------------------------------------------------
+  { category: 'soft', lvl: 2, text: "Déclare ta flamme à la personne en face en trois compliments improvisés." },
+  { category: 'soft', lvl: 2, text: "Fais deviner, en mimant, ton émotion quand ton crush te répond." },
+  { category: 'soft', lvl: 3, text: "Raconte la fois où tu as été le plus gêné(e) en public." },
+  { category: 'soft', lvl: 3, text: "Imite la démarche de quelqu'un que tu trouves irrésistible." },
+  { category: 'soft', lvl: 4, text: "Avoue le pire prétexte que tu aies inventé pour éviter quelqu'un." },
+  { category: 'soft', lvl: 4, text: "Dis quelle rumeur tu aimerais lancer sur toi-même (ou passe ton tour)." },
+  { category: 'alcool', lvl: 2, text: "Bois avec la personne qui a, selon toi, le sourire le plus charmeur." },
+  { category: 'alcool', lvl: 2, text: "Trinque avec celui/celle que tu connais le moins ici." },
+  { category: 'alcool', lvl: 3, text: "Cul sec, ou révèle le pseudo le plus gênant que tu aies eu." },
+  { category: 'alcool', lvl: 3, text: "Bois une gorgée par soirée dont tu ne te souviens pas entièrement." },
+  { category: 'alcool', lvl: 4, text: "Cul sec, ou avoue la pire chose que tu aies faite en soirée." },
+  { category: 'alcool', lvl: 4, text: "Bois, ou envoie « je pense à toi » à ton dernier contact." },
 ];
 
 /**

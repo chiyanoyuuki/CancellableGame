@@ -578,6 +578,29 @@ export const PROMPTS_HOT: HotPrompt[] = [
   { text: "de trahir un secret sur l'oreiller", lvl: 4 },
   { text: "de fréquenter deux personnes à la fois sans qu'elles le sachent", lvl: 4 },
   { text: "de ne ressentir aucun remords après un sale coup", lvl: 4 },
+
+  // ----- Vague 5 (nouvelles affirmations osées) ----------------------------
+  // --- Niveau 2 · Épicé 🌶️ -------------------------------------------------
+  { text: "de parler trop fort au cinéma", lvl: 2 },
+  { text: "de reprendre trois fois du dessert sans complexe", lvl: 2 },
+  { text: "de raconter sa vie à un inconnu dans le train", lvl: 2 },
+  { text: "de tomber sous le charme d'une simple voix au téléphone", lvl: 2 },
+  { text: "de garder ses tickets et reçus « au cas où »", lvl: 2 },
+  { text: "de s'inventer une vie plus excitante en soirée", lvl: 2 },
+  // --- Niveau 3 · +18 🔞 ---------------------------------------------------
+  { text: "d'avoir déjà envoyé un message qu'il/elle regrette encore", lvl: 3 },
+  { text: "d'avoir un flirt en cours que personne ne connaît", lvl: 3 },
+  { text: "de céder à la tentation même en couple", lvl: 3 },
+  { text: "d'avoir déjà fait le mur pour un rendez-vous", lvl: 3 },
+  { text: "de parler de ses conquêtes sans qu'on lui demande", lvl: 3 },
+  { text: "d'avoir déjà flashé sur un(e) inconnu(e) dans les transports", lvl: 3 },
+  // --- Niveau 4 · Cancellable ☠️ -------------------------------------------
+  { text: "de mentir sans le moindre scrupule pour se sortir d'affaire", lvl: 4 },
+  { text: "de savourer la chute de quelqu'un qu'il/elle n'aime pas", lvl: 4 },
+  { text: "d'avoir déjà piégé quelqu'un pour se venger", lvl: 4 },
+  { text: "de trahir un serment quand ça l'arrange", lvl: 4 },
+  { text: "de profiter d'une situation sans jamais rien donner en retour", lvl: 4 },
+  { text: "d'oublier une promesse dès qu'elle ne l'arrange plus", lvl: 4 },
 ];
 
 /**

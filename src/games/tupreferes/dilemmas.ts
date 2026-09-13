@@ -579,6 +579,29 @@ export const DILEMMAS_HOT: HotDilemma[] = [
   { a: "Que ton employeur voie tout ce que tu dis de lui", b: "Que tes amis voient tout ce que tu dis d'eux", lvl: 4 },
   { a: "Accepter un énorme pot-de-vin et vivre avec", b: "Le refuser et rester fauché(e) à vie", lvl: 4 },
   { a: "Trahir ta patrie pour l'amour de ta vie", b: "Trahir ton amour pour ta patrie", lvl: 4 },
+
+  // ----- Vague 5 (nouveaux dilemmes osés) ----------------------------------
+  // Niveau 2 · Épicé 🌶️
+  { a: "Que ton correcteur automatique trahisse tes vraies pensées", b: "Que ta caméra s'allume au pire moment en visio", lvl: 2 },
+  { a: "Un date qui parle la bouche pleine", b: "Un date qui te corrige sans arrêt", lvl: 2 },
+  { a: "Chanter faux mais avec passion en soirée", b: "Danser sans aucun rythme toute la nuit", lvl: 2 },
+  { a: "Que tout le monde voie ton temps d'écran quotidien", b: "Que tout le monde voie tes dépenses en livraisons", lvl: 2 },
+  { a: "Être toujours celui/celle qui écrit en premier", b: "Attendre indéfiniment qu'on t'écrive", lvl: 2 },
+  { a: "Recevoir un compliment gênant devant tout le monde", b: "Une critique juste mais publique", lvl: 2 },
+  // Niveau 3 · +18 🔞
+  { a: "Révéler ta position préférée à la table", b: "Révéler ton pire refus au lit", lvl: 3 },
+  { a: "Un(e) partenaire bien plus expérimenté(e) que toi", b: "Bien moins expérimenté(e) que toi", lvl: 3 },
+  { a: "Que ton crush entende tes pensées pendant un câlin", b: "Que ton ex les entende pendant une dispute", lvl: 3 },
+  { a: "Vivre une passion intense mais interdite", b: "Un amour tranquille mais sans étincelle", lvl: 3 },
+  { a: "Avouer un fantasme qui gênerait la table", b: "Écouter celui de la personne à ta gauche", lvl: 3 },
+  { a: "Ne plus jamais mentir à qui tu dragues", b: "Ne plus jamais deviner quand on te ment", lvl: 3 },
+  // Niveau 4 · Cancellable ☠️
+  { a: "Prendre le mérite du travail d'un(e) autre", b: "Voir quelqu'un rafler le crédit du tien", lvl: 4 },
+  { a: "Que ta vie entière soit diffusée en télé-réalité", b: "Que tes secrets soient vendus au plus offrant", lvl: 4 },
+  { a: "Séduire quelqu'un juste pour son argent", b: "Renoncer au grand confort par principe", lvl: 4 },
+  { a: "Balancer un tricheur et briser une amitié", b: "Fermer les yeux et cautionner", lvl: 4 },
+  { a: "Effacer toutes tes dettes en trahissant un secret", b: "Rembourser toute ta vie", lvl: 4 },
+  { a: "Devenir influent(e) en manipulant l'opinion", b: "Rester intègre et ignoré(e)", lvl: 4 },
 ];
 
 /**
