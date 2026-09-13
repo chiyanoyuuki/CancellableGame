@@ -2764,4 +2764,56 @@ export const adulteQuestions: Question[] = [
     text: 'Comment appelle-t-on la consommation compulsive de contenu pour adultes ?', answer: "L'addiction au porno",
     distractors: ['Le binge-watching', 'Le doomscrolling', 'Le multitâche'],
   },
+
+  // ── Vague : niveau 4 encore plus trash (factuel) ──
+  {
+    id: 'adl-4086', theme: 'culture', universe: 'Sexo 🔞', difficulty: 3, cancelLevel: 4,
+    text: "Comment nomme-t-on l'excitation à observer les autres à leur insu ?", answer: 'Le voyeurisme',
+    distractors: ["L'exhibitionnisme", 'Le fétichisme', 'Le masochisme'],
+  },
+  {
+    id: 'adl-4087', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on une orgie festive de la Rome antique dédiée à Bacchus ?', answer: 'Une bacchanale',
+    distractors: ['Un banquet', 'Un symposium', 'Un forum'],
+  },
+  {
+    id: 'adl-4088', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quelle glande masculine est une zone érogène stimulée par voie interne ?', answer: 'La prostate',
+    distractors: ['Le foie', 'La rate', 'Le pancréas'],
+  },
+  {
+    id: 'adl-4089', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 2, cancelLevel: 4,
+    text: "Comment les Français surnomment-ils poétiquement l'orgasme ?", answer: 'La petite mort',
+    distractors: ['Le contrecoup', 'Le spleen', 'Le vertige'],
+  },
+  {
+    id: 'adl-4090', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 1, cancelLevel: 4,
+    text: 'Quelle plante est la drogue illégale la plus consommée au monde ?', answer: 'Le cannabis',
+    distractors: ['Le tabac', 'Le houblon', 'La sauge'],
+  },
+  {
+    id: 'adl-4091', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on le meurtre de sa propre mère ?', answer: 'Le matricide',
+    distractors: ['Le parricide', 'Le régicide', 'Le génocide'],
+  },
+  {
+    id: 'adl-4092', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: "Comment appelle-t-on l'assassinat d'un roi ?", answer: 'Le régicide',
+    distractors: ['Le matricide', 'Le parricide', 'Le suicide'],
+  },
+  {
+    id: 'adl-4093', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 4, cancelLevel: 4,
+    text: 'Quel instrument de torture médiéval étirait les membres du condamné ?', answer: 'Le chevalet',
+    distractors: ['Le pilori', 'Le carcan', 'La cangue'],
+  },
+  {
+    id: 'adl-4094', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Comment nomme-t-on ces films qui montreraient de vrais meurtres (mythe urbain) ?', answer: 'Le snuff movie',
+    distractors: ['Le péplum', 'Le biopic', 'Le slasher'],
+  },
+  {
+    id: 'adl-4095', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 1, cancelLevel: 4,
+    text: "Quel sous-vêtement réduit à l'extrême l'arrière est un classique aguicheur ?", answer: 'Le string',
+    distractors: ['Le boxer', 'Le caleçon', 'Le short'],
+  },
 ];

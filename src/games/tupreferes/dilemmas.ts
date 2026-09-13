@@ -665,6 +665,23 @@ export const DILEMMAS_HOT: HotDilemma[] = [
   { a: "Draguer quelqu'un puis découvrir que c'est un(e) cousin(e) éloigné(e)", b: "Découvrir que c'est l'ex de ton parent", lvl: 4 },
   { a: "Que tout le monde connaisse ton pire fantasme", b: "Ta plus grosse insécurité au lit", lvl: 4 },
   { a: "Coucher avec un(e) inconnu(e) contre un CDI", b: "Rester au chômage mais intègre", lvl: 4 },
+
+  // ----- Vague 9 · Cancellable ++ -----------------------------------------
+  { a: "Coucher avec le/la partenaire de ton patron pour grimper", b: "Saboter un(e) collègue plus doué(e) que toi", lvl: 4 },
+  { a: "Filmer tes ébats sans le dire à l'autre", b: "Découvrir que l'autre t'a filmé sans te le dire", lvl: 4 },
+  { a: "Que ta famille apprenne ton métier le plus honteux", b: "Que ton patron apprenne ton passé sulfureux", lvl: 4 },
+  { a: "Cracher dans le verre de quelqu'un que tu détestes", b: "Resservir une frite tombée par terre", lvl: 4 },
+  { a: "Faire semblant d'être orphelin(e) pour un héritage", b: "Vendre un secret de famille aux tabloïds", lvl: 4 },
+  { a: "Draguer ton médecin pendant la consultation", b: "Draguer ton avocat en plein procès", lvl: 4 },
+  { a: "Coucher avec quelqu'un pour éviter de payer ton loyer", b: "Dormir dehors mais fier(e)", lvl: 4 },
+  { a: "Que ton casier judiciaire soit tatoué sur ton front", b: "Ton nombre de partenaires tatoué sur ton bras", lvl: 4 },
+  { a: "Avoir une aventure avec le prof de tes enfants", b: "Avec le/la meilleur(e) ami(e) de ton/ta partenaire", lvl: 4 },
+  { a: "Piquer dans la caisse d'une association", b: "Voler le pourboire d'un serveur", lvl: 4 },
+  { a: "Coucher le soir de l'enterrement de ton ex", b: "Éclater de rire pendant une minute de silence", lvl: 4 },
+  { a: "Balancer ton meilleur pote pour une grosse récompense", b: "Prendre sa place en prison", lvl: 4 },
+  { a: "Te faire prendre en flagrant délit d'adultère", b: "Avouer toi-même ta trahison", lvl: 4 },
+  { a: "Séduire des jumeaux/jumelles sans qu'ils le sachent", b: "Te faire griller au pire moment", lvl: 4 },
+  { a: "Avouer une infidélité en plein repas de famille", b: "La garder secrète toute ta vie", lvl: 4 },
 ];
 
 /**

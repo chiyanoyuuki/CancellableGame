@@ -635,6 +635,20 @@ export const PROMPTS_HOT: HotPrompt[] = [
   { text: "d'avoir déjà fait l'amour dans un lieu totalement interdit", lvl: 4 },
   { text: "de balancer les détails d'un plan cul à toute la bande", lvl: 4 },
   { text: "d'assumer un coup d'un soir avec zéro remords", lvl: 4 },
+
+  // ----- Vague 8 · Cancellable ++ -----------------------------------------
+  { text: "d'avoir déjà couché avec un prof à la fac", lvl: 4 },
+  { text: "d'avoir déjà pris de la drogue en soirée", lvl: 4 },
+  { text: "d'avoir déjà participé à une partouze", lvl: 4 },
+  { text: "d'avoir déjà été payé(e) pour quelque chose de coquin", lvl: 4 },
+  { text: "d'avoir déjà pété au lit et fait semblant de dormir", lvl: 4 },
+  { text: "de tromper son/sa partenaire dès que les vacances arrivent", lvl: 4 },
+  { text: "d'avoir déjà dragué deux membres de la même famille", lvl: 4 },
+  { text: "de garder un sous-vêtement d'un(e) ex en souvenir", lvl: 4 },
+  { text: "d'avoir déjà simulé un malaise pour fuir quelqu'un", lvl: 4 },
+  { text: "de proposer un plan cul à un(e) ami(e) proche", lvl: 4 },
+  { text: "d'avoir déjà couché avec quelqu'un par pure vengeance", lvl: 4 },
+  { text: "d'avoir déjà fini à poil dans un lieu public", lvl: 4 },
 ];
 
 /**

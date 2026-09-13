@@ -255,6 +255,18 @@ export const HOT_DARES: HotDare[] = [
   { category: 'alcool', lvl: 4, text: "Raconte le lieu le plus improbable où tu as pris du bon temps, ou cul sec." },
   { category: 'alcool', lvl: 4, text: "Envoie un emoji très suggestif à la 3ᵉ personne de tes conversations, ou cul sec." },
   { category: 'alcool', lvl: 4, text: "Avoue ton nombre de partenaires à la table, ou vide ton verre." },
+
+  // ----- Vague 12 · Cancellable ++ -----------------------------------------
+  { category: 'alcool', lvl: 4, text: "Envoie « je repense à l'autre soir 😏 » à un contact au hasard, ou cul sec." },
+  { category: 'soft', lvl: 4, text: "Décris ton fantasme le plus fou dans le détail, ou finis ton verre." },
+  { category: 'soft', lvl: 4, text: "Fais un lap dance de dix secondes à la personne de ton choix (ou double cul sec)." },
+  { category: 'alcool', lvl: 4, text: "Montre tes messages avec ton/ta dernier(ère) crush, ou cul sec." },
+  { category: 'alcool', lvl: 4, text: "Appelle un(e) ex en haut-parleur et dis « je pensais à toi », ou cul sec." },
+  { category: 'soft', lvl: 4, text: "Garde un glaçon dans ta bouche et fais-le fondre le plus lentement possible." },
+  { category: 'soft', lvl: 4, text: "Mime ton réveil au lendemain d'une soirée beaucoup trop arrosée." },
+  { category: 'alcool', lvl: 4, text: "Avoue le surnom coquin le plus gênant qu'on t'ait donné, ou bois." },
+  { category: 'soft', lvl: 4, text: "Refais le bruit que tu fais quand ça devient sérieux au lit, ou passe ton tour." },
+  { category: 'alcool', lvl: 4, text: "Envoie un emoji très suggestif à la personne en haut de tes messages, ou cul sec." },
 ];
 
 /**
