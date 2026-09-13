@@ -1607,4 +1607,189 @@ export const adulteQuestions: Question[] = [
     text: 'Comment appelle-t-on une fête électro clandestine organisée dans un lieu secret ?', answer: 'Une rave',
     distractors: ['Un gala', 'Un vernissage', 'Un cocktail'],
   },
+
+  // ── Vague : troisième passe d'approfondissement (IDs 4 chiffres) ──
+  // Niveau 2 (Épicé 🌶️)
+  {
+    id: 'adl-2016', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quelle série espagnole suit des ados friqués et leurs secrets meurtriers ?', answer: 'Elite',
+    distractors: ['La Casa de Papel', 'Física o Química', 'Merlí'],
+  },
+  {
+    id: 'adl-2017', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quel jeu multijoueur oppose des survivants à un tueur qui les traque ?', answer: 'Dead by Daylight',
+    distractors: ['Friday the 13th', 'Phasmophobia', 'The Forest'],
+  },
+  {
+    id: 'adl-2018', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quel poète maudit mena une vie de scandales aux côtés de Verlaine ?', answer: 'Arthur Rimbaud',
+    distractors: ['Charles Baudelaire', 'Stéphane Mallarmé', 'Guillaume Apollinaire'],
+  },
+  {
+    id: 'adl-2019', theme: 'manga', universe: 'Manga interdits 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quel manga gore suit un chasseur de démons dans le Japon de l’ère Taishō ?', answer: 'Demon Slayer',
+    distractors: ['Jujutsu Kaisen', 'Bleach', 'Inuyasha'],
+  },
+  {
+    id: 'adl-2020', theme: 'internet', universe: 'Internet sale 🔞', difficulty: 2, cancelLevel: 2,
+    text: "Comment appelle-t-on l'usurpation de l'identité numérique de quelqu'un ?", answer: "Le vol d'identité",
+    distractors: ['Le partage', 'Le like', "L'abonnement"],
+  },
+  {
+    id: 'adl-2021', theme: 'culture', universe: 'Sexo 🔞', difficulty: 2, cancelLevel: 2,
+    text: "Comment nomme-t-on l'ensemble de l'appareil génital externe féminin ?", answer: 'La vulve',
+    distractors: ["L'utérus", "L'ovaire", 'Le vagin'],
+  },
+  {
+    id: 'adl-2022', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 2, cancelLevel: 2,
+    text: "Quel cocktail au champagne et au jus d'orange se boit au brunch ?", answer: 'Le mimosa',
+    distractors: ['Le bellini', 'Le kir royal', 'Le spritz'],
+  },
+  {
+    id: 'adl-2023', theme: 'tcheque', universe: 'Prague interdite 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quelle bière tchèque a donné son nom au style « pils » ?', answer: 'La Pilsner Urquell',
+    distractors: ['La Budweiser Budvar', 'La Staropramen', 'La Kozel'],
+  },
+  {
+    id: 'adl-2024', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quel film de Steve McQueen (2011) suit un homme accro au sexe à New York ?', answer: 'Shame',
+    distractors: ['Nymphomaniac', 'Don Jon', 'Boogie Nights'],
+  },
+  {
+    id: 'adl-2025', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 2, cancelLevel: 2,
+    text: 'Quel roi anglais fit décapiter deux de ses six épouses ?', answer: 'Henri VIII',
+    distractors: ['Richard III', 'Charles Ier', 'Jacques Ier'],
+  },
+  {
+    id: 'adl-2026', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 1, cancelLevel: 2,
+    text: 'Quelle pièce de lingerie soutient et galbe la poitrine ?', answer: 'Le soutien-gorge',
+    distractors: ['La guêpière', 'Le jupon', 'Le boléro'],
+  },
+  {
+    id: 'adl-2027', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 3, cancelLevel: 2,
+    text: "Quel artiste inspira la création du « Parental Advisory » avec « Darling Nikki » ?", answer: 'Prince',
+    distractors: ['Madonna', 'Michael Jackson', 'George Michael'],
+  },
+  // Niveau 3 (+18 🔞)
+  {
+    id: 'adl-3016', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Quelle série met en scène le milieu du porno new-yorkais des années 70 ?', answer: 'The Deuce',
+    distractors: ['Boogie Nights', 'Vinyl', 'Minx'],
+  },
+  {
+    id: 'adl-3017', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Quel jeu de 2019 fait enquêter un détective épave dans une ville décadente ?', answer: 'Disco Elysium',
+    distractors: ['L.A. Noire', 'Night in the Woods', 'Kentucky Route Zero'],
+  },
+  {
+    id: 'adl-3018', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Quel roman de Sacher-Masoch a donné son nom au masochisme ?', answer: 'La Vénus à la fourrure',
+    distractors: ['Justine', "Histoire d'O", 'Emmanuelle'],
+  },
+  {
+    id: 'adl-3019', theme: 'manga', universe: 'Manga interdits 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel manga culte suit un justicier vengeur dans un monde post-apocalyptique sanglant ?', answer: 'Ken le Survivant',
+    distractors: ['Berserk', 'Baki', 'JoJo'],
+  },
+  {
+    id: 'adl-3020', theme: 'internet', universe: 'Internet sale 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel forum anonyme est tristement connu pour ses contenus les plus extrêmes ?', answer: '4chan',
+    distractors: ['Reddit', 'Wikipedia', 'LinkedIn'],
+  },
+  {
+    id: 'adl-3021', theme: 'culture', universe: 'Sexo 🔞', difficulty: 2, cancelLevel: 3,
+    text: "Comment nomme-t-on l'attirance amoureuse et sexuelle envers les deux sexes ?", answer: 'La bisexualité',
+    distractors: ["L'asexualité", 'La pansexualité', "L'hétérosexualité"],
+  },
+  {
+    id: 'adl-3022', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 2, cancelLevel: 3,
+    text: 'Quel organe reproducteur féminin libère un ovule chaque mois ?', answer: "L'ovaire",
+    distractors: ["L'utérus", 'Le vagin', 'Le col'],
+  },
+  {
+    id: 'adl-3023', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 1, cancelLevel: 3,
+    text: 'Quel alcool fort slave titre souvent 40° et se boit glacé cul sec ?', answer: 'La vodka',
+    distractors: ['Le gin', 'Le whisky', 'La tequila'],
+  },
+  {
+    id: 'adl-3024', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Quel film de Bernardo Bertolucci (2003) suit un trio à Paris en Mai 68 ?', answer: 'The Dreamers',
+    distractors: ['Les Amants', "Jeux d'enfants", 'Love'],
+  },
+  {
+    id: 'adl-3025', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 3, cancelLevel: 3,
+    text: 'Quel roi de France entretenait ses favorites au Parc-aux-Cerfs ?', answer: 'Louis XV',
+    distractors: ['Louis XIV', 'Louis XVI', 'Henri III'],
+  },
+  {
+    id: 'adl-3026', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel créateur a imposé « Le Smoking » pour femme en 1966 ?', answer: 'Yves Saint Laurent',
+    distractors: ['Christian Dior', 'Hubert de Givenchy', 'Pierre Cardin'],
+  },
+  {
+    id: 'adl-3027', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel artiste glam provoquait par son androgynie assumée dans les années 70 ?', answer: 'David Bowie',
+    distractors: ['Elton John', 'Freddie Mercury', 'Marc Bolan'],
+  },
+  // Niveau 4 (Cancellable ☠️)
+  {
+    id: 'adl-4001', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quelle série animée pour adultes suit un cheval alcoolique et dépressif à Hollywood ?', answer: 'BoJack Horseman',
+    distractors: ['Rick et Morty', 'Big Mouth', 'Archer'],
+  },
+  {
+    id: 'adl-4002', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quel volet de 2017 réinvente la série en horreur à la première personne dans un manoir ?', answer: 'Resident Evil 7',
+    distractors: ['Outlast 2', 'P.T.', 'Visage'],
+  },
+  {
+    id: 'adl-4003', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel roman du marquis de Sade, longtemps interdit, pousse la transgression à son extrême ?', answer: 'Les 120 Journées de Sodome',
+    distractors: ['Justine', 'Juliette', 'La Philosophie dans le boudoir'],
+  },
+  {
+    id: 'adl-4004', theme: 'manga', universe: 'Manga interdits 🔞', difficulty: 3, cancelLevel: 4,
+    text: "Quel manga ultra-violent enferme un condamné à mort dans une prison parc d'attractions ?", answer: 'Deadman Wonderland',
+    distractors: ['Gantz', 'Btooom!', 'Prison School'],
+  },
+  {
+    id: 'adl-4005', theme: 'internet', universe: 'Internet sale 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on une escroquerie qui paie les anciens investisseurs avec l’argent des nouveaux ?', answer: 'Une pyramide de Ponzi',
+    distractors: ['Un crowdfunding', 'Une tombola', 'Une cagnotte'],
+  },
+  {
+    id: 'adl-4006', theme: 'culture', universe: 'Sexo 🔞', difficulty: 3, cancelLevel: 4,
+    text: "Comment appelle-t-on l'échange de partenaires entre couples consentants ?", answer: "L'échangisme",
+    distractors: ['Le libertinage', 'Le voyeurisme', 'Le naturisme'],
+  },
+  {
+    id: 'adl-4007', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quelle opération sectionne les canaux déférents pour stériliser un homme ?', answer: 'La vasectomie',
+    distractors: ['La circoncision', 'La castration', 'La prostatectomie'],
+  },
+  {
+    id: 'adl-4008', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on un alcool fort distillé clandestinement, façon Prohibition ?', answer: 'Le moonshine',
+    distractors: ['Le champagne', 'Le porto', 'Le cidre'],
+  },
+  {
+    id: 'adl-4009', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quel film culte de 1975 mêle horreur kitsch, transgression et comédie musicale ?', answer: 'The Rocky Horror Picture Show',
+    distractors: ['Hedwig', 'Little Shop of Horrors', 'Repo! The Genetic Opera'],
+  },
+  {
+    id: 'adl-4010', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 2, cancelLevel: 4,
+    text: "Quelle machine à décapiter fut utilisée en France jusqu'en 1977 ?", answer: 'La guillotine',
+    distractors: ['La pendaison', 'La chaise électrique', 'Le peloton'],
+  },
+  {
+    id: 'adl-4011', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 3, cancelLevel: 4,
+    text: "Quel mannequin des années 90 incarna l'esthétique controversée de l'« heroin chic » ?", answer: 'Kate Moss',
+    distractors: ['Naomi Campbell', 'Cindy Crawford', 'Claudia Schiffer'],
+  },
+  {
+    id: 'adl-4012', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on le culte exagéré voué à un dirigeant unique ?', answer: 'Le culte de la personnalité',
+    distractors: ['Le bipartisme', 'Le fédéralisme', 'Le parlementarisme'],
+  },
 ];
