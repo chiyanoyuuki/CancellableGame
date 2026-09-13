@@ -355,6 +355,34 @@ export const HOT_DARES: HotDare[] = [
   { category: 'soft', lvl: 4, text: "Embrasse la main puis remonte un baiser jusqu'au poignet de ton voisin." },
   { category: 'alcool', lvl: 4, text: "Fais la bise à ton voisin, très près des lèvres, ou cul sec." },
   { category: 'alcool', lvl: 4, text: "Choisis un(e) partenaire : vous videz vos verres front contre front." },
+
+  // ----- Vague 20 · Rapprochement (niveau 3, tendre) -----------------------
+  { category: 'soft', lvl: 3, text: "Pose ta tête sur l'épaule de ton voisin pendant un tour." },
+  { category: 'soft', lvl: 3, text: "Offre un petit poème de deux vers à quelqu'un de la table." },
+  { category: 'soft', lvl: 3, text: "Fais un câlin groupé avec tes deux voisins." },
+  { category: 'soft', lvl: 3, text: "Donne un surnom mignon à chaque personne de la table." },
+  { category: 'soft', lvl: 3, text: "Dessine un petit cœur sur la main de ton voisin." },
+  { category: 'soft', lvl: 3, text: "Fais un baisemain façon gentleman à la personne de ton choix." },
+  { category: 'soft', lvl: 3, text: "Arrange délicatement les cheveux de quelqu'un." },
+  { category: 'soft', lvl: 3, text: "Fais un toast personnalisé et touchant à la personne à ta gauche." },
+  { category: 'soft', lvl: 3, text: "Tape dans la main de quelqu'un, puis gardez les doigts entrelacés dix secondes." },
+  { category: 'soft', lvl: 3, text: "Cite sincèrement trois qualités de ton voisin." },
+  { category: 'soft', lvl: 3, text: "Fais un câlin réconfortant à la personne qui en a le plus besoin ce soir." },
+  { category: 'alcool', lvl: 3, text: "Bois une gorgée en même temps que la personne dont tu te sens le plus proche." },
+
+  // ----- Vague 21 · Rapprochement (niveau 4, intense, toujours consenti) ---
+  { category: 'soft', lvl: 4, text: "Fais un bisou sur la joue à chaque personne de la table, une par une." },
+  { category: 'soft', lvl: 4, text: "Danse un slow très proche pendant quinze secondes avec un(e) partenaire volontaire." },
+  { category: 'soft', lvl: 4, text: "Fais un bisou sur l'épaule de ton voisin, s'il/elle est d'accord, ou passe ton tour." },
+  { category: 'soft', lvl: 4, text: "Prends le visage de quelqu'un dans tes mains et souffle-lui un mot doux." },
+  { category: 'soft', lvl: 4, text: "Câlin « cuillère » de vingt secondes avec un(e) partenaire partant(e), ou cul sec." },
+  { category: 'soft', lvl: 4, text: "Chuchote un compliment carrément osé à l'oreille de quelqu'un." },
+  { category: 'soft', lvl: 4, text: "Fais un slow front contre front, les yeux fermés, avec la personne de ton choix." },
+  { category: 'soft', lvl: 4, text: "Trace un mot du bout du doigt dans le dos de quelqu'un : il doit deviner." },
+  { category: 'soft', lvl: 4, text: "Dix secondes de câlin en silence, juste les yeux, avec qui tu veux." },
+  { category: 'soft', lvl: 4, text: "Fais un bisou papillon (battements de cils) sur la joue de ton voisin." },
+  { category: 'soft', lvl: 4, text: "Assieds-toi tout contre la personne de ton choix et confiez-vous un secret." },
+  { category: 'alcool', lvl: 4, text: "Bois cul sec blotti(e) contre la personne de ton choix." },
 ];
 
 /**
