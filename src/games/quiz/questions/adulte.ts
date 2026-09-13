@@ -1792,4 +1792,189 @@ export const adulteQuestions: Question[] = [
     text: 'Comment appelle-t-on le culte exagéré voué à un dirigeant unique ?', answer: 'Le culte de la personnalité',
     distractors: ['Le bipartisme', 'Le fédéralisme', 'Le parlementarisme'],
   },
+
+  // ── Vague : pop-culture (séries, jeux, manga, films, mythologie, histoire) ──
+  // Niveau 2 (Épicé 🌶️)
+  {
+    id: 'adl-2028', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quelle série suit le quotidien de détenues dans une prison pour femmes ?', answer: 'Orange Is the New Black',
+    distractors: ['Wentworth', 'Bad Girls', 'Vis a Vis'],
+  },
+  {
+    id: 'adl-2029', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quel univers virtuel permet de vivre une seconde vie sans (presque) aucune limite ?', answer: 'Second Life',
+    distractors: ['The Sims', 'IMVU', 'Habbo'],
+  },
+  {
+    id: 'adl-2030', theme: 'manga', universe: 'Manga interdits 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quel manga suit des sorciers combattant des fléaux dans un Tokyo maudit ?', answer: 'Jujutsu Kaisen',
+    distractors: ['Bleach', 'Blue Exorcist', 'Chainsaw Man'],
+  },
+  {
+    id: 'adl-2031', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 4, cancelLevel: 2,
+    text: 'Quelle comédie grecque met en scène une grève du sexe pour arrêter la guerre ?', answer: 'Lysistrata',
+    distractors: ['Antigone', 'Médée', 'Électre'],
+  },
+  {
+    id: 'adl-2032', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quelle magicienne, trahie par Jason, tua ses propres enfants par vengeance ?', answer: 'Médée',
+    distractors: ['Circé', 'Ariane', 'Hélène'],
+  },
+  {
+    id: 'adl-2033', theme: 'japon', universe: 'Japon interdit 🔞', difficulty: 2, cancelLevel: 2,
+    text: "Quel jeu d'argent japonais ressemble à un flipper vertical ?", answer: 'Le pachinko',
+    distractors: ['Le mah-jong', 'Le sudoku', 'Le go'],
+  },
+  {
+    id: 'adl-2034', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quel groupe de rock provoqua avec « Sympathy for the Devil » ?', answer: 'The Rolling Stones',
+    distractors: ['The Beatles', 'The Who', 'The Kinks'],
+  },
+  {
+    id: 'adl-2035', theme: 'france', universe: 'France scandaleuse 🔞', difficulty: 3, cancelLevel: 2,
+    text: "Quel empereur français répudia Joséphine faute d'héritier ?", answer: 'Napoléon',
+    distractors: ['Louis XVIII', 'Charles X', 'Napoléon III'],
+  },
+  {
+    id: 'adl-2036', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quel film de 1974 de Tobe Hooper terrifia avec sa tronçonneuse ?', answer: 'Massacre à la tronçonneuse',
+    distractors: ['La Colline a des yeux', 'Halloween', 'Vendredi 13'],
+  },
+  {
+    id: 'adl-2037', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quelle marque a fait scandale avec des pubs de jeans jugées trop suggestives ?', answer: 'Calvin Klein',
+    distractors: ["Levi's", 'Guess', 'Diesel'],
+  },
+  {
+    id: 'adl-2038', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 2, cancelLevel: 2,
+    text: 'Quel roi de France fut guillotiné en 1793 pendant la Révolution ?', answer: 'Louis XVI',
+    distractors: ['Louis XV', 'Louis XVIII', 'Charles X'],
+  },
+  {
+    id: 'adl-2039', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 2, cancelLevel: 2,
+    text: "Quelle danse orientale des cabarets fascina l'Occident au XIXᵉ siècle ?", answer: 'La danse du ventre',
+    distractors: ['Le quadrille', 'La valse', 'Le tango'],
+  },
+  // Niveau 3 (+18 🔞)
+  {
+    id: 'adl-3028', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quelle série suit une mère de famille qui se lance dans le trafic de cannabis ?', answer: 'Weeds',
+    distractors: ['Breaking Bad', 'Nurse Jackie', 'Claws'],
+  },
+  {
+    id: 'adl-3029', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel jeu narratif de 2013 suit un homme et une fillette dans un monde infesté ?', answer: 'The Last of Us',
+    distractors: ['Days Gone', 'A Plague Tale', 'Death Stranding'],
+  },
+  {
+    id: 'adl-3030', theme: 'manga', universe: 'Manga interdits 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel manga suit un jeune fusionné à une tronçonneuse démoniaque ?', answer: 'Chainsaw Man',
+    distractors: ['Dorohedoro', 'Fire Force', "Hell's Paradise"],
+  },
+  {
+    id: 'adl-3031', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 2, cancelLevel: 3,
+    text: 'Quelle créature à la chevelure de serpents pétrifiait quiconque la regardait ?', answer: 'Méduse',
+    distractors: ['Une sirène', 'Une harpie', 'Une chimère'],
+  },
+  {
+    id: 'adl-3032', theme: 'japon', universe: 'Japon interdit 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Comment appelle-t-on les reclus japonais qui se coupent totalement du monde ?', answer: 'Les hikikomori',
+    distractors: ['Les otaku', 'Les salarymen', 'Les NEET'],
+  },
+  {
+    id: 'adl-3033', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel rappeur français a bâti sa légende sur les clashs et la provocation ?', answer: 'Booba',
+    distractors: ['Kaaris', 'Rohff', 'La Fouine'],
+  },
+  {
+    id: 'adl-3034', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 4, cancelLevel: 3,
+    text: 'En 1572, quel massacre visa les protestants français ?', answer: 'Le massacre de la Saint-Barthélemy',
+    distractors: ['La Terreur', 'Les Vêpres siciliennes', 'La Commune'],
+  },
+  {
+    id: 'adl-3035', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 2, cancelLevel: 3,
+    text: 'Quel site de Julian Assange a publié des masses de documents confidentiels ?', answer: 'WikiLeaks',
+    distractors: ['Anonymous', 'Tor', 'Pastebin'],
+  },
+  {
+    id: 'adl-3036', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 2, cancelLevel: 3,
+    text: "Quel film de Kubrick (1980) sombre dans la folie d'un hôtel isolé ?", answer: 'Shining',
+    distractors: ["Rosemary's Baby", "L'Exorciste", 'The Thing'],
+  },
+  {
+    id: 'adl-3037', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Quel auteur a disséqué la passion et la vanité dans « Belle du Seigneur » ?', answer: 'Albert Cohen',
+    distractors: ['Romain Gary', 'André Malraux', 'Marcel Proust'],
+  },
+  {
+    id: 'adl-3038', theme: 'culture', universe: 'Sexo 🔞', difficulty: 3, cancelLevel: 3,
+    text: "Comment nomme-t-on l'absence d'attirance sexuelle ?", answer: "L'asexualité",
+    distractors: ['La bisexualité', 'La pansexualité', 'Le célibat'],
+  },
+  {
+    id: 'adl-3039', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 2, cancelLevel: 3,
+    text: 'Quel dieu grec des Enfers enleva Perséphone pour en faire sa reine ?', answer: 'Hadès',
+    distractors: ['Zeus', 'Poséidon', 'Arès'],
+  },
+  // Niveau 4 (Cancellable ☠️)
+  {
+    id: 'adl-4013', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Quelle série animée trash parodie une famille dysfonctionnelle du Rhode Island ?', answer: 'Family Guy',
+    distractors: ['American Dad', 'The Cleveland Show', 'South Park'],
+  },
+  {
+    id: 'adl-4014', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Quelle saga de FPS de guerre est régulièrement accusée de banaliser les conflits ?', answer: 'Call of Duty',
+    distractors: ['Battlefield', 'Medal of Honor', 'ARMA'],
+  },
+  {
+    id: 'adl-4015', theme: 'manga', universe: 'Manga interdits 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel manga d’horreur de Junji Ito met en scène des poissons marchants et pestilentiels ?', answer: 'Gyo',
+    distractors: ['Uzumaki', 'Tomie', 'Mimic'],
+  },
+  {
+    id: 'adl-4016', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Quel héros dut accomplir douze travaux pour expier le meurtre de sa famille ?', answer: 'Héraclès',
+    distractors: ['Thésée', 'Persée', 'Jason'],
+  },
+  {
+    id: 'adl-4017', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: 'Quelle période de la Révolution française vit des milliers d’exécutions à la guillotine ?', answer: 'La Terreur',
+    distractors: ['La Restauration', 'Le Directoire', 'La Fronde'],
+  },
+  {
+    id: 'adl-4018', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 2, cancelLevel: 4,
+    text: "Comment appelle-t-on l'écrasement des opposants par la force et la peur ?", answer: 'La répression',
+    distractors: ['La coalition', 'La cohabitation', 'La primaire'],
+  },
+  {
+    id: 'adl-4019', theme: 'france', universe: 'France scandaleuse 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel scandale sanitaire des années 80 toucha des transfusés en France ?', answer: 'L’affaire du sang contaminé',
+    distractors: ['L’affaire Elf', 'L’affaire Tapie', 'L’affaire Clearstream'],
+  },
+  {
+    id: 'adl-4020', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quel film de found footage de 1999 relança le cinéma horrifique ?', answer: 'Le Projet Blair Witch',
+    distractors: ['Paranormal Activity', 'REC', 'Cloverfield'],
+  },
+  {
+    id: 'adl-4021', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel poète brigand du XVᵉ siècle écrivit la « Ballade des pendus » ?', answer: 'François Villon',
+    distractors: ['Ronsard', 'Du Bellay', 'Rutebeuf'],
+  },
+  {
+    id: 'adl-4022', theme: 'culture', universe: 'Sexo 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on une fête sexuelle collective entre plusieurs personnes ?', answer: 'Une partouze',
+    distractors: ['Une sauterie', 'Une kermesse', 'Une matinée'],
+  },
+  {
+    id: 'adl-4023', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 3, cancelLevel: 4,
+    text: "Comment nomme-t-on la dépendance chronique à l'alcool ?", answer: "L'éthylisme",
+    distractors: ['La sobriété', "L'abstinence", 'La tempérance'],
+  },
+  {
+    id: 'adl-4024', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel roi fut attaché pour l’éternité à une roue enflammée pour avoir défié Zeus ?', answer: 'Ixion',
+    distractors: ['Tantale', 'Sisyphe', 'Prométhée'],
+  },
 ];
