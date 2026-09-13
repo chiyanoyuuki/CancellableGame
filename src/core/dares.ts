@@ -185,6 +185,20 @@ export const HOT_DARES: HotDare[] = [
   { category: 'alcool', lvl: 3, text: "Bois une gorgée par relation sérieuse que tu as déjà eue." },
   { category: 'alcool', lvl: 4, text: "Cul sec, ou avoue le pire endroit où tu as déjà dragué." },
   { category: 'alcool', lvl: 4, text: "Bois une gorgée pour chaque fois que tu as menti aujourd'hui." },
+
+  // ----- Vague 7 -----------------------------------------------------------
+  { category: 'soft', lvl: 2, text: "Fais semblant de tomber amoureux(se) de la personne à ta droite, en 10 secondes chrono." },
+  { category: 'soft', lvl: 2, text: "Envoie un clin d'œil appuyé à chaque personne de la table, une par une." },
+  { category: 'soft', lvl: 3, text: "Décris à voix haute ton pire flirt raté." },
+  { category: 'soft', lvl: 3, text: "Rejoue le moment le plus gênant de ta vie amoureuse." },
+  { category: 'soft', lvl: 4, text: "Avoue lequel des présents tu aurais ajouté à ta liste secrète (ou passe ton tour)." },
+  { category: 'soft', lvl: 4, text: "Confesse la chose la moins avouable que tu aies faite par jalousie." },
+  { category: 'alcool', lvl: 2, text: "Bois avec la personne qui, selon toi, drague le mieux." },
+  { category: 'alcool', lvl: 2, text: "Trinque avec la dernière personne à qui tu as menti." },
+  { category: 'alcool', lvl: 3, text: "Cul sec, ou raconte ton pire lendemain de soirée." },
+  { category: 'alcool', lvl: 3, text: "Bois une gorgée par personne présente que tu suivrais sur un compte privé." },
+  { category: 'alcool', lvl: 4, text: "Cul sec, ou révèle le secret le plus lourd que tu gardes ce soir." },
+  { category: 'alcool', lvl: 4, text: "Bois cul sec avec la personne que tu connais depuis le plus longtemps." },
 ];
 
 /**

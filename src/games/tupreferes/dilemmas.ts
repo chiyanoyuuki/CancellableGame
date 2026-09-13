@@ -556,6 +556,29 @@ export const DILEMMAS_HOT: HotDilemma[] = [
   { a: "Que ta pire honte devienne un mème viral", b: "Que ton pire mensonge fasse la une", lvl: 4 },
   { a: "Effacer un souvenir gênant de la mémoire de tous", b: "Effacer une de tes plus grandes réussites", lvl: 4 },
   { a: "Dénoncer un proche qui a fraudé", b: "Te taire et devenir complice", lvl: 4 },
+
+  // ----- Vague 4 (nouveaux dilemmes osés) ----------------------------------
+  // Niveau 2 · Épicé 🌶️
+  { a: "Avoir le hoquet à chaque fois que tu mens", b: "Bâiller dès que quelqu'un t'ennuie", lvl: 2 },
+  { a: "Ne draguer qu'avec des répliques de films", b: "Ne draguer qu'en chansons", lvl: 2 },
+  { a: "Un date qui lit ton horoscope pour te juger", b: "Un date qui demande ton signe avant ton prénom", lvl: 2 },
+  { a: "Rougir dès qu'on prononce un prénom qui te plaît", b: "Bégayer dès que tu essaies de séduire", lvl: 2 },
+  { a: "Écrire à ton crush en pensant tout haut", b: "Liker toutes ses photos jusqu'en 2015", lvl: 2 },
+  { a: "Un rencard parfait dans un lieu horrible", b: "Un lieu de rêve avec un rencard insupportable", lvl: 2 },
+  // Niveau 3 · +18 🔞
+  { a: "Coucher le premier soir à chaque relation", b: "Attendre six mois à chaque fois", lvl: 3 },
+  { a: "Que ton/ta partenaire connaisse tes ex dans les moindres détails", b: "Ne jamais rien savoir de son passé", lvl: 3 },
+  { a: "Un flirt endiablé qui ne mène à rien", b: "Une histoire sérieuse mais totalement plate", lvl: 3 },
+  { a: "Assumer un tatouage au nom d'un(e) ex", b: "Effacer toute trace de tes relations passées", lvl: 3 },
+  { a: "Dire à quelqu'un ici qu'il/elle te plaît", b: "Ne jamais oser et le regretter", lvl: 3 },
+  { a: "Que ton pire date raconte la soirée en story", b: "Que ton meilleur coup en parle à tout le monde", lvl: 3 },
+  // Niveau 4 · Cancellable ☠️
+  { a: "Piquer le/la partenaire de ton/ta meilleur(e) ami(e)", b: "Perdre cet(te) ami(e) pour toujours", lvl: 4 },
+  { a: "Publier une fausse rumeur qui te rend célèbre", b: "Rester honnête et invisible", lvl: 4 },
+  { a: "Encaisser une prime en dénonçant un innocent", b: "Refuser et te faire virer", lvl: 4 },
+  { a: "Que ton employeur voie tout ce que tu dis de lui", b: "Que tes amis voient tout ce que tu dis d'eux", lvl: 4 },
+  { a: "Accepter un énorme pot-de-vin et vivre avec", b: "Le refuser et rester fauché(e) à vie", lvl: 4 },
+  { a: "Trahir ta patrie pour l'amour de ta vie", b: "Trahir ton amour pour ta patrie", lvl: 4 },
 ];
 
 /**

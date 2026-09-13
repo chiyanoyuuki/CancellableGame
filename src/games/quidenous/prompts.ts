@@ -555,6 +555,29 @@ export const PROMPTS_HOT: HotPrompt[] = [
   { text: "de raconter les secrets des autres pour se rendre intéressant(e)", lvl: 4 },
   { text: "de faire une scène pour attirer l'attention", lvl: 4 },
   { text: "de disparaître d'un groupe sans jamais donner de nouvelles", lvl: 4 },
+
+  // ----- Vague 4 (nouvelles affirmations osées) ----------------------------
+  // --- Niveau 2 · Épicé 🌶️ -------------------------------------------------
+  { text: "de commander toujours exactement la même chose au resto", lvl: 2 },
+  { text: "de rire à ses propres blagues avant la chute", lvl: 2 },
+  { text: "de refaire sa coiffure dix fois avant un date", lvl: 2 },
+  { text: "de stalker le nouveau ou la nouvelle de son ex", lvl: 2 },
+  { text: "de dire « je t'aime » beaucoup trop vite", lvl: 2 },
+  { text: "de relire ses vieux messages avec un(e) ex", lvl: 2 },
+  // --- Niveau 3 · +18 🔞 ---------------------------------------------------
+  { text: "d'avoir déjà eu une relation cachée à tous ses proches", lvl: 3 },
+  { text: "d'avoir menti sur le nombre de ses partenaires", lvl: 3 },
+  { text: "d'avoir déjà dragué par pur ennui", lvl: 3 },
+  { text: "d'avoir un côté bien plus coquin qu'il n'y paraît", lvl: 3 },
+  { text: "d'avoir déjà répondu à un message très tard, très motivé(e)", lvl: 3 },
+  { text: "d'assumer une nuit dont il/elle n'est pas très fier(e)", lvl: 3 },
+  // --- Niveau 4 · Cancellable ☠️ -------------------------------------------
+  { text: "d'avoir déjà volé quelque chose sans se faire prendre", lvl: 4 },
+  { text: "de tricher à un jeu pour gagner à tout prix", lvl: 4 },
+  { text: "de manipuler les gens pour arriver à ses fins", lvl: 4 },
+  { text: "de trahir un secret sur l'oreiller", lvl: 4 },
+  { text: "de fréquenter deux personnes à la fois sans qu'elles le sachent", lvl: 4 },
+  { text: "de ne ressentir aucun remords après un sale coup", lvl: 4 },
 ];
 
 /**
