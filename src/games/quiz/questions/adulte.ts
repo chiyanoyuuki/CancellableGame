@@ -2532,4 +2532,159 @@ export const adulteQuestions: Question[] = [
     text: 'Comment appelle-t-on une arnaque crypto où les créateurs filent avec les fonds ?', answer: 'Le rug pull',
     distractors: ['Le mining', 'Le staking', 'Le hodl'],
   },
+
+  // ── Vague : équilibrage des univers les plus légers ──
+  // Niveau 2 (Épicé 🌶️)
+  {
+    id: 'adl-2076', theme: 'tcheque', universe: 'Prague interdite 🔞', difficulty: 4, cancelLevel: 2,
+    text: 'Quel quartier juif de Prague abrite un vieux cimetière et la légende du Golem ?', answer: 'Josefov',
+    distractors: ['Malá Strana', 'Vinohrady', 'Žižkov'],
+  },
+  {
+    id: 'adl-2077', theme: 'tcheque', universe: 'Prague interdite 🔞', difficulty: 4, cancelLevel: 2,
+    text: 'Quelle liqueur amère aux plantes est un digestif national tchèque ?', answer: 'La Becherovka',
+    distractors: ['Le Fernet', 'La Slivovice', "L'Unicum"],
+  },
+  {
+    id: 'adl-2078', theme: 'culture', universe: 'Vie de couple 💔', difficulty: 3, cancelLevel: 2,
+    text: 'Comment appelle-t-on la première année de mariage ?', answer: 'Les noces de coton',
+    distractors: ['Les noces de cuir', 'Les noces de bois', 'Les noces de perle'],
+  },
+  {
+    id: 'adl-2079', theme: 'culture', universe: 'Vie de couple 💔', difficulty: 2, cancelLevel: 2,
+    text: 'Comment appelle-t-on la remise en question qui frapperait certains vers 40 ans ?', answer: 'La crise de la quarantaine',
+    distractors: ["La crise d'ado", 'Le baby blues', 'Le burn-out'],
+  },
+  {
+    id: 'adl-2080', theme: 'france', universe: 'France scandaleuse 🔞', difficulty: 3, cancelLevel: 2,
+    text: "Quel président français cacha longtemps l'existence de sa fille Mazarine ?", answer: 'François Mitterrand',
+    distractors: ['Jacques Chirac', "Valéry Giscard d'Estaing", 'Georges Pompidou'],
+  },
+  {
+    id: 'adl-2081', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 1, cancelLevel: 2,
+    text: 'Quelle boisson énergisante est associée aux nuits blanches en club ?', answer: 'La Red Bull',
+    distractors: ['Le Coca', 'Le Perrier', 'Le Schweppes'],
+  },
+  {
+    id: 'adl-2082', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 2, cancelLevel: 2,
+    text: "Comment appelle-t-on la fête qui prolonge la soirée jusqu'au petit matin ?", answer: "L'after",
+    distractors: ["L'apéro", 'Le brunch', 'Le before'],
+  },
+  {
+    id: 'adl-2083', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 2, cancelLevel: 2,
+    text: 'Comment appelle-t-on la revente de biens que l’on sait volés ?', answer: 'Le recel',
+    distractors: ['Le troc', 'Le crédit', 'Le leasing'],
+  },
+  {
+    id: 'adl-2084', theme: 'internet', universe: 'Internet sale 🔞', difficulty: 1, cancelLevel: 2,
+    text: 'Comment appelle-t-on un compte automatisé qui inonde les réseaux de messages ?', answer: 'Un bot',
+    distractors: ['Un fil', 'Un flux', 'Un widget'],
+  },
+  {
+    id: 'adl-2085', theme: 'manga', universe: 'Manga interdits 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quel manga suit un tournoi d’arts martiaux clandestin et ultra-violent ?', answer: 'Baki',
+    distractors: ['Kengan Ashura', 'Hajime no Ippo', 'Grappler Baki'],
+  },
+  // Niveau 3 (+18 🔞)
+  {
+    id: 'adl-3076', theme: 'tcheque', universe: 'Prague interdite 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Quel dramaturge dissident devint président de la Tchécoslovaquie puis de la Tchéquie ?', answer: 'Václav Havel',
+    distractors: ['Alexander Dubček', 'Tomáš Masaryk', 'Miloš Zeman'],
+  },
+  {
+    id: 'adl-3077', theme: 'culture', universe: 'Vie de couple 💔', difficulty: 2, cancelLevel: 3,
+    text: 'Comment appelle-t-on une relation sans engagement ni exclusivité ?', answer: 'Une relation libre',
+    distractors: ['Le mariage', 'Les fiançailles', 'Le concubinage'],
+  },
+  {
+    id: 'adl-3078', theme: 'france', universe: 'France scandaleuse 🔞', difficulty: 4, cancelLevel: 3,
+    text: "Quel scandale de 1934 mêla escroquerie et politique autour d'Alexandre Stavisky ?", answer: "L'affaire Stavisky",
+    distractors: ["L'affaire Dreyfus", "L'affaire Caillaux", 'Le scandale de Panama'],
+  },
+  {
+    id: 'adl-3079', theme: 'france', universe: 'France scandaleuse 🔞', difficulty: 4, cancelLevel: 3,
+    text: "Quel scandale visa des écoutes illégales organisées depuis l'Élysée dans les années 80 ?", answer: "Les écoutes de l'Élysée",
+    distractors: ['Le Rainbow Warrior', 'Les affaires des fiches', "L'affaire des micros"],
+  },
+  {
+    id: 'adl-3080', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 2, cancelLevel: 3,
+    text: 'Comment appelle-t-on le fait de faire travailler quelqu’un sans le déclarer ?', answer: 'Le travail au noir',
+    distractors: ['Le bénévolat', 'Le stage', "L'intérim"],
+  },
+  {
+    id: 'adl-3081', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quelle matière moulante et brillante est associée aux tenues fétichistes ?', answer: 'Le latex',
+    distractors: ['Le lin', 'Le velours', 'La laine'],
+  },
+  {
+    id: 'adl-3082', theme: 'japon', universe: 'Japon interdit 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Comment appelle-t-on les cafés où des serveuses habillées en soubrettes servent les clients ?', answer: 'Les maid cafés',
+    distractors: ['Les izakaya', 'Les konbini', 'Les ryokan'],
+  },
+  {
+    id: 'adl-3083', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 2, cancelLevel: 3,
+    text: 'Comment appelle-t-on l’espace réservé aux fêtards fortunés en boîte de nuit ?', answer: 'Le carré VIP',
+    distractors: ['Le vestiaire', 'Le fumoir', 'Le sas'],
+  },
+  {
+    id: 'adl-3084', theme: 'internet', universe: 'Internet sale 🔞', difficulty: 2, cancelLevel: 3,
+    text: 'Comment appelle-t-on un lien piégé menant vers un site malveillant ?', answer: 'Un lien vérolé',
+    distractors: ['Un favori', 'Un onglet', 'Un raccourci'],
+  },
+  {
+    id: 'adl-3085', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel fleuve les âmes traversaient-elles pour rejoindre les Enfers grecs ?', answer: 'Le Styx',
+    distractors: ['Le Gange', 'Le Jourdain', 'Le Rubicon'],
+  },
+  // Niveau 4 (Cancellable ☠️)
+  {
+    id: 'adl-4061', theme: 'tcheque', universe: 'Prague interdite 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quel « Printemps » de 1968 fut écrasé par les chars soviétiques à Prague ?', answer: 'Le Printemps de Prague',
+    distractors: ['Le Printemps des peuples', 'La Révolution de velours', 'Le Dégel'],
+  },
+  {
+    id: 'adl-4062', theme: 'culture', universe: 'Vie de couple 💔', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on le fait de garder un(e) ex « sous le coude » par messages sporadiques ?', answer: 'Le breadcrumbing',
+    distractors: ['Le ghosting', 'Le catfishing', 'Le zapping'],
+  },
+  {
+    id: 'adl-4063', theme: 'france', universe: 'France scandaleuse 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel scandale sous Chirac concerna les emplois fictifs de la Ville de Paris ?', answer: 'L’affaire des emplois fictifs',
+    distractors: ['L’affaire Elf', 'L’affaire Bettencourt', 'L’affaire Karachi'],
+  },
+  {
+    id: 'adl-4064', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 2, cancelLevel: 4,
+    text: 'Comment appelle-t-on l’enlèvement d’une personne contre rançon ?', answer: 'Le kidnapping',
+    distractors: ['Le cambriolage', 'Le braquage', 'Le racket'],
+  },
+  {
+    id: 'adl-4065', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quel accessoire en cuir issu du fétichisme est devenu une pièce de mode provocante ?', answer: 'Le harnais',
+    distractors: ['Le foulard', 'Le béret', 'Le gilet'],
+  },
+  {
+    id: 'adl-4066', theme: 'internet', universe: 'Internet sale 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on la revente clandestine de données personnelles volées ?', answer: 'Le trafic de données',
+    distractors: ['Le streaming', 'Le partage', "L'archivage"],
+  },
+  {
+    id: 'adl-4067', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on une soirée où les couples échangent leurs partenaires ?', answer: 'Une soirée échangiste',
+    distractors: ['Une soirée mousse', 'Une soirée pyjama', 'Une soirée casino'],
+  },
+  {
+    id: 'adl-4068', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 4, cancelLevel: 4,
+    text: 'Quel empereur romain, gladiateur mégalomane, fut étranglé en 192 ?', answer: 'Commode',
+    distractors: ['Néron', 'Caligula', 'Titus'],
+  },
+  {
+    id: 'adl-4069', theme: 'manga', universe: 'Manga interdits 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel manga d’horreur enferme un village dans une malédiction meurtrière répétée ?', answer: 'Higurashi',
+    distractors: ['Another', 'Corpse Party', 'School-Live!'],
+  },
+  {
+    id: 'adl-4070', theme: 'japon', universe: 'Japon interdit 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Comment appelle-t-on les bains chauds mixtes traditionnels au Japon ?', answer: 'Le konyoku',
+    distractors: ['Le kaiseki', 'Le karaoke', 'Le kabuki'],
+  },
 ];
