@@ -533,6 +533,29 @@ export const DILEMMAS_HOT: HotDilemma[] = [
   { a: "Trahir un secret d'ami pour devenir célèbre", b: "Rester anonyme et loyal(e)", lvl: 4 },
   { a: "Faire accuser un innocent à ta place", b: "Assumer une faute que tu n'as pas commise", lvl: 4 },
   { a: "Mentir sous serment pour sauver un proche", b: "Dire la vérité et l'envoyer en prison", lvl: 4 },
+
+  // ----- Vague 3 (nouveaux dilemmes osés) ----------------------------------
+  // Niveau 2 · Épicé 🌶️
+  { a: "Que tout le groupe voie ta dernière recherche Google", b: "Que ton patron voie ta galerie de mèmes", lvl: 2 },
+  { a: "Rire nerveusement dans chaque moment sérieux", b: "Pleurer à chaque pub un peu triste", lvl: 2 },
+  { a: "Envoyer un vocal de 5 minutes à ton crush", b: "Lui envoyer 30 messages d'affilée", lvl: 2 },
+  { a: "Être surpris(e) à parler tout(e) seul(e)", b: "Être surpris(e) à te reluquer dans chaque vitrine", lvl: 2 },
+  { a: "Oublier le prénom de ton date en pleine soirée", b: "L'appeler par le prénom de ton ex", lvl: 2 },
+  { a: "Avoir un fou rire à un enterrement", b: "Décrocher le téléphone en plein mariage", lvl: 2 },
+  // Niveau 3 · +18 🔞
+  { a: "Que ton moteur de recherche s'affiche sur écran géant en boîte", b: "Que tes DM les plus chauds soient lus au micro", lvl: 3 },
+  { a: "Avouer ton pire mensonge au lit", b: "Avouer ta plus grosse jalousie", lvl: 3 },
+  { a: "Passer une nuit torride que tu regretteras", b: "Rater une occasion que tu regretteras toute ta vie", lvl: 3 },
+  { a: "Ne plus jamais coucher mais tomber amoureux(se) souvent", b: "Coucher souvent sans jamais retomber amoureux(se)", lvl: 3 },
+  { a: "Que ton/ta partenaire lise ton journal intime", b: "Qu'il/elle entende tes pensées pendant une dispute", lvl: 3 },
+  { a: "Dire tout haut ce que tu penses des gens ici", b: "Que les gens disent tout haut ce qu'ils pensent de toi", lvl: 3 },
+  // Niveau 4 · Cancellable ☠️
+  { a: "Balancer un(e) collègue pour sauver ta place", b: "Couvrir sa faute et risquer la tienne", lvl: 4 },
+  { a: "Voler la vedette à ton/ta meilleur(e) ami(e) le jour de son mariage", b: "Rater complètement ton discours de témoin", lvl: 4 },
+  { a: "Toucher un héritage en trahissant les dernières volontés", b: "Respecter le testament et rester fauché(e)", lvl: 4 },
+  { a: "Que ta pire honte devienne un mème viral", b: "Que ton pire mensonge fasse la une", lvl: 4 },
+  { a: "Effacer un souvenir gênant de la mémoire de tous", b: "Effacer une de tes plus grandes réussites", lvl: 4 },
+  { a: "Dénoncer un proche qui a fraudé", b: "Te taire et devenir complice", lvl: 4 },
 ];
 
 /**

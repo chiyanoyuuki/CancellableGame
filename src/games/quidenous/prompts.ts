@@ -532,6 +532,29 @@ export const PROMPTS_HOT: HotPrompt[] = [
   { text: "de couper les ponts du jour au lendemain sans explication", lvl: 4 },
   { text: "de faire semblant d'être quelqu'un d'autre pour impressionner", lvl: 4 },
   { text: "de fouiller dans les affaires de ses invités", lvl: 4 },
+
+  // ----- Vague 3 (nouvelles affirmations osées) ----------------------------
+  // --- Niveau 2 · Épicé 🌶️ -------------------------------------------------
+  { text: "de raconter la même anecdote à toutes les soirées", lvl: 2 },
+  { text: "de s'endormir en premier à chaque fête", lvl: 2 },
+  { text: "de pleurer devant un film romantique", lvl: 2 },
+  { text: "de vérifier son téléphone toutes les deux minutes en plein date", lvl: 2 },
+  { text: "de garder tous ses ex en ami sur les réseaux", lvl: 2 },
+  { text: "d'oublier de répondre puis de mentir « désolé je viens de voir »", lvl: 2 },
+  // --- Niveau 3 · +18 🔞 ---------------------------------------------------
+  { text: "d'avoir déjà fait semblant d'aimer quelque chose pour plaire", lvl: 3 },
+  { text: "d'avoir déjà quitté quelqu'un par simple message", lvl: 3 },
+  { text: "d'avoir un dossier de photos qu'il/elle ne montrera jamais", lvl: 3 },
+  { text: "de raconter sa vie sexuelle sans qu'on lui demande", lvl: 3 },
+  { text: "d'avoir déjà eu le béguin pour un(e) prof ou un(e) collègue", lvl: 3 },
+  { text: "de fantasmer sur une célébrité déjà en couple", lvl: 3 },
+  // --- Niveau 4 · Cancellable ☠️ -------------------------------------------
+  { text: "de mentir sur son CV sans aucun scrupule", lvl: 4 },
+  { text: "de resquiller dès qu'il/elle en a l'occasion", lvl: 4 },
+  { text: "de garder la monnaie rendue en trop", lvl: 4 },
+  { text: "de raconter les secrets des autres pour se rendre intéressant(e)", lvl: 4 },
+  { text: "de faire une scène pour attirer l'attention", lvl: 4 },
+  { text: "de disparaître d'un groupe sans jamais donner de nouvelles", lvl: 4 },
 ];
 
 /**

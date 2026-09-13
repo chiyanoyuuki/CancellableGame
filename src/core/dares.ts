@@ -171,6 +171,20 @@ export const HOT_DARES: HotDare[] = [
   { category: 'alcool', lvl: 3, text: "Bois une gorgée pour chaque appli de rencontre installée sur ton téléphone." },
   { category: 'alcool', lvl: 4, text: "Cul sec, ou révèle combien de personnes présentes tu as déjà embrassées." },
   { category: 'alcool', lvl: 4, text: "Désigne la personne la plus mystérieuse : vous buvez tous les deux à votre pire secret." },
+
+  // ----- Vague 6 -----------------------------------------------------------
+  { category: 'soft', lvl: 2, text: "Fais une déclaration enflammée à la personne à ta gauche, en alexandrins approximatifs." },
+  { category: 'soft', lvl: 2, text: "Imite ta réaction quand ton crush entre dans la pièce." },
+  { category: 'soft', lvl: 3, text: "Raconte ton pire date, sans épargner aucun détail gênant." },
+  { category: 'soft', lvl: 3, text: "Fais deviner une scène de film romantique en un seul mime." },
+  { category: 'soft', lvl: 4, text: "Avoue à voix haute une chose que personne dans cette pièce ne sait sur toi." },
+  { category: 'soft', lvl: 4, text: "Nomme la personne présente que tu aurais osé draguer dans une autre vie (ou passe ton tour)." },
+  { category: 'alcool', lvl: 2, text: "Bois avec la personne qui, selon toi, a le plus de matchs en attente." },
+  { category: 'alcool', lvl: 2, text: "Trinque avec celui/celle qui a rougi en dernier ce soir." },
+  { category: 'alcool', lvl: 3, text: "Cul sec, ou dévoile le dernier emoji que tu as envoyé et à qui." },
+  { category: 'alcool', lvl: 3, text: "Bois une gorgée par relation sérieuse que tu as déjà eue." },
+  { category: 'alcool', lvl: 4, text: "Cul sec, ou avoue le pire endroit où tu as déjà dragué." },
+  { category: 'alcool', lvl: 4, text: "Bois une gorgée pour chaque fois que tu as menti aujourd'hui." },
 ];
 
 /**
