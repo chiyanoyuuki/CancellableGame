@@ -747,4 +747,189 @@ export const adulteQuestions: Question[] = [
     text: 'Comment appelle-t-on le fait de détourner des fonds publics à son profit ?', answer: 'Le détournement de fonds',
     distractors: ["L'épargne", 'La subvention', 'Le budget'],
   },
+
+  // ── Vague : nouveaux thèmes osés (séries, jeux vidéo, littérature, manga, internet) + compléments ──
+  // Niveau 2 (Épicé 🌶️)
+  {
+    id: 'adl-247', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 2, cancelLevel: 2,
+    text: "Dans quelle série suit-on le quotidien d'un parrain de la mafia du New Jersey qui voit un psy ?", answer: 'Les Soprano',
+    distractors: ['Peaky Blinders', 'Boardwalk Empire', 'Narcos'],
+  },
+  {
+    id: 'adl-248', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quelle série suit un écrivain obsédé par le sexe incarné par David Duchovny ?', answer: 'Californication',
+    distractors: ['Entourage', 'Ballers', 'House of Lies'],
+  },
+  {
+    id: 'adl-249', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 1, cancelLevel: 2,
+    text: 'Quelle saga vidéoludique laisse semer le chaos en ville au volant de voitures volées ?', answer: 'GTA',
+    distractors: ['Need for Speed', 'Watch Dogs', 'Mafia'],
+  },
+  {
+    id: 'adl-250', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Dans quelle saga le sorceleur Geralt enchaîne les contrats… et les conquêtes amoureuses ?', answer: 'The Witcher',
+    distractors: ['Dragon Age', 'Skyrim', 'Dark Souls'],
+  },
+  {
+    id: 'adl-251', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quel roman épistolaire de Laclos met en scène les jeux de séduction cruels de deux libertins ?', answer: 'Les Liaisons dangereuses',
+    distractors: ['Manon Lescaut', 'La Princesse de Clèves', 'Le Rouge et le Noir'],
+  },
+  {
+    id: 'adl-252', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quel recueil de Baudelaire fut condamné pour outrage à la morale publique en 1857 ?', answer: 'Les Fleurs du mal',
+    distractors: ['Les Contemplations', 'Alcools', 'Poèmes saturniens'],
+  },
+  {
+    id: 'adl-253', theme: 'manga', universe: 'Manga interdits 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quel manga ultra-violent suit Guts, un mercenaire au sombre destin dans un monde médiéval ?', answer: 'Berserk',
+    distractors: ['Vinland Saga', 'Claymore', 'Vagabond'],
+  },
+  {
+    id: 'adl-254', theme: 'manga', universe: 'Manga interdits 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quel anime mêle esthétique mignonne et hémoglobine autour de mutantes appelées Diclonius ?', answer: 'Elfen Lied',
+    distractors: ['School Days', 'Higurashi', 'Another'],
+  },
+  {
+    id: 'adl-255', theme: 'internet', universe: 'Internet sale 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quel réseau permet de naviguer anonymement en faisant rebondir la connexion sur plusieurs relais ?', answer: 'Tor',
+    distractors: ['Le VPN', 'Le proxy', 'Le DNS'],
+  },
+  {
+    id: 'adl-256', theme: 'internet', universe: 'Internet sale 🔞', difficulty: 1, cancelLevel: 2,
+    text: 'Comment nomme-t-on une arnaque qui soutire vos données via un faux mail ou un faux site ?', answer: 'Le phishing',
+    distractors: ['Le spam', 'Le cookie', 'Le captcha'],
+  },
+  {
+    id: 'adl-257', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 2, cancelLevel: 2,
+    text: "Quel film de Scorsese suit l'ascension déjantée d'un courtier véreux de Wall Street ?", answer: 'Le Loup de Wall Street',
+    distractors: ['Casino', 'Boiler Room', 'Margin Call'],
+  },
+  {
+    id: 'adl-258', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quel artiste de rock choc provoquait avec des shows sanglants et le titre « The Beautiful People » ?', answer: 'Marilyn Manson',
+    distractors: ['Slipknot', 'Rammstein', 'KISS'],
+  },
+  // Niveau 3 (+18 🔞)
+  {
+    id: 'adl-355', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 2, cancelLevel: 3,
+    text: 'Quelle série médiévale de HBO est célèbre pour ses scènes de sexe et de violence explicites ?', answer: 'Game of Thrones',
+    distractors: ['Vikings', 'Rome', 'The Last Kingdom'],
+  },
+  {
+    id: 'adl-356', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quelle série sur les gladiateurs est réputée pour son sang et son sexe à profusion ?', answer: 'Spartacus',
+    distractors: ['Rome', 'Gladiator', 'Barbares'],
+  },
+  {
+    id: 'adl-357', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel mini-jeu caché sexuellement explicite a fait scandale dans GTA: San Andreas ?', answer: 'Hot Coffee',
+    distractors: ['Night Life', 'Red Light', 'Private Dance'],
+  },
+  {
+    id: 'adl-358', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 3, cancelLevel: 3,
+    text: "Quelle saga japonaise de survival horror regorge de créatures cauchemardesques et de symbolisme dérangeant ?", answer: 'Silent Hill',
+    distractors: ['Resident Evil', 'Outlast', 'Dead Space'],
+  },
+  {
+    id: 'adl-359', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Quel roman érotique de Pauline Réage explore la soumission consentie de son héroïne ?', answer: "Histoire d'O",
+    distractors: ['Emmanuelle', 'Belle du Seigneur', 'Vénus à la fourrure'],
+  },
+  {
+    id: 'adl-360', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Quel écrivain a choqué avec « Tropique du Cancer », longtemps censuré pour obscénité ?', answer: 'Henry Miller',
+    distractors: ['Charles Bukowski', 'Jack Kerouac', 'William Burroughs'],
+  },
+  {
+    id: 'adl-361', theme: 'manga', universe: 'Manga interdits 🔞', difficulty: 3, cancelLevel: 3,
+    text: "Quel manga d'horreur de Junji Ito suit une ville obsédée par les spirales ?", answer: 'Uzumaki',
+    distractors: ['Tomie', 'Gyo', "Fragments d'horreur"],
+  },
+  {
+    id: 'adl-362', theme: 'manga', universe: 'Manga interdits 🔞', difficulty: 2, cancelLevel: 3,
+    text: 'Quel manga suit des humains dévorés par des géants derrière d’immenses murs ?', answer: "L'Attaque des Titans",
+    distractors: ['Kabaneri', 'Claymore', 'Deadman Wonderland'],
+  },
+  {
+    id: 'adl-363', theme: 'internet', universe: 'Internet sale 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quelle place de marché du dark web, fermée en 2013, vendait drogues et armes ?', answer: 'Silk Road',
+    distractors: ['The Pirate Bay', 'Napster', 'eDonkey'],
+  },
+  {
+    id: 'adl-364', theme: 'internet', universe: 'Internet sale 🔞', difficulty: 2, cancelLevel: 3,
+    text: 'Comment appelle-t-on un logiciel qui chiffre vos fichiers et réclame une rançon ?', answer: 'Un rançongiciel',
+    distractors: ['Un adware', 'Un cookie', 'Un pare-feu'],
+  },
+  {
+    id: 'adl-365', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 3, cancelLevel: 3,
+    text: "Quelle hormone de l'attachement est massivement libérée pendant l'orgasme et l'accouchement ?", answer: "L'ocytocine",
+    distractors: ["L'adrénaline", 'La testostérone', 'La mélatonine'],
+  },
+  {
+    id: 'adl-366', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 2, cancelLevel: 3,
+    text: 'Quelle rappeuse a co-signé le titre explicite « WAP » avec Megan Thee Stallion en 2020 ?', answer: 'Cardi B',
+    distractors: ['Nicki Minaj', 'Doja Cat', 'Iggy Azalea'],
+  },
+  // Niveau 4 (Cancellable ☠️)
+  {
+    id: 'adl-448', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quelle série italienne plonge sans filtre dans la guerre des clans de la Camorra napolitaine ?', answer: 'Gomorra',
+    distractors: ['Suburra', 'Romanzo Criminale', 'ZeroZeroZero'],
+  },
+  {
+    id: 'adl-449', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Quelle série détourne les super-héros en stars ultra-violentes et corrompues ?', answer: 'The Boys',
+    distractors: ['Invincible', 'Watchmen', 'Peacemaker'],
+  },
+  {
+    id: 'adl-450', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quelle mission controversée de Call of Duty: Modern Warfare 2 fait participer à un massacre dans un aéroport ?', answer: 'No Russian',
+    distractors: ['Shock and Awe', 'Endgame', 'Loose Ends'],
+  },
+  {
+    id: 'adl-451', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 2, cancelLevel: 4,
+    text: "Quel jeu de Rockstar laisse dévaliser des trains et braquer des villes dans l'Ouest sauvage ?", answer: 'Red Dead Redemption',
+    distractors: ['Call of Juarez', 'Desperados', 'Gun'],
+  },
+  {
+    id: 'adl-452', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 3, cancelLevel: 4,
+    text: "Quel roman de Bret Easton Ellis suit un yuppie tueur en série d'une froideur glaçante ?", answer: 'American Psycho',
+    distractors: ['Fight Club', 'Trainspotting', 'Moins que zéro'],
+  },
+  {
+    id: 'adl-453', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 3, cancelLevel: 4,
+    text: "Quel roman d'Anthony Burgess dépeint l'ultra-violence d'Alex et de ses droogs ?", answer: 'Orange mécanique',
+    distractors: ['Sa Majesté des Mouches', '1984', 'Le Meilleur des mondes'],
+  },
+  {
+    id: 'adl-454', theme: 'manga', universe: 'Manga interdits 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Quel manga culte suit un lycéen qui tue en écrivant des noms dans un carnet ?', answer: 'Death Note',
+    distractors: ['Code Geass', 'Monster', 'Psycho-Pass'],
+  },
+  {
+    id: 'adl-455', theme: 'manga', universe: 'Manga interdits 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel thriller de Naoki Urasawa suit un chirurgien traquant un tueur qu’il a jadis sauvé ?', answer: 'Monster',
+    distractors: ['Death Note', 'Psycho-Pass', 'Terror in Resonance'],
+  },
+  {
+    id: 'adl-456', theme: 'internet', universe: 'Internet sale 🔞', difficulty: 3, cancelLevel: 4,
+    text: "Comment appelle-t-on la divulgation malveillante des données privées d'une personne en ligne ?", answer: 'Le doxxing',
+    distractors: ['Le trolling', 'Le streaming', 'Le blogging'],
+  },
+  {
+    id: 'adl-457', theme: 'internet', universe: 'Internet sale 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Quelle monnaie numérique décentralisée est prisée pour les transactions anonymes du dark web ?', answer: 'Le Bitcoin',
+    distractors: ['Le PayPal', 'Le dollar', "L'euro"],
+  },
+  {
+    id: 'adl-458', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quelle toxine mortelle à dose infime est aussi injectée pour lisser les rides ?', answer: 'Le Botox',
+    distractors: ['Le collagène', "L'acide hyaluronique", 'La kératine'],
+  },
+  {
+    id: 'adl-459', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 2, cancelLevel: 4,
+    text: "Où planque-t-on discrètement de l'argent pour échapper à l'impôt de son pays ?", answer: 'Dans un paradis fiscal',
+    distractors: ['À la banque de France', 'Au Trésor public', 'À la Sécurité sociale'],
+  },
 ];
