@@ -291,6 +291,18 @@ export const HOT_DARES: HotDare[] = [
   { category: 'soft', lvl: 4, text: "Mime la scène de film la plus torride que tu connaisses." },
   { category: 'alcool', lvl: 4, text: "Révèle le fond d'écran de ton téléphone, ou cul sec." },
   { category: 'alcool', lvl: 4, text: "Bois autant de gorgées que de personnes ici avec qui tu accepterais un date." },
+
+  // ----- Vague 15 · Cancellable ++ (sans filtre) ---------------------------
+  { category: 'soft', lvl: 4, text: "Décris ta dernière fois au lit dans le détail, ou triple cul sec." },
+  { category: 'alcool', lvl: 4, text: "Lis à voix haute ton dernier message osé envoyé, ou cul sec." },
+  { category: 'soft', lvl: 4, text: "Mime trois positions à la suite, la table doit deviner, ou finis ton verre." },
+  { category: 'soft', lvl: 4, text: "Dis le fantasme précis que t'inspire la personne en face, ou double cul sec." },
+  { category: 'alcool', lvl: 4, text: "Envoie « t'es chaud(e) ce soir ? » à ton dernier match, ou cul sec." },
+  { category: 'soft', lvl: 4, text: "Simule dix secondes de préliminaires avec une chaise." },
+  { category: 'alcool', lvl: 4, text: "Avoue le lieu le plus risqué où tu l'as fait, ou bois cul sec." },
+  { category: 'soft', lvl: 4, text: "Fais un suçon à ton propre avant-bras, en gros plan." },
+  { category: 'alcool', lvl: 4, text: "Classe la table du meilleur au pire coup présumé, ou vide ton verre." },
+  { category: 'soft', lvl: 4, text: "Refais ta tête et tes bruits au moment de l'orgasme, ou passe ton tour." },
 ];
 
 /**

@@ -2920,4 +2920,66 @@ export const adulteQuestions: Question[] = [
     text: 'Quel manga mêle apocalypse zombie, fan service et lycéens armés ?', answer: 'Highschool of the Dead',
     distractors: ['Corpse Party', 'Gakkou Gurashi', 'Deadman Wonderland'],
   },
+
+  // ── Vague : niveau 4 sans filtre (factuel, cru) ──
+  {
+    id: 'adl-4116', theme: 'culture', universe: 'Sexo 🔞', difficulty: 2, cancelLevel: 4,
+    text: "Comment appelle-t-on la pratique sexuelle orale sur l'homme ?", answer: 'La fellation',
+    distractors: ['La lactation', 'La mastication', 'La déglutition'],
+  },
+  {
+    id: 'adl-4117', theme: 'culture', universe: 'Sexo 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Comment appelle-t-on la pénétration anale ?', answer: 'La sodomie',
+    distractors: ['La circoncision', 'La palpation', "L'auscultation"],
+  },
+  {
+    id: 'adl-4118', theme: 'culture', universe: 'Sexo 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Comment appelle-t-on un orgasme masculin survenant trop rapidement ?', answer: "L'éjaculation précoce",
+    distractors: ["L'aménorrhée", 'La ménopause', "L'anémie"],
+  },
+  {
+    id: 'adl-4119', theme: 'culture', universe: 'Sexo 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on le goût mêlé de la douleur infligée et reçue ?', answer: 'Le sadomasochisme',
+    distractors: ['Le narcissisme', 'Le fétichisme', "L'onanisme"],
+  },
+  {
+    id: 'adl-4120', theme: 'culture', universe: 'Sexo 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on un désir sexuel jugé insatiable chez une femme ?', answer: 'La nymphomanie',
+    distractors: ['La monogamie', 'La chasteté', "L'abstinence"],
+  },
+  {
+    id: 'adl-4121', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 2, cancelLevel: 4,
+    text: "Comment appelle-t-on l'érection présente au réveil ?", answer: "L'érection matinale",
+    distractors: ['La miction', 'La transpiration', 'La salivation'],
+  },
+  {
+    id: 'adl-4122', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 2, cancelLevel: 4,
+    text: "Comment appelle-t-on l'incapacité à concevoir un enfant ?", answer: 'La stérilité',
+    distractors: ['La puberté', 'La croissance', 'La digestion'],
+  },
+  {
+    id: 'adl-4123', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 2, cancelLevel: 4,
+    text: 'Quel supplice consistait à brûler vif un condamné, souvent une « sorcière » ?', answer: 'Le bûcher',
+    distractors: ['La noyade', 'La lapidation', 'La pendaison'],
+  },
+  {
+    id: 'adl-4124', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 2, cancelLevel: 4,
+    text: 'Comment appelle-t-on une personne payée pour tuer ?', answer: 'Un tueur à gages',
+    distractors: ['Un garde du corps', 'Un vigile', 'Un détective'],
+  },
+  {
+    id: 'adl-4125', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 2, cancelLevel: 4,
+    text: "Comment appelle-t-on le meurtre ciblé d'une personnalité ?", answer: 'Un assassinat',
+    distractors: ['Un plébiscite', 'Un mandat', 'Un quorum'],
+  },
+  {
+    id: 'adl-4126', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 1, cancelLevel: 4,
+    text: 'Quel genre de films pour adultes est massivement consommé en ligne ?', answer: 'Le porno',
+    distractors: ['Le documentaire', 'Le dessin animé', 'Le film muet'],
+  },
+  {
+    id: 'adl-4127', theme: 'internet', universe: 'Internet sale 🔞', difficulty: 1, cancelLevel: 4,
+    text: 'Comment appelle-t-on l’envoi de messages ou photos à caractère sexuel ?', answer: 'Le sexting',
+    distractors: ['Le mailing', 'Le tchat', 'Le blogging'],
+  },
 ];

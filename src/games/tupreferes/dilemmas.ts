@@ -712,6 +712,23 @@ export const DILEMMAS_HOT: HotDilemma[] = [
   { a: "Un rendez-vous galant interrompu par la police", b: "Interrompu par tes parents en pyjama", lvl: 4 },
   { a: "Révéler ton plus gros mensonge amoureux", b: "Révéler le pire vent que tu aies mis", lvl: 4 },
   { a: "Que ton coach sportif connaisse tous tes fantasmes", b: "Que ton dentiste connaisse ton nombre de partenaires", lvl: 4 },
+
+  // ----- Vague 12 · Cancellable ++ (sans filtre) --------------------------
+  { a: "Devoir annoncer à la table « avaler ou recracher »", b: "Révéler ta position la moins avouable", lvl: 4 },
+  { a: "Te faire surprendre en train de te masturber par ta coloc", b: "La surprendre avec un jouet en marche", lvl: 4 },
+  { a: "Un ménage à trois avec deux ex", b: "Un ménage à trois avec deux inconnus rencontrés ce soir", lvl: 4 },
+  { a: "Que ton nom soit sur une sextape virale", b: "Sur une liste publique de mauvais coups", lvl: 4 },
+  { a: "Lécher le sol d'un bar pour 500 €", b: "Rouler une pelle à un inconnu aux dents pourries pour 500 €", lvl: 4 },
+  { a: "Coucher avec le/la meilleur(e) ami(e) de ta mère", b: "Avec l'ex de ton père", lvl: 4 },
+  { a: "Vomir dans le lit d'un(e) inconnu(e) en soirée", b: "Boucher ses toilettes de façon mémorable", lvl: 4 },
+  { a: "Que tes parents tombent sur une de tes vidéos intimes", b: "Que tu tombes sur une des leurs", lvl: 4 },
+  { a: "Simuler ta mort pour échapper à tes dettes", b: "Voler l'héritage de ta propre famille", lvl: 4 },
+  { a: "Avoir une odeur intime insupportable", b: "Des bruits corporels incontrôlables au lit", lvl: 4 },
+  { a: "Balancer le nom de ton meilleur coup à la table", b: "Balancer celui de ton pire", lvl: 4 },
+  { a: "Que ton historique porno soit envoyé à tous tes contacts", b: "Que tes nudes soient affichés au bureau", lvl: 4 },
+  { a: "Coucher une fois pour de l'argent, filmé(e)", b: "Rester fauché(e) mais tranquille", lvl: 4 },
+  { a: "Manger un plat préparé par ton pire ennemi", b: "Coucher avec quelqu'un choisi par tes ex", lvl: 4 },
+  { a: "Draguer en salle d'attente d'un hôpital", b: "Draguer à un enterrement pendant l'éloge", lvl: 4 },
 ];
 
 /**

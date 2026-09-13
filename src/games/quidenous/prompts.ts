@@ -649,6 +649,14 @@ export const PROMPTS_HOT: HotPrompt[] = [
   { text: "de proposer un plan cul à un(e) ami(e) proche", lvl: 4 },
   { text: "d'avoir déjà couché avec quelqu'un par pure vengeance", lvl: 4 },
   { text: "d'avoir déjà fini à poil dans un lieu public", lvl: 4 },
+
+  // ----- Vague 9 · Cancellable ++ (sans filtre) ---------------------------
+  { text: "d'avoir déjà couché à trois ou plus", lvl: 4 },
+  { text: "d'avoir déjà payé ou été payé pour du sexe", lvl: 4 },
+  { text: "d'avoir déjà fait un truc au lit qu'il/elle regrette encore", lvl: 4 },
+  { text: "de raconter ses exploits sexuels dans les moindres détails", lvl: 4 },
+  { text: "d'avoir déjà trompé et laissé l'autre porter le doute", lvl: 4 },
+  { text: "de finir toujours par parler de cul en soirée", lvl: 4 },
 ];
 
 /**
