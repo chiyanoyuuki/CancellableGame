@@ -682,6 +682,22 @@ export const DILEMMAS_HOT: HotDilemma[] = [
   { a: "Te faire prendre en flagrant délit d'adultère", b: "Avouer toi-même ta trahison", lvl: 4 },
   { a: "Séduire des jumeaux/jumelles sans qu'ils le sachent", b: "Te faire griller au pire moment", lvl: 4 },
   { a: "Avouer une infidélité en plein repas de famille", b: "La garder secrète toute ta vie", lvl: 4 },
+
+  // ----- Vague 10 · Cancellable ++ ----------------------------------------
+  { a: "Rester coincé(e) aux toilettes sans papier en pleine soirée", b: "Découvrir trop tard que ta braguette était ouverte toute la nuit", lvl: 4 },
+  { a: "Que ton/ta partenaire trouve tes jouets cachés", b: "Que ta mère les trouve", lvl: 4 },
+  { a: "Avoir le prénom de ton coup d'un soir tatoué", b: "Un dessin très cru bien visible", lvl: 4 },
+  { a: "Coucher avec quelqu'un qui sent mauvais mais incroyable", b: "Avec quelqu'un de parfait mais nul au lit", lvl: 4 },
+  { a: "Être filmé(e) en train de chanter nu(e) sous la douche", b: "Filmé(e) en train de parler à ton reflet", lvl: 4 },
+  { a: "Tromper et te faire pardonner en mentant", b: "Avouer et tout perdre", lvl: 4 },
+  { a: "Que ton employeur découvre ton compte OnlyFans", b: "Que tes parents s'y abonnent par erreur", lvl: 4 },
+  { a: "Faire l'amour bruyamment dans des murs en papier", b: "Entendre tes voisins toute la nuit", lvl: 4 },
+  { a: "Draguer quelqu'un qui se révèle marié", b: "Draguer le/la patron(ne) de ton/ta partenaire", lvl: 4 },
+  { a: "Que ton dossier médical intime soit public", b: "Que ton relevé bancaire le soit", lvl: 4 },
+  { a: "Assumer un tatouage « no regret » mal orthographié", b: "Un piercing qui fait sonner les portiques", lvl: 4 },
+  { a: "Coucher avec ton/ta thérapeute", b: "Avec ton coach sportif", lvl: 4 },
+  { a: "Envoyer un message d'insultes à ton boss par erreur", b: "Un message d'amour enflammé à ta belle-mère", lvl: 4 },
+  { a: "Devoir rejouer ta nuit la plus honteuse en public", b: "L'oublier, mais aussi oublier ta meilleure nuit", lvl: 4 },
 ];
 
 /**

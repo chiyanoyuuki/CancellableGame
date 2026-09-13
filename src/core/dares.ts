@@ -267,6 +267,18 @@ export const HOT_DARES: HotDare[] = [
   { category: 'alcool', lvl: 4, text: "Avoue le surnom coquin le plus gênant qu'on t'ait donné, ou bois." },
   { category: 'soft', lvl: 4, text: "Refais le bruit que tu fais quand ça devient sérieux au lit, ou passe ton tour." },
   { category: 'alcool', lvl: 4, text: "Envoie un emoji très suggestif à la personne en haut de tes messages, ou cul sec." },
+
+  // ----- Vague 13 · Cancellable ++ -----------------------------------------
+  { category: 'soft', lvl: 4, text: "Montre à la table ta conversation la plus gênante, ou passe ton tour." },
+  { category: 'soft', lvl: 4, text: "Fais semblant d'appeler quelqu'un pour un plan cul, en improvisant." },
+  { category: 'soft', lvl: 4, text: "Décris ce que tu aimes au lit en trois mots, ou passe ton tour." },
+  { category: 'alcool', lvl: 4, text: "Laisse la personne à ta droite poster une story sur ton compte, ou cul sec." },
+  { category: 'soft', lvl: 4, text: "Chuchote à l'oreille de ton voisin la chose la plus osée que tu oses dire." },
+  { category: 'alcool', lvl: 4, text: "Bois autant de gorgées que ton nombre de coups d'un soir (à la louche)." },
+  { category: 'soft', lvl: 4, text: "Imite deux célébrités en plein flirt jusqu'à ce qu'on devine." },
+  { category: 'alcool', lvl: 4, text: "Envoie « t'as aimé l'autre fois ? » à ton dernier contact, sans contexte, ou cul sec." },
+  { category: 'soft', lvl: 4, text: "Fais ton regard le plus chargé à trois personnes d'affilée, ou passe ton tour." },
+  { category: 'alcool', lvl: 4, text: "Avoue quel(le) invité(e) hante tes pensées coquines, ou vide ton verre." },
 ];
 
 /**

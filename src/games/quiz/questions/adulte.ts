@@ -2816,4 +2816,56 @@ export const adulteQuestions: Question[] = [
     text: "Quel sous-vêtement réduit à l'extrême l'arrière est un classique aguicheur ?", answer: 'Le string',
     distractors: ['Le boxer', 'Le caleçon', 'Le short'],
   },
+
+  // ── Vague : niveau 4 trash, 3e passe (factuel) ──
+  {
+    id: 'adl-4096', theme: 'culture', universe: 'Sexo 🔞', difficulty: 1, cancelLevel: 4,
+    text: "Comment appelle-t-on les objets destinés au plaisir sexuel ?", answer: 'Les sextoys',
+    distractors: ['Les gadgets', 'Les bibelots', 'Les ustensiles'],
+  },
+  {
+    id: 'adl-4097', theme: 'culture', universe: 'Sexo 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Comment nomme-t-on une relation amoureuse et sexuelle à trois ?', answer: 'Un trouple',
+    distractors: ['Un couple', 'Un duo', 'Un tandem'],
+  },
+  {
+    id: 'adl-4098', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Comment nomme-t-on la lubrification naturelle féminine ?', answer: 'La cyprine',
+    distractors: ['La salive', 'La sueur', 'Le sébum'],
+  },
+  {
+    id: 'adl-4099', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 4, cancelLevel: 4,
+    text: 'Comment appelait-on les courtisanes cultivées de la Grèce antique ?', answer: 'Les hétaïres',
+    distractors: ['Les vestales', 'Les matrones', 'Les pythies'],
+  },
+  {
+    id: 'adl-4100', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 2, cancelLevel: 4,
+    text: 'Comment appelle-t-on le délit de se dénuder en public ?', answer: "L'exhibition",
+    distractors: ['La pudeur', 'La discrétion', 'La retenue'],
+  },
+  {
+    id: 'adl-4101', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 2, cancelLevel: 4,
+    text: "Comment appelle-t-on le contrecoup pénible après la prise d'une drogue ?", answer: 'La descente',
+    distractors: ['La montée', 'Le palier', 'Le sommet'],
+  },
+  {
+    id: 'adl-4102', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on un dirigeant qui exerce seul un pouvoir absolu ?', answer: 'Un autocrate',
+    distractors: ['Un régent', 'Un tribun', 'Un consul'],
+  },
+  {
+    id: 'adl-4103', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Quel accessoire coquin maintient les bas au niveau des cuisses ?', answer: 'Le porte-jarretelles',
+    distractors: ['Le foulard', 'Le gilet', 'Le châle'],
+  },
+  {
+    id: 'adl-4104', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Quelle classification américaine réserve un film strictement aux adultes ?', answer: 'Le NC-17',
+    distractors: ['Le PG', 'Le G', 'Le PG-13'],
+  },
+  {
+    id: 'adl-4105', theme: 'internet', universe: 'Internet sale 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on le fait de se dénuder en direct par webcam contre paiement ?', answer: 'Le camming',
+    distractors: ['Le streaming', 'Le vlogging', 'Le podcasting'],
+  },
 ];
