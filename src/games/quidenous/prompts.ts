@@ -492,6 +492,23 @@ export const PROMPTS_HOT: HotPrompt[] = [
   { text: "de garder une rancune tenace pendant des années", lvl: 4 },
   { text: "d'exagérer un malheur pour attirer la pitié", lvl: 4 },
   { text: "de retourner sa veste dès que ça l'arrange", lvl: 4 },
+
+  // ----- Vague (nouvelles affirmations osées) ------------------------------
+  // --- Niveau 2 · Épicé 🌶️ -------------------------------------------------
+  { text: "de rougir dès qu'on parle de sa vie amoureuse", lvl: 2 },
+  { text: "de relancer trois fois un crush qui ne répond pas", lvl: 2 },
+  { text: "de changer de trottoir pour éviter un(e) ex", lvl: 2 },
+  { text: "de garder les cadeaux d'un(e) ex par nostalgie", lvl: 2 },
+  // --- Niveau 3 · +18 🔞 ---------------------------------------------------
+  { text: "d'avoir un profil secret sur une appli coquine", lvl: 3 },
+  { text: "d'avoir déjà dragué deux personnes le même soir", lvl: 3 },
+  { text: "d'assumer le plus ouvertement ses fantasmes", lvl: 3 },
+  { text: "d'avoir déjà menti sur son âge pour séduire", lvl: 3 },
+  // --- Niveau 4 · Cancellable ☠️ -------------------------------------------
+  { text: "de saboter la relation d'un(e) proche par jalousie", lvl: 4 },
+  { text: "de ghoster sans le moindre remords", lvl: 4 },
+  { text: "d'avoir déjà fouillé le téléphone de son/sa partenaire", lvl: 4 },
+  { text: "de balancer un secret dès que ça l'arrange", lvl: 4 },
 ];
 
 /**

@@ -493,6 +493,23 @@ export const DILEMMAS_HOT: HotDilemma[] = [
   { a: "Que tous tes mensonges de la semaine soient révélés", b: "Toutes tes pensées interdites", lvl: 4 },
   { a: "Devenir riche en ruinant discrètement un inconnu", b: "Rester modeste mais irréprochable", lvl: 4 },
   { a: "Hériter de la fortune d'un criminel", b: "Rester pauvre mais les mains propres", lvl: 4 },
+
+  // ----- Vague (nouveaux dilemmes osés) ------------------------------------
+  // Niveau 2 · Épicé 🌶️
+  { a: "Que ton crush voie toutes tes stories archivées", b: "Qu'il/elle écoute tes mémos vocaux ratés", lvl: 2 },
+  { a: "Un date qui ne parle que de son ex", b: "Un date qui répond à ses mails pendant le dîner", lvl: 2 },
+  { a: "Danser un slow gênant avec ton/ta boss", b: "Chanter un karaoké d'amour devant tes collègues", lvl: 2 },
+  { a: "Que ton téléphone lise tes notifs au dîner de famille", b: "Que ton historique s'affiche sur la TV du salon", lvl: 2 },
+  // Niveau 3 · +18 🔞
+  { a: "Révéler ton pire coup d'un soir à la table", b: "Révéler ton meilleur, dans le détail", lvl: 3 },
+  { a: "Ne séduire que par écran, jamais en vrai", b: "Ne séduire qu'en vrai, jamais par message", lvl: 3 },
+  { a: "Que ton/ta partenaire note chaque nuit sur dix", b: "Devoir noter les siennes à voix haute", lvl: 3 },
+  { a: "Un tête-à-tête brûlant avec une personne interdite", b: "Une soirée trop sage avec la personne parfaite", lvl: 3 },
+  // Niveau 4 · Cancellable ☠️
+  { a: "Vendre les secrets de ton couple à un tabloïd", b: "Vendre ceux de ton/ta meilleur(e) ami(e)", lvl: 4 },
+  { a: "Truquer un jeu télé pour rafler le jackpot", b: "Perdre honnêtement en direct", lvl: 4 },
+  { a: "Que ton casier s'affiche sur ton profil de rencontre", b: "Que tes ex y laissent tous un avis public", lvl: 4 },
+  { a: "Doubler un(e) ami(e) pour décrocher LE job", b: "Le/la laisser l'avoir et rester au placard", lvl: 4 },
 ];
 
 /**

@@ -149,6 +149,14 @@ export const HOT_DARES: HotDare[] = [
   { category: 'alcool', lvl: 2, text: "Bois avec la dernière personne à qui tu as écrit." },
   { category: 'alcool', lvl: 3, text: "Cul sec, ou montre la dernière photo de ta pellicule." },
   { category: 'alcool', lvl: 4, text: "Bois autant de gorgées que de personnes que tu as embrassées (à la louche)." },
+
+  // ----- Vague 4 -----------------------------------------------------------
+  { category: 'soft', lvl: 2, text: "Imite la façon dont tu dragues quand tu as trop bu." },
+  { category: 'soft', lvl: 3, text: "Mime ta scène de film la plus torride pendant 10 secondes." },
+  { category: 'soft', lvl: 4, text: "Avoue le plus gros mensonge que tu aies dit pour séduire quelqu'un." },
+  { category: 'alcool', lvl: 2, text: "Bois avec la personne que tu trouves la plus mystérieuse ici." },
+  { category: 'alcool', lvl: 3, text: "Cul sec, ou révèle le prénom de ton dernier crush secret." },
+  { category: 'alcool', lvl: 4, text: "Bois autant de gorgées que de personnes présentes que tu trouves attirantes." },
 ];
 
 /**
