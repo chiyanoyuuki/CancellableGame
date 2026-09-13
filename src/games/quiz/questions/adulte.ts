@@ -932,4 +932,234 @@ export const adulteQuestions: Question[] = [
     text: "Où planque-t-on discrètement de l'argent pour échapper à l'impôt de son pays ?", answer: 'Dans un paradis fiscal',
     distractors: ['À la banque de France', 'Au Trésor public', 'À la Sécurité sociale'],
   },
+
+  // ── Vague : nouveaux thèmes (politique, mythologie, japon, france, mode) ──
+  // Niveau 2 (Épicé 🌶️)
+  {
+    id: 'adl-259', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 2, cancelLevel: 2,
+    text: "Comment appelle-t-on un discours mensonger destiné à manipuler l'opinion ?", answer: 'La propagande',
+    distractors: ['Le débat', 'Le sondage', "L'éditorial"],
+  },
+  {
+    id: 'adl-260', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 3, cancelLevel: 2,
+    text: "Quel dieu grec dévorait ses propres enfants par peur d'être détrôné ?", answer: 'Cronos',
+    distractors: ['Zeus', 'Hadès', 'Poséidon'],
+  },
+  {
+    id: 'adl-261', theme: 'japon', universe: 'Japon interdit 🔞', difficulty: 1, cancelLevel: 2,
+    text: 'Comment appelle-t-on la mafia japonaise ?', answer: 'Les yakuzas',
+    distractors: ['Les triades', 'Les ninjas', 'Les samouraïs'],
+  },
+  {
+    id: 'adl-262', theme: 'france', universe: 'France scandaleuse 🔞', difficulty: 3, cancelLevel: 2,
+    text: "Quelle reine de France fut éclaboussée par l'affaire du collier de diamants ?", answer: 'Marie-Antoinette',
+    distractors: ['Catherine de Médicis', 'Joséphine', 'Marie de Médicis'],
+  },
+  {
+    id: 'adl-263', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quelle créatrice a lancé la mini-jupe dans le Londres des années 60 ?', answer: 'Mary Quant',
+    distractors: ['Coco Chanel', 'Vivienne Westwood', 'Jean-Paul Gaultier'],
+  },
+  {
+    id: 'adl-264', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 2, cancelLevel: 2,
+    text: 'Comment nomme-t-on la prise du pouvoir par la force ?', answer: "Un coup d'État",
+    distractors: ['Une élection', 'Un référendum', 'Une motion'],
+  },
+  {
+    id: 'adl-265', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 2, cancelLevel: 2,
+    text: "Quelle boîte, ouverte par curiosité, libéra tous les maux sur l'humanité ?", answer: 'La boîte de Pandore',
+    distractors: ['Le vase de Soissons', "La lampe d'Aladin", 'Le coffre de Barbe Noire'],
+  },
+  {
+    id: 'adl-266', theme: 'japon', universe: 'Japon interdit 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Comment nomme-t-on les estampes japonaises, dont certaines très érotiques (shunga) ?', answer: "L'ukiyo-e",
+    distractors: ['Le manga', "L'origami", "L'ikebana"],
+  },
+  {
+    id: 'adl-267', theme: 'france', universe: 'France scandaleuse 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quel roi de France était surnommé le Vert-Galant pour ses nombreuses maîtresses ?', answer: 'Henri IV',
+    distractors: ['Louis XIV', 'François Ier', 'Louis XV'],
+  },
+  {
+    id: 'adl-268', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quel sous-vêtement gainant a comprimé la taille des femmes pendant des siècles ?', answer: 'Le corset',
+    distractors: ['Le string', 'Le jupon', 'Le châle'],
+  },
+  {
+    id: 'adl-269', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 1, cancelLevel: 2,
+    text: 'Comment appelle-t-on une fausse information diffusée pour tromper le public ?', answer: 'Une fake news',
+    distractors: ['Un scoop', 'Un édito', 'Une tribune'],
+  },
+  {
+    id: 'adl-270', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 4, cancelLevel: 2,
+    text: 'Quel héros grec tua sa mère pour venger son père, puis fut poursuivi par les Furies ?', answer: 'Oreste',
+    distractors: ['Œdipe', 'Persée', 'Thésée'],
+  },
+  {
+    id: 'adl-271', theme: 'japon', universe: 'Japon interdit 🔞', difficulty: 3, cancelLevel: 2,
+    text: "Quel suicide rituel par éventration pratiquaient les samouraïs déshonorés ?", answer: 'Le seppuku',
+    distractors: ['Le sumo', 'Le kabuki', 'Le shinto'],
+  },
+  {
+    id: 'adl-272', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quelle maison a multiplié les défilés provocateurs sous John Galliano ?', answer: 'Dior',
+    distractors: ['Zara', 'Uniqlo', 'Levi’s'],
+  },
+  {
+    id: 'adl-273', theme: 'france', universe: 'France scandaleuse 🔞', difficulty: 4, cancelLevel: 2,
+    text: "Quelle affaire d'empoisonnements éclaboussa la cour de Louis XIV ?", answer: 'L’affaire des poisons',
+    distractors: ['L’affaire Dreyfus', 'L’affaire du collier', 'La conspiration des poudres'],
+  },
+  // Niveau 3 (+18 🔞)
+  {
+    id: 'adl-367', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 3, cancelLevel: 3,
+    text: "Quel scandale d'espionnage fit tomber le président Nixon en 1974 ?", answer: 'Le Watergate',
+    distractors: ['L’Irangate', 'Les Pentagon Papers', 'Le Whitewater'],
+  },
+  {
+    id: 'adl-368', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel roi de Thèbes tua son père et épousa sa mère sans le savoir ?', answer: 'Œdipe',
+    distractors: ['Agamemnon', 'Ménélas', 'Priam'],
+  },
+  {
+    id: 'adl-369', theme: 'japon', universe: 'Japon interdit 🔞', difficulty: 2, cancelLevel: 3,
+    text: 'Comment nomme-t-on au Japon ces hôtels discrets loués à l’heure pour les couples ?', answer: 'Les love hotels',
+    distractors: ['Les ryokan', 'Les capsule hotels', 'Les izakaya'],
+  },
+  {
+    id: 'adl-370', theme: 'france', universe: 'France scandaleuse 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel ministre du Budget mentit sur son compte caché en Suisse avant d’être condamné ?', answer: 'Jérôme Cahuzac',
+    distractors: ['François Fillon', 'Bernard Tapie', 'Patrick Balkany'],
+  },
+  {
+    id: 'adl-371', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quelle marque a choqué avec des campagnes montrant un malade du sida signées Toscani ?', answer: 'Benetton',
+    distractors: ['Vogue', 'Elle', 'Gucci'],
+  },
+  {
+    id: 'adl-372', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 2, cancelLevel: 3,
+    text: "Comment appelle-t-on l'enrichissement personnel d'un dirigeant aux dépens de l'État ?", answer: 'La corruption',
+    distractors: ['La diplomatie', 'La législation', 'La souveraineté'],
+  },
+  {
+    id: 'adl-373', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 4, cancelLevel: 3,
+    text: "Quelle déesse naquit de l'écume de la mer après la mutilation d'Ouranos ?", answer: 'Aphrodite',
+    distractors: ['Héra', 'Athéna', 'Artémis'],
+  },
+  {
+    id: 'adl-374', theme: 'japon', universe: 'Japon interdit 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel tatouage couvrant tout le corps est associé aux yakuzas ?', answer: "L'irezumi",
+    distractors: ['Le henné', 'Le kanji', "L'origami"],
+  },
+  {
+    id: 'adl-375', theme: 'france', universe: 'France scandaleuse 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quelle favorite de Louis XV régna sur la cour et les arts ?', answer: 'La marquise de Pompadour',
+    distractors: ['Madame du Barry', 'Diane de Poitiers', 'Madame de Maintenon'],
+  },
+  {
+    id: 'adl-376', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 2, cancelLevel: 3,
+    text: 'Quel créateur a habillé Madonna d’un bustier à seins coniques ?', answer: 'Jean-Paul Gaultier',
+    distractors: ['Karl Lagerfeld', 'Yves Saint Laurent', 'Thierry Mugler'],
+  },
+  {
+    id: 'adl-377', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 3, cancelLevel: 3,
+    text: 'Quel lanceur d’alerte révéla la surveillance de masse de la NSA en 2013 ?', answer: 'Edward Snowden',
+    distractors: ['Julian Assange', 'Chelsea Manning', 'Mark Felt'],
+  },
+  {
+    id: 'adl-378', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel dieu nordique fourbe provoque la mort de Baldr et le Ragnarök ?', answer: 'Loki',
+    distractors: ['Thor', 'Odin', 'Freyr'],
+  },
+  {
+    id: 'adl-379', theme: 'japon', universe: 'Japon interdit 🔞', difficulty: 2, cancelLevel: 3,
+    text: 'Comment appelle-t-on les artistes formées au divertissement traditionnel japonais ?', answer: 'Les geishas',
+    distractors: ['Les samouraïs', 'Les miko', 'Les kunoichi'],
+  },
+  {
+    id: 'adl-380', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quels escarpins de luxe sont devenus un symbole de séduction dans « Sex and the City » ?', answer: 'Les Manolo Blahnik',
+    distractors: ['Les Crocs', 'Les Birkenstock', 'Les Doc Martens'],
+  },
+  {
+    id: 'adl-381', theme: 'france', universe: 'France scandaleuse 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel scandale financier éclaboussa Bernard Tapie et le Crédit Lyonnais ?', answer: 'L’affaire Tapie',
+    distractors: ['L’affaire Elf', 'L’affaire Bettencourt', 'L’affaire Clearstream'],
+  },
+  // Niveau 4 (Cancellable ☠️)
+  {
+    id: 'adl-460', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 4, cancelLevel: 4,
+    text: 'Comment appelle-t-on le trucage du découpage électoral pour favoriser un camp ?', answer: 'Le gerrymandering',
+    distractors: ['Le référendum', 'La primaire', "L'abstention"],
+  },
+  {
+    id: 'adl-461', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quel Titan fut condamné à voir un aigle lui dévorer le foie chaque jour ?', answer: 'Prométhée',
+    distractors: ['Atlas', 'Sisyphe', 'Tantale'],
+  },
+  {
+    id: 'adl-462', theme: 'japon', universe: 'Japon interdit 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Comment appelle-t-on les pilotes-suicides japonais de la Seconde Guerre mondiale ?', answer: 'Les kamikazes',
+    distractors: ['Les rōnin', 'Les shoguns', 'Les ninjas'],
+  },
+  {
+    id: 'adl-463', theme: 'france', universe: 'France scandaleuse 🔞', difficulty: 3, cancelLevel: 4,
+    text: "Quelle affaire d'antisémitisme divisa la France autour d'un capitaine injustement condamné ?", answer: 'L’affaire Dreyfus',
+    distractors: ['L’affaire Stavisky', 'L’affaire Ranucci', 'L’affaire Seznec'],
+  },
+  {
+    id: 'adl-464', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Quelle marque de lingerie a mis fin à son défilé télévisé jugé sexiste en 2019 ?', answer: "Victoria's Secret",
+    distractors: ['Etam', 'Aubade', 'Chantal Thomass'],
+  },
+  {
+    id: 'adl-465', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: "Comment nomme-t-on l'élimination systématique d'opposants par un régime ?", answer: 'La purge',
+    distractors: ['Le scrutin', 'Le mandat', 'La coalition'],
+  },
+  {
+    id: 'adl-466', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel roi fut condamné à une faim et une soif éternelles pour avoir défié les dieux ?', answer: 'Tantale',
+    distractors: ['Midas', 'Sisyphe', 'Ixion'],
+  },
+  {
+    id: 'adl-467', theme: 'japon', universe: 'Japon interdit 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on les guerriers samouraïs sans maître, devenus errants ?', answer: 'Les rōnin',
+    distractors: ['Les shoguns', 'Les daimyos', 'Les geishas'],
+  },
+  {
+    id: 'adl-468', theme: 'france', universe: 'France scandaleuse 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quelle affaire de financement occulte visa la classe politique via la société pétrolière Elf ?', answer: 'L’affaire Elf',
+    distractors: ['L’affaire Tapie', 'L’affaire Bettencourt', 'L’affaire du Rainbow Warrior'],
+  },
+  {
+    id: 'adl-469', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Quelle matière issue d’animaux à poils est boycottée par de nombreuses maisons de mode ?', answer: 'La fourrure',
+    distractors: ['Le cuir végétal', 'Le denim', 'La soie'],
+  },
+  {
+    id: 'adl-470', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on un agent double infiltré qui trahit son camp ?', answer: 'Une taupe',
+    distractors: ['Un ambassadeur', 'Un attaché', 'Un émissaire'],
+  },
+  {
+    id: 'adl-471', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quel personnage fut condamné à rouler éternellement un rocher au sommet d’une colline ?', answer: 'Sisyphe',
+    distractors: ['Héraclès', 'Persée', 'Jason'],
+  },
+  {
+    id: 'adl-472', theme: 'japon', universe: 'Japon interdit 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on au Japon la mort provoquée par un excès de travail ?', answer: 'Le karōshi',
+    distractors: ['Le hikikomori', 'Le kaizen', 'Le bushido'],
+  },
+  {
+    id: 'adl-473', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Comment nomme-t-on ces robes transparentes qui ne laissent presque rien à l’imagination ?', answer: 'Les naked dresses',
+    distractors: ['Les tailleurs', 'Les trench-coats', 'Les doudounes'],
+  },
+  {
+    id: 'adl-474', theme: 'france', universe: 'France scandaleuse 🔞', difficulty: 3, cancelLevel: 4,
+    text: "Quelle affaire d'argent et d'héritage opposa la milliardaire Liliane Bettencourt à son entourage ?", answer: 'L’affaire Bettencourt',
+    distractors: ['L’affaire Elf', 'L’affaire Tapie', 'L’affaire Cahuzac'],
+  },
 ];
