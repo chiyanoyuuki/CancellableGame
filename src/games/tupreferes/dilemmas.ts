@@ -698,6 +698,20 @@ export const DILEMMAS_HOT: HotDilemma[] = [
   { a: "Coucher avec ton/ta thérapeute", b: "Avec ton coach sportif", lvl: 4 },
   { a: "Envoyer un message d'insultes à ton boss par erreur", b: "Un message d'amour enflammé à ta belle-mère", lvl: 4 },
   { a: "Devoir rejouer ta nuit la plus honteuse en public", b: "L'oublier, mais aussi oublier ta meilleure nuit", lvl: 4 },
+
+  // ----- Vague 11 · Cancellable ++ ----------------------------------------
+  { a: "Que ton/ta crush lise tous tes messages le/la concernant", b: "Que le groupe vote ton pire trait au lit", lvl: 4 },
+  { a: "Avoir un bruit très gênant à chaque orgasme", b: "Un tic incontrôlable dès que tu es excité(e)", lvl: 4 },
+  { a: "Coucher avec un(e) inconnu(e) chaque mois pour rester riche", b: "Être fidèle mais fauché(e) à vie", lvl: 4 },
+  { a: "Que ta pire photo devienne un mème mondial", b: "Qu'une vidéo intime fuite anonymement", lvl: 4 },
+  { a: "Draguer trois personnes dans la même soirée et te faire griller", b: "Ne jamais oser aborder personne", lvl: 4 },
+  { a: "Que ton ex devienne ton patron", b: "Que ton coup d'un soir devienne ton/ta colocataire", lvl: 4 },
+  { a: "Confondre le prénom de ton/ta partenaire au lit", b: "Publier une story très compromettante bourré(e)", lvl: 4 },
+  { a: "Assumer une sextape ratée devenue virale", b: "Un fou rire incontrôlable à chaque moment intime", lvl: 4 },
+  { a: "Te faire larguer par SMS devant tout le monde", b: "Larguer quelqu'un le jour de son anniversaire", lvl: 4 },
+  { a: "Un rendez-vous galant interrompu par la police", b: "Interrompu par tes parents en pyjama", lvl: 4 },
+  { a: "Révéler ton plus gros mensonge amoureux", b: "Révéler le pire vent que tu aies mis", lvl: 4 },
+  { a: "Que ton coach sportif connaisse tous tes fantasmes", b: "Que ton dentiste connaisse ton nombre de partenaires", lvl: 4 },
 ];
 
 /**

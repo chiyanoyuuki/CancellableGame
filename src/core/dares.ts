@@ -279,6 +279,18 @@ export const HOT_DARES: HotDare[] = [
   { category: 'alcool', lvl: 4, text: "Envoie « t'as aimé l'autre fois ? » à ton dernier contact, sans contexte, ou cul sec." },
   { category: 'soft', lvl: 4, text: "Fais ton regard le plus chargé à trois personnes d'affilée, ou passe ton tour." },
   { category: 'alcool', lvl: 4, text: "Avoue quel(le) invité(e) hante tes pensées coquines, ou vide ton verre." },
+
+  // ----- Vague 14 · Cancellable ++ -----------------------------------------
+  { category: 'soft', lvl: 4, text: "Fais ta meilleure imitation de quelqu'un qui drague très maladroitement." },
+  { category: 'alcool', lvl: 4, text: "Dis à voix haute le dernier truc coquin que tu as tapé au clavier, ou cul sec." },
+  { category: 'soft', lvl: 4, text: "Prends la personne à ta gauche dans tes bras pendant vingt secondes." },
+  { category: 'soft', lvl: 4, text: "Raconte ton pire moment de honte en soirée trop arrosée." },
+  { category: 'alcool', lvl: 4, text: "Envoie « faut qu'on parle » à un(e) ex, puis « pardon, mauvais contact », ou cul sec." },
+  { category: 'alcool', lvl: 4, text: "Avoue combien de fois tu as recontacté un(e) ex par faiblesse, ou bois." },
+  { category: 'soft', lvl: 4, text: "Complimente le physique de chaque personne, une par une, sans mentir." },
+  { category: 'soft', lvl: 4, text: "Mime la scène de film la plus torride que tu connaisses." },
+  { category: 'alcool', lvl: 4, text: "Révèle le fond d'écran de ton téléphone, ou cul sec." },
+  { category: 'alcool', lvl: 4, text: "Bois autant de gorgées que de personnes ici avec qui tu accepterais un date." },
 ];
 
 /**

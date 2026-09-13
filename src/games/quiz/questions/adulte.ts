@@ -2868,4 +2868,56 @@ export const adulteQuestions: Question[] = [
     text: 'Comment appelle-t-on le fait de se dénuder en direct par webcam contre paiement ?', answer: 'Le camming',
     distractors: ['Le streaming', 'Le vlogging', 'Le podcasting'],
   },
+
+  // ── Vague : niveau 4 trash, 4e passe (factuel) ──
+  {
+    id: 'adl-4106', theme: 'culture', universe: 'Sexo 🔞', difficulty: 1, cancelLevel: 4,
+    text: 'Comment appelle-t-on le fait de se procurer du plaisir soi-même ?', answer: 'La masturbation',
+    distractors: ['La méditation', 'La respiration', 'La relaxation'],
+  },
+  {
+    id: 'adl-4107', theme: 'culture', universe: 'Sexo 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Comment appelle-t-on un(e) accompagnateur/trice de luxe rémunéré(e) ?', answer: 'Un escort',
+    distractors: ['Un majordome', 'Un concierge', "Un maître d'hôtel"],
+  },
+  {
+    id: 'adl-4108', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Comment nomme-t-on le liquide qui transporte les spermatozoïdes ?', answer: 'Le liquide séminal',
+    distractors: ['Le plasma', 'La lymphe', 'La bile'],
+  },
+  {
+    id: 'adl-4109', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 4, cancelLevel: 4,
+    text: 'Quel commerce de « pardons » de l’Église déclencha la colère de Luther ?', answer: 'Le commerce des indulgences',
+    distractors: ['La dîme', 'Le denier du culte', "L'aumône"],
+  },
+  {
+    id: 'adl-4110', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on le prêt d’argent à un taux illégalement élevé ?', answer: "L'usure",
+    distractors: ["L'épargne", 'Le crédit', 'Le dividende'],
+  },
+  {
+    id: 'adl-4111', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Comment appelle-t-on la dépendance compulsive aux drogues ?', answer: 'La toxicomanie',
+    distractors: ['La gourmandise', 'La paresse', 'La distraction'],
+  },
+  {
+    id: 'adl-4112', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on l’échange de faveurs contre des soutiens politiques ?', answer: 'Le clientélisme',
+    distractors: ['Le fédéralisme', 'Le bipartisme', 'Le civisme'],
+  },
+  {
+    id: 'adl-4113', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Quelles bottes montant au-dessus du genou sont un classique aguicheur ?', answer: 'Les cuissardes',
+    distractors: ['Les mocassins', 'Les sandales', 'Les espadrilles'],
+  },
+  {
+    id: 'adl-4114', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Quel genre horrifique met en scène un tueur masqué traquant des jeunes ?', answer: 'Le slasher',
+    distractors: ['Le péplum', 'La comédie musicale', 'Le western'],
+  },
+  {
+    id: 'adl-4115', theme: 'manga', universe: 'Manga interdits 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quel manga mêle apocalypse zombie, fan service et lycéens armés ?', answer: 'Highschool of the Dead',
+    distractors: ['Corpse Party', 'Gakkou Gurashi', 'Deadman Wonderland'],
+  },
 ];
