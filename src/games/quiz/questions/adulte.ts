@@ -2162,4 +2162,189 @@ export const adulteQuestions: Question[] = [
     text: 'Quel rappeur légendaire de la West Coast incarna le gangsta rap sous le nom de 2Pac ?', answer: 'Tupac Shakur',
     distractors: ['Notorious B.I.G.', 'Snoop Dogg', 'Dr. Dre'],
   },
+
+  // ── Vague : culture & concepts, 3e passe ──
+  // Niveau 2 (Épicé 🌶️)
+  {
+    id: 'adl-2052', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 2, cancelLevel: 2,
+    text: "Quel film de Danny Boyle (1996) plonge dans l'héroïne à Édimbourg ?", answer: 'Trainspotting',
+    distractors: ['Requiem for a Dream', 'Christiane F.', 'Las Vegas Parano'],
+  },
+  {
+    id: 'adl-2053', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quelle sorcière stylée et sensuelle combat des anges dans un beat’em up déjanté ?', answer: 'Bayonetta',
+    distractors: ['Nier: Automata', 'Devil May Cry', 'Nioh'],
+  },
+  {
+    id: 'adl-2054', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quelle série britannique suit une femme cynique brisant le quatrième mur ?', answer: 'Fleabag',
+    distractors: ['Chewing Gum', 'Catastrophe', 'Miranda'],
+  },
+  {
+    id: 'adl-2055', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quel artiste a provoqué avec le clip « Montero » et ses « Satan Shoes » ?', answer: 'Lil Nas X',
+    distractors: ['Lil Uzi Vert', 'Tyler, the Creator', 'Doja Cat'],
+  },
+  {
+    id: 'adl-2056', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quelle autrice scandalisa la Belle Époque par sa vie libre et ses « Claudine » ?', answer: 'Colette',
+    distractors: ['George Sand', 'Anaïs Nin', 'Simone de Beauvoir'],
+  },
+  {
+    id: 'adl-2057', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quelle nymphe, éprise de Narcisse qui la rejeta, dépérit jusqu’à n’être qu’une voix ?', answer: 'Écho',
+    distractors: ['Daphné', 'Calypso', 'Io'],
+  },
+  {
+    id: 'adl-2058', theme: 'japon', universe: 'Japon interdit 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Comment appelle-t-on les bains chauds volcaniques japonais ?', answer: 'Les onsen',
+    distractors: ['Les tatami', 'Les ryokan', 'Les futon'],
+  },
+  {
+    id: 'adl-2059', theme: 'internet', universe: 'Internet sale 🔞', difficulty: 1, cancelLevel: 2,
+    text: 'Comment appelle-t-on un titre racoleur conçu pour pousser au clic ?', answer: 'Le clickbait',
+    distractors: ['Le hashtag', 'Le permalien', 'Le favori'],
+  },
+  {
+    id: 'adl-2060', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quelle pièce intemporelle Coco Chanel imposa-t-elle dans les années 20 ?', answer: 'La petite robe noire',
+    distractors: ['Le tailleur pantalon', 'La veste en tweed', 'Le trench'],
+  },
+  {
+    id: 'adl-2061', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 2, cancelLevel: 2,
+    text: 'Comment appelle-t-on le favoritisme envers sa propre famille au pouvoir ?', answer: 'Le népotisme',
+    distractors: ['Le fédéralisme', 'Le bipartisme', 'Le lobbying'],
+  },
+  {
+    id: 'adl-2062', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 3, cancelLevel: 2,
+    text: "Quel thriller de Paul Verhoeven (1992) choqua avec une scène d'interrogatoire culte ?", answer: 'Basic Instinct',
+    distractors: ['Fatal Attraction', 'Body Double', 'Sliver'],
+  },
+  {
+    id: 'adl-2063', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quelle série suit des publicitaires new-yorkais volages et alcoolisés des années 60 ?', answer: 'Mad Men',
+    distractors: ['The Hour', 'Masters of Sex', 'Halt and Catch Fire'],
+  },
+  // Niveau 3 (+18 🔞)
+  {
+    id: 'adl-3052', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Quel film de Park Chan-wook (2003) suit une vengeance et un secret tabou ?', answer: 'Old Boy',
+    distractors: ['The Chaser', 'I Saw the Devil', 'Memories of Murder'],
+  },
+  {
+    id: 'adl-3053', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel jeu d’horreur spatial fait affronter les monstrueux Nécromorphes ?', answer: 'Dead Space',
+    distractors: ['Doom 3', 'Alien: Isolation', 'Prey'],
+  },
+  {
+    id: 'adl-3054', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 2, cancelLevel: 3,
+    text: 'Quelle série montre sans détour la vie d’ados entre drogue, sexe et réseaux (Zendaya) ?', answer: 'Euphoria',
+    distractors: ['Skins', 'Élite', '13 Reasons Why'],
+  },
+  {
+    id: 'adl-3055', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Quelle artiste électro provoque en chantant crûment la sexualité ?', answer: 'Peaches',
+    distractors: ['Grimes', 'Björk', 'M.I.A.'],
+  },
+  {
+    id: 'adl-3056', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 4, cancelLevel: 3,
+    text: "Quel roman de Pierre Louÿs célèbre la sensualité dans l'Alexandrie antique ?", answer: 'Aphrodite',
+    distractors: ['Salammbô', 'Thaïs', 'Quo Vadis'],
+  },
+  {
+    id: 'adl-3057', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 2, cancelLevel: 3,
+    text: 'Quelles créatures marines attiraient les marins par leur chant mortel ?', answer: 'Les sirènes',
+    distractors: ['Les néréides', 'Les harpies', 'Les gorgones'],
+  },
+  {
+    id: 'adl-3058', theme: 'japon', universe: 'Japon interdit 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Comment appelle-t-on le théâtre japonais stylisé aux acteurs très maquillés ?', answer: 'Le kabuki',
+    distractors: ['Le manga', 'Le karaoké', 'Le pachinko'],
+  },
+  {
+    id: 'adl-3059', theme: 'internet', universe: 'Internet sale 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Comment appelle-t-on le chantage à partir d’images intimes obtenues en ligne ?', answer: 'La sextorsion',
+    distractors: ['Le phishing', 'Le spam', 'Le hoax'],
+  },
+  {
+    id: 'adl-3060', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel créateur a signé des publicités jugées ultra-sexualisées pour Gucci puis sa marque ?', answer: 'Tom Ford',
+    distractors: ['Marc Jacobs', 'Alexander McQueen', 'Riccardo Tisci'],
+  },
+  {
+    id: 'adl-3061', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 3, cancelLevel: 3,
+    text: 'Comment appelle-t-on la chasse aux communistes menée par le sénateur McCarthy ?', answer: 'Le maccarthysme',
+    distractors: ['Le thatchérisme', 'Le gaullisme', 'Le reaganisme'],
+  },
+  {
+    id: 'adl-3062', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Quel film de Gaspar Noé (2018) sombre dans une fête gangrenée par le LSD ?', answer: 'Climax',
+    distractors: ['Enter the Void', 'Love', 'Irréversible'],
+  },
+  {
+    id: 'adl-3063', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 2, cancelLevel: 3,
+    text: 'Quelle série de Shondaland dépeint la haute société londonienne et ses intrigues charnelles ?', answer: 'Bridgerton',
+    distractors: ['The Great', 'Harlots', 'Sanditon'],
+  },
+  // Niveau 4 (Cancellable ☠️)
+  {
+    id: 'adl-4037', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 4, cancelLevel: 4,
+    text: "Quel film serbe de 2010 est réputé l'un des plus choquants jamais tournés ?", answer: 'A Serbian Film',
+    distractors: ['Martyrs', 'Salò', 'Cannibal Holocaust'],
+  },
+  {
+    id: 'adl-4038', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quel jeu polémique de 2015 ne consiste qu’à commettre des massacres gratuits ?', answer: 'Hatred',
+    distractors: ['Postal', 'Manhunt', 'Carmageddon'],
+  },
+  {
+    id: 'adl-4039', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quelle série animée pour adultes suit une agence d’espions dépravés menée par Sterling Archer ?', answer: 'Archer',
+    distractors: ['Rick et Morty', 'F is for Family', 'Paradise PD'],
+  },
+  {
+    id: 'adl-4040', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel musicien génial et provocateur composa « Bobby Brown » aux paroles très crues ?', answer: 'Frank Zappa',
+    distractors: ['Captain Beefheart', 'Lou Reed', 'Iggy Pop'],
+  },
+  {
+    id: 'adl-4041', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 3, cancelLevel: 4,
+    text: "Quel auteur d'« American Psycho » a aussi choqué avec « Lunar Park » ?", answer: 'Bret Easton Ellis',
+    distractors: ['Chuck Palahniuk', 'Don DeLillo', 'Jay McInerney'],
+  },
+  {
+    id: 'adl-4042', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quelles guerrières mythiques se seraient mutilées pour mieux tirer à l’arc ?', answer: 'Les Amazones',
+    distractors: ['Les Walkyries', 'Les Ménades', 'Les Gorgones'],
+  },
+  {
+    id: 'adl-4043', theme: 'japon', universe: 'Japon interdit 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on les femmes ninjas de l’espionnage féodal japonais ?', answer: 'Les kunoichi',
+    distractors: ['Les geishas', 'Les miko', 'Les onna-musha'],
+  },
+  {
+    id: 'adl-4044', theme: 'internet', universe: 'Internet sale 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on le canular qui envoie une intervention policière chez quelqu’un ?', answer: 'Le swatting',
+    distractors: ['Le doxxing', 'Le trolling', 'Le phishing'],
+  },
+  {
+    id: 'adl-4045', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quelle marque américaine a enchaîné les pubs hypersexualisées et les scandales de son PDG ?', answer: 'American Apparel',
+    distractors: ['Abercrombie & Fitch', 'Urban Outfitters', 'Brandy Melville'],
+  },
+  {
+    id: 'adl-4046', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 4, cancelLevel: 4,
+    text: "Quel scandale révéla la vente secrète d'armes à l'Iran sous Reagan ?", answer: "L'Iran-Contra",
+    distractors: ['Le Watergate', 'Le Whitewater', 'Le Lewinskygate'],
+  },
+  {
+    id: 'adl-4047', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel film de Nicolas Winding Refn (2016) plonge dans le narcissisme mortel de la mode ?', answer: 'The Neon Demon',
+    distractors: ['Only God Forgives', 'Spring Breakers', 'Suspiria'],
+  },
+  {
+    id: 'adl-4048', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quelle série retrace la vie violente des gangsters de l’Atlantic City de la Prohibition ?', answer: 'Boardwalk Empire',
+    distractors: ['Peaky Blinders', 'The Knick', 'Carnivàle'],
+  },
 ];
