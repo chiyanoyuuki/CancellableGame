@@ -2347,4 +2347,189 @@ export const adulteQuestions: Question[] = [
     text: 'Quelle série retrace la vie violente des gangsters de l’Atlantic City de la Prohibition ?', answer: 'Boardwalk Empire',
     distractors: ['Peaky Blinders', 'The Knick', 'Carnivàle'],
   },
+
+  // ── Vague : culture & concepts, 4e passe ──
+  // Niveau 2 (Épicé 🌶️)
+  {
+    id: 'adl-2064', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 3, cancelLevel: 2,
+    text: "Quel film de David Lynch (1986) explore les pulsions sombres d'une petite ville ?", answer: 'Blue Velvet',
+    distractors: ['Mulholland Drive', 'Twin Peaks', 'Lost Highway'],
+  },
+  {
+    id: 'adl-2065', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quel jeu de plateforme met en scène un écureuil vulgaire et alcoolisé ?', answer: "Conker's Bad Fur Day",
+    distractors: ['Banjo-Kazooie', 'Crash Bandicoot', 'Rayman'],
+  },
+  {
+    id: 'adl-2066', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 1, cancelLevel: 2,
+    text: 'Quelle série culte suit quatre New-Yorkaises et leur vie sentimentale et sexuelle ?', answer: 'Sex and the City',
+    distractors: ['Girls', 'Younger', 'The Bold Type'],
+  },
+  {
+    id: 'adl-2067', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 4, cancelLevel: 2,
+    text: 'Quel groupe mené par Ice-T fit scandale avec le titre « Cop Killer » ?', answer: 'Body Count',
+    distractors: ['Rage Against the Machine', 'Public Enemy', 'N.W.A'],
+  },
+  {
+    id: 'adl-2068', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quel recueil de contes grivois de Boccace date du XIVᵉ siècle ?', answer: 'Le Décaméron',
+    distractors: ['Les Contes de Canterbury', "L'Heptaméron", 'Gargantua'],
+  },
+  {
+    id: 'adl-2069', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 2, cancelLevel: 2,
+    text: "Quelle magicienne transforma les compagnons d'Ulysse en porcs ?", answer: 'Circé',
+    distractors: ['Médée', 'Calypso', 'Pénélope'],
+  },
+  {
+    id: 'adl-2070', theme: 'japon', universe: 'Japon interdit 🔞', difficulty: 2, cancelLevel: 2,
+    text: "Comment appelle-t-on les fans obsessionnels de manga et d'anime ?", answer: 'Les otaku',
+    distractors: ['Les samouraïs', 'Les geishas', 'Les sensei'],
+  },
+  {
+    id: 'adl-2071', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 3, cancelLevel: 2,
+    text: 'Quelle espionne et danseuse fut fusillée pour espionnage en 1917 ?', answer: 'Mata Hari',
+    distractors: ['Lola Montès', 'Cléo de Mérode', 'La Belle Otero'],
+  },
+  {
+    id: 'adl-2072', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 2, cancelLevel: 2,
+    text: "Comment appelle-t-on la diffusion volontaire d'informations trompeuses ?", answer: 'La désinformation',
+    distractors: ['La transparence', 'La médiation', 'La concertation'],
+  },
+  {
+    id: 'adl-2073', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 1, cancelLevel: 2,
+    text: 'Comment appelle-t-on des chaussures à talon très fin et très haut ?', answer: 'Les talons aiguilles',
+    distractors: ['Les mocassins', 'Les ballerines', 'Les compensées'],
+  },
+  {
+    id: 'adl-2074', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quel film de Roman Polanski (1968) suit une grossesse démoniaque ?', answer: "Rosemary's Baby",
+    distractors: ["L'Exorciste", 'The Omen', 'Suspiria'],
+  },
+  {
+    id: 'adl-2075', theme: 'internet', universe: 'Internet sale 🔞', difficulty: 2, cancelLevel: 2,
+    text: "Quelle plateforme d'abonnement est prisée pour le contenu pour adultes ?", answer: 'OnlyFans',
+    distractors: ['Patreon', 'Twitch', 'Substack'],
+  },
+  // Niveau 3 (+18 🔞)
+  {
+    id: 'adl-3064', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Quel film de Michael Haneke (2001) suit une professeure de piano aux désirs masochistes ?', answer: 'La Pianiste',
+    distractors: ['Amour', 'Caché', 'Funny Games'],
+  },
+  {
+    id: 'adl-3065', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel jeu de tir déjanté récompense les mises à mort les plus créatives ?', answer: 'Bulletstorm',
+    distractors: ['Doom', 'Painkiller', 'Serious Sam'],
+  },
+  {
+    id: 'adl-3066', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quelle série de HBO plonge dans la drogue et la police de Baltimore ?', answer: 'The Wire',
+    distractors: ['The Shield', 'Bosch', 'True Detective'],
+  },
+  {
+    id: 'adl-3067', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Quel groupe de metal fut jugé pour de prétendus messages subliminaux en 1990 ?', answer: 'Judas Priest',
+    distractors: ['Iron Maiden', 'Metallica', 'Black Sabbath'],
+  },
+  {
+    id: 'adl-3068', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Quel roman satirique de Pétrone décrit les excès de la Rome antique ?', answer: 'Le Satyricon',
+    distractors: ["L'Énéide", 'Les Métamorphoses', 'La Guerre des Gaules'],
+  },
+  {
+    id: 'adl-3069', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 3, cancelLevel: 3,
+    text: "Quel être aux deux sexes naquit de la fusion d'un dieu et d'une nymphe ?", answer: 'Hermaphrodite',
+    distractors: ['Narcisse', 'Adonis', 'Protée'],
+  },
+  {
+    id: 'adl-3070', theme: 'japon', universe: 'Japon interdit 🔞', difficulty: 3, cancelLevel: 3,
+    text: "Comment appelle-t-on l'art érotique des estampes japonaises anciennes ?", answer: 'Le shunga',
+    distractors: ['Le manga', 'Le sumi-e', 'Le kirigami'],
+  },
+  {
+    id: 'adl-3071', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 4, cancelLevel: 3,
+    text: 'Quelle courtisane du Grand Siècle tenait un salon libertin très couru ?', answer: 'Ninon de Lenclos',
+    distractors: ['Madame de Sévigné', 'Madame de La Fayette', 'Madame de Maintenon'],
+  },
+  {
+    id: 'adl-3072', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 3, cancelLevel: 3,
+    text: "Quel système de ségrégation raciale régit l'Afrique du Sud jusqu'en 1991 ?", answer: "L'apartheid",
+    distractors: ['La ségrégation', 'Le colonialisme', 'Le protectorat'],
+  },
+  {
+    id: 'adl-3073', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel styliste visionnaire signait des défilés spectaculaires avant sa mort en 2010 ?', answer: 'Alexander McQueen',
+    distractors: ['John Galliano', 'Karl Lagerfeld', 'Gianni Versace'],
+  },
+  {
+    id: 'adl-3074', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Quel film de Julia Ducournau (2016) suit une végétarienne prise de pulsions cannibales ?', answer: 'Grave',
+    distractors: ['Titane', 'Border', 'Thelma'],
+  },
+  {
+    id: 'adl-3075', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel collectif punk russe a défié le pouvoir et fini en prison ?', answer: 'Pussy Riot',
+    distractors: ['Femen', 't.A.T.u.', 'Little Big'],
+  },
+  // Niveau 4 (Cancellable ☠️)
+  {
+    id: 'adl-4049', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel film de Żuławski (1981) mêle horreur et folie conjugale avec Isabelle Adjani ?', answer: 'Possession',
+    distractors: ['Antichrist', 'Repulsion', 'mother!'],
+  },
+  {
+    id: 'adl-4050', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel jeu interactif de 1992 déclencha des auditions au Sénat américain ?', answer: 'Night Trap',
+    distractors: ['Mortal Kombat', 'Doom', 'Phantasmagoria'],
+  },
+  {
+    id: 'adl-4051', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Quelle série suit un prof de chimie devenu baron de la méthamphétamine ?', answer: 'Breaking Bad',
+    distractors: ['Ozark', 'Better Call Saul', 'Weeds'],
+  },
+  {
+    id: 'adl-4052', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quel duo russe joua sur une fausse relation lesbienne pour choquer en 2002 ?', answer: 't.A.T.u.',
+    distractors: ['Pussy Riot', 'Nina Hagen', 'Roxette'],
+  },
+  {
+    id: 'adl-4053', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel conte de Diderot fait parler les parties intimes des femmes ?', answer: 'Les Bijoux indiscrets',
+    distractors: ['Candide', 'Jacques le Fataliste', 'La Religieuse'],
+  },
+  {
+    id: 'adl-4054', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quel devin grec fut changé en femme pendant sept ans par les dieux ?', answer: 'Tirésias',
+    distractors: ['Orphée', 'Cadmos', 'Calchas'],
+  },
+  {
+    id: 'adl-4055', theme: 'japon', universe: 'Japon interdit 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Comment appelle-t-on les bandes de motards rebelles japonais ?', answer: 'Les bōsōzoku',
+    distractors: ['Les yakuzas', 'Les otaku', 'Les rōnin'],
+  },
+  {
+    id: 'adl-4056', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: "Comment nomme-t-on la maison close de Pompéi aux fresques érotiques ?", answer: 'Le lupanar',
+    distractors: ['Le forum', 'Les thermes', "L'amphithéâtre"],
+  },
+  {
+    id: 'adl-4057', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: "Comment appelle-t-on les camps de travail forcé de l'URSS ?", answer: 'Le goulag',
+    distractors: ['Le kolkhoze', 'Le soviet', 'Le politburo'],
+  },
+  {
+    id: 'adl-4058', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quel maillot dénudant la poitrine créa le scandale en 1964 ?', answer: 'Le monokini',
+    distractors: ['Le bikini', 'Le trikini', 'Le tankini'],
+  },
+  {
+    id: 'adl-4059', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel film de Takashi Miike (1999) piège le spectateur dans une horreur insoutenable ?', answer: 'Audition',
+    distractors: ['Ichi the Killer', 'Ringu', 'Ju-on'],
+  },
+  {
+    id: 'adl-4060', theme: 'internet', universe: 'Internet sale 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on une arnaque crypto où les créateurs filent avec les fonds ?', answer: 'Le rug pull',
+    distractors: ['Le mining', 'Le staking', 'Le hodl'],
+  },
 ];
