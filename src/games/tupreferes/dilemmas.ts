@@ -602,6 +602,29 @@ export const DILEMMAS_HOT: HotDilemma[] = [
   { a: "Balancer un tricheur et briser une amitié", b: "Fermer les yeux et cautionner", lvl: 4 },
   { a: "Effacer toutes tes dettes en trahissant un secret", b: "Rembourser toute ta vie", lvl: 4 },
   { a: "Devenir influent(e) en manipulant l'opinion", b: "Rester intègre et ignoré(e)", lvl: 4 },
+
+  // ----- Vague 6 (nouveaux dilemmes osés) ----------------------------------
+  // Niveau 2 · Épicé 🌶️
+  { a: "Éternuer bruyamment à chaque baiser", b: "Avoir le fou rire à chaque câlin", lvl: 2 },
+  { a: "Que ton ex soit invité à tous tes anniversaires", b: "Que ta belle-famille débarque sans prévenir", lvl: 2 },
+  { a: "Ne plus pouvoir mentir sur tes sentiments", b: "Ne plus pouvoir cacher tes réactions physiques", lvl: 2 },
+  { a: "Un date qui prend tout en photo", b: "Un date qui raconte la soirée en direct à sa mère", lvl: 2 },
+  { a: "Draguer avec dix ans de retard sur les codes", b: "Draguer avec dix ans d'avance, incompris(e)", lvl: 2 },
+  { a: "Que ton crush découvre ta playlist honteuse", b: "Qu'il/elle voie tes captures d'écran", lvl: 2 },
+  // Niveau 3 · +18 🔞
+  { a: "Coucher avec quelqu'un de bien plus âgé", b: "Avec quelqu'un que tout le monde juge", lvl: 3 },
+  { a: "Avouer le plus grand nombre de la table", b: "Avouer le plus petit", lvl: 3 },
+  { a: "Passer pour un(e) coincé(e)", b: "Passer pour un(e) obsédé(e)", lvl: 3 },
+  { a: "Un(e) partenaire avec la règle « aucun tabou »", b: "Un(e) partenaire avec la règle « on ne parle de rien »", lvl: 3 },
+  { a: "Séduire uniquement par les mots", b: "Séduire uniquement par le corps", lvl: 3 },
+  { a: "Une aventure d'un soir mémorable", b: "Une amitié amoureuse ambiguë sans fin", lvl: 3 },
+  // Niveau 4 · Cancellable ☠️
+  { a: "Vendre une vidéo intime pour rembourser tes dettes", b: "Garder ta dignité et couler", lvl: 4 },
+  { a: "Trahir ton employeur pour un concurrent qui paie triple", b: "Rester loyal(e) et sous-payé(e)", lvl: 4 },
+  { a: "Épouser par intérêt et jouer la comédie", b: "Rester célibataire mais sincère", lvl: 4 },
+  { a: "Diffuser une info compromettante sur un rival", b: "Perdre face à lui loyalement", lvl: 4 },
+  { a: "Que ton passé le plus honteux ressorte en pleine campagne", b: "Que ton pire mensonge soit prouvé", lvl: 4 },
+  { a: "Sacrifier une amitié pour la gloire", b: "Rester dans l'ombre avec tes vrais amis", lvl: 4 },
 ];
 
 /**

@@ -213,6 +213,20 @@ export const HOT_DARES: HotDare[] = [
   { category: 'alcool', lvl: 3, text: "Bois une gorgée par soirée dont tu ne te souviens pas entièrement." },
   { category: 'alcool', lvl: 4, text: "Cul sec, ou avoue la pire chose que tu aies faite en soirée." },
   { category: 'alcool', lvl: 4, text: "Bois, ou envoie « je pense à toi » à ton dernier contact." },
+
+  // ----- Vague 9 -----------------------------------------------------------
+  { category: 'soft', lvl: 2, text: "Fais un compliment sincère à chaque personne, en te déhanchant." },
+  { category: 'soft', lvl: 2, text: "Mime la scène du tout premier regard entre deux amoureux." },
+  { category: 'soft', lvl: 3, text: "Raconte la drague la plus culottée que tu aies tentée." },
+  { category: 'soft', lvl: 3, text: "Fais deviner ton signe astro en jouant ses pires clichés en amour." },
+  { category: 'soft', lvl: 4, text: "Avoue le mensonge le plus long que tu aies tenu dans un couple." },
+  { category: 'soft', lvl: 4, text: "Donne la qualité et le défaut de la personne à ta gauche, sans filtre." },
+  { category: 'alcool', lvl: 2, text: "Bois avec la personne dont tu envierais le plus la vie amoureuse." },
+  { category: 'alcool', lvl: 2, text: "Trinque avec la personne que tu trouves la plus drôle ce soir." },
+  { category: 'alcool', lvl: 3, text: "Cul sec, ou raconte ton rencard le plus catastrophique." },
+  { category: 'alcool', lvl: 3, text: "Bois une gorgée par appli de rencontre que tu as supprimée par dépit." },
+  { category: 'alcool', lvl: 4, text: "Cul sec, ou avoue combien de fois tu es retourné(e) avec un(e) ex." },
+  { category: 'alcool', lvl: 4, text: "Bois une gorgée pour chaque relation que tu as gardée secrète." },
 ];
 
 /**

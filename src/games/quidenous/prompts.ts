@@ -601,6 +601,23 @@ export const PROMPTS_HOT: HotPrompt[] = [
   { text: "de trahir un serment quand ça l'arrange", lvl: 4 },
   { text: "de profiter d'une situation sans jamais rien donner en retour", lvl: 4 },
   { text: "d'oublier une promesse dès qu'elle ne l'arrange plus", lvl: 4 },
+
+  // ----- Vague 6 (nouvelles affirmations osées) ----------------------------
+  // --- Niveau 2 · Épicé 🌶️ -------------------------------------------------
+  { text: "de refuser de partager sa localisation même à ses proches", lvl: 2 },
+  { text: "de collectionner les matchs sans jamais répondre", lvl: 2 },
+  { text: "de fondre en larmes pour une simple chanson d'amour", lvl: 2 },
+  { text: "de tout miser sur son charme pour éviter les ennuis", lvl: 2 },
+  // --- Niveau 3 · +18 🔞 ---------------------------------------------------
+  { text: "d'avoir déjà fait semblant de dormir pour éviter un câlin", lvl: 3 },
+  { text: "d'assumer d'avoir un « type » très précis", lvl: 3 },
+  { text: "d'avoir déjà menti sur ses expériences pour impressionner", lvl: 3 },
+  { text: "de flirter avec l'ex d'un(e) ami(e)", lvl: 3 },
+  // --- Niveau 4 · Cancellable ☠️ -------------------------------------------
+  { text: "de faire du charme uniquement par intérêt", lvl: 4 },
+  { text: "de bloquer quelqu'un au moindre désaccord", lvl: 4 },
+  { text: "d'avoir déjà utilisé les sentiments de quelqu'un contre lui", lvl: 4 },
+  { text: "de tout faire pour avoir le dernier mot", lvl: 4 },
 ];
 
 /**
