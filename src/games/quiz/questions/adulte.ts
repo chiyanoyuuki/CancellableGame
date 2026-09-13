@@ -2687,4 +2687,81 @@ export const adulteQuestions: Question[] = [
     text: 'Comment appelle-t-on les bains chauds mixtes traditionnels au Japon ?', answer: 'Le konyoku',
     distractors: ['Le kaiseki', 'Le karaoke', 'Le kabuki'],
   },
+
+  // ── Vague : niveau 4 plus trash (factuel mais cru/tabou) ──
+  {
+    id: 'adl-4071', theme: 'culture', universe: 'Sexo 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Comment nomme-t-on le plaisir tiré de la douleur que l’on reçoit ?', answer: 'Le masochisme',
+    distractors: ['Le sadisme', 'Le fétichisme', 'Le voyeurisme'],
+  },
+  {
+    id: 'adl-4072', theme: 'culture', universe: 'Sexo 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Comment appelle-t-on une attirance sexuelle marquée pour les pieds ?', answer: 'La podophilie',
+    distractors: ['La claustrophobie', "L'agoraphobie", 'La xénophobie'],
+  },
+  {
+    id: 'adl-4073', theme: 'culture', universe: 'Sexo 🔞', difficulty: 3, cancelLevel: 4,
+    text: "Comment nomme-t-on l'émission de liquide par certaines femmes lors de l'orgasme ?", answer: "L'éjaculation féminine",
+    distractors: ['La lactation', 'La menstruation', "L'ovulation"],
+  },
+  {
+    id: 'adl-4074', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 2, cancelLevel: 4,
+    text: "Comment appelle-t-on l'ablation chirurgicale du prépuce ?", answer: 'La circoncision',
+    distractors: ['La vasectomie', 'La castration', "L'épisiotomie"],
+  },
+  {
+    id: 'adl-4075', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quelle infection sexuellement transmissible provoque des verrues génitales ?', answer: 'Le papillomavirus',
+    distractors: ["L'herpès", 'La syphilis', 'La gale'],
+  },
+  {
+    id: 'adl-4076', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 2, cancelLevel: 4,
+    text: "Comment nomme-t-on l'incapacité masculine à obtenir une érection ?", answer: "L'impuissance",
+    distractors: ['La frigidité', 'La stérilité', 'La ménopause'],
+  },
+  {
+    id: 'adl-4077', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 2, cancelLevel: 4,
+    text: 'Comment appelle-t-on le fait de manger de la chair humaine ?', answer: 'Le cannibalisme',
+    distractors: ['Le végétarisme', 'Le carnivorisme', 'Le jeûne'],
+  },
+  {
+    id: 'adl-4078', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on le meurtre de son propre père ?', answer: 'Le parricide',
+    distractors: ['Le fratricide', 'Le régicide', 'Le suicide'],
+  },
+  {
+    id: 'adl-4079', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 2, cancelLevel: 4,
+    text: "Comment appelle-t-on un individu qui vit de la prostitution d'autrui ?", answer: 'Un maquereau',
+    distractors: ['Un banquier', 'Un notaire', 'Un huissier'],
+  },
+  {
+    id: 'adl-4080', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quelle substance hallucinogène est produite par certains champignons ?', answer: 'La psilocybine',
+    distractors: ['La caféine', 'La nicotine', 'La théine'],
+  },
+  {
+    id: 'adl-4081', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 3, cancelLevel: 4,
+    text: "Quelle drogue de synthèse très addictive est surnommée « crystal » ?", answer: 'La méthamphétamine',
+    distractors: ["L'aspirine", 'La morphine', 'La codéine'],
+  },
+  {
+    id: 'adl-4082', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on la torture par simulation de noyade ?', answer: 'Le waterboarding',
+    distractors: ['Le garrot', 'La bastonnade', "L'écartèlement"],
+  },
+  {
+    id: 'adl-4083', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Comment dit-on, familièrement, ne rien porter sous ses vêtements ?', answer: 'Aller commando',
+    distractors: ['Le layering', 'Le total look', 'Le color block'],
+  },
+  {
+    id: 'adl-4084', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quel groupe de death metal repousse les limites du gore dans ses paroles ?', answer: 'Cannibal Corpse',
+    distractors: ['Metallica', 'Slipknot', 'Slayer'],
+  },
+  {
+    id: 'adl-4085', theme: 'internet', universe: 'Internet sale 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Comment appelle-t-on la consommation compulsive de contenu pour adultes ?', answer: "L'addiction au porno",
+    distractors: ['Le binge-watching', 'Le doomscrolling', 'Le multitâche'],
+  },
 ];

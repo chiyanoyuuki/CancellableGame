@@ -618,6 +618,23 @@ export const PROMPTS_HOT: HotPrompt[] = [
   { text: "de bloquer quelqu'un au moindre désaccord", lvl: 4 },
   { text: "d'avoir déjà utilisé les sentiments de quelqu'un contre lui", lvl: 4 },
   { text: "de tout faire pour avoir le dernier mot", lvl: 4 },
+
+  // ----- Vague 7 · Cancellable ++ (plus trash) -----------------------------
+  { text: "de coucher pour de l'argent", lvl: 4 },
+  { text: "d'avoir déjà menti sur une contraception", lvl: 4 },
+  { text: "de mater du contenu pour adultes au travail", lvl: 4 },
+  { text: "d'avoir déjà eu une aventure dans les toilettes du bureau", lvl: 4 },
+  { text: "d'avoir déjà caché une IST à un(e) partenaire", lvl: 4 },
+  { text: "de finir la soirée aux urgences ou au poste de police", lvl: 4 },
+  { text: "d'avoir déjà accepté un plan à trois", lvl: 4 },
+  { text: "de tromper sans jamais ressentir la moindre culpabilité", lvl: 4 },
+  { text: "d'avoir déjà couché avec deux personnes du même groupe d'amis", lvl: 4 },
+  { text: "d'avoir déjà volé de l'argent à un proche", lvl: 4 },
+  { text: "de simuler systématiquement au lit", lvl: 4 },
+  { text: "d'avoir un historique de navigation à faire rougir un marin", lvl: 4 },
+  { text: "d'avoir déjà fait l'amour dans un lieu totalement interdit", lvl: 4 },
+  { text: "de balancer les détails d'un plan cul à toute la bande", lvl: 4 },
+  { text: "d'assumer un coup d'un soir avec zéro remords", lvl: 4 },
 ];
 
 /**

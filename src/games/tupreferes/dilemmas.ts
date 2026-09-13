@@ -648,6 +648,23 @@ export const DILEMMAS_HOT: HotDilemma[] = [
   { a: "Gagner un concours en soudoyant le jury", b: "Perdre honnêtement en finale", lvl: 4 },
   { a: "Faire chanter quelqu'un qui t'a humilié(e)", b: "Encaisser sans rien dire", lvl: 4 },
   { a: "Coucher avec l'ex de ton/ta meilleur(e) ami(e)", b: "Renoncer à un vrai coup de foudre", lvl: 4 },
+
+  // ----- Vague 8 · Cancellable ++ (plus trash) -----------------------------
+  { a: "Lâcher une caisse mémorable en plein premier rencard", b: "Roter à table devant ta belle-famille", lvl: 4 },
+  { a: "Que ta recherche porno la plus bizarre s'affiche sur l'écran du salon", b: "Que ta liste de coups d'un soir soit lue au micro", lvl: 4 },
+  { a: "Simuler au lit toute ta vie", b: "Apprendre que ton/ta partenaire a toujours simulé", lvl: 4 },
+  { a: "Découvrir une sextape de tes parents", b: "Qu'ils tombent sur la tienne", lvl: 4 },
+  { a: "Coucher une fois avec quelqu'un de repoussant mais génial", b: "Cent fois avec un canon insupportable", lvl: 4 },
+  { a: "Envoyer un nude à ton groupe de famille par erreur", b: "L'envoyer à ton patron par erreur", lvl: 4 },
+  { a: "Avoir un accident intestinal en public", b: "Un blanc total en pleine déclaration d'amour", lvl: 4 },
+  { a: "Que ta libido s'affiche en temps réel au-dessus de ta tête", b: "Que tes pensées pendant un câlin soient sous-titrées", lvl: 4 },
+  { a: "Être surpris(e) en train de te toucher par ton/ta coloc", b: "Surprendre ton/ta coloc en pleine action", lvl: 4 },
+  { a: "Baver toute ta vie sur quelqu'un d'inaccessible", b: "N'être désiré(e) que par des gens que tu fuis", lvl: 4 },
+  { a: "Avouer combien de fois par jour tu penses au sexe", b: "Avouer ta pratique la plus honteuse", lvl: 4 },
+  { a: "Rester marqué(e) par un tatouage raté très visible", b: "Par un piercing intime qui a mal tourné", lvl: 4 },
+  { a: "Draguer quelqu'un puis découvrir que c'est un(e) cousin(e) éloigné(e)", b: "Découvrir que c'est l'ex de ton parent", lvl: 4 },
+  { a: "Que tout le monde connaisse ton pire fantasme", b: "Ta plus grosse insécurité au lit", lvl: 4 },
+  { a: "Coucher avec un(e) inconnu(e) contre un CDI", b: "Rester au chômage mais intègre", lvl: 4 },
 ];
 
 /**
