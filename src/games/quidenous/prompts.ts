@@ -664,6 +664,12 @@ export const PROMPTS_HOT: HotPrompt[] = [
   { text: "d'avoir déjà regardé du porno au réveil", lvl: 4 },
   { text: "de connaître par cœur ses sites pour adultes préférés", lvl: 4 },
   { text: "d'avoir déjà eu un plan cul avec un(e) collègue", lvl: 4 },
+
+  // ----- Vague 11 · Cancellable ++ ----------------------------------------
+  { text: "d'avoir déjà bu au point de tout oublier", lvl: 4 },
+  { text: "d'avoir déjà eu une phase très portée sur le sexe", lvl: 4 },
+  { text: "de mentir effrontément sur son passé sentimental", lvl: 4 },
+  { text: "d'avoir déjà rêvé de quelqu'un présent dans cette pièce", lvl: 4 },
 ];
 
 /**

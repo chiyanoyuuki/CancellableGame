@@ -745,6 +745,20 @@ export const DILEMMAS_HOT: HotDilemma[] = [
   { a: "Que tes gémissements s'entendent jusqu'à la rue", b: "Un silence gênant total à chaque fois", lvl: 4 },
   { a: "Draguer ouvertement les parents de ton/ta date", b: "Confondre ton/ta date avec son père ou sa mère", lvl: 4 },
   { a: "Avoir une réputation de coup facile mais fausse", b: "De coincé(e) fini(e) mais fausse aussi", lvl: 4 },
+
+  // ----- Vague 14 · Cancellable ++ (dark humour) --------------------------
+  { a: "Mourir en pleine action au lit", b: "Mourir en glissant aux toilettes", lvl: 4 },
+  { a: "Que ton dernier mot public soit une grosse insulte", b: "Un lapsus très sexuel devant tout le monde", lvl: 4 },
+  { a: "Assister à l'accouchement de ton ex", b: "Pleurer de joie à l'enterrement de ton pire ennemi", lvl: 4 },
+  { a: "Avoir un rot qui empeste à des mètres", b: "Une transpiration qui vide les pièces", lvl: 4 },
+  { a: "Coucher avec quelqu'un qui garde ses chaussettes", b: "Qui appelle sa mère juste avant", lvl: 4 },
+  { a: "Te faire plaquer pour ton/ta meilleur(e) ami(e)", b: "Plaquer quelqu'un pour son/sa meilleur(e) ami(e)", lvl: 4 },
+  { a: "Que ton nom devienne synonyme de « mauvais coup »", b: "Synonyme de « radin » légendaire", lvl: 4 },
+  { a: "Devoir pisser d'urgence, coincé(e) dans les bouchons", b: "Attraper la turista en plein date", lvl: 4 },
+  { a: "Passer pour le/la plus gros(se) menteur(se) du groupe", b: "Le/la plus grand(e) tricheur(se) au lit", lvl: 4 },
+  { a: "Que ton/ta partenaire note chaque performance dans un carnet", b: "Devoir noter les siennes à voix haute", lvl: 4 },
+  { a: "Avoir une haleine de charognard en toutes circonstances", b: "Des mains toujours moites et glacées", lvl: 4 },
+  { a: "Que tout le bureau connaisse ton surnom au lit", b: "Que ta famille connaisse ton compte secret", lvl: 4 },
 ];
 
 /**

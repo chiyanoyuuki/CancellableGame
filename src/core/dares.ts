@@ -315,6 +315,16 @@ export const HOT_DARES: HotDare[] = [
   { category: 'soft', lvl: 4, text: "Chuchote ton fantasme le plus interdit à l'oreille de ton voisin." },
   { category: 'alcool', lvl: 4, text: "Bois autant de gorgées que de fois où tu as menti pour finir au lit." },
   { category: 'alcool', lvl: 4, text: "Révèle le dernier truc pour adultes que tu as regardé, ou cul sec." },
+
+  // ----- Vague 17 · Cancellable ++ -----------------------------------------
+  { category: 'soft', lvl: 4, text: "Fais deviner ton fantasme en trois mimes." },
+  { category: 'alcool', lvl: 4, text: "Envoie un vocal d'un gémissement à ton dernier contact, ou triple cul sec." },
+  { category: 'soft', lvl: 4, text: "Raconte ta pire cuite dans les détails, ou bois." },
+  { category: 'alcool', lvl: 4, text: "Dis quelle célébrité tu ajouterais à ton tableau de chasse, ou cul sec." },
+  { category: 'soft', lvl: 4, text: "Montre ta danse de séduction ultime, à fond." },
+  { category: 'alcool', lvl: 4, text: "Avoue le pire endroit où tu as eu envie de quelqu'un, ou cul sec." },
+  { category: 'soft', lvl: 4, text: "Déclare ta flamme à quelqu'un de la façon la plus vulgaire possible." },
+  { category: 'alcool', lvl: 4, text: "Bois autant de gorgées que de personnes ici que tu trouves franchement bandantes." },
 ];
 
 /**

@@ -3044,4 +3044,66 @@ export const adulteQuestions: Question[] = [
     text: 'Quel « sérum » est censé forcer quelqu’un à dire la vérité ?', answer: 'Le sérum de vérité',
     distractors: ['Le placebo', 'Le vaccin', "L'antidote"],
   },
+
+  // ── Vague : niveau 4 sans filtre, 3e passe (factuel) ──
+  {
+    id: 'adl-4140', theme: 'culture', universe: 'Sexo 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on la femme qui domine dans une relation BDSM ?', answer: 'Une dominatrice',
+    distractors: ['Une soumise', 'Une novice', 'Une adepte'],
+  },
+  {
+    id: 'adl-4141', theme: 'culture', universe: 'Sexo 🔞', difficulty: 3, cancelLevel: 4,
+    text: "Comment appelle-t-on la personne qui obéit dans une relation BDSM ?", answer: 'Un soumis',
+    distractors: ['Un maître', 'Un tuteur', 'Un mentor'],
+  },
+  {
+    id: 'adl-4142', theme: 'culture', universe: 'Sexo 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on le mot convenu pour tout arrêter pendant une pratique BDSM ?', answer: 'Le safe word',
+    distractors: ['Le mot de passe', 'Le code PIN', 'Le sésame'],
+  },
+  {
+    id: 'adl-4143', theme: 'culture', universe: 'Sexo 🔞', difficulty: 1, cancelLevel: 4,
+    text: 'Comment appelle-t-on un jouet vibrant destiné au plaisir ?', answer: 'Un vibromasseur',
+    distractors: ['Un mixeur', 'Un rasoir', 'Un sèche-cheveux'],
+  },
+  {
+    id: 'adl-4144', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 2, cancelLevel: 4,
+    text: "Comment appelle-t-on la perte involontaire d'urine ?", answer: "L'incontinence",
+    distractors: ['La constipation', 'La migraine', "L'insomnie"],
+  },
+  {
+    id: 'adl-4145', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 1, cancelLevel: 4,
+    text: 'Comment appelle-t-on, poliment, les gaz intestinaux ?', answer: 'Les flatulences',
+    distractors: ['Les palpitations', 'Les courbatures', 'Les crampes'],
+  },
+  {
+    id: 'adl-4146', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 1, cancelLevel: 4,
+    text: 'Comment appelle-t-on, en argot, une cuite mémorable ?', answer: 'Une biture',
+    distractors: ['Une sieste', 'Une balade', 'Une pause'],
+  },
+  {
+    id: 'adl-4147', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Quels stimulants sont pris pour tenir éveillé et danser toute la nuit ?', answer: 'Les amphétamines',
+    distractors: ['Le paracétamol', 'La vitamine C', 'Le magnésium'],
+  },
+  {
+    id: 'adl-4148', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 1, cancelLevel: 4,
+    text: 'Quel spectacle romain opposait des combattants à mort dans une arène ?', answer: 'Les combats de gladiateurs',
+    distractors: ['Les Jeux olympiques', 'Les courses de chars', 'Le théâtre antique'],
+  },
+  {
+    id: 'adl-4149', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 2, cancelLevel: 4,
+    text: 'Comment appelle-t-on le commerce international de drogues ?', answer: 'Le narcotrafic',
+    distractors: ['Le covoiturage', 'Le fret', 'La logistique'],
+  },
+  {
+    id: 'adl-4150', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on une attaque déguisée pour en accuser un autre camp ?', answer: 'Une opération sous faux drapeau',
+    distractors: ['Un référendum', 'Une motion', 'Un décret'],
+  },
+  {
+    id: 'adl-4151', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on le cinéma déviant et violent des salles bis des années 70 ?', answer: 'Le grindhouse',
+    distractors: ['Le péplum', 'La comédie musicale', 'Le muet'],
+  },
 ];
