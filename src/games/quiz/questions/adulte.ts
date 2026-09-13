@@ -1162,4 +1162,219 @@ export const adulteQuestions: Question[] = [
     text: "Quelle affaire d'argent et d'héritage opposa la milliardaire Liliane Bettencourt à son entourage ?", answer: 'L’affaire Bettencourt',
     distractors: ['L’affaire Elf', 'L’affaire Tapie', 'L’affaire Cahuzac'],
   },
+
+  // ── Vague : approfondissement des univers existants ──
+  // Niveau 2 (Épicé 🌶️)
+  {
+    id: 'adl-274', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quelle série suit une famille de gangsters à Birmingham après la Grande Guerre ?', answer: 'Peaky Blinders',
+    distractors: ['Boardwalk Empire', 'Gomorra', 'Sons of Anarchy'],
+  },
+  {
+    id: 'adl-275', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quel jeu de combat fait scandale avec ses « Fatalities » ultra-gores ?', answer: 'Mortal Kombat',
+    distractors: ['Tekken', 'Street Fighter', 'Soul Calibur'],
+  },
+  {
+    id: 'adl-276', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quel roman du marquis de Sade suit les malheurs de son héroïne vertueuse ?', answer: 'Justine',
+    distractors: ['Manon Lescaut', 'Thérèse Raquin', 'Nana'],
+  },
+  {
+    id: 'adl-277', theme: 'manga', universe: 'Manga interdits 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quel manga suit Ken, mi-humain mi-goule contraint de dévorer de la chair ?', answer: 'Tokyo Ghoul',
+    distractors: ['Parasite', 'Ajin', 'Deadman Wonderland'],
+  },
+  {
+    id: 'adl-278', theme: 'internet', universe: 'Internet sale 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Comment appelle-t-on le fait de séduire en ligne sous une fausse identité ?', answer: 'Le catfishing',
+    distractors: ['Le streaming', 'Le blogging', 'Le podcasting'],
+  },
+  {
+    id: 'adl-279', theme: 'culture', universe: 'Sexo 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quel texte indien ancien est célèbre pour son catalogue de positions amoureuses ?', answer: 'Le Kâmasûtra',
+    distractors: ['Le Rāmāyana', 'Le Mahābhārata', 'Les Upanishads'],
+  },
+  {
+    id: 'adl-280', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 2, cancelLevel: 2,
+    text: "Quelles molécules odorantes influenceraient l'attirance entre individus ?", answer: 'Les phéromones',
+    distractors: ['Les enzymes', 'Les protéines', 'Les vitamines'],
+  },
+  {
+    id: 'adl-281', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 2, cancelLevel: 2,
+    text: 'Quel cocktail cubain mêle rhum, menthe, citron vert et sucre ?', answer: 'Le mojito',
+    distractors: ['Le mai tai', 'Le cosmopolitan', 'Le spritz'],
+  },
+  {
+    id: 'adl-282', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 3, cancelLevel: 2,
+    text: "Quel film de Darren Aronofsky plonge dans l'enfer glaçant de la toxicomanie ?", answer: 'Requiem for a Dream',
+    distractors: ['Trainspotting', 'Las Vegas Parano', 'Christiane F.'],
+  },
+  {
+    id: 'adl-283', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quelle chanteuse a choqué avec le titre sado-maso « S&M » en 2011 ?', answer: 'Rihanna',
+    distractors: ['Beyoncé', 'Katy Perry', 'Shakira'],
+  },
+  {
+    id: 'adl-284', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quel célèbre cabaret parisien est le temple du french cancan depuis 1889 ?', answer: 'Le Moulin Rouge',
+    distractors: ['Le Crazy Horse', 'Le Lido', 'Le Paradis Latin'],
+  },
+  {
+    id: 'adl-285', theme: 'culture', universe: 'Vie de couple 💔', difficulty: 1, cancelLevel: 2,
+    text: 'Que fait un prétendant en posant un genou à terre avec une bague ?', answer: 'Une demande en mariage',
+    distractors: ['Une déclaration de divorce', 'Une rupture', 'Une réconciliation'],
+  },
+  {
+    id: 'adl-286', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 2, cancelLevel: 2,
+    text: 'Comment appelle-t-on la fabrication et la vente illégales de fausses marques ?', answer: 'La contrefaçon',
+    distractors: ['La franchise', 'La licence', 'La garantie'],
+  },
+  {
+    id: 'adl-287', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quel jeune homme mourut amoureux de son propre reflet ?', answer: 'Narcisse',
+    distractors: ['Adonis', 'Ganymède', 'Hyacinthe'],
+  },
+  // Niveau 3 (+18 🔞)
+  {
+    id: 'adl-382', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 2, cancelLevel: 3,
+    text: 'Quelle série suit un expert de la police scientifique, tueur en série à ses heures ?', answer: 'Dexter',
+    distractors: ['Hannibal', 'Mindhunter', 'The Fall'],
+  },
+  {
+    id: 'adl-383', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel RPG futuriste de CD Projekt sortit criblé de bugs en 2020 ?', answer: 'Cyberpunk 2077',
+    distractors: ['Deus Ex', 'Watch Dogs', 'Detroit: Become Human'],
+  },
+  {
+    id: 'adl-384', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Quelle écrivaine a signé les nouvelles érotiques « Vénus Erotica » ?', answer: 'Anaïs Nin',
+    distractors: ['Colette', 'George Sand', 'Simone de Beauvoir'],
+  },
+  {
+    id: 'adl-385', theme: 'manga', universe: 'Manga interdits 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel manga culte de Go Nagai mêle démons et érotisme dès les années 70 ?', answer: 'Devilman',
+    distractors: ['Bleach', 'Blue Exorcist', 'Chrono Crusade'],
+  },
+  {
+    id: 'adl-386', theme: 'internet', universe: 'Internet sale 🔞', difficulty: 2, cancelLevel: 3,
+    text: "Quel programme malveillant se cache dans un logiciel d'apparence inoffensive ?", answer: 'Un cheval de Troie',
+    distractors: ['Un pare-feu', 'Un antivirus', 'Un navigateur'],
+  },
+  {
+    id: 'adl-387', theme: 'culture', universe: 'Sexo 🔞', difficulty: 3, cancelLevel: 3,
+    text: "Comment nomme-t-on une attirance sexuelle marquée pour un objet ou une partie du corps ?", answer: 'Le fétichisme',
+    distractors: ['Le romantisme', 'Le platonisme', 'Le narcissisme'],
+  },
+  {
+    id: 'adl-388', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quelle IST bactérienne est parfois surnommée « la chaude-pisse » ?', answer: 'La gonorrhée',
+    distractors: ['La cystite', 'La candidose', "L'herpès"],
+  },
+  {
+    id: 'adl-389', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 3, cancelLevel: 3,
+    text: 'Quel spiritueux surnommé « la fée verte » fut interdit en France en 1915 ?', answer: "L'absinthe",
+    distractors: ['Le pastis', 'La chartreuse', 'La suze'],
+  },
+  {
+    id: 'adl-390', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 3, cancelLevel: 3,
+    text: "Quel diptyque de Lars von Trier explore la dépendance sexuelle d'une femme ?", answer: 'Nymphomaniac',
+    distractors: ['Antichrist', 'Melancholia', 'Shame'],
+  },
+  {
+    id: 'adl-391', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel groupe punk britannique provoqua avec « God Save the Queen » en 1977 ?', answer: 'Les Sex Pistols',
+    distractors: ['The Clash', 'The Damned', 'Ramones'],
+  },
+  {
+    id: 'adl-392', theme: 'culture', universe: 'Vie de couple 💔', difficulty: 2, cancelLevel: 3,
+    text: "Comment appelle-t-on le fait de tromper son/sa partenaire ?", answer: "L'adultère",
+    distractors: ['Le célibat', 'Le veuvage', 'Le concubinage'],
+  },
+  {
+    id: 'adl-393', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 3, cancelLevel: 3,
+    text: 'Quel moine mystique eut une influence sulfureuse sur la cour du tsar Nicolas II ?', answer: 'Raspoutine',
+    distractors: ['Nostradamus', 'Cagliostro', 'Savonarole'],
+  },
+  {
+    id: 'adl-394', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 2, cancelLevel: 3,
+    text: "Comment appelle-t-on l'interdiction de publier ou de diffuser certaines idées ?", answer: 'La censure',
+    distractors: ['Le suffrage', 'Le quorum', 'Le mandat'],
+  },
+  {
+    id: 'adl-395', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 2, cancelLevel: 3,
+    text: 'Quelle créature mi-homme mi-taureau était enfermée dans le Labyrinthe ?', answer: 'Le Minotaure',
+    distractors: ['Le Centaure', 'Le Cyclope', 'Cerbère'],
+  },
+  // Niveau 4 (Cancellable ☠️)
+  {
+    id: 'adl-475', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 2, cancelLevel: 4,
+    text: "Quelle série retrace l'ascension du baron de la drogue Pablo Escobar ?", answer: 'Narcos',
+    distractors: ['Ozark', 'El Chapo', 'ZeroZeroZero'],
+  },
+  {
+    id: 'adl-476', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quel jeu de Rockstar fait incarner un condamné forcé de tuer pour un snuff movie ?', answer: 'Manhunt',
+    distractors: ['Hitman', 'Postal', 'Hotline Miami'],
+  },
+  {
+    id: 'adl-477', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel roman scandaleux de Georges Bataille multiplie les scènes obscènes autour d’objets ?', answer: "Histoire de l'œil",
+    distractors: ['Belle du Seigneur', 'Bonjour tristesse', "L'Écume des jours"],
+  },
+  {
+    id: 'adl-478', theme: 'manga', universe: 'Manga interdits 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quel manga ultra-violent envoie des morts ressuscités combattre des aliens à Tokyo ?', answer: 'Gantz',
+    distractors: ['Btooom!', 'Deadman Wonderland', 'Mirai Nikki'],
+  },
+  {
+    id: 'adl-479', theme: 'internet', universe: 'Internet sale 🔞', difficulty: 2, cancelLevel: 4,
+    text: "Comment appelle-t-on une vidéo truquée par IA faisant dire n'importe quoi à quelqu'un ?", answer: 'Un deepfake',
+    distractors: ['Un gif', 'Un mème', 'Un émoji'],
+  },
+  {
+    id: 'adl-480', theme: 'culture', universe: 'Sexo 🔞', difficulty: 3, cancelLevel: 4,
+    text: "Comment nomme-t-on le plaisir tiré de la douleur infligée à autrui ?", answer: 'Le sadisme',
+    distractors: ['Le masochisme', 'Le voyeurisme', "L'exhibitionnisme"],
+  },
+  {
+    id: 'adl-481', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Comment nomme-t-on une érection douloureuse et prolongée nécessitant un avis médical ?', answer: 'Le priapisme',
+    distractors: ['La prostatite', "L'impuissance", 'La stérilité'],
+  },
+  {
+    id: 'adl-482', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 3, cancelLevel: 4,
+    text: "Comment appelle-t-on l'absorption massive d'alcool en un temps très court ?", answer: 'Le binge drinking',
+    distractors: ["L'apéritif", 'La dégustation', 'Le digestif'],
+  },
+  {
+    id: 'adl-483', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel film italien de 1980, longtemps interdit, imite un faux documentaire cannibale ?', answer: 'Cannibal Holocaust',
+    distractors: ['Cannibal Ferox', 'Zombie', 'Suspiria'],
+  },
+  {
+    id: 'adl-484', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 3, cancelLevel: 4,
+    text: "Quel groupe de gangsta rap choqua l'Amérique avec « Straight Outta Compton » ?", answer: 'N.W.A',
+    distractors: ['Public Enemy', 'Wu-Tang Clan', 'Run-DMC'],
+  },
+  {
+    id: 'adl-485', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelait-on les bars clandestins de la Prohibition américaine ?', answer: 'Les speakeasies',
+    distractors: ['Les saloons', 'Les pubs', 'Les tavernes'],
+  },
+  {
+    id: 'adl-486', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: 'Quel prince valaque, inspirateur de Dracula, empalait ses ennemis ?', answer: "Vlad l'Empaleur",
+    distractors: ['Attila', 'Néron', 'Caligula'],
+  },
+  {
+    id: 'adl-487', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on le fait de spéculer en Bourse grâce à des informations confidentielles ?', answer: "Le délit d'initié",
+    distractors: ['Le dividende', 'La cotation', "L'introduction en Bourse"],
+  },
+  {
+    id: 'adl-488', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on un discours qui flatte les peurs du peuple pour séduire les foules ?', answer: 'Le populisme',
+    distractors: ['Le fédéralisme', 'Le parlementarisme', 'Le libéralisme'],
+  },
 ];
