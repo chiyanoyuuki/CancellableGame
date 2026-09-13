@@ -1977,4 +1977,189 @@ export const adulteQuestions: Question[] = [
     text: 'Quel roi fut attaché pour l’éternité à une roue enflammée pour avoir défié Zeus ?', answer: 'Ixion',
     distractors: ['Tantale', 'Sisyphe', 'Prométhée'],
   },
+
+  // ── Vague : pop-culture & histoire, 2e passe ──
+  // Niveau 2 (Épicé 🌶️)
+  {
+    id: 'adl-2040', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quelle série sur une famille de pompes funèbres explore la mort sans tabou ?', answer: 'Six Feet Under',
+    distractors: ['This Is Us', 'The Leftovers', 'Rectify'],
+  },
+  {
+    id: 'adl-2041', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quelle série de jeux comiques suit les mésaventures coquines de Larry Laffer ?', answer: 'Leisure Suit Larry',
+    distractors: ['Duke Nukem', 'Monkey Island', 'Sam & Max'],
+  },
+  {
+    id: 'adl-2042', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 2, cancelLevel: 2,
+    text: "Quel film d'horreur de 2004 lance la saga aux pièges mortels de Jigsaw ?", answer: 'Saw',
+    distractors: ['Hostel', 'Cube', 'Destination finale'],
+  },
+  {
+    id: 'adl-2043', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quelle chanteuse soul à la vie tourmentée est morte à 27 ans en 2011 ?', answer: 'Amy Winehouse',
+    distractors: ['Adele', 'Duffy', 'Janis Joplin'],
+  },
+  {
+    id: 'adl-2044', theme: 'manga', universe: 'Manga interdits 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quel manga ecchi enferme cinq garçons dans un lycée quasi exclusivement féminin ?', answer: 'Prison School',
+    distractors: ['Shimoneta', 'To Love-Ru', 'High School DxD'],
+  },
+  {
+    id: 'adl-2045', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 3, cancelLevel: 2,
+    text: "Quel roman d'Oscar Wilde suit un homme dont le portrait vieillit à sa place ?", answer: 'Le Portrait de Dorian Gray',
+    distractors: ['Frankenstein', 'Dracula', 'Docteur Jekyll et M. Hyde'],
+  },
+  {
+    id: 'adl-2046', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Sous quelle forme Zeus séduisit-il Léda ?', answer: 'Un cygne',
+    distractors: ['Un taureau', 'Un aigle', "Une pluie d'or"],
+  },
+  {
+    id: 'adl-2047', theme: 'japon', universe: 'Japon interdit 🔞', difficulty: 1, cancelLevel: 2,
+    text: 'Quel sport de lutte japonais oppose des colosses en pagne ?', answer: 'Le sumo',
+    distractors: ['Le judo', 'Le karaté', "L'aïkido"],
+  },
+  {
+    id: 'adl-2048', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 3, cancelLevel: 2,
+    text: 'Quelle impératrice russe alimente les légendes sur sa vie amoureuse débridée ?', answer: 'Catherine II',
+    distractors: ['Élisabeth Ire', 'Marie-Thérèse', 'Victoria'],
+  },
+  {
+    id: 'adl-2049', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 2, cancelLevel: 2,
+    text: 'Comment appelle-t-on un régime militaire ayant pris le pouvoir par la force ?', answer: 'Une junte',
+    distractors: ['Une république', 'Une fédération', 'Une confédération'],
+  },
+  {
+    id: 'adl-2050', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quelle série suit une famille pauvre et déjantée des quartiers de Chicago ?', answer: 'Shameless',
+    distractors: ['Roseanne', 'The Middle', 'Malcolm'],
+  },
+  {
+    id: 'adl-2051', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 3, cancelLevel: 2,
+    text: "Quel film d'horreur d'Ari Aster (2019) traumatise avec une secte suédoise en plein jour ?", answer: 'Midsommar',
+    distractors: ['Hereditary', 'The Witch', 'Saint Maud'],
+  },
+  // Niveau 3 (+18 🔞)
+  {
+    id: 'adl-3040', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quelle série mêle vampires et scènes de sexe torrides en Louisiane ?', answer: 'True Blood',
+    distractors: ['The Vampire Diaries', 'Being Human', 'Van Helsing'],
+  },
+  {
+    id: 'adl-3041', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 3, cancelLevel: 3,
+    text: "Quel jeu de gangs parodique pousse l'outrance et le chaos urbain à l'extrême ?", answer: 'Saints Row',
+    distractors: ['Just Cause', 'Sleeping Dogs', 'Watch Dogs'],
+  },
+  {
+    id: 'adl-3042', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Quel film de Cronenberg (1996) lie accidents de voiture et désir malsain ?', answer: 'Crash',
+    distractors: ['Videodrome', 'Crimes of the Future', 'Titane'],
+  },
+  {
+    id: 'adl-3043', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Quel groupe sud-africain provoque avec son style « zef » déjanté ?', answer: 'Die Antwoord',
+    distractors: ['Die Toten Hosen', 'Gorillaz', 'Pendulum'],
+  },
+  {
+    id: 'adl-3044', theme: 'manga', universe: 'Manga interdits 🔞', difficulty: 4, cancelLevel: 3,
+    text: "Quel manga suit un homme obsédé par la chirurgie et l'esprit humain ?", answer: 'Homunculus',
+    distractors: ['Ibitsu', 'Franken Fran', 'Parasite'],
+  },
+  {
+    id: 'adl-3045', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 4, cancelLevel: 3,
+    text: "Quel recueil érotique d'Apollinaire fut longtemps publié sous le manteau ?", answer: 'Les Onze Mille Verges',
+    distractors: ['Les Fleurs du mal', 'Les Chansons de Bilitis', 'Gamiani'],
+  },
+  {
+    id: 'adl-3046', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 4, cancelLevel: 3,
+    text: "Quelle reine crétoise s'éprit d'un taureau et engendra le Minotaure ?", answer: 'Pasiphaé',
+    distractors: ['Ariane', 'Phèdre', 'Europe'],
+  },
+  {
+    id: 'adl-3047', theme: 'japon', universe: 'Japon interdit 🔞', difficulty: 4, cancelLevel: 3,
+    text: "Quelle estampe d'Hokusai représente une plongeuse et des poulpes ?", answer: 'Le Rêve de la femme du pêcheur',
+    distractors: ['La Grande Vague de Kanagawa', 'Les Trente-six Vues du Fuji', 'Le Pont suspendu'],
+  },
+  {
+    id: 'adl-3048', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 4, cancelLevel: 3,
+    text: 'Quel jeune empereur romain (218-222) choqua Rome par ses excès et ses scandales ?', answer: 'Héliogabale',
+    distractors: ['Commode', 'Caracalla', 'Domitien'],
+  },
+  {
+    id: 'adl-3049', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 3, cancelLevel: 3,
+    text: 'Quel scandale sexuel impliqua le président Clinton et une stagiaire en 1998 ?', answer: "L'affaire Lewinsky",
+    distractors: ['Le Watergate', "L'Irangate", "L'affaire Profumo"],
+  },
+  {
+    id: 'adl-3050', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 4, cancelLevel: 3,
+    text: "Quel film d'Ang Lee (2007) mêle espionnage et scènes intimes crues ?", answer: 'Lust, Caution',
+    distractors: ['In the Mood for Love', 'Tigre et Dragon', 'The Grandmaster'],
+  },
+  {
+    id: 'adl-3051', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 2, cancelLevel: 3,
+    text: 'Quel groupe grunge mené par Kurt Cobain marqua les années 90 ?', answer: 'Nirvana',
+    distractors: ['Pearl Jam', 'Soundgarden', 'Alice in Chains'],
+  },
+  // Niveau 4 (Cancellable ☠️)
+  {
+    id: 'adl-4025', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quelle série suit un séduisant psychopathe narrant ses obsessions amoureuses ?', answer: 'You',
+    distractors: ['Killing Eve', 'The Fall', 'Bates Motel'],
+  },
+  {
+    id: 'adl-4026', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quel jeu-cauchemar de 2018 situé en enfer fut jugé trop dérangeant ?', answer: 'Agony',
+    distractors: ['Scorn', 'Lust for Darkness', 'Layers of Fear'],
+  },
+  {
+    id: 'adl-4027', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 4, cancelLevel: 4,
+    text: "Quel film d'horreur néerlandais de 2009 coud ses victimes ensemble ?", answer: 'The Human Centipede',
+    distractors: ['Hostel', 'Saw', 'Martyrs'],
+  },
+  {
+    id: 'adl-4028', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel chanteur punk provocateur se mutilait et choquait sur scène ?', answer: 'GG Allin',
+    distractors: ['Iggy Pop', 'Sid Vicious', 'Henry Rollins'],
+  },
+  {
+    id: 'adl-4029', theme: 'manga', universe: 'Manga interdits 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel manga sanglant de Hideo Yamamoto suit le tueur torturé Ichi ?', answer: 'Ichi the Killer',
+    distractors: ['Gantz', 'Homunculus', 'MPD-Psycho'],
+  },
+  {
+    id: 'adl-4030', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel roman de Jean Genet célèbre le vol, la prison et la marginalité ?', answer: 'Journal du voleur',
+    distractors: ['Les Misérables', 'Voyage au bout de la nuit', "L'Étranger"],
+  },
+  {
+    id: 'adl-4031', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quel dieu grec de la fertilité est représenté avec un phallus démesuré ?', answer: 'Priape',
+    distractors: ['Pan', 'Dionysos', 'Hermès'],
+  },
+  {
+    id: 'adl-4032', theme: 'japon', universe: 'Japon interdit 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quel quartier de Tokyo est célèbre pour ses bars à hôtesses et sa vie nocturne ?', answer: 'Kabukichō',
+    distractors: ['Akihabara', 'Harajuku', 'Ginza'],
+  },
+  {
+    id: 'adl-4033', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 4, cancelLevel: 4,
+    text: "Quelle marquise empoisonna sa famille lors de l'affaire des poisons ?", answer: 'La marquise de Brinvilliers',
+    distractors: ['La Voisin', 'Madame de Montespan', 'La marquise de Sévigné'],
+  },
+  {
+    id: 'adl-4034', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: 'Quelle police secrète surveillait la population de la RDA ?', answer: 'La Stasi',
+    distractors: ['Le KGB', 'La CIA', 'Le MI6'],
+  },
+  {
+    id: 'adl-4035', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel film français de 2000 de Virginie Despentes fut interdit à sa sortie ?', answer: 'Baise-moi',
+    distractors: ['Romance', "Anatomie de l'enfer", 'Irréversible'],
+  },
+  {
+    id: 'adl-4036', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Quel rappeur légendaire de la West Coast incarna le gangsta rap sous le nom de 2Pac ?', answer: 'Tupac Shakur',
+    distractors: ['Notorious B.I.G.', 'Snoop Dogg', 'Dr. Dre'],
+  },
 ];
