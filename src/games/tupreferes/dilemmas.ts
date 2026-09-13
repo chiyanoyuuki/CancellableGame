@@ -625,6 +625,29 @@ export const DILEMMAS_HOT: HotDilemma[] = [
   { a: "Diffuser une info compromettante sur un rival", b: "Perdre face à lui loyalement", lvl: 4 },
   { a: "Que ton passé le plus honteux ressorte en pleine campagne", b: "Que ton pire mensonge soit prouvé", lvl: 4 },
   { a: "Sacrifier une amitié pour la gloire", b: "Rester dans l'ombre avec tes vrais amis", lvl: 4 },
+
+  // ----- Vague 7 (nouveaux dilemmes osés) ----------------------------------
+  // Niveau 2 · Épicé 🌶️
+  { a: "Que ton profil de rencontre soit géré par tes amis", b: "Par tes parents", lvl: 2 },
+  { a: "Matcher uniquement avec des gens trop bien pour toi", b: "Uniquement avec des gens qui te courent après", lvl: 2 },
+  { a: "Avoir un rire communicatif mais ridicule", b: "Un regard charmeur mais involontairement flippant", lvl: 2 },
+  { a: "Ne jamais retrouver tes mots face à qui te plaît", b: "En dire toujours beaucoup trop", lvl: 2 },
+  { a: "Un date qui paie tout et le rappelle sans cesse", b: "Un date qui « oublie » toujours son portefeuille", lvl: 2 },
+  { a: "Avoir une réputation de séducteur/séductrice imméritée", b: "Une réputation de coincé(e) imméritée", lvl: 2 },
+  // Niveau 3 · +18 🔞
+  { a: "Révéler ta recherche internet la plus honteuse", b: "Révéler ton dernier rêve très gênant", lvl: 3 },
+  { a: "Un premier rendez-vous qui finit trop vite au lit", b: "Un premier rendez-vous qui ne mène jamais nulle part", lvl: 3 },
+  { a: "Assumer une attirance pour quelqu'un d'interdit", b: "La nier toute ta vie", lvl: 3 },
+  { a: "Que ton/ta partenaire découvre tes ex un par un", b: "Qu'il/elle découvre ton pire secret d'un coup", lvl: 3 },
+  { a: "Tomber pour quelqu'un de totalement différent de toi", b: "Pour ton portrait craché", lvl: 3 },
+  { a: "Vivre une romance secrète au travail", b: "Un célibat affiché mais frustrant", lvl: 3 },
+  // Niveau 4 · Cancellable ☠️
+  { a: "Séduire quelqu'un pour lui soutirer des infos", b: "Échouer dans ta mission par honnêteté", lvl: 4 },
+  { a: "Trahir un secret de famille pour de l'argent", b: "Le garder et t'endetter", lvl: 4 },
+  { a: "Devenir célèbre grâce à un scandale monté de toutes pièces", b: "Rester honnête et anonyme", lvl: 4 },
+  { a: "Gagner un concours en soudoyant le jury", b: "Perdre honnêtement en finale", lvl: 4 },
+  { a: "Faire chanter quelqu'un qui t'a humilié(e)", b: "Encaisser sans rien dire", lvl: 4 },
+  { a: "Coucher avec l'ex de ton/ta meilleur(e) ami(e)", b: "Renoncer à un vrai coup de foudre", lvl: 4 },
 ];
 
 /**

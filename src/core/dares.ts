@@ -227,6 +227,20 @@ export const HOT_DARES: HotDare[] = [
   { category: 'alcool', lvl: 3, text: "Bois une gorgée par appli de rencontre que tu as supprimée par dépit." },
   { category: 'alcool', lvl: 4, text: "Cul sec, ou avoue combien de fois tu es retourné(e) avec un(e) ex." },
   { category: 'alcool', lvl: 4, text: "Bois une gorgée pour chaque relation que tu as gardée secrète." },
+
+  // ----- Vague 10 ----------------------------------------------------------
+  { category: 'soft', lvl: 2, text: "Fais deviner « je t'aime » en langue des signes improvisée." },
+  { category: 'soft', lvl: 2, text: "Prends la pose la plus charmeuse possible pendant 5 secondes." },
+  { category: 'soft', lvl: 3, text: "Décris ton idéal amoureux, puis dis pourquoi tu tombes toujours sur l'inverse." },
+  { category: 'soft', lvl: 3, text: "Rejoue ton pire moment de séduction, en accéléré." },
+  { category: 'soft', lvl: 4, text: "Avoue ce que tu as déjà fait pour rendre quelqu'un jaloux." },
+  { category: 'soft', lvl: 4, text: "Dis quel(le) invité(e) tu choisirais pour un road-trip à deux (ou bois)." },
+  { category: 'alcool', lvl: 2, text: "Bois avec la personne au style le plus audacieux ce soir." },
+  { category: 'alcool', lvl: 2, text: "Trinque avec la personne que tu aimerais mieux connaître." },
+  { category: 'alcool', lvl: 3, text: "Cul sec, ou avoue ton pire prétexte pour rester dormir." },
+  { category: 'alcool', lvl: 3, text: "Bois une gorgée par personne à qui tu as déjà menti pour un rencard." },
+  { category: 'alcool', lvl: 4, text: "Cul sec, ou dis la chose la plus folle que tu aies faite par amour." },
+  { category: 'alcool', lvl: 4, text: "Bois une gorgée pour chaque coup de foudre secret que tu as eu ici." },
 ];
 
 /**
