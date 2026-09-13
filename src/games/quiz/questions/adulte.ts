@@ -2982,4 +2982,66 @@ export const adulteQuestions: Question[] = [
     text: 'Comment appelle-t-on l’envoi de messages ou photos à caractère sexuel ?', answer: 'Le sexting',
     distractors: ['Le mailing', 'Le tchat', 'Le blogging'],
   },
+
+  // ── Vague : niveau 4 sans filtre, 2e passe (factuel, cru) ──
+  {
+    id: 'adl-4128', theme: 'culture', universe: 'Sexo 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Comment appelle-t-on la pratique sexuelle orale sur la femme ?', answer: 'Le cunnilingus',
+    distractors: ['La mammographie', 'La coloscopie', 'La rhinoplastie'],
+  },
+  {
+    id: 'adl-4129', theme: 'culture', universe: 'Sexo 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Comment appelle-t-on la position sexuelle dite « par-derrière » ?', answer: 'La levrette',
+    distractors: ['La brasse', 'Le crawl', 'Le papillon'],
+  },
+  {
+    id: 'adl-4130', theme: 'culture', universe: 'Sexo 🔞', difficulty: 3, cancelLevel: 4,
+    text: "Comment appelle-t-on, en argot, une prestation tarifée d'un(e) prostitué(e) ?", answer: 'Une passe',
+    distractors: ['Une ronde', 'Une navette', 'Une tournée'],
+  },
+  {
+    id: 'adl-4131', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 1, cancelLevel: 4,
+    text: "Quel organe masculin se gorge de sang lors de l'excitation ?", answer: 'Le pénis',
+    distractors: ['Le poumon', 'Le foie', 'Le rein'],
+  },
+  {
+    id: 'adl-4132', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on le repli de peau reliant le gland au prépuce ?', answer: 'Le frein',
+    distractors: ['Le tendon', 'Le ligament', 'Le cartilage'],
+  },
+  {
+    id: 'adl-4133', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 1, cancelLevel: 4,
+    text: 'Comment appelle-t-on, en argot, un joint de cannabis ?', answer: 'Un pétard',
+    distractors: ['Un cigare', 'Une pipe', 'Un narguilé'],
+  },
+  {
+    id: 'adl-4134', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: "Comment appelle-t-on le harem d'un sultan ottoman, gardé par des eunuques ?", answer: 'Le sérail',
+    distractors: ['Le gynécée', 'Le boudoir', 'Le donjon'],
+  },
+  {
+    id: 'adl-4135', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: "Comment appelle-t-on, en argot, un client de prostituée ?", answer: 'Un micheton',
+    distractors: ['Un mécène', 'Un donateur', 'Un bienfaiteur'],
+  },
+  {
+    id: 'adl-4136', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Comment appelle-t-on un acteur de films pornographiques ?', answer: 'Un hardeur',
+    distractors: ['Un cascadeur', 'Un figurant', 'Un régisseur'],
+  },
+  {
+    id: 'adl-4137', theme: 'manga', universe: 'Manga interdits 🔞', difficulty: 2, cancelLevel: 4,
+    text: "Comment appelle-t-on un manga ou anime explicitement pornographique ?", answer: 'Le hentai',
+    distractors: ['Le shonen', 'Le shojo', 'Le seinen'],
+  },
+  {
+    id: 'adl-4138', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 3, cancelLevel: 4,
+    text: "Comment appelle-t-on un morceau de tissu couvrant seulement le sexe ?", answer: 'Le cache-sexe',
+    distractors: ['Le foulard', 'Le gilet', 'Le poncho'],
+  },
+  {
+    id: 'adl-4139', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 2, cancelLevel: 4,
+    text: 'Quel « sérum » est censé forcer quelqu’un à dire la vérité ?', answer: 'Le sérum de vérité',
+    distractors: ['Le placebo', 'Le vaccin', "L'antidote"],
+  },
 ];

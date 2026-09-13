@@ -303,6 +303,18 @@ export const HOT_DARES: HotDare[] = [
   { category: 'soft', lvl: 4, text: "Fais un suçon à ton propre avant-bras, en gros plan." },
   { category: 'alcool', lvl: 4, text: "Classe la table du meilleur au pire coup présumé, ou vide ton verre." },
   { category: 'soft', lvl: 4, text: "Refais ta tête et tes bruits au moment de l'orgasme, ou passe ton tour." },
+
+  // ----- Vague 16 · Cancellable ++ (sans filtre) ---------------------------
+  { category: 'soft', lvl: 4, text: "Décris ton pire coup d'un soir sans épargner les détails, ou triple cul sec." },
+  { category: 'alcool', lvl: 4, text: "Envoie « tu me manques au lit » à ton dernier contact, ou cul sec." },
+  { category: 'soft', lvl: 4, text: "Montre avec tes mains la position que tu préfères, ou finis ton verre." },
+  { category: 'alcool', lvl: 4, text: "Avoue ton nombre de partenaires du dernier mois, ou triple cul sec." },
+  { category: 'soft', lvl: 4, text: "Fais une démo live de ta technique de drague la plus lourde." },
+  { category: 'soft', lvl: 4, text: "Simule un orgasme façon film X pendant dix secondes, ou double cul sec." },
+  { category: 'alcool', lvl: 4, text: "Dis à qui, ici, tu proposerais un plan cul, ou vide ton verre." },
+  { category: 'soft', lvl: 4, text: "Chuchote ton fantasme le plus interdit à l'oreille de ton voisin." },
+  { category: 'alcool', lvl: 4, text: "Bois autant de gorgées que de fois où tu as menti pour finir au lit." },
+  { category: 'alcool', lvl: 4, text: "Révèle le dernier truc pour adultes que tu as regardé, ou cul sec." },
 ];
 
 /**

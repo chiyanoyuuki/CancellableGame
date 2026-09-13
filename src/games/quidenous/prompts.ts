@@ -657,6 +657,13 @@ export const PROMPTS_HOT: HotPrompt[] = [
   { text: "de raconter ses exploits sexuels dans les moindres détails", lvl: 4 },
   { text: "d'avoir déjà trompé et laissé l'autre porter le doute", lvl: 4 },
   { text: "de finir toujours par parler de cul en soirée", lvl: 4 },
+
+  // ----- Vague 10 · Cancellable ++ (sans filtre) --------------------------
+  { text: "de coucher le premier soir sans aucun scrupule", lvl: 4 },
+  { text: "d'avoir un tiroir rempli de jouets pour adultes", lvl: 4 },
+  { text: "d'avoir déjà regardé du porno au réveil", lvl: 4 },
+  { text: "de connaître par cœur ses sites pour adultes préférés", lvl: 4 },
+  { text: "d'avoir déjà eu un plan cul avec un(e) collègue", lvl: 4 },
 ];
 
 /**

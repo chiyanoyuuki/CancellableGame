@@ -729,6 +729,22 @@ export const DILEMMAS_HOT: HotDilemma[] = [
   { a: "Coucher une fois pour de l'argent, filmé(e)", b: "Rester fauché(e) mais tranquille", lvl: 4 },
   { a: "Manger un plat préparé par ton pire ennemi", b: "Coucher avec quelqu'un choisi par tes ex", lvl: 4 },
   { a: "Draguer en salle d'attente d'un hôpital", b: "Draguer à un enterrement pendant l'éloge", lvl: 4 },
+
+  // ----- Vague 13 · Cancellable ++ (sans filtre) --------------------------
+  { a: "Que ton/ta partenaire découvre ton fantasme le plus dérangeant", b: "Que tu découvres le sien, pire encore", lvl: 4 },
+  { a: "Faire l'amour une seule fois avec la personne interdite dont tu rêves", b: "Mille fois avec un(e) partenaire lambda", lvl: 4 },
+  { a: "Traverser le métro bondé les fesses à l'air", b: "Débarquer torse nu à un mariage chic", lvl: 4 },
+  { a: "Payer pour du sexe une seule fois", b: "Ne plus jamais coucher de ta vie", lvl: 4 },
+  { a: "Que ton employeur reçoive ton nude par erreur", b: "Que ta grand-mère le reçoive", lvl: 4 },
+  { a: "Roter l'alphabet en pleine demande en mariage", b: "Péter très fort pendant une minute de silence", lvl: 4 },
+  { a: "Regarder du porno avec tes parents par accident", b: "Avec ton/ta boss en partage d'écran", lvl: 4 },
+  { a: "Coucher avec un(e) collègue et le regretter aussitôt", b: "Refuser et flinguer ta carrière", lvl: 4 },
+  { a: "Avoir un tatouage obscène sur une fesse", b: "Un piercing intime qui déclenche les alarmes", lvl: 4 },
+  { a: "Te faire filmer en train de tromper", b: "Filmer quelqu'un qui trompe et le balancer", lvl: 4 },
+  { a: "Boire le fond de verre de dix inconnus", b: "Finir une pinte tiède trouvée par terre", lvl: 4 },
+  { a: "Que tes gémissements s'entendent jusqu'à la rue", b: "Un silence gênant total à chaque fois", lvl: 4 },
+  { a: "Draguer ouvertement les parents de ton/ta date", b: "Confondre ton/ta date avec son père ou sa mère", lvl: 4 },
+  { a: "Avoir une réputation de coup facile mais fausse", b: "De coincé(e) fini(e) mais fausse aussi", lvl: 4 },
 ];
 
 /**
