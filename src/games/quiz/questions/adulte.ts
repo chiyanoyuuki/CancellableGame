@@ -1377,4 +1377,234 @@ export const adulteQuestions: Question[] = [
     text: 'Comment appelle-t-on un discours qui flatte les peurs du peuple pour séduire les foules ?', answer: 'Le populisme',
     distractors: ['Le fédéralisme', 'Le parlementarisme', 'Le libéralisme'],
   },
+
+  // ── Vague : deuxième passe d'approfondissement + univers tchèque ──
+  // Niveau 2 (Épicé 🌶️)
+  {
+    id: 'adl-288', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 2, cancelLevel: 2,
+    text: "Quelle série suit un club de motards hors-la-loi en Californie ?", answer: 'Sons of Anarchy',
+    distractors: ['Mayans M.C.', 'Gomorra', 'Peaky Blinders'],
+  },
+  {
+    id: 'adl-289', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 2, cancelLevel: 2,
+    text: "Quelle série de jeux d'infiltration fait incarner un tueur à gages chauve au code-barres ?", answer: 'Hitman',
+    distractors: ['Splinter Cell', 'Dishonored', "Assassin's Creed"],
+  },
+  {
+    id: 'adl-290', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 4, cancelLevel: 2,
+    text: "Quel écrivain américain a chroniqué l'alcool et les bas-fonds dans « Women » ?", answer: 'Charles Bukowski',
+    distractors: ['John Fante', 'Hunter S. Thompson', 'Raymond Carver'],
+  },
+  {
+    id: 'adl-291', theme: 'manga', universe: 'Manga interdits 🔞', difficulty: 3, cancelLevel: 2,
+    text: "Quel manga contraint des collégiens à s'entretuer sur une île déserte ?", answer: 'Battle Royale',
+    distractors: ['Danganronpa', 'As the Gods Will', 'Doubt'],
+  },
+  {
+    id: 'adl-292', theme: 'internet', universe: 'Internet sale 🔞', difficulty: 1, cancelLevel: 2,
+    text: 'Comment appelle-t-on le harcèlement répété visant à détruire une personne en ligne ?', answer: 'Le cyberharcèlement',
+    distractors: ['Le spam', 'Le buzz', 'Le troll'],
+  },
+  {
+    id: 'adl-293', theme: 'culture', universe: 'Sexo 🔞', difficulty: 1, cancelLevel: 2,
+    text: 'Comment appelle-t-on la grande marche festive qui célèbre les fiertés LGBT ?', answer: 'La Gay Pride',
+    distractors: ['Le carnaval', 'Le téléthon', 'La fête de la musique'],
+  },
+  {
+    id: 'adl-294', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 3, cancelLevel: 2,
+    text: "Comment nomme-t-on la chair de poule provoquée par un frisson intense ?", answer: "L'horripilation",
+    distractors: ['La transpiration', 'La digestion', 'La respiration'],
+  },
+  {
+    id: 'adl-295', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 2, cancelLevel: 2,
+    text: "Quel alcool d'agave bleu est produit dans la région de Guadalajara ?", answer: 'La tequila',
+    distractors: ['Le mezcal', 'Le rhum', 'La cachaça'],
+  },
+  {
+    id: 'adl-296', theme: 'tcheque', universe: 'Prague interdite 🔞', difficulty: 2, cancelLevel: 2,
+    text: "Dans quelle capitale la bière coule à flots et l'absinthe a fait son retour ?", answer: 'Prague',
+    distractors: ['Vienne', 'Budapest', 'Varsovie'],
+  },
+  {
+    id: 'adl-297', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 3, cancelLevel: 2,
+    text: 'Quel film de 2000 de Mary Harron met en scène un yuppie tueur en série ?', answer: 'American Psycho',
+    distractors: ['Fight Club', 'Seven', 'Psycho'],
+  },
+  {
+    id: 'adl-298', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quel groupe allemand crache du feu sur scène et chante en allemand ?', answer: 'Rammstein',
+    distractors: ['Tokio Hotel', 'Scorpions', 'Kraftwerk'],
+  },
+  {
+    id: 'adl-299', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 2, cancelLevel: 2,
+    text: "Comment appelle-t-on une soirée où l'on cache son identité derrière un masque ?", answer: 'Un bal masqué',
+    distractors: ['Un after', 'Un before', 'Une garden-party'],
+  },
+  {
+    id: 'adl-300', theme: 'culture', universe: 'Vie de couple 💔', difficulty: 2, cancelLevel: 2,
+    text: 'Comment appelle-t-on des partenaires qui vivent ensemble sans être mariés ?', answer: 'Le concubinage',
+    distractors: ['Le célibat', 'Le veuvage', 'La bigamie'],
+  },
+  {
+    id: 'adl-2014', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 2, cancelLevel: 2,
+    text: 'Comment appelle-t-on le transport illégal de marchandises pour éviter les taxes ?', answer: 'La contrebande',
+    distractors: ['La douane', 'La franchise', 'La caution'],
+  },
+  {
+    id: 'adl-2015', theme: 'mode', universe: 'Mode sulfureuse 🔞', difficulty: 2, cancelLevel: 2,
+    text: 'Quel maillot deux-pièces fit scandale à sa sortie en 1946 ?', answer: 'Le bikini',
+    distractors: ['Le monokini', 'Le tankini', 'Le une-pièce'],
+  },
+  // Niveau 3 (+18 🔞)
+  {
+    id: 'adl-396', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 3, cancelLevel: 3,
+    text: "Quelle série suit un patron de boîte de nuit menant une double vie de trafiquant ?", answer: 'Power',
+    distractors: ['Snowfall', 'Ozark', 'BMF'],
+  },
+  {
+    id: 'adl-397', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel jeu d’horreur fait fuir un journaliste sans arme dans un asile psychiatrique ?', answer: 'Outlast',
+    distractors: ['Amnesia', 'Layers of Fear', 'Observer'],
+  },
+  {
+    id: 'adl-398', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 4, cancelLevel: 3,
+    text: 'Quel roman de D. H. Lawrence fut censuré pour ses scènes explicites ?', answer: "L'Amant de Lady Chatterley",
+    distractors: ['Madame Bovary', 'Ulysse', 'Lolita'],
+  },
+  {
+    id: 'adl-399', theme: 'manga', universe: 'Manga interdits 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel manga enferme des joueurs dans un Tokyo parallèle où chaque jeu peut être mortel ?', answer: 'Alice in Borderland',
+    distractors: ['Btooom!', "King's Game", "Darwin's Game"],
+  },
+  {
+    id: 'adl-400', theme: 'internet', universe: 'Internet sale 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Comment appelle-t-on une attaque qui sature un site de requêtes pour le faire tomber ?', answer: 'Une attaque DDoS',
+    distractors: ['Un cookie', 'Un captcha', 'Un firewall'],
+  },
+  {
+    id: 'adl-3006', theme: 'culture', universe: 'Sexo 🔞', difficulty: 3, cancelLevel: 3,
+    text: "Comment nomme-t-on l'excitation tirée du fait de s'exhiber devant autrui ?", answer: "L'exhibitionnisme",
+    distractors: ['Le voyeurisme', 'Le fétichisme', 'Le romantisme'],
+  },
+  {
+    id: 'adl-3007', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quelle IST virale se manifeste par des vésicules et reste à vie dans le corps ?', answer: "L'herpès",
+    distractors: ['La chlamydia', 'La syphilis', 'La gonorrhée'],
+  },
+  {
+    id: 'adl-3008', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 3, cancelLevel: 3,
+    text: "Quelle liqueur anisée grecque devient laiteuse au contact de l'eau ?", answer: "L'ouzo",
+    distractors: ['Le limoncello', 'La grappa', 'Le porto'],
+  },
+  {
+    id: 'adl-3009', theme: 'tcheque', universe: 'Prague interdite 🔞', difficulty: 3, cancelLevel: 3,
+    text: "Quel écrivain praguois a dépeint l'absurde et l'angoisse dans « Le Procès » ?", answer: 'Franz Kafka',
+    distractors: ['Milan Kundera', 'Bohumil Hrabal', 'Václav Havel'],
+  },
+  {
+    id: 'adl-3010', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel film de Gaspar Noé (2015) présente des scènes intimes non simulées en 3D ?', answer: 'Love',
+    distractors: ['Enter the Void', 'Climax', 'Irréversible'],
+  },
+  {
+    id: 'adl-3011', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel groupe mené par Trent Reznor a choqué avec le titre cru « Closer » ?', answer: 'Nine Inch Nails',
+    distractors: ['Marilyn Manson', 'Ministry', 'Nirvana'],
+  },
+  {
+    id: 'adl-3012', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 4, cancelLevel: 3,
+    text: 'Quelle épouse de Claude était réputée pour sa vie dissolue à Rome ?', answer: 'Messaline',
+    distractors: ['Livie', 'Agrippine', 'Julia'],
+  },
+  {
+    id: 'adl-3013', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 2, cancelLevel: 3,
+    text: "Comment appelle-t-on le trafic d'influence exercé par des groupes de pression ?", answer: 'Le lobbying',
+    distractors: ['Le suffrage', 'Le recensement', 'Le référendum'],
+  },
+  {
+    id: 'adl-3014', theme: 'mythologie', universe: 'Mythes interdits 🔞', difficulty: 2, cancelLevel: 3,
+    text: "Quel héros grec, invulnérable sauf au talon, mourut d'une flèche à Troie ?", answer: 'Achille',
+    distractors: ['Ajax', 'Hector', 'Ulysse'],
+  },
+  {
+    id: 'adl-3015', theme: 'japon', universe: 'Japon interdit 🔞', difficulty: 3, cancelLevel: 3,
+    text: 'Quel art japonais du bondage esthétique utilise des cordes ?', answer: 'Le shibari',
+    distractors: ['Le kintsugi', 'Le bonsaï', 'Le kendo'],
+  },
+  // Niveau 4 (Cancellable ☠️)
+  {
+    id: 'adl-489', theme: 'series', universe: 'Séries interdites 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quelle série préquelle suit la naissance du cartel de Guadalajara ?', answer: 'Narcos: Mexico',
+    distractors: ['El Chapo', 'Queen of the South', 'ZeroZeroZero'],
+  },
+  {
+    id: 'adl-490', theme: 'jeuxvideo', universe: 'Jeux interdits 🔞', difficulty: 2, cancelLevel: 4,
+    text: "Quel FPS ultra-gore de 2016 ressuscite le tueur de démons venu de l'enfer ?", answer: 'Doom',
+    distractors: ['Quake', 'Wolfenstein', 'Painkiller'],
+  },
+  {
+    id: 'adl-491', theme: 'litterature', universe: 'Littérature sulfureuse 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quel roman de Chuck Palahniuk inspira un film culte sur un club de combat clandestin ?', answer: 'Fight Club',
+    distractors: ['American Psycho', 'Trainspotting', 'Choke'],
+  },
+  {
+    id: 'adl-492', theme: 'manga', universe: 'Manga interdits 🔞', difficulty: 4, cancelLevel: 4,
+    text: "Quel manga d'horreur de Junji Ito suit une femme à la beauté envoûtante et mortelle ?", answer: 'Tomie',
+    distractors: ['Uzumaki', 'Gyo', 'Shiver'],
+  },
+  {
+    id: 'adl-493', theme: 'internet', universe: 'Internet sale 🔞', difficulty: 3, cancelLevel: 4,
+    text: "Comment appelle-t-on la diffusion de contenus intimes d'un ex par vengeance ?", answer: 'Le revenge porn',
+    distractors: ['Le sexting', 'Le catfishing', 'Le trolling'],
+  },
+  {
+    id: 'adl-494', theme: 'culture', universe: 'Sexo 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on une relation amoureuse ouverte à plusieurs partenaires consentants ?', answer: 'Le polyamour',
+    distractors: ['La monogamie', 'Le célibat', 'Le concubinage'],
+  },
+  {
+    id: 'adl-495', theme: 'sciences', universe: 'Corps humain 🔞', difficulty: 3, cancelLevel: 4,
+    text: 'Quel examen dépiste les papillomavirus responsables du cancer du col ?', answer: 'Le frottis',
+    distractors: ['La mammographie', 'La coloscopie', "L'échographie"],
+  },
+  {
+    id: 'adl-496', theme: 'societe', universe: 'Alcool & fêtes 🍻', difficulty: 3, cancelLevel: 4,
+    text: "Comment appelle-t-on l'intoxication aiguë à l'alcool pouvant mener au coma ?", answer: 'Le coma éthylique',
+    distractors: ['La migraine', "L'insolation", 'La déshydratation'],
+  },
+  {
+    id: 'adl-497', theme: 'tcheque', universe: 'Prague interdite 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel roman de Milan Kundera explore le libertinage à Prague sous le communisme ?', answer: "L'Insoutenable Légèreté de l'être",
+    distractors: ['Le Livre du rire et de l’oubli', 'La Plaisanterie', "L'Immortalité"],
+  },
+  {
+    id: 'adl-498', theme: 'films', universe: 'Cinéma interdit 🔞', difficulty: 4, cancelLevel: 4,
+    text: 'Quel film de Lars von Trier (2009) a choqué Cannes par sa violence sexuelle ?', answer: 'Antichrist',
+    distractors: ['Melancholia', 'Dogville', 'The House That Jack Built'],
+  },
+  {
+    id: 'adl-499', theme: 'musique', universe: 'Sulfureux 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Quel chanteur a croqué une chauve-souris en plein concert ?', answer: 'Ozzy Osbourne',
+    distractors: ['Alice Cooper', 'Gene Simmons', 'Marilyn Manson'],
+  },
+  {
+    id: 'adl-500', theme: 'culture', universe: 'Histoire trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: 'Quel tueur en série victorien terrorisa le quartier de Whitechapel en 1888 ?', answer: "Jack l'Éventreur",
+    distractors: ['H. H. Holmes', 'Landru', 'Ed Gein'],
+  },
+  {
+    id: 'adl-501', theme: 'societe', universe: 'Tabou & trash ☠️', difficulty: 2, cancelLevel: 4,
+    text: 'Comment appelle-t-on la menace de révéler un secret pour obtenir quelque chose ?', answer: 'Le chantage',
+    distractors: ['Le compromis', 'La négociation', 'La médiation'],
+  },
+  {
+    id: 'adl-502', theme: 'politique', universe: 'Politique trash ☠️', difficulty: 3, cancelLevel: 4,
+    text: 'Comment appelle-t-on un régime contrôlant tous les aspects de la vie des citoyens ?', answer: 'Le totalitarisme',
+    distractors: ['La démocratie', 'La monarchie', 'La république'],
+  },
+  {
+    id: 'adl-503', theme: 'societe', universe: 'Nuit & tabous 🔞', difficulty: 2, cancelLevel: 4,
+    text: 'Comment appelle-t-on une fête électro clandestine organisée dans un lieu secret ?', answer: 'Une rave',
+    distractors: ['Un gala', 'Un vernissage', 'Un cocktail'],
+  },
 ];
