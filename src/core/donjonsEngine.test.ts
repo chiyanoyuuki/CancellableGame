@@ -1,9 +1,12 @@
 import {
+  addPending,
   baseStatsFor,
   CLASS_BY_ID,
+  combineMode,
   consequenceFor,
   createCharacter,
   createDonjonsState,
+  type Character,
   DC,
   dcForDifficulty,
   donjonsRanking,
@@ -23,6 +26,7 @@ import {
   type Stat,
   STATS,
   targetLevel,
+  traitMode,
   XP_PER_LEVEL,
   type DonjonsConfig,
   type DonjonsState,
@@ -314,5 +318,130 @@ describe('donjonsEngine — cohérence des données', () => {
     const known = new Set<Stat>(STATS);
     for (const r of Object.values(RACE_BY_ID)) for (const k of Object.keys(r.mods)) expect(known.has(k as Stat)).toBe(true);
     for (const c of Object.values(CLASS_BY_ID)) for (const k of Object.keys(c.mods)) expect(known.has(k as Stat)).toBe(true);
+  });
+});
+
+// ─── Phase 4 : traits, objets, capacités, duel ───
+const mkState = (
+  a1: { raceId: Parameters<typeof createCharacter>[1]; classId: Parameters<typeof createCharacter>[2] },
+  a2: typeof a1,
+  a3: typeof a1,
+  over: Partial<DonjonsConfig> = {},
+) =>
+  createDonjonsState({ config: cfg(over), players, assignments: { p1: a1, p2: a2, p3: a3 }, seed: 42 });
+
+const inject = (s: DonjonsState, id: string, patch: Partial<Character>): DonjonsState => ({
+  ...s,
+  characters: { ...s.characters, [id]: { ...(s.characters[id] as Character), ...patch } },
+});
+
+describe('donjonsEngine — Phase 4', () => {
+  it('combineMode : avantage + désavantage = normal', () => {
+    expect(combineMode('advantage', 'disadvantage')).toBe('normal');
+    expect(combineMode('advantage', 'normal')).toBe('advantage');
+    expect(combineMode('disadvantage', 'disadvantage')).toBe('disadvantage');
+  });
+
+  it('traitMode : Elfe avantage en Perception, Gnome avantage sur Question', () => {
+    expect(traitMode(createCharacter('p', 'elfe', 'barde'), 'perception', 'action')).toBe('advantage');
+    expect(traitMode(createCharacter('p', 'gnome', 'mage'), 'savoir', 'question')).toBe('advantage');
+    expect(traitMode(createCharacter('p', 'elfe', 'barde'), 'savoir', 'question')).toBe('normal');
+  });
+
+  it('addPending cumule le DC et combine les modes', () => {
+    let c = createCharacter('p', 'nain', 'guerrier');
+    c = addPending(c, 'advantage', 2);
+    c = addPending(c, 'disadvantage', 3);
+    expect(c.pending?.mode).toBe('normal'); // avantage + désavantage s'annulent
+    expect(c.pending?.dcDelta).toBe(5);
+  });
+
+  it('Gnome : une mauvaise réponse (désavantage) annulée par Érudit → jet normal (1 dé)', () => {
+    // p2 = gnome/mage
+    let s = create();
+    s = donjonsReducer(s, { type: 'CHOOSE', targetId: 'p2', card: 'question', difficulty: 2 });
+    s = donjonsReducer(s, { type: 'RESOLVE', answerCorrect: false });
+    expect(s.lastRoll?.dice).toHaveLength(1);
+  });
+
+  it('USE_ITEM potion : avantage au prochain jet, consommé après', () => {
+    let s = inject(create(), 'p2', { items: ['potion'] });
+    s = donjonsReducer(s, { type: 'USE_ITEM', userId: 'p2', itemId: 'potion' });
+    expect(s.characters.p2?.pending?.mode).toBe('advantage');
+    expect(s.characters.p2?.items).toHaveLength(0);
+    s = donjonsReducer(s, { type: 'CHOOSE', targetId: 'p2', card: 'action' });
+    s = donjonsReducer(s, { type: 'RESOLVE' });
+    expect(s.lastRoll?.dice).toHaveLength(2); // avantage appliqué
+    expect(s.characters.p2?.pending).toBeUndefined(); // consommé
+  });
+
+  it('USE_ITEM antidote : dégrise d’un palier', () => {
+    let s = inject(create(), 'p2', { items: ['antidote'], gorgees: 6 });
+    s = donjonsReducer(s, { type: 'USE_ITEM', userId: 'p2', itemId: 'antidote' });
+    expect(s.characters.p2?.gorgees).toBe(3);
+  });
+
+  it('USE_ITEM bouclier : la cible ne boit jamais sur ce jet (quel que soit le tirage)', () => {
+    for (let seed = 1; seed <= 12; seed += 1) {
+      let s = createDonjonsState({ config: cfg(), players, assignments, seed });
+      s = inject(s, 'p2', { items: ['bouclier'] });
+      s = donjonsReducer(s, { type: 'USE_ITEM', userId: 'p2', itemId: 'bouclier' });
+      s = donjonsReducer(s, { type: 'CHOOSE', targetId: 'p2', card: 'question', difficulty: 4 });
+      s = donjonsReducer(s, { type: 'RESOLVE', answerCorrect: false });
+      expect(s.characters.p2?.gorgees).toBe(0);
+    }
+  });
+
+  it('USE_ITEM miroir : renvoie le défi (inverse attaquant/cible)', () => {
+    let s = inject(create(), 'p2', { items: ['miroir'] });
+    s = donjonsReducer(s, { type: 'CHOOSE', targetId: 'p2', card: 'action' });
+    s = donjonsReducer(s, { type: 'USE_ITEM', userId: 'p2', itemId: 'miroir' });
+    expect(s.current?.targetId).toBe('p1');
+    expect(s.current?.attackerId).toBe('p2');
+  });
+
+  it('USE_ABILITY Guerrier : bouclier sur soi + coût d’une gorgée', () => {
+    let s = create(); // p1 = nain/guerrier, actif
+    s = donjonsReducer(s, { type: 'USE_ABILITY', userId: 'p1' });
+    expect(s.characters.p1?.shield).toBe(true);
+    expect(s.characters.p1?.gorgees).toBe(1); // coût
+  });
+
+  it('USE_ABILITY Voleur : désavantage sur une cible', () => {
+    let s = mkState({ raceId: 'orc', classId: 'voleur' }, { raceId: 'gnome', classId: 'mage' }, { raceId: 'elfe', classId: 'rodeur' });
+    s = donjonsReducer(s, { type: 'USE_ABILITY', userId: 'p1', targetId: 'p2' });
+    expect(s.characters.p2?.pending?.mode).toBe('disadvantage');
+    expect(s.characters.p1?.gorgees).toBe(1);
+  });
+
+  it('USE_TRAIT Charme du Vampire : réussite auto sur une Vérité, sans jet, 1×/partie', () => {
+    let s = mkState({ raceId: 'nain', classId: 'guerrier' }, { raceId: 'vampire', classId: 'barde' }, { raceId: 'elfe', classId: 'rodeur' });
+    s = donjonsReducer(s, { type: 'CHOOSE', targetId: 'p2', card: 'verite' });
+    const before = s.characters.p2?.level ?? 1;
+    s = donjonsReducer(s, { type: 'USE_TRAIT', userId: 'p2' });
+    expect(s.lastRoll).toBeNull();
+    expect(s.lastConsequence?.kind).toBe('success');
+    expect(s.characters.p2?.charmeUsed).toBe(true);
+    // XP gagnée
+    expect((s.characters.p2?.level ?? 1) * 30 + (s.characters.p2?.xp ?? 0)).toBeGreaterThan((before - 1) * 30);
+  });
+
+  it('USE_TRAIT Berserk de l’Orc : avantage (1×/manche)', () => {
+    let s = mkState({ raceId: 'nain', classId: 'guerrier' }, { raceId: 'orc', classId: 'voleur' }, { raceId: 'elfe', classId: 'rodeur' });
+    s = donjonsReducer(s, { type: 'CHOOSE', targetId: 'p2', card: 'action' });
+    s = donjonsReducer(s, { type: 'USE_TRAIT', userId: 'p2' });
+    expect(s.characters.p2?.pending?.mode).toBe('advantage');
+    expect(s.characters.p2?.berserkRound).toBe(s.round);
+    // 2e usage la même manche : sans effet
+    const s2 = donjonsReducer(s, { type: 'USE_TRAIT', userId: 'p2' });
+    expect(s2).toBe(s);
+  });
+
+  it('duel : lastDuel expose vainqueur et perdant', () => {
+    let s = create();
+    s = donjonsReducer(s, { type: 'CHOOSE', targetId: 'p2', card: 'duel', stat: 'audace' });
+    s = donjonsReducer(s, { type: 'RESOLVE' });
+    expect(s.lastDuel).not.toBeNull();
+    expect([s.lastDuel?.winnerId, s.lastDuel?.loserId].sort()).toEqual(['p1', 'p2']);
   });
 });

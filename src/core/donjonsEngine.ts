@@ -177,6 +177,14 @@ export interface Character {
   xp: number; // XP dans le niveau courant (0..XP_PER_LEVEL)
   pendingLevelUps: number; // montées de niveau à dépenser
   items: ItemId[];
+  /** Modificateur en attente pour le PROCHAIN jet de ce perso (objets, capacités, traits). */
+  pending?: { mode?: RollMode; dcDelta?: number };
+  /** Absorbe la prochaine conséquence négative (bouclier / Provocation du Guerrier). */
+  shield?: boolean;
+  /** Vampire : le Charme a déjà été utilisé (1×/partie). */
+  charmeUsed?: boolean;
+  /** Orc : dernière manche où le Berserk a été utilisé (1×/manche). */
+  berserkRound?: number;
 }
 
 /** Stats de base d'un couple race + classe (avant ivresse et niveaux). */
@@ -357,6 +365,32 @@ export function giveItem(c: Character, item: ItemId): Character {
   return { ...c, items: [...c.items, item] };
 }
 
+/** Combine deux modes de jet (avantage + désavantage s'annulent, comme en D&D). */
+export function combineMode(a: RollMode = 'normal', b: RollMode = 'normal'): RollMode {
+  const adv = a === 'advantage' || b === 'advantage';
+  const dis = a === 'disadvantage' || b === 'disadvantage';
+  if (adv && dis) return 'normal';
+  if (adv) return 'advantage';
+  if (dis) return 'disadvantage';
+  return 'normal';
+}
+
+/** Ajoute un modificateur en attente (mode combiné, DC cumulé) au prochain jet du perso. */
+export function addPending(c: Character, mode?: RollMode, dcDelta = 0): Character {
+  const cur = c.pending ?? {};
+  return {
+    ...c,
+    pending: { mode: mode ? combineMode(cur.mode, mode) : cur.mode, dcDelta: (cur.dcDelta ?? 0) + dcDelta },
+  };
+}
+
+/** Avantage/désavantage passif d'un trait de race sur un jet donné. */
+export function traitMode(defender: Character, stat: Stat, card: CardType): RollMode {
+  if (defender.raceId === 'elfe' && stat === 'perception') return 'advantage'; // Œil de lynx
+  if (defender.raceId === 'gnome' && card === 'question') return 'advantage'; // Érudit
+  return 'normal';
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Config & durées — cf. §2
 // ─────────────────────────────────────────────────────────────────────────────
@@ -420,6 +454,8 @@ export interface DonjonsState {
   current: CurrentChallenge | null;
   lastRoll: RollResult | null;
   lastConsequence: Consequence | null;
+  /** Résultat du dernier duel (pour l'affichage). */
+  lastDuel: { winnerId: string; loserId: string } | null;
   seed: number;
   rngCursor: number; // nb de tirages déjà consommés (rejoue la séquence, garde la pureté)
   winnerId: string | null;
@@ -429,6 +465,9 @@ export type DonjonsAction =
   | { type: 'CHOOSE'; targetId: string; card: CardType; difficulty?: 1 | 2 | 3 | 4; stat?: Stat }
   | { type: 'RESOLVE'; answerCorrect?: boolean; mode?: RollMode; gageDone?: boolean }
   | { type: 'SPEND_LEVELUP'; stat: Stat }
+  | { type: 'USE_ITEM'; userId: string; itemId: ItemId }
+  | { type: 'USE_ABILITY'; userId: string; targetId?: string }
+  | { type: 'USE_TRAIT'; userId: string }
   | { type: 'NEXT' };
 
 /** Reconstruit un RNG positionné après `cursor` tirages (garde le reducer pur). */
@@ -473,6 +512,7 @@ export function createDonjonsState(args: {
     current: null,
     lastRoll: null,
     lastConsequence: null,
+    lastDuel: null,
     seed,
     rngCursor: cursor,
     winnerId: null,
@@ -541,39 +581,36 @@ export function donjonsReducer(state: DonjonsState, action: DonjonsAction): Donj
       const attacker = state.characters[attackerId] as Character;
       const target = state.characters[targetId] as Character;
 
-      // Mode du jet : bonne réponse = avantage, mauvaise = désavantage (question) ;
-      // sinon `mode` fourni (objet potion, capacité…) ou normal.
-      let mode: RollMode = action.mode ?? 'normal';
-      if (card === 'question' && action.answerCorrect !== undefined) {
-        mode = action.answerCorrect ? 'advantage' : 'disadvantage';
-      }
+      // Mode de base : bonne réponse = avantage, mauvaise = désavantage (question).
+      let base: RollMode = action.mode ?? 'normal';
+      if (card === 'question' && action.answerCorrect !== undefined) base = action.answerCorrect ? 'advantage' : 'disadvantage';
 
       const rng = rngAt(state.seed, state.rngCursor);
       let cursor = state.rngCursor;
-      const draws = mode === 'normal' ? 1 : 2;
-
       const characters = { ...state.characters };
 
       if (card === 'duel') {
-        // Jets opposés : l'attaquant et la cible lancent sur la même stat, le plus haut gagne.
-        const rA = resolve(rng, { mod: effectiveStats(attacker)[stat], dc: 0, mode });
-        const rB = resolve(rng, { mod: effectiveStats(target)[stat], dc: 0, mode: 'normal' });
-        cursor += draws + 1;
+        // Jets opposés ; chacun profite de ses propres modificateurs en attente (Berserk, potion…).
+        const aMode = combineMode(attacker.pending?.mode, base);
+        const tMode = target.pending?.mode ?? 'normal';
+        const rA = resolve(rng, { mod: effectiveStats(attacker)[stat], dc: 0, mode: aMode });
+        const rB = resolve(rng, { mod: effectiveStats(target)[stat], dc: 0, mode: tMode });
+        cursor += (aMode === 'normal' ? 1 : 2) + (tMode === 'normal' ? 1 : 2);
         const targetWins = rB.total >= rA.total; // égalité en faveur du défenseur
         const winnerId = targetWins ? targetId : attackerId;
         const loserId = targetWins ? attackerId : targetId;
         const winnerRoll = targetWins ? rB : rA;
         const loserRoll = targetWins ? rA : rB;
-        // Le perdant subit un échec « franc » (pire encore sur un 1 naturel).
         const cons = consequenceFor(
           { ...loserRoll, success: false, crit: false, dc: 0, margin: -5 },
           { cancelLevels: state.config.cancelLevels },
         );
         let loser = characters[loserId] as Character;
-        if (cons.kind === 'fail' && state.config.drinksEnabled && cons.sips > 0) loser = drink(loser, cons.sips, { firstOfTurn: true });
+        if (loser.shield) loser = { ...loser, shield: false }; // le bouclier absorbe
+        else if (cons.kind === 'fail' && state.config.drinksEnabled && cons.sips > 0) loser = drink(loser, cons.sips, { firstOfTurn: true });
         loser = gainXp(loser, cons.kind === 'fail' ? cons.xp : 0);
-        characters[loserId] = loser;
-        characters[winnerId] = gainXp(characters[winnerId] as Character, XP.success);
+        characters[loserId] = { ...loser, pending: undefined };
+        characters[winnerId] = { ...gainXp(characters[winnerId] as Character, XP.success), pending: undefined };
         const anyPending = Object.values(characters).some((c) => c.pendingLevelUps > 0);
         return {
           ...state,
@@ -581,17 +618,21 @@ export function donjonsReducer(state: DonjonsState, action: DonjonsAction): Donj
           characters,
           lastRoll: winnerRoll,
           lastConsequence: cons,
+          lastDuel: { winnerId, loserId },
           rngCursor: cursor,
           current: { ...state.current },
         };
       }
 
-      const roll = resolve(rng, { mod: effectiveStats(target)[stat], dc, mode });
-      cursor += draws;
+      // Non-duel : la CIBLE lance, avec traits passifs + modificateur en attente.
+      const finalMode = combineMode(combineMode(base, traitMode(target, stat, card)), target.pending?.mode);
+      const dcFinal = dc + (target.pending?.dcDelta ?? 0);
+      const roll = resolve(rng, { mod: effectiveStats(target)[stat], dc: dcFinal, mode: finalMode });
+      cursor += finalMode === 'normal' ? 1 : 2;
       const escalate = attacker.raceId === 'diablotin';
       const cons = consequenceFor(roll, { cancelLevels: state.config.cancelLevels, escalate });
 
-      let updated = target;
+      let updated: Character = { ...target, pending: undefined }; // modificateur consommé
       if (cons.kind === 'success') {
         updated = gainXp(updated, cons.xp);
         if (cons.loot) {
@@ -599,15 +640,16 @@ export function donjonsReducer(state: DonjonsState, action: DonjonsAction): Donj
           cursor += 1;
           updated = giveItem(updated, item);
         }
+      } else if (updated.shield) {
+        updated = gainXp({ ...updated, shield: false }, cons.xp); // bouclier : conséquence annulée
       } else {
         if (state.config.drinksEnabled && cons.sips > 0) updated = drink(updated, cons.sips, { firstOfTurn: true });
-        const xp = cons.xp + (action.gageDone ? XP.gageDone : 0);
-        updated = gainXp(updated, xp);
+        updated = gainXp(updated, cons.xp + (action.gageDone ? XP.gageDone : 0));
       }
       characters[targetId] = updated;
 
       const anyPending = Object.values(characters).some((c) => c.pendingLevelUps > 0);
-      return { ...state, phase: anyPending ? 'levelup' : 'resolve', characters, lastRoll: roll, lastConsequence: cons, rngCursor: cursor };
+      return { ...state, phase: anyPending ? 'levelup' : 'resolve', characters, lastRoll: roll, lastConsequence: cons, lastDuel: null, rngCursor: cursor };
     }
 
     case 'SPEND_LEVELUP': {
@@ -619,6 +661,93 @@ export function donjonsReducer(state: DonjonsState, action: DonjonsAction): Donj
       const characters = { ...state.characters, [pendingId]: updated };
       const stillPending = Object.values(characters).some((c) => c.pendingLevelUps > 0);
       return { ...state, characters, phase: stillPending ? 'levelup' : 'resolve' };
+    }
+
+    case 'USE_ITEM': {
+      const u = state.characters[action.userId];
+      if (!u) return state;
+      const idx = u.items.indexOf(action.itemId);
+      if (idx < 0) return state; // pas cet objet
+      let nu: Character = { ...u, items: u.items.filter((_, i) => i !== idx) };
+      switch (action.itemId) {
+        case 'potion':
+        case 'de_pipe': // « relance » ≈ avantage au prochain jet
+          nu = addPending(nu, 'advantage');
+          break;
+        case 'bouclier':
+          nu = { ...nu, shield: true };
+          break;
+        case 'antidote':
+          nu = sober(nu, 1);
+          break;
+        case 'miroir': {
+          // Renvoie le défi courant : porteur = cible ⇒ on inverse attaquant/cible.
+          if (state.phase === 'resolve' && state.current && state.current.targetId === action.userId) {
+            const cur = state.current;
+            return {
+              ...state,
+              characters: { ...state.characters, [action.userId]: nu },
+              current: { ...cur, attackerId: cur.targetId, targetId: cur.attackerId },
+            };
+          }
+          break;
+        }
+      }
+      return { ...state, characters: { ...state.characters, [action.userId]: nu } };
+    }
+
+    case 'USE_ABILITY': {
+      const u = state.characters[action.userId];
+      if (!u) return state;
+      const characters = { ...state.characters };
+      const tId = action.targetId;
+      const tgt = tId ? characters[tId] : undefined;
+      switch (u.classId) {
+        case 'guerrier': // Provocation : bouclier sur soi
+          characters[action.userId] = { ...u, shield: true };
+          break;
+        case 'barde': // Sérénade : avantage à un allié
+        case 'mage': // Illumination : avantage sur le défi
+          if (tId && tgt) characters[tId] = addPending(tgt, 'advantage');
+          break;
+        case 'voleur': // Sabotage : désavantage à une cible
+          if (tId && tgt) characters[tId] = addPending(tgt, 'disadvantage');
+          break;
+        case 'rodeur': // Visée : +3 au DC d'une cible
+          if (tId && tgt) characters[tId] = addPending(tgt, undefined, 3);
+          break;
+        case 'pretre': // Bénédiction : dégrise un allié et nettoie ses débuffs
+          if (tId && tgt) characters[tId] = { ...sober(tgt, 1), pending: undefined };
+          break;
+      }
+      // Coût : 1 gorgée (si l'alcool est activé). On l'applique en dernier pour ne pas
+      // écraser un éventuel effet ciblant le lanceur (Guerrier).
+      const self = characters[action.userId] as Character;
+      characters[action.userId] = state.config.drinksEnabled ? drink(self, 1) : self;
+      return { ...state, characters };
+    }
+
+    case 'USE_TRAIT': {
+      const u = state.characters[action.userId];
+      if (!u) return state;
+      // Charme du Vampire : sur une Vérité dont il est la cible, réussite auto sans jet (1×/partie).
+      if (u.raceId === 'vampire') {
+        if (u.charmeUsed || state.phase !== 'resolve' || state.current?.card !== 'verite' || state.current.targetId !== action.userId) return state;
+        const cons: Consequence = { kind: 'success', xp: XP.success, loot: false, canRefile: false };
+        const nu = gainXp({ ...u, charmeUsed: true }, XP.success);
+        const characters = { ...state.characters, [action.userId]: nu };
+        const anyPending = Object.values(characters).some((c) => c.pendingLevelUps > 0);
+        return { ...state, characters, phase: anyPending ? 'levelup' : 'resolve', lastConsequence: cons, lastRoll: null, lastDuel: null };
+      }
+      // Berserk de l'Orc : relance (≈ avantage) sur une action/duel dont il est la cible (1×/manche).
+      if (u.raceId === 'orc') {
+        if (u.berserkRound === state.round || state.phase !== 'resolve') return state;
+        if ((state.current?.card === 'action' || state.current?.card === 'duel') && state.current.targetId === action.userId) {
+          const nu = addPending({ ...u, berserkRound: state.round }, 'advantage');
+          return { ...state, characters: { ...state.characters, [action.userId]: nu } };
+        }
+      }
+      return state;
     }
 
     case 'NEXT': {
@@ -636,7 +765,7 @@ export function donjonsReducer(state: DonjonsState, action: DonjonsAction): Donj
         const winnerId = donjonsRanking(state)[0] as string;
         return { ...state, phase: 'finished', winnerId, current: null, round };
       }
-      return { ...state, turnIndex: nextIndex, round, phase: 'select', current: null, lastRoll: null, lastConsequence: null };
+      return { ...state, turnIndex: nextIndex, round, phase: 'select', current: null, lastRoll: null, lastConsequence: null, lastDuel: null };
     }
 
     default:

@@ -12,10 +12,13 @@ import {
   donjonsReducer,
   donjonsRanking,
   donjonsToSessionResult,
+  ITEM_BY_ID,
+  ivresseLevel,
   RACES,
   RACE_BY_ID,
   type CardType,
   type ClassId,
+  type ItemId,
   type RaceId,
   STATS,
   STAT_META,
@@ -110,7 +113,8 @@ export function DonjonsPlayComponent({ players, config, onFinish, onQuit }: Mini
   const charLine = (c: Character) => {
     const r = RACE_BY_ID[c.raceId];
     const k = CLASS_BY_ID[c.classId];
-    return `${r.emoji} ${r.name} ${k.emoji} ${k.name} · Niv.${c.level} · 🍺${c.gorgees}`;
+    const ivr = ivresseLevel(c.gorgees);
+    return `${r.emoji} ${r.name} ${k.emoji} ${k.name} · Niv.${c.level} · 🍺${c.gorgees}${ivr > 0 ? ` 🥴×${ivr}` : ''}`;
   };
 
   // ───────────────────────────── CRÉATION ─────────────────────────────
@@ -378,6 +382,27 @@ export function DonjonsPlayComponent({ players, config, onFinish, onQuit }: Mini
     haptics.tick();
   };
 
+  // Coups de pouce (objets, capacités, traits activés).
+  const useItem = (userId: string, itemId: ItemId) => {
+    dispatch({ type: 'USE_ITEM', userId, itemId });
+    haptics.tick();
+  };
+  const useAbility = (userId: string, tId?: string) => {
+    dispatch({ type: 'USE_ABILITY', userId, targetId: tId });
+    haptics.tick();
+  };
+  const useCharme = () => {
+    if (!cur) return;
+    dispatch({ type: 'USE_TRAIT', userId: cur.targetId });
+    setRevealed(true);
+    haptics.tick();
+  };
+  const useBerserk = () => {
+    if (!cur) return;
+    dispatch({ type: 'USE_TRAIT', userId: cur.targetId });
+    haptics.tick();
+  };
+
   return (
     <SafeAreaView style={styles.safe} edges={['bottom']}>
       <ScrollView contentContainerStyle={styles.scroll}>
@@ -428,15 +453,59 @@ export function DonjonsPlayComponent({ players, config, onFinish, onQuit }: Mini
           </Card>
         )}
 
+        {/* Coups de pouce : objets, capacités, traits activés (avant le jet) */}
+        {!revealed && cur && targetChar && (
+          <Card>
+            <Txt faint size={fontSize.xs}>{t('Coups de pouce')}</Txt>
+            {targetChar.items.length > 0 && (
+              <View style={[styles.wrap, { marginTop: spacing(0.5) }]}>
+                {targetChar.items.map((it, i) => (
+                  <Chip key={`${it}-${i}`} label={`${ITEM_BY_ID[it].emoji} ${ITEM_BY_ID[it].name}`} onPress={() => useItem(cur.targetId, it)} />
+                ))}
+              </View>
+            )}
+            <View style={[styles.wrap, { marginTop: spacing(0.5) }]}>
+              {(active.classId === 'voleur' || active.classId === 'rodeur') && (
+                <Chip
+                  label={`${CLASS_BY_ID[active.classId].emoji} ${CLASS_BY_ID[active.classId].ability.name}`}
+                  onPress={() => useAbility(active.playerId, cur.targetId)}
+                />
+              )}
+              {(targetChar.classId === 'guerrier' || targetChar.classId === 'mage' || targetChar.classId === 'barde' || targetChar.classId === 'pretre') && (
+                <Chip
+                  label={`${CLASS_BY_ID[targetChar.classId].emoji} ${CLASS_BY_ID[targetChar.classId].ability.name}`}
+                  onPress={() => useAbility(cur.targetId, targetChar.classId === 'guerrier' ? undefined : cur.targetId)}
+                />
+              )}
+              {targetChar.raceId === 'vampire' && cur.card === 'verite' && !targetChar.charmeUsed && (
+                <Chip label={t('🧛 Charme')} onPress={useCharme} />
+              )}
+              {targetChar.raceId === 'orc' && (cur.card === 'action' || cur.card === 'duel') && targetChar.berserkRound !== game.round && (
+                <Chip label={t('🧌 Berserk')} onPress={useBerserk} />
+              )}
+            </View>
+          </Card>
+        )}
+
         {/* Résultat */}
-        {revealed && game.lastRoll && (
-          <Card accent={game.lastRoll.crit ? colors.success : game.lastRoll.fumble ? colors.danger : undefined}>
-            <Txt weight="800" size={fontSize.lg}>
-              {game.lastRoll.crit ? '🎉 20 — Réussite critique !' : game.lastRoll.fumble ? '💀 1 — Échec critique !' : `🎲 ${game.lastRoll.natural} + ${game.lastRoll.mod} = ${game.lastRoll.total}`}
-            </Txt>
-            <Txt faint size={fontSize.xs}>
-              {game.lastRoll.success ? t('Réussite (DC {dc}) ✅', { dc: game.lastRoll.dc }) : t('Échec (DC {dc}) ❌', { dc: game.lastRoll.dc })}
-            </Txt>
+        {revealed && (game.lastRoll || game.lastConsequence) && (
+          <Card accent={game.lastRoll?.crit ? colors.success : game.lastRoll?.fumble ? colors.danger : undefined}>
+            {game.lastDuel ? (
+              <Txt weight="800" size={fontSize.lg}>
+                {t('🏆 {w} l’emporte sur {l} !', { w: byId[game.lastDuel.winnerId]?.name ?? '', l: byId[game.lastDuel.loserId]?.name ?? '' })}
+              </Txt>
+            ) : game.lastRoll ? (
+              <>
+                <Txt weight="800" size={fontSize.lg}>
+                  {game.lastRoll.crit ? '🎉 20 — Réussite critique !' : game.lastRoll.fumble ? '💀 1 — Échec critique !' : `🎲 ${game.lastRoll.natural} + ${game.lastRoll.mod} = ${game.lastRoll.total}`}
+                </Txt>
+                <Txt faint size={fontSize.xs}>
+                  {game.lastRoll.success ? t('Réussite (DC {dc}) ✅', { dc: game.lastRoll.dc }) : t('Échec (DC {dc}) ❌', { dc: game.lastRoll.dc })}
+                </Txt>
+              </>
+            ) : (
+              <Txt weight="800" size={fontSize.lg}>{t('✨ Charme du Vampire — réussite auto !')}</Txt>
+            )}
             {game.lastConsequence && (
               <Txt style={{ marginTop: spacing(0.5) }}>
                 {game.lastConsequence.kind === 'success'

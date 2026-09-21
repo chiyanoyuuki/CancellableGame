@@ -247,17 +247,21 @@ Le mode est une **couche par-dessus le contenu déjà en place** :
   Vérités et J'ai jamais. Branche quiz (univers + niveaux) et gages. **12 tests**.
 - **Phase 3** ✅ — UI (Config + Play + création de perso + boucle de tour) et
   enregistrement du mode. *À valider sur appareil (l'UI RN n'est pas couverte par Jest).*
-- **Phase 4** 🟡 (reste à faire) — Câbler dans l'UI : **capacités de classe** (à coût),
-  **objets/inventaire** (le loot est déjà donné), **traits passifs** (avantage Elfe/Gnome,
-  Charme Vampire, Berserk Orc), affichage du gagnant/perdant de duel, badge d'ivresse,
-  jet de dé animé. + **blackout**, équilibrage en playtest.
+- **Phase 4** ✅ (câblée) — **Traits passifs** (avantage Elfe/Gnome), système
+  **buff/débuff + bouclier**, **objets** utilisables (potion, dé pipé, bouclier,
+  antidote, miroir), **capacités de classe** à coût, **traits activés** (Charme
+  Vampire, Berserk Orc), **résultat de duel** et **badge d'ivresse** affichés.
+  Moteur **testé** (42 tests au total). UI branchée (section « Coups de pouce »).
+- **Phase 5** 🟡 (reste à faire) — polish : **jet de dé animé**, ciblage plus
+  souple des capacités de soutien (Barde/Prêtre sur n'importe quel allié),
+  **blackout** d'ivresse, **équilibrage** chiffré en playtest.
 
 ### État « moteur vs UI » (transparence)
-Déjà câblé de bout en bout : stats, d20, DC, avantage si bonne réponse, crit/fumble,
-conséquences (gorgée/gage/XP), ivresse dynamique, montée de niveau, classement, mode
-sans alcool, trait **Provocateur** (Diablotin). Défini mais **pas encore actif** dans la
-résolution/UI : les autres traits passifs, les **capacités de classe** et l'usage des
-**objets**.
+Câblé de bout en bout **et** dans l'UI : stats, d20, DC, avantage si bonne réponse,
+crit/fumble, conséquences (gorgée/gage/XP), ivresse dynamique (+ badge), montée de
+niveau, classement, mode sans alcool, **tous les traits de race** (Nain, Elfe, Orc,
+Vampire, Gnome, Diablotin), **capacités de classe** (à coût), **objets**, **duel**
+(vainqueur/perdant). Reste surtout du **polish visuel** et l'équilibrage en test réel.
 
 ---
 
