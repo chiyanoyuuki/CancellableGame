@@ -237,15 +237,27 @@ Le mode est une **couche par-dessus le contenu déjà en place** :
 
 ---
 
-## 16. Découpage de développement (proposition 🟡)
+## 16. Découpage de développement — avancement
 
-- **Phase 0** — Valider ce cahier des charges.
-- **Phase 1** — Moteur pur (`donjonsEngine.ts`) : stats, jet d20, DC, XP, niveaux,
-  ivresse, conséquences + **tests**.
-- **Phase 2** — Données Races/Classes/Objets + tirage aléatoire.
-- **Phase 3** — Branchement du contenu existant (quiz, gages, prompts).
-- **Phase 4** — UI (création de perso, tour de jeu, jets animés, feuille de perso).
-- **Phase 5** — Équilibrage en playtest + réglages.
+- **Phase 0** ✅ — Cahier des charges validé.
+- **Phase 1** ✅ — Moteur pur (`src/core/donjonsEngine.ts`) : stats, races/classes,
+  jet d20 + DC (avantage/crit/fumble), ivresse, conséquences, XP/niveaux, boucle de
+  tour, duel, fin de partie. **29 tests**.
+- **Phase 2** ✅ — Adaptateur de contenu (`src/games/donjons/content.ts`) + banques
+  Vérités et J'ai jamais. Branche quiz (univers + niveaux) et gages. **12 tests**.
+- **Phase 3** ✅ — UI (Config + Play + création de perso + boucle de tour) et
+  enregistrement du mode. *À valider sur appareil (l'UI RN n'est pas couverte par Jest).*
+- **Phase 4** 🟡 (reste à faire) — Câbler dans l'UI : **capacités de classe** (à coût),
+  **objets/inventaire** (le loot est déjà donné), **traits passifs** (avantage Elfe/Gnome,
+  Charme Vampire, Berserk Orc), affichage du gagnant/perdant de duel, badge d'ivresse,
+  jet de dé animé. + **blackout**, équilibrage en playtest.
+
+### État « moteur vs UI » (transparence)
+Déjà câblé de bout en bout : stats, d20, DC, avantage si bonne réponse, crit/fumble,
+conséquences (gorgée/gage/XP), ivresse dynamique, montée de niveau, classement, mode
+sans alcool, trait **Provocateur** (Diablotin). Défini mais **pas encore actif** dans la
+résolution/UI : les autres traits passifs, les **capacités de classe** et l'usage des
+**objets**.
 
 ---
 
