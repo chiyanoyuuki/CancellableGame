@@ -82,8 +82,10 @@ Modificateurs (proposition 🟡 : de **−2 à +4**). Base 0 ; **Race + Classe**
 | 🙊 **J'ai déjà / jamais** | Une affirmation ; avouer avec panache ou bluffer | 😎 Charisme / 🔥 Audace |
 | ⚔️ **Duel** | Actif vs cible, **jets opposés** sur une stat commune | stat du duel |
 
-🟡 Idées d'extensions ultérieures : carte **Tu préfères ?** (la table vote, la
-cible doit deviner la majorité → Perception), carte **Défi d'équipe**.
+✅ **Les 4 cartes ci-dessus sont retenues pour le v1.**
+
+🟡 Extensions ultérieures : carte **Tu préfères ?** (la table vote, la cible doit
+deviner la majorité → Perception), carte **Défi d'équipe**.
 
 ---
 
@@ -141,7 +143,7 @@ cible doit deviner la majorité → Perception), carte **Défi d'équipe**.
 | 🔬 Gnome | Savoir +2, Perception +1 | Adresse −1 | **Érudit** : avantage sur un univers de quiz au choix |
 | 😈 Diablotin | Audace +2, Charisme +1 | Perception −1 | **Provocateur** : les échecs de ses cibles sont aggravés d'un cran |
 
-❓ Ajouter un **Humain** « flex » (+1 à répartir, 1 relance/partie) en 7ᵉ race ?
+✅ **Décidé : pas de 7ᵉ race.** On garde 6 races bien typées (une stat chacune).
 
 ---
 
@@ -164,7 +166,7 @@ Mage (machine à quiz), Vampire Barde (manipulateur), Elfe Rôdeur (sniper de ga
 Diablotin Voleur (chaos)…
 
 - ✅ **Tirage aléatoire** Race + Classe disponible (démarrage rapide / chaos).
-- ❓ Interdire les doublons de classe dans une même partie, ou autoriser ?
+- ✅ **Doublons de classe autorisés** : chacun choisit librement (deux Voleurs possibles).
 
 ---
 
@@ -193,8 +195,8 @@ Gagnés sur les **20 naturels** et certains **gages** ; à usage unique.
    potion), ou **activer sa capacité** si pertinent (paie le coût).
 5. **Jet** : `d20 + stat` (avantage/désavantage selon réponse), l'app calcule.
 6. **Conséquence** appliquée (§6) + gains d'XP/ivresse/objets mis à jour.
-7. Le tour passe (la cible, ou le joueur suivant — ❓ à trancher : *l'ordre passe-t-il
-   à la cible ou tourne-t-il simplement ?*).
+7. ✅ **Rotation simple** : le tour passe au **joueur suivant dans l'ordre**
+   (chacun attaque autant).
 
 ---
 
@@ -227,14 +229,11 @@ Le mode est une **couche par-dessus le contenu déjà en place** :
 
 ## 15. Points ouverts à trancher (prochaines itérations)
 
-1. Ajout d'un **Humain** flex (7ᵉ race) ?
-2. **Blackout** d'ivresse : effet exact (ou pas de palier punitif) ?
-3. **Ordre des tours** : passe à la cible, ou rotation simple ?
-4. **Inventaire** : taille max, vol/échange d'objets ?
-5. **Doublons de classe** autorisés dans une partie ?
-6. Équilibrage chiffré (mods, DC, XP, paliers) — à **caler aux tests**.
-7. Détail des **capacités améliorées** aux niveaux 3 et 5.
-8. Carte **Tu préfères ?** dans le v1 ou plus tard ?
+1. **Blackout** d'ivresse : effet exact (ou pas de palier punitif) ?
+2. **Inventaire** : taille max, vol/échange d'objets ?
+3. Équilibrage chiffré (mods, DC, XP, paliers) — à **caler aux tests**.
+4. Détail des **capacités améliorées** aux niveaux 3 et 5.
+5. Ajustements de flavor **races/classes** (noms, capacités) selon tes retours.
 
 ---
 
