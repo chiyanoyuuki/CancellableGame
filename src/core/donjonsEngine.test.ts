@@ -8,6 +8,7 @@ import {
   dcForDifficulty,
   donjonsRanking,
   donjonsReducer,
+  donjonsToSessionResult,
   drink,
   effectiveStats,
   gainXp,
@@ -287,6 +288,24 @@ describe('donjonsEngine — reducer (boucle de tour)', () => {
     s = donjonsReducer(s, { type: 'CHOOSE', targetId: 'p2', card: 'question', difficulty: 4 });
     s = donjonsReducer(s, { type: 'RESOLVE', answerCorrect: false });
     expect(s.characters.p2?.gorgees).toBe(0);
+  });
+
+  it('donjonsToSessionResult reflète le classement et les gorgées', () => {
+    const s0 = create();
+    const s: DonjonsState = {
+      ...s0,
+      characters: {
+        ...s0.characters,
+        p1: { ...(s0.characters.p1 as NonNullable<typeof s0.characters.p1>), level: 2, xp: 10, gorgees: 6 },
+        p2: { ...(s0.characters.p2 as NonNullable<typeof s0.characters.p2>), level: 3, xp: 0 },
+      },
+    };
+    const res = donjonsToSessionResult(s, 1000, 2000);
+    expect(res.gameId).toBe('donjons');
+    expect(res.players[0]?.playerId).toBe('p2'); // niveau le plus haut = 1er
+    expect(res.players[0]?.rank).toBe(1);
+    const p1 = res.players.find((p) => p.playerId === 'p1');
+    expect(p1?.sipsDrunk).toBe(6);
   });
 });
 

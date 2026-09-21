@@ -9,7 +9,7 @@
  * des questions, des gages…) reste externe : l'appelant fournit à `RESOLVE` si
  * la réponse était bonne, le moteur en déduit le reste.
  */
-import type { CancelLevel, Player } from './models';
+import type { CancelLevel, Player, PlayerSessionResult, SessionResult } from './models';
 import { mulberry32, pick, type Rng } from './rng';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -488,6 +488,34 @@ export function donjonsRanking(s: DonjonsState): string[] {
     const cb = s.characters[b] as Character;
     return cb.level - ca.level || cb.xp - ca.xp || ca.gorgees - cb.gorgees;
   });
+}
+
+/** XP totale cumulée d'un personnage (sert de score / classement). */
+export function totalScore(c: Character): number {
+  return (c.level - 1) * XP_PER_LEVEL + c.xp;
+}
+
+/** Convertit l'état final en résultat de session (pour les stats de l'app). */
+export function donjonsToSessionResult(state: DonjonsState, startedAt: number, endedAt: number): SessionResult {
+  const ranked = donjonsRanking(state);
+  let lastScore: number | null = null;
+  let lastRank = 0;
+  const players: PlayerSessionResult[] = ranked.map((id, i) => {
+    const c = state.characters[id] as Character;
+    const points = totalScore(c);
+    const rank = lastScore !== null && points === lastScore ? lastRank : i + 1;
+    lastScore = points;
+    lastRank = rank;
+    return {
+      playerId: id,
+      points,
+      rank,
+      sipsDrunk: c.gorgees,
+      sipsGiven: 0,
+      details: { level: c.level, raceId: c.raceId, classId: c.classId },
+    };
+  });
+  return { gameId: 'donjons', mode: 'rpg', config: { ...state.config }, startedAt, endedAt, players };
 }
 
 export function donjonsReducer(state: DonjonsState, action: DonjonsAction): DonjonsState {
