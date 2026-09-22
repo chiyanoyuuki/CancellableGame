@@ -35,6 +35,13 @@ jobs:
           java-version: 17
 
       - uses: android-actions/setup-android@v3
+        with:
+          # Par défaut l'action installe le paquet SDK « tools », que Google a
+          # RETIRÉ du dépôt : `sdkmanager tools` échoue alors avec « Failed to
+          # find package 'tools' » et casse tout le build à l'étape de setup.
+          # On installe donc uniquement « platform-tools » ; le plugin Gradle
+          # Android télécharge tout seul la plateforme et les build-tools requis.
+          packages: 'platform-tools'
 
       - name: Numéro de version = numéro de build (pour que les MAJ s'installent)
         run: |
