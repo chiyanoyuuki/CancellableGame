@@ -238,6 +238,12 @@ export function effectiveStats(c: Character): StatBlock {
   return out;
 }
 
+/** Palier de « blackout » : trop bourré, tous les jets passent en désavantage. */
+export const BLACKOUT_PALIER = 4; // ≈ 12 gorgées
+export function isBlackout(gorgees: number): boolean {
+  return ivresseLevel(gorgees) >= BLACKOUT_PALIER;
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Dé & résolution — cf. §4
 // ─────────────────────────────────────────────────────────────────────────────
@@ -590,9 +596,10 @@ export function donjonsReducer(state: DonjonsState, action: DonjonsAction): Donj
       const characters = { ...state.characters };
 
       if (card === 'duel') {
-        // Jets opposés ; chacun profite de ses propres modificateurs en attente (Berserk, potion…).
-        const aMode = combineMode(attacker.pending?.mode, base);
-        const tMode = target.pending?.mode ?? 'normal';
+        // Jets opposés ; chacun profite de ses propres modificateurs en attente (Berserk, potion…),
+        // et un joueur en blackout lance en désavantage.
+        const aMode = combineMode(combineMode(attacker.pending?.mode, base), isBlackout(attacker.gorgees) ? 'disadvantage' : 'normal');
+        const tMode = combineMode(target.pending?.mode, isBlackout(target.gorgees) ? 'disadvantage' : 'normal');
         const rA = resolve(rng, { mod: effectiveStats(attacker)[stat], dc: 0, mode: aMode });
         const rB = resolve(rng, { mod: effectiveStats(target)[stat], dc: 0, mode: tMode });
         cursor += (aMode === 'normal' ? 1 : 2) + (tMode === 'normal' ? 1 : 2);
@@ -624,8 +631,11 @@ export function donjonsReducer(state: DonjonsState, action: DonjonsAction): Donj
         };
       }
 
-      // Non-duel : la CIBLE lance, avec traits passifs + modificateur en attente.
-      const finalMode = combineMode(combineMode(base, traitMode(target, stat, card)), target.pending?.mode);
+      // Non-duel : la CIBLE lance, avec traits passifs + modificateur en attente (+ blackout).
+      const finalMode = combineMode(
+        combineMode(combineMode(base, traitMode(target, stat, card)), target.pending?.mode),
+        isBlackout(target.gorgees) ? 'disadvantage' : 'normal',
+      );
       const dcFinal = dc + (target.pending?.dcDelta ?? 0);
       const roll = resolve(rng, { mod: effectiveStats(target)[stat], dc: dcFinal, mode: finalMode });
       cursor += finalMode === 'normal' ? 1 : 2;

@@ -12,6 +12,7 @@ import {
   donjonsReducer,
   donjonsRanking,
   donjonsToSessionResult,
+  isBlackout,
   ITEM_BY_ID,
   ivresseLevel,
   RACES,
@@ -41,6 +42,28 @@ const CARD_LABEL: Record<CardType, string> = {
   jaijamais: '🙊 J’ai jamais',
   duel: '⚔️ Duel',
 };
+
+/** Petite animation : le dé « tourne » ~0,75 s puis révèle le résultat. */
+function DiceRoller({ onDone }: { onDone: () => void }) {
+  const [face, setFace] = useState(1);
+  useEffect(() => {
+    const iv = setInterval(() => setFace(1 + Math.floor(Math.random() * 20)), 70);
+    const to = setTimeout(() => {
+      clearInterval(iv);
+      onDone();
+    }, 760);
+    return () => {
+      clearInterval(iv);
+      clearTimeout(to);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  return (
+    <Card accent={colors.accent}>
+      <Txt center weight="800" size={fontSize.huge}>{`🎲 ${face}`}</Txt>
+    </Card>
+  );
+}
 
 export function DonjonsPlayComponent({ players, config, onFinish, onQuit }: MiniGamePlayProps) {
   const t = useT();
@@ -88,6 +111,7 @@ export function DonjonsPlayComponent({ players, config, onFinish, onQuit }: Mini
   const [options, setOptions] = useState<string[]>([]);
   const [chosen, setChosen] = useState<string | null>(null);
   const [revealed, setRevealed] = useState(false);
+  const [rolling, setRolling] = useState(false);
 
   const resetTurn = () => {
     setTargetId(null);
@@ -97,6 +121,7 @@ export function DonjonsPlayComponent({ players, config, onFinish, onQuit }: Mini
     setOptions([]);
     setChosen(null);
     setRevealed(false);
+    setRolling(false);
   };
 
   // Fin de partie → on remonte le résultat une seule fois.
@@ -114,7 +139,8 @@ export function DonjonsPlayComponent({ players, config, onFinish, onQuit }: Mini
     const r = RACE_BY_ID[c.raceId];
     const k = CLASS_BY_ID[c.classId];
     const ivr = ivresseLevel(c.gorgees);
-    return `${r.emoji} ${r.name} ${k.emoji} ${k.name} · Niv.${c.level} · 🍺${c.gorgees}${ivr > 0 ? ` 🥴×${ivr}` : ''}`;
+    const drunk = isBlackout(c.gorgees) ? ' ☠️ blackout' : ivr > 0 ? ` 🥴×${ivr}` : '';
+    return `${r.emoji} ${r.name} ${k.emoji} ${k.name} · Niv.${c.level} · 🍺${c.gorgees}${drunk}`;
   };
 
   // ───────────────────────────── CRÉATION ─────────────────────────────
@@ -251,40 +277,6 @@ export function DonjonsPlayComponent({ players, config, onFinish, onQuit }: Mini
 
   const dispatch = (action: Parameters<typeof donjonsReducer>[1]) => setGame((s) => (s ? donjonsReducer(s, action) : s));
 
-  // ───────────────────────────── LEVEL UP ─────────────────────────────
-  if (game.phase === 'levelup') {
-    const pendingId = Object.keys(game.characters).find((id) => (game.characters[id] as Character).pendingLevelUps > 0);
-    const pc = pendingId ? (game.characters[pendingId] as Character) : null;
-    const pp = pendingId ? (byId[pendingId] as Player) : null;
-    return (
-      <SafeAreaView style={styles.safe} edges={['bottom']}>
-        <ScrollView contentContainerStyle={styles.scroll}>
-          <SectionHeader title={t('⬆️ Montée de niveau !')} />
-          {pc && pp && (
-            <>
-              <Card accent={pp.color}>
-                <Txt weight="800">{t('{name} passe niveau {lvl} !', { name: pp.name, lvl: pc.level })}</Txt>
-                <Txt faint size={fontSize.xs}>{t('Choisis une stat à améliorer (+1).')}</Txt>
-              </Card>
-              <View style={styles.wrap}>
-                {STATS.map((s) => (
-                  <Chip
-                    key={s}
-                    label={`${STAT_META[s].emoji} ${STAT_META[s].label} (${pc.base[s] >= 0 ? '+' : ''}${pc.base[s]})`}
-                    onPress={() => {
-                      dispatch({ type: 'SPEND_LEVELUP', stat: s });
-                      haptics.tick();
-                    }}
-                  />
-                ))}
-              </View>
-            </>
-          )}
-        </ScrollView>
-      </SafeAreaView>
-    );
-  }
-
   // ───────────────────────────── SELECT ─────────────────────────────
   if (game.phase === 'select') {
     const canQuestion = pool.length > 0;
@@ -368,6 +360,9 @@ export function DonjonsPlayComponent({ players, config, onFinish, onQuit }: Mini
   const cur = game.current;
   const targetChar = cur ? (game.characters[cur.targetId] as Character) : null;
   const targetPlayer = cur ? (byId[cur.targetId] as Player) : null;
+  // Joueur en attente de montée de niveau (cible ou perdant d'un duel).
+  const levelUpId = Object.keys(game.characters).find((id) => (game.characters[id] as Character).pendingLevelUps > 0);
+  const levelUpPlayer = levelUpId ? (byId[levelUpId] as Player) : null;
 
   const doResolve = () => {
     if (!drawn) return;
@@ -378,7 +373,7 @@ export function DonjonsPlayComponent({ players, config, onFinish, onQuit }: Mini
     } else {
       dispatch({ type: 'RESOLVE', gageDone: true });
     }
-    setRevealed(true);
+    setRolling(true); // l'animation révèle le résultat à la fin
     haptics.tick();
   };
 
@@ -433,7 +428,7 @@ export function DonjonsPlayComponent({ players, config, onFinish, onQuit }: Mini
                     key={opt}
                     title={opt}
                     variant="secondary"
-                    onPress={revealed ? undefined : () => setChosen(opt)}
+                    onPress={revealed || rolling ? undefined : () => setChosen(opt)}
                     style={showColor ? { borderColor: showColor, borderWidth: 2 } : undefined}
                   />
                 );
@@ -454,7 +449,7 @@ export function DonjonsPlayComponent({ players, config, onFinish, onQuit }: Mini
         )}
 
         {/* Coups de pouce : objets, capacités, traits activés (avant le jet) */}
-        {!revealed && cur && targetChar && (
+        {!revealed && !rolling && cur && targetChar && (
           <Card>
             <Txt faint size={fontSize.xs}>{t('Coups de pouce')}</Txt>
             {targetChar.items.length > 0 && (
@@ -520,14 +515,39 @@ export function DonjonsPlayComponent({ players, config, onFinish, onQuit }: Mini
 
         <View style={{ height: spacing(1) }} />
         {!revealed ? (
-          <Button
-            title={drawn?.card === 'duel' ? t('Lancer les dés') : drawn?.card === 'question' ? t('Valider et lancer le d20') : t('Lancer le d20')}
-            emoji="🎲"
-            size="lg"
-            variant="accent"
-            disabled={drawn?.card === 'question' && chosen === null}
-            onPress={doResolve}
-          />
+          rolling ? (
+            <DiceRoller
+              onDone={() => {
+                setRolling(false);
+                setRevealed(true);
+              }}
+            />
+          ) : (
+            <Button
+              title={drawn?.card === 'duel' ? t('Lancer les dés') : drawn?.card === 'question' ? t('Valider et lancer le d20') : t('Lancer le d20')}
+              emoji="🎲"
+              size="lg"
+              variant="accent"
+              disabled={drawn?.card === 'question' && chosen === null}
+              onPress={doResolve}
+            />
+          )
+        ) : game.phase === 'levelup' ? (
+          <>
+            <SectionHeader title={levelUpPlayer ? t('⬆️ {name} monte une stat', { name: levelUpPlayer.name }) : t('⬆️ Montée de niveau')} />
+            <View style={styles.wrap}>
+              {STATS.map((s) => (
+                <Chip
+                  key={s}
+                  label={`${STAT_META[s].emoji} ${STAT_META[s].label}`}
+                  onPress={() => {
+                    dispatch({ type: 'SPEND_LEVELUP', stat: s });
+                    haptics.tick();
+                  }}
+                />
+              ))}
+            </View>
+          </>
         ) : (
           <Button
             title={t('Continuer')}

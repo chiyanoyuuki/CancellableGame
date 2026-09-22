@@ -252,9 +252,12 @@ Le mode est une **couche par-dessus le contenu déjà en place** :
   antidote, miroir), **capacités de classe** à coût, **traits activés** (Charme
   Vampire, Berserk Orc), **résultat de duel** et **badge d'ivresse** affichés.
   Moteur **testé** (42 tests au total). UI branchée (section « Coups de pouce »).
-- **Phase 5** 🟡 (reste à faire) — polish : **jet de dé animé**, ciblage plus
-  souple des capacités de soutien (Barde/Prêtre sur n'importe quel allié),
-  **blackout** d'ivresse, **équilibrage** chiffré en playtest.
+- **Phase 5** ✅ (en grande partie) — polish : **jet de dé animé**, **blackout**
+  d'ivresse (au-delà de 4 paliers, tous les jets passent en désavantage, testé),
+  et flux **résultat → montée de niveau** revu (le résultat du jet reste visible,
+  la montée de niveau se fait ensuite sans masquer le tirage).
+  Reste : ciblage plus souple des capacités de soutien (Barde/Prêtre sur
+  n'importe quel allié) et l'**équilibrage** chiffré en playtest réel.
 
 ### État « moteur vs UI » (transparence)
 Câblé de bout en bout **et** dans l'UI : stats, d20, DC, avantage si bonne réponse,

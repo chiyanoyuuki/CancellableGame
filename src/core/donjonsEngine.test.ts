@@ -1,8 +1,10 @@
 import {
   addPending,
   baseStatsFor,
+  BLACKOUT_PALIER,
   CLASS_BY_ID,
   combineMode,
+  isBlackout,
   consequenceFor,
   createCharacter,
   createDonjonsState,
@@ -435,6 +437,16 @@ describe('donjonsEngine — Phase 4', () => {
     // 2e usage la même manche : sans effet
     const s2 = donjonsReducer(s, { type: 'USE_TRAIT', userId: 'p2' });
     expect(s2).toBe(s);
+  });
+
+  it('blackout : au-delà du seuil, la cible lance en désavantage', () => {
+    expect(isBlackout((BLACKOUT_PALIER - 1) * 3)).toBe(false);
+    expect(isBlackout(BLACKOUT_PALIER * 3)).toBe(true);
+    // p2 (gnome) sur une Action (pas de trait) mais en blackout → 2 dés (désavantage)
+    let s = inject(create(), 'p2', { gorgees: BLACKOUT_PALIER * 3 });
+    s = donjonsReducer(s, { type: 'CHOOSE', targetId: 'p2', card: 'action' });
+    s = donjonsReducer(s, { type: 'RESOLVE' });
+    expect(s.lastRoll?.dice).toHaveLength(2);
   });
 
   it('duel : lastDuel expose vainqueur et perdant', () => {
