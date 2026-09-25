@@ -6,7 +6,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 
 import { Button, Card, Chip, PlayerAvatar, Screen, SectionHeader, Txt } from '../components/ui';
-import { THEME_META, THEMES } from '../core/models';
+import { CANCEL_LEVELS, THEME_META, THEMES } from '../core/models';
 import type { Player, Question, Theme } from '../core/models';
 import { keepsEnoughUniverses, keptUniverses, MIN_KEPT_UNIVERSES } from '../core/profilePrefs';
 import type { QuestionHistory } from '../core/questionSelection';
@@ -94,10 +94,20 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
 
   // Le pool de questions ne change pas en cours de session : chargé une fois.
   // (Joueurs, univers évités et historique sont rechargés à chaque focus.)
+  //
+  // IMPORTANT : on charge TOUS les niveaux de cancellabilité (1→4), pas seulement
+  // le pool grand public (niveau 1 par défaut). Le profil « univers et thèmes
+  // évités » doit lister TOUT ce qui peut sortir en jeu — y compris les univers
+  // qui n'existent qu'aux niveaux osés (ex. « Prague interdite 🔞 »). Sinon ces
+  // univers restent invisibles ici et INÉVITABLES, alors que les parties, elles,
+  // les tirent dès que le niveau correspondant est actif. C'est aussi le
+  // catalogue complet qu'utilisent l'écran de profil à distance et le codec (QR),
+  // donc tout concorde partout. Un profil est une préférence PERSISTANTE et
+  // portable : il ne doit pas dépendre du réglage global de niveau du moment.
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const p = await getQuizPool();
+      const p = await getQuizPool({ levels: [...CANCEL_LEVELS] });
       if (alive) setPool(p);
     })();
     return () => {
