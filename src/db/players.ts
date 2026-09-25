@@ -6,9 +6,10 @@ import { kvGetJSON, kvSetJSON } from './kv';
 const UNWANTED_UNIVERSES_KEY = 'player:unwantedUniverses';
 
 /**
- * Per-player list of UNWANTED universes. A player almost never gets questions
- * from these universes : chaque question qui lui est attribuée n'a qu'environ
- * 2 % de chance d'appartenir à l'un d'eux.
+ * Per-player list of UNWANTED universes. A player NEVER gets questions from
+ * these universes : ils sont strictement exclus de ses tirages (quel que soit
+ * le niveau de cancellabilité), sauf s'il ne reste plus rien d'autre à lui
+ * tirer (repli anti-blocage).
  *
  * C'est la SEULE préférence d'univers d'un profil : il n'existe pas de liste
  * « favoris » séparée. Les univers « souhaités » d'un joueur sont simplement

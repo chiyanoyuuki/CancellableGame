@@ -80,7 +80,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
     }
   };
 
-  // Per-player unwanted UNIVERSES (a question a ~2 % de chance d'en venir quand même).
+  // Per-player unwanted UNIVERSES (strictement exclues des tirages du joueur).
   const [pool, setPool] = useState<Question[]>([]);
   const [historyByPlayer, setHistoryByPlayer] = useState<Record<string, QuestionHistory>>({});
   const [unwanted, setUnwanted] = useState<Record<string, string[]>>({});
@@ -146,6 +146,18 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
         return { theme: t, items };
       })
       .filter((g) => g.items.length > 0);
+  }, [pool]);
+
+  // Catégories « osées » (contenu cancelLevel > 1). En jeu, elles sont débloquées
+  // par le pack Cancellable — via le NIVEAU actif — et NON par le déblocage
+  // d'univers classique (pack « tous les univers »). Le profil doit donc les
+  // laisser éviter dès que le pack Cancellable est possédé, même sans le pack
+  // « tous les univers » : sinon la puce reste verrouillée (→ Boutique) et on ne
+  // peut pas couper un univers qui tombe pourtant en partie.
+  const oseCategoryKeys = useMemo(() => {
+    const s = new Set<string>();
+    for (const q of pool) if ((q.cancelLevel ?? 1) > 1) s.add(q.universe ?? `#${q.theme}`);
+    return s;
   }, [pool]);
 
   // Mêmes catégories qu'au-dessus, mais à plat et triées par date d'ajout (les
@@ -385,7 +397,13 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
     const emoji = it.theme ? THEME_META[it.theme].emoji : undefined;
     // Un univers garde son nom (contenu) ; un thème « #… » est traduit.
     const label = it.key.startsWith('#') ? t(it.label) : it.label;
-    if (!store.isUniverseUnlocked(it.key)) {
+    // Évitable = ce qui peut réellement tomber en partie pour ce joueur : les
+    // univers débloqués, PLUS les univers osés si le pack Cancellable est
+    // possédé (leur barrière est le niveau, pas le déblocage d'univers). Sinon
+    // on ne pourrait pas couper un univers osé qui sort quand même en jeu.
+    const avoidable =
+      store.isUniverseUnlocked(it.key) || (oseCategoryKeys.has(it.key) && store.ent.cancellable);
+    if (!avoidable) {
       return (
         <View key={it.key} style={{ opacity: 0.45 }}>
           <Chip label={`🔒 ${label}`} emoji={emoji} selected={false} onPress={() => navigation.navigate('Store')} />
@@ -557,7 +575,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
           </Txt>
           <Txt dim size={fontSize.sm} style={{ marginTop: spacing(0.5) }}>
             {t(
-              "Tout est activé par défaut. Touche une catégorie pour la désactiver : {name} n'aura alors qu'environ 2 % de chance de tomber dessus, juste pour la surprise.",
+              'Tout est activé par défaut. Touche une catégorie pour la désactiver : {name} ne tombera alors plus jamais dessus, quel que soit le niveau.',
               { name: unwantedPlayer?.name ?? '' },
             )}
           </Txt>

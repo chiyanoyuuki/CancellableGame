@@ -146,7 +146,7 @@ describe('diversité des univers', () => {
   });
 });
 
-describe('univers non souhaités (≈ 2 %)', () => {
+describe('univers non souhaités (exclusion stricte)', () => {
   // 15 univers de manga + 15 univers de jeux vidéo, 4 questions chacun.
   function tq(id: string, theme: Theme, universe: string): Question {
     return { id, theme, difficulty: 1, universe, text: id, answer: 'a', distractors: ['b', 'c', 'd'] };
@@ -174,21 +174,22 @@ describe('univers non souhaités (≈ 2 %)', () => {
     return t;
   }
 
-  test('turn mode: un univers non souhaité ne sort quasiment jamais', () => {
+  test('turn mode: un univers non souhaité ne sort jamais (tant qu\'il reste du souhaité)', () => {
     const neutral = jeuxvideoTotal({ order: ['p1'], turnMode: 'turn' });
     const unwanted = jeuxvideoTotal({ order: ['p1'], turnMode: 'turn', unwantedUniversesByPlayer: { p1: vUniverses } });
-    // Neutral est ~la moitié de 20×100 = ~1000 ; non souhaité ~2 % des tirages (~40).
-    expect(unwanted).toBeLessThan(neutral * 0.1);
+    // Neutral est ~la moitié de 20×100 = ~1000 ; non souhaité = EXACTEMENT 0
+    // (il reste toujours du manga souhaité à tirer).
+    expect(neutral).toBeGreaterThan(0);
+    expect(unwanted).toBe(0);
   });
 
-  test('fastest mode: un univers non souhaité par un joueur est évité pour la question partagée', () => {
-    const neutral = jeuxvideoTotal({ order: ['p1', 'p2'], turnMode: 'fastest' });
+  test('fastest mode: un univers non souhaité par un joueur est exclu de la question partagée', () => {
     const unwanted = jeuxvideoTotal({
       order: ['p1', 'p2'],
       turnMode: 'fastest',
       unwantedUniversesByPlayer: { p2: vUniverses },
     });
-    expect(unwanted).toBeLessThan(neutral * 0.1);
+    expect(unwanted).toBe(0);
   });
 
   test('par joueur : seul le joueur qui a marqué les univers les évite', () => {
@@ -208,11 +209,12 @@ describe('univers non souhaités (≈ 2 %)', () => {
         else p2Jeuxvideo++;
       });
     }
-    // p1 (non souhaité) quasiment jamais ; p2 (aucune restriction) librement.
-    expect(p1Jeuxvideo).toBeLessThan(p2Jeuxvideo * 0.2);
+    // p1 (non souhaité) JAMAIS ; p2 (aucune restriction) librement.
+    expect(p1Jeuxvideo).toBe(0);
+    expect(p2Jeuxvideo).toBeGreaterThan(0);
   });
 
-  test('soft : un univers non souhaité reste utilisé quand il ne reste que lui', () => {
+  test('repli : un univers non souhaité reste utilisé quand il ne reste que lui', () => {
     const soloUniverse = Array.from({ length: 5 }, (_, i) => tq(`V${i}`, 'jeuxvideo', 'Solo'));
     const out = selectQuestions(soloUniverse, { themes: ['jeuxvideo'], difficulties: [1], count: 3 }, {}, mulberry32(1), {
       order: ['p1'],
@@ -252,8 +254,44 @@ describe('univers non souhaités (≈ 2 %)', () => {
       );
       rebusTotal += out.filter((x) => x.theme === 'rebus').length;
     }
-    // Le thème rébus fait la moitié du pool mais ne sort quasiment jamais (~2 %).
-    expect(rebusTotal).toBeLessThan(SEEDS * N * 0.1);
+    // Le thème rébus fait la moitié du pool mais ne sort JAMAIS (exclusion stricte).
+    expect(rebusTotal).toBe(0);
+  });
+
+  test('exclusion stricte même sur du contenu osé (peu importe le niveau)', () => {
+    // Un univers chill (souhaité) + un univers osé cancelLevel 4 (évité).
+    const mixed: Question[] = [];
+    for (let u = 0; u < 6; u++)
+      for (let i = 0; i < 4; i++) mixed.push(tq(`Chill${u}_${i}`, 'manga', `Chill${u}`));
+    for (let i = 0; i < 12; i++)
+      mixed.push({
+        id: `Ose_${i}`,
+        theme: 'tcheque',
+        difficulty: 1,
+        universe: 'Prague interdite 🔞',
+        cancelLevel: 4,
+        text: `ose${i}`,
+        answer: 'a',
+        distractors: ['b', 'c', 'd'],
+      });
+    let oseTotal = 0;
+    for (let seed = 1; seed <= SEEDS; seed++) {
+      const out = selectQuestions(
+        mixed,
+        { themes: ['manga', 'tcheque'], difficulties: [1], count: N },
+        {},
+        mulberry32(seed),
+        {
+          order: ['p1'],
+          turnMode: 'turn',
+          unwantedUniversesByPlayer: { p1: ['Prague interdite 🔞'] },
+          // Même avec le dosage cancellable actif, l'univers évité ne sort pas.
+          blendCancel: true,
+        },
+      );
+      oseTotal += out.filter((x) => x.universe === 'Prague interdite 🔞').length;
+    }
+    expect(oseTotal).toBe(0);
   });
 });
 

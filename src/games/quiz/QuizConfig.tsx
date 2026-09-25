@@ -270,7 +270,7 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
 
       <Txt faint size={fontSize.xs}>
         {t(
-          "Astuce : chaque partie pioche des questions inédites et un maximum d'univers différents. Chaque joueur peut désactiver des univers ou des thèmes entiers dans l'écran Joueurs : il n'a alors qu'environ 2 % de chance par question d'en croiser un.",
+          "Astuce : chaque partie pioche des questions inédites et un maximum d'univers différents. Chaque joueur peut désactiver des univers ou des thèmes entiers dans l'écran Joueurs : ils ne lui sortiront alors plus jamais.",
         )}
       </Txt>
 
