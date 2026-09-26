@@ -163,8 +163,8 @@ export const EN: Record<string, string> = {
   '📚 {kept}/{total} univers': '📚 {kept}/{total} universes',
   Restaurer: 'Restore',
   'Univers et thèmes': 'Universes and themes',
-  'Tout est activé par défaut. Touche une catégorie pour la désactiver : {name} ne tombera alors plus jamais dessus, quel que soit le niveau.':
-    'Everything is on by default. Tap a category to turn it off: {name} will then never get it again, whatever the level.',
+  "Tout est activé par défaut. Touche une catégorie pour la désactiver : {name} n'aura alors qu'environ 2 % de chance de tomber dessus, juste pour la surprise.":
+    'Everything is on by default. Tap a category to turn it off: {name} will then have only about a 2% chance of getting it, just for the surprise.',
   'question inédite restante pour {name} avec ce choix': 'unseen question left for {name} with this choice',
   'questions inédites restantes pour {name} avec ce choix': 'unseen questions left for {name} with this choice',
   '📚 {kept}/{total} univers gardés': '📚 {kept}/{total} universes kept',
@@ -375,8 +375,8 @@ export const EN: Record<string, string> = {
   'Active les gorgées et les défis pour pimenter la soirée ; règle un chrono si besoin.':
     'Turn on sips and challenges to spice up the night; set a timer if needed.',
   Thèmes: 'Themes',
-  "Astuce : chaque partie pioche des questions inédites et un maximum d'univers différents. Chaque joueur peut désactiver des univers ou des thèmes entiers dans l'écran Joueurs : ils ne lui sortiront alors plus jamais.":
-    'Tip: each game draws unseen questions and as many different universes as possible. Each player can disable universes or whole themes in the Players screen: they will then never come up for them again.',
+  "Astuce : chaque partie pioche des questions inédites et un maximum d'univers différents. Chaque joueur peut désactiver des univers ou des thèmes entiers dans l'écran Joueurs : il n'a alors qu'environ 2 % de chance par question d'en croiser un.":
+    'Tip: each game draws unseen questions and as many different universes as possible. Each player can disable universes or whole themes in the Players screen: they then have only about a 2% chance per question of hitting one.',
   Difficulté: 'Difficulty',
   'Difficulté adaptative 🎯': 'Adaptive difficulty 🎯',
   'Chacun reçoit, à son tour, des questions à sa mesure selon ses réussites passées (mode « Chacun son tour »).':

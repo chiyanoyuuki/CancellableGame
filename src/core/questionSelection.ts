@@ -21,11 +21,9 @@ import { type Rng, shuffle } from './rng';
  *     on évite de reprendre deux fois le même univers tant qu'il en reste
  *     d'autres.
  *  3. Univers/thèmes non souhaités : chaque joueur peut désactiver des univers,
- *     ou des thèmes entiers sans univers (rébus, énigmes…). Ils sont alors
- *     STRICTEMENT exclus de ses tirages (jamais, quel que soit le niveau de
- *     cancellabilité) ; on ne tire que dans ses catégories souhaitées. Seul
- *     repli : s'il ne lui reste plus rien de souhaité, on y retombe pour ne pas
- *     bloquer la partie.
+ *     ou des thèmes entiers sans univers (rébus, énigmes…). Une question qui lui
+ *     est attribuée n'a alors qu'environ 2 % de chance d'appartenir à l'un d'eux ;
+ *     sinon on tire dans les catégories souhaitées.
  */
 
 export interface QuestionUsage {
@@ -49,10 +47,9 @@ export interface SelectionOptions {
   turnMode?: TurnMode;
   /**
    * Per-player UNWANTED categories. Chaque entrée est soit un nom d'univers,
-   * soit « #thème » pour un thème entier sans univers (rébus, énigmes…). Elles
-   * sont STRICTEMENT exclues des tirages du joueur : une catégorie évitée ne
-   * sort jamais (quel que soit le niveau de cancellabilité), sauf s'il ne reste
-   * plus aucune question souhaitée pour ce slot (repli anti-blocage). En mode
+   * soit « #thème » pour un thème entier sans univers (rébus, énigmes…). Leurs
+   * questions ne sont quasiment jamais tirées : chaque question attribuée à un
+   * joueur n'a qu'environ 2 % de chance d'appartenir à l'une d'elles. En mode
    * « tour », on utilise la liste du joueur du slot ; en mode « au plus rapide »
    * (question partagée), l'union des listes de tous.
    */
@@ -109,6 +106,9 @@ const EMPTY_HISTORY: QuestionHistory = {};
  * autant d'univers distincts que possible, mais pas nul.
  */
 const UNIVERSE_REPEAT_DECAY = 0.15;
+
+/** Probabilité, par question attribuée à un joueur, qu'elle vienne d'un de ses univers non souhaités. */
+const UNWANTED_UNIVERSE_CHANCE = 0.02;
 
 /**
  * Normalisation pour comparer deux questions : minuscules, sans accents ni
@@ -263,12 +263,9 @@ export function selectQuestions(
     const passesDifficulty = (q: Question): boolean => !diffActive || allowedDiffs!.has(q.difficulty);
     const passes = (q: Question): boolean => passesAllowed(q) && passesDifficulty(q);
 
-    // Univers non souhaités : EXCLUSION STRICTE. Un univers (ou thème « #… »)
-    // évité dans le profil d'un joueur ne doit JAMAIS lui être tiré — quel que
-    // soit le niveau de cancellabilité du contenu. On ne tire donc que dans ses
-    // univers souhaités. Seul repli de sûreté : s'il ne reste plus AUCUNE
-    // question souhaitée de disponible pour ce slot, on autorise les évités
-    // plutôt que de bloquer ou de raccourcir la partie.
+    // 98 % univers souhaités, 2 % univers non souhaité — sans jamais tirer dans
+    // un sous-ensemble vide.
+    let pickUnwanted = (unwanted?.size ?? 0) > 0 && rng() < UNWANTED_UNIVERSE_CHANCE;
     let hasWanted = false;
     let hasUnwanted = false;
     for (const q of remaining) {
@@ -277,7 +274,8 @@ export function selectQuestions(
       else hasWanted = true;
       if (hasWanted && hasUnwanted) break;
     }
-    const pickUnwanted = !hasWanted && hasUnwanted;
+    if (pickUnwanted && !hasUnwanted) pickUnwanted = false;
+    if (!pickUnwanted && !hasWanted) pickUnwanted = true;
 
     // Nouvelles questions d'abord : on restreint le tirage au palier d'usage le
     // plus bas encore disponible, dans le sous-ensemble choisi.

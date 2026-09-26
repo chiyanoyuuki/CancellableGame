@@ -80,7 +80,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
     }
   };
 
-  // Per-player unwanted UNIVERSES (strictement exclues des tirages du joueur).
+  // Per-player unwanted UNIVERSES (a question a ~2 % de chance d'en venir quand même).
   const [pool, setPool] = useState<Question[]>([]);
   const [historyByPlayer, setHistoryByPlayer] = useState<Record<string, QuestionHistory>>({});
   const [unwanted, setUnwanted] = useState<Record<string, string[]>>({});
@@ -575,7 +575,7 @@ export function PlayersScreen({ navigation }: NativeStackScreenProps<RootStackPa
           </Txt>
           <Txt dim size={fontSize.sm} style={{ marginTop: spacing(0.5) }}>
             {t(
-              'Tout est activé par défaut. Touche une catégorie pour la désactiver : {name} ne tombera alors plus jamais dessus, quel que soit le niveau.',
+              "Tout est activé par défaut. Touche une catégorie pour la désactiver : {name} n'aura alors qu'environ 2 % de chance de tomber dessus, juste pour la surprise.",
               { name: unwantedPlayer?.name ?? '' },
             )}
           </Txt>
