@@ -2,11 +2,9 @@ import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, Switch, View } from 'react-native';
 
 import { Button, Card, Chip, HowToPlay, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
-import { type DrinkIntensity, type Question, type Theme, THEME_META, THEMES } from '../../core/models';
+import { type CancelLevel, type DrinkIntensity, type Question, type Theme, THEME_META, THEMES } from '../../core/models';
 import { type ImposteurConfig, isGoodImposteurWord } from '../../core/imposteurEngine';
 import { getPlayerUnwantedUniverses } from '../../db';
-import { getActiveCancelLevels } from '../../lib/cancelLevel';
-import { CancelLevelSelector } from '../../components/CancelLevelSelector';
 import { useT } from '../../lib/i18nProvider';
 import { useStore } from '../../store/StoreProvider';
 import { colors, fontSize, spacing } from '../../theme/theme';
@@ -27,7 +25,7 @@ export function ImposteurConfigComponent({ players, onStart }: MiniGameConfigPro
   const [discussionSec, setDiscussionSec] = useState(90);
   const [drinksEnabled, setDrinksEnabled] = useState(true);
   const [drinkIntensity, setDrinkIntensity] = useState<DrinkIntensity>('normal');
-  const [levels, setLevels] = useState(getActiveCancelLevels());
+  const [levels] = useState<CancelLevel[]>([1]);
 
   useEffect(() => {
     void getPlayerUnwantedUniverses().then(setUnwantedMap);
@@ -137,8 +135,6 @@ export function ImposteurConfigComponent({ players, onStart }: MiniGameConfigPro
         ]}
       />
 
-      <SectionHeader title={t('Niveau Cancellable')} />
-      <CancelLevelSelector onChange={setLevels} />
 
       <SectionHeader title={t('Univers des mots secrets')} />
       <Segmented<'auto' | 'manual'>

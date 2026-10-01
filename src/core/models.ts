@@ -155,9 +155,10 @@ export interface Question {
   explanation_en?: string;
   /**
    * Niveau minimum de « cancellabilité » requis pour tirer cette question
-   * (absent = 1, grand public). Le pool grand public (getQuizPool sans option)
-   * exclut tout niveau > 1 ; les modes de soirée peuvent les inclure selon le
-   * plafond choisi. Contenu adulte à ranger dans un univers dédié (🔞).
+   * (absent = 1, grand public). getQuizPool filtre là-dessus. Aujourd'hui AUCUNE
+   * question de la banque ne l'utilise : le quiz est 100 % soft et le contenu osé
+   * vit dans les banques de soirée (défis / tu préfères / qui de nous), via leur
+   * propre champ `lvl`. Le mécanisme reste là au cas où du quiz osé reviendrait.
    */
   cancelLevel?: CancelLevel;
 }

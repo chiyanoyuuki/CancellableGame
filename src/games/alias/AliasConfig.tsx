@@ -2,9 +2,8 @@ import { useState } from 'react';
 import { View } from 'react-native';
 
 import { Button, Card, HowToPlay, SectionHeader, Stepper, Txt } from '../../components/ui';
-import { CancelLevelSelector } from '../../components/CancelLevelSelector';
 import { ContentPicker, type ContentSelection } from '../../components/ContentPicker';
-import { getActiveCancelLevels } from '../../lib/cancelLevel';
+import type { CancelLevel } from '../../core/models';
 import type { AliasConfig, AliasTeam } from '../../core/aliasEngine';
 import { useT } from '../../lib/i18nProvider';
 import { colors, fontSize, spacing } from '../../theme/theme';
@@ -23,7 +22,7 @@ export function AliasConfigComponent({ players, onStart }: MiniGameConfigProps) 
   const [roundsPerTeam, setRoundsPerTeam] = useState(2);
   const [roundSeconds, setRoundSeconds] = useState(45);
   const [content, setContent] = useState<ContentSelection>({ themes: [], excludedUniverses: [] });
-  const [levels, setLevels] = useState(getActiveCancelLevels());
+  const [levels] = useState<CancelLevel[]>([1]);
 
   const maxTeams = Math.min(4, Math.max(2, Math.floor(players.length / 2)));
   const effectiveCount = Math.min(teamCount, maxTeams);
@@ -71,8 +70,6 @@ export function AliasConfigComponent({ players, onStart }: MiniGameConfigProps) 
         {t('{n} secondes par tour', { n: roundSeconds })}
       </Txt>
 
-      <SectionHeader title={t('Niveau Cancellable')} />
-      <CancelLevelSelector onChange={setLevels} />
 
       <SectionHeader title={t('Thèmes & univers des mots')} />
       <ContentPicker value={content} onChange={setContent} levels={levels} />

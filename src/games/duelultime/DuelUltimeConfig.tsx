@@ -2,9 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Switch, View } from 'react-native';
 
 import { Button, Card, Chip, HowToPlay, PlayerAvatar, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
-import { CancelLevelSelector } from '../../components/CancelLevelSelector';
-import { getActiveCancelLevels } from '../../lib/cancelLevel';
-import { type DrinkIntensity, type DuelUltimeConfig, type Question, type Theme, THEME_META, THEMES } from '../../core/models';
+import { type CancelLevel, type DrinkIntensity, type DuelUltimeConfig, type Question, type Theme, THEME_META, THEMES } from '../../core/models';
 import { pickRandomUniverses } from '../../core/duelUltimeEngine';
 import { countUnseen, type QuestionHistory } from '../../core/questionSelection';
 import { getPlayerUnwantedUniverses, getQuestionHistoryByPlayer } from '../../db';
@@ -31,7 +29,7 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
   const [timerSec, setTimerSec] = useState(0);
   const [universesByPlayer, setUniversesByPlayer] = useState<Record<string, string[]>>({});
   const [editing, setEditing] = useState<string>(players[0]?.id ?? '');
-  const [levels, setLevels] = useState(getActiveCancelLevels());
+  const [levels] = useState<CancelLevel[]>([1]);
 
   useEffect(() => {
     let alive = true;
@@ -160,8 +158,6 @@ export function DuelUltimeConfigComponent({ players, onStart }: MiniGameConfigPr
         ]}
       />
 
-      <SectionHeader title={t('Niveau Cancellable')} />
-      <CancelLevelSelector onChange={setLevels} />
 
       <SectionHeader title={t('Questions par joueur')} />
       <Stepper value={n} min={3} max={30} onChange={setN} />

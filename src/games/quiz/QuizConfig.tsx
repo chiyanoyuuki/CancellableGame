@@ -2,10 +2,9 @@ import { useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Switch, TextInput, View } from 'react-native';
 
 import { Button, Card, Chip, HowToPlay, PlayerAvatar, PlayerUnseenList, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
-import { CancelLevelSelector } from '../../components/CancelLevelSelector';
-import { getActiveCancelLevels } from '../../lib/cancelLevel';
 import { UniversePickerModal } from '../../components/UniversePickerModal';
 import {
+  type CancelLevel,
   DEFAULT_QUIZ_CONFIG,
   type Difficulty,
   DIFFICULTY_LABELS,
@@ -44,7 +43,9 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [recent, setRecent] = useState<string[]>([]);
   const [pickerOpen, setPickerOpen] = useState(false);
-  const [levels, setLevels] = useState(getActiveCancelLevels());
+  // Quiz 100 % soft : plus de niveaux « cancellable » ici (le contenu osé vit
+  // dans les défis / tu préfères / qui de nous). On fige donc le pool sur le soft.
+  const [levels] = useState<CancelLevel[]>([1]);
 
   // --- Team mode local state (turned into cfg.teams only at launch) ----------
   const [teamCount, setTeamCount] = useState(() => Math.min(2, Math.max(1, players.length)));
@@ -252,9 +253,6 @@ export function QuizConfigComponent({ players, onStart }: MiniGameConfigProps) {
           t('Active les gorgées et les défis pour pimenter la soirée ; règle un chrono si besoin.'),
         ]}
       />
-      <SectionHeader title={t('Niveau Cancellable')} />
-      <CancelLevelSelector onChange={setLevels} />
-
       <SectionHeader title={t('Thèmes')} />
       <View style={styles.wrap}>
         {THEMES.map((th) => (

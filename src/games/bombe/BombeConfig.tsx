@@ -2,9 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Switch, View } from 'react-native';
 
 import { Button, Card, Chip, HowToPlay, PlayerUnseenList, Segmented, SectionHeader, Stepper, Txt } from '../../components/ui';
-import { CancelLevelSelector } from '../../components/CancelLevelSelector';
-import { getActiveCancelLevels } from '../../lib/cancelLevel';
 import {
+  type CancelLevel,
   type BombeConfig,
   DEFAULT_BOMBE_CONFIG,
   type Difficulty,
@@ -30,7 +29,7 @@ export function BombeConfigComponent({ players, onStart }: MiniGameConfigProps) 
   const [pool, setPool] = useState<Question[]>([]);
   const [historyByPlayer, setHistoryByPlayer] = useState<Record<string, QuestionHistory>>({});
   const [showAdvanced, setShowAdvanced] = useState(false);
-  const [levels, setLevels] = useState(getActiveCancelLevels());
+  const [levels] = useState<CancelLevel[]>([1]);
 
   useEffect(() => {
     let alive = true;
@@ -144,8 +143,6 @@ export function BombeConfigComponent({ players, onStart }: MiniGameConfigProps) 
         ]}
       />
 
-      <SectionHeader title={t('Niveau Cancellable')} />
-      <CancelLevelSelector onChange={setLevels} />
 
       <SectionHeader title={t('Thèmes')} />
       <View style={styles.wrap}>
