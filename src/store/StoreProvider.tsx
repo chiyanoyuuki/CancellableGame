@@ -5,6 +5,9 @@ import { Button, Txt } from '../components/ui';
 import { colors, fontSize, radius, spacing } from '../theme/theme';
 import { setCancelOwned } from '../lib/cancelLevel';
 import { localBilling } from './billing';
+import { rcBilling, initRevenueCat } from './billing.rc';
+import { initAdmob, showAdmobInterstitial } from './ads.admob';
+import { USE_REAL_ADS, USE_REAL_BILLING } from './config';
 import {
   loadFreeUniverses,
   loadOnboarded,
@@ -45,6 +48,12 @@ export function useStore(): StoreValue {
   return v;
 }
 
+/**
+ * Fournisseur d'achats actif : RevenueCat en production (si `USE_REAL_BILLING`),
+ * sinon le simulateur local. Le reste de l'app ne voit que l'interface commune.
+ */
+const billing = USE_REAL_BILLING ? rcBilling : localBilling;
+
 export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [owned, setOwned] = useState<Set<string>>(new Set());
@@ -62,6 +71,14 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     let alive = true;
     void (async () => {
+      // Monétisation réelle (si activée dans config.ts) : init avant tout achat.
+      // En try/catch pour ne jamais bloquer l'app si le SDK natif est absent.
+      try {
+        if (USE_REAL_BILLING) await initRevenueCat();
+        if (USE_REAL_ADS) await initAdmob();
+      } catch (e) {
+        console.warn('Monétisation indisponible (build sans SDK natif ?)', e);
+      }
       const [o, f, ob] = await Promise.all([loadOwned(), loadFreeUniverses(), loadOnboarded()]);
       if (!alive) return;
       setOwned(new Set(o));
@@ -89,7 +106,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
 
   const purchase = useCallback(
     async (id: ProductId): Promise<boolean> => {
-      const ok = await localBilling.purchase(id);
+      const ok = await billing.purchase(id);
       if (ok) {
         const next = new Set(owned);
         next.add(id);
@@ -102,7 +119,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   );
 
   const restore = useCallback(async (): Promise<void> => {
-    const ids = await localBilling.restore();
+    const ids = await billing.restore();
     const next = new Set(owned);
     for (const id of ids) next.add(id);
     setOwned(next);
@@ -117,13 +134,20 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     await saveOnboarded(true);
   }, []);
 
-  const showInterstitial = useCallback(
+  const showSimulatedAd = useCallback(
     () =>
       new Promise<void>((resolve) => {
         adResolver.current = resolve;
         setAdVisible(true);
       }),
     [],
+  );
+
+  // Vraie pub AdMob si activée ; repli sur l'écran simulé si elle échoue ou est
+  // désactivée. Dans les deux cas, on ne bloque jamais la partie.
+  const showInterstitial = useCallback(
+    () => (USE_REAL_ADS ? showAdmobInterstitial().catch(() => showSimulatedAd()) : showSimulatedAd()),
+    [showSimulatedAd],
   );
 
   const closeAd = useCallback(() => {

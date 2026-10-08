@@ -13,6 +13,23 @@ tu colles tes clés.
 - Choix techniques : **RevenueCat** (`react-native-purchases`) pour les achats,
   **`react-native-google-mobile-ads`** pour les pubs.
 
+> ✅ **Le code est DÉJÀ FAIT** (Parties 1 à 6) : les libs sont installées, et
+> `src/store/config.ts`, `billing.rc.ts`, `ads.admob.ts`, le plugin AdMob dans
+> `app.json` et le branchement dans `StoreProvider.tsx` sont en place. **Tu n'as
+> pas de code à écrire.** Il te reste, en résumé :
+> 1. créer les comptes (Partie 0) + ton **profil de paiement** (Partie 13-A) ;
+> 2. créer les **8 produits** (Partie 7) et configurer **RevenueCat**/**AdMob**
+>    (Parties 8-9) ;
+> 3. coller tes clés dans **`src/store/config.ts`** (`REVENUECAT_ANDROID_KEY`,
+>    `ADMOB_INTERSTITIAL_UNIT_ID`) + ton **App ID AdMob** dans `app.json`
+>    (remplace l'ID de test `…~3347511713`) ;
+> 4. passer **`USE_REAL_BILLING`** et **`USE_REAL_ADS`** à `true` dans
+>    `src/store/config.ts` ;
+> 5. remplir la **conformité** (Partie 13) et **publier** (Parties 10-12).
+>
+> Tant que les deux interrupteurs sont à `false`, l'app tourne sur le simulateur
+> (aucun paiement réel) — pratique pour continuer à développer sans rien casser.
+
 ---
 
 ## Partie 0 — Comptes à créer (une fois)
@@ -258,7 +275,7 @@ ne change pas.
 2. Fais d'abord un **premier upload** (Partie 8) : Google exige un build signé
    présent avant d'activer les achats intégrés.
 3. **Monétiser → Produits → Produits intégrés à l'application → Créer un produit.**
-   Crée les **6 produits** avec **exactement** ces identifiants et ces prix :
+   Crée les **8 produits** avec **exactement** ces identifiants et ces prix :
 
    | ID du produit         | Prix   |
    |-----------------------|--------|
@@ -266,10 +283,14 @@ ne change pas.
    | `all_modes`           | 1,99 € |
    | `unlimited_profiles`  | 1,99 € |
    | `all_stats`           | 1,99 € |
+   | `all_achievements`    | 1,99 € |
    | `no_ads`              | 0,99 € |
+   | `cancellable`         | 1,99 € |
    | `unlock_all`          | 4,99 € |
 
    Type : **produit géré** (achat unique, non consommable). **Active** chaque produit.
+   *(La source de vérité est `src/store/products.ts` : si tu ajoutes un produit là,
+   crée-le aussi ici avec le même identifiant.)*
 4. **Configuration → Test de licence** : ajoute ton adresse Gmail comme testeur
    (achats gratuits pendant les tests).
 
@@ -372,13 +393,15 @@ hors `__DEV__`.
 
 ## Récapitulatif des fichiers touchés
 
-| Fichier                     | Action                                   |
-|-----------------------------|------------------------------------------|
-| `app.json`                  | plugin + `androidAppId` AdMob            |
-| `src/store/config.ts`       | **créer** — tes clés                     |
-| `src/store/billing.rc.ts`   | **créer** — achats RevenueCat            |
-| `src/store/ads.admob.ts`    | **créer** — interstitiel AdMob           |
-| `src/store/StoreProvider.tsx` | 4 petites modifs (init + swap)         |
+| Fichier                     | État                                              |
+|-----------------------------|---------------------------------------------------|
+| `app.json`                  | ✅ plugin AdMob + `androidAppId` (ID de **test**) — remplace par le tien |
+| `src/store/config.ts`       | ✅ créé — **colle tes clés** + passe les flags à `true` |
+| `src/store/billing.rc.ts`   | ✅ créé — achats RevenueCat (rien à faire)        |
+| `src/store/ads.admob.ts`    | ✅ créé — interstitiel AdMob (rien à faire)       |
+| `src/store/StoreProvider.tsx` | ✅ branché (init + bascule simulateur/réel)     |
+| `eas.json`                  | ✅ build `production` en AAB                       |
+| `webform/privacy.html`      | ✅ politique de confidentialité — **mets ton email** |
 
 Rien d'autre ne change : blocages, boutique, onboarding et « 1re partie gratuite »
 sont déjà en place.
@@ -471,7 +494,9 @@ gérer à la main. Garde juste le même compte EAS/Google pour les mises à jour
 7. **Tester** achats + pubs avec un compte testeur (Partie 11).
 8. **Production → release** → examen Google (quelques heures à quelques jours).
 
-> État actuel du code : les achats/pubs sont encore le **simulateur**
-> (`src/store/billing.ts`). Tant que les Parties 1–6 ne sont pas faites, **aucun
-> paiement réel** n'a lieu. C'est l'étape clé de « paiements bien liés ».
+> État actuel du code : l'intégration **RevenueCat + AdMob est déjà écrite et
+> branchée**, mais **désactivée** (`USE_REAL_BILLING` / `USE_REAL_ADS` à `false`
+> dans `src/store/config.ts`) → c'est encore le simulateur. Passe les deux à
+> `true` une fois tes clés collées et tes produits créés : c'est l'étape qui
+> « lie » réellement les paiements.
 
