@@ -41,11 +41,14 @@
         "expo-image-picker",
         { "photosPermission": "Choisis une photo de ta galerie comme avatar de profil." }
       ],
-      "react-native-google-mobile-ads"
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-3940256099942544~3347511713",
+          "iosAppId": "ca-app-pub-3940256099942544~1458002511"
+        }
+      ]
     ],
-    "react-native-google-mobile-ads": {
-      "androidAppId": "ca-app-pub-3940256099942544~3347511713"
-    },
     "extra": {
       "comment": "IMPORTANT: ne changez JAMAIS android.package une fois publié, sinon une mise à jour APK est traitée comme une app différente et les stats locales sont perdues. Le nom affiché (name) peut changer sans risque."
     }

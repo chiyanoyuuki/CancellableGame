@@ -60,7 +60,9 @@ npx expo install react-native-google-mobile-ads
 ## Partie 2 — Configurer `app.json`
 
 Ajoute la config AdMob et le plugin. Remplace les identifiants par les tiens
-(obtenus en Partie 7). Tu peux mettre des ID de test au début.
+(obtenus en Partie 9). **Déjà fait dans le dépôt** avec l'ID de **test** — tu n'as
+qu'à remplacer par ton vrai App ID. L'`androidAppId` se passe **dans les options
+du plugin** (pas dans une clé séparée), sinon le SDK AdMob plante au démarrage.
 
 ```jsonc
 {
@@ -68,18 +70,21 @@ Ajoute la config AdMob et le plugin. Remplace les identifiants par les tiens
     // …tout le reste inchangé…
     "plugins": [
       "expo-sqlite",
-      "react-native-google-mobile-ads"
-    ],
-    "react-native-google-mobile-ads": {
-      "androidAppId": "ca-app-pub-3940256099942544~3347511713"
-    }
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-3940256099942544~3347511713",
+          "iosAppId": "ca-app-pub-3940256099942544~1458002511"
+        }
+      ]
+    ]
   }
 }
 ```
 
 > `ca-app-pub-3940256099942544~3347511713` est l'**App ID de TEST** officiel
-> d'AdMob : parfait pour développer. Tu le remplaceras par le tien avant la
-> publication finale.
+> d'AdMob (Android) : parfait pour développer. Tu le remplaceras par le tien avant
+> la publication finale (Partie 9).
 
 À chaque changement de plugin/config native, il faut **re-builder** (Partie 8) —
 un simple rechargement JS ne suffit pas.
