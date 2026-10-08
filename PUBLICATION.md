@@ -382,3 +382,96 @@ hors `__DEV__`.
 
 Rien d'autre ne change : blocages, boutique, onboarding et « 1re partie gratuite »
 sont déjà en place.
+
+---
+
+## Partie 13 — OBLIGATOIRE : être payé, confidentialité, âge (souvent oublié)
+
+Ces étapes se font dans la **Play Console** et font rejeter l'app si elles
+manquent. À faire **en parallèle** des Parties 7–12.
+
+### A. Profil de paiement marchand (pour RECEVOIR l'argent)
+
+Vendre des achats intégrés exige un **profil de paiement** (sinon les achats
+sont impossibles et tu n'es pas payé).
+Play Console → **Paramètres → Profil de paiement → Créer un profil de paiement** :
+renseigne ton **adresse**, tes **coordonnées bancaires** (IBAN) et tes
+**informations fiscales**. À faire une seule fois, tôt dans le processus.
+
+### B. Politique de confidentialité (URL obligatoire, surtout avec AdMob)
+
+Une URL publique de politique de confidentialité est **exigée**. Elle est déjà
+prête dans le dépôt : **`webform/privacy.html`**, publiée automatiquement sur
+GitHub Pages (même workflow que le formulaire de profil).
+
+1. Ouvre `webform/privacy.html` et remplace `[REMPLACE-PAR-TON-EMAIL]` /
+   `[REPLACE-WITH-YOUR-EMAIL]` par une adresse de contact (idéalement **dédiée**,
+   pas ton mail perso — elle sera publique).
+2. Pousse : la page sera en ligne à
+   `https://chiyanoyuuki.github.io/CancellableGame/privacy.html`
+   (vérifie l'URL exacte dans **Settings → Pages**).
+3. Play Console → **Contenu de l'application → Politique de confidentialité** :
+   colle cette URL.
+
+### C. Classification du contenu (questionnaire IARC)
+
+Play Console → **Contenu de l'application → Classification du contenu**. Réponds
+**honnêtement** : l'app contient de l'**humour adulte**, des **références
+sexuelles** et à l'**alcool** (défis / tu préfères / qui de nous, mode gorgées).
+→ L'app sera classée **adultes / 18+ (PEGI 18)**. C'est voulu et autorisé ; mal
+classer une app = retrait.
+
+### D. Public cible & contenu
+
+Play Console → **Contenu de l'application → Public cible et contenu** : choisis
+**uniquement « 18 ans et plus »**. Ne rejoins **pas** le programme « Conçu pour
+les familles ». La fiche (titre, captures, description) ne doit pas viser les
+enfants.
+
+### E. Sécurité des données (Data safety)
+
+Play Console → **Contenu de l'application → Sécurité des données**. À déclarer :
+- Données de jeu (profils, scores) : stockées **sur l'appareil**, **non
+  collectées** au sens Google (rien n'est transmis).
+- **Identifiant publicitaire** : *collecté* par AdMob pour la publicité (coche
+  « Publicité ou marketing »). **Si tu publies sans pub, ne le déclare pas.**
+- **Achats** : traités par Google Play (pas besoin de les re-déclarer comme
+  collecte de ta part).
+- Coche **« Les données sont chiffrées en transit »** et propose un moyen de
+  demander la suppression (ici : désinstaller l'app, car tout est local).
+
+### F. Déclaration « Annonces »
+
+Play Console → **Contenu de l'application → Annonces** : réponds **« Oui, mon
+application contient des annonces »** (si tu actives AdMob).
+
+### G. Format du build : AAB (pas APK)
+
+Le Play Store exige un **Android App Bundle (.aab)** pour une nouvelle app. Le
+profil `production` de `eas.json` est réglé sur **`app-bundle`** → `eas build
+-p android --profile production` produit directement le bon fichier. (Le profil
+`preview` reste en `apk` pour t'installer l'app à la main pendant les tests.)
+
+### H. Signature (Play App Signing)
+
+Avec EAS, la clé de signature est **gérée pour toi** (EAS Managed credentials) et
+Google active **Play App Signing** au premier envoi. Tu n'as pas de keystore à
+gérer à la main. Garde juste le même compte EAS/Google pour les mises à jour.
+
+### Ordre conseillé (vue d'ensemble)
+
+1. Compte Google Play (25 $) + **vérification d'identité** (1–2 j).
+2. **Profil de paiement** (A) — pour pouvoir vendre.
+3. Créer l'app ; remplir **Public cible 18+** (D), **Classification** (C),
+   **Confidentialité** (B), **Data safety** (E), **Annonces** (F).
+4. Coder les **vrais achats + pubs** (Parties 1–6) et brancher les clés
+   (RevenueCat / AdMob, Parties 8–9).
+5. **Build AAB** (Partie 10) + **1er envoi** sur la piste **Test interne**.
+6. Créer les **6 produits** (Partie 7) — possible seulement après ce 1er envoi.
+7. **Tester** achats + pubs avec un compte testeur (Partie 11).
+8. **Production → release** → examen Google (quelques heures à quelques jours).
+
+> État actuel du code : les achats/pubs sont encore le **simulateur**
+> (`src/store/billing.ts`). Tant que les Parties 1–6 ne sont pas faites, **aucun
+> paiement réel** n'a lieu. C'est l'étape clé de « paiements bien liés ».
+
