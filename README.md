@@ -84,7 +84,7 @@ cd android
 ```
 
 > ⚠️ **Pour conserver les statistiques entre deux APK**, gardez toujours le
-> **même `android.package`** (`com.soireegames.party`, dans `app.json`) **et la
+> **même `android.package`** (`com.cancellable`, dans `app.json`) **et la
 > même clé de signature**. EAS s'en occupe tout seul ; en local, réutilisez le
 > même keystore (la clé debug `~/.android/debug.keystore` est stable par machine).
 

@@ -15,7 +15,7 @@
     },
     "assetBundlePatterns": ["**/*"],
     "android": {
-      "package": "com.soireegames.party",
+      "package": "com.cancellable",
       "versionCode": 1,
       "edgeToEdgeEnabled": true,
       "adaptiveIcon": {
@@ -24,7 +24,7 @@
       }
     },
     "ios": {
-      "bundleIdentifier": "com.soireegames.party",
+      "bundleIdentifier": "com.cancellable",
       "supportsTablet": true
     },
     "web": {

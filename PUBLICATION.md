@@ -9,7 +9,7 @@ tu colles tes clés.
 > *development build* ou un build de production **EAS**. Fais tout ce guide sur
 > ton ordinateur (macOS/Windows/Linux) avec Node installé.
 
-- Package de l'app (à ne **jamais** changer) : `com.soireegames.party`
+- Package de l'app (à ne **jamais** changer) : `com.cancellable`
 - Choix techniques : **RevenueCat** (`react-native-purchases`) pour les achats,
   **`react-native-google-mobile-ads`** pour les pubs.
 
@@ -304,7 +304,7 @@ ne change pas.
 ## Partie 8 — Configurer RevenueCat
 
 1. Sur https://app.revenuecat.com → **Create Project**.
-2. **Add app → Play Store** : renseigne le package `com.soireegames.party`.
+2. **Add app → Play Store** : renseigne le package `com.cancellable`.
 3. RevenueCat te demande un **Service Account Google** (JSON) pour valider les
    achats : suis leur assistant (Play Console → Utilisateurs et autorisations →
    inviter le compte de service RevenueCat). Étape la plus technique, bien guidée
@@ -320,7 +320,7 @@ ne change pas.
 ## Partie 9 — Configurer AdMob
 
 1. Sur https://admob.google.com → **Apps → Add app → Android** → « oui, publiée »
-   plus tard, ou « non » pour commencer. Lie le package `com.soireegames.party`.
+   plus tard, ou « non » pour commencer. Lie le package `com.cancellable`.
 2. Récupère l'**App ID** (`ca-app-pub-…~…`) → mets-le dans `app.json`
    (`androidAppId`, Partie 2).
 3. **Ad units → Create → Interstitiel** → récupère l'**ID de bloc** (`ca-app-pub-…/…`)
