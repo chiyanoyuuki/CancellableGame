@@ -2,7 +2,7 @@
   "expo": {
     "name": "Cancellable",
     "slug": "soiree-party",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "scheme": "cancellable",
     "userInterfaceStyle": "dark",
@@ -16,7 +16,7 @@
     "assetBundlePatterns": ["**/*"],
     "android": {
       "package": "com.cancellable",
-      "versionCode": 1,
+      "versionCode": 10,
       "edgeToEdgeEnabled": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",

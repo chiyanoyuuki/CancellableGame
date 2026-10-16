@@ -58,7 +58,6 @@ export function HubScreen({ route, navigation }: NativeStackScreenProps<RootStac
     items.push(
       { label: t('Mode Soirée'), emoji: '🎉', onPress: () => navigation.navigate('Soiree') },
       { label: t('Tournoi'), emoji: '🏆', onPress: () => navigation.navigate('Tournoi') },
-      { label: t('Question du jour'), emoji: '🗓️', onPress: () => navigation.navigate('Qotd') },
       { label: t('Roue des gages'), emoji: '🎡', onPress: () => navigation.navigate('Roue') },
     );
     if (getFlag('teamGen')) {

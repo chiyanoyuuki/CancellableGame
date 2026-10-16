@@ -40,6 +40,12 @@ export interface MiniGameDefinition {
   minPlayers: number;
   /** Coming-soon games can be listed but not yet playable. */
   available: boolean;
+  /**
+   * Masque le mode partout dans l'UI (sélection, soirée, tournoi, stats) sans
+   * supprimer son code : `getGame` le résout toujours (reprise de partie,
+   * historique). Repasser à false / retirer pour le réafficher.
+   */
+  hidden?: boolean;
   ConfigComponent: ComponentType<MiniGameConfigProps>;
   PlayComponent: ComponentType<MiniGamePlayProps>;
 }

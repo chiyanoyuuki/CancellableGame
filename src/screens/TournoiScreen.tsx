@@ -62,7 +62,7 @@ export function TournoiScreen({ navigation }: NativeStackScreenProps<RootStackPa
   // (on recommence la liste mélangée si le tournoi est plus long que le catalogue).
   const buildPlan = (): string[] => {
     const rng = mulberry32(randomSeed());
-    const pool = MINI_GAMES.filter((g) => g.available && isModeUnlocked(g.id, ent)).map((g) => g.id);
+    const pool = MINI_GAMES.filter((g) => g.available && !g.hidden && isModeUnlocked(g.id, ent)).map((g) => g.id);
     if (pool.length === 0) return [];
     const plan: string[] = [];
     while (plan.length < rounds) plan.push(...shuffle(pool, rng));

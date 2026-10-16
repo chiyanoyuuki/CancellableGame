@@ -56,19 +56,22 @@ export function StoreScreen({ navigation }: NativeStackScreenProps<RootStackPara
                 <Txt faint size={fontSize.xs}>{t(p.description)}</Txt>
               </View>
             </View>
-            <View style={[styles.row, { marginTop: spacing(1), justifyContent: 'space-between' }]}>
-              <Txt weight="800" color={colors.primary}>{t(p.price)}</Txt>
+            <View style={[styles.row, { marginTop: spacing(1), justifyContent: owned ? 'flex-end' : 'space-between' }]}>
               {owned ? (
+                // Une fois débloqué, on n'affiche plus le prix, seulement l'état.
                 <Txt weight="800" color={colors.success}>{t('✓ Débloqué')}</Txt>
               ) : (
-                <Button
-                  title={t('Acheter')}
-                  size="sm"
-                  variant={isBundle ? 'accent' : 'primary'}
-                  loading={busy === p.id}
-                  disabled={busy !== null}
-                  onPress={() => void buy(p.id)}
-                />
+                <>
+                  <Txt weight="800" color={colors.primary}>{t(p.price)}</Txt>
+                  <Button
+                    title={t('Acheter')}
+                    size="sm"
+                    variant={isBundle ? 'accent' : 'primary'}
+                    loading={busy === p.id}
+                    disabled={busy !== null}
+                    onPress={() => void buy(p.id)}
+                  />
+                </>
               )}
             </View>
           </Card>

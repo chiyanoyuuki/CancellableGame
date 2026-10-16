@@ -58,12 +58,12 @@ export function GameSelectScreen({ navigation }: NativeStackScreenProps<RootStac
 
   // Modes non catégorisés (nouveaux jeux non listés) : regroupés sous « Autres ».
   const categorized = new Set(CATEGORIES.flatMap((c) => c.ids));
-  const others = MINI_GAMES.filter((g) => !categorized.has(g.id));
+  const others = MINI_GAMES.filter((g) => !categorized.has(g.id) && !g.hidden);
 
   return (
     <Screen title={t('Choisir un jeu')} subtitle={t("Un mini-jeu à la fois (pour l'instant)")} onBack={() => navigation.goBack()} scroll>
       {CATEGORIES.map((cat) => {
-        const games = cat.ids.map((id) => getGame(id)).filter((g): g is MiniGameDefinition => !!g);
+        const games = cat.ids.map((id) => getGame(id)).filter((g): g is MiniGameDefinition => !!g && !g.hidden);
         if (games.length === 0) return null;
         return (
           <View key={cat.title}>

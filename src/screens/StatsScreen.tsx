@@ -78,7 +78,7 @@ export function StatsScreen({ navigation }: NativeStackScreenProps<RootStackPara
   const gameOptions = useMemo(
     () => [
       { label: tr('Tous'), value: 'all', emoji: '📊' },
-      ...MINI_GAMES.map((g) => ({ label: tr(g.title), value: g.id, emoji: g.emoji })),
+      ...MINI_GAMES.filter((g) => !g.hidden).map((g) => ({ label: tr(g.title), value: g.id, emoji: g.emoji })),
     ],
     [tr],
   );

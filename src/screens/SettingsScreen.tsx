@@ -16,7 +16,6 @@ import { isNoAlcohol, setNoAlcohol } from '../lib/drinkMode';
 import { isReduceMotion, setReduceMotion } from '../lib/motion';
 import { ALL_FLAGS, type FeatureFlag, FLAG_KV, getFlag, setFlag } from '../lib/featureFlags';
 import { dateKey } from '../core/dailyChallenge';
-import { cancelDailyReminder, scheduleDailyReminder } from '../lib/notifications';
 import { currentThemeMode, setAppTheme } from '../lib/appTheme';
 import { type QuestionHint, getQuestionHint, QUESTION_HINT_KV, setQuestionHint } from '../lib/questionHint';
 import type { ThemeMode } from '../theme/theme';
@@ -182,29 +181,6 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
     setQHint(m);
     setQuestionHint(m);
     void kvSetJSON(QUESTION_HINT_KV, m);
-  };
-
-  const [reminder, setReminder] = useState(false);
-  useEffect(() => {
-    void kvGetJSON<boolean>('ui:dailyReminder', false).then(setReminder);
-  }, []);
-  const toggleReminder = async (on: boolean) => {
-    if (on) {
-      const ok = await scheduleDailyReminder(
-        t('Défi du jour Cancellable'),
-        t('Ton défi du jour t’attend — garde ta série ! 🔥'),
-      );
-      if (!ok) {
-        Alert.alert(t('Notifications refusées'), t('Autorise les notifications pour recevoir le rappel.'));
-        return; // on laisse l'interrupteur sur off
-      }
-      setReminder(true);
-      void kvSetJSON('ui:dailyReminder', true);
-    } else {
-      await cancelDailyReminder();
-      setReminder(false);
-      void kvSetJSON('ui:dailyReminder', false);
-    }
   };
 
   // Le sélecteur de taille compare des chaînes ; on prend la valeur exacte la plus proche.
@@ -381,17 +357,6 @@ export function SettingsScreen({ navigation }: NativeStackScreenProps<RootStackP
             <Txt faint size={fontSize.xs}>{t('Petits sons de jeu (bonne/mauvaise réponse, compte à rebours, victoire).')}</Txt>
           </View>
           <Switch value={sound} onValueChange={toggleSound} trackColor={{ true: colors.primary, false: colors.border }} thumbColor={colors.white} />
-        </View>
-      </Card>
-
-      <SectionHeader title={t('Notifications')} />
-      <Card>
-        <View style={settingRowFirst}>
-          <View style={{ flex: 1 }}>
-            <Txt weight="700">{t('Rappel quotidien 🔔')}</Txt>
-            <Txt faint size={fontSize.xs}>{t('Une notification à 19h pour ne pas perdre ta série.')}</Txt>
-          </View>
-          <Switch value={reminder} onValueChange={(on) => void toggleReminder(on)} trackColor={{ true: colors.primary, false: colors.border }} thumbColor={colors.white} />
         </View>
       </Card>
 

@@ -221,7 +221,7 @@ export function SoireeScreen({ navigation }: NativeStackScreenProps<RootStackPar
         <Card style={{ marginBottom: spacing(1) }}>
           <Txt weight="800" style={{ marginBottom: spacing(1) }}>{t('Choisis un mini-jeu')}</Txt>
           <View style={{ gap: spacing(1) }}>
-            {MINI_GAMES.filter((g) => g.available).map((g) => {
+            {MINI_GAMES.filter((g) => g.available && !g.hidden).map((g) => {
               const locked = !isModeUnlocked(g.id, ent);
               return (
                 <Pressable key={g.id} onPress={() => playRound(g.id)}>

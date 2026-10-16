@@ -4,8 +4,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Alert, View } from 'react-native';
 
 import { Button, Screen, SectionHeader, Txt } from '../components/ui';
-import { dateKey, EMPTY_STREAK, liveStreak, previousDateKey, type StreakState } from '../core/dailyChallenge';
-import { deleteSavedGame, getMissedCount, getSessionCount, kvGetJSON, listSavedGames, type SavedGame } from '../db';
+import { deleteSavedGame, getMissedCount, getSessionCount, listSavedGames, type SavedGame } from '../db';
 import { useT } from '../lib/i18nProvider';
 import type { RootStackParamList } from '../navigation';
 import { fontSize, spacing } from '../theme/theme';
@@ -14,7 +13,6 @@ export function HomeScreen({ navigation }: NativeStackScreenProps<RootStackParam
   const t = useT();
   const [games, setGames] = useState<number | null>(null);
   const [saved, setSaved] = useState<SavedGame[]>([]);
-  const [dailyStreak, setDailyStreak] = useState(0);
   const [missed, setMissed] = useState(0);
 
   const refreshSaved = useCallback(() => {
@@ -24,9 +22,6 @@ export function HomeScreen({ navigation }: NativeStackScreenProps<RootStackParam
   useFocusEffect(
     useCallback(() => {
       void getSessionCount().then(setGames);
-      void kvGetJSON<StreakState>('daily:streak', EMPTY_STREAK).then((s) =>
-        setDailyStreak(liveStreak(s, dateKey(), previousDateKey())),
-      );
       void getMissedCount().then(setMissed);
       refreshSaved();
     }, [refreshSaved]),
@@ -89,13 +84,6 @@ export function HomeScreen({ navigation }: NativeStackScreenProps<RootStackParam
       {/* Actions principales, mises en avant. */}
       <View style={{ gap: spacing(1) }}>
         <Button title={saved.length > 0 ? t('Nouvelle partie') : t('Jouer')} emoji="🎮" variant="primary" size="lg" onPress={() => navigation.navigate('GameSelect')} />
-        <Button
-          title={dailyStreak > 0 ? t('Défi du jour · 🔥 {n}', { n: dailyStreak }) : t('Défi du jour')}
-          emoji="🎯"
-          variant="accent"
-          size="lg"
-          onPress={() => navigation.navigate('DailyChallenge')}
-        />
         {missed > 0 && (
           <Button
             title={t('Réviser mes erreurs ({n})', { n: missed })}
