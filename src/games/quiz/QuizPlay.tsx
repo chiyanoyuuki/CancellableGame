@@ -46,7 +46,6 @@ import { colors, fontSize, radius, spacing } from '../../theme/theme';
 import { useStore } from '../../store/StoreProvider';
 import type { MiniGamePlayProps } from '../types';
 import { getQuizPool } from './pool';
-import { getActiveCancelLevels } from '../../lib/cancelLevel';
 
 function haptic(success: boolean) {
   if (success) {
@@ -230,7 +229,12 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
       const [history, historyByPlayer, fullPool, customChallenges, unwantedUniverses, accuracy] = await Promise.all([
         getQuestionHistory(),
         getQuestionHistoryByPlayer(),
-        getQuizPool({ levels: getActiveCancelLevels() }),
+        // Quiz 100 % soft : pool FIGÉ au niveau 1, exactement comme QuizConfig.
+        // Filtrer par getActiveCancelLevels() viderait le pool dès que le joueur a
+        // exclu « Chill » (niveau 1) du sélecteur global de cancellabilité : toutes
+        // les questions du quiz étant au niveau 1, plus aucune ne correspondrait,
+        // et la partie démarrerait « terminée » (gagnée d'office). Voir QuizConfig.
+        getQuizPool({ levels: [1] }),
         listCustomChallenges(),
         getPlayerUnwantedUniverses(),
         cfg.adaptiveDifficulty && !teamMode && cfg.turnMode === 'turn'
@@ -324,6 +328,12 @@ export function QuizPlayComponent({ players, config, onFinish, onQuit, resume, s
         .slice(cfg.questionCount)
         .sort((a, b) => Number(a.media?.type === 'image') - Number(b.media?.type === 'image'));
       if (!alive) return;
+      // Garde-fou : aucune question tirée → on montre l'écran d'erreur plutôt que
+      // de créer une partie qui démarre « terminée » (et donc gagnée d'office).
+      if (selected.length === 0) {
+        setLoadFailed(true);
+        return;
+      }
       prefetchRoundImages([...selected, ...reserve]);
       setUnwantedByPlayer(unwantedUniversesByPlayer);
       setUnwantedRawByPlayer(unwantedUniverses);
