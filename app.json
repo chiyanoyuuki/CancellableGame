@@ -2,7 +2,7 @@
   "expo": {
     "name": "Cancellable",
     "slug": "soiree-party",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "orientation": "portrait",
     "scheme": "cancellable",
     "userInterfaceStyle": "dark",
@@ -16,7 +16,7 @@
     "assetBundlePatterns": ["**/*"],
     "android": {
       "package": "com.cancellable",
-      "versionCode": 11,
+      "versionCode": 12,
       "edgeToEdgeEnabled": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
@@ -44,7 +44,7 @@
       [
         "react-native-google-mobile-ads",
         {
-          "androidAppId": "ca-app-pub-3940256099942544~3347511713",
+          "androidAppId": "ca-app-pub-7996384202707188~2112192741",
           "iosAppId": "ca-app-pub-3940256099942544~1458002511"
         }
       ]

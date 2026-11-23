@@ -14,12 +14,12 @@
  * branché : tu n'as que ces 4 valeurs à changer, puis à recompiler avec EAS.
  */
 
-export const REVENUECAT_ANDROID_KEY = 'goog_XXXXXXXXXXXXXXXXXXXXXXXX';
+export const REVENUECAT_ANDROID_KEY = 'goog_bunfbxDTiykrgxGxdYeyPdabkBs';
 
-export const ADMOB_INTERSTITIAL_UNIT_ID = 'ca-app-pub-XXXXXXXXXXXXXXXX/YYYYYYYYYY';
+export const ADMOB_INTERSTITIAL_UNIT_ID = 'ca-app-pub-7996384202707188/2273963948';
 
 /** Vrais achats (RevenueCat → Google Play) au lieu du simulateur. */
-export const USE_REAL_BILLING = false;
+export const USE_REAL_BILLING = true;
 
 /** Vraies pubs interstitielles (AdMob) au lieu de l'écran simulé. */
-export const USE_REAL_ADS = false;
+export const USE_REAL_ADS = true;
